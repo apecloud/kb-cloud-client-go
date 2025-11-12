@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"time"
@@ -10,42 +10,42 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// EventTaskDetail eventTaskDetail is the information of the event task detail
-type EventTaskDetail struct {
-	// reason of the event task detail
+// ClusterTaskDetail taskCondition is the information of the task condition
+type ClusterTaskDetail struct {
+	// reason of the task condition
 	Reason *string `json:"reason,omitempty"`
-	// type of the event task detail
+	// type of the task condition
 	Type *string `json:"type,omitempty"`
-	// status of the event task detail
+	// status of the task condition
 	Status *string `json:"status,omitempty"`
-	// message of the event task detail
+	// message of the task condition
 	Message *string `json:"message,omitempty"`
-	// last transition time of the event task detail
+	// last transition time of the task condition
 	LastTransitionTime *time.Time `json:"lastTransitionTime,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewEventTaskDetail instantiates a new EventTaskDetail object.
+// NewClusterTaskDetail instantiates a new ClusterTaskDetail object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEventTaskDetail() *EventTaskDetail {
-	this := EventTaskDetail{}
+func NewClusterTaskDetail() *ClusterTaskDetail {
+	this := ClusterTaskDetail{}
 	return &this
 }
 
-// NewEventTaskDetailWithDefaults instantiates a new EventTaskDetail object.
+// NewClusterTaskDetailWithDefaults instantiates a new ClusterTaskDetail object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewEventTaskDetailWithDefaults() *EventTaskDetail {
-	this := EventTaskDetail{}
+func NewClusterTaskDetailWithDefaults() *ClusterTaskDetail {
+	this := ClusterTaskDetail{}
 	return &this
 }
 
 // GetReason returns the Reason field value if set, zero value otherwise.
-func (o *EventTaskDetail) GetReason() string {
+func (o *ClusterTaskDetail) GetReason() string {
 	if o == nil || o.Reason == nil {
 		var ret string
 		return ret
@@ -55,7 +55,7 @@ func (o *EventTaskDetail) GetReason() string {
 
 // GetReasonOk returns a tuple with the Reason field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EventTaskDetail) GetReasonOk() (*string, bool) {
+func (o *ClusterTaskDetail) GetReasonOk() (*string, bool) {
 	if o == nil || o.Reason == nil {
 		return nil, false
 	}
@@ -63,17 +63,17 @@ func (o *EventTaskDetail) GetReasonOk() (*string, bool) {
 }
 
 // HasReason returns a boolean if a field has been set.
-func (o *EventTaskDetail) HasReason() bool {
+func (o *ClusterTaskDetail) HasReason() bool {
 	return o != nil && o.Reason != nil
 }
 
 // SetReason gets a reference to the given string and assigns it to the Reason field.
-func (o *EventTaskDetail) SetReason(v string) {
+func (o *ClusterTaskDetail) SetReason(v string) {
 	o.Reason = &v
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
-func (o *EventTaskDetail) GetType() string {
+func (o *ClusterTaskDetail) GetType() string {
 	if o == nil || o.Type == nil {
 		var ret string
 		return ret
@@ -83,7 +83,7 @@ func (o *EventTaskDetail) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EventTaskDetail) GetTypeOk() (*string, bool) {
+func (o *ClusterTaskDetail) GetTypeOk() (*string, bool) {
 	if o == nil || o.Type == nil {
 		return nil, false
 	}
@@ -91,17 +91,17 @@ func (o *EventTaskDetail) GetTypeOk() (*string, bool) {
 }
 
 // HasType returns a boolean if a field has been set.
-func (o *EventTaskDetail) HasType() bool {
+func (o *ClusterTaskDetail) HasType() bool {
 	return o != nil && o.Type != nil
 }
 
 // SetType gets a reference to the given string and assigns it to the Type field.
-func (o *EventTaskDetail) SetType(v string) {
+func (o *ClusterTaskDetail) SetType(v string) {
 	o.Type = &v
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *EventTaskDetail) GetStatus() string {
+func (o *ClusterTaskDetail) GetStatus() string {
 	if o == nil || o.Status == nil {
 		var ret string
 		return ret
@@ -111,7 +111,7 @@ func (o *EventTaskDetail) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EventTaskDetail) GetStatusOk() (*string, bool) {
+func (o *ClusterTaskDetail) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -119,17 +119,17 @@ func (o *EventTaskDetail) GetStatusOk() (*string, bool) {
 }
 
 // HasStatus returns a boolean if a field has been set.
-func (o *EventTaskDetail) HasStatus() bool {
+func (o *ClusterTaskDetail) HasStatus() bool {
 	return o != nil && o.Status != nil
 }
 
 // SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *EventTaskDetail) SetStatus(v string) {
+func (o *ClusterTaskDetail) SetStatus(v string) {
 	o.Status = &v
 }
 
 // GetMessage returns the Message field value if set, zero value otherwise.
-func (o *EventTaskDetail) GetMessage() string {
+func (o *ClusterTaskDetail) GetMessage() string {
 	if o == nil || o.Message == nil {
 		var ret string
 		return ret
@@ -139,7 +139,7 @@ func (o *EventTaskDetail) GetMessage() string {
 
 // GetMessageOk returns a tuple with the Message field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EventTaskDetail) GetMessageOk() (*string, bool) {
+func (o *ClusterTaskDetail) GetMessageOk() (*string, bool) {
 	if o == nil || o.Message == nil {
 		return nil, false
 	}
@@ -147,17 +147,17 @@ func (o *EventTaskDetail) GetMessageOk() (*string, bool) {
 }
 
 // HasMessage returns a boolean if a field has been set.
-func (o *EventTaskDetail) HasMessage() bool {
+func (o *ClusterTaskDetail) HasMessage() bool {
 	return o != nil && o.Message != nil
 }
 
 // SetMessage gets a reference to the given string and assigns it to the Message field.
-func (o *EventTaskDetail) SetMessage(v string) {
+func (o *ClusterTaskDetail) SetMessage(v string) {
 	o.Message = &v
 }
 
 // GetLastTransitionTime returns the LastTransitionTime field value if set, zero value otherwise.
-func (o *EventTaskDetail) GetLastTransitionTime() time.Time {
+func (o *ClusterTaskDetail) GetLastTransitionTime() time.Time {
 	if o == nil || o.LastTransitionTime == nil {
 		var ret time.Time
 		return ret
@@ -167,7 +167,7 @@ func (o *EventTaskDetail) GetLastTransitionTime() time.Time {
 
 // GetLastTransitionTimeOk returns a tuple with the LastTransitionTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EventTaskDetail) GetLastTransitionTimeOk() (*time.Time, bool) {
+func (o *ClusterTaskDetail) GetLastTransitionTimeOk() (*time.Time, bool) {
 	if o == nil || o.LastTransitionTime == nil {
 		return nil, false
 	}
@@ -175,17 +175,17 @@ func (o *EventTaskDetail) GetLastTransitionTimeOk() (*time.Time, bool) {
 }
 
 // HasLastTransitionTime returns a boolean if a field has been set.
-func (o *EventTaskDetail) HasLastTransitionTime() bool {
+func (o *ClusterTaskDetail) HasLastTransitionTime() bool {
 	return o != nil && o.LastTransitionTime != nil
 }
 
 // SetLastTransitionTime gets a reference to the given time.Time and assigns it to the LastTransitionTime field.
-func (o *EventTaskDetail) SetLastTransitionTime(v time.Time) {
+func (o *ClusterTaskDetail) SetLastTransitionTime(v time.Time) {
 	o.LastTransitionTime = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o EventTaskDetail) MarshalJSON() ([]byte, error) {
+func (o ClusterTaskDetail) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -217,7 +217,7 @@ func (o EventTaskDetail) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *EventTaskDetail) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ClusterTaskDetail) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Reason             *string    `json:"reason,omitempty"`
 		Type               *string    `json:"type,omitempty"`

@@ -4,40 +4,38 @@
 
 package admin
 
-import (
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// EventTaskProgresses eventTaskProgresses is a list of event task progress detail
-type EventTaskProgresses struct {
-	// Items is the list of event task progress detail in the list
-	Items []EventTaskProgress `json:"items,omitempty"`
+// ClusterTaskDetails taskConditions is a list of task condition
+type ClusterTaskDetails struct {
+	// Items is the list of task condition in the list
+	Items []ClusterTaskDetail `json:"items,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewEventTaskProgresses instantiates a new EventTaskProgresses object.
+// NewClusterTaskDetails instantiates a new ClusterTaskDetails object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEventTaskProgresses() *EventTaskProgresses {
-	this := EventTaskProgresses{}
+func NewClusterTaskDetails() *ClusterTaskDetails {
+	this := ClusterTaskDetails{}
 	return &this
 }
 
-// NewEventTaskProgressesWithDefaults instantiates a new EventTaskProgresses object.
+// NewClusterTaskDetailsWithDefaults instantiates a new ClusterTaskDetails object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewEventTaskProgressesWithDefaults() *EventTaskProgresses {
-	this := EventTaskProgresses{}
+func NewClusterTaskDetailsWithDefaults() *ClusterTaskDetails {
+	this := ClusterTaskDetails{}
 	return &this
 }
 
 // GetItems returns the Items field value if set, zero value otherwise.
-func (o *EventTaskProgresses) GetItems() []EventTaskProgress {
+func (o *ClusterTaskDetails) GetItems() []ClusterTaskDetail {
 	if o == nil || o.Items == nil {
-		var ret []EventTaskProgress
+		var ret []ClusterTaskDetail
 		return ret
 	}
 	return o.Items
@@ -45,7 +43,7 @@ func (o *EventTaskProgresses) GetItems() []EventTaskProgress {
 
 // GetItemsOk returns a tuple with the Items field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EventTaskProgresses) GetItemsOk() (*[]EventTaskProgress, bool) {
+func (o *ClusterTaskDetails) GetItemsOk() (*[]ClusterTaskDetail, bool) {
 	if o == nil || o.Items == nil {
 		return nil, false
 	}
@@ -53,17 +51,17 @@ func (o *EventTaskProgresses) GetItemsOk() (*[]EventTaskProgress, bool) {
 }
 
 // HasItems returns a boolean if a field has been set.
-func (o *EventTaskProgresses) HasItems() bool {
+func (o *ClusterTaskDetails) HasItems() bool {
 	return o != nil && o.Items != nil
 }
 
-// SetItems gets a reference to the given []EventTaskProgress and assigns it to the Items field.
-func (o *EventTaskProgresses) SetItems(v []EventTaskProgress) {
+// SetItems gets a reference to the given []ClusterTaskDetail and assigns it to the Items field.
+func (o *ClusterTaskDetails) SetItems(v []ClusterTaskDetail) {
 	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o EventTaskProgresses) MarshalJSON() ([]byte, error) {
+func (o ClusterTaskDetails) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -79,9 +77,9 @@ func (o EventTaskProgresses) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *EventTaskProgresses) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ClusterTaskDetails) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items []EventTaskProgress `json:"items,omitempty"`
+		Items []ClusterTaskDetail `json:"items,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

@@ -814,85 +814,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - event
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/eventtasks:
-    get:
-      description: List event tasks
-      summary: List event tasks
-      operationId: listEventTasks
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          schema:
-            type: string
-          required: true
-        - description: name of the KubeBlocks cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: You want to check the status of the task. If not passed, all selected by default
-          in: query
-          name: status
-          schema:
-            $ref: '#/components/schemas/opsStatus'
-        - description: You want to check the type of the task. If not passed, all selected by default
-          in: query
-          name: taskType
-          schema:
-            $ref: '#/components/schemas/opsType'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/eventTaskList'
-          description: Successful operation
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - eventTask
-        - shared
-      deprecated: true
-  /api/v1/organizations/{orgName}/eventtasks/{taskId}:
-    get:
-      description: Get event task
-      summary: Get event task
-      operationId: getEventTask
-      parameters:
-        - description: Organization Name
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: Task ID
-          in: path
-          name: taskId
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/eventTask'
-          description: Successful operation
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - eventTask
-        - shared
   /api/v1/organizations/{orgName}/parameters:
     get:
       operationId: listOrgParameters
@@ -3322,7 +3243,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/eventTask'
+                $ref: '#/components/schemas/clusterTask'
           description: Accepted
         '401':
           $ref: '#/components/responses/401'
@@ -3414,6 +3335,86 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}:
+    get:
+      description: Get cluster task
+      summary: Get cluster task
+      operationId: getClusterTask
+      parameters:
+        - description: Organization Name
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: Cluster Name
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: Task ID
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTask'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterTask
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks:
+    get:
+      operationId: listClusterTasks
+      summary: List cluster tasks in console
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          schema:
+            type: string
+          required: true
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: You want to check the status of the task. If not passed, all selected by default
+          in: query
+          name: status
+          schema:
+            $ref: '#/components/schemas/opsStatus'
+        - description: You want to check the type of the task. If not passed, all selected by default
+          in: query
+          name: clusterTaskType
+          schema:
+            $ref: '#/components/schemas/opsType'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTaskList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - clusterTask
   /api/v1/organizations/{orgName}/clusters/{clusterName}/autohealing:
     get:
       operationId: getAutohealing
@@ -9371,7 +9372,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/eventTask'
+                $ref: '#/components/schemas/clusterTask'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -9420,7 +9421,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/eventTask'
+                $ref: '#/components/schemas/clusterTask'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -9474,7 +9475,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/eventTask'
+                $ref: '#/components/schemas/clusterTask'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -11454,6 +11455,46 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - dataReplication
+    patch:
+      deprecated: true
+      operationId: updateDataChannel
+      summary: Update a data channel
+      description: Update a new data channel.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data channel
+          in: path
+          name: channelID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataReplicationUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataChannelResponse'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+      x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/replication/channel/{channelID}/ops/{opsType}:
     post:
       deprecated: true
@@ -11694,6 +11735,49 @@ paths:
               schema:
                 type: string
           description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /api/v1/organizations/{orgName}/replication/channel/parameters:
+    get:
+      deprecated: true
+      operationId: listDataChannelParameters
+      summary: List Data Channel Parameters
+      description: Retrieve a list of data channel parameters.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The name of the standard definition
+          in: query
+          name: standardName
+          schema:
+            type: string
+        - description: The ID of the data channel
+          in: query
+          name: channelID
+          schema:
+            type: string
+        - description: The module name
+          in: query
+          name: moduleName
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataReplicationParametersResponse'
+          description: A list of data channel parameters.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -12753,208 +12837,6 @@ components:
           $ref: '#/components/schemas/paginationResult'
       required:
         - items
-      type: object
-    opsStatus:
-      enum:
-        - Pending
-        - Creating
-        - Running
-        - Cancelling
-        - Succeed
-        - Cancelled
-        - Failed
-        - Aborted
-      type: string
-    opsType:
-      enum:
-        - VerticalScaling
-        - HorizontalScaling
-        - VolumeExpansion
-        - Upgrade
-        - Reconfiguring
-        - Switchover
-        - Restart
-        - Stop
-        - Start
-        - Expose
-        - Backup
-        - Restore
-        - RebuildInstance
-        - Custom
-      type: string
-    customOpsTask:
-      description: customOpsTask is the information of custom ops task
-      properties:
-        objectKey:
-          description: the pod name
-          type: string
-        namespace:
-          description: namespace of the task
-          type: string
-        status:
-          description: status of the task
-          type: string
-        targetPodName:
-          description: target pod name of the task
-          type: string
-        retries:
-          description: retries of the task
-          type: integer
-          format: int32
-      type: object
-    customOpsTasks:
-      description: customOpsTasks is a list of custom ops task. This field is provided when ops is `custom`.
-      properties:
-        items:
-          description: The list of custom ops task.
-          items:
-            $ref: '#/components/schemas/customOpsTask'
-          type: array
-      type: object
-    eventTaskProgress:
-      description: eventTaskProgress is the information of the event task progress
-      properties:
-        name:
-          description: conponent name
-          type: string
-        group:
-          description: group name
-          type: string
-        objectKey:
-          description: the resource name
-          type: string
-          nullable: true
-        message:
-          description: message of the task progress
-          type: string
-        status:
-          description: status of the task progress
-          type: string
-        startTime:
-          description: start time of the event task progress
-          format: date-time
-          type: string
-          nullable: true
-        endTime:
-          description: end time of the event task progress
-          format: date-time
-          type: string
-          nullable: true
-        customOpsName:
-          description: Indicates the name of an OpsAction, Either `objectKey` or `customOpsName` must be provided. This field is provided when ops is `custom`.
-          type: string
-          nullable: true
-        customOpsTasks:
-          $ref: '#/components/schemas/customOpsTasks'
-      type: object
-    eventTaskProgresses:
-      description: eventTaskProgresses is a list of event task progress detail
-      properties:
-        items:
-          description: Items is the list of event task progress detail in the list
-          items:
-            $ref: '#/components/schemas/eventTaskProgress'
-          type: array
-      type: object
-    eventTaskDetail:
-      type: object
-      description: eventTaskDetail is the information of the event task detail
-      properties:
-        reason:
-          description: reason of the event task detail
-          type: string
-        type:
-          description: type of the event task detail
-          type: string
-        status:
-          description: status of the event task detail
-          type: string
-        message:
-          description: message of the event task detail
-          type: string
-        lastTransitionTime:
-          description: last transition time of the event task detail
-          format: date-time
-          type: string
-    eventTaskDetails:
-      description: eventTaskDetails is a list of event task detail
-      properties:
-        items:
-          description: Items is the list of event task detail in the list
-          items:
-            $ref: '#/components/schemas/eventTaskDetail'
-          type: array
-      type: object
-    eventTask:
-      type: object
-      description: event task is the information of the operation event
-      required:
-        - name
-        - namespace
-        - status
-        - taskType
-        - progress
-      properties:
-        id:
-          description: ID of the task
-          type: string
-        name:
-          description: Name of the task
-          type: string
-        namespace:
-          description: Namespace of the task
-          type: string
-        orgName:
-          description: OrgName of the task
-          type: string
-        resourceType:
-          description: ResourceType of the task
-          type: string
-        resourceId:
-          description: ResourceId of the task
-          type: string
-        resourceName:
-          description: ResourceName of the task
-          type: string
-        status:
-          description: status of the task
-          type: string
-        taskType:
-          description: task type
-          type: string
-        progress:
-          description: progress of the task
-          type: string
-        taskProgresses:
-          $ref: '#/components/schemas/eventTaskProgresses'
-        taskDetails:
-          $ref: '#/components/schemas/eventTaskDetails'
-        opsLog:
-          description: pod log of the custom task
-          type: string
-        description:
-          description: description of the custom task
-          type: string
-        startTime:
-          type: string
-          format: date-time
-          description: Time when the task started
-        completionTime:
-          type: string
-          format: date-time
-          description: Time when the task completed or failed
-          nullable: true
-        eventTaskId:
-          description: Same as `id`. Frontend can ignore this field.
-          type: string
-    eventTaskList:
-      description: EventTaskList is a list of operation event task objects
-      properties:
-        items:
-          description: Items is the list of operation event task objects in the list
-          items:
-            $ref: '#/components/schemas/eventTask'
-          type: array
       type: object
     localizedDescription:
       type: object
@@ -15320,9 +15202,9 @@ components:
           type: string
         dependentOpsName:
           type: string
-        eventTaskId:
+        clusterTaskId:
           type: string
-        dependentEventTaskId:
+        dependentClusterTaskId:
           type: string
       required:
         - opsRequestName
@@ -15701,6 +15583,162 @@ components:
             type: object
             $ref: '#/components/schemas/opsParameter'
       type: object
+    customOpsTask:
+      description: customOpsTask is the information of custom ops task
+      properties:
+        objectKey:
+          description: the pod name
+          type: string
+        namespace:
+          description: namespace of the task
+          type: string
+        status:
+          description: status of the task
+          type: string
+        targetPodName:
+          description: target pod name of the task
+          type: string
+        retries:
+          description: retries of the task
+          type: integer
+          format: int32
+      type: object
+    customOpsTasks:
+      description: customOpsTasks is a list of custom ops task. This field is provided when ops is `custom`.
+      properties:
+        items:
+          description: The list of custom ops task.
+          items:
+            $ref: '#/components/schemas/customOpsTask'
+          type: array
+      type: object
+    clusterTaskProgress:
+      description: clusterTaskProgress is the information of the task progress
+      properties:
+        name:
+          description: conponent name
+          type: string
+        group:
+          description: group name
+          type: string
+        objectKey:
+          description: the instance name
+          type: string
+          nullable: true
+        message:
+          description: message of the task progress
+          type: string
+        status:
+          description: status of the task progress
+          type: string
+        startTime:
+          description: start time of the task progress
+          format: date-time
+          type: string
+          nullable: true
+        endTime:
+          description: end time of the task progress
+          format: date-time
+          type: string
+          nullable: true
+        customOpsName:
+          description: Indicates the name of an OpsAction, Either `objectKey` or `customOpsName` must be provided. This field is provided when ops is `custom`.
+          type: string
+          nullable: true
+        customOpsTasks:
+          $ref: '#/components/schemas/customOpsTasks'
+      type: object
+    clusterTaskProgresses:
+      description: clusterTaskProgresses is a list of task progress detail
+      properties:
+        items:
+          description: Items is the list of task progress detail in the list
+          items:
+            $ref: '#/components/schemas/clusterTaskProgress'
+          type: array
+      type: object
+    clusterTaskDetail:
+      type: object
+      description: taskCondition is the information of the task condition
+      properties:
+        reason:
+          description: reason of the task condition
+          type: string
+        type:
+          description: type of the task condition
+          type: string
+        status:
+          description: status of the task condition
+          type: string
+        message:
+          description: message of the task condition
+          type: string
+        lastTransitionTime:
+          description: last transition time of the task condition
+          format: date-time
+          type: string
+    clusterTaskDetails:
+      description: taskConditions is a list of task condition
+      properties:
+        items:
+          description: Items is the list of task condition in the list
+          items:
+            $ref: '#/components/schemas/clusterTaskDetail'
+          type: array
+      type: object
+    clusterTask:
+      type: object
+      description: task is the information of the operation
+      required:
+        - name
+        - namespace
+        - status
+        - taskType
+        - progress
+      properties:
+        id:
+          description: ID of the task
+          type: string
+        name:
+          description: Name of the task
+          type: string
+        namespace:
+          description: Namespace of the task
+          type: string
+        orgName:
+          description: OrgName of the task
+          type: string
+        clusterName:
+          description: ClusterName of the task
+          type: string
+        status:
+          description: status of the task
+          type: string
+        taskType:
+          description: task type
+          type: string
+        progress:
+          description: progress of the task
+          type: string
+        taskProgresses:
+          $ref: '#/components/schemas/clusterTaskProgresses'
+        taskDetails:
+          $ref: '#/components/schemas/clusterTaskDetails'
+        opsLog:
+          description: pod log of the custom task
+          type: string
+        description:
+          description: description of the custom task
+          type: string
+        startTime:
+          type: string
+          format: date-time
+          description: Time when the task started
+        completionTime:
+          type: string
+          format: date-time
+          description: Time when the task completed or failed
+          nullable: true
     opsIoQuotas:
       description: IO Quotas describes IOPS and BPS for volumes of a KubeBlocks cluster
       properties:
@@ -15725,6 +15763,43 @@ components:
       required:
         - volumes
         - component
+      type: object
+    opsStatus:
+      enum:
+        - Pending
+        - Creating
+        - Running
+        - Cancelling
+        - Succeed
+        - Cancelled
+        - Failed
+        - Aborted
+      type: string
+    opsType:
+      enum:
+        - VerticalScaling
+        - HorizontalScaling
+        - VolumeExpansion
+        - Upgrade
+        - Reconfiguring
+        - Switchover
+        - Restart
+        - Stop
+        - Start
+        - Expose
+        - Backup
+        - Restore
+        - RebuildInstance
+        - Custom
+      type: string
+    clusterTaskList:
+      description: TaskList is a list of operation task objects
+      properties:
+        items:
+          description: Items is the list of operation task objects in the list
+          items:
+            $ref: '#/components/schemas/clusterTask'
+          type: array
       type: object
     autohealingList:
       description: An Autohealing object in k8s
@@ -18814,6 +18889,33 @@ components:
           type: number
           format: double
           nullable: true
+    parameterValueType:
+      enum:
+        - string
+        - integer
+      type: string
+    dataChannelParameter:
+      type: object
+      properties:
+        displayName:
+          type: string
+        desc:
+          $ref: '#/components/schemas/internationalDesc'
+        key:
+          type: string
+        defaultValue:
+          type: string
+        valueType:
+          $ref: '#/components/schemas/parameterValueType'
+      required:
+        - key
+    dataChannelParameterOption:
+      type: object
+      description: module parameter template, the key is the module name, the value is the parameter template
+      additionalProperties:
+        type: array
+        items:
+          $ref: '#/components/schemas/dataChannelParameter'
     standardDefinition:
       type: object
       properties:
@@ -18833,6 +18935,9 @@ components:
         memory:
           $ref: '#/components/schemas/standardResource'
           description: memory resource, the unit is Gi
+        parameterTemplate:
+          $ref: '#/components/schemas/dataChannelParameterOption'
+          nullable: true
     dataReplicationOption:
       type: object
       properties:
@@ -20494,8 +20599,8 @@ components:
           description: Task ID
           type: string
           nullable: true
-        eventTaskId:
-          description: Event task ID
+        clusterTaskId:
+          description: Cluster task ID
           type: string
           nullable: true
       required:
@@ -21993,6 +22098,16 @@ components:
           additionalProperties:
             type: string
           nullable: true
+    dataChannelParameterKeyValue:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+      required:
+        - key
+        - value
     dataReplicationCreate:
       type: object
       properties:
@@ -22019,6 +22134,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/eventObject'
+        parameters:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/dataChannelParameterKeyValue'
+          nullable: true
     dataChannelResponse:
       type: object
       properties:
@@ -22029,6 +22151,10 @@ components:
         createdAt:
           type: string
           format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+          nullable: true
     dataChannelModuleProgress:
       type: object
       properties:
@@ -22061,10 +22187,19 @@ components:
           $ref: '#/components/schemas/dataChannelItem'
         progress:
           $ref: '#/components/schemas/dataChannelProgress'
+    dataReplicationUpdate:
+      type: object
+      properties:
+        clusterUpdates:
+          $ref: '#/components/schemas/dataReplicationCreate'
+        isRestart:
+          type: boolean
+          nullable: true
     dataReplication_opsType:
       enum:
         - pause
         - resume
+        - restart
       type: string
     eventItem:
       type: object
@@ -22210,6 +22345,30 @@ components:
           type: string
           format: date-time
           nullable: true
+    dataReplicationParametersResponseDetail:
+      type: object
+      properties:
+        displayName:
+          type: string
+        desc:
+          $ref: '#/components/schemas/internationalDesc'
+        key:
+          type: string
+        defaultValue:
+          type: string
+        value:
+          type: string
+        valueType:
+          $ref: '#/components/schemas/parameterValueType'
+      required:
+        - key
+    dataReplicationParametersResponse:
+      type: object
+      description: the parameters of the data channel, the key is the module name, the value is the parameter template
+      additionalProperties:
+        type: array
+        items:
+          $ref: '#/components/schemas/dataReplicationParametersResponseDetail'
     ImportPreflightRequest:
       description: Data source preflight request
       type: object

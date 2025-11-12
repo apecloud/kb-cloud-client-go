@@ -45,8 +45,8 @@ type Task struct {
 	TimeoutSecond *int32 `json:"timeoutSecond,omitempty"`
 	// The user created the task
 	Operator *string `json:"operator,omitempty"`
-	// ID of the event task
-	EventTaskId *string `json:"eventTaskId,omitempty"`
+	// ID of the cluster task
+	ClusterTaskId *string `json:"clusterTaskId,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -521,32 +521,32 @@ func (o *Task) SetOperator(v string) {
 	o.Operator = &v
 }
 
-// GetEventTaskId returns the EventTaskId field value if set, zero value otherwise.
-func (o *Task) GetEventTaskId() string {
-	if o == nil || o.EventTaskId == nil {
+// GetClusterTaskId returns the ClusterTaskId field value if set, zero value otherwise.
+func (o *Task) GetClusterTaskId() string {
+	if o == nil || o.ClusterTaskId == nil {
 		var ret string
 		return ret
 	}
-	return *o.EventTaskId
+	return *o.ClusterTaskId
 }
 
-// GetEventTaskIdOk returns a tuple with the EventTaskId field value if set, nil otherwise
+// GetClusterTaskIdOk returns a tuple with the ClusterTaskId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Task) GetEventTaskIdOk() (*string, bool) {
-	if o == nil || o.EventTaskId == nil {
+func (o *Task) GetClusterTaskIdOk() (*string, bool) {
+	if o == nil || o.ClusterTaskId == nil {
 		return nil, false
 	}
-	return o.EventTaskId, true
+	return o.ClusterTaskId, true
 }
 
-// HasEventTaskId returns a boolean if a field has been set.
-func (o *Task) HasEventTaskId() bool {
-	return o != nil && o.EventTaskId != nil
+// HasClusterTaskId returns a boolean if a field has been set.
+func (o *Task) HasClusterTaskId() bool {
+	return o != nil && o.ClusterTaskId != nil
 }
 
-// SetEventTaskId gets a reference to the given string and assigns it to the EventTaskId field.
-func (o *Task) SetEventTaskId(v string) {
-	o.EventTaskId = &v
+// SetClusterTaskId gets a reference to the given string and assigns it to the ClusterTaskId field.
+func (o *Task) SetClusterTaskId(v string) {
+	o.ClusterTaskId = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -614,8 +614,8 @@ func (o Task) MarshalJSON() ([]byte, error) {
 	if o.Operator != nil {
 		toSerialize["operator"] = o.Operator
 	}
-	if o.EventTaskId != nil {
-		toSerialize["eventTaskId"] = o.EventTaskId
+	if o.ClusterTaskId != nil {
+		toSerialize["clusterTaskId"] = o.ClusterTaskId
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -644,7 +644,7 @@ func (o *Task) UnmarshalJSON(bytes []byte) (err error) {
 		RetryLimit     *int32             `json:"retryLimit,omitempty"`
 		TimeoutSecond  *int32             `json:"timeoutSecond,omitempty"`
 		Operator       *string            `json:"operator,omitempty"`
-		EventTaskId    *string            `json:"eventTaskId,omitempty"`
+		ClusterTaskId  *string            `json:"clusterTaskId,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -669,7 +669,7 @@ func (o *Task) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"taskId", "taskName", "taskType", "status", "createdAt", "updatedAt", "deletedAt", "startedAt", "completionTime", "message", "progress", "steps", "parallelism", "failurePolicy", "retryLimit", "timeoutSecond", "operator", "eventTaskId"})
+		common.DeleteKeys(additionalProperties, &[]string{"taskId", "taskName", "taskType", "status", "createdAt", "updatedAt", "deletedAt", "startedAt", "completionTime", "message", "progress", "steps", "parallelism", "failurePolicy", "retryLimit", "timeoutSecond", "operator", "clusterTaskId"})
 	} else {
 		return err
 	}
@@ -700,7 +700,7 @@ func (o *Task) UnmarshalJSON(bytes []byte) (err error) {
 	o.RetryLimit = all.RetryLimit
 	o.TimeoutSecond = all.TimeoutSecond
 	o.Operator = all.Operator
-	o.EventTaskId = all.EventTaskId
+	o.ClusterTaskId = all.ClusterTaskId
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
