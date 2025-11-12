@@ -24518,6 +24518,33 @@ components:
           type: number
           format: double
           nullable: true
+    parameterValueType:
+      enum:
+        - string
+        - integer
+      type: string
+    dataChannelParameter:
+      type: object
+      properties:
+        displayName:
+          type: string
+        desc:
+          $ref: '#/components/schemas/internationalDesc'
+        key:
+          type: string
+        defaultValue:
+          type: string
+        valueType:
+          $ref: '#/components/schemas/parameterValueType'
+      required:
+        - key
+    dataChannelParameterOption:
+      type: object
+      description: module parameter template, the key is the module name, the value is the parameter template
+      additionalProperties:
+        type: array
+        items:
+          $ref: '#/components/schemas/dataChannelParameter'
     standardDefinition:
       type: object
       properties:
@@ -24537,6 +24564,9 @@ components:
         memory:
           $ref: '#/components/schemas/standardResource'
           description: memory resource, the unit is Gi
+        parameterTemplate:
+          $ref: '#/components/schemas/dataChannelParameterOption'
+          nullable: true
     dataReplicationOption:
       type: object
       properties:
