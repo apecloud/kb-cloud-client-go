@@ -21232,6 +21232,10 @@ components:
           type: string
           description: The user created the task
           x-nullable: true
+        clusterTaskId:
+          type: string
+          description: ID of the cluster task
+          x-nullable: true
     scaleInType:
       type: string
       enum:
