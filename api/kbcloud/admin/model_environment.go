@@ -51,6 +51,10 @@ type Environment struct {
 	ExtraInfo *string `json:"extraInfo,omitempty"`
 	// Environment delete policy to protect environment from false delete
 	DeletePolicy *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
+	// Cluster operation validation policy, such as create, hscale, vscale, etc.
+	ClusterValidationPolicy *ClusterValidationPolicy `json:"clusterValidationPolicy,omitempty"`
+	// Architecture of the environment data plane nodes (arm64, amd64, or multiarch for multiple architectures)
+	Architecture *EnvironmentArchitecture `json:"architecture,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -76,6 +80,8 @@ func NewEnvironment(provider string, region string, availabilityZones []string, 
 	this.UpdatedAt = updatedAt
 	var deletePolicy EnvironmentDeletePolicy = EnvironmentDeletePolicyDoNotDelete
 	this.DeletePolicy = &deletePolicy
+	var clusterValidationPolicy ClusterValidationPolicy = ClusterValidationPolicyValidateOnly
+	this.ClusterValidationPolicy = &clusterValidationPolicy
 	return &this
 }
 
@@ -86,6 +92,8 @@ func NewEnvironmentWithDefaults() *Environment {
 	this := Environment{}
 	var deletePolicy EnvironmentDeletePolicy = EnvironmentDeletePolicyDoNotDelete
 	this.DeletePolicy = &deletePolicy
+	var clusterValidationPolicy ClusterValidationPolicy = ClusterValidationPolicyValidateOnly
+	this.ClusterValidationPolicy = &clusterValidationPolicy
 	return &this
 }
 
@@ -561,6 +569,62 @@ func (o *Environment) SetDeletePolicy(v EnvironmentDeletePolicy) {
 	o.DeletePolicy = &v
 }
 
+// GetClusterValidationPolicy returns the ClusterValidationPolicy field value if set, zero value otherwise.
+func (o *Environment) GetClusterValidationPolicy() ClusterValidationPolicy {
+	if o == nil || o.ClusterValidationPolicy == nil {
+		var ret ClusterValidationPolicy
+		return ret
+	}
+	return *o.ClusterValidationPolicy
+}
+
+// GetClusterValidationPolicyOk returns a tuple with the ClusterValidationPolicy field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Environment) GetClusterValidationPolicyOk() (*ClusterValidationPolicy, bool) {
+	if o == nil || o.ClusterValidationPolicy == nil {
+		return nil, false
+	}
+	return o.ClusterValidationPolicy, true
+}
+
+// HasClusterValidationPolicy returns a boolean if a field has been set.
+func (o *Environment) HasClusterValidationPolicy() bool {
+	return o != nil && o.ClusterValidationPolicy != nil
+}
+
+// SetClusterValidationPolicy gets a reference to the given ClusterValidationPolicy and assigns it to the ClusterValidationPolicy field.
+func (o *Environment) SetClusterValidationPolicy(v ClusterValidationPolicy) {
+	o.ClusterValidationPolicy = &v
+}
+
+// GetArchitecture returns the Architecture field value if set, zero value otherwise.
+func (o *Environment) GetArchitecture() EnvironmentArchitecture {
+	if o == nil || o.Architecture == nil {
+		var ret EnvironmentArchitecture
+		return ret
+	}
+	return *o.Architecture
+}
+
+// GetArchitectureOk returns a tuple with the Architecture field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Environment) GetArchitectureOk() (*EnvironmentArchitecture, bool) {
+	if o == nil || o.Architecture == nil {
+		return nil, false
+	}
+	return o.Architecture, true
+}
+
+// HasArchitecture returns a boolean if a field has been set.
+func (o *Environment) HasArchitecture() bool {
+	return o != nil && o.Architecture != nil
+}
+
+// SetArchitecture gets a reference to the given EnvironmentArchitecture and assigns it to the Architecture field.
+func (o *Environment) SetArchitecture(v EnvironmentArchitecture) {
+	o.Architecture = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Environment) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -608,6 +672,12 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 	if o.DeletePolicy != nil {
 		toSerialize["deletePolicy"] = o.DeletePolicy
 	}
+	if o.ClusterValidationPolicy != nil {
+		toSerialize["clusterValidationPolicy"] = o.ClusterValidationPolicy
+	}
+	if o.Architecture != nil {
+		toSerialize["architecture"] = o.Architecture
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -618,25 +688,27 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Provider              *string                  `json:"provider"`
-		Region                *string                  `json:"region"`
-		AvailabilityZones     *[]string                `json:"availabilityZones"`
-		SchedulingConfig      *SchedulingConfig        `json:"schedulingConfig,omitempty"`
-		NetworkConfig         *NetworkConfig           `json:"networkConfig,omitempty"`
-		Description           *string                  `json:"description,omitempty"`
-		DisplayName           *string                  `json:"displayName"`
-		Id                    *uuid.UUID               `json:"id"`
-		Name                  *string                  `json:"name"`
-		Organizations         *[]string                `json:"organizations"`
-		MetricsMonitorEnabled *bool                    `json:"metricsMonitorEnabled,omitempty"`
-		State                 *EnvironmentState        `json:"state"`
-		Type                  *EnvironmentType         `json:"type"`
-		ProvisionConfig       *ProvisionConfig         `json:"provisionConfig"`
-		AutohealingConfig     *AutohealingConfig       `json:"autohealingConfig,omitempty"`
-		CreatedAt             *time.Time               `json:"createdAt"`
-		UpdatedAt             *time.Time               `json:"updatedAt"`
-		ExtraInfo             *string                  `json:"extraInfo,omitempty"`
-		DeletePolicy          *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
+		Provider                *string                  `json:"provider"`
+		Region                  *string                  `json:"region"`
+		AvailabilityZones       *[]string                `json:"availabilityZones"`
+		SchedulingConfig        *SchedulingConfig        `json:"schedulingConfig,omitempty"`
+		NetworkConfig           *NetworkConfig           `json:"networkConfig,omitempty"`
+		Description             *string                  `json:"description,omitempty"`
+		DisplayName             *string                  `json:"displayName"`
+		Id                      *uuid.UUID               `json:"id"`
+		Name                    *string                  `json:"name"`
+		Organizations           *[]string                `json:"organizations"`
+		MetricsMonitorEnabled   *bool                    `json:"metricsMonitorEnabled,omitempty"`
+		State                   *EnvironmentState        `json:"state"`
+		Type                    *EnvironmentType         `json:"type"`
+		ProvisionConfig         *ProvisionConfig         `json:"provisionConfig"`
+		AutohealingConfig       *AutohealingConfig       `json:"autohealingConfig,omitempty"`
+		CreatedAt               *time.Time               `json:"createdAt"`
+		UpdatedAt               *time.Time               `json:"updatedAt"`
+		ExtraInfo               *string                  `json:"extraInfo,omitempty"`
+		DeletePolicy            *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
+		ClusterValidationPolicy *ClusterValidationPolicy `json:"clusterValidationPolicy,omitempty"`
+		Architecture            *EnvironmentArchitecture `json:"architecture,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -679,7 +751,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "schedulingConfig", "networkConfig", "description", "displayName", "id", "name", "organizations", "metricsMonitorEnabled", "state", "type", "provisionConfig", "autohealingConfig", "createdAt", "updatedAt", "extraInfo", "deletePolicy"})
+		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "schedulingConfig", "networkConfig", "description", "displayName", "id", "name", "organizations", "metricsMonitorEnabled", "state", "type", "provisionConfig", "autohealingConfig", "createdAt", "updatedAt", "extraInfo", "deletePolicy", "clusterValidationPolicy", "architecture"})
 	} else {
 		return err
 	}
@@ -727,6 +799,16 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	} else {
 		o.DeletePolicy = all.DeletePolicy
+	}
+	if all.ClusterValidationPolicy != nil && !all.ClusterValidationPolicy.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.ClusterValidationPolicy = all.ClusterValidationPolicy
+	}
+	if all.Architecture != nil && !all.Architecture.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Architecture = all.Architecture
 	}
 
 	if len(additionalProperties) > 0 {

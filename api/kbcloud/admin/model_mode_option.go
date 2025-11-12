@@ -15,10 +15,20 @@ type ModeOption struct {
 	Title            LocalizedDescription        `json:"title"`
 	Description      LocalizedDescription        `json:"description"`
 	SchedulingPolicy *ModeOptionSchedulingPolicy `json:"schedulingPolicy,omitempty"`
-	Components       []ModeComponent             `json:"components"`
-	Proxy            *ModeOptionProxy            `json:"proxy,omitempty"`
-	Versions         []string                    `json:"versions,omitempty"`
-	Extra            map[string]interface{}      `json:"extra,omitempty"`
+	// specify the compatible kubeblocks version. If empty, it means all versions are supported.
+	//
+	CompatibleKubeblocksVersion *ModeCompatibleKubeblocksVersion `json:"compatibleKubeblocksVersion,omitempty"`
+	Components                  []ModeComponent                  `json:"components"`
+	Proxy                       *ModeOptionProxy                 `json:"proxy,omitempty"`
+	Versions                    []string                         `json:"versions,omitempty"`
+	Extra                       map[string]interface{}           `json:"extra,omitempty"`
+	ServiceRefs                 []ModeServiceRef                 `json:"serviceRefs,omitempty"`
+	// object storage related configs
+	//
+	ObjectStorage  *ModeObjectStorage        `json:"objectStorage,omitempty"`
+	ValuesMappings *ModeOptionValuesMappings `json:"valuesMappings,omitempty"`
+	// whether the mode is hidden for creation
+	HideOnCreate common.NullableBool `json:"hideOnCreate,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -142,6 +152,34 @@ func (o *ModeOption) SetSchedulingPolicy(v ModeOptionSchedulingPolicy) {
 	o.SchedulingPolicy = &v
 }
 
+// GetCompatibleKubeblocksVersion returns the CompatibleKubeblocksVersion field value if set, zero value otherwise.
+func (o *ModeOption) GetCompatibleKubeblocksVersion() ModeCompatibleKubeblocksVersion {
+	if o == nil || o.CompatibleKubeblocksVersion == nil {
+		var ret ModeCompatibleKubeblocksVersion
+		return ret
+	}
+	return *o.CompatibleKubeblocksVersion
+}
+
+// GetCompatibleKubeblocksVersionOk returns a tuple with the CompatibleKubeblocksVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeOption) GetCompatibleKubeblocksVersionOk() (*ModeCompatibleKubeblocksVersion, bool) {
+	if o == nil || o.CompatibleKubeblocksVersion == nil {
+		return nil, false
+	}
+	return o.CompatibleKubeblocksVersion, true
+}
+
+// HasCompatibleKubeblocksVersion returns a boolean if a field has been set.
+func (o *ModeOption) HasCompatibleKubeblocksVersion() bool {
+	return o != nil && o.CompatibleKubeblocksVersion != nil
+}
+
+// SetCompatibleKubeblocksVersion gets a reference to the given ModeCompatibleKubeblocksVersion and assigns it to the CompatibleKubeblocksVersion field.
+func (o *ModeOption) SetCompatibleKubeblocksVersion(v ModeCompatibleKubeblocksVersion) {
+	o.CompatibleKubeblocksVersion = &v
+}
+
 // GetComponents returns the Components field value.
 func (o *ModeOption) GetComponents() []ModeComponent {
 	if o == nil {
@@ -249,6 +287,129 @@ func (o *ModeOption) SetExtra(v map[string]interface{}) {
 	o.Extra = v
 }
 
+// GetServiceRefs returns the ServiceRefs field value if set, zero value otherwise.
+func (o *ModeOption) GetServiceRefs() []ModeServiceRef {
+	if o == nil || o.ServiceRefs == nil {
+		var ret []ModeServiceRef
+		return ret
+	}
+	return o.ServiceRefs
+}
+
+// GetServiceRefsOk returns a tuple with the ServiceRefs field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeOption) GetServiceRefsOk() (*[]ModeServiceRef, bool) {
+	if o == nil || o.ServiceRefs == nil {
+		return nil, false
+	}
+	return &o.ServiceRefs, true
+}
+
+// HasServiceRefs returns a boolean if a field has been set.
+func (o *ModeOption) HasServiceRefs() bool {
+	return o != nil && o.ServiceRefs != nil
+}
+
+// SetServiceRefs gets a reference to the given []ModeServiceRef and assigns it to the ServiceRefs field.
+func (o *ModeOption) SetServiceRefs(v []ModeServiceRef) {
+	o.ServiceRefs = v
+}
+
+// GetObjectStorage returns the ObjectStorage field value if set, zero value otherwise.
+func (o *ModeOption) GetObjectStorage() ModeObjectStorage {
+	if o == nil || o.ObjectStorage == nil {
+		var ret ModeObjectStorage
+		return ret
+	}
+	return *o.ObjectStorage
+}
+
+// GetObjectStorageOk returns a tuple with the ObjectStorage field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeOption) GetObjectStorageOk() (*ModeObjectStorage, bool) {
+	if o == nil || o.ObjectStorage == nil {
+		return nil, false
+	}
+	return o.ObjectStorage, true
+}
+
+// HasObjectStorage returns a boolean if a field has been set.
+func (o *ModeOption) HasObjectStorage() bool {
+	return o != nil && o.ObjectStorage != nil
+}
+
+// SetObjectStorage gets a reference to the given ModeObjectStorage and assigns it to the ObjectStorage field.
+func (o *ModeOption) SetObjectStorage(v ModeObjectStorage) {
+	o.ObjectStorage = &v
+}
+
+// GetValuesMappings returns the ValuesMappings field value if set, zero value otherwise.
+func (o *ModeOption) GetValuesMappings() ModeOptionValuesMappings {
+	if o == nil || o.ValuesMappings == nil {
+		var ret ModeOptionValuesMappings
+		return ret
+	}
+	return *o.ValuesMappings
+}
+
+// GetValuesMappingsOk returns a tuple with the ValuesMappings field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeOption) GetValuesMappingsOk() (*ModeOptionValuesMappings, bool) {
+	if o == nil || o.ValuesMappings == nil {
+		return nil, false
+	}
+	return o.ValuesMappings, true
+}
+
+// HasValuesMappings returns a boolean if a field has been set.
+func (o *ModeOption) HasValuesMappings() bool {
+	return o != nil && o.ValuesMappings != nil
+}
+
+// SetValuesMappings gets a reference to the given ModeOptionValuesMappings and assigns it to the ValuesMappings field.
+func (o *ModeOption) SetValuesMappings(v ModeOptionValuesMappings) {
+	o.ValuesMappings = &v
+}
+
+// GetHideOnCreate returns the HideOnCreate field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ModeOption) GetHideOnCreate() bool {
+	if o == nil || o.HideOnCreate.Get() == nil {
+		var ret bool
+		return ret
+	}
+	return *o.HideOnCreate.Get()
+}
+
+// GetHideOnCreateOk returns a tuple with the HideOnCreate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ModeOption) GetHideOnCreateOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.HideOnCreate.Get(), o.HideOnCreate.IsSet()
+}
+
+// HasHideOnCreate returns a boolean if a field has been set.
+func (o *ModeOption) HasHideOnCreate() bool {
+	return o != nil && o.HideOnCreate.IsSet()
+}
+
+// SetHideOnCreate gets a reference to the given common.NullableBool and assigns it to the HideOnCreate field.
+func (o *ModeOption) SetHideOnCreate(v bool) {
+	o.HideOnCreate.Set(&v)
+}
+
+// SetHideOnCreateNil sets the value for HideOnCreate to be an explicit nil.
+func (o *ModeOption) SetHideOnCreateNil() {
+	o.HideOnCreate.Set(nil)
+}
+
+// UnsetHideOnCreate ensures that no value is present for HideOnCreate, not even an explicit nil.
+func (o *ModeOption) UnsetHideOnCreate() {
+	o.HideOnCreate.Unset()
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -261,6 +422,9 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 	if o.SchedulingPolicy != nil {
 		toSerialize["schedulingPolicy"] = o.SchedulingPolicy
 	}
+	if o.CompatibleKubeblocksVersion != nil {
+		toSerialize["compatibleKubeblocksVersion"] = o.CompatibleKubeblocksVersion
+	}
 	toSerialize["components"] = o.Components
 	if o.Proxy != nil {
 		toSerialize["proxy"] = o.Proxy
@@ -270,6 +434,18 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 	}
 	if o.Extra != nil {
 		toSerialize["extra"] = o.Extra
+	}
+	if o.ServiceRefs != nil {
+		toSerialize["serviceRefs"] = o.ServiceRefs
+	}
+	if o.ObjectStorage != nil {
+		toSerialize["objectStorage"] = o.ObjectStorage
+	}
+	if o.ValuesMappings != nil {
+		toSerialize["valuesMappings"] = o.ValuesMappings
+	}
+	if o.HideOnCreate.IsSet() {
+		toSerialize["hideOnCreate"] = o.HideOnCreate.Get()
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -281,14 +457,19 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name             *string                     `json:"name"`
-		Title            *LocalizedDescription       `json:"title"`
-		Description      *LocalizedDescription       `json:"description"`
-		SchedulingPolicy *ModeOptionSchedulingPolicy `json:"schedulingPolicy,omitempty"`
-		Components       *[]ModeComponent            `json:"components"`
-		Proxy            *ModeOptionProxy            `json:"proxy,omitempty"`
-		Versions         []string                    `json:"versions,omitempty"`
-		Extra            map[string]interface{}      `json:"extra,omitempty"`
+		Name                        *string                          `json:"name"`
+		Title                       *LocalizedDescription            `json:"title"`
+		Description                 *LocalizedDescription            `json:"description"`
+		SchedulingPolicy            *ModeOptionSchedulingPolicy      `json:"schedulingPolicy,omitempty"`
+		CompatibleKubeblocksVersion *ModeCompatibleKubeblocksVersion `json:"compatibleKubeblocksVersion,omitempty"`
+		Components                  *[]ModeComponent                 `json:"components"`
+		Proxy                       *ModeOptionProxy                 `json:"proxy,omitempty"`
+		Versions                    []string                         `json:"versions,omitempty"`
+		Extra                       map[string]interface{}           `json:"extra,omitempty"`
+		ServiceRefs                 []ModeServiceRef                 `json:"serviceRefs,omitempty"`
+		ObjectStorage               *ModeObjectStorage               `json:"objectStorage,omitempty"`
+		ValuesMappings              *ModeOptionValuesMappings        `json:"valuesMappings,omitempty"`
+		HideOnCreate                common.NullableBool              `json:"hideOnCreate,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -307,7 +488,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "schedulingPolicy", "components", "proxy", "versions", "extra"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "schedulingPolicy", "compatibleKubeblocksVersion", "components", "proxy", "versions", "extra", "serviceRefs", "objectStorage", "valuesMappings", "hideOnCreate"})
 	} else {
 		return err
 	}
@@ -326,6 +507,11 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.SchedulingPolicy = all.SchedulingPolicy
+	if all.CompatibleKubeblocksVersion != nil && !all.CompatibleKubeblocksVersion.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.CompatibleKubeblocksVersion = all.CompatibleKubeblocksVersion
+	}
 	o.Components = *all.Components
 	if all.Proxy != nil && all.Proxy.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
@@ -333,6 +519,16 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Proxy = all.Proxy
 	o.Versions = all.Versions
 	o.Extra = all.Extra
+	o.ServiceRefs = all.ServiceRefs
+	if all.ObjectStorage != nil && all.ObjectStorage.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ObjectStorage = all.ObjectStorage
+	if all.ValuesMappings != nil && all.ValuesMappings.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ValuesMappings = all.ValuesMappings
+	o.HideOnCreate = all.HideOnCreate
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

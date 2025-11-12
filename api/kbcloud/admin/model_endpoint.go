@@ -26,6 +26,8 @@ type Endpoint struct {
 	NetworkType EndpointNetworkType `json:"networkType"`
 	// Service name of endpoint
 	ServiceName string `json:"serviceName"`
+	// Pod service name of endpoint
+	PodService *bool `json:"podService,omitempty"`
 	// Port name of endpoint
 	PortName string `json:"portName"`
 	// Endpoint backend instances
@@ -224,6 +226,34 @@ func (o *Endpoint) SetServiceName(v string) {
 	o.ServiceName = v
 }
 
+// GetPodService returns the PodService field value if set, zero value otherwise.
+func (o *Endpoint) GetPodService() bool {
+	if o == nil || o.PodService == nil {
+		var ret bool
+		return ret
+	}
+	return *o.PodService
+}
+
+// GetPodServiceOk returns a tuple with the PodService field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Endpoint) GetPodServiceOk() (*bool, bool) {
+	if o == nil || o.PodService == nil {
+		return nil, false
+	}
+	return o.PodService, true
+}
+
+// HasPodService returns a boolean if a field has been set.
+func (o *Endpoint) HasPodService() bool {
+	return o != nil && o.PodService != nil
+}
+
+// SetPodService gets a reference to the given bool and assigns it to the PodService field.
+func (o *Endpoint) SetPodService(v bool) {
+	o.PodService = &v
+}
+
 // GetPortName returns the PortName field value.
 func (o *Endpoint) GetPortName() string {
 	if o == nil {
@@ -311,6 +341,9 @@ func (o Endpoint) MarshalJSON() ([]byte, error) {
 	toSerialize["type"] = o.Type
 	toSerialize["networkType"] = o.NetworkType
 	toSerialize["serviceName"] = o.ServiceName
+	if o.PodService != nil {
+		toSerialize["podService"] = o.PodService
+	}
 	toSerialize["portName"] = o.PortName
 	if o.Instances != nil {
 		toSerialize["instances"] = o.Instances
@@ -333,6 +366,7 @@ func (o *Endpoint) UnmarshalJSON(bytes []byte) (err error) {
 		Type        *EndpointType        `json:"type"`
 		NetworkType *EndpointNetworkType `json:"networkType"`
 		ServiceName *string              `json:"serviceName"`
+		PodService  *bool                `json:"podService,omitempty"`
 		PortName    *string              `json:"portName"`
 		Instances   []string             `json:"instances,omitempty"`
 		Mutable     *bool                `json:"mutable"`
@@ -369,7 +403,7 @@ func (o *Endpoint) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "hosts", "port", "type", "networkType", "serviceName", "portName", "instances", "mutable"})
+		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "hosts", "port", "type", "networkType", "serviceName", "podService", "portName", "instances", "mutable"})
 	} else {
 		return err
 	}
@@ -390,6 +424,7 @@ func (o *Endpoint) UnmarshalJSON(bytes []byte) (err error) {
 		o.NetworkType = *all.NetworkType
 	}
 	o.ServiceName = *all.ServiceName
+	o.PodService = all.PodService
 	o.PortName = *all.PortName
 	o.Instances = all.Instances
 	o.Mutable = *all.Mutable

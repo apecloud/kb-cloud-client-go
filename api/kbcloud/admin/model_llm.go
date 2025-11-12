@@ -14,15 +14,14 @@ import (
 // Llm llm
 type Llm struct {
 	// ID of the llm
-	Id string `json:"id"`
+	Id *string `json:"id,omitempty"`
 	// Name of the llm
 	Name string `json:"name"`
-	// Type of the llm
-	Type string `json:"type"`
 	// Whether this LLM is enabled
 	Enabled bool `json:"enabled"`
 	// Config
 	Config map[string]interface{} `json:"config"`
+	Level  *AccessLevel           `json:"level,omitempty"`
 	// CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
 	//
 	// Populated by the system. Read-only. Null for lists
@@ -40,11 +39,9 @@ type Llm struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewLlm(id string, name string, typeVar string, enabled bool, config map[string]interface{}) *Llm {
+func NewLlm(name string, enabled bool, config map[string]interface{}) *Llm {
 	this := Llm{}
-	this.Id = id
 	this.Name = name
-	this.Type = typeVar
 	this.Enabled = enabled
 	this.Config = config
 	return &this
@@ -58,27 +55,32 @@ func NewLlmWithDefaults() *Llm {
 	return &this
 }
 
-// GetId returns the Id field value.
+// GetId returns the Id field value if set, zero value otherwise.
 func (o *Llm) GetId() string {
-	if o == nil {
+	if o == nil || o.Id == nil {
 		var ret string
 		return ret
 	}
-	return o.Id
+	return *o.Id
 }
 
-// GetIdOk returns a tuple with the Id field value
+// GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Llm) GetIdOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Id == nil {
 		return nil, false
 	}
-	return &o.Id, true
+	return o.Id, true
 }
 
-// SetId sets field value.
+// HasId returns a boolean if a field has been set.
+func (o *Llm) HasId() bool {
+	return o != nil && o.Id != nil
+}
+
+// SetId gets a reference to the given string and assigns it to the Id field.
 func (o *Llm) SetId(v string) {
-	o.Id = v
+	o.Id = &v
 }
 
 // GetName returns the Name field value.
@@ -102,29 +104,6 @@ func (o *Llm) GetNameOk() (*string, bool) {
 // SetName sets field value.
 func (o *Llm) SetName(v string) {
 	o.Name = v
-}
-
-// GetType returns the Type field value.
-func (o *Llm) GetType() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.Type
-}
-
-// GetTypeOk returns a tuple with the Type field value
-// and a boolean to check if the value has been set.
-func (o *Llm) GetTypeOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Type, true
-}
-
-// SetType sets field value.
-func (o *Llm) SetType(v string) {
-	o.Type = v
 }
 
 // GetEnabled returns the Enabled field value.
@@ -171,6 +150,34 @@ func (o *Llm) GetConfigOk() (*map[string]interface{}, bool) {
 // SetConfig sets field value.
 func (o *Llm) SetConfig(v map[string]interface{}) {
 	o.Config = v
+}
+
+// GetLevel returns the Level field value if set, zero value otherwise.
+func (o *Llm) GetLevel() AccessLevel {
+	if o == nil || o.Level == nil {
+		var ret AccessLevel
+		return ret
+	}
+	return *o.Level
+}
+
+// GetLevelOk returns a tuple with the Level field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Llm) GetLevelOk() (*AccessLevel, bool) {
+	if o == nil || o.Level == nil {
+		return nil, false
+	}
+	return o.Level, true
+}
+
+// HasLevel returns a boolean if a field has been set.
+func (o *Llm) HasLevel() bool {
+	return o != nil && o.Level != nil
+}
+
+// SetLevel gets a reference to the given AccessLevel and assigns it to the Level field.
+func (o *Llm) SetLevel(v AccessLevel) {
+	o.Level = &v
 }
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
@@ -235,11 +242,15 @@ func (o Llm) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["id"] = o.Id
+	if o.Id != nil {
+		toSerialize["id"] = o.Id
+	}
 	toSerialize["name"] = o.Name
-	toSerialize["type"] = o.Type
 	toSerialize["enabled"] = o.Enabled
 	toSerialize["config"] = o.Config
+	if o.Level != nil {
+		toSerialize["level"] = o.Level
+	}
 	if o.CreatedAt != nil {
 		if o.CreatedAt.Nanosecond() == 0 {
 			toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
@@ -264,25 +275,19 @@ func (o Llm) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Llm) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id        *string                 `json:"id"`
+		Id        *string                 `json:"id,omitempty"`
 		Name      *string                 `json:"name"`
-		Type      *string                 `json:"type"`
 		Enabled   *bool                   `json:"enabled"`
 		Config    *map[string]interface{} `json:"config"`
+		Level     *AccessLevel            `json:"level,omitempty"`
 		CreatedAt *time.Time              `json:"createdAt,omitempty"`
 		UpdatedAt *time.Time              `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Id == nil {
-		return fmt.Errorf("required field id missing")
-	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
-	}
-	if all.Type == nil {
-		return fmt.Errorf("required field type missing")
 	}
 	if all.Enabled == nil {
 		return fmt.Errorf("required field enabled missing")
@@ -292,20 +297,30 @@ func (o *Llm) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "type", "enabled", "config", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "enabled", "config", "level", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}
-	o.Id = *all.Id
+
+	hasInvalidField := false
+	o.Id = all.Id
 	o.Name = *all.Name
-	o.Type = *all.Type
 	o.Enabled = *all.Enabled
 	o.Config = *all.Config
+	if all.Level != nil && !all.Level.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Level = all.Level
+	}
 	o.CreatedAt = all.CreatedAt
 	o.UpdatedAt = all.UpdatedAt
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

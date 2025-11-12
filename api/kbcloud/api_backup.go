@@ -18,13 +18,38 @@ import (
 // BackupApi service type
 type BackupApi common.Service
 
+// CreateClusterBackupOptionalParameters holds optional parameters for CreateClusterBackup.
+type CreateClusterBackupOptionalParameters struct {
+	Component *string
+}
+
+// NewCreateClusterBackupOptionalParameters creates an empty struct for parameters.
+func NewCreateClusterBackupOptionalParameters() *CreateClusterBackupOptionalParameters {
+	this := CreateClusterBackupOptionalParameters{}
+	return &this
+}
+
+// WithComponent sets the corresponding parameter name and returns the struct.
+func (r *CreateClusterBackupOptionalParameters) WithComponent(component string) *CreateClusterBackupOptionalParameters {
+	r.Component = &component
+	return r
+}
+
 // CreateClusterBackup Create backup.
-func (a *BackupApi) CreateClusterBackup(ctx _context.Context, orgName string, clusterName string, body BackupCreate) (Backup, *_nethttp.Response, error) {
+func (a *BackupApi) CreateClusterBackup(ctx _context.Context, orgName string, clusterName string, body BackupCreate, o ...CreateClusterBackupOptionalParameters) (Backup, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue Backup
+		optionalParams      CreateClusterBackupOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateClusterBackupOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -47,6 +72,9 @@ func (a *BackupApi) CreateClusterBackup(ctx _context.Context, orgName string, cl
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Component != nil {
+		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
+	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -624,6 +652,7 @@ type ListBackupsOptionalParameters struct {
 	WithDeletedBackups      *bool
 	BackupType              *string
 	WithRebuildInstance     *bool
+	WithHScale              *bool
 	ComponentName           *string
 	Page                    *int32
 	PageSize                *int32
@@ -674,6 +703,12 @@ func (r *ListBackupsOptionalParameters) WithBackupType(backupType string) *ListB
 // WithWithRebuildInstance sets the corresponding parameter name and returns the struct.
 func (r *ListBackupsOptionalParameters) WithWithRebuildInstance(withRebuildInstance bool) *ListBackupsOptionalParameters {
 	r.WithRebuildInstance = &withRebuildInstance
+	return r
+}
+
+// WithWithHScale sets the corresponding parameter name and returns the struct.
+func (r *ListBackupsOptionalParameters) WithWithHScale(withHScale bool) *ListBackupsOptionalParameters {
+	r.WithHScale = &withHScale
 	return r
 }
 
@@ -751,6 +786,9 @@ func (a *BackupApi) ListBackups(ctx _context.Context, orgName string, o ...ListB
 	}
 	if optionalParams.WithRebuildInstance != nil {
 		localVarQueryParams.Add("withRebuildInstance", common.ParameterToString(*optionalParams.WithRebuildInstance, ""))
+	}
+	if optionalParams.WithHScale != nil {
+		localVarQueryParams.Add("withHScale", common.ParameterToString(*optionalParams.WithHScale, ""))
 	}
 	if optionalParams.ComponentName != nil {
 		localVarQueryParams.Add("componentName", common.ParameterToString(*optionalParams.ComponentName, ""))

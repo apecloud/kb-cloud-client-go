@@ -14,8 +14,6 @@ type UserUpdate struct {
 	Email *string `json:"email,omitempty"`
 	// The phonenumber for the user.
 	PhoneNumber *string `json:"phoneNumber,omitempty"`
-	// The verification code for the user
-	VerificationCode *string `json:"verificationCode,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -122,34 +120,6 @@ func (o *UserUpdate) SetPhoneNumber(v string) {
 	o.PhoneNumber = &v
 }
 
-// GetVerificationCode returns the VerificationCode field value if set, zero value otherwise.
-func (o *UserUpdate) GetVerificationCode() string {
-	if o == nil || o.VerificationCode == nil {
-		var ret string
-		return ret
-	}
-	return *o.VerificationCode
-}
-
-// GetVerificationCodeOk returns a tuple with the VerificationCode field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *UserUpdate) GetVerificationCodeOk() (*string, bool) {
-	if o == nil || o.VerificationCode == nil {
-		return nil, false
-	}
-	return o.VerificationCode, true
-}
-
-// HasVerificationCode returns a boolean if a field has been set.
-func (o *UserUpdate) HasVerificationCode() bool {
-	return o != nil && o.VerificationCode != nil
-}
-
-// SetVerificationCode gets a reference to the given string and assigns it to the VerificationCode field.
-func (o *UserUpdate) SetVerificationCode(v string) {
-	o.VerificationCode = &v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o UserUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -165,9 +135,6 @@ func (o UserUpdate) MarshalJSON() ([]byte, error) {
 	if o.PhoneNumber != nil {
 		toSerialize["phoneNumber"] = o.PhoneNumber
 	}
-	if o.VerificationCode != nil {
-		toSerialize["verificationCode"] = o.VerificationCode
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -178,24 +145,22 @@ func (o UserUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *UserUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		DisplayName      *string `json:"displayName,omitempty"`
-		Email            *string `json:"email,omitempty"`
-		PhoneNumber      *string `json:"phoneNumber,omitempty"`
-		VerificationCode *string `json:"verificationCode,omitempty"`
+		DisplayName *string `json:"displayName,omitempty"`
+		Email       *string `json:"email,omitempty"`
+		PhoneNumber *string `json:"phoneNumber,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"displayName", "email", "phoneNumber", "verificationCode"})
+		common.DeleteKeys(additionalProperties, &[]string{"displayName", "email", "phoneNumber"})
 	} else {
 		return err
 	}
 	o.DisplayName = all.DisplayName
 	o.Email = all.Email
 	o.PhoneNumber = all.PhoneNumber
-	o.VerificationCode = all.VerificationCode
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

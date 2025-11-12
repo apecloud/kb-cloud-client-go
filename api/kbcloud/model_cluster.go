@@ -16,7 +16,7 @@ type Cluster struct {
 	// Cluster ID
 	Id *string `json:"id,omitempty"`
 	// When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
-	ParentId common.NullableInt64 `json:"parentId,omitempty"`
+	ParentId common.NullableString `json:"parentId,omitempty"`
 	// the name of parent cluster
 	ParentName common.NullableString `json:"parentName,omitempty"`
 	// the display name of parent cluster
@@ -88,6 +88,14 @@ type Cluster struct {
 	// if cluster is static cluster
 	Static      *bool        `json:"static,omitempty"`
 	NetworkMode *NetworkMode `json:"networkMode,omitempty"`
+	// serviceRefs used by this cluster
+	ServiceRefs []ServiceRef `json:"serviceRefs,omitempty"`
+	// this list of objects (currently, object is a cluster) that uses this cluster as a serviceRef
+	ReferencedBy []ServiceRef `json:"referencedBy,omitempty"`
+	// Specify the object storage config for cluster like starrocks
+	ObjectStorageConfig *ClusterObjectStorageConfig `json:"objectStorageConfig,omitempty"`
+	// the maintenance window for a cluster
+	MaintainceWindow *ClusterMaintainceWindow `json:"maintainceWindow,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -174,9 +182,9 @@ func (o *Cluster) SetId(v string) {
 }
 
 // GetParentId returns the ParentId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *Cluster) GetParentId() int64 {
+func (o *Cluster) GetParentId() string {
 	if o == nil || o.ParentId.Get() == nil {
-		var ret int64
+		var ret string
 		return ret
 	}
 	return *o.ParentId.Get()
@@ -185,7 +193,7 @@ func (o *Cluster) GetParentId() int64 {
 // GetParentIdOk returns a tuple with the ParentId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *Cluster) GetParentIdOk() (*int64, bool) {
+func (o *Cluster) GetParentIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -197,8 +205,8 @@ func (o *Cluster) HasParentId() bool {
 	return o != nil && o.ParentId.IsSet()
 }
 
-// SetParentId gets a reference to the given common.NullableInt64 and assigns it to the ParentId field.
-func (o *Cluster) SetParentId(v int64) {
+// SetParentId gets a reference to the given common.NullableString and assigns it to the ParentId field.
+func (o *Cluster) SetParentId(v string) {
 	o.ParentId.Set(&v)
 }
 
@@ -1288,6 +1296,118 @@ func (o *Cluster) SetNetworkMode(v NetworkMode) {
 	o.NetworkMode = &v
 }
 
+// GetServiceRefs returns the ServiceRefs field value if set, zero value otherwise.
+func (o *Cluster) GetServiceRefs() []ServiceRef {
+	if o == nil || o.ServiceRefs == nil {
+		var ret []ServiceRef
+		return ret
+	}
+	return o.ServiceRefs
+}
+
+// GetServiceRefsOk returns a tuple with the ServiceRefs field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetServiceRefsOk() (*[]ServiceRef, bool) {
+	if o == nil || o.ServiceRefs == nil {
+		return nil, false
+	}
+	return &o.ServiceRefs, true
+}
+
+// HasServiceRefs returns a boolean if a field has been set.
+func (o *Cluster) HasServiceRefs() bool {
+	return o != nil && o.ServiceRefs != nil
+}
+
+// SetServiceRefs gets a reference to the given []ServiceRef and assigns it to the ServiceRefs field.
+func (o *Cluster) SetServiceRefs(v []ServiceRef) {
+	o.ServiceRefs = v
+}
+
+// GetReferencedBy returns the ReferencedBy field value if set, zero value otherwise.
+func (o *Cluster) GetReferencedBy() []ServiceRef {
+	if o == nil || o.ReferencedBy == nil {
+		var ret []ServiceRef
+		return ret
+	}
+	return o.ReferencedBy
+}
+
+// GetReferencedByOk returns a tuple with the ReferencedBy field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetReferencedByOk() (*[]ServiceRef, bool) {
+	if o == nil || o.ReferencedBy == nil {
+		return nil, false
+	}
+	return &o.ReferencedBy, true
+}
+
+// HasReferencedBy returns a boolean if a field has been set.
+func (o *Cluster) HasReferencedBy() bool {
+	return o != nil && o.ReferencedBy != nil
+}
+
+// SetReferencedBy gets a reference to the given []ServiceRef and assigns it to the ReferencedBy field.
+func (o *Cluster) SetReferencedBy(v []ServiceRef) {
+	o.ReferencedBy = v
+}
+
+// GetObjectStorageConfig returns the ObjectStorageConfig field value if set, zero value otherwise.
+func (o *Cluster) GetObjectStorageConfig() ClusterObjectStorageConfig {
+	if o == nil || o.ObjectStorageConfig == nil {
+		var ret ClusterObjectStorageConfig
+		return ret
+	}
+	return *o.ObjectStorageConfig
+}
+
+// GetObjectStorageConfigOk returns a tuple with the ObjectStorageConfig field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetObjectStorageConfigOk() (*ClusterObjectStorageConfig, bool) {
+	if o == nil || o.ObjectStorageConfig == nil {
+		return nil, false
+	}
+	return o.ObjectStorageConfig, true
+}
+
+// HasObjectStorageConfig returns a boolean if a field has been set.
+func (o *Cluster) HasObjectStorageConfig() bool {
+	return o != nil && o.ObjectStorageConfig != nil
+}
+
+// SetObjectStorageConfig gets a reference to the given ClusterObjectStorageConfig and assigns it to the ObjectStorageConfig field.
+func (o *Cluster) SetObjectStorageConfig(v ClusterObjectStorageConfig) {
+	o.ObjectStorageConfig = &v
+}
+
+// GetMaintainceWindow returns the MaintainceWindow field value if set, zero value otherwise.
+func (o *Cluster) GetMaintainceWindow() ClusterMaintainceWindow {
+	if o == nil || o.MaintainceWindow == nil {
+		var ret ClusterMaintainceWindow
+		return ret
+	}
+	return *o.MaintainceWindow
+}
+
+// GetMaintainceWindowOk returns a tuple with the MaintainceWindow field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetMaintainceWindowOk() (*ClusterMaintainceWindow, bool) {
+	if o == nil || o.MaintainceWindow == nil {
+		return nil, false
+	}
+	return o.MaintainceWindow, true
+}
+
+// HasMaintainceWindow returns a boolean if a field has been set.
+func (o *Cluster) HasMaintainceWindow() bool {
+	return o != nil && o.MaintainceWindow != nil
+}
+
+// SetMaintainceWindow gets a reference to the given ClusterMaintainceWindow and assigns it to the MaintainceWindow field.
+func (o *Cluster) SetMaintainceWindow(v ClusterMaintainceWindow) {
+	o.MaintainceWindow = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Cluster) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -1413,6 +1533,18 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 	if o.NetworkMode != nil {
 		toSerialize["networkMode"] = o.NetworkMode
 	}
+	if o.ServiceRefs != nil {
+		toSerialize["serviceRefs"] = o.ServiceRefs
+	}
+	if o.ReferencedBy != nil {
+		toSerialize["referencedBy"] = o.ReferencedBy
+	}
+	if o.ObjectStorageConfig != nil {
+		toSerialize["objectStorageConfig"] = o.ObjectStorageConfig
+	}
+	if o.MaintainceWindow != nil {
+		toSerialize["maintainceWindow"] = o.MaintainceWindow
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -1423,45 +1555,49 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id                     *string                   `json:"id,omitempty"`
-		ParentId               common.NullableInt64      `json:"parentId,omitempty"`
-		ParentName             common.NullableString     `json:"parentName,omitempty"`
-		ParentDisplayName      common.NullableString     `json:"parentDisplayName,omitempty"`
-		ClusterType            NullableClusterType       `json:"clusterType,omitempty"`
-		Delay                  common.NullableFloat64    `json:"delay,omitempty"`
-		OrgName                *string                   `json:"orgName,omitempty"`
-		CloudProvider          *string                   `json:"cloudProvider,omitempty"`
-		EnvironmentId          *string                   `json:"environmentId,omitempty"`
-		EnvironmentName        *string                   `json:"environmentName"`
-		EnvironmentType        *string                   `json:"environmentType,omitempty"`
-		CloudRegion            *string                   `json:"cloudRegion,omitempty"`
-		Project                *string                   `json:"project,omitempty"`
-		Name                   *string                   `json:"name"`
-		Hash                   *string                   `json:"hash,omitempty"`
-		Engine                 *string                   `json:"engine"`
-		License                *ClusterLicense           `json:"license,omitempty"`
-		ParamTpls              []ParamTplsItem           `json:"paramTpls,omitempty"`
-		Version                *string                   `json:"version,omitempty"`
-		TerminationPolicy      *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
-		TlsEnabled             *bool                     `json:"tlsEnabled,omitempty"`
-		NodePortEnabled        *bool                     `json:"nodePortEnabled,omitempty"`
-		Status                 *string                   `json:"status,omitempty"`
-		CreatedAt              *time.Time                `json:"createdAt,omitempty"`
-		UpdatedAt              *time.Time                `json:"updatedAt,omitempty"`
-		Mode                   *string                   `json:"mode,omitempty"`
-		ProxyEnabled           *bool                     `json:"proxyEnabled,omitempty"`
-		Components             []ComponentItem           `json:"components,omitempty"`
-		Extra                  map[string]interface{}    `json:"extra,omitempty"`
-		InitOptions            []InitOptionItem          `json:"initOptions,omitempty"`
-		SingleZone             *bool                     `json:"singleZone,omitempty"`
-		AvailabilityZones      []string                  `json:"availabilityZones,omitempty"`
-		PodAntiAffinityEnabled *bool                     `json:"podAntiAffinityEnabled,omitempty"`
-		Backup                 *ClusterBackup            `json:"backup,omitempty"`
-		NodeGroup              common.NullableString     `json:"nodeGroup,omitempty"`
-		CodeShort              *string                   `json:"codeShort,omitempty"`
-		DisplayName            *string                   `json:"displayName,omitempty"`
-		Static                 *bool                     `json:"static,omitempty"`
-		NetworkMode            *NetworkMode              `json:"networkMode,omitempty"`
+		Id                     *string                     `json:"id,omitempty"`
+		ParentId               common.NullableString       `json:"parentId,omitempty"`
+		ParentName             common.NullableString       `json:"parentName,omitempty"`
+		ParentDisplayName      common.NullableString       `json:"parentDisplayName,omitempty"`
+		ClusterType            NullableClusterType         `json:"clusterType,omitempty"`
+		Delay                  common.NullableFloat64      `json:"delay,omitempty"`
+		OrgName                *string                     `json:"orgName,omitempty"`
+		CloudProvider          *string                     `json:"cloudProvider,omitempty"`
+		EnvironmentId          *string                     `json:"environmentId,omitempty"`
+		EnvironmentName        *string                     `json:"environmentName"`
+		EnvironmentType        *string                     `json:"environmentType,omitempty"`
+		CloudRegion            *string                     `json:"cloudRegion,omitempty"`
+		Project                *string                     `json:"project,omitempty"`
+		Name                   *string                     `json:"name"`
+		Hash                   *string                     `json:"hash,omitempty"`
+		Engine                 *string                     `json:"engine"`
+		License                *ClusterLicense             `json:"license,omitempty"`
+		ParamTpls              []ParamTplsItem             `json:"paramTpls,omitempty"`
+		Version                *string                     `json:"version,omitempty"`
+		TerminationPolicy      *ClusterTerminationPolicy   `json:"terminationPolicy,omitempty"`
+		TlsEnabled             *bool                       `json:"tlsEnabled,omitempty"`
+		NodePortEnabled        *bool                       `json:"nodePortEnabled,omitempty"`
+		Status                 *string                     `json:"status,omitempty"`
+		CreatedAt              *time.Time                  `json:"createdAt,omitempty"`
+		UpdatedAt              *time.Time                  `json:"updatedAt,omitempty"`
+		Mode                   *string                     `json:"mode,omitempty"`
+		ProxyEnabled           *bool                       `json:"proxyEnabled,omitempty"`
+		Components             []ComponentItem             `json:"components,omitempty"`
+		Extra                  map[string]interface{}      `json:"extra,omitempty"`
+		InitOptions            []InitOptionItem            `json:"initOptions,omitempty"`
+		SingleZone             *bool                       `json:"singleZone,omitempty"`
+		AvailabilityZones      []string                    `json:"availabilityZones,omitempty"`
+		PodAntiAffinityEnabled *bool                       `json:"podAntiAffinityEnabled,omitempty"`
+		Backup                 *ClusterBackup              `json:"backup,omitempty"`
+		NodeGroup              common.NullableString       `json:"nodeGroup,omitempty"`
+		CodeShort              *string                     `json:"codeShort,omitempty"`
+		DisplayName            *string                     `json:"displayName,omitempty"`
+		Static                 *bool                       `json:"static,omitempty"`
+		NetworkMode            *NetworkMode                `json:"networkMode,omitempty"`
+		ServiceRefs            []ServiceRef                `json:"serviceRefs,omitempty"`
+		ReferencedBy           []ServiceRef                `json:"referencedBy,omitempty"`
+		ObjectStorageConfig    *ClusterObjectStorageConfig `json:"objectStorageConfig,omitempty"`
+		MaintainceWindow       *ClusterMaintainceWindow    `json:"maintainceWindow,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1477,7 +1613,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "mode", "proxyEnabled", "components", "extra", "initOptions", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static", "networkMode"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "mode", "proxyEnabled", "components", "extra", "initOptions", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static", "networkMode", "serviceRefs", "referencedBy", "objectStorageConfig", "maintainceWindow"})
 	} else {
 		return err
 	}
@@ -1540,6 +1676,16 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.NetworkMode = all.NetworkMode
 	}
+	o.ServiceRefs = all.ServiceRefs
+	o.ReferencedBy = all.ReferencedBy
+	if all.ObjectStorageConfig != nil && all.ObjectStorageConfig.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ObjectStorageConfig = all.ObjectStorageConfig
+	if all.MaintainceWindow != nil && all.MaintainceWindow.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.MaintainceWindow = all.MaintainceWindow
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

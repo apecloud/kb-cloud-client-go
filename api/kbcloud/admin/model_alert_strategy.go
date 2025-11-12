@@ -24,7 +24,7 @@ type AlertStrategy struct {
 	Envs             []string                       `json:"envs,omitempty"`
 	Severities       []string                       `json:"severities,omitempty"`
 	Rules            []string                       `json:"rules,omitempty"`
-	RuleObjs         []AlertRule                    `json:"ruleObjs,omitempty"`
+	RuleObjs         []AlterRuleRef                 `json:"ruleObjs,omitempty"`
 	Engines          []string                       `json:"engines,omitempty"`
 	Clusters         []string                       `json:"clusters,omitempty"`
 	Disabled         *bool                          `json:"disabled,omitempty"`
@@ -361,9 +361,9 @@ func (o *AlertStrategy) SetRules(v []string) {
 }
 
 // GetRuleObjs returns the RuleObjs field value if set, zero value otherwise.
-func (o *AlertStrategy) GetRuleObjs() []AlertRule {
+func (o *AlertStrategy) GetRuleObjs() []AlterRuleRef {
 	if o == nil || o.RuleObjs == nil {
-		var ret []AlertRule
+		var ret []AlterRuleRef
 		return ret
 	}
 	return o.RuleObjs
@@ -371,7 +371,7 @@ func (o *AlertStrategy) GetRuleObjs() []AlertRule {
 
 // GetRuleObjsOk returns a tuple with the RuleObjs field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AlertStrategy) GetRuleObjsOk() (*[]AlertRule, bool) {
+func (o *AlertStrategy) GetRuleObjsOk() (*[]AlterRuleRef, bool) {
 	if o == nil || o.RuleObjs == nil {
 		return nil, false
 	}
@@ -383,8 +383,8 @@ func (o *AlertStrategy) HasRuleObjs() bool {
 	return o != nil && o.RuleObjs != nil
 }
 
-// SetRuleObjs gets a reference to the given []AlertRule and assigns it to the RuleObjs field.
-func (o *AlertStrategy) SetRuleObjs(v []AlertRule) {
+// SetRuleObjs gets a reference to the given []AlterRuleRef and assigns it to the RuleObjs field.
+func (o *AlertStrategy) SetRuleObjs(v []AlterRuleRef) {
 	o.RuleObjs = v
 }
 
@@ -612,7 +612,7 @@ func (o *AlertStrategy) UnmarshalJSON(bytes []byte) (err error) {
 		Envs             []string                       `json:"envs,omitempty"`
 		Severities       []string                       `json:"severities,omitempty"`
 		Rules            []string                       `json:"rules,omitempty"`
-		RuleObjs         []AlertRule                    `json:"ruleObjs,omitempty"`
+		RuleObjs         []AlterRuleRef                 `json:"ruleObjs,omitempty"`
 		Engines          []string                       `json:"engines,omitempty"`
 		Clusters         []string                       `json:"clusters,omitempty"`
 		Disabled         *bool                          `json:"disabled,omitempty"`

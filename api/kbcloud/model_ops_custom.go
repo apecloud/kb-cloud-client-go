@@ -19,7 +19,7 @@ type OpsCustom struct {
 	// ops definition name.
 	DependentOnOps []string `json:"dependentOnOps,omitempty"`
 	// custom ops parameters
-	Params []interface{} `json:"params,omitempty"`
+	Params []OpsParameter `json:"params,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -119,9 +119,9 @@ func (o *OpsCustom) SetDependentOnOps(v []string) {
 }
 
 // GetParams returns the Params field value if set, zero value otherwise.
-func (o *OpsCustom) GetParams() []interface{} {
+func (o *OpsCustom) GetParams() []OpsParameter {
 	if o == nil || o.Params == nil {
-		var ret []interface{}
+		var ret []OpsParameter
 		return ret
 	}
 	return o.Params
@@ -129,7 +129,7 @@ func (o *OpsCustom) GetParams() []interface{} {
 
 // GetParamsOk returns a tuple with the Params field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OpsCustom) GetParamsOk() (*[]interface{}, bool) {
+func (o *OpsCustom) GetParamsOk() (*[]OpsParameter, bool) {
 	if o == nil || o.Params == nil {
 		return nil, false
 	}
@@ -141,8 +141,8 @@ func (o *OpsCustom) HasParams() bool {
 	return o != nil && o.Params != nil
 }
 
-// SetParams gets a reference to the given []interface{} and assigns it to the Params field.
-func (o *OpsCustom) SetParams(v []interface{}) {
+// SetParams gets a reference to the given []OpsParameter and assigns it to the Params field.
+func (o *OpsCustom) SetParams(v []OpsParameter) {
 	o.Params = v
 }
 
@@ -170,10 +170,10 @@ func (o OpsCustom) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsCustom) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CompName       *string       `json:"compName"`
-		OpsType        *string       `json:"opsType"`
-		DependentOnOps []string      `json:"dependentOnOps,omitempty"`
-		Params         []interface{} `json:"params,omitempty"`
+		CompName       *string        `json:"compName"`
+		OpsType        *string        `json:"opsType"`
+		DependentOnOps []string       `json:"dependentOnOps,omitempty"`
+		Params         []OpsParameter `json:"params,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

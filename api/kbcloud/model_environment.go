@@ -44,12 +44,18 @@ type Environment struct {
 	ImageRegistry *string `json:"imageRegistry,omitempty"`
 	// extra info for environment
 	ExtraInfo *string `json:"extraInfo,omitempty"`
+	// KubeBlocks version of the environment
+	KbVersion *string `json:"kbVersion,omitempty"`
 	// namespace info for environment
 	Namespaces []string `json:"namespaces,omitempty"`
 	// Enable pod antiaffinity for cluster
 	PodAntiAffinityEnabled *bool `json:"podAntiAffinityEnabled,omitempty"`
 	// the default storageClass for the environment
 	DefaultStorageClass string `json:"defaultStorageClass"`
+	// Cluster operation validation policy, such as create, hscale, vscale, etc.
+	ClusterValidationPolicy *ClusterValidationPolicy `json:"clusterValidationPolicy,omitempty"`
+	// Architecture of the environment data plane nodes (arm64, amd64, or multiarch for multiple architectures)
+	Architecture *EnvironmentArchitecture `json:"architecture,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -74,6 +80,8 @@ func NewEnvironment(provider string, region string, availabilityZones []string, 
 	var podAntiAffinityEnabled bool = true
 	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
 	this.DefaultStorageClass = defaultStorageClass
+	var clusterValidationPolicy ClusterValidationPolicy = ClusterValidationPolicyValidateOnly
+	this.ClusterValidationPolicy = &clusterValidationPolicy
 	return &this
 }
 
@@ -84,6 +92,8 @@ func NewEnvironmentWithDefaults() *Environment {
 	this := Environment{}
 	var podAntiAffinityEnabled bool = true
 	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
+	var clusterValidationPolicy ClusterValidationPolicy = ClusterValidationPolicyValidateOnly
+	this.ClusterValidationPolicy = &clusterValidationPolicy
 	return &this
 }
 
@@ -457,6 +467,34 @@ func (o *Environment) SetExtraInfo(v string) {
 	o.ExtraInfo = &v
 }
 
+// GetKbVersion returns the KbVersion field value if set, zero value otherwise.
+func (o *Environment) GetKbVersion() string {
+	if o == nil || o.KbVersion == nil {
+		var ret string
+		return ret
+	}
+	return *o.KbVersion
+}
+
+// GetKbVersionOk returns a tuple with the KbVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Environment) GetKbVersionOk() (*string, bool) {
+	if o == nil || o.KbVersion == nil {
+		return nil, false
+	}
+	return o.KbVersion, true
+}
+
+// HasKbVersion returns a boolean if a field has been set.
+func (o *Environment) HasKbVersion() bool {
+	return o != nil && o.KbVersion != nil
+}
+
+// SetKbVersion gets a reference to the given string and assigns it to the KbVersion field.
+func (o *Environment) SetKbVersion(v string) {
+	o.KbVersion = &v
+}
+
 // GetNamespaces returns the Namespaces field value if set, zero value otherwise.
 func (o *Environment) GetNamespaces() []string {
 	if o == nil || o.Namespaces == nil {
@@ -536,6 +574,62 @@ func (o *Environment) SetDefaultStorageClass(v string) {
 	o.DefaultStorageClass = v
 }
 
+// GetClusterValidationPolicy returns the ClusterValidationPolicy field value if set, zero value otherwise.
+func (o *Environment) GetClusterValidationPolicy() ClusterValidationPolicy {
+	if o == nil || o.ClusterValidationPolicy == nil {
+		var ret ClusterValidationPolicy
+		return ret
+	}
+	return *o.ClusterValidationPolicy
+}
+
+// GetClusterValidationPolicyOk returns a tuple with the ClusterValidationPolicy field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Environment) GetClusterValidationPolicyOk() (*ClusterValidationPolicy, bool) {
+	if o == nil || o.ClusterValidationPolicy == nil {
+		return nil, false
+	}
+	return o.ClusterValidationPolicy, true
+}
+
+// HasClusterValidationPolicy returns a boolean if a field has been set.
+func (o *Environment) HasClusterValidationPolicy() bool {
+	return o != nil && o.ClusterValidationPolicy != nil
+}
+
+// SetClusterValidationPolicy gets a reference to the given ClusterValidationPolicy and assigns it to the ClusterValidationPolicy field.
+func (o *Environment) SetClusterValidationPolicy(v ClusterValidationPolicy) {
+	o.ClusterValidationPolicy = &v
+}
+
+// GetArchitecture returns the Architecture field value if set, zero value otherwise.
+func (o *Environment) GetArchitecture() EnvironmentArchitecture {
+	if o == nil || o.Architecture == nil {
+		var ret EnvironmentArchitecture
+		return ret
+	}
+	return *o.Architecture
+}
+
+// GetArchitectureOk returns a tuple with the Architecture field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Environment) GetArchitectureOk() (*EnvironmentArchitecture, bool) {
+	if o == nil || o.Architecture == nil {
+		return nil, false
+	}
+	return o.Architecture, true
+}
+
+// HasArchitecture returns a boolean if a field has been set.
+func (o *Environment) HasArchitecture() bool {
+	return o != nil && o.Architecture != nil
+}
+
+// SetArchitecture gets a reference to the given EnvironmentArchitecture and assigns it to the Architecture field.
+func (o *Environment) SetArchitecture(v EnvironmentArchitecture) {
+	o.Architecture = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Environment) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -575,6 +669,9 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 	if o.ExtraInfo != nil {
 		toSerialize["extraInfo"] = o.ExtraInfo
 	}
+	if o.KbVersion != nil {
+		toSerialize["kbVersion"] = o.KbVersion
+	}
 	if o.Namespaces != nil {
 		toSerialize["namespaces"] = o.Namespaces
 	}
@@ -582,6 +679,12 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 		toSerialize["podAntiAffinityEnabled"] = o.PodAntiAffinityEnabled
 	}
 	toSerialize["defaultStorageClass"] = o.DefaultStorageClass
+	if o.ClusterValidationPolicy != nil {
+		toSerialize["clusterValidationPolicy"] = o.ClusterValidationPolicy
+	}
+	if o.Architecture != nil {
+		toSerialize["architecture"] = o.Architecture
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -592,24 +695,27 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Provider               *string           `json:"provider"`
-		Region                 *string           `json:"region"`
-		AvailabilityZones      *[]string         `json:"availabilityZones"`
-		NetworkConfig          *NetworkConfig    `json:"networkConfig,omitempty"`
-		CreatedAt              *time.Time        `json:"createdAt"`
-		Description            *string           `json:"description,omitempty"`
-		DisplayName            *string           `json:"displayName,omitempty"`
-		Id                     *uuid.UUID        `json:"id"`
-		Name                   *string           `json:"name"`
-		OrgName                *string           `json:"orgName"`
-		State                  *EnvironmentState `json:"state"`
-		Type                   *EnvironmentType  `json:"type"`
-		UpdatedAt              *time.Time        `json:"updatedAt"`
-		ImageRegistry          *string           `json:"imageRegistry,omitempty"`
-		ExtraInfo              *string           `json:"extraInfo,omitempty"`
-		Namespaces             []string          `json:"namespaces,omitempty"`
-		PodAntiAffinityEnabled *bool             `json:"podAntiAffinityEnabled,omitempty"`
-		DefaultStorageClass    *string           `json:"defaultStorageClass"`
+		Provider                *string                  `json:"provider"`
+		Region                  *string                  `json:"region"`
+		AvailabilityZones       *[]string                `json:"availabilityZones"`
+		NetworkConfig           *NetworkConfig           `json:"networkConfig,omitempty"`
+		CreatedAt               *time.Time               `json:"createdAt"`
+		Description             *string                  `json:"description,omitempty"`
+		DisplayName             *string                  `json:"displayName,omitempty"`
+		Id                      *uuid.UUID               `json:"id"`
+		Name                    *string                  `json:"name"`
+		OrgName                 *string                  `json:"orgName"`
+		State                   *EnvironmentState        `json:"state"`
+		Type                    *EnvironmentType         `json:"type"`
+		UpdatedAt               *time.Time               `json:"updatedAt"`
+		ImageRegistry           *string                  `json:"imageRegistry,omitempty"`
+		ExtraInfo               *string                  `json:"extraInfo,omitempty"`
+		KbVersion               *string                  `json:"kbVersion,omitempty"`
+		Namespaces              []string                 `json:"namespaces,omitempty"`
+		PodAntiAffinityEnabled  *bool                    `json:"podAntiAffinityEnabled,omitempty"`
+		DefaultStorageClass     *string                  `json:"defaultStorageClass"`
+		ClusterValidationPolicy *ClusterValidationPolicy `json:"clusterValidationPolicy,omitempty"`
+		Architecture            *EnvironmentArchitecture `json:"architecture,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -649,7 +755,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "networkConfig", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "namespaces", "podAntiAffinityEnabled", "defaultStorageClass"})
+		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "networkConfig", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "kbVersion", "namespaces", "podAntiAffinityEnabled", "defaultStorageClass", "clusterValidationPolicy", "architecture"})
 	} else {
 		return err
 	}
@@ -681,9 +787,20 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	o.UpdatedAt = *all.UpdatedAt
 	o.ImageRegistry = all.ImageRegistry
 	o.ExtraInfo = all.ExtraInfo
+	o.KbVersion = all.KbVersion
 	o.Namespaces = all.Namespaces
 	o.PodAntiAffinityEnabled = all.PodAntiAffinityEnabled
 	o.DefaultStorageClass = *all.DefaultStorageClass
+	if all.ClusterValidationPolicy != nil && !all.ClusterValidationPolicy.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.ClusterValidationPolicy = all.ClusterValidationPolicy
+	}
+	if all.Architecture != nil && !all.Architecture.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Architecture = all.Architecture
+	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

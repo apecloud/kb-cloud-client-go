@@ -96,14 +96,39 @@ func (a *EventApi) GetEvent(ctx _context.Context, eventId string) (Event, *_neth
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetEventFilterOptionalParameters holds optional parameters for GetEventFilter.
+type GetEventFilterOptionalParameters struct {
+	ResourceType *string
+}
+
+// NewGetEventFilterOptionalParameters creates an empty struct for parameters.
+func NewGetEventFilterOptionalParameters() *GetEventFilterOptionalParameters {
+	this := GetEventFilterOptionalParameters{}
+	return &this
+}
+
+// WithResourceType sets the corresponding parameter name and returns the struct.
+func (r *GetEventFilterOptionalParameters) WithResourceType(resourceType string) *GetEventFilterOptionalParameters {
+	r.ResourceType = &resourceType
+	return r
+}
+
 // GetEventFilter Query available filters for event listing.
 // Query available filters for event listing
-func (a *EventApi) GetEventFilter(ctx _context.Context, filterType EventFilterType, source string, start int64, end int64) (EventFilterOptionList, *_nethttp.Response, error) {
+func (a *EventApi) GetEventFilter(ctx _context.Context, filterType EventFilterType, source string, start int64, end int64, o ...GetEventFilterOptionalParameters) (EventFilterOptionList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue EventFilterOptionList
+		optionalParams      GetEventFilterOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetEventFilterOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -128,6 +153,9 @@ func (a *EventApi) GetEventFilter(ctx _context.Context, filterType EventFilterTy
 	localVarQueryParams.Add("source", common.ParameterToString(source, ""))
 	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
 	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
+	if optionalParams.ResourceType != nil {
+		localVarQueryParams.Add("resourceType", common.ParameterToString(*optionalParams.ResourceType, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -180,52 +208,18 @@ func (a *EventApi) GetEventFilter(ctx _context.Context, filterType EventFilterTy
 
 // ListEventsOptionalParameters holds optional parameters for ListEvents.
 type ListEventsOptionalParameters struct {
-	OrgName      *string
-	ResourceId   *string
-	ResourceType *string
-	EventName    *string
-	OperatorId   *int64
-	Status       *EventResultStatus
-	CustomQuery  *string
-	PageNumber   *int64
-	PageSize     *int64
-	OrderBy      *string
+	Status      *EventResultStatus
+	CustomQuery *string
+	PageNumber  *int64
+	PageSize    *int64
+	OrderBy     *string
+	SortDesc    *bool
 }
 
 // NewListEventsOptionalParameters creates an empty struct for parameters.
 func NewListEventsOptionalParameters() *ListEventsOptionalParameters {
 	this := ListEventsOptionalParameters{}
 	return &this
-}
-
-// WithOrgName sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithOrgName(orgName string) *ListEventsOptionalParameters {
-	r.OrgName = &orgName
-	return r
-}
-
-// WithResourceId sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithResourceId(resourceId string) *ListEventsOptionalParameters {
-	r.ResourceId = &resourceId
-	return r
-}
-
-// WithResourceType sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithResourceType(resourceType string) *ListEventsOptionalParameters {
-	r.ResourceType = &resourceType
-	return r
-}
-
-// WithEventName sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithEventName(eventName string) *ListEventsOptionalParameters {
-	r.EventName = &eventName
-	return r
-}
-
-// WithOperatorId sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithOperatorId(operatorId int64) *ListEventsOptionalParameters {
-	r.OperatorId = &operatorId
-	return r
 }
 
 // WithStatus sets the corresponding parameter name and returns the struct.
@@ -255,6 +249,12 @@ func (r *ListEventsOptionalParameters) WithPageSize(pageSize int64) *ListEventsO
 // WithOrderBy sets the corresponding parameter name and returns the struct.
 func (r *ListEventsOptionalParameters) WithOrderBy(orderBy string) *ListEventsOptionalParameters {
 	r.OrderBy = &orderBy
+	return r
+}
+
+// WithSortDesc sets the corresponding parameter name and returns the struct.
+func (r *ListEventsOptionalParameters) WithSortDesc(sortDesc bool) *ListEventsOptionalParameters {
+	r.SortDesc = &sortDesc
 	return r
 }
 
@@ -296,21 +296,6 @@ func (a *EventApi) ListEvents(ctx _context.Context, start int64, end int64, o ..
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
 	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
-	if optionalParams.OrgName != nil {
-		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
-	}
-	if optionalParams.ResourceId != nil {
-		localVarQueryParams.Add("resourceId", common.ParameterToString(*optionalParams.ResourceId, ""))
-	}
-	if optionalParams.ResourceType != nil {
-		localVarQueryParams.Add("resourceType", common.ParameterToString(*optionalParams.ResourceType, ""))
-	}
-	if optionalParams.EventName != nil {
-		localVarQueryParams.Add("eventName", common.ParameterToString(*optionalParams.EventName, ""))
-	}
-	if optionalParams.OperatorId != nil {
-		localVarQueryParams.Add("operatorId", common.ParameterToString(*optionalParams.OperatorId, ""))
-	}
 	if optionalParams.Status != nil {
 		localVarQueryParams.Add("status", common.ParameterToString(*optionalParams.Status, ""))
 	}
@@ -325,6 +310,168 @@ func (a *EventApi) ListEvents(ctx _context.Context, start int64, end int64, o ..
 	}
 	if optionalParams.OrderBy != nil {
 		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
+	}
+	if optionalParams.SortDesc != nil {
+		localVarQueryParams.Add("sortDesc", common.ParameterToString(*optionalParams.SortDesc, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// ListOrgEventsOptionalParameters holds optional parameters for ListOrgEvents.
+type ListOrgEventsOptionalParameters struct {
+	CustomQuery *string
+	Status      *EventResultStatus
+	PageNumber  *int32
+	PageSize    *int32
+	OrderBy     *string
+	SortDesc    *bool
+}
+
+// NewListOrgEventsOptionalParameters creates an empty struct for parameters.
+func NewListOrgEventsOptionalParameters() *ListOrgEventsOptionalParameters {
+	this := ListOrgEventsOptionalParameters{}
+	return &this
+}
+
+// WithCustomQuery sets the corresponding parameter name and returns the struct.
+func (r *ListOrgEventsOptionalParameters) WithCustomQuery(customQuery string) *ListOrgEventsOptionalParameters {
+	r.CustomQuery = &customQuery
+	return r
+}
+
+// WithStatus sets the corresponding parameter name and returns the struct.
+func (r *ListOrgEventsOptionalParameters) WithStatus(status EventResultStatus) *ListOrgEventsOptionalParameters {
+	r.Status = &status
+	return r
+}
+
+// WithPageNumber sets the corresponding parameter name and returns the struct.
+func (r *ListOrgEventsOptionalParameters) WithPageNumber(pageNumber int32) *ListOrgEventsOptionalParameters {
+	r.PageNumber = &pageNumber
+	return r
+}
+
+// WithPageSize sets the corresponding parameter name and returns the struct.
+func (r *ListOrgEventsOptionalParameters) WithPageSize(pageSize int32) *ListOrgEventsOptionalParameters {
+	r.PageSize = &pageSize
+	return r
+}
+
+// WithOrderBy sets the corresponding parameter name and returns the struct.
+func (r *ListOrgEventsOptionalParameters) WithOrderBy(orderBy string) *ListOrgEventsOptionalParameters {
+	r.OrderBy = &orderBy
+	return r
+}
+
+// WithSortDesc sets the corresponding parameter name and returns the struct.
+func (r *ListOrgEventsOptionalParameters) WithSortDesc(sortDesc bool) *ListOrgEventsOptionalParameters {
+	r.SortDesc = &sortDesc
+	return r
+}
+
+// ListOrgEvents List events.
+// List events
+func (a *EventApi) ListOrgEvents(ctx _context.Context, orgName string, start int64, end int64, o ...ListOrgEventsOptionalParameters) (EventList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue EventList
+		optionalParams      ListOrgEventsOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListOrgEventsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "event",
+		OperationID: "listOrgEvents",
+		Path:        "/admin/v1/organizations/{orgName}/events",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.ListOrgEvents")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/events"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
+	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
+	if optionalParams.CustomQuery != nil {
+		localVarQueryParams.Add("customQuery", common.ParameterToString(*optionalParams.CustomQuery, ""))
+	}
+	if optionalParams.Status != nil {
+		localVarQueryParams.Add("status", common.ParameterToString(*optionalParams.Status, ""))
+	}
+	if optionalParams.PageNumber != nil {
+		localVarQueryParams.Add("pageNumber", common.ParameterToString(*optionalParams.PageNumber, ""))
+	}
+	if optionalParams.PageSize != nil {
+		localVarQueryParams.Add("pageSize", common.ParameterToString(*optionalParams.PageSize, ""))
+	}
+	if optionalParams.OrderBy != nil {
+		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
+	}
+	if optionalParams.SortDesc != nil {
+		localVarQueryParams.Add("sortDesc", common.ParameterToString(*optionalParams.SortDesc, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

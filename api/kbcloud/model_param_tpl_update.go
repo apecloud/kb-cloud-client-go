@@ -8,14 +8,14 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ParamTplUpdate paramTplUpdate is the payload to update a parameter template
 type ParamTplUpdate struct {
-	// Specify parameters belongs to which spec
+	// Specify parameters belongs to which spec. Currently, only one configuration file corresponds to a specName, so the configuration file name is omitted.
 	SpecName *string `json:"specName,omitempty"`
-	// Specify parameters belongs to which config file
-	ConfigFile *string `json:"configFile,omitempty"`
 	// Specify parameters list to be updated
 	Parameters map[string]string `json:"parameters,omitempty"`
 	// Specify the new name of the parameter template
 	NewParamTplName *string `json:"newParamTplName,omitempty"`
+	// The raw content of the configuration file
+	RawContent *string `json:"rawContent,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -64,34 +64,6 @@ func (o *ParamTplUpdate) HasSpecName() bool {
 // SetSpecName gets a reference to the given string and assigns it to the SpecName field.
 func (o *ParamTplUpdate) SetSpecName(v string) {
 	o.SpecName = &v
-}
-
-// GetConfigFile returns the ConfigFile field value if set, zero value otherwise.
-func (o *ParamTplUpdate) GetConfigFile() string {
-	if o == nil || o.ConfigFile == nil {
-		var ret string
-		return ret
-	}
-	return *o.ConfigFile
-}
-
-// GetConfigFileOk returns a tuple with the ConfigFile field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ParamTplUpdate) GetConfigFileOk() (*string, bool) {
-	if o == nil || o.ConfigFile == nil {
-		return nil, false
-	}
-	return o.ConfigFile, true
-}
-
-// HasConfigFile returns a boolean if a field has been set.
-func (o *ParamTplUpdate) HasConfigFile() bool {
-	return o != nil && o.ConfigFile != nil
-}
-
-// SetConfigFile gets a reference to the given string and assigns it to the ConfigFile field.
-func (o *ParamTplUpdate) SetConfigFile(v string) {
-	o.ConfigFile = &v
 }
 
 // GetParameters returns the Parameters field value if set, zero value otherwise.
@@ -150,6 +122,34 @@ func (o *ParamTplUpdate) SetNewParamTplName(v string) {
 	o.NewParamTplName = &v
 }
 
+// GetRawContent returns the RawContent field value if set, zero value otherwise.
+func (o *ParamTplUpdate) GetRawContent() string {
+	if o == nil || o.RawContent == nil {
+		var ret string
+		return ret
+	}
+	return *o.RawContent
+}
+
+// GetRawContentOk returns a tuple with the RawContent field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParamTplUpdate) GetRawContentOk() (*string, bool) {
+	if o == nil || o.RawContent == nil {
+		return nil, false
+	}
+	return o.RawContent, true
+}
+
+// HasRawContent returns a boolean if a field has been set.
+func (o *ParamTplUpdate) HasRawContent() bool {
+	return o != nil && o.RawContent != nil
+}
+
+// SetRawContent gets a reference to the given string and assigns it to the RawContent field.
+func (o *ParamTplUpdate) SetRawContent(v string) {
+	o.RawContent = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ParamTplUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -159,14 +159,14 @@ func (o ParamTplUpdate) MarshalJSON() ([]byte, error) {
 	if o.SpecName != nil {
 		toSerialize["specName"] = o.SpecName
 	}
-	if o.ConfigFile != nil {
-		toSerialize["configFile"] = o.ConfigFile
-	}
 	if o.Parameters != nil {
 		toSerialize["parameters"] = o.Parameters
 	}
 	if o.NewParamTplName != nil {
 		toSerialize["newParamTplName"] = o.NewParamTplName
+	}
+	if o.RawContent != nil {
+		toSerialize["rawContent"] = o.RawContent
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -179,23 +179,23 @@ func (o ParamTplUpdate) MarshalJSON() ([]byte, error) {
 func (o *ParamTplUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		SpecName        *string           `json:"specName,omitempty"`
-		ConfigFile      *string           `json:"configFile,omitempty"`
 		Parameters      map[string]string `json:"parameters,omitempty"`
 		NewParamTplName *string           `json:"newParamTplName,omitempty"`
+		RawContent      *string           `json:"rawContent,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"specName", "configFile", "parameters", "newParamTplName"})
+		common.DeleteKeys(additionalProperties, &[]string{"specName", "parameters", "newParamTplName", "rawContent"})
 	} else {
 		return err
 	}
 	o.SpecName = all.SpecName
-	o.ConfigFile = all.ConfigFile
 	o.Parameters = all.Parameters
 	o.NewParamTplName = all.NewParamTplName
+	o.RawContent = all.RawContent
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

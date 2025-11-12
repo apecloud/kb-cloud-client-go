@@ -24,7 +24,7 @@ type Backup struct {
 	// the type of backup
 	BackupType BackupType `json:"backupType"`
 	// Date/time when the backup finished being processed.
-	CompletionTimestamp *time.Time `json:"completionTimestamp,omitempty"`
+	CompletionTimestamp common.NullableTime `json:"completionTimestamp,omitempty"`
 	// Date/time when the backup was created.
 	CreationTimestamp time.Time `json:"creationTimestamp"`
 	// The duration time of backup execution. When converted to a string, the form is "1h2m0.5s".
@@ -38,7 +38,7 @@ type Backup struct {
 	// sourceCluster records the source cluster information for this backup.
 	SourceCluster string `json:"sourceCluster"`
 	// Date/time when the backup started being processed.
-	StartTimestamp *time.Time `json:"startTimestamp,omitempty"`
+	StartTimestamp common.NullableTime `json:"startTimestamp,omitempty"`
 	// The current status. Valid values are New, InProgress, Completed, Failed.
 	Status BackupStatus `json:"status"`
 	// timeRangeEnd records the end time of the backup.
@@ -73,6 +73,10 @@ type Backup struct {
 	ParentBackupName *string `json:"parentBackupName,omitempty"`
 	// the base backup name
 	BaseBackupName *string `json:"baseBackupName,omitempty"`
+	// the master key for encryption
+	EncryptionMasterKey *string `json:"encryptionMasterKey,omitempty"`
+	// the data key for encryption
+	EncryptionDataKey *string `json:"encryptionDataKey,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -231,32 +235,43 @@ func (o *Backup) SetBackupType(v BackupType) {
 	o.BackupType = v
 }
 
-// GetCompletionTimestamp returns the CompletionTimestamp field value if set, zero value otherwise.
+// GetCompletionTimestamp returns the CompletionTimestamp field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Backup) GetCompletionTimestamp() time.Time {
-	if o == nil || o.CompletionTimestamp == nil {
+	if o == nil || o.CompletionTimestamp.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.CompletionTimestamp
+	return *o.CompletionTimestamp.Get()
 }
 
 // GetCompletionTimestampOk returns a tuple with the CompletionTimestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Backup) GetCompletionTimestampOk() (*time.Time, bool) {
-	if o == nil || o.CompletionTimestamp == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.CompletionTimestamp, true
+	return o.CompletionTimestamp.Get(), o.CompletionTimestamp.IsSet()
 }
 
 // HasCompletionTimestamp returns a boolean if a field has been set.
 func (o *Backup) HasCompletionTimestamp() bool {
-	return o != nil && o.CompletionTimestamp != nil
+	return o != nil && o.CompletionTimestamp.IsSet()
 }
 
-// SetCompletionTimestamp gets a reference to the given time.Time and assigns it to the CompletionTimestamp field.
+// SetCompletionTimestamp gets a reference to the given common.NullableTime and assigns it to the CompletionTimestamp field.
 func (o *Backup) SetCompletionTimestamp(v time.Time) {
-	o.CompletionTimestamp = &v
+	o.CompletionTimestamp.Set(&v)
+}
+
+// SetCompletionTimestampNil sets the value for CompletionTimestamp to be an explicit nil.
+func (o *Backup) SetCompletionTimestampNil() {
+	o.CompletionTimestamp.Set(nil)
+}
+
+// UnsetCompletionTimestamp ensures that no value is present for CompletionTimestamp, not even an explicit nil.
+func (o *Backup) UnsetCompletionTimestamp() {
+	o.CompletionTimestamp.Unset()
 }
 
 // GetCreationTimestamp returns the CreationTimestamp field value.
@@ -402,32 +417,43 @@ func (o *Backup) SetSourceCluster(v string) {
 	o.SourceCluster = v
 }
 
-// GetStartTimestamp returns the StartTimestamp field value if set, zero value otherwise.
+// GetStartTimestamp returns the StartTimestamp field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Backup) GetStartTimestamp() time.Time {
-	if o == nil || o.StartTimestamp == nil {
+	if o == nil || o.StartTimestamp.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.StartTimestamp
+	return *o.StartTimestamp.Get()
 }
 
 // GetStartTimestampOk returns a tuple with the StartTimestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Backup) GetStartTimestampOk() (*time.Time, bool) {
-	if o == nil || o.StartTimestamp == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.StartTimestamp, true
+	return o.StartTimestamp.Get(), o.StartTimestamp.IsSet()
 }
 
 // HasStartTimestamp returns a boolean if a field has been set.
 func (o *Backup) HasStartTimestamp() bool {
-	return o != nil && o.StartTimestamp != nil
+	return o != nil && o.StartTimestamp.IsSet()
 }
 
-// SetStartTimestamp gets a reference to the given time.Time and assigns it to the StartTimestamp field.
+// SetStartTimestamp gets a reference to the given common.NullableTime and assigns it to the StartTimestamp field.
 func (o *Backup) SetStartTimestamp(v time.Time) {
-	o.StartTimestamp = &v
+	o.StartTimestamp.Set(&v)
+}
+
+// SetStartTimestampNil sets the value for StartTimestamp to be an explicit nil.
+func (o *Backup) SetStartTimestampNil() {
+	o.StartTimestamp.Set(nil)
+}
+
+// UnsetStartTimestamp ensures that no value is present for StartTimestamp, not even an explicit nil.
+func (o *Backup) UnsetStartTimestamp() {
+	o.StartTimestamp.Unset()
 }
 
 // GetStatus returns the Status field value.
@@ -932,6 +958,62 @@ func (o *Backup) SetBaseBackupName(v string) {
 	o.BaseBackupName = &v
 }
 
+// GetEncryptionMasterKey returns the EncryptionMasterKey field value if set, zero value otherwise.
+func (o *Backup) GetEncryptionMasterKey() string {
+	if o == nil || o.EncryptionMasterKey == nil {
+		var ret string
+		return ret
+	}
+	return *o.EncryptionMasterKey
+}
+
+// GetEncryptionMasterKeyOk returns a tuple with the EncryptionMasterKey field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Backup) GetEncryptionMasterKeyOk() (*string, bool) {
+	if o == nil || o.EncryptionMasterKey == nil {
+		return nil, false
+	}
+	return o.EncryptionMasterKey, true
+}
+
+// HasEncryptionMasterKey returns a boolean if a field has been set.
+func (o *Backup) HasEncryptionMasterKey() bool {
+	return o != nil && o.EncryptionMasterKey != nil
+}
+
+// SetEncryptionMasterKey gets a reference to the given string and assigns it to the EncryptionMasterKey field.
+func (o *Backup) SetEncryptionMasterKey(v string) {
+	o.EncryptionMasterKey = &v
+}
+
+// GetEncryptionDataKey returns the EncryptionDataKey field value if set, zero value otherwise.
+func (o *Backup) GetEncryptionDataKey() string {
+	if o == nil || o.EncryptionDataKey == nil {
+		var ret string
+		return ret
+	}
+	return *o.EncryptionDataKey
+}
+
+// GetEncryptionDataKeyOk returns a tuple with the EncryptionDataKey field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Backup) GetEncryptionDataKeyOk() (*string, bool) {
+	if o == nil || o.EncryptionDataKey == nil {
+		return nil, false
+	}
+	return o.EncryptionDataKey, true
+}
+
+// HasEncryptionDataKey returns a boolean if a field has been set.
+func (o *Backup) HasEncryptionDataKey() bool {
+	return o != nil && o.EncryptionDataKey != nil
+}
+
+// SetEncryptionDataKey gets a reference to the given string and assigns it to the EncryptionDataKey field.
+func (o *Backup) SetEncryptionDataKey(v string) {
+	o.EncryptionDataKey = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Backup) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -945,12 +1027,8 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 		toSerialize["backupRepo"] = o.BackupRepo
 	}
 	toSerialize["backupType"] = o.BackupType
-	if o.CompletionTimestamp != nil {
-		if o.CompletionTimestamp.Nanosecond() == 0 {
-			toSerialize["completionTimestamp"] = o.CompletionTimestamp.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["completionTimestamp"] = o.CompletionTimestamp.Format("2006-01-02T15:04:05.000Z07:00")
-		}
+	if o.CompletionTimestamp.IsSet() {
+		toSerialize["completionTimestamp"] = o.CompletionTimestamp.Get()
 	}
 	if o.CreationTimestamp.Nanosecond() == 0 {
 		toSerialize["creationTimestamp"] = o.CreationTimestamp.Format("2006-01-02T15:04:05Z07:00")
@@ -964,12 +1042,8 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 	toSerialize["orgName"] = o.OrgName
 	toSerialize["snapshotVolumes"] = o.SnapshotVolumes
 	toSerialize["sourceCluster"] = o.SourceCluster
-	if o.StartTimestamp != nil {
-		if o.StartTimestamp.Nanosecond() == 0 {
-			toSerialize["startTimestamp"] = o.StartTimestamp.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["startTimestamp"] = o.StartTimestamp.Format("2006-01-02T15:04:05.000Z07:00")
-		}
+	if o.StartTimestamp.IsSet() {
+		toSerialize["startTimestamp"] = o.StartTimestamp.Get()
 	}
 	toSerialize["status"] = o.Status
 	if o.TimeRangeEnd.IsSet() {
@@ -1011,6 +1085,12 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 	if o.BaseBackupName != nil {
 		toSerialize["baseBackupName"] = o.BaseBackupName
 	}
+	if o.EncryptionMasterKey != nil {
+		toSerialize["encryptionMasterKey"] = o.EncryptionMasterKey
+	}
+	if o.EncryptionDataKey != nil {
+		toSerialize["encryptionDataKey"] = o.EncryptionDataKey
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -1026,14 +1106,14 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 		BackupPolicyName    *string             `json:"backupPolicyName"`
 		BackupRepo          *string             `json:"backupRepo,omitempty"`
 		BackupType          *BackupType         `json:"backupType"`
-		CompletionTimestamp *time.Time          `json:"completionTimestamp,omitempty"`
+		CompletionTimestamp common.NullableTime `json:"completionTimestamp,omitempty"`
 		CreationTimestamp   *time.Time          `json:"creationTimestamp"`
 		Duration            *string             `json:"duration,omitempty"`
 		Name                *string             `json:"name"`
 		OrgName             *string             `json:"orgName"`
 		SnapshotVolumes     *bool               `json:"snapshotVolumes"`
 		SourceCluster       *string             `json:"sourceCluster"`
-		StartTimestamp      *time.Time          `json:"startTimestamp,omitempty"`
+		StartTimestamp      common.NullableTime `json:"startTimestamp,omitempty"`
 		Status              *BackupStatus       `json:"status"`
 		TimeRangeEnd        common.NullableTime `json:"timeRangeEnd,omitempty"`
 		TimeRangeStart      common.NullableTime `json:"timeRangeStart,omitempty"`
@@ -1052,6 +1132,8 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 		Engine              *string             `json:"engine"`
 		ParentBackupName    *string             `json:"parentBackupName,omitempty"`
 		BaseBackupName      *string             `json:"baseBackupName,omitempty"`
+		EncryptionMasterKey *string             `json:"encryptionMasterKey,omitempty"`
+		EncryptionDataKey   *string             `json:"encryptionDataKey,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1106,7 +1188,7 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "backupMethod", "backupPolicyName", "backupRepo", "backupType", "completionTimestamp", "creationTimestamp", "duration", "name", "orgName", "snapshotVolumes", "sourceCluster", "startTimestamp", "status", "timeRangeEnd", "timeRangeStart", "totalSize", "failureReason", "extras", "targetPods", "path", "retentionPeriod", "expiration", "id", "clusterId", "cloudProvider", "cloudRegion", "environmentName", "engine", "parentBackupName", "baseBackupName"})
+		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "backupMethod", "backupPolicyName", "backupRepo", "backupType", "completionTimestamp", "creationTimestamp", "duration", "name", "orgName", "snapshotVolumes", "sourceCluster", "startTimestamp", "status", "timeRangeEnd", "timeRangeStart", "totalSize", "failureReason", "extras", "targetPods", "path", "retentionPeriod", "expiration", "id", "clusterId", "cloudProvider", "cloudRegion", "environmentName", "engine", "parentBackupName", "baseBackupName", "encryptionMasterKey", "encryptionDataKey"})
 	} else {
 		return err
 	}
@@ -1151,6 +1233,8 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	o.Engine = *all.Engine
 	o.ParentBackupName = all.ParentBackupName
 	o.BaseBackupName = all.BaseBackupName
+	o.EncryptionMasterKey = all.EncryptionMasterKey
+	o.EncryptionDataKey = all.EncryptionDataKey
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

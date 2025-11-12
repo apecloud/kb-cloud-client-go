@@ -18,7 +18,7 @@ type DmsQueryHistory struct {
 	// sql executed time
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	// sql executed duration
-	Duration *int32 `json:"duration,omitempty"`
+	Duration *int64 `json:"duration,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -126,9 +126,9 @@ func (o *DmsQueryHistory) SetCreatedAt(v time.Time) {
 }
 
 // GetDuration returns the Duration field value if set, zero value otherwise.
-func (o *DmsQueryHistory) GetDuration() int32 {
+func (o *DmsQueryHistory) GetDuration() int64 {
 	if o == nil || o.Duration == nil {
-		var ret int32
+		var ret int64
 		return ret
 	}
 	return *o.Duration
@@ -136,7 +136,7 @@ func (o *DmsQueryHistory) GetDuration() int32 {
 
 // GetDurationOk returns a tuple with the Duration field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DmsQueryHistory) GetDurationOk() (*int32, bool) {
+func (o *DmsQueryHistory) GetDurationOk() (*int64, bool) {
 	if o == nil || o.Duration == nil {
 		return nil, false
 	}
@@ -148,8 +148,8 @@ func (o *DmsQueryHistory) HasDuration() bool {
 	return o != nil && o.Duration != nil
 }
 
-// SetDuration gets a reference to the given int32 and assigns it to the Duration field.
-func (o *DmsQueryHistory) SetDuration(v int32) {
+// SetDuration gets a reference to the given int64 and assigns it to the Duration field.
+func (o *DmsQueryHistory) SetDuration(v int64) {
 	o.Duration = &v
 }
 
@@ -188,7 +188,7 @@ func (o *DmsQueryHistory) UnmarshalJSON(bytes []byte) (err error) {
 		Sql        *string    `json:"sql,omitempty"`
 		ErrMassage *string    `json:"errMassage,omitempty"`
 		CreatedAt  *time.Time `json:"createdAt,omitempty"`
-		Duration   *int32     `json:"duration,omitempty"`
+		Duration   *int64     `json:"duration,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

@@ -10,11 +10,12 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// DisasterRecoveryStatus the status of promote event, support values: [Succeed, Failed, Running, Unknown]
+// DisasterRecoveryStatus the status of promote event, support values: [Pending, Succeed, Failed, Running, Unknown]
 type DisasterRecoveryStatus string
 
 // List of DisasterRecoveryStatus.
 const (
+	DisasterRecoveryStatusPending DisasterRecoveryStatus = "Pending"
 	DisasterRecoveryStatusSucceed DisasterRecoveryStatus = "Succeed"
 	DisasterRecoveryStatusFailed  DisasterRecoveryStatus = "Failed"
 	DisasterRecoveryStatusRunning DisasterRecoveryStatus = "Running"
@@ -22,6 +23,7 @@ const (
 )
 
 var allowedDisasterRecoveryStatusEnumValues = []DisasterRecoveryStatus{
+	DisasterRecoveryStatusPending,
 	DisasterRecoveryStatusSucceed,
 	DisasterRecoveryStatusFailed,
 	DisasterRecoveryStatusRunning,

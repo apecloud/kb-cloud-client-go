@@ -57,11 +57,11 @@ func (r *QueryAuditLogsOptionalParameters) WithSortType(sortType SortType) *Quer
 
 // QueryAuditLogs Query cluster audit logs.
 // Query audit logs of a cluster
-func (a *ClusterLogApi) QueryAuditLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...QueryAuditLogsOptionalParameters) (interface{}, *_nethttp.Response, error) {
+func (a *ClusterLogApi) QueryAuditLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...QueryAuditLogsOptionalParameters) (ClusterExecutionLog, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue interface{}
+		localVarReturnValue ClusterExecutionLog
 		optionalParams      QueryAuditLogsOptionalParameters
 	)
 
@@ -161,6 +161,8 @@ func (a *ClusterLogApi) QueryAuditLogs(ctx _context.Context, orgName string, clu
 type QueryErrorLogsOptionalParameters struct {
 	ComponentName *string
 	InstanceName  *string
+	Filename      *string
+	Query         *string
 	Limit         *string
 	SortType      *SortType
 }
@@ -183,6 +185,18 @@ func (r *QueryErrorLogsOptionalParameters) WithInstanceName(instanceName string)
 	return r
 }
 
+// WithFilename sets the corresponding parameter name and returns the struct.
+func (r *QueryErrorLogsOptionalParameters) WithFilename(filename string) *QueryErrorLogsOptionalParameters {
+	r.Filename = &filename
+	return r
+}
+
+// WithQuery sets the corresponding parameter name and returns the struct.
+func (r *QueryErrorLogsOptionalParameters) WithQuery(query string) *QueryErrorLogsOptionalParameters {
+	r.Query = &query
+	return r
+}
+
 // WithLimit sets the corresponding parameter name and returns the struct.
 func (r *QueryErrorLogsOptionalParameters) WithLimit(limit string) *QueryErrorLogsOptionalParameters {
 	r.Limit = &limit
@@ -197,11 +211,11 @@ func (r *QueryErrorLogsOptionalParameters) WithSortType(sortType SortType) *Quer
 
 // QueryErrorLogs Query cluster error logs.
 // Query error logs of a cluster
-func (a *ClusterLogApi) QueryErrorLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...QueryErrorLogsOptionalParameters) (interface{}, *_nethttp.Response, error) {
+func (a *ClusterLogApi) QueryErrorLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...QueryErrorLogsOptionalParameters) (ClusterRawLogResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue interface{}
+		localVarReturnValue ClusterRawLogResponse
 		optionalParams      QueryErrorLogsOptionalParameters
 	)
 
@@ -240,6 +254,162 @@ func (a *ClusterLogApi) QueryErrorLogs(ctx _context.Context, orgName string, clu
 	}
 	if optionalParams.InstanceName != nil {
 		localVarQueryParams.Add("instanceName", common.ParameterToString(*optionalParams.InstanceName, ""))
+	}
+	if optionalParams.Filename != nil {
+		localVarQueryParams.Add("filename", common.ParameterToString(*optionalParams.Filename, ""))
+	}
+	if optionalParams.Query != nil {
+		localVarQueryParams.Add("query", common.ParameterToString(*optionalParams.Query, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.SortType != nil {
+		localVarQueryParams.Add("sortType", common.ParameterToString(*optionalParams.SortType, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// QueryPodLogsOptionalParameters holds optional parameters for QueryPodLogs.
+type QueryPodLogsOptionalParameters struct {
+	ComponentName *string
+	InstanceName  *string
+	Filename      *string
+	Limit         *string
+	SortType      *SortType
+}
+
+// NewQueryPodLogsOptionalParameters creates an empty struct for parameters.
+func NewQueryPodLogsOptionalParameters() *QueryPodLogsOptionalParameters {
+	this := QueryPodLogsOptionalParameters{}
+	return &this
+}
+
+// WithComponentName sets the corresponding parameter name and returns the struct.
+func (r *QueryPodLogsOptionalParameters) WithComponentName(componentName string) *QueryPodLogsOptionalParameters {
+	r.ComponentName = &componentName
+	return r
+}
+
+// WithInstanceName sets the corresponding parameter name and returns the struct.
+func (r *QueryPodLogsOptionalParameters) WithInstanceName(instanceName string) *QueryPodLogsOptionalParameters {
+	r.InstanceName = &instanceName
+	return r
+}
+
+// WithFilename sets the corresponding parameter name and returns the struct.
+func (r *QueryPodLogsOptionalParameters) WithFilename(filename string) *QueryPodLogsOptionalParameters {
+	r.Filename = &filename
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *QueryPodLogsOptionalParameters) WithLimit(limit string) *QueryPodLogsOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// WithSortType sets the corresponding parameter name and returns the struct.
+func (r *QueryPodLogsOptionalParameters) WithSortType(sortType SortType) *QueryPodLogsOptionalParameters {
+	r.SortType = &sortType
+	return r
+}
+
+// QueryPodLogs Query cluster pod logs.
+// Query pod logs of a cluster
+func (a *ClusterLogApi) QueryPodLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...QueryPodLogsOptionalParameters) (ClusterRawLogResponse, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ClusterRawLogResponse
+		optionalParams      QueryPodLogsOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type QueryPodLogsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "clusterLog",
+		OperationID: "queryPodLogs",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/pod",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterLogApi.QueryPodLogs")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/pod"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("startTime", common.ParameterToString(startTime, ""))
+	localVarQueryParams.Add("endTime", common.ParameterToString(endTime, ""))
+	if optionalParams.ComponentName != nil {
+		localVarQueryParams.Add("componentName", common.ParameterToString(*optionalParams.ComponentName, ""))
+	}
+	if optionalParams.InstanceName != nil {
+		localVarQueryParams.Add("instanceName", common.ParameterToString(*optionalParams.InstanceName, ""))
+	}
+	if optionalParams.Filename != nil {
+		localVarQueryParams.Add("filename", common.ParameterToString(*optionalParams.Filename, ""))
 	}
 	if optionalParams.Limit != nil {
 		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
@@ -301,7 +471,9 @@ func (a *ClusterLogApi) QueryErrorLogs(ctx _context.Context, orgName string, clu
 type QueryRunningLogsOptionalParameters struct {
 	ComponentName *string
 	InstanceName  *string
+	Filename      *string
 	Limit         *string
+	Query         *string
 	SortType      *SortType
 }
 
@@ -323,9 +495,21 @@ func (r *QueryRunningLogsOptionalParameters) WithInstanceName(instanceName strin
 	return r
 }
 
+// WithFilename sets the corresponding parameter name and returns the struct.
+func (r *QueryRunningLogsOptionalParameters) WithFilename(filename string) *QueryRunningLogsOptionalParameters {
+	r.Filename = &filename
+	return r
+}
+
 // WithLimit sets the corresponding parameter name and returns the struct.
 func (r *QueryRunningLogsOptionalParameters) WithLimit(limit string) *QueryRunningLogsOptionalParameters {
 	r.Limit = &limit
+	return r
+}
+
+// WithQuery sets the corresponding parameter name and returns the struct.
+func (r *QueryRunningLogsOptionalParameters) WithQuery(query string) *QueryRunningLogsOptionalParameters {
+	r.Query = &query
 	return r
 }
 
@@ -337,11 +521,11 @@ func (r *QueryRunningLogsOptionalParameters) WithSortType(sortType SortType) *Qu
 
 // QueryRunningLogs Query cluster running logs.
 // Query running logs of a cluster
-func (a *ClusterLogApi) QueryRunningLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...QueryRunningLogsOptionalParameters) (interface{}, *_nethttp.Response, error) {
+func (a *ClusterLogApi) QueryRunningLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...QueryRunningLogsOptionalParameters) (ClusterRawLogResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue interface{}
+		localVarReturnValue ClusterRawLogResponse
 		optionalParams      QueryRunningLogsOptionalParameters
 	)
 
@@ -381,8 +565,14 @@ func (a *ClusterLogApi) QueryRunningLogs(ctx _context.Context, orgName string, c
 	if optionalParams.InstanceName != nil {
 		localVarQueryParams.Add("instanceName", common.ParameterToString(*optionalParams.InstanceName, ""))
 	}
+	if optionalParams.Filename != nil {
+		localVarQueryParams.Add("filename", common.ParameterToString(*optionalParams.Filename, ""))
+	}
 	if optionalParams.Limit != nil {
 		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.Query != nil {
+		localVarQueryParams.Add("query", common.ParameterToString(*optionalParams.Query, ""))
 	}
 	if optionalParams.SortType != nil {
 		localVarQueryParams.Add("sortType", common.ParameterToString(*optionalParams.SortType, ""))
@@ -441,6 +631,7 @@ func (a *ClusterLogApi) QueryRunningLogs(ctx _context.Context, orgName string, c
 type QuerySlowLogsOptionalParameters struct {
 	ComponentName *string
 	InstanceName  *string
+	Query         *string
 	Limit         *string
 	SortType      *SortType
 }
@@ -463,6 +654,12 @@ func (r *QuerySlowLogsOptionalParameters) WithInstanceName(instanceName string) 
 	return r
 }
 
+// WithQuery sets the corresponding parameter name and returns the struct.
+func (r *QuerySlowLogsOptionalParameters) WithQuery(query string) *QuerySlowLogsOptionalParameters {
+	r.Query = &query
+	return r
+}
+
 // WithLimit sets the corresponding parameter name and returns the struct.
 func (r *QuerySlowLogsOptionalParameters) WithLimit(limit string) *QuerySlowLogsOptionalParameters {
 	r.Limit = &limit
@@ -477,11 +674,11 @@ func (r *QuerySlowLogsOptionalParameters) WithSortType(sortType SortType) *Query
 
 // QuerySlowLogs Query cluster slow logs.
 // Query slow logs of a cluster
-func (a *ClusterLogApi) QuerySlowLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...QuerySlowLogsOptionalParameters) (interface{}, *_nethttp.Response, error) {
+func (a *ClusterLogApi) QuerySlowLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...QuerySlowLogsOptionalParameters) (ClusterExecutionLog, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue interface{}
+		localVarReturnValue ClusterExecutionLog
 		optionalParams      QuerySlowLogsOptionalParameters
 	)
 
@@ -520,6 +717,9 @@ func (a *ClusterLogApi) QuerySlowLogs(ctx _context.Context, orgName string, clus
 	}
 	if optionalParams.InstanceName != nil {
 		localVarQueryParams.Add("instanceName", common.ParameterToString(*optionalParams.InstanceName, ""))
+	}
+	if optionalParams.Query != nil {
+		localVarQueryParams.Add("query", common.ParameterToString(*optionalParams.Query, ""))
 	}
 	if optionalParams.Limit != nil {
 		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))

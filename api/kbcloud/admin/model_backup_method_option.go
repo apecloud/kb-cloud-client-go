@@ -13,8 +13,11 @@ import (
 type BackupMethodOption struct {
 	Name string `json:"name"`
 	// The compatible full backup method for incremental backup method
-	CompatibleMethod *string               `json:"compatibleMethod,omitempty"`
-	Description      *LocalizedDescription `json:"description,omitempty"`
+	CompatibleMethod *string `json:"compatibleMethod,omitempty"`
+	// The actual path where the backup data is stored. If not set, use the backup.status.path.
+	RealBackupPath *string                          `json:"realBackupPath,omitempty"`
+	RestoreOption  *BackupMethodOptionRestoreOption `json:"restoreOption,omitempty"`
+	Description    *LocalizedDescription            `json:"description,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -89,6 +92,62 @@ func (o *BackupMethodOption) SetCompatibleMethod(v string) {
 	o.CompatibleMethod = &v
 }
 
+// GetRealBackupPath returns the RealBackupPath field value if set, zero value otherwise.
+func (o *BackupMethodOption) GetRealBackupPath() string {
+	if o == nil || o.RealBackupPath == nil {
+		var ret string
+		return ret
+	}
+	return *o.RealBackupPath
+}
+
+// GetRealBackupPathOk returns a tuple with the RealBackupPath field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupMethodOption) GetRealBackupPathOk() (*string, bool) {
+	if o == nil || o.RealBackupPath == nil {
+		return nil, false
+	}
+	return o.RealBackupPath, true
+}
+
+// HasRealBackupPath returns a boolean if a field has been set.
+func (o *BackupMethodOption) HasRealBackupPath() bool {
+	return o != nil && o.RealBackupPath != nil
+}
+
+// SetRealBackupPath gets a reference to the given string and assigns it to the RealBackupPath field.
+func (o *BackupMethodOption) SetRealBackupPath(v string) {
+	o.RealBackupPath = &v
+}
+
+// GetRestoreOption returns the RestoreOption field value if set, zero value otherwise.
+func (o *BackupMethodOption) GetRestoreOption() BackupMethodOptionRestoreOption {
+	if o == nil || o.RestoreOption == nil {
+		var ret BackupMethodOptionRestoreOption
+		return ret
+	}
+	return *o.RestoreOption
+}
+
+// GetRestoreOptionOk returns a tuple with the RestoreOption field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupMethodOption) GetRestoreOptionOk() (*BackupMethodOptionRestoreOption, bool) {
+	if o == nil || o.RestoreOption == nil {
+		return nil, false
+	}
+	return o.RestoreOption, true
+}
+
+// HasRestoreOption returns a boolean if a field has been set.
+func (o *BackupMethodOption) HasRestoreOption() bool {
+	return o != nil && o.RestoreOption != nil
+}
+
+// SetRestoreOption gets a reference to the given BackupMethodOptionRestoreOption and assigns it to the RestoreOption field.
+func (o *BackupMethodOption) SetRestoreOption(v BackupMethodOptionRestoreOption) {
+	o.RestoreOption = &v
+}
+
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *BackupMethodOption) GetDescription() LocalizedDescription {
 	if o == nil || o.Description == nil {
@@ -127,6 +186,12 @@ func (o BackupMethodOption) MarshalJSON() ([]byte, error) {
 	if o.CompatibleMethod != nil {
 		toSerialize["compatibleMethod"] = o.CompatibleMethod
 	}
+	if o.RealBackupPath != nil {
+		toSerialize["realBackupPath"] = o.RealBackupPath
+	}
+	if o.RestoreOption != nil {
+		toSerialize["restoreOption"] = o.RestoreOption
+	}
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
@@ -140,9 +205,11 @@ func (o BackupMethodOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupMethodOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name             *string               `json:"name"`
-		CompatibleMethod *string               `json:"compatibleMethod,omitempty"`
-		Description      *LocalizedDescription `json:"description,omitempty"`
+		Name             *string                          `json:"name"`
+		CompatibleMethod *string                          `json:"compatibleMethod,omitempty"`
+		RealBackupPath   *string                          `json:"realBackupPath,omitempty"`
+		RestoreOption    *BackupMethodOptionRestoreOption `json:"restoreOption,omitempty"`
+		Description      *LocalizedDescription            `json:"description,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -152,7 +219,7 @@ func (o *BackupMethodOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "compatibleMethod", "description"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "compatibleMethod", "realBackupPath", "restoreOption", "description"})
 	} else {
 		return err
 	}
@@ -160,6 +227,11 @@ func (o *BackupMethodOption) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Name = *all.Name
 	o.CompatibleMethod = all.CompatibleMethod
+	o.RealBackupPath = all.RealBackupPath
+	if all.RestoreOption != nil && all.RestoreOption.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.RestoreOption = all.RestoreOption
 	if all.Description != nil && all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

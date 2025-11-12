@@ -19,7 +19,8 @@ type DisasterRecoveryApi common.Service
 
 // CreateDisasterRecovery Create a new disaster recovery instance.
 // Create a new disaster recovery instance for a database cluster.
-func (a *DisasterRecoveryApi) CreateDisasterRecovery(ctx _context.Context, parentClusterId int32, orgName string, body DisasterRecoveryCreate) (DisasterRecoveryTask, *_nethttp.Response, error) {
+// Deprecated: This API is deprecated.
+func (a *DisasterRecoveryApi) CreateDisasterRecovery(ctx _context.Context, parentClusterId string, orgName string, body DisasterRecoveryCreate) (DisasterRecoveryTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -100,20 +101,53 @@ func (a *DisasterRecoveryApi) CreateDisasterRecovery(ctx _context.Context, paren
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// DeleteDisasterRecoveryOptionalParameters holds optional parameters for DeleteDisasterRecovery.
+type DeleteDisasterRecoveryOptionalParameters struct {
+	LogicalInstanceId *string
+	ClusterId         *string
+}
+
+// NewDeleteDisasterRecoveryOptionalParameters creates an empty struct for parameters.
+func NewDeleteDisasterRecoveryOptionalParameters() *DeleteDisasterRecoveryOptionalParameters {
+	this := DeleteDisasterRecoveryOptionalParameters{}
+	return &this
+}
+
+// WithLogicalInstanceId sets the corresponding parameter name and returns the struct.
+func (r *DeleteDisasterRecoveryOptionalParameters) WithLogicalInstanceId(logicalInstanceId string) *DeleteDisasterRecoveryOptionalParameters {
+	r.LogicalInstanceId = &logicalInstanceId
+	return r
+}
+
+// WithClusterId sets the corresponding parameter name and returns the struct.
+func (r *DeleteDisasterRecoveryOptionalParameters) WithClusterId(clusterId string) *DeleteDisasterRecoveryOptionalParameters {
+	r.ClusterId = &clusterId
+	return r
+}
+
 // DeleteDisasterRecovery Delete a disaster recovery instance.
 // Delete a specific disaster recovery instance
-func (a *DisasterRecoveryApi) DeleteDisasterRecovery(ctx _context.Context, clusterId int32, orgName string) (DisasterRecoveryTask, *_nethttp.Response, error) {
+// Deprecated: This API is deprecated.
+func (a *DisasterRecoveryApi) DeleteDisasterRecovery(ctx _context.Context, orgName string, o ...DeleteDisasterRecoveryOptionalParameters) (DisasterRecoveryTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
 		localVarPostBody    interface{}
 		localVarReturnValue DisasterRecoveryTask
+		optionalParams      DeleteDisasterRecoveryOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type DeleteDisasterRecoveryOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "disasterRecovery",
 		OperationID: "deleteDisasterRecovery",
-		Path:        "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}",
+		Path:        "/api/v1/organizations/{orgName}/disasterRecovery",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -123,13 +157,18 @@ func (a *DisasterRecoveryApi) DeleteDisasterRecovery(ctx _context.Context, clust
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}"
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.LogicalInstanceId != nil {
+		localVarQueryParams.Add("logicalInstanceID", common.ParameterToString(*optionalParams.LogicalInstanceId, ""))
+	}
+	if optionalParams.ClusterId != nil {
+		localVarQueryParams.Add("clusterID", common.ParameterToString(*optionalParams.ClusterId, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -182,7 +221,8 @@ func (a *DisasterRecoveryApi) DeleteDisasterRecovery(ctx _context.Context, clust
 
 // GetDisasterRecoveryHistory Get switch history of a disaster recovery instance.
 // Retrieve the history of failover and failback operations for a specific disaster recovery instance.
-func (a *DisasterRecoveryApi) GetDisasterRecoveryHistory(ctx _context.Context, clusterId int32, orgName string) (DisasterRecoveryHistory, *_nethttp.Response, error) {
+// Deprecated: This API is deprecated.
+func (a *DisasterRecoveryApi) GetDisasterRecoveryHistory(ctx _context.Context, clusterId string, orgName string) (DisasterRecoveryHistory, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -262,7 +302,8 @@ func (a *DisasterRecoveryApi) GetDisasterRecoveryHistory(ctx _context.Context, c
 
 // GetDisasterRecoveryStatus Retrieve Disaster Recovery Instance Status.
 // Get detailed information about the status of a specific disaster recovery instance, including delay and current replication point.
-func (a *DisasterRecoveryApi) GetDisasterRecoveryStatus(ctx _context.Context, clusterId int32, orgName string) (DisasterRecoveryStatusResponse, *_nethttp.Response, error) {
+// Deprecated: This API is deprecated.
+func (a *DisasterRecoveryApi) GetDisasterRecoveryStatus(ctx _context.Context, clusterId string, orgName string) (DisasterRecoveryStatusResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -342,7 +383,8 @@ func (a *DisasterRecoveryApi) GetDisasterRecoveryStatus(ctx _context.Context, cl
 
 // ListDisasterRecovery List Disaster Recovery instances under the main cluster.
 // Retrieve a list of disaster recovery instances for a specific database cluster.
-func (a *DisasterRecoveryApi) ListDisasterRecovery(ctx _context.Context, parentClusterId int32, orgName string) (DisasterRecoveryClusterList, *_nethttp.Response, error) {
+// Deprecated: This API is deprecated.
+func (a *DisasterRecoveryApi) ListDisasterRecovery(ctx _context.Context, parentClusterId string, orgName string) (DisasterRecoveryClusterList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -422,7 +464,8 @@ func (a *DisasterRecoveryApi) ListDisasterRecovery(ctx _context.Context, parentC
 
 // PromoteDisasterRecovery Promote a disaster recovery instance to the main instance.
 // Promote the disaster recovery instance to the primary database instance.
-func (a *DisasterRecoveryApi) PromoteDisasterRecovery(ctx _context.Context, clusterId int32, orgName string, body DisasterRecoveryPromote) (DisasterRecoveryTask, *_nethttp.Response, error) {
+// Deprecated: This API is deprecated.
+func (a *DisasterRecoveryApi) PromoteDisasterRecovery(ctx _context.Context, clusterId string, orgName string, body DisasterRecoveryPromote) (DisasterRecoveryTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}

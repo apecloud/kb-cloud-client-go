@@ -13,7 +13,7 @@ import (
 // DisasterRecoveryStatusResponse Status of the Disaster Recovery instance
 type DisasterRecoveryStatusResponse struct {
 	// Unique identifier for the cluster
-	ClusterId int32 `json:"clusterId"`
+	ClusterId string `json:"clusterId"`
 	// Name of the cluster
 	ClusterName common.NullableString `json:"clusterName,omitempty"`
 	// User-friendly name of the cluster
@@ -21,7 +21,7 @@ type DisasterRecoveryStatusResponse struct {
 	// Current operational status of the cluster
 	Status common.NullableString `json:"status,omitempty"`
 	// ID of the parent cluster, if applicable; can be empty if there is no parent relationship
-	ParentId int64 `json:"parentId"`
+	ParentId string `json:"parentId"`
 	// Name of the parent cluster
 	ParentName common.NullableString `json:"parentName,omitempty"`
 	// User-friendly name of the parent cluster
@@ -41,7 +41,7 @@ type DisasterRecoveryStatusResponse struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewDisasterRecoveryStatusResponse(clusterId int32, parentId int64) *DisasterRecoveryStatusResponse {
+func NewDisasterRecoveryStatusResponse(clusterId string, parentId string) *DisasterRecoveryStatusResponse {
 	this := DisasterRecoveryStatusResponse{}
 	this.ClusterId = clusterId
 	this.ParentId = parentId
@@ -57,9 +57,9 @@ func NewDisasterRecoveryStatusResponseWithDefaults() *DisasterRecoveryStatusResp
 }
 
 // GetClusterId returns the ClusterId field value.
-func (o *DisasterRecoveryStatusResponse) GetClusterId() int32 {
+func (o *DisasterRecoveryStatusResponse) GetClusterId() string {
 	if o == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return o.ClusterId
@@ -67,7 +67,7 @@ func (o *DisasterRecoveryStatusResponse) GetClusterId() int32 {
 
 // GetClusterIdOk returns a tuple with the ClusterId field value
 // and a boolean to check if the value has been set.
-func (o *DisasterRecoveryStatusResponse) GetClusterIdOk() (*int32, bool) {
+func (o *DisasterRecoveryStatusResponse) GetClusterIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -75,7 +75,7 @@ func (o *DisasterRecoveryStatusResponse) GetClusterIdOk() (*int32, bool) {
 }
 
 // SetClusterId sets field value.
-func (o *DisasterRecoveryStatusResponse) SetClusterId(v int32) {
+func (o *DisasterRecoveryStatusResponse) SetClusterId(v string) {
 	o.ClusterId = v
 }
 
@@ -197,9 +197,9 @@ func (o *DisasterRecoveryStatusResponse) UnsetStatus() {
 }
 
 // GetParentId returns the ParentId field value.
-func (o *DisasterRecoveryStatusResponse) GetParentId() int64 {
+func (o *DisasterRecoveryStatusResponse) GetParentId() string {
 	if o == nil {
-		var ret int64
+		var ret string
 		return ret
 	}
 	return o.ParentId
@@ -207,7 +207,7 @@ func (o *DisasterRecoveryStatusResponse) GetParentId() int64 {
 
 // GetParentIdOk returns a tuple with the ParentId field value
 // and a boolean to check if the value has been set.
-func (o *DisasterRecoveryStatusResponse) GetParentIdOk() (*int64, bool) {
+func (o *DisasterRecoveryStatusResponse) GetParentIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -215,7 +215,7 @@ func (o *DisasterRecoveryStatusResponse) GetParentIdOk() (*int64, bool) {
 }
 
 // SetParentId sets field value.
-func (o *DisasterRecoveryStatusResponse) SetParentId(v int64) {
+func (o *DisasterRecoveryStatusResponse) SetParentId(v string) {
 	o.ParentId = v
 }
 
@@ -456,11 +456,11 @@ func (o DisasterRecoveryStatusResponse) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DisasterRecoveryStatusResponse) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ClusterId               *int32                 `json:"clusterId"`
+		ClusterId               *string                `json:"clusterId"`
 		ClusterName             common.NullableString  `json:"clusterName,omitempty"`
 		DisplayName             common.NullableString  `json:"displayName,omitempty"`
 		Status                  common.NullableString  `json:"status,omitempty"`
-		ParentId                *int64                 `json:"parentId"`
+		ParentId                *string                `json:"parentId"`
 		ParentName              common.NullableString  `json:"parentName,omitempty"`
 		ParentDisplayName       common.NullableString  `json:"parentDisplayName,omitempty"`
 		ParentStatus            common.NullableString  `json:"parentStatus,omitempty"`

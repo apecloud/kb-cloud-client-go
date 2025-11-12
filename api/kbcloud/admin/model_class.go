@@ -4,13 +4,17 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type Class struct {
-	Engine     *string  `json:"engine,omitempty"`
+	Engine     string   `json:"engine"`
 	Code       *string  `json:"code,omitempty"`
 	CodeShort  *string  `json:"codeShort,omitempty"`
-	Mode       *string  `json:"mode,omitempty"`
+	Mode       string   `json:"mode"`
 	Cpu        *float64 `json:"cpu,omitempty"`
 	CpuRequest *float64 `json:"cpuRequest,omitempty"`
 	CpuLimit   *float64 `json:"cpuLimit,omitempty"`
@@ -19,9 +23,9 @@ type Class struct {
 	// memory request, unit is Gi
 	MemoryRequest *float64 `json:"memoryRequest,omitempty"`
 	// memory limit, unit is Gi
-	MemoryLimit  *float64 `json:"memoryLimit,omitempty"`
-	Component    *string  `json:"component,omitempty"`
-	InstanceType *string  `json:"instanceType,omitempty"`
+	MemoryLimit *float64 `json:"memoryLimit,omitempty"`
+	Component   *string  `json:"component,omitempty"`
+	ClassType   string   `json:"classType"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -31,8 +35,11 @@ type Class struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewClass() *Class {
+func NewClass(engine string, mode string, classType string) *Class {
 	this := Class{}
+	this.Engine = engine
+	this.Mode = mode
+	this.ClassType = classType
 	return &this
 }
 
@@ -44,32 +51,27 @@ func NewClassWithDefaults() *Class {
 	return &this
 }
 
-// GetEngine returns the Engine field value if set, zero value otherwise.
+// GetEngine returns the Engine field value.
 func (o *Class) GetEngine() string {
-	if o == nil || o.Engine == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Engine
+	return o.Engine
 }
 
-// GetEngineOk returns a tuple with the Engine field value if set, nil otherwise
+// GetEngineOk returns a tuple with the Engine field value
 // and a boolean to check if the value has been set.
 func (o *Class) GetEngineOk() (*string, bool) {
-	if o == nil || o.Engine == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Engine, true
+	return &o.Engine, true
 }
 
-// HasEngine returns a boolean if a field has been set.
-func (o *Class) HasEngine() bool {
-	return o != nil && o.Engine != nil
-}
-
-// SetEngine gets a reference to the given string and assigns it to the Engine field.
+// SetEngine sets field value.
 func (o *Class) SetEngine(v string) {
-	o.Engine = &v
+	o.Engine = v
 }
 
 // GetCode returns the Code field value if set, zero value otherwise.
@@ -128,32 +130,27 @@ func (o *Class) SetCodeShort(v string) {
 	o.CodeShort = &v
 }
 
-// GetMode returns the Mode field value if set, zero value otherwise.
+// GetMode returns the Mode field value.
 func (o *Class) GetMode() string {
-	if o == nil || o.Mode == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Mode
+	return o.Mode
 }
 
-// GetModeOk returns a tuple with the Mode field value if set, nil otherwise
+// GetModeOk returns a tuple with the Mode field value
 // and a boolean to check if the value has been set.
 func (o *Class) GetModeOk() (*string, bool) {
-	if o == nil || o.Mode == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Mode, true
+	return &o.Mode, true
 }
 
-// HasMode returns a boolean if a field has been set.
-func (o *Class) HasMode() bool {
-	return o != nil && o.Mode != nil
-}
-
-// SetMode gets a reference to the given string and assigns it to the Mode field.
+// SetMode sets field value.
 func (o *Class) SetMode(v string) {
-	o.Mode = &v
+	o.Mode = v
 }
 
 // GetCpu returns the Cpu field value if set, zero value otherwise.
@@ -352,32 +349,27 @@ func (o *Class) SetComponent(v string) {
 	o.Component = &v
 }
 
-// GetInstanceType returns the InstanceType field value if set, zero value otherwise.
-func (o *Class) GetInstanceType() string {
-	if o == nil || o.InstanceType == nil {
+// GetClassType returns the ClassType field value.
+func (o *Class) GetClassType() string {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.InstanceType
+	return o.ClassType
 }
 
-// GetInstanceTypeOk returns a tuple with the InstanceType field value if set, nil otherwise
+// GetClassTypeOk returns a tuple with the ClassType field value
 // and a boolean to check if the value has been set.
-func (o *Class) GetInstanceTypeOk() (*string, bool) {
-	if o == nil || o.InstanceType == nil {
+func (o *Class) GetClassTypeOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.InstanceType, true
+	return &o.ClassType, true
 }
 
-// HasInstanceType returns a boolean if a field has been set.
-func (o *Class) HasInstanceType() bool {
-	return o != nil && o.InstanceType != nil
-}
-
-// SetInstanceType gets a reference to the given string and assigns it to the InstanceType field.
-func (o *Class) SetInstanceType(v string) {
-	o.InstanceType = &v
+// SetClassType sets field value.
+func (o *Class) SetClassType(v string) {
+	o.ClassType = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -386,18 +378,14 @@ func (o Class) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Engine != nil {
-		toSerialize["engine"] = o.Engine
-	}
+	toSerialize["engine"] = o.Engine
 	if o.Code != nil {
 		toSerialize["code"] = o.Code
 	}
 	if o.CodeShort != nil {
 		toSerialize["codeShort"] = o.CodeShort
 	}
-	if o.Mode != nil {
-		toSerialize["mode"] = o.Mode
-	}
+	toSerialize["mode"] = o.Mode
 	if o.Cpu != nil {
 		toSerialize["cpu"] = o.Cpu
 	}
@@ -419,9 +407,7 @@ func (o Class) MarshalJSON() ([]byte, error) {
 	if o.Component != nil {
 		toSerialize["component"] = o.Component
 	}
-	if o.InstanceType != nil {
-		toSerialize["instanceType"] = o.InstanceType
-	}
+	toSerialize["classType"] = o.ClassType
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -432,10 +418,10 @@ func (o Class) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Class) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Engine        *string  `json:"engine,omitempty"`
+		Engine        *string  `json:"engine"`
 		Code          *string  `json:"code,omitempty"`
 		CodeShort     *string  `json:"codeShort,omitempty"`
-		Mode          *string  `json:"mode,omitempty"`
+		Mode          *string  `json:"mode"`
 		Cpu           *float64 `json:"cpu,omitempty"`
 		CpuRequest    *float64 `json:"cpuRequest,omitempty"`
 		CpuLimit      *float64 `json:"cpuLimit,omitempty"`
@@ -443,21 +429,30 @@ func (o *Class) UnmarshalJSON(bytes []byte) (err error) {
 		MemoryRequest *float64 `json:"memoryRequest,omitempty"`
 		MemoryLimit   *float64 `json:"memoryLimit,omitempty"`
 		Component     *string  `json:"component,omitempty"`
-		InstanceType  *string  `json:"instanceType,omitempty"`
+		ClassType     *string  `json:"classType"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
+	if all.Engine == nil {
+		return fmt.Errorf("required field engine missing")
+	}
+	if all.Mode == nil {
+		return fmt.Errorf("required field mode missing")
+	}
+	if all.ClassType == nil {
+		return fmt.Errorf("required field classType missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engine", "code", "codeShort", "mode", "cpu", "cpuRequest", "cpuLimit", "memory", "memoryRequest", "memoryLimit", "component", "instanceType"})
+		common.DeleteKeys(additionalProperties, &[]string{"engine", "code", "codeShort", "mode", "cpu", "cpuRequest", "cpuLimit", "memory", "memoryRequest", "memoryLimit", "component", "classType"})
 	} else {
 		return err
 	}
-	o.Engine = all.Engine
+	o.Engine = *all.Engine
 	o.Code = all.Code
 	o.CodeShort = all.CodeShort
-	o.Mode = all.Mode
+	o.Mode = *all.Mode
 	o.Cpu = all.Cpu
 	o.CpuRequest = all.CpuRequest
 	o.CpuLimit = all.CpuLimit
@@ -465,7 +460,7 @@ func (o *Class) UnmarshalJSON(bytes []byte) (err error) {
 	o.MemoryRequest = all.MemoryRequest
 	o.MemoryLimit = all.MemoryLimit
 	o.Component = all.Component
-	o.InstanceType = all.InstanceType
+	o.ClassType = *all.ClassType
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
