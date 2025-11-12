@@ -9,6 +9,7 @@
 //   - [AIApi.getConversationMessages]
 //   - [AIApi.listConversations]
 //   - [AIApi.newAIConversation]
+//   - [SLAApi.CalculateSLAInOrg]
 //   - [accountApi.createAccount]
 //   - [accountApi.createAccountOld]
 //   - [accountApi.createMongoDBAccount]

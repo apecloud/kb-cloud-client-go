@@ -102,6 +102,8 @@ tags:
     description: Data Replication APIs
   - name: import
     description: Data Import APIs
+  - name: SLA
+    description: SLA APIs
 paths:
   /api/v1/user:
     get:
@@ -12203,6 +12205,68 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - billing
+  /api/v1/organizations/{orgName}/sla:
+    get:
+      summary: Calculate SLA for a organization
+      description: Calculate SLA for a organization
+      operationId: CalculateSLAInOrg
+      tags:
+        - SLA
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the organization
+          required: true
+          schema:
+            type: string
+        - name: environmentName
+          in: query
+          description: name of the environment
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: clusterID
+          in: query
+          description: id of the cluster
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: engine
+          in: query
+          description: database engine type
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: startTime
+          in: query
+          description: UTC timestamp of the start time to calculate SLA, unit is second
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: SLA calculated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SLAList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 components:
   securitySchemes:
     BearerToken:
@@ -22496,6 +22560,78 @@ components:
           type: array
       required:
         - items
+    OutageRecord:
+      type: object
+      description: Records the outage events of a cluster for SLA calculation. It is designed to ensure that for any given cluster, there can be at most one active outage record at any time.
+      required:
+        - clusterID
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the outage record.
+        clusterID:
+          type: string
+          description: The id of cluster.
+        outageStartTime:
+          type: integer
+          format: int64
+          description: The Unix timestamp (in seconds) when the outage began (UTC).
+        outageEndTime:
+          type: integer
+          format: int64
+          nullable: true
+          description: The Unix timestamp (in seconds) when the outage was resolved (UTC). A null value indicates that the outage is still ongoing.
+        lastFailureReason:
+          type: string
+          nullable: true
+          description: The error message from the last failed probe.
+        failureCount:
+          type: integer
+          format: int32
+          nullable: true
+          description: The number of consecutive failures in this outage event.
+          default: 1
+        createdAt:
+          type: string
+          format: date-time
+          description: The timestamp when the record was created.
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          description: The timestamp when the record was last updated.
+          readOnly: true
+    OutageRecordList:
+      type: array
+      description: A list of outage records.
+      items:
+        $ref: '#/components/schemas/OutageRecord'
+    SLA:
+      type: object
+      description: The SLA (Service Level Agreement) for a cluster.
+      properties:
+        cluster:
+          type: object
+          $ref: '#/components/schemas/clusterListItem'
+        detail:
+          type: object
+          $ref: '#/components/schemas/OutageRecordList'
+        sla:
+          type: number
+          description: The SLA value for the cluster.
+        totalDuration:
+          type: integer
+          format: int64
+          description: The total duration of the outage records.
+        totalDowntime:
+          type: integer
+          format: int64
+          description: The total downtime duration of the outage records.
+    SLAList:
+      type: array
+      description: A list of SLA records.
+      items:
+        $ref: '#/components/schemas/SLA'
   responses:
     '400':
       content:
