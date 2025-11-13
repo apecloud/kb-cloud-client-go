@@ -11032,6 +11032,8 @@ paths:
           name: clusterId
           schema:
             type: string
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
       responses:
         '200':
           description: A successful response.
@@ -11131,6 +11133,8 @@ paths:
           name: nodeName
           schema:
             type: string
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
       responses:
         '200':
           description: A successful response.
