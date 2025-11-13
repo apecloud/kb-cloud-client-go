@@ -13,7 +13,7 @@ type ClusterExecutionLogItem struct {
 	DbName        *string                `json:"dbName,omitempty"`
 	ExecutionTime *float64               `json:"executionTime,omitempty"`
 	Extra         map[string]interface{} `json:"extra,omitempty"`
-	Timestamp     *int32                 `json:"timestamp,omitempty"`
+	Timestamp     *int64                 `json:"timestamp,omitempty"`
 	User          *string                `json:"user,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -178,9 +178,9 @@ func (o *ClusterExecutionLogItem) SetExtra(v map[string]interface{}) {
 }
 
 // GetTimestamp returns the Timestamp field value if set, zero value otherwise.
-func (o *ClusterExecutionLogItem) GetTimestamp() int32 {
+func (o *ClusterExecutionLogItem) GetTimestamp() int64 {
 	if o == nil || o.Timestamp == nil {
-		var ret int32
+		var ret int64
 		return ret
 	}
 	return *o.Timestamp
@@ -188,7 +188,7 @@ func (o *ClusterExecutionLogItem) GetTimestamp() int32 {
 
 // GetTimestampOk returns a tuple with the Timestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterExecutionLogItem) GetTimestampOk() (*int32, bool) {
+func (o *ClusterExecutionLogItem) GetTimestampOk() (*int64, bool) {
 	if o == nil || o.Timestamp == nil {
 		return nil, false
 	}
@@ -200,8 +200,8 @@ func (o *ClusterExecutionLogItem) HasTimestamp() bool {
 	return o != nil && o.Timestamp != nil
 }
 
-// SetTimestamp gets a reference to the given int32 and assigns it to the Timestamp field.
-func (o *ClusterExecutionLogItem) SetTimestamp(v int32) {
+// SetTimestamp gets a reference to the given int64 and assigns it to the Timestamp field.
+func (o *ClusterExecutionLogItem) SetTimestamp(v int64) {
 	o.Timestamp = &v
 }
 
@@ -275,7 +275,7 @@ func (o *ClusterExecutionLogItem) UnmarshalJSON(bytes []byte) (err error) {
 		DbName        *string                `json:"dbName,omitempty"`
 		ExecutionTime *float64               `json:"executionTime,omitempty"`
 		Extra         map[string]interface{} `json:"extra,omitempty"`
-		Timestamp     *int32                 `json:"timestamp,omitempty"`
+		Timestamp     *int64                 `json:"timestamp,omitempty"`
 		User          *string                `json:"user,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
