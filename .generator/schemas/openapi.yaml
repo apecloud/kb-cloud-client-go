@@ -14954,6 +14954,7 @@ components:
           type: string
         timestamp:
           type: integer
+          format: int64
     clusterLogPagination:
       type: object
       description: Cluster log pagination is the pagination of the cluster log
@@ -15005,6 +15006,7 @@ components:
           x-omitempty: false
         timestamp:
           type: integer
+          format: int64
           x-omitempty: false
         user:
           type: string

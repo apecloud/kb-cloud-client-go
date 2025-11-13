@@ -9,7 +9,7 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 // ClusterRawLogItem Cluster raw log item represents a single log entry
 type ClusterRawLogItem struct {
 	Message   *string `json:"message,omitempty"`
-	Timestamp *int32  `json:"timestamp,omitempty"`
+	Timestamp *int64  `json:"timestamp,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -61,9 +61,9 @@ func (o *ClusterRawLogItem) SetMessage(v string) {
 }
 
 // GetTimestamp returns the Timestamp field value if set, zero value otherwise.
-func (o *ClusterRawLogItem) GetTimestamp() int32 {
+func (o *ClusterRawLogItem) GetTimestamp() int64 {
 	if o == nil || o.Timestamp == nil {
-		var ret int32
+		var ret int64
 		return ret
 	}
 	return *o.Timestamp
@@ -71,7 +71,7 @@ func (o *ClusterRawLogItem) GetTimestamp() int32 {
 
 // GetTimestampOk returns a tuple with the Timestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterRawLogItem) GetTimestampOk() (*int32, bool) {
+func (o *ClusterRawLogItem) GetTimestampOk() (*int64, bool) {
 	if o == nil || o.Timestamp == nil {
 		return nil, false
 	}
@@ -83,8 +83,8 @@ func (o *ClusterRawLogItem) HasTimestamp() bool {
 	return o != nil && o.Timestamp != nil
 }
 
-// SetTimestamp gets a reference to the given int32 and assigns it to the Timestamp field.
-func (o *ClusterRawLogItem) SetTimestamp(v int32) {
+// SetTimestamp gets a reference to the given int64 and assigns it to the Timestamp field.
+func (o *ClusterRawLogItem) SetTimestamp(v int64) {
 	o.Timestamp = &v
 }
 
@@ -111,7 +111,7 @@ func (o ClusterRawLogItem) MarshalJSON() ([]byte, error) {
 func (o *ClusterRawLogItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Message   *string `json:"message,omitempty"`
-		Timestamp *int32  `json:"timestamp,omitempty"`
+		Timestamp *int64  `json:"timestamp,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
