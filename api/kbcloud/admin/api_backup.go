@@ -458,13 +458,45 @@ func (a *BackupApi) GetBackupLog(ctx _context.Context, orgName string, backupId 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetBackupStatsOptionalParameters holds optional parameters for GetBackupStats.
+type GetBackupStatsOptionalParameters struct {
+	OrgName   *string
+	ClusterId *string
+}
+
+// NewGetBackupStatsOptionalParameters creates an empty struct for parameters.
+func NewGetBackupStatsOptionalParameters() *GetBackupStatsOptionalParameters {
+	this := GetBackupStatsOptionalParameters{}
+	return &this
+}
+
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *GetBackupStatsOptionalParameters) WithOrgName(orgName string) *GetBackupStatsOptionalParameters {
+	r.OrgName = &orgName
+	return r
+}
+
+// WithClusterId sets the corresponding parameter name and returns the struct.
+func (r *GetBackupStatsOptionalParameters) WithClusterId(clusterId string) *GetBackupStatsOptionalParameters {
+	r.ClusterId = &clusterId
+	return r
+}
+
 // GetBackupStats Get backup statistics.
-func (a *BackupApi) GetBackupStats(ctx _context.Context) (BackupStats, *_nethttp.Response, error) {
+func (a *BackupApi) GetBackupStats(ctx _context.Context, o ...GetBackupStatsOptionalParameters) (BackupStats, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue BackupStats
+		optionalParams      GetBackupStatsOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetBackupStatsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -485,6 +517,12 @@ func (a *BackupApi) GetBackupStats(ctx _context.Context) (BackupStats, *_nethttp
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
+	if optionalParams.ClusterId != nil {
+		localVarQueryParams.Add("clusterID", common.ParameterToString(*optionalParams.ClusterId, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(

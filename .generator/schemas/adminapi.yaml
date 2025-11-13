@@ -7704,6 +7704,17 @@ paths:
     get:
       operationId: getBackupStats
       summary: Get backup statistics
+      parameters:
+        - description: name of the Org
+          in: query
+          name: orgName
+          schema:
+            type: string
+        - description: id of the Cluster
+          in: query
+          name: clusterID
+          schema:
+            type: string
       responses:
         '200':
           content:
