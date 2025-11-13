@@ -27,6 +27,8 @@ type ModeOption struct {
 	//
 	ObjectStorage  *ModeObjectStorage        `json:"objectStorage,omitempty"`
 	ValuesMappings *ModeOptionValuesMappings `json:"valuesMappings,omitempty"`
+	// whether the mode is hidden for creation
+	HideOnCreate common.NullableBool `json:"hideOnCreate,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -369,6 +371,45 @@ func (o *ModeOption) SetValuesMappings(v ModeOptionValuesMappings) {
 	o.ValuesMappings = &v
 }
 
+// GetHideOnCreate returns the HideOnCreate field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ModeOption) GetHideOnCreate() bool {
+	if o == nil || o.HideOnCreate.Get() == nil {
+		var ret bool
+		return ret
+	}
+	return *o.HideOnCreate.Get()
+}
+
+// GetHideOnCreateOk returns a tuple with the HideOnCreate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ModeOption) GetHideOnCreateOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.HideOnCreate.Get(), o.HideOnCreate.IsSet()
+}
+
+// HasHideOnCreate returns a boolean if a field has been set.
+func (o *ModeOption) HasHideOnCreate() bool {
+	return o != nil && o.HideOnCreate.IsSet()
+}
+
+// SetHideOnCreate gets a reference to the given common.NullableBool and assigns it to the HideOnCreate field.
+func (o *ModeOption) SetHideOnCreate(v bool) {
+	o.HideOnCreate.Set(&v)
+}
+
+// SetHideOnCreateNil sets the value for HideOnCreate to be an explicit nil.
+func (o *ModeOption) SetHideOnCreateNil() {
+	o.HideOnCreate.Set(nil)
+}
+
+// UnsetHideOnCreate ensures that no value is present for HideOnCreate, not even an explicit nil.
+func (o *ModeOption) UnsetHideOnCreate() {
+	o.HideOnCreate.Unset()
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -403,6 +444,9 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 	if o.ValuesMappings != nil {
 		toSerialize["valuesMappings"] = o.ValuesMappings
 	}
+	if o.HideOnCreate.IsSet() {
+		toSerialize["hideOnCreate"] = o.HideOnCreate.Get()
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -425,6 +469,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 		ServiceRefs                 []ModeServiceRef                 `json:"serviceRefs,omitempty"`
 		ObjectStorage               *ModeObjectStorage               `json:"objectStorage,omitempty"`
 		ValuesMappings              *ModeOptionValuesMappings        `json:"valuesMappings,omitempty"`
+		HideOnCreate                common.NullableBool              `json:"hideOnCreate,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -443,7 +488,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "schedulingPolicy", "compatibleKubeblocksVersion", "components", "proxy", "versions", "extra", "serviceRefs", "objectStorage", "valuesMappings"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "schedulingPolicy", "compatibleKubeblocksVersion", "components", "proxy", "versions", "extra", "serviceRefs", "objectStorage", "valuesMappings", "hideOnCreate"})
 	} else {
 		return err
 	}
@@ -483,6 +528,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.ValuesMappings = all.ValuesMappings
+	o.HideOnCreate = all.HideOnCreate
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

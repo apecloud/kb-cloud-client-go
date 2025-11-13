@@ -14,13 +14,15 @@ type DataReplication_opsType string
 
 // List of DataReplication_opsType.
 const (
-	DataReplication_opsTypePause  DataReplication_opsType = "pause"
-	DataReplication_opsTypeResume DataReplication_opsType = "resume"
+	DataReplication_opsTypePause   DataReplication_opsType = "pause"
+	DataReplication_opsTypeResume  DataReplication_opsType = "resume"
+	DataReplication_opsTypeRestart DataReplication_opsType = "restart"
 )
 
 var allowedDataReplication_opsTypeEnumValues = []DataReplication_opsType{
 	DataReplication_opsTypePause,
 	DataReplication_opsTypeResume,
+	DataReplication_opsTypeRestart,
 }
 
 // GetAllowedValues returns the list of possible values.

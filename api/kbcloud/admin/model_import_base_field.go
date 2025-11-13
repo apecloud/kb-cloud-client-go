@@ -12,15 +12,13 @@ import (
 
 type ImportBaseField struct {
 	// Field's programmatic name (e.g., 'db_host')
-	Name string `json:"name"`
-	// User-facing label for UI (e.g., 'Database Host')
-	Label string `json:"label"`
+	Name  string               `json:"name"`
+	Label LocalizedDescription `json:"label"`
 	// Whether the field is required
 	Required *bool `json:"required,omitempty"`
 	// Whether it contains sensitive information (e.g., password)
-	Sensitive *bool `json:"sensitive,omitempty"`
-	// Detailed usage instructions for the field
-	Description *string `json:"description,omitempty"`
+	Sensitive   *bool                 `json:"sensitive,omitempty"`
+	Description *LocalizedDescription `json:"description,omitempty"`
 	// Placeholder text for the input
 	Placeholder *string `json:"placeholder,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -32,7 +30,7 @@ type ImportBaseField struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewImportBaseField(name string, label string) *ImportBaseField {
+func NewImportBaseField(name string, label LocalizedDescription) *ImportBaseField {
 	this := ImportBaseField{}
 	this.Name = name
 	this.Label = label
@@ -79,9 +77,9 @@ func (o *ImportBaseField) SetName(v string) {
 }
 
 // GetLabel returns the Label field value.
-func (o *ImportBaseField) GetLabel() string {
+func (o *ImportBaseField) GetLabel() LocalizedDescription {
 	if o == nil {
-		var ret string
+		var ret LocalizedDescription
 		return ret
 	}
 	return o.Label
@@ -89,7 +87,7 @@ func (o *ImportBaseField) GetLabel() string {
 
 // GetLabelOk returns a tuple with the Label field value
 // and a boolean to check if the value has been set.
-func (o *ImportBaseField) GetLabelOk() (*string, bool) {
+func (o *ImportBaseField) GetLabelOk() (*LocalizedDescription, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -97,7 +95,7 @@ func (o *ImportBaseField) GetLabelOk() (*string, bool) {
 }
 
 // SetLabel sets field value.
-func (o *ImportBaseField) SetLabel(v string) {
+func (o *ImportBaseField) SetLabel(v LocalizedDescription) {
 	o.Label = v
 }
 
@@ -158,9 +156,9 @@ func (o *ImportBaseField) SetSensitive(v bool) {
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
-func (o *ImportBaseField) GetDescription() string {
+func (o *ImportBaseField) GetDescription() LocalizedDescription {
 	if o == nil || o.Description == nil {
-		var ret string
+		var ret LocalizedDescription
 		return ret
 	}
 	return *o.Description
@@ -168,7 +166,7 @@ func (o *ImportBaseField) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ImportBaseField) GetDescriptionOk() (*string, bool) {
+func (o *ImportBaseField) GetDescriptionOk() (*LocalizedDescription, bool) {
 	if o == nil || o.Description == nil {
 		return nil, false
 	}
@@ -180,8 +178,8 @@ func (o *ImportBaseField) HasDescription() bool {
 	return o != nil && o.Description != nil
 }
 
-// SetDescription gets a reference to the given string and assigns it to the Description field.
-func (o *ImportBaseField) SetDescription(v string) {
+// SetDescription gets a reference to the given LocalizedDescription and assigns it to the Description field.
+func (o *ImportBaseField) SetDescription(v LocalizedDescription) {
 	o.Description = &v
 }
 
@@ -243,12 +241,12 @@ func (o ImportBaseField) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ImportBaseField) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string `json:"name"`
-		Label       *string `json:"label"`
-		Required    *bool   `json:"required,omitempty"`
-		Sensitive   *bool   `json:"sensitive,omitempty"`
-		Description *string `json:"description,omitempty"`
-		Placeholder *string `json:"placeholder,omitempty"`
+		Name        *string               `json:"name"`
+		Label       *LocalizedDescription `json:"label"`
+		Required    *bool                 `json:"required,omitempty"`
+		Sensitive   *bool                 `json:"sensitive,omitempty"`
+		Description *LocalizedDescription `json:"description,omitempty"`
+		Placeholder *string               `json:"placeholder,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -265,15 +263,27 @@ func (o *ImportBaseField) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Name = *all.Name
+	if all.Label.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
 	o.Label = *all.Label
 	o.Required = all.Required
 	o.Sensitive = all.Sensitive
+	if all.Description != nil && all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
 	o.Description = all.Description
 	o.Placeholder = all.Placeholder
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

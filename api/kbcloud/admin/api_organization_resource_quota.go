@@ -17,8 +17,8 @@ import (
 // OrganizationResourceQuotaApi service type
 type OrganizationResourceQuotaApi common.Service
 
-// ResourceQuota Batch update parameters of an organization.
-// Batch update parameters of an organization
+// ResourceQuota Update the resource quota of an organization.
+// Update the resource quota of an organization
 func (a *OrganizationResourceQuotaApi) ResourceQuota(ctx _context.Context, orgName string, body OrgResourceQuota) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
