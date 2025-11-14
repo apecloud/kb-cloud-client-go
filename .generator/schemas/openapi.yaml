@@ -17718,6 +17718,10 @@ components:
           type: array
           items:
             type: string
+        disasterRecoveryRoleOrder:
+          type: array
+          items:
+            type: string
         version:
           type: object
           required:
@@ -18234,6 +18238,11 @@ components:
           type: string
           description: service suffix, defined in ComponentDefinition
         selector:
+          type: object
+          additionalProperties:
+            type: string
+          description: selector of k8s service
+        disasterRecoverySelector:
           type: object
           additionalProperties:
             type: string
