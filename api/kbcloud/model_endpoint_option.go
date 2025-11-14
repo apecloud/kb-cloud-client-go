@@ -30,6 +30,8 @@ type EndpointOption struct {
 	ServiceName *string `json:"serviceName,omitempty"`
 	// selector of k8s service
 	Selector map[string]string `json:"selector,omitempty"`
+	// selector of k8s service
+	DisasterRecoverySelector map[string]string `json:"disasterRecoverySelector,omitempty"`
 	// whether the endpoint follows the network mode of the component
 	FollowNetworkMode *bool `json:"followNetworkMode,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -398,6 +400,34 @@ func (o *EndpointOption) SetSelector(v map[string]string) {
 	o.Selector = v
 }
 
+// GetDisasterRecoverySelector returns the DisasterRecoverySelector field value if set, zero value otherwise.
+func (o *EndpointOption) GetDisasterRecoverySelector() map[string]string {
+	if o == nil || o.DisasterRecoverySelector == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.DisasterRecoverySelector
+}
+
+// GetDisasterRecoverySelectorOk returns a tuple with the DisasterRecoverySelector field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EndpointOption) GetDisasterRecoverySelectorOk() (*map[string]string, bool) {
+	if o == nil || o.DisasterRecoverySelector == nil {
+		return nil, false
+	}
+	return &o.DisasterRecoverySelector, true
+}
+
+// HasDisasterRecoverySelector returns a boolean if a field has been set.
+func (o *EndpointOption) HasDisasterRecoverySelector() bool {
+	return o != nil && o.DisasterRecoverySelector != nil
+}
+
+// SetDisasterRecoverySelector gets a reference to the given map[string]string and assigns it to the DisasterRecoverySelector field.
+func (o *EndpointOption) SetDisasterRecoverySelector(v map[string]string) {
+	o.DisasterRecoverySelector = v
+}
+
 // GetFollowNetworkMode returns the FollowNetworkMode field value if set, zero value otherwise.
 func (o *EndpointOption) GetFollowNetworkMode() bool {
 	if o == nil || o.FollowNetworkMode == nil {
@@ -457,6 +487,9 @@ func (o EndpointOption) MarshalJSON() ([]byte, error) {
 	if o.Selector != nil {
 		toSerialize["selector"] = o.Selector
 	}
+	if o.DisasterRecoverySelector != nil {
+		toSerialize["disasterRecoverySelector"] = o.DisasterRecoverySelector
+	}
 	if o.FollowNetworkMode != nil {
 		toSerialize["followNetworkMode"] = o.FollowNetworkMode
 	}
@@ -470,20 +503,21 @@ func (o EndpointOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Title             *LocalizedDescription        `json:"title"`
-		Component         *string                      `json:"component"`
-		PortName          *string                      `json:"portName"`
-		Port              *int32                       `json:"port"`
-		Protocol          *string                      `json:"protocol"`
-		TargetPort        *string                      `json:"targetPort"`
-		Type              *[]string                    `json:"type"`
-		SupportsSystemUse *bool                        `json:"supportsSystemUse,omitempty"`
-		SupportsReadonly  *bool                        `json:"supportsReadonly,omitempty"`
-		ServicePattern    *EngineOptionsServicePattern `json:"servicePattern,omitempty"`
-		ServiceNameRegex  *string                      `json:"serviceNameRegex,omitempty"`
-		ServiceName       *string                      `json:"serviceName,omitempty"`
-		Selector          map[string]string            `json:"selector,omitempty"`
-		FollowNetworkMode *bool                        `json:"followNetworkMode,omitempty"`
+		Title                    *LocalizedDescription        `json:"title"`
+		Component                *string                      `json:"component"`
+		PortName                 *string                      `json:"portName"`
+		Port                     *int32                       `json:"port"`
+		Protocol                 *string                      `json:"protocol"`
+		TargetPort               *string                      `json:"targetPort"`
+		Type                     *[]string                    `json:"type"`
+		SupportsSystemUse        *bool                        `json:"supportsSystemUse,omitempty"`
+		SupportsReadonly         *bool                        `json:"supportsReadonly,omitempty"`
+		ServicePattern           *EngineOptionsServicePattern `json:"servicePattern,omitempty"`
+		ServiceNameRegex         *string                      `json:"serviceNameRegex,omitempty"`
+		ServiceName              *string                      `json:"serviceName,omitempty"`
+		Selector                 map[string]string            `json:"selector,omitempty"`
+		DisasterRecoverySelector map[string]string            `json:"disasterRecoverySelector,omitempty"`
+		FollowNetworkMode        *bool                        `json:"followNetworkMode,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -511,7 +545,7 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "portName", "port", "protocol", "targetPort", "type", "supportsSystemUse", "supportsReadonly", "servicePattern", "serviceNameRegex", "serviceName", "selector", "followNetworkMode"})
+		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "portName", "port", "protocol", "targetPort", "type", "supportsSystemUse", "supportsReadonly", "servicePattern", "serviceNameRegex", "serviceName", "selector", "disasterRecoverySelector", "followNetworkMode"})
 	} else {
 		return err
 	}
@@ -537,6 +571,7 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.ServiceNameRegex = all.ServiceNameRegex
 	o.ServiceName = all.ServiceName
 	o.Selector = all.Selector
+	o.DisasterRecoverySelector = all.DisasterRecoverySelector
 	o.FollowNetworkMode = all.FollowNetworkMode
 
 	if len(additionalProperties) > 0 {
