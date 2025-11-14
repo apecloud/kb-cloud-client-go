@@ -23710,6 +23710,11 @@ components:
           additionalProperties:
             type: string
           description: selector of k8s service
+        disasterRecoverySelector:
+          type: object
+          additionalProperties:
+            type: string
+          description: selector of k8s service
         followNetworkMode:
           type: boolean
           default: false
