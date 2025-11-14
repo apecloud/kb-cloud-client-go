@@ -184,6 +184,7 @@
 //   - [engineApi.getEngineByNameInEnv]
 //   - [engineApi.listAllEngines]
 //   - [engineApi.listEngineResourceConstraints]
+//   - [engineApi.listEngineTypes]
 //   - [engineApi.listEngineVersions]
 //   - [engineApi.listEnginesInEnv]
 //   - [engineApi.patchEngineVersion]
