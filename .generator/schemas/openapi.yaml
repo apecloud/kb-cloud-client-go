@@ -6106,6 +6106,24 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/engineTypes:
+    get:
+      operationId: listEngineTypes
+      summary: List engine types
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineTypeList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - engine
+        - shared
   /api/v1/environments/{environmentName}/engines:
     get:
       operationId: listEnginesInEnv
@@ -6126,7 +6144,7 @@ paths:
           in: query
           name: type
           schema:
-            $ref: '#/components/schemas/engineType'
+            type: string
         - description: engine version
           in: query
           name: version
@@ -17527,20 +17545,33 @@ components:
           type: string
           format: binary
           description: YAML file content containing the new alert rule configuration
-    engineType:
-      type: string
-      description: engine type
-      enum:
-        - RDBMS
-        - search-engine
-        - key-value
-        - time-series
-        - streaming
-        - LLM
-        - vector
-        - document
-        - graph
-        - other
+    engineTypeItem:
+      type: object
+      properties:
+        name:
+          type: string
+          description: engine type name
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+        displayOrder:
+          type: integer
+          description: engine type display order
+      required:
+        - name
+        - displayName
+        - description
+        - displayOrder
+    engineTypeList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/engineTypeItem'
+      required:
+        - items
     engineStatus:
       type: string
       description: engine addon status in K8s
@@ -17575,7 +17606,7 @@ components:
           description: KubeBlocks version constrain
         type:
           title: Type
-          $ref: '#/components/schemas/engineType'
+          type: string
         installed:
           type: boolean
           description: whether the engine is installed
