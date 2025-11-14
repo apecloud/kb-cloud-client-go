@@ -13,7 +13,7 @@ import (
 // ImportTaskCreateRequest Create import task request
 type ImportTaskCreateRequest struct {
 	// Import name
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 	// Import source type
 	SourceType ImportSourceType `json:"sourceType"`
 	// Connection configuration
@@ -28,9 +28,8 @@ type ImportTaskCreateRequest struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewImportTaskCreateRequest(name string, sourceType ImportSourceType, connectionConfig interface{}) *ImportTaskCreateRequest {
+func NewImportTaskCreateRequest(sourceType ImportSourceType, connectionConfig interface{}) *ImportTaskCreateRequest {
 	this := ImportTaskCreateRequest{}
-	this.Name = name
 	this.SourceType = sourceType
 	this.ConnectionConfig = connectionConfig
 	return &this
@@ -44,27 +43,32 @@ func NewImportTaskCreateRequestWithDefaults() *ImportTaskCreateRequest {
 	return &this
 }
 
-// GetName returns the Name field value.
+// GetName returns the Name field value if set, zero value otherwise.
 func (o *ImportTaskCreateRequest) GetName() string {
-	if o == nil {
+	if o == nil || o.Name == nil {
 		var ret string
 		return ret
 	}
-	return o.Name
+	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value
+// GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ImportTaskCreateRequest) GetNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Name == nil {
 		return nil, false
 	}
-	return &o.Name, true
+	return o.Name, true
 }
 
-// SetName sets field value.
+// HasName returns a boolean if a field has been set.
+func (o *ImportTaskCreateRequest) HasName() bool {
+	return o != nil && o.Name != nil
+}
+
+// SetName gets a reference to the given string and assigns it to the Name field.
 func (o *ImportTaskCreateRequest) SetName(v string) {
-	o.Name = v
+	o.Name = &v
 }
 
 // GetSourceType returns the SourceType field value.
@@ -147,7 +151,9 @@ func (o ImportTaskCreateRequest) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["name"] = o.Name
+	if o.Name != nil {
+		toSerialize["name"] = o.Name
+	}
 	toSerialize["sourceType"] = o.SourceType
 	toSerialize["connectionConfig"] = o.ConnectionConfig
 	if o.ObjectSelection != nil {
@@ -163,16 +169,13 @@ func (o ImportTaskCreateRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ImportTaskCreateRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name             *string            `json:"name"`
+		Name             *string            `json:"name,omitempty"`
 		SourceType       *ImportSourceType  `json:"sourceType"`
 		ConnectionConfig *interface{}       `json:"connectionConfig"`
 		ObjectSelection  *DataChannelObject `json:"objectSelection,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
-	}
-	if all.Name == nil {
-		return fmt.Errorf("required field name missing")
 	}
 	if all.SourceType == nil {
 		return fmt.Errorf("required field sourceType missing")
@@ -188,7 +191,7 @@ func (o *ImportTaskCreateRequest) UnmarshalJSON(bytes []byte) (err error) {
 	}
 
 	hasInvalidField := false
-	o.Name = *all.Name
+	o.Name = all.Name
 	if !all.SourceType.IsValid() {
 		hasInvalidField = true
 	} else {

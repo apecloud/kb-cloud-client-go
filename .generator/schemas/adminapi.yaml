@@ -15509,7 +15509,7 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/import/preflight:
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/import/preflight:
     post:
       tags:
         - import
@@ -15550,7 +15550,7 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/import/preflight/{taskId}:
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/import/preflight/{taskId}:
     get:
       tags:
         - import
@@ -15590,7 +15590,7 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/import/objects:
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/import/objects:
     post:
       tags:
         - import
@@ -15634,7 +15634,7 @@ paths:
           $ref: '#/components/responses/404'
         '501':
           $ref: '#/components/responses/501'
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/import:
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/import:
     get:
       tags:
         - import
@@ -15710,7 +15710,7 @@ paths:
           $ref: '#/components/responses/404'
         '409':
           $ref: '#/components/responses/409'
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/import/{id}:
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/import/{id}:
     get:
       tags:
         - import
@@ -15785,7 +15785,7 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/import/{id}/ops/{opsType}:
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/import/{id}/ops/{opsType}:
     patch:
       tags:
         - import
@@ -28463,7 +28463,6 @@ components:
       description: Create import task request
       type: object
       required:
-        - name
         - sourceType
         - connectionConfig
       properties:
