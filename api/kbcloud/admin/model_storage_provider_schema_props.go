@@ -14,6 +14,8 @@ type StorageProviderSchemaProps struct {
 	Description *string `json:"description,omitempty"`
 	// type of the parameter
 	Type *string `json:"type,omitempty"`
+	// whether to hide this parameter from frontend display
+	Hidden *bool `json:"hidden,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -25,6 +27,8 @@ type StorageProviderSchemaProps struct {
 // will change when the set of required properties is changed.
 func NewStorageProviderSchemaProps() *StorageProviderSchemaProps {
 	this := StorageProviderSchemaProps{}
+	var hidden bool = false
+	this.Hidden = &hidden
 	return &this
 }
 
@@ -33,6 +37,8 @@ func NewStorageProviderSchemaProps() *StorageProviderSchemaProps {
 // but it doesn't guarantee that properties required by API are set.
 func NewStorageProviderSchemaPropsWithDefaults() *StorageProviderSchemaProps {
 	this := StorageProviderSchemaProps{}
+	var hidden bool = false
+	this.Hidden = &hidden
 	return &this
 }
 
@@ -120,6 +126,34 @@ func (o *StorageProviderSchemaProps) SetType(v string) {
 	o.Type = &v
 }
 
+// GetHidden returns the Hidden field value if set, zero value otherwise.
+func (o *StorageProviderSchemaProps) GetHidden() bool {
+	if o == nil || o.Hidden == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Hidden
+}
+
+// GetHiddenOk returns a tuple with the Hidden field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageProviderSchemaProps) GetHiddenOk() (*bool, bool) {
+	if o == nil || o.Hidden == nil {
+		return nil, false
+	}
+	return o.Hidden, true
+}
+
+// HasHidden returns a boolean if a field has been set.
+func (o *StorageProviderSchemaProps) HasHidden() bool {
+	return o != nil && o.Hidden != nil
+}
+
+// SetHidden gets a reference to the given bool and assigns it to the Hidden field.
+func (o *StorageProviderSchemaProps) SetHidden(v bool) {
+	o.Hidden = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageProviderSchemaProps) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -135,6 +169,9 @@ func (o StorageProviderSchemaProps) MarshalJSON() ([]byte, error) {
 	if o.Type != nil {
 		toSerialize["type"] = o.Type
 	}
+	if o.Hidden != nil {
+		toSerialize["hidden"] = o.Hidden
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -148,19 +185,21 @@ func (o *StorageProviderSchemaProps) UnmarshalJSON(bytes []byte) (err error) {
 		Default     interface{} `json:"default,omitempty"`
 		Description *string     `json:"description,omitempty"`
 		Type        *string     `json:"type,omitempty"`
+		Hidden      *bool       `json:"hidden,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"default", "description", "type"})
+		common.DeleteKeys(additionalProperties, &[]string{"default", "description", "type", "hidden"})
 	} else {
 		return err
 	}
 	o.Default = all.Default
 	o.Description = all.Description
 	o.Type = all.Type
+	o.Hidden = all.Hidden
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

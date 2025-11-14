@@ -26174,6 +26174,10 @@ components:
         type:
           type: string
           description: type of the parameter
+        hidden:
+          type: boolean
+          description: whether to hide this parameter from frontend display
+          default: false
     storageDisplayName:
       type: object
       description: the storage displayName
