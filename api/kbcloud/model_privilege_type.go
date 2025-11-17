@@ -20,6 +20,10 @@ const (
 	PrivilegeTypeReadonly  PrivilegeType = "READONLY"
 	PrivilegeTypeDdlonly   PrivilegeType = "DDLONLY"
 	PrivilegeTypeDmlonly   PrivilegeType = "DMLONLY"
+	PrivilegeTypeAdmin     PrivilegeType = "ADMIN"
+	PrivilegeTypeDba       PrivilegeType = "DBA"
+	PrivilegeTypeUser      PrivilegeType = "USER"
+	PrivilegeTypeGuest     PrivilegeType = "GUEST"
 )
 
 var allowedPrivilegeTypeEnumValues = []PrivilegeType{
@@ -28,6 +32,10 @@ var allowedPrivilegeTypeEnumValues = []PrivilegeType{
 	PrivilegeTypeReadonly,
 	PrivilegeTypeDdlonly,
 	PrivilegeTypeDmlonly,
+	PrivilegeTypeAdmin,
+	PrivilegeTypeDba,
+	PrivilegeTypeUser,
+	PrivilegeTypeGuest,
 }
 
 // GetAllowedValues returns the list of possible values.

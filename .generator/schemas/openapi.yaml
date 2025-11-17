@@ -14936,6 +14936,10 @@ components:
         - READONLY
         - DDLONLY
         - DMLONLY
+        - ADMIN
+        - DBA
+        - USER
+        - GUEST
     privilegeListItem:
       type: object
       description: Database and its assigned privileges.
