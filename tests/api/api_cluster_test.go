@@ -17,21 +17,18 @@ func TestCreateCluster(t *testing.T) {
 	api := kbcloud.NewClusterApi(client)
 
 	orgName := "cloud-test"
-	cluster := kbcloud.Cluster{
+	cluster := kbcloud.ClusterCreate{
 		Name:              "test-cluster",
 		Engine:            "mysql",
 		Mode:              common.PtrString("standalone"),
 		Version:           common.PtrString("8.4.2"),
-		Namespace:         common.PtrString("kubeblocks-cloud-ns"),
 		SingleZone:        common.PtrBool(true),
 		TerminationPolicy: common.Ptr(kbcloud.ClusterTerminationPolicyDelete),
-		ProxyEnabled:      common.PtrBool(true),
 		EnvironmentName:   "test",
-		Components: []kbcloud.ComponentsItem{
+		Components: []kbcloud.ComponentItemCreate{
 			{
-				Component: common.PtrString("mysql"),
+				Component: "mysql",
 				Replicas:  common.PtrInt32(1),
-				Storage:   common.PtrString("20Gi"),
 				ClassCode: common.PtrString("mysql.standalone.mysql.1c1g.g"),
 			},
 		},
