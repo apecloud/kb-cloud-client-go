@@ -22558,7 +22558,6 @@ components:
       description: Create import task request
       type: object
       required:
-        - name
         - sourceType
         - connectionConfig
       properties:

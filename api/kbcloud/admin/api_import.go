@@ -30,7 +30,7 @@ func (a *ImportApi) CreateImportTask(ctx _context.Context, orgName string, clust
 	apiInfo := common.APIInfo{
 		Tag:         "import",
 		OperationID: "createImportTask",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/import",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/import",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -40,7 +40,7 @@ func (a *ImportApi) CreateImportTask(ctx _context.Context, orgName string, clust
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/import"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/import"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -112,7 +112,7 @@ func (a *ImportApi) DeleteImportTask(ctx _context.Context, orgName string, clust
 	apiInfo := common.APIInfo{
 		Tag:         "import",
 		OperationID: "deleteImportTask",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/import/{id}",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/import/{id}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -122,7 +122,7 @@ func (a *ImportApi) DeleteImportTask(ctx _context.Context, orgName string, clust
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/import/{id}"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/import/{id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
@@ -184,7 +184,7 @@ func (a *ImportApi) GetImportPreflightTask(ctx _context.Context, orgName string,
 	apiInfo := common.APIInfo{
 		Tag:         "import",
 		OperationID: "getImportPreflightTask",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/import/preflight/{taskId}",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/import/preflight/{taskId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -194,7 +194,7 @@ func (a *ImportApi) GetImportPreflightTask(ctx _context.Context, orgName string,
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/import/preflight/{taskId}"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/import/preflight/{taskId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"taskId"+"}", _neturl.PathEscape(common.ParameterToString(taskId, "")), -1)
@@ -265,7 +265,7 @@ func (a *ImportApi) GetImportTask(ctx _context.Context, orgName string, clusterN
 	apiInfo := common.APIInfo{
 		Tag:         "import",
 		OperationID: "getImportTask",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/import/{id}",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/import/{id}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -275,7 +275,7 @@ func (a *ImportApi) GetImportTask(ctx _context.Context, orgName string, clusterN
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/import/{id}"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/import/{id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
@@ -346,7 +346,7 @@ func (a *ImportApi) ImportPreflight(ctx _context.Context, orgName string, cluste
 	apiInfo := common.APIInfo{
 		Tag:         "import",
 		OperationID: "importPreflight",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/import/preflight",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/import/preflight",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -356,7 +356,7 @@ func (a *ImportApi) ImportPreflight(ctx _context.Context, orgName string, cluste
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/import/preflight"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/import/preflight"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -429,7 +429,7 @@ func (a *ImportApi) ListImportTask(ctx _context.Context, orgName string, cluster
 	apiInfo := common.APIInfo{
 		Tag:         "import",
 		OperationID: "listImportTask",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/import",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/import",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -439,7 +439,7 @@ func (a *ImportApi) ListImportTask(ctx _context.Context, orgName string, cluster
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/import"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/import"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -509,7 +509,7 @@ func (a *ImportApi) QueryImportObjects(ctx _context.Context, orgName string, clu
 	apiInfo := common.APIInfo{
 		Tag:         "import",
 		OperationID: "queryImportObjects",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/import/objects",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/import/objects",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -519,7 +519,7 @@ func (a *ImportApi) QueryImportObjects(ctx _context.Context, orgName string, clu
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/import/objects"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/import/objects"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -592,7 +592,7 @@ func (a *ImportApi) UpdateImportTaskOps(ctx _context.Context, orgName string, cl
 	apiInfo := common.APIInfo{
 		Tag:         "import",
 		OperationID: "updateImportTaskOps",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/import/{id}/ops/{opsType}",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/import/{id}/ops/{opsType}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -602,7 +602,7 @@ func (a *ImportApi) UpdateImportTaskOps(ctx _context.Context, orgName string, cl
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/import/{id}/ops/{opsType}"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/import/{id}/ops/{opsType}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
