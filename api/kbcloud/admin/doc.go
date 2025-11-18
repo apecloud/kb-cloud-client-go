@@ -220,6 +220,7 @@
 //   - [environmentApi.getEnvironmentProvisioningProgress]
 //   - [environmentApi.getEnvironmentStatus]
 //   - [environmentApi.getEnvironmentStatusHistory]
+//   - [environmentApi.getKubernetesDNS]
 //   - [environmentApi.getLatestEnvModuleVersion]
 //   - [environmentApi.getNode]
 //   - [environmentApi.getOptionalEnvironmentModules]
