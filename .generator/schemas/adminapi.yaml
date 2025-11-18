@@ -20706,6 +20706,8 @@ components:
           $ref: '#/components/schemas/clusterValidationPolicy'
         architecture:
           $ref: '#/components/schemas/environmentArchitecture'
+        dns:
+          $ref: '#/components/schemas/dns'
     environmentList:
       description: EnvironmentList is a list of Environments
       properties:
