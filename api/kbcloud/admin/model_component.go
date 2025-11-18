@@ -28,7 +28,7 @@ type Component struct {
 	CpuOvercommitRatio *float64 `json:"cpuOvercommitRatio,omitempty"`
 	// Memory overcommit ratio of this environment
 	MemoryOvercommitRatio *float64 `json:"memoryOvercommitRatio,omitempty"`
-	// the replicas of core componment, such as kubeblocks and gemini
+	// the replicas of core component, such as kubeblocks and gemini
 	Replicas *int32 `json:"replicas,omitempty"`
 	// Namespace info for environment
 	Namespaces []string `json:"namespaces,omitempty"`

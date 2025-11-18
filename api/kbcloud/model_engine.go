@@ -17,8 +17,7 @@ type Engine struct {
 	Version *string `json:"version,omitempty"`
 	// KubeBlocks version constrain
 	KbVersionConstraint *string `json:"kbVersionConstraint,omitempty"`
-	// engine type
-	Type *EngineType `json:"type,omitempty"`
+	Type                *string `json:"type,omitempty"`
 	// whether the engine is installed
 	Installed *bool `json:"installed,omitempty"`
 	// engine addon provider
@@ -198,9 +197,9 @@ func (o *Engine) SetKbVersionConstraint(v string) {
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
-func (o *Engine) GetType() EngineType {
+func (o *Engine) GetType() string {
 	if o == nil || o.Type == nil {
-		var ret EngineType
+		var ret string
 		return ret
 	}
 	return *o.Type
@@ -208,7 +207,7 @@ func (o *Engine) GetType() EngineType {
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Engine) GetTypeOk() (*EngineType, bool) {
+func (o *Engine) GetTypeOk() (*string, bool) {
 	if o == nil || o.Type == nil {
 		return nil, false
 	}
@@ -220,8 +219,8 @@ func (o *Engine) HasType() bool {
 	return o != nil && o.Type != nil
 }
 
-// SetType gets a reference to the given EngineType and assigns it to the Type field.
-func (o *Engine) SetType(v EngineType) {
+// SetType gets a reference to the given string and assigns it to the Type field.
+func (o *Engine) SetType(v string) {
 	o.Type = &v
 }
 
@@ -512,7 +511,7 @@ func (o *Engine) UnmarshalJSON(bytes []byte) (err error) {
 		Name                *string       `json:"name,omitempty"`
 		Version             *string       `json:"version,omitempty"`
 		KbVersionConstraint *string       `json:"kbVersionConstraint,omitempty"`
-		Type                *EngineType   `json:"type,omitempty"`
+		Type                *string       `json:"type,omitempty"`
 		Installed           *bool         `json:"installed,omitempty"`
 		Provider            *string       `json:"provider,omitempty"`
 		Status              *EngineStatus `json:"status,omitempty"`
@@ -538,11 +537,7 @@ func (o *Engine) UnmarshalJSON(bytes []byte) (err error) {
 	o.Name = all.Name
 	o.Version = all.Version
 	o.KbVersionConstraint = all.KbVersionConstraint
-	if all.Type != nil && !all.Type.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Type = all.Type
-	}
+	o.Type = all.Type
 	o.Installed = all.Installed
 	o.Provider = all.Provider
 	if all.Status != nil && !all.Status.IsValid() {

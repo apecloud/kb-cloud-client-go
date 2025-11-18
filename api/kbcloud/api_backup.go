@@ -18,13 +18,38 @@ import (
 // BackupApi service type
 type BackupApi common.Service
 
+// CreateClusterBackupOptionalParameters holds optional parameters for CreateClusterBackup.
+type CreateClusterBackupOptionalParameters struct {
+	Component *string
+}
+
+// NewCreateClusterBackupOptionalParameters creates an empty struct for parameters.
+func NewCreateClusterBackupOptionalParameters() *CreateClusterBackupOptionalParameters {
+	this := CreateClusterBackupOptionalParameters{}
+	return &this
+}
+
+// WithComponent sets the corresponding parameter name and returns the struct.
+func (r *CreateClusterBackupOptionalParameters) WithComponent(component string) *CreateClusterBackupOptionalParameters {
+	r.Component = &component
+	return r
+}
+
 // CreateClusterBackup Create backup.
-func (a *BackupApi) CreateClusterBackup(ctx _context.Context, orgName string, clusterName string, body BackupCreate) (Backup, *_nethttp.Response, error) {
+func (a *BackupApi) CreateClusterBackup(ctx _context.Context, orgName string, clusterName string, body BackupCreate, o ...CreateClusterBackupOptionalParameters) (Backup, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue Backup
+		optionalParams      CreateClusterBackupOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateClusterBackupOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -47,6 +72,9 @@ func (a *BackupApi) CreateClusterBackup(ctx _context.Context, orgName string, cl
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Component != nil {
+		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
+	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -430,13 +458,38 @@ func (a *BackupApi) GetBackupLog(ctx _context.Context, orgName string, backupId 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetBackupStatsOptionalParameters holds optional parameters for GetBackupStats.
+type GetBackupStatsOptionalParameters struct {
+	ClusterId *string
+}
+
+// NewGetBackupStatsOptionalParameters creates an empty struct for parameters.
+func NewGetBackupStatsOptionalParameters() *GetBackupStatsOptionalParameters {
+	this := GetBackupStatsOptionalParameters{}
+	return &this
+}
+
+// WithClusterId sets the corresponding parameter name and returns the struct.
+func (r *GetBackupStatsOptionalParameters) WithClusterId(clusterId string) *GetBackupStatsOptionalParameters {
+	r.ClusterId = &clusterId
+	return r
+}
+
 // GetBackupStats Get backup statistics.
-func (a *BackupApi) GetBackupStats(ctx _context.Context, orgName string) (BackupStats, *_nethttp.Response, error) {
+func (a *BackupApi) GetBackupStats(ctx _context.Context, orgName string, o ...GetBackupStatsOptionalParameters) (BackupStats, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue BackupStats
+		optionalParams      GetBackupStatsOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetBackupStatsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -458,6 +511,9 @@ func (a *BackupApi) GetBackupStats(ctx _context.Context, orgName string) (Backup
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.ClusterId != nil {
+		localVarQueryParams.Add("clusterID", common.ParameterToString(*optionalParams.ClusterId, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(

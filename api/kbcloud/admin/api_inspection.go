@@ -1045,7 +1045,7 @@ func (r *ListInspectionTasksByEnvOptionalParameters) WithNodeName(nodeName strin
 }
 
 // ListInspectionTasksByEnv list inspection tasks by env.
-func (a *InspectionApi) ListInspectionTasksByEnv(ctx _context.Context, environmentName string, o ...ListInspectionTasksByEnvOptionalParameters) ([]InspectionTask, *_nethttp.Response, error) {
+func (a *InspectionApi) ListInspectionTasksByEnv(ctx _context.Context, environmentName string, start int64, end int64, o ...ListInspectionTasksByEnvOptionalParameters) ([]InspectionTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -1080,6 +1080,8 @@ func (a *InspectionApi) ListInspectionTasksByEnv(ctx _context.Context, environme
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
+	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
 	if optionalParams.NodeName != nil {
 		localVarQueryParams.Add("nodeName", common.ParameterToString(*optionalParams.NodeName, ""))
 	}
@@ -1151,7 +1153,7 @@ func (r *ListInspectionTasksByOrgOptionalParameters) WithClusterId(clusterId str
 }
 
 // ListInspectionTasksByOrg list inspection tasks by org.
-func (a *InspectionApi) ListInspectionTasksByOrg(ctx _context.Context, orgName string, o ...ListInspectionTasksByOrgOptionalParameters) ([]InspectionTask, *_nethttp.Response, error) {
+func (a *InspectionApi) ListInspectionTasksByOrg(ctx _context.Context, orgName string, start int64, end int64, o ...ListInspectionTasksByOrgOptionalParameters) ([]InspectionTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -1186,6 +1188,8 @@ func (a *InspectionApi) ListInspectionTasksByOrg(ctx _context.Context, orgName s
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
+	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
 	if optionalParams.ClusterId != nil {
 		localVarQueryParams.Add("clusterId", common.ParameterToString(*optionalParams.ClusterId, ""))
 	}
