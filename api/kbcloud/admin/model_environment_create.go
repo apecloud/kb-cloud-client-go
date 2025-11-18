@@ -40,6 +40,7 @@ type EnvironmentCreate struct {
 	DeletePolicy *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
 	// overwrite a environment if it has been added before
 	Overwrite *bool `json:"overwrite,omitempty"`
+	Dns       *Dns  `json:"dns,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -434,6 +435,34 @@ func (o *EnvironmentCreate) SetOverwrite(v bool) {
 	o.Overwrite = &v
 }
 
+// GetDns returns the Dns field value if set, zero value otherwise.
+func (o *EnvironmentCreate) GetDns() Dns {
+	if o == nil || o.Dns == nil {
+		var ret Dns
+		return ret
+	}
+	return *o.Dns
+}
+
+// GetDnsOk returns a tuple with the Dns field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentCreate) GetDnsOk() (*Dns, bool) {
+	if o == nil || o.Dns == nil {
+		return nil, false
+	}
+	return o.Dns, true
+}
+
+// HasDns returns a boolean if a field has been set.
+func (o *EnvironmentCreate) HasDns() bool {
+	return o != nil && o.Dns != nil
+}
+
+// SetDns gets a reference to the given Dns and assigns it to the Dns field.
+func (o *EnvironmentCreate) SetDns(v Dns) {
+	o.Dns = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -468,6 +497,9 @@ func (o EnvironmentCreate) MarshalJSON() ([]byte, error) {
 	if o.Overwrite != nil {
 		toSerialize["overwrite"] = o.Overwrite
 	}
+	if o.Dns != nil {
+		toSerialize["dns"] = o.Dns
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -492,6 +524,7 @@ func (o *EnvironmentCreate) UnmarshalJSON(bytes []byte) (err error) {
 		ExtraInfo         *string                  `json:"extraInfo,omitempty"`
 		DeletePolicy      *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
 		Overwrite         *bool                    `json:"overwrite,omitempty"`
+		Dns               *Dns                     `json:"dns,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -519,7 +552,7 @@ func (o *EnvironmentCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "schedulingConfig", "provisionConfig", "organizations", "provider", "region", "availabilityZones", "description", "displayName", "id", "extraInfo", "deletePolicy", "overwrite"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "schedulingConfig", "provisionConfig", "organizations", "provider", "region", "availabilityZones", "description", "displayName", "id", "extraInfo", "deletePolicy", "overwrite", "dns"})
 	} else {
 		return err
 	}
@@ -553,6 +586,10 @@ func (o *EnvironmentCreate) UnmarshalJSON(bytes []byte) (err error) {
 		o.DeletePolicy = all.DeletePolicy
 	}
 	o.Overwrite = all.Overwrite
+	if all.Dns != nil && all.Dns.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Dns = all.Dns
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

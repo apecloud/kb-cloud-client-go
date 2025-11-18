@@ -5300,6 +5300,30 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - environment
+  /admin/v1/kubernetes/dns:
+    post:
+      operationId: getKubernetesDNS
+      description: Get Kubernetes DNS
+      summary: Get Kubernetes DNS
+      tags:
+        - environment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/kubeconfig'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dns'
+          description: A successful response.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/environments:
     get:
       operationId: listEnvironment
@@ -20200,6 +20224,18 @@ components:
           items:
             $ref: '#/components/schemas/storageClassInfo'
       type: object
+    dns:
+      type: object
+      properties:
+        serviceName:
+          type: string
+          description: the name of the DNS service
+        serviceNamespace:
+          type: string
+          description: the namespace of the DNS service
+      required:
+        - serviceName
+        - serviceNamespace
     tolerateDefaultTaints:
       title: TolerateDefaultTaints
       description: When creating a cluster, add the default tolerations from the bootstrap node to the pods
@@ -20670,6 +20706,8 @@ components:
           $ref: '#/components/schemas/clusterValidationPolicy'
         architecture:
           $ref: '#/components/schemas/environmentArchitecture'
+        dns:
+          $ref: '#/components/schemas/dns'
     environmentList:
       description: EnvironmentList is a list of Environments
       properties:
@@ -20743,6 +20781,8 @@ components:
           type: boolean
           description: overwrite a environment if it has been added before
           default: false
+        dns:
+          $ref: '#/components/schemas/dns'
     preflight:
       title: Preflight results
       description: The result of preflight check
