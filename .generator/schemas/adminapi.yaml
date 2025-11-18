@@ -23629,6 +23629,11 @@ components:
           description: |
             If set, the default backup method will be applied to the specified component.
             If not set, the default backup method will be applied to all components.
+        defaultBPTSelector:
+          type: object
+          additionalProperties:
+            type: string
+          description: selector for the default backup policy template. this is necessary when referencing other addon components
         restoreOption:
           type: object
           properties:

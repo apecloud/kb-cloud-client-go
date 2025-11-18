@@ -16,11 +16,13 @@ type BackupOption struct {
 	// If set, the default backup method will be applied to the specified component.
 	// If not set, the default backup method will be applied to all components.
 	//
-	DefaultComponent  *string                    `json:"defaultComponent,omitempty"`
-	RestoreOption     *BackupOptionRestoreOption `json:"restoreOption,omitempty"`
-	FullMethod        []BackupMethodOption       `json:"fullMethod"`
-	IncrementalMethod []BackupMethodOption       `json:"incrementalMethod,omitempty"`
-	ContinuousMethod  []BackupMethodOption       `json:"continuousMethod,omitempty"`
+	DefaultComponent *string `json:"defaultComponent,omitempty"`
+	// selector for the default backup policy template. this is necessary when referencing other addon components
+	DefaultBptSelector map[string]string          `json:"defaultBPTSelector,omitempty"`
+	RestoreOption      *BackupOptionRestoreOption `json:"restoreOption,omitempty"`
+	FullMethod         []BackupMethodOption       `json:"fullMethod"`
+	IncrementalMethod  []BackupMethodOption       `json:"incrementalMethod,omitempty"`
+	ContinuousMethod   []BackupMethodOption       `json:"continuousMethod,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -94,6 +96,34 @@ func (o *BackupOption) HasDefaultComponent() bool {
 // SetDefaultComponent gets a reference to the given string and assigns it to the DefaultComponent field.
 func (o *BackupOption) SetDefaultComponent(v string) {
 	o.DefaultComponent = &v
+}
+
+// GetDefaultBptSelector returns the DefaultBptSelector field value if set, zero value otherwise.
+func (o *BackupOption) GetDefaultBptSelector() map[string]string {
+	if o == nil || o.DefaultBptSelector == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.DefaultBptSelector
+}
+
+// GetDefaultBptSelectorOk returns a tuple with the DefaultBptSelector field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupOption) GetDefaultBptSelectorOk() (*map[string]string, bool) {
+	if o == nil || o.DefaultBptSelector == nil {
+		return nil, false
+	}
+	return &o.DefaultBptSelector, true
+}
+
+// HasDefaultBptSelector returns a boolean if a field has been set.
+func (o *BackupOption) HasDefaultBptSelector() bool {
+	return o != nil && o.DefaultBptSelector != nil
+}
+
+// SetDefaultBptSelector gets a reference to the given map[string]string and assigns it to the DefaultBptSelector field.
+func (o *BackupOption) SetDefaultBptSelector(v map[string]string) {
+	o.DefaultBptSelector = v
 }
 
 // GetRestoreOption returns the RestoreOption field value if set, zero value otherwise.
@@ -213,6 +243,9 @@ func (o BackupOption) MarshalJSON() ([]byte, error) {
 	if o.DefaultComponent != nil {
 		toSerialize["defaultComponent"] = o.DefaultComponent
 	}
+	if o.DefaultBptSelector != nil {
+		toSerialize["defaultBPTSelector"] = o.DefaultBptSelector
+	}
 	if o.RestoreOption != nil {
 		toSerialize["restoreOption"] = o.RestoreOption
 	}
@@ -233,12 +266,13 @@ func (o BackupOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		DefaultMethod     *string                    `json:"defaultMethod"`
-		DefaultComponent  *string                    `json:"defaultComponent,omitempty"`
-		RestoreOption     *BackupOptionRestoreOption `json:"restoreOption,omitempty"`
-		FullMethod        *[]BackupMethodOption      `json:"fullMethod"`
-		IncrementalMethod []BackupMethodOption       `json:"incrementalMethod,omitempty"`
-		ContinuousMethod  []BackupMethodOption       `json:"continuousMethod,omitempty"`
+		DefaultMethod      *string                    `json:"defaultMethod"`
+		DefaultComponent   *string                    `json:"defaultComponent,omitempty"`
+		DefaultBptSelector map[string]string          `json:"defaultBPTSelector,omitempty"`
+		RestoreOption      *BackupOptionRestoreOption `json:"restoreOption,omitempty"`
+		FullMethod         *[]BackupMethodOption      `json:"fullMethod"`
+		IncrementalMethod  []BackupMethodOption       `json:"incrementalMethod,omitempty"`
+		ContinuousMethod   []BackupMethodOption       `json:"continuousMethod,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -251,7 +285,7 @@ func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"defaultMethod", "defaultComponent", "restoreOption", "fullMethod", "incrementalMethod", "continuousMethod"})
+		common.DeleteKeys(additionalProperties, &[]string{"defaultMethod", "defaultComponent", "defaultBPTSelector", "restoreOption", "fullMethod", "incrementalMethod", "continuousMethod"})
 	} else {
 		return err
 	}
@@ -259,6 +293,7 @@ func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.DefaultMethod = *all.DefaultMethod
 	o.DefaultComponent = all.DefaultComponent
+	o.DefaultBptSelector = all.DefaultBptSelector
 	if all.RestoreOption != nil && all.RestoreOption.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
