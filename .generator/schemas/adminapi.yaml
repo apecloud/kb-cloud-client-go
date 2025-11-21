@@ -20783,6 +20783,10 @@ components:
           default: false
         dns:
           $ref: '#/components/schemas/dns'
+        sla:
+          description: whether to enable calculate the cluster SLA for the environment
+          type: boolean
+          default: false
     preflight:
       title: Preflight results
       description: The result of preflight check
