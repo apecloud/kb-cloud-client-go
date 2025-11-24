@@ -17,7 +17,8 @@ type Event struct {
 	// ID of the resource
 	ResourceId *string `json:"resourceId,omitempty"`
 	// Type of the resource
-	ResourceType *EventResourceType `json:"resourceType,omitempty"`
+	ResourceType            *EventResourceType    `json:"resourceType,omitempty"`
+	ResourceTypeDescription *LocalizedDescription `json:"resourceTypeDescription,omitempty"`
 	// Name of the resource
 	ResourceName *string `json:"resourceName,omitempty"`
 	// operator of the event, if source is user, operator is user name; if source is system, operator is system name
@@ -150,6 +151,34 @@ func (o *Event) HasResourceType() bool {
 // SetResourceType gets a reference to the given EventResourceType and assigns it to the ResourceType field.
 func (o *Event) SetResourceType(v EventResourceType) {
 	o.ResourceType = &v
+}
+
+// GetResourceTypeDescription returns the ResourceTypeDescription field value if set, zero value otherwise.
+func (o *Event) GetResourceTypeDescription() LocalizedDescription {
+	if o == nil || o.ResourceTypeDescription == nil {
+		var ret LocalizedDescription
+		return ret
+	}
+	return *o.ResourceTypeDescription
+}
+
+// GetResourceTypeDescriptionOk returns a tuple with the ResourceTypeDescription field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Event) GetResourceTypeDescriptionOk() (*LocalizedDescription, bool) {
+	if o == nil || o.ResourceTypeDescription == nil {
+		return nil, false
+	}
+	return o.ResourceTypeDescription, true
+}
+
+// HasResourceTypeDescription returns a boolean if a field has been set.
+func (o *Event) HasResourceTypeDescription() bool {
+	return o != nil && o.ResourceTypeDescription != nil
+}
+
+// SetResourceTypeDescription gets a reference to the given LocalizedDescription and assigns it to the ResourceTypeDescription field.
+func (o *Event) SetResourceTypeDescription(v LocalizedDescription) {
+	o.ResourceTypeDescription = &v
 }
 
 // GetResourceName returns the ResourceName field value if set, zero value otherwise.
@@ -559,6 +588,9 @@ func (o Event) MarshalJSON() ([]byte, error) {
 	if o.ResourceType != nil {
 		toSerialize["resourceType"] = o.ResourceType
 	}
+	if o.ResourceTypeDescription != nil {
+		toSerialize["resourceTypeDescription"] = o.ResourceTypeDescription
+	}
 	if o.ResourceName != nil {
 		toSerialize["resourceName"] = o.ResourceName
 	}
@@ -623,30 +655,31 @@ func (o Event) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Event) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id           *string            `json:"id,omitempty"`
-		ResourceId   *string            `json:"resourceId,omitempty"`
-		ResourceType *EventResourceType `json:"resourceType,omitempty"`
-		ResourceName *string            `json:"resourceName,omitempty"`
-		Operator     *string            `json:"operator,omitempty"`
-		OperatorId   *string            `json:"operatorId,omitempty"`
-		Details      *string            `json:"details,omitempty"`
-		HasTask      *bool              `json:"hasTask,omitempty"`
-		Result       *string            `json:"result,omitempty"`
-		EventName    *string            `json:"eventName,omitempty"`
-		DisplayName  *string            `json:"displayName,omitempty"`
-		OrgName      *string            `json:"orgName,omitempty"`
-		ResultStatus *EventResultStatus `json:"resultStatus,omitempty"`
-		Source       *EventSource       `json:"source,omitempty"`
-		End          *time.Time         `json:"end,omitempty"`
-		Start        *time.Time         `json:"start,omitempty"`
-		CreatedAt    *time.Time         `json:"createdAt,omitempty"`
+		Id                      *string               `json:"id,omitempty"`
+		ResourceId              *string               `json:"resourceId,omitempty"`
+		ResourceType            *EventResourceType    `json:"resourceType,omitempty"`
+		ResourceTypeDescription *LocalizedDescription `json:"resourceTypeDescription,omitempty"`
+		ResourceName            *string               `json:"resourceName,omitempty"`
+		Operator                *string               `json:"operator,omitempty"`
+		OperatorId              *string               `json:"operatorId,omitempty"`
+		Details                 *string               `json:"details,omitempty"`
+		HasTask                 *bool                 `json:"hasTask,omitempty"`
+		Result                  *string               `json:"result,omitempty"`
+		EventName               *string               `json:"eventName,omitempty"`
+		DisplayName             *string               `json:"displayName,omitempty"`
+		OrgName                 *string               `json:"orgName,omitempty"`
+		ResultStatus            *EventResultStatus    `json:"resultStatus,omitempty"`
+		Source                  *EventSource          `json:"source,omitempty"`
+		End                     *time.Time            `json:"end,omitempty"`
+		Start                   *time.Time            `json:"start,omitempty"`
+		CreatedAt               *time.Time            `json:"createdAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "resourceId", "resourceType", "resourceName", "operator", "operatorId", "details", "hasTask", "result", "eventName", "displayName", "orgName", "resultStatus", "source", "end", "start", "createdAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "resourceId", "resourceType", "resourceTypeDescription", "resourceName", "operator", "operatorId", "details", "hasTask", "result", "eventName", "displayName", "orgName", "resultStatus", "source", "end", "start", "createdAt"})
 	} else {
 		return err
 	}
@@ -659,6 +692,10 @@ func (o *Event) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.ResourceType = all.ResourceType
 	}
+	if all.ResourceTypeDescription != nil && all.ResourceTypeDescription.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ResourceTypeDescription = all.ResourceTypeDescription
 	o.ResourceName = all.ResourceName
 	o.Operator = all.Operator
 	o.OperatorId = all.OperatorId

@@ -12767,6 +12767,15 @@ components:
       enum:
         - cluster
         - role
+    localizedDescription:
+      type: object
+      properties:
+        zh-CN:
+          type: string
+          x-nullable: true
+        en-US:
+          type: string
+          x-nullable: true
     eventSource:
       description: event source
       enum:
@@ -12784,6 +12793,8 @@ components:
           type: string
         resourceType:
           $ref: '#/components/schemas/eventResourceType'
+        resourceTypeDescription:
+          $ref: '#/components/schemas/localizedDescription'
         resourceName:
           description: Name of the resource
           type: string
@@ -12861,15 +12872,6 @@ components:
       required:
         - items
       type: object
-    localizedDescription:
-      type: object
-      properties:
-        zh-CN:
-          type: string
-          x-nullable: true
-        en-US:
-          type: string
-          x-nullable: true
     orgParameter:
       description: org parameter item
       type: object
