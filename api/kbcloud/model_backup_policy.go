@@ -35,7 +35,8 @@ type BackupPolicy struct {
 	// the time to do next backup
 	NextBackupTime common.NullableTime `json:"nextBackupTime,omitempty"`
 	// encryption config for cluster
-	EncryptionConfig *EncryptionConfig `json:"encryptionConfig,omitempty"`
+	EncryptionConfig *EncryptionConfig            `json:"encryptionConfig,omitempty"`
+	BackupParameters map[string]map[string]string `json:"backupParameters,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -417,6 +418,34 @@ func (o *BackupPolicy) SetEncryptionConfig(v EncryptionConfig) {
 	o.EncryptionConfig = &v
 }
 
+// GetBackupParameters returns the BackupParameters field value if set, zero value otherwise.
+func (o *BackupPolicy) GetBackupParameters() map[string]map[string]string {
+	if o == nil || o.BackupParameters == nil {
+		var ret map[string]map[string]string
+		return ret
+	}
+	return o.BackupParameters
+}
+
+// GetBackupParametersOk returns a tuple with the BackupParameters field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupPolicy) GetBackupParametersOk() (*map[string]map[string]string, bool) {
+	if o == nil || o.BackupParameters == nil {
+		return nil, false
+	}
+	return &o.BackupParameters, true
+}
+
+// HasBackupParameters returns a boolean if a field has been set.
+func (o *BackupPolicy) HasBackupParameters() bool {
+	return o != nil && o.BackupParameters != nil
+}
+
+// SetBackupParameters gets a reference to the given map[string]map[string]string and assigns it to the BackupParameters field.
+func (o *BackupPolicy) SetBackupParameters(v map[string]map[string]string) {
+	o.BackupParameters = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupPolicy) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -459,6 +488,9 @@ func (o BackupPolicy) MarshalJSON() ([]byte, error) {
 	if o.EncryptionConfig != nil {
 		toSerialize["encryptionConfig"] = o.EncryptionConfig
 	}
+	if o.BackupParameters != nil {
+		toSerialize["backupParameters"] = o.BackupParameters
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -469,25 +501,26 @@ func (o BackupPolicy) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupPolicy) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		AutoBackup                *bool                  `json:"autoBackup,omitempty"`
-		AutoBackupMethod          *string                `json:"autoBackupMethod,omitempty"`
-		PitrEnabled               *bool                  `json:"pitrEnabled,omitempty"`
-		ContinuousBackupMethod    *string                `json:"continuousBackupMethod,omitempty"`
-		CronExpression            *string                `json:"cronExpression,omitempty"`
-		IncrementalBackupEnabled  *bool                  `json:"incrementalBackupEnabled,omitempty"`
-		IncrementalCronExpression *string                `json:"incrementalCronExpression,omitempty"`
-		RetentionPeriod           *string                `json:"retentionPeriod,omitempty"`
-		BackupRepo                *string                `json:"backupRepo,omitempty"`
-		RetentionPolicy           *BackupRetentionPolicy `json:"retentionPolicy,omitempty"`
-		NextBackupTime            common.NullableTime    `json:"nextBackupTime,omitempty"`
-		EncryptionConfig          *EncryptionConfig      `json:"encryptionConfig,omitempty"`
+		AutoBackup                *bool                        `json:"autoBackup,omitempty"`
+		AutoBackupMethod          *string                      `json:"autoBackupMethod,omitempty"`
+		PitrEnabled               *bool                        `json:"pitrEnabled,omitempty"`
+		ContinuousBackupMethod    *string                      `json:"continuousBackupMethod,omitempty"`
+		CronExpression            *string                      `json:"cronExpression,omitempty"`
+		IncrementalBackupEnabled  *bool                        `json:"incrementalBackupEnabled,omitempty"`
+		IncrementalCronExpression *string                      `json:"incrementalCronExpression,omitempty"`
+		RetentionPeriod           *string                      `json:"retentionPeriod,omitempty"`
+		BackupRepo                *string                      `json:"backupRepo,omitempty"`
+		RetentionPolicy           *BackupRetentionPolicy       `json:"retentionPolicy,omitempty"`
+		NextBackupTime            common.NullableTime          `json:"nextBackupTime,omitempty"`
+		EncryptionConfig          *EncryptionConfig            `json:"encryptionConfig,omitempty"`
+		BackupParameters          map[string]map[string]string `json:"backupParameters,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "autoBackupMethod", "pitrEnabled", "continuousBackupMethod", "cronExpression", "incrementalBackupEnabled", "incrementalCronExpression", "retentionPeriod", "backupRepo", "retentionPolicy", "nextBackupTime", "encryptionConfig"})
+		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "autoBackupMethod", "pitrEnabled", "continuousBackupMethod", "cronExpression", "incrementalBackupEnabled", "incrementalCronExpression", "retentionPeriod", "backupRepo", "retentionPolicy", "nextBackupTime", "encryptionConfig", "backupParameters"})
 	} else {
 		return err
 	}
@@ -512,6 +545,7 @@ func (o *BackupPolicy) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.EncryptionConfig = all.EncryptionConfig
+	o.BackupParameters = all.BackupParameters
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

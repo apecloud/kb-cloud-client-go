@@ -16281,6 +16281,13 @@ components:
           nullable: true
         encryptionConfig:
           $ref: '#/components/schemas/encryptionConfig'
+        backupParameters:
+          type: object
+          additionalProperties:
+            type: object
+            description: backup parameters for different backup methods
+            additionalProperties:
+              type: string
       type: object
     backupList:
       description: BackupList is a list of backups
@@ -18026,6 +18033,39 @@ components:
               description: cross mode recovery options
               items:
                 type: string
+        backupParameters:
+          type: object
+          additionalProperties:
+            type: object
+            description: backup parameters for different backup methods
+            additionalProperties:
+              type: object
+              properties:
+                options:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties:
+                      type: string
+                title:
+                  type: object
+                  additionalProperties:
+                    type: string
+                description:
+                  type: object
+                  additionalProperties:
+                    type: string
+                value:
+                  type: string
+                type:
+                  type: string
+                  enum:
+                    - enum
+                    - number
+                min:
+                  type: number
+                max:
+                  type: number
         fullMethod:
           type: array
           items:
