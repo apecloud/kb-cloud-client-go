@@ -17,7 +17,7 @@ type EngineOption struct {
 	Title         string               `json:"title"`
 	Status        *EngineOptionStatus  `json:"status,omitempty"`
 	Description   LocalizedDescription `json:"description"`
-	Versions      []string             `json:"versions"`
+	Versions      []string             `json:"versions,omitempty"`
 	Components    []ComponentOption    `json:"components"`
 	Modes         []ModeOption         `json:"modes"`
 	Account       *AccountOption       `json:"account,omitempty"`
@@ -57,14 +57,13 @@ type EngineOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineOption(engineName string, title string, description LocalizedDescription, versions []string, components []ComponentOption, modes []ModeOption, dms DmsOption, endpoints []EndpointOption, promote []ComponentOpsOption, stop []ComponentOpsOption, start []ComponentOpsOption, restart []ComponentOpsOption, hscale []ComponentOpsOption, vscale []ComponentOpsOption, dashboards []DashboardOption, logs []LogOption, parameters []ParameterOption) *EngineOption {
+func NewEngineOption(engineName string, title string, description LocalizedDescription, components []ComponentOption, modes []ModeOption, dms DmsOption, endpoints []EndpointOption, promote []ComponentOpsOption, stop []ComponentOpsOption, start []ComponentOpsOption, restart []ComponentOpsOption, hscale []ComponentOpsOption, vscale []ComponentOpsOption, dashboards []DashboardOption, logs []LogOption, parameters []ParameterOption) *EngineOption {
 	this := EngineOption{}
 	this.EngineName = engineName
 	this.Title = title
 	var status EngineOptionStatus = EngineOptionStatusRelease
 	this.Status = &status
 	this.Description = description
-	this.Versions = versions
 	this.Components = components
 	this.Modes = modes
 	this.Dms = dms
@@ -216,25 +215,30 @@ func (o *EngineOption) SetDescription(v LocalizedDescription) {
 	o.Description = v
 }
 
-// GetVersions returns the Versions field value.
+// GetVersions returns the Versions field value if set, zero value otherwise.
 func (o *EngineOption) GetVersions() []string {
-	if o == nil {
+	if o == nil || o.Versions == nil {
 		var ret []string
 		return ret
 	}
 	return o.Versions
 }
 
-// GetVersionsOk returns a tuple with the Versions field value
+// GetVersionsOk returns a tuple with the Versions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EngineOption) GetVersionsOk() (*[]string, bool) {
-	if o == nil {
+	if o == nil || o.Versions == nil {
 		return nil, false
 	}
 	return &o.Versions, true
 }
 
-// SetVersions sets field value.
+// HasVersions returns a boolean if a field has been set.
+func (o *EngineOption) HasVersions() bool {
+	return o != nil && o.Versions != nil
+}
+
+// SetVersions gets a reference to the given []string and assigns it to the Versions field.
 func (o *EngineOption) SetVersions(v []string) {
 	o.Versions = v
 }
@@ -984,7 +988,9 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 		toSerialize["status"] = o.Status
 	}
 	toSerialize["description"] = o.Description
-	toSerialize["versions"] = o.Versions
+	if o.Versions != nil {
+		toSerialize["versions"] = o.Versions
+	}
 	toSerialize["components"] = o.Components
 	toSerialize["modes"] = o.Modes
 	if o.Account != nil {
@@ -1054,7 +1060,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		Title            *string                     `json:"title"`
 		Status           *EngineOptionStatus         `json:"status,omitempty"`
 		Description      *LocalizedDescription       `json:"description"`
-		Versions         *[]string                   `json:"versions"`
+		Versions         []string                    `json:"versions,omitempty"`
 		Components       *[]ComponentOption          `json:"components"`
 		Modes            *[]ModeOption               `json:"modes"`
 		Account          *AccountOption              `json:"account,omitempty"`
@@ -1095,9 +1101,6 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.Description == nil {
 		return fmt.Errorf("required field description missing")
-	}
-	if all.Versions == nil {
-		return fmt.Errorf("required field versions missing")
 	}
 	if all.Components == nil {
 		return fmt.Errorf("required field components missing")
@@ -1152,7 +1155,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Description = *all.Description
-	o.Versions = *all.Versions
+	o.Versions = all.Versions
 	o.Components = *all.Components
 	o.Modes = *all.Modes
 	if all.Account != nil && all.Account.UnparsedObject != nil && o.UnparsedObject == nil {
