@@ -10868,7 +10868,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PgExtension'
+                $ref: '#/components/schemas/createPGExtensionResp'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -21770,9 +21770,23 @@ components:
         schema:
           type: string
           description: The schema where the extension is installed.
-        description:
+        category:
           type: string
-          description: A description of the extension.
+          description: The category of the extension.
+        need_restart:
+          type: boolean
+          description: Whether the extension needs a restart to take effect.
+        pg_version:
+          type: array
+          items:
+            type: string
+          description: The version of PostgreSQL that the extension is compatible with.
+        description_zn:
+          type: string
+          description: A description of the extension in Chinese.
+        description_en:
+          type: string
+          description: A description of the extension in English.
     PgExtensionList:
       type: array
       items:
@@ -21795,6 +21809,15 @@ components:
         schema:
           type: string
           description: The schema where the extension is installed.
+    createPGExtensionResp:
+      type: object
+      properties:
+        opsRequestResult:
+          type: object
+          $ref: '#/components/schemas/opsRequestName'
+        PgExtension:
+          type: object
+          $ref: '#/components/schemas/PgExtension'
     AccessLevel:
       type: string
       enum:

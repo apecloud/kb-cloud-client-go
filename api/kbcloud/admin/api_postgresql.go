@@ -137,11 +137,11 @@ func (a *PostgresqlApi) GetPGExtensions(ctx _context.Context, orgName string, cl
 
 // InstallPGExtensions Install PostgreSQL extensions.
 // Install PostgreSQL extensions
-func (a *PostgresqlApi) InstallPGExtensions(ctx _context.Context, orgName string, clusterName string, body PGCreateExtensionOpt) (PgExtension, *_nethttp.Response, error) {
+func (a *PostgresqlApi) InstallPGExtensions(ctx _context.Context, orgName string, clusterName string, body PGCreateExtensionOpt) (CreatePGExtensionResp, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue PgExtension
+		localVarReturnValue CreatePGExtensionResp
 	)
 
 	// Add api info to context

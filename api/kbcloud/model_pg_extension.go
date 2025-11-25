@@ -17,8 +17,16 @@ type PgExtension struct {
 	InstalledVersion *string `json:"installed_version,omitempty"`
 	// The schema where the extension is installed.
 	Schema *string `json:"schema,omitempty"`
-	// A description of the extension.
-	Description *string `json:"description,omitempty"`
+	// The category of the extension.
+	Category *string `json:"category,omitempty"`
+	// Whether the extension needs a restart to take effect.
+	NeedRestart *bool `json:"need_restart,omitempty"`
+	// The version of PostgreSQL that the extension is compatible with.
+	PgVersion []string `json:"pg_version,omitempty"`
+	// A description of the extension in Chinese.
+	DescriptionZn *string `json:"description_zn,omitempty"`
+	// A description of the extension in English.
+	DescriptionEn *string `json:"description_en,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -181,32 +189,144 @@ func (o *PgExtension) SetSchema(v string) {
 	o.Schema = &v
 }
 
-// GetDescription returns the Description field value if set, zero value otherwise.
-func (o *PgExtension) GetDescription() string {
-	if o == nil || o.Description == nil {
+// GetCategory returns the Category field value if set, zero value otherwise.
+func (o *PgExtension) GetCategory() string {
+	if o == nil || o.Category == nil {
 		var ret string
 		return ret
 	}
-	return *o.Description
+	return *o.Category
 }
 
-// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// GetCategoryOk returns a tuple with the Category field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PgExtension) GetDescriptionOk() (*string, bool) {
-	if o == nil || o.Description == nil {
+func (o *PgExtension) GetCategoryOk() (*string, bool) {
+	if o == nil || o.Category == nil {
 		return nil, false
 	}
-	return o.Description, true
+	return o.Category, true
 }
 
-// HasDescription returns a boolean if a field has been set.
-func (o *PgExtension) HasDescription() bool {
-	return o != nil && o.Description != nil
+// HasCategory returns a boolean if a field has been set.
+func (o *PgExtension) HasCategory() bool {
+	return o != nil && o.Category != nil
 }
 
-// SetDescription gets a reference to the given string and assigns it to the Description field.
-func (o *PgExtension) SetDescription(v string) {
-	o.Description = &v
+// SetCategory gets a reference to the given string and assigns it to the Category field.
+func (o *PgExtension) SetCategory(v string) {
+	o.Category = &v
+}
+
+// GetNeedRestart returns the NeedRestart field value if set, zero value otherwise.
+func (o *PgExtension) GetNeedRestart() bool {
+	if o == nil || o.NeedRestart == nil {
+		var ret bool
+		return ret
+	}
+	return *o.NeedRestart
+}
+
+// GetNeedRestartOk returns a tuple with the NeedRestart field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PgExtension) GetNeedRestartOk() (*bool, bool) {
+	if o == nil || o.NeedRestart == nil {
+		return nil, false
+	}
+	return o.NeedRestart, true
+}
+
+// HasNeedRestart returns a boolean if a field has been set.
+func (o *PgExtension) HasNeedRestart() bool {
+	return o != nil && o.NeedRestart != nil
+}
+
+// SetNeedRestart gets a reference to the given bool and assigns it to the NeedRestart field.
+func (o *PgExtension) SetNeedRestart(v bool) {
+	o.NeedRestart = &v
+}
+
+// GetPgVersion returns the PgVersion field value if set, zero value otherwise.
+func (o *PgExtension) GetPgVersion() []string {
+	if o == nil || o.PgVersion == nil {
+		var ret []string
+		return ret
+	}
+	return o.PgVersion
+}
+
+// GetPgVersionOk returns a tuple with the PgVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PgExtension) GetPgVersionOk() (*[]string, bool) {
+	if o == nil || o.PgVersion == nil {
+		return nil, false
+	}
+	return &o.PgVersion, true
+}
+
+// HasPgVersion returns a boolean if a field has been set.
+func (o *PgExtension) HasPgVersion() bool {
+	return o != nil && o.PgVersion != nil
+}
+
+// SetPgVersion gets a reference to the given []string and assigns it to the PgVersion field.
+func (o *PgExtension) SetPgVersion(v []string) {
+	o.PgVersion = v
+}
+
+// GetDescriptionZn returns the DescriptionZn field value if set, zero value otherwise.
+func (o *PgExtension) GetDescriptionZn() string {
+	if o == nil || o.DescriptionZn == nil {
+		var ret string
+		return ret
+	}
+	return *o.DescriptionZn
+}
+
+// GetDescriptionZnOk returns a tuple with the DescriptionZn field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PgExtension) GetDescriptionZnOk() (*string, bool) {
+	if o == nil || o.DescriptionZn == nil {
+		return nil, false
+	}
+	return o.DescriptionZn, true
+}
+
+// HasDescriptionZn returns a boolean if a field has been set.
+func (o *PgExtension) HasDescriptionZn() bool {
+	return o != nil && o.DescriptionZn != nil
+}
+
+// SetDescriptionZn gets a reference to the given string and assigns it to the DescriptionZn field.
+func (o *PgExtension) SetDescriptionZn(v string) {
+	o.DescriptionZn = &v
+}
+
+// GetDescriptionEn returns the DescriptionEn field value if set, zero value otherwise.
+func (o *PgExtension) GetDescriptionEn() string {
+	if o == nil || o.DescriptionEn == nil {
+		var ret string
+		return ret
+	}
+	return *o.DescriptionEn
+}
+
+// GetDescriptionEnOk returns a tuple with the DescriptionEn field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PgExtension) GetDescriptionEnOk() (*string, bool) {
+	if o == nil || o.DescriptionEn == nil {
+		return nil, false
+	}
+	return o.DescriptionEn, true
+}
+
+// HasDescriptionEn returns a boolean if a field has been set.
+func (o *PgExtension) HasDescriptionEn() bool {
+	return o != nil && o.DescriptionEn != nil
+}
+
+// SetDescriptionEn gets a reference to the given string and assigns it to the DescriptionEn field.
+func (o *PgExtension) SetDescriptionEn(v string) {
+	o.DescriptionEn = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -230,8 +350,20 @@ func (o PgExtension) MarshalJSON() ([]byte, error) {
 	if o.Schema != nil {
 		toSerialize["schema"] = o.Schema
 	}
-	if o.Description != nil {
-		toSerialize["description"] = o.Description
+	if o.Category != nil {
+		toSerialize["category"] = o.Category
+	}
+	if o.NeedRestart != nil {
+		toSerialize["need_restart"] = o.NeedRestart
+	}
+	if o.PgVersion != nil {
+		toSerialize["pg_version"] = o.PgVersion
+	}
+	if o.DescriptionZn != nil {
+		toSerialize["description_zn"] = o.DescriptionZn
+	}
+	if o.DescriptionEn != nil {
+		toSerialize["description_en"] = o.DescriptionEn
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -243,19 +375,23 @@ func (o PgExtension) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PgExtension) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name             *string `json:"name,omitempty"`
-		Database         *string `json:"database,omitempty"`
-		DefaultVersion   *string `json:"default_version,omitempty"`
-		InstalledVersion *string `json:"installed_version,omitempty"`
-		Schema           *string `json:"schema,omitempty"`
-		Description      *string `json:"description,omitempty"`
+		Name             *string  `json:"name,omitempty"`
+		Database         *string  `json:"database,omitempty"`
+		DefaultVersion   *string  `json:"default_version,omitempty"`
+		InstalledVersion *string  `json:"installed_version,omitempty"`
+		Schema           *string  `json:"schema,omitempty"`
+		Category         *string  `json:"category,omitempty"`
+		NeedRestart      *bool    `json:"need_restart,omitempty"`
+		PgVersion        []string `json:"pg_version,omitempty"`
+		DescriptionZn    *string  `json:"description_zn,omitempty"`
+		DescriptionEn    *string  `json:"description_en,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "database", "default_version", "installed_version", "schema", "description"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "database", "default_version", "installed_version", "schema", "category", "need_restart", "pg_version", "description_zn", "description_en"})
 	} else {
 		return err
 	}
@@ -264,7 +400,11 @@ func (o *PgExtension) UnmarshalJSON(bytes []byte) (err error) {
 	o.DefaultVersion = all.DefaultVersion
 	o.InstalledVersion = all.InstalledVersion
 	o.Schema = all.Schema
-	o.Description = all.Description
+	o.Category = all.Category
+	o.NeedRestart = all.NeedRestart
+	o.PgVersion = all.PgVersion
+	o.DescriptionZn = all.DescriptionZn
+	o.DescriptionEn = all.DescriptionEn
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
