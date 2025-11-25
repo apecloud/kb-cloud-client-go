@@ -28215,20 +28215,25 @@ components:
         category:
           type: string
           description: The category of the extension.
+          x-omitempty: false
         need_restart:
           type: boolean
           description: Whether the extension needs a restart to take effect.
+          x-omitempty: false
         pg_version:
           type: array
           items:
             type: string
           description: The version of PostgreSQL that the extension is compatible with.
+          x-omitempty: false
         description_zn:
           type: string
           description: A description of the extension in Chinese.
+          x-omitempty: false
         description_en:
           type: string
           description: A description of the extension in English.
+          x-omitempty: false
     PgExtensionList:
       type: array
       items:
