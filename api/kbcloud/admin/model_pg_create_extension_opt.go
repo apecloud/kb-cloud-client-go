@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type PGCreateExtensionOpt struct {
+type PgCreateExtensionOpt struct {
 	// The name of the PostgreSQL extension.
 	Name string `json:"name"`
 	// The database where the extension is installed.
@@ -24,27 +24,27 @@ type PGCreateExtensionOpt struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewPGCreateExtensionOpt instantiates a new PGCreateExtensionOpt object.
+// NewPgCreateExtensionOpt instantiates a new PgCreateExtensionOpt object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPGCreateExtensionOpt(name string, database string) *PGCreateExtensionOpt {
-	this := PGCreateExtensionOpt{}
+func NewPgCreateExtensionOpt(name string, database string) *PgCreateExtensionOpt {
+	this := PgCreateExtensionOpt{}
 	this.Name = name
 	this.Database = database
 	return &this
 }
 
-// NewPGCreateExtensionOptWithDefaults instantiates a new PGCreateExtensionOpt object.
+// NewPgCreateExtensionOptWithDefaults instantiates a new PgCreateExtensionOpt object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewPGCreateExtensionOptWithDefaults() *PGCreateExtensionOpt {
-	this := PGCreateExtensionOpt{}
+func NewPgCreateExtensionOptWithDefaults() *PgCreateExtensionOpt {
+	this := PgCreateExtensionOpt{}
 	return &this
 }
 
 // GetName returns the Name field value.
-func (o *PGCreateExtensionOpt) GetName() string {
+func (o *PgCreateExtensionOpt) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -54,7 +54,7 @@ func (o *PGCreateExtensionOpt) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *PGCreateExtensionOpt) GetNameOk() (*string, bool) {
+func (o *PgCreateExtensionOpt) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -62,12 +62,12 @@ func (o *PGCreateExtensionOpt) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value.
-func (o *PGCreateExtensionOpt) SetName(v string) {
+func (o *PgCreateExtensionOpt) SetName(v string) {
 	o.Name = v
 }
 
 // GetDatabase returns the Database field value.
-func (o *PGCreateExtensionOpt) GetDatabase() string {
+func (o *PgCreateExtensionOpt) GetDatabase() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -77,7 +77,7 @@ func (o *PGCreateExtensionOpt) GetDatabase() string {
 
 // GetDatabaseOk returns a tuple with the Database field value
 // and a boolean to check if the value has been set.
-func (o *PGCreateExtensionOpt) GetDatabaseOk() (*string, bool) {
+func (o *PgCreateExtensionOpt) GetDatabaseOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -85,12 +85,12 @@ func (o *PGCreateExtensionOpt) GetDatabaseOk() (*string, bool) {
 }
 
 // SetDatabase sets field value.
-func (o *PGCreateExtensionOpt) SetDatabase(v string) {
+func (o *PgCreateExtensionOpt) SetDatabase(v string) {
 	o.Database = v
 }
 
 // GetVersion returns the Version field value if set, zero value otherwise.
-func (o *PGCreateExtensionOpt) GetVersion() string {
+func (o *PgCreateExtensionOpt) GetVersion() string {
 	if o == nil || o.Version == nil {
 		var ret string
 		return ret
@@ -100,7 +100,7 @@ func (o *PGCreateExtensionOpt) GetVersion() string {
 
 // GetVersionOk returns a tuple with the Version field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PGCreateExtensionOpt) GetVersionOk() (*string, bool) {
+func (o *PgCreateExtensionOpt) GetVersionOk() (*string, bool) {
 	if o == nil || o.Version == nil {
 		return nil, false
 	}
@@ -108,17 +108,17 @@ func (o *PGCreateExtensionOpt) GetVersionOk() (*string, bool) {
 }
 
 // HasVersion returns a boolean if a field has been set.
-func (o *PGCreateExtensionOpt) HasVersion() bool {
+func (o *PgCreateExtensionOpt) HasVersion() bool {
 	return o != nil && o.Version != nil
 }
 
 // SetVersion gets a reference to the given string and assigns it to the Version field.
-func (o *PGCreateExtensionOpt) SetVersion(v string) {
+func (o *PgCreateExtensionOpt) SetVersion(v string) {
 	o.Version = &v
 }
 
 // GetSchema returns the Schema field value if set, zero value otherwise.
-func (o *PGCreateExtensionOpt) GetSchema() string {
+func (o *PgCreateExtensionOpt) GetSchema() string {
 	if o == nil || o.Schema == nil {
 		var ret string
 		return ret
@@ -128,7 +128,7 @@ func (o *PGCreateExtensionOpt) GetSchema() string {
 
 // GetSchemaOk returns a tuple with the Schema field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PGCreateExtensionOpt) GetSchemaOk() (*string, bool) {
+func (o *PgCreateExtensionOpt) GetSchemaOk() (*string, bool) {
 	if o == nil || o.Schema == nil {
 		return nil, false
 	}
@@ -136,17 +136,17 @@ func (o *PGCreateExtensionOpt) GetSchemaOk() (*string, bool) {
 }
 
 // HasSchema returns a boolean if a field has been set.
-func (o *PGCreateExtensionOpt) HasSchema() bool {
+func (o *PgCreateExtensionOpt) HasSchema() bool {
 	return o != nil && o.Schema != nil
 }
 
 // SetSchema gets a reference to the given string and assigns it to the Schema field.
-func (o *PGCreateExtensionOpt) SetSchema(v string) {
+func (o *PgCreateExtensionOpt) SetSchema(v string) {
 	o.Schema = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o PGCreateExtensionOpt) MarshalJSON() ([]byte, error) {
+func (o PgCreateExtensionOpt) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -167,7 +167,7 @@ func (o PGCreateExtensionOpt) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *PGCreateExtensionOpt) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PgCreateExtensionOpt) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name     *string `json:"name"`
 		Database *string `json:"database"`

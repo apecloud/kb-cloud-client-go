@@ -15224,9 +15224,9 @@ paths:
           $ref: '#/components/responses/500'
   /admin/v1/data/postgresql/organizations/{orgName}/clusters/{clusterName}/extensions:
     get:
-      summary: Get PostgreSQL extensions
-      description: Get PostgreSQL extensions
-      operationId: getPGExtensions
+      summary: List PostgreSQL extensions
+      description: List PostgreSQL extensions
+      operationId: listPGExtensions
       tags:
         - postgresql
       parameters:
@@ -15270,9 +15270,9 @@ paths:
         '500':
           $ref: '#/components/responses/500'
     post:
-      summary: Install PostgreSQL extensions
-      description: Install PostgreSQL extensions
-      operationId: installPGExtensions
+      summary: create PostgreSQL extension
+      description: create PostgreSQL extension
+      operationId: createPGExtension
       tags:
         - postgresql
       parameters:
@@ -15293,7 +15293,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PGCreateExtensionOpt'
+              $ref: '#/components/schemas/PgCreateExtensionOpt'
       responses:
         '200':
           description: OK
@@ -15311,9 +15311,9 @@ paths:
           $ref: '#/components/responses/500'
   /admin/v1/data/postgresql/organizations/{orgName}/clusters/{clusterName}/extensions/{extensionName}:
     delete:
-      summary: Uninstall PostgreSQL extensions
-      description: Uninstall PostgreSQL extensions
-      operationId: uninstallPGExtensions
+      summary: drop PostgreSQL extension
+      description: drop PostgreSQL extension
+      operationId: dropPGExtension
       tags:
         - postgresql
       parameters:
@@ -28238,7 +28238,7 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/PgExtension'
-    PGCreateExtensionOpt:
+    PgCreateExtensionOpt:
       type: object
       required:
         - name
