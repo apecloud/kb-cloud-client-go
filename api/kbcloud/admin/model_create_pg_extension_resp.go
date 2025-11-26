@@ -6,7 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type CreatePGExtensionResp struct {
+type CreatePgExtensionResp struct {
 	// OpsRequestName is the name of a KubeBlocks OpsRequest
 	OpsRequestResult *OpsRequestName `json:"opsRequestResult,omitempty"`
 	PgExtension      *PgExtension    `json:"PgExtension,omitempty"`
@@ -15,25 +15,25 @@ type CreatePGExtensionResp struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewCreatePGExtensionResp instantiates a new CreatePGExtensionResp object.
+// NewCreatePgExtensionResp instantiates a new CreatePgExtensionResp object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewCreatePGExtensionResp() *CreatePGExtensionResp {
-	this := CreatePGExtensionResp{}
+func NewCreatePgExtensionResp() *CreatePgExtensionResp {
+	this := CreatePgExtensionResp{}
 	return &this
 }
 
-// NewCreatePGExtensionRespWithDefaults instantiates a new CreatePGExtensionResp object.
+// NewCreatePgExtensionRespWithDefaults instantiates a new CreatePgExtensionResp object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewCreatePGExtensionRespWithDefaults() *CreatePGExtensionResp {
-	this := CreatePGExtensionResp{}
+func NewCreatePgExtensionRespWithDefaults() *CreatePgExtensionResp {
+	this := CreatePgExtensionResp{}
 	return &this
 }
 
 // GetOpsRequestResult returns the OpsRequestResult field value if set, zero value otherwise.
-func (o *CreatePGExtensionResp) GetOpsRequestResult() OpsRequestName {
+func (o *CreatePgExtensionResp) GetOpsRequestResult() OpsRequestName {
 	if o == nil || o.OpsRequestResult == nil {
 		var ret OpsRequestName
 		return ret
@@ -43,7 +43,7 @@ func (o *CreatePGExtensionResp) GetOpsRequestResult() OpsRequestName {
 
 // GetOpsRequestResultOk returns a tuple with the OpsRequestResult field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreatePGExtensionResp) GetOpsRequestResultOk() (*OpsRequestName, bool) {
+func (o *CreatePgExtensionResp) GetOpsRequestResultOk() (*OpsRequestName, bool) {
 	if o == nil || o.OpsRequestResult == nil {
 		return nil, false
 	}
@@ -51,17 +51,17 @@ func (o *CreatePGExtensionResp) GetOpsRequestResultOk() (*OpsRequestName, bool) 
 }
 
 // HasOpsRequestResult returns a boolean if a field has been set.
-func (o *CreatePGExtensionResp) HasOpsRequestResult() bool {
+func (o *CreatePgExtensionResp) HasOpsRequestResult() bool {
 	return o != nil && o.OpsRequestResult != nil
 }
 
 // SetOpsRequestResult gets a reference to the given OpsRequestName and assigns it to the OpsRequestResult field.
-func (o *CreatePGExtensionResp) SetOpsRequestResult(v OpsRequestName) {
+func (o *CreatePgExtensionResp) SetOpsRequestResult(v OpsRequestName) {
 	o.OpsRequestResult = &v
 }
 
 // GetPgExtension returns the PgExtension field value if set, zero value otherwise.
-func (o *CreatePGExtensionResp) GetPgExtension() PgExtension {
+func (o *CreatePgExtensionResp) GetPgExtension() PgExtension {
 	if o == nil || o.PgExtension == nil {
 		var ret PgExtension
 		return ret
@@ -71,7 +71,7 @@ func (o *CreatePGExtensionResp) GetPgExtension() PgExtension {
 
 // GetPgExtensionOk returns a tuple with the PgExtension field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreatePGExtensionResp) GetPgExtensionOk() (*PgExtension, bool) {
+func (o *CreatePgExtensionResp) GetPgExtensionOk() (*PgExtension, bool) {
 	if o == nil || o.PgExtension == nil {
 		return nil, false
 	}
@@ -79,17 +79,17 @@ func (o *CreatePGExtensionResp) GetPgExtensionOk() (*PgExtension, bool) {
 }
 
 // HasPgExtension returns a boolean if a field has been set.
-func (o *CreatePGExtensionResp) HasPgExtension() bool {
+func (o *CreatePgExtensionResp) HasPgExtension() bool {
 	return o != nil && o.PgExtension != nil
 }
 
 // SetPgExtension gets a reference to the given PgExtension and assigns it to the PgExtension field.
-func (o *CreatePGExtensionResp) SetPgExtension(v PgExtension) {
+func (o *CreatePgExtensionResp) SetPgExtension(v PgExtension) {
 	o.PgExtension = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o CreatePGExtensionResp) MarshalJSON() ([]byte, error) {
+func (o CreatePgExtensionResp) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -108,7 +108,7 @@ func (o CreatePGExtensionResp) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *CreatePGExtensionResp) UnmarshalJSON(bytes []byte) (err error) {
+func (o *CreatePgExtensionResp) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		OpsRequestResult *OpsRequestName `json:"opsRequestResult,omitempty"`
 		PgExtension      *PgExtension    `json:"PgExtension,omitempty"`

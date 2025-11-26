@@ -19,11 +19,11 @@ type PostgresqlApi common.Service
 
 // CreatePGExtension create PostgreSQL extension.
 // create PostgreSQL extension
-func (a *PostgresqlApi) CreatePGExtension(ctx _context.Context, orgName string, clusterName string, body PgCreateExtensionOpt) (CreatePGExtensionResp, *_nethttp.Response, error) {
+func (a *PostgresqlApi) CreatePGExtension(ctx _context.Context, orgName string, clusterName string, body PgCreateExtensionOpt) (CreatePgExtensionResp, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue CreatePGExtensionResp
+		localVarReturnValue CreatePgExtensionResp
 	)
 
 	// Add api info to context

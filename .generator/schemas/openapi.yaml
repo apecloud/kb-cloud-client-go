@@ -10868,7 +10868,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createPGExtensionResp'
+                $ref: '#/components/schemas/createPgExtensionResp'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -21814,7 +21814,7 @@ components:
         schema:
           type: string
           description: The schema where the extension is installed.
-    createPGExtensionResp:
+    createPgExtensionResp:
       type: object
       properties:
         opsRequestResult:
