@@ -36,7 +36,7 @@ func (r *ListServiceVersionOptionalParameters) WithComponent(component string) *
 
 // ListServiceVersion list the service version of the engine.
 // list the service version of the engine
-func (a *EngineApi) ListServiceVersion(ctx _context.Context, environmentName string, engineName string, engineMode string, o ...ListServiceVersionOptionalParameters) (EngineServiceVersions, *_nethttp.Response, error) {
+func (a *EngineApi) ListServiceVersion(ctx _context.Context, environmentName string, engineName string, engineMode string, engineVersion string, o ...ListServiceVersionOptionalParameters) (EngineServiceVersions, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -73,6 +73,7 @@ func (a *EngineApi) ListServiceVersion(ctx _context.Context, environmentName str
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("engineMode", common.ParameterToString(engineMode, ""))
+	localVarQueryParams.Add("engineVersion", common.ParameterToString(engineVersion, ""))
 	if optionalParams.Component != nil {
 		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
 	}

@@ -7970,6 +7970,12 @@ paths:
           required: true
           schema:
             type: string
+        - description: engine version
+          in: query
+          name: engineVersion
+          required: true
+          schema:
+            type: string
         - description: component type, refer to componentDef and support NamePrefix
           in: query
           name: component
