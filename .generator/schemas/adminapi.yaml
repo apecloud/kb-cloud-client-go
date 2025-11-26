@@ -18349,6 +18349,8 @@ components:
           type: string
         resourceType:
           $ref: '#/components/schemas/eventResourceType'
+        resourceTypeDescription:
+          $ref: '#/components/schemas/localizedDescription'
         resourceName:
           description: Name of the resource
           type: string
