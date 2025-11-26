@@ -10790,6 +10790,137 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/data/postgresql/organizations/{orgName}/clusters/{clusterName}/extensions:
+    get:
+      summary: List PostgreSQL extensions
+      description: List PostgreSQL extensions
+      operationId: listPGExtensions
+      tags:
+        - postgresql
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: extension status, if set to `installed`, only installed extensions will be returned. If not specified, all available extensions will be returned.
+          required: false
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: database name, when status is installed it can be selected. If not specified, all databases installed extensions will be returned.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PgExtensionList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: create PostgreSQL extension
+      description: create PostgreSQL extension
+      operationId: createPGExtension
+      tags:
+        - postgresql
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PgCreateExtensionOpt'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createPgExtensionResp'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/postgresql/organizations/{orgName}/clusters/{clusterName}/extensions/{extensionName}:
+    delete:
+      summary: drop PostgreSQL extension
+      description: drop PostgreSQL extension
+      operationId: dropPGExtension
+      tags:
+        - postgresql
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - name: extensionName
+          in: path
+          description: The name of the PostgreSQL extension to uninstall.
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: The database where the extension is installed.
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: OK
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/llm:
     get:
       tags:
@@ -21622,6 +21753,77 @@ components:
       required:
         - enable
         - disable
+    PgExtension:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the PostgreSQL extension.
+        database:
+          type: string
+          description: The database where the extension is installed.
+        default_version:
+          type: string
+          description: The default version of the extension.
+        installed_version:
+          type: string
+          description: The currently installed version of the extension.
+        schema:
+          type: string
+          description: The schema where the extension is installed.
+        category:
+          type: string
+          description: The category of the extension.
+          x-omitempty: false
+        need_restart:
+          type: boolean
+          description: Whether the extension needs a restart to take effect.
+          x-omitempty: false
+        pg_version:
+          type: array
+          items:
+            type: string
+          description: The version of PostgreSQL that the extension is compatible with.
+          x-omitempty: false
+        description_zn:
+          type: string
+          description: A description of the extension in Chinese.
+          x-omitempty: false
+        description_en:
+          type: string
+          description: A description of the extension in English.
+          x-omitempty: false
+    PgExtensionList:
+      type: array
+      items:
+        $ref: '#/components/schemas/PgExtension'
+    PgCreateExtensionOpt:
+      type: object
+      required:
+        - name
+        - database
+      properties:
+        name:
+          type: string
+          description: The name of the PostgreSQL extension.
+        database:
+          type: string
+          description: The database where the extension is installed.
+        version:
+          type: string
+          description: The version of the extension to install.
+        schema:
+          type: string
+          description: The schema where the extension is installed.
+    createPgExtensionResp:
+      type: object
+      properties:
+        opsRequestResult:
+          type: object
+          $ref: '#/components/schemas/opsRequestName'
+        PgExtension:
+          type: object
+          $ref: '#/components/schemas/PgExtension'
     AccessLevel:
       type: string
       enum:
