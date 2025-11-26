@@ -31,6 +31,8 @@ type EngineVersion struct {
 	ChartsImage common.NullableString `json:"chartsImage,omitempty"`
 	// Determines if the image registry is set
 	SetImageRegistry common.NullableBool `json:"setImageRegistry,omitempty"`
+	// Service versions supported by this engine version
+	ServiceVersions []string `json:"serviceVersions"`
 	// Timestamp when the record was created
 	CreatedAt common.NullableTime `json:"createdAt,omitempty"`
 	// Timestamp when the record was last updated
@@ -44,7 +46,7 @@ type EngineVersion struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineVersion(id int64, engineName string, version string, kbVersionConstraint string, chartUrl string) *EngineVersion {
+func NewEngineVersion(id int64, engineName string, version string, kbVersionConstraint string, chartUrl string, serviceVersions []string) *EngineVersion {
 	this := EngineVersion{}
 	this.Id = id
 	this.EngineName = engineName
@@ -53,6 +55,7 @@ func NewEngineVersion(id int64, engineName string, version string, kbVersionCons
 	this.ChartUrl = chartUrl
 	var setImageRegistry bool = true
 	this.SetImageRegistry = *common.NewNullableBool(&setImageRegistry)
+	this.ServiceVersions = serviceVersions
 	return &this
 }
 
@@ -337,6 +340,29 @@ func (o *EngineVersion) UnsetSetImageRegistry() {
 	o.SetImageRegistry.Unset()
 }
 
+// GetServiceVersions returns the ServiceVersions field value.
+func (o *EngineVersion) GetServiceVersions() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+	return o.ServiceVersions
+}
+
+// GetServiceVersionsOk returns a tuple with the ServiceVersions field value
+// and a boolean to check if the value has been set.
+func (o *EngineVersion) GetServiceVersionsOk() (*[]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ServiceVersions, true
+}
+
+// SetServiceVersions sets field value.
+func (o *EngineVersion) SetServiceVersions(v []string) {
+	o.ServiceVersions = v
+}
+
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EngineVersion) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt.Get() == nil {
@@ -438,6 +464,7 @@ func (o EngineVersion) MarshalJSON() ([]byte, error) {
 	if o.SetImageRegistry.IsSet() {
 		toSerialize["setImageRegistry"] = o.SetImageRegistry.Get()
 	}
+	toSerialize["serviceVersions"] = o.ServiceVersions
 	if o.CreatedAt.IsSet() {
 		toSerialize["createdAt"] = o.CreatedAt.Get()
 	}
@@ -463,6 +490,7 @@ func (o *EngineVersion) UnmarshalJSON(bytes []byte) (err error) {
 		SetValues           common.NullableString `json:"setValues,omitempty"`
 		ChartsImage         common.NullableString `json:"chartsImage,omitempty"`
 		SetImageRegistry    common.NullableBool   `json:"setImageRegistry,omitempty"`
+		ServiceVersions     *[]string             `json:"serviceVersions"`
 		CreatedAt           common.NullableTime   `json:"createdAt,omitempty"`
 		UpdatedAt           common.NullableTime   `json:"updatedAt,omitempty"`
 	}{}
@@ -484,9 +512,12 @@ func (o *EngineVersion) UnmarshalJSON(bytes []byte) (err error) {
 	if all.ChartUrl == nil {
 		return fmt.Errorf("required field chartUrl missing")
 	}
+	if all.ServiceVersions == nil {
+		return fmt.Errorf("required field serviceVersions missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "engineName", "version", "kbVersionConstraint", "clusterChartUrl", "chartUrl", "setValues", "chartsImage", "setImageRegistry", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "engineName", "version", "kbVersionConstraint", "clusterChartUrl", "chartUrl", "setValues", "chartsImage", "setImageRegistry", "serviceVersions", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}
@@ -499,6 +530,7 @@ func (o *EngineVersion) UnmarshalJSON(bytes []byte) (err error) {
 	o.SetValues = all.SetValues
 	o.ChartsImage = all.ChartsImage
 	o.SetImageRegistry = all.SetImageRegistry
+	o.ServiceVersions = *all.ServiceVersions
 	o.CreatedAt = all.CreatedAt
 	o.UpdatedAt = all.UpdatedAt
 

@@ -28,6 +28,8 @@ type EngineVersionCreate struct {
 	ChartsImage common.NullableString `json:"chartsImage,omitempty"`
 	// Determines if the image registry is set
 	SetImageRegistry common.NullableBool `json:"setImageRegistry,omitempty"`
+	// Service versions supported by this engine version
+	ServiceVersions []string `json:"serviceVersions"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -37,7 +39,7 @@ type EngineVersionCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineVersionCreate(engineName string, version string, kbVersionConstraint string, chartUrl string) *EngineVersionCreate {
+func NewEngineVersionCreate(engineName string, version string, kbVersionConstraint string, chartUrl string, serviceVersions []string) *EngineVersionCreate {
 	this := EngineVersionCreate{}
 	this.EngineName = engineName
 	this.Version = version
@@ -45,6 +47,7 @@ func NewEngineVersionCreate(engineName string, version string, kbVersionConstrai
 	this.ChartUrl = chartUrl
 	var setImageRegistry bool = true
 	this.SetImageRegistry = *common.NewNullableBool(&setImageRegistry)
+	this.ServiceVersions = serviceVersions
 	return &this
 }
 
@@ -306,6 +309,29 @@ func (o *EngineVersionCreate) UnsetSetImageRegistry() {
 	o.SetImageRegistry.Unset()
 }
 
+// GetServiceVersions returns the ServiceVersions field value.
+func (o *EngineVersionCreate) GetServiceVersions() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+	return o.ServiceVersions
+}
+
+// GetServiceVersionsOk returns a tuple with the ServiceVersions field value
+// and a boolean to check if the value has been set.
+func (o *EngineVersionCreate) GetServiceVersionsOk() (*[]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ServiceVersions, true
+}
+
+// SetServiceVersions sets field value.
+func (o *EngineVersionCreate) SetServiceVersions(v []string) {
+	o.ServiceVersions = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineVersionCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -328,6 +354,7 @@ func (o EngineVersionCreate) MarshalJSON() ([]byte, error) {
 	if o.SetImageRegistry.IsSet() {
 		toSerialize["setImageRegistry"] = o.SetImageRegistry.Get()
 	}
+	toSerialize["serviceVersions"] = o.ServiceVersions
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -346,6 +373,7 @@ func (o *EngineVersionCreate) UnmarshalJSON(bytes []byte) (err error) {
 		SetValues           common.NullableString `json:"setValues,omitempty"`
 		ChartsImage         common.NullableString `json:"chartsImage,omitempty"`
 		SetImageRegistry    common.NullableBool   `json:"setImageRegistry,omitempty"`
+		ServiceVersions     *[]string             `json:"serviceVersions"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -362,9 +390,12 @@ func (o *EngineVersionCreate) UnmarshalJSON(bytes []byte) (err error) {
 	if all.ChartUrl == nil {
 		return fmt.Errorf("required field chartUrl missing")
 	}
+	if all.ServiceVersions == nil {
+		return fmt.Errorf("required field serviceVersions missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "version", "kbVersionConstraint", "clusterChartUrl", "chartUrl", "setValues", "chartsImage", "setImageRegistry"})
+		common.DeleteKeys(additionalProperties, &[]string{"engineName", "version", "kbVersionConstraint", "clusterChartUrl", "chartUrl", "setValues", "chartsImage", "setImageRegistry", "serviceVersions"})
 	} else {
 		return err
 	}
@@ -376,6 +407,7 @@ func (o *EngineVersionCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.SetValues = all.SetValues
 	o.ChartsImage = all.ChartsImage
 	o.SetImageRegistry = all.SetImageRegistry
+	o.ServiceVersions = *all.ServiceVersions
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

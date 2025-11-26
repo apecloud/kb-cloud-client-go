@@ -24892,7 +24892,6 @@ components:
         - engineName
         - title
         - description
-        - versions
         - components
         - modes
         - dms
@@ -25834,6 +25833,7 @@ components:
         - version
         - kbVersionConstraint
         - chartUrl
+        - serviceVersions
       properties:
         engineName:
           type: string
@@ -25864,6 +25864,11 @@ components:
           description: Determines if the image registry is set
           default: true
           nullable: true
+        serviceVersions:
+          type: array
+          items:
+            type: string
+          description: Service versions supported by this engine version
     engineVersion:
       description: EngineVersionRecord
       type: object
@@ -25873,6 +25878,7 @@ components:
         - version
         - kbVersionConstraint
         - chartUrl
+        - serviceVersions
       properties:
         id:
           type: integer
@@ -25907,6 +25913,11 @@ components:
           description: Determines if the image registry is set
           default: true
           nullable: true
+        serviceVersions:
+          type: array
+          items:
+            type: string
+          description: Service versions supported by this engine version
         createdAt:
           type: string
           format: date-time
@@ -25967,6 +25978,12 @@ components:
           type: boolean
           description: Determines if the image registry is set
           default: true
+          nullable: true
+        serviceVersions:
+          type: array
+          items:
+            type: string
+          description: Service versions supported by this engine version
           nullable: true
     engineVersionList:
       description: EngineVersionRecord list
