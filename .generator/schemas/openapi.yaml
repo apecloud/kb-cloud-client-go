@@ -9399,6 +9399,168 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      description: list accounts in cluster
+      summary: List cluster accounts
+      operationId: listKafkaAccounts
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountList'
+          description: Success
+        '204':
+          content: {}
+          description: Returned when list accounts successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - account
+        - kafka
+        - shared
+      x-codegen-request-body-name: body
+    post:
+      description: create an account in cluster
+      summary: Create cluster account
+      operationId: createKafkaAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '201':
+          description: create kafka account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - account
+        - kafka
+        - shared
+      x-codegen-request-body-name: body
+  /api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    delete:
+      description: delete an account in cluster
+      summary: Delete cluster account
+      operationId: deleteKafkaAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when account is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - account
+        - kafka
+        - shared
+    patch:
+      description: update an account in cluster
+      summary: update cluster account
+      operationId: updateKafkaAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Update account password successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - account
+        - kafka
+        - shared
+      x-codegen-request-body-name: body
   /api/v1/data/redis/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       tags:
