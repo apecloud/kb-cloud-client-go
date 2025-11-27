@@ -2348,331 +2348,6 @@ paths:
       tags:
         - clusterLog
         - shared
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/accounts:
-    get:
-      deprecated: true
-      description: list accounts in cluster
-      summary: List cluster accounts
-      operationId: listAccountsOld
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: component type
-          in: query
-          name: component
-          schema:
-            type: string
-        - description: include root account
-          in: query
-          name: includeRoot
-          schema:
-            type: boolean
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/accountList'
-          description: Success
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - account
-        - shared
-      x-codegen-request-body-name: body
-    post:
-      description: create an account in cluster
-      deprecated: true
-      summary: Create cluster account
-      operationId: createAccountOld
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/account'
-        required: true
-      responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - account
-        - shared
-      x-codegen-request-body-name: body
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
-    delete:
-      deprecated: true
-      description: delete an account in cluster
-      summary: Delete cluster account
-      operationId: deleteAccountOld
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: accountName
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - account
-        - shared
-    patch:
-      deprecated: true
-      description: update an account in cluster
-      summary: update cluster account
-      operationId: updateAccountOld
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of the account
-          in: path
-          name: accountName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/account'
-        required: true
-      responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - account
-        - shared
-      x-codegen-request-body-name: body
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/accounts/privileges/{accountName}:
-    patch:
-      deprecated: true
-      description: update privileges of account
-      summary: update account privileges
-      operationId: updateAccountPrivilegesOld
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of the account
-          in: path
-          name: accountName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/privilegeList'
-        required: true
-      responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - account
-        - shared
-      x-codegen-request-body-name: body
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/databases:
-    get:
-      deprecated: true
-      description: list databases in cluster
-      summary: List cluster databases
-      operationId: listDatabasesOld
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/databaseList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - database
-        - shared
-    post:
-      deprecated: true
-      description: create a database in cluster
-      summary: Create cluster database
-      operationId: createDatabaseOld
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/database'
-        required: true
-      responses:
-        '204':
-          content: {}
-          description: Returned when database is created successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - database
-        - shared
-      x-codegen-request-body-name: body
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/databases/{databaseName}:
-    delete:
-      deprecated: true
-      description: delete a database in cluster
-      summary: Delete cluster database
-      operationId: deleteDatabaseOld
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of database
-          in: path
-          name: databaseName
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          content: {}
-          description: Returned when database is deleted successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - database
-        - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/reconfigure:
     post:
       operationId: reconfigureCluster
@@ -9483,6 +9158,175 @@ paths:
         - kafka
         - shared
       x-codegen-request-body-name: body
+  /api/v1/data/hive/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      summary: Get Hive accounts
+      description: Get Hive accounts
+      operationId: getHiveAccounts
+      tags:
+        - hive
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The name of organization
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The name of cluster
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountList'
+          description: Success
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      description: create an hive account
+      summary: Create Hive account
+      operationId: createHiveAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '201':
+          description: create hive account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - hive
+        - shared
+      x-codegen-request-body-name: body
+  /api/v1/data/hive/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    delete:
+      description: delete an hive account in cluster
+      summary: Delete hive account
+      operationId: deleteHiveAccount
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when account is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - hive
+        - shared
+    patch:
+      description: update an hive account in cluster
+      summary: update hive account
+      operationId: updateHiveAccount
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Update account password successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - hive
+        - shared
+      x-codegen-request-body-name: body
   /api/v1/data/redis/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       tags:
@@ -10354,13 +10198,13 @@ paths:
           required: true
           schema:
             type: string
-        - description: name of the Org
+        - description: name of the organization
           in: path
           name: orgName
           required: true
           schema:
             type: string
-        - description: name of the Cluster
+        - description: name of the cluster
           in: path
           name: clusterName
           required: true
@@ -10398,13 +10242,13 @@ paths:
           required: true
           schema:
             type: string
-        - description: name of the Org
+        - description: name of the organization
           in: path
           name: orgName
           required: true
           schema:
             type: string
-        - description: name of the Cluster
+        - description: name of the cluster
           in: path
           name: clusterName
           required: true
@@ -10446,19 +10290,19 @@ paths:
           required: true
           schema:
             type: string
-        - description: name of the Org
+        - description: name of the organization
           in: path
           name: orgName
           required: true
           schema:
             type: string
-        - description: name of the Cluster
+        - description: name of the cluster
           in: path
           name: clusterName
           required: true
           schema:
             type: string
-        - description: name of the Cluster
+        - description: name of the account
           in: path
           name: accountName
           required: true
@@ -10489,13 +10333,13 @@ paths:
           required: true
           schema:
             type: string
-        - description: name of the Org
+        - description: name of the organization
           in: path
           name: orgName
           required: true
           schema:
             type: string
-        - description: name of the Cluster
+        - description: name of the cluster
           in: path
           name: clusterName
           required: true
@@ -15345,165 +15189,6 @@ components:
           type: array
         pagination:
           $ref: '#/components/schemas/clusterLogPagination'
-    accountListRoleType:
-      description: The user role name, should be one of [ROOT, SUPERUSER, BASICUSER].
-      enum:
-        - SUPERUSER
-        - BASICUSER
-        - ROOT
-      type: string
-    privilegeType:
-      title: privilegeType
-      description: The type of privilege.
-      type: string
-      enum:
-        - DBADMIN
-        - READWRITE
-        - READONLY
-        - DDLONLY
-        - DMLONLY
-        - ADMIN
-        - DBA
-        - USER
-        - GUEST
-    privilegeListItem:
-      type: object
-      description: Database and its assigned privileges.
-      properties:
-        databaseName:
-          title: databaseName
-          type: string
-          description: The name of the database.
-        privileges:
-          $ref: '#/components/schemas/privilegeType'
-      required:
-        - privileges
-    privilegeList:
-      type: array
-      items:
-        $ref: '#/components/schemas/privilegeListItem'
-      description: A list of privileges and their databases.
-    accountListItem:
-      description: Cluster account information.
-      properties:
-        component:
-          description: Component type.
-          type: string
-        name:
-          description: The name of user.
-          type: string
-        password:
-          description: The password of user.
-          type: string
-        role:
-          $ref: '#/components/schemas/accountListRoleType'
-        privilegesList:
-          description: privileges of databases of cluster
-          title: privilegesList
-          $ref: '#/components/schemas/privilegeList'
-        extra:
-          description: extra information of account
-          type: object
-          additionalProperties: {}
-      required:
-        - name
-      type: object
-    accountList:
-      items:
-        $ref: '#/components/schemas/accountListItem'
-      type: array
-    accountRoleType:
-      default: SUPERUSER
-      description: Role name should be one of [BASICUSER, SUPERUSER, ROOT].
-      enum:
-        - SUPERUSER
-        - BASICUSER
-        - ROOT
-      title: role
-      type: string
-    account:
-      description: Cluster account information
-      properties:
-        privilegesList:
-          description: privileges of databases of cluster
-          title: privilegesList
-          $ref: '#/components/schemas/privilegeList'
-        component:
-          description: Specify the name of component to be connected. If not specified, pick the first one.
-          title: component
-          type: string
-        instance:
-          description: Specify the name of instance to be connected.
-          title: instance
-          type: string
-        name:
-          description: Specify the name of user, which must be unique.
-          title: name
-          type: string
-        password:
-          description: Specify the password of user. The default value is empty, which means a random password will be generated.
-          title: password
-          type: string
-        role:
-          $ref: '#/components/schemas/accountRoleType'
-        extra:
-          description: extra information of account
-          type: object
-          additionalProperties: {}
-      required:
-        - name
-        - role
-      type: object
-    databaseItem:
-      description: Cluster database information
-      properties:
-        name:
-          description: Specify the name of database, which must be unique.
-          title: name
-          type: string
-        options:
-          description: Specify the options of database.
-          title: options
-          type: object
-          additionalProperties: {}
-      required:
-        - name
-      type: object
-    databaseList:
-      description: DatabaesList is a list of Databaes
-      properties:
-        items:
-          description: Items is the list of Databases objects in the list
-          items:
-            $ref: '#/components/schemas/databaseItem'
-          type: array
-      required:
-        - items
-      type: object
-    database:
-      description: Cluster database information
-      properties:
-        component:
-          description: component type
-          title: component
-          type: string
-        name:
-          description: Specify the name of database, which must be unique.
-          title: name
-          type: string
-        description:
-          description: Description of the database.
-          title: description
-          type: string
-        options:
-          description: Specify the options of database.
-          title: options
-          type: object
-          additionalProperties:
-            type: string
-      required:
-        - name
-      type: object
     reconfigureCreate:
       description: ReconfigureCreate is the payload to reconfigure a KubeBlocks cluster
       properties:
@@ -21708,6 +21393,115 @@ components:
       items:
         $ref: '#/components/schemas/ConsumerGroupDescribe'
         nullable: true
+    accountListRoleType:
+      description: The user role name, should be one of [ROOT, SUPERUSER, BASICUSER].
+      enum:
+        - SUPERUSER
+        - BASICUSER
+        - ROOT
+      type: string
+    privilegeType:
+      title: privilegeType
+      description: The type of privilege.
+      type: string
+      enum:
+        - DBADMIN
+        - READWRITE
+        - READONLY
+        - DDLONLY
+        - DMLONLY
+        - ADMIN
+        - DBA
+        - USER
+        - GUEST
+    privilegeListItem:
+      type: object
+      description: Database and its assigned privileges.
+      properties:
+        databaseName:
+          title: databaseName
+          type: string
+          description: The name of the database.
+        privileges:
+          $ref: '#/components/schemas/privilegeType'
+      required:
+        - privileges
+    privilegeList:
+      type: array
+      items:
+        $ref: '#/components/schemas/privilegeListItem'
+      description: A list of privileges and their databases.
+    accountListItem:
+      description: Cluster account information.
+      properties:
+        component:
+          description: Component type.
+          type: string
+        name:
+          description: The name of user.
+          type: string
+        password:
+          description: The password of user.
+          type: string
+        role:
+          $ref: '#/components/schemas/accountListRoleType'
+        privilegesList:
+          description: privileges of databases of cluster
+          title: privilegesList
+          $ref: '#/components/schemas/privilegeList'
+        extra:
+          description: extra information of account
+          type: object
+          additionalProperties: {}
+      required:
+        - name
+      type: object
+    accountList:
+      items:
+        $ref: '#/components/schemas/accountListItem'
+      type: array
+    accountRoleType:
+      default: SUPERUSER
+      description: Role name should be one of [BASICUSER, SUPERUSER, ROOT].
+      enum:
+        - SUPERUSER
+        - BASICUSER
+        - ROOT
+      title: role
+      type: string
+    account:
+      description: Cluster account information
+      properties:
+        privilegesList:
+          description: privileges of databases of cluster
+          title: privilegesList
+          $ref: '#/components/schemas/privilegeList'
+        component:
+          description: Specify the name of component to be connected. If not specified, pick the first one.
+          title: component
+          type: string
+        instance:
+          description: Specify the name of instance to be connected.
+          title: instance
+          type: string
+        name:
+          description: Specify the name of user, which must be unique.
+          title: name
+          type: string
+        password:
+          description: Specify the password of user. The default value is empty, which means a random password will be generated.
+          title: password
+          type: string
+        role:
+          $ref: '#/components/schemas/accountRoleType'
+        extra:
+          description: extra information of account
+          type: object
+          additionalProperties: {}
+      required:
+        - name
+        - role
+      type: object
     redisPrivilegeType:
       description: Redis user privileges
       enum:
@@ -21907,6 +21701,56 @@ components:
         serviceType:
           $ref: '#/components/schemas/DMSConsoleSvcType'
           description: service type of redis insight
+    databaseItem:
+      description: Cluster database information
+      properties:
+        name:
+          description: Specify the name of database, which must be unique.
+          title: name
+          type: string
+        options:
+          description: Specify the options of database.
+          title: options
+          type: object
+          additionalProperties: {}
+      required:
+        - name
+      type: object
+    databaseList:
+      description: DatabaesList is a list of Databaes
+      properties:
+        items:
+          description: Items is the list of Databases objects in the list
+          items:
+            $ref: '#/components/schemas/databaseItem'
+          type: array
+      required:
+        - items
+      type: object
+    database:
+      description: Cluster database information
+      properties:
+        component:
+          description: component type
+          title: component
+          type: string
+        name:
+          description: Specify the name of database, which must be unique.
+          title: name
+          type: string
+        description:
+          description: Description of the database.
+          title: description
+          type: string
+        options:
+          description: Specify the options of database.
+          title: options
+          type: object
+          additionalProperties:
+            type: string
+      required:
+        - name
+      type: object
     dbTDERequest:
       type: object
       properties:
