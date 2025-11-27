@@ -279,6 +279,7 @@
 //   - [inspectionApi.getAutoInspection]
 //   - [inspectionApi.getInspectionTaskByEnv]
 //   - [inspectionApi.getInspectionTaskByOrg]
+//   - [inspectionApi.listAutoInspections]
 //   - [inspectionApi.listInspectionScripts]
 //   - [inspectionApi.listInspectionTasksByEnv]
 //   - [inspectionApi.listInspectionTasksByOrg]
