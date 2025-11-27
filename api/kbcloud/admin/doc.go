@@ -147,6 +147,8 @@
 //   - [databaseApi.listDatabases]
 //   - [databaseApi.listDatabasesOld]
 //   - [databaseApi.updateDatabaseConfig]
+//   - [disasterRecoveryApi.createDisasterRecovery]
+//   - [disasterRecoveryApi.listDisasterRecovery]
 //   - [dmsApi.DataExport]
 //   - [dmsApi.DataImport]
 //   - [dmsApi.GetObjectInfo]
