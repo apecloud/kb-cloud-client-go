@@ -2848,6 +2848,80 @@ paths:
         - cluster
         - shared
       x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery:
+    get:
+      operationId: listDisasterRecovery
+      summary: List Disaster Recovery instances under the main cluster
+      description: Retrieve a list of disaster recovery instances for a specific database cluster.
+      deprecated: true
+      parameters:
+        - description: The ID of the parent database cluster
+          in: path
+          name: parentClusterID
+          required: true
+          schema:
+            type: string
+        - description: name of the org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/disasterRecoveryClusterList'
+          description: A list of disaster recovery instances.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - disasterRecovery
+    post:
+      operationId: createDisasterRecovery
+      summary: Create a new disaster recovery instance
+      description: Create a new disaster recovery instance for a database cluster.
+      deprecated: true
+      parameters:
+        - description: The ID of the parent database cluster
+          in: path
+          name: parentClusterID
+          required: true
+          schema:
+            type: string
+        - description: name of the org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/disasterRecoveryCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/disasterRecoveryTask'
+          description: Disaster recovery instance async job task information.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - disasterRecovery
+      x-codegen-request-body-name: body
   /admin/v1/eventfilter/{filterType}:
     get:
       description: Query available filters for event listing
@@ -18198,6 +18272,71 @@ components:
             $ref: '#/components/schemas/haHistory'
       required:
         - items
+    taskSummary:
+      type: object
+      properties:
+        taskType:
+          type: string
+          description: Type of task operation
+        progress:
+          type: integer
+          description: Progress percentage of the task
+          minimum: 0
+          maximum: 100
+        message:
+          type: string
+          description: Detailed message about the task status
+          x-nullable: true
+    disasterRecoveryClusterItem:
+      description: DisasterRecovery cluster information
+      properties:
+        logicalInstanceID:
+          description: Logical instance ID
+          type: string
+        cluster:
+          $ref: '#/components/schemas/clusterListItem'
+        taskSummary:
+          $ref: '#/components/schemas/taskSummary'
+      type: object
+    disasterRecoveryClusterList:
+      description: disasterRecoveryClusterList is a list of disaster recovery clusters
+      properties:
+        items:
+          description: Items is the list of disaster recovery cluster objects in the list
+          items:
+            $ref: '#/components/schemas/disasterRecoveryClusterItem'
+          type: array
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      required:
+        - items
+      type: object
+    disasterRecoveryCreate:
+      description: DisasterRecoveryCreate is the description to create a DisasterRecovery cluster
+      properties:
+        cluster:
+          $ref: '#/components/schemas/clusterCreate'
+      required:
+        - cluster
+      type: object
+    disasterRecoveryTask:
+      description: Task information of disasterRecovery job
+      properties:
+        logicalInstanceID:
+          description: Logical instance ID
+          type: string
+          nullable: true
+        taskId:
+          description: Task ID
+          type: string
+          nullable: true
+        clusterTaskId:
+          description: Cluster task ID
+          type: string
+          nullable: true
+      required:
+        - taskId
+      type: object
     eventFilterType:
       description: Console do not support orgName.
       type: string
