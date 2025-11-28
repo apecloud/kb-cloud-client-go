@@ -20,6 +20,8 @@ type BackupCreate struct {
 	BackupMethod string `json:"backupMethod"`
 	// component of the cluster to back up
 	Component *string `json:"component,omitempty"`
+	// specify the retention period
+	RetentionPeriod *string `json:"retentionPeriod,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -150,6 +152,34 @@ func (o *BackupCreate) SetComponent(v string) {
 	o.Component = &v
 }
 
+// GetRetentionPeriod returns the RetentionPeriod field value if set, zero value otherwise.
+func (o *BackupCreate) GetRetentionPeriod() string {
+	if o == nil || o.RetentionPeriod == nil {
+		var ret string
+		return ret
+	}
+	return *o.RetentionPeriod
+}
+
+// GetRetentionPeriodOk returns a tuple with the RetentionPeriod field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupCreate) GetRetentionPeriodOk() (*string, bool) {
+	if o == nil || o.RetentionPeriod == nil {
+		return nil, false
+	}
+	return o.RetentionPeriod, true
+}
+
+// HasRetentionPeriod returns a boolean if a field has been set.
+func (o *BackupCreate) HasRetentionPeriod() bool {
+	return o != nil && o.RetentionPeriod != nil
+}
+
+// SetRetentionPeriod gets a reference to the given string and assigns it to the RetentionPeriod field.
+func (o *BackupCreate) SetRetentionPeriod(v string) {
+	o.RetentionPeriod = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -166,6 +196,9 @@ func (o BackupCreate) MarshalJSON() ([]byte, error) {
 	if o.Component != nil {
 		toSerialize["component"] = o.Component
 	}
+	if o.RetentionPeriod != nil {
+		toSerialize["retentionPeriod"] = o.RetentionPeriod
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -176,10 +209,11 @@ func (o BackupCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name         *string     `json:"name,omitempty"`
-		BackupType   *BackupType `json:"backupType,omitempty"`
-		BackupMethod *string     `json:"backupMethod"`
-		Component    *string     `json:"component,omitempty"`
+		Name            *string     `json:"name,omitempty"`
+		BackupType      *BackupType `json:"backupType,omitempty"`
+		BackupMethod    *string     `json:"backupMethod"`
+		Component       *string     `json:"component,omitempty"`
+		RetentionPeriod *string     `json:"retentionPeriod,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -189,7 +223,7 @@ func (o *BackupCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "backupType", "backupMethod", "component"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "backupType", "backupMethod", "component", "retentionPeriod"})
 	} else {
 		return err
 	}
@@ -203,6 +237,7 @@ func (o *BackupCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.BackupMethod = *all.BackupMethod
 	o.Component = all.Component
+	o.RetentionPeriod = all.RetentionPeriod
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
