@@ -585,6 +585,7 @@ func (a *InspectionApi) GetAggregateTaskResult(ctx _context.Context, aggregateTy
 
 // GetAutoInspectionOptionalParameters holds optional parameters for GetAutoInspection.
 type GetAutoInspectionOptionalParameters struct {
+	Id      *int32
 	OrgName *string
 	EnvName *string
 }
@@ -593,6 +594,12 @@ type GetAutoInspectionOptionalParameters struct {
 func NewGetAutoInspectionOptionalParameters() *GetAutoInspectionOptionalParameters {
 	this := GetAutoInspectionOptionalParameters{}
 	return &this
+}
+
+// WithId sets the corresponding parameter name and returns the struct.
+func (r *GetAutoInspectionOptionalParameters) WithId(id int32) *GetAutoInspectionOptionalParameters {
+	r.Id = &id
+	return r
 }
 
 // WithOrgName sets the corresponding parameter name and returns the struct.
@@ -627,7 +634,7 @@ func (a *InspectionApi) GetAutoInspection(ctx _context.Context, o ...GetAutoInsp
 	apiInfo := common.APIInfo{
 		Tag:         "inspection",
 		OperationID: "getAutoInspection",
-		Path:        "/admin/v1/autoInspections",
+		Path:        "/admin/v1/autoInspection",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -637,11 +644,14 @@ func (a *InspectionApi) GetAutoInspection(ctx _context.Context, o ...GetAutoInsp
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/autoInspections"
+	localVarPath := localBasePath + "/admin/v1/autoInspection"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Id != nil {
+		localVarQueryParams.Add("id", common.ParameterToString(*optionalParams.Id, ""))
+	}
 	if optionalParams.OrgName != nil {
 		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
 	}
@@ -862,6 +872,84 @@ func (a *InspectionApi) GetInspectionTaskByOrg(ctx _context.Context, orgName str
 	if optionalParams.Format != nil {
 		localVarQueryParams.Add("format", common.ParameterToString(*optionalParams.Format, ""))
 	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// ListAutoInspections list auto inspections.
+func (a *InspectionApi) ListAutoInspections(ctx _context.Context, resourceType AutoInspectionResourceType) ([]AutoInspection, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []AutoInspection
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "inspection",
+		OperationID: "listAutoInspections",
+		Path:        "/admin/v1/autoInspections",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InspectionApi.ListAutoInspections")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/autoInspections"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("resourceType", common.ParameterToString(resourceType, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(

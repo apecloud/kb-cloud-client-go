@@ -10729,9 +10729,43 @@ paths:
     get:
       tags:
         - inspection
+      operationId: listAutoInspections
+      summary: list auto inspections
+      parameters:
+        - description: type of the auto inspection
+          in: query
+          name: resourceType
+          required: true
+          schema:
+            $ref: '#/components/schemas/autoInspectionResourceType'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/autoInspection'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/autoInspection:
+    get:
+      tags:
+        - inspection
       operationId: getAutoInspection
       summary: get auto inspection
       parameters:
+        - description: id of the auto inspection
+          in: query
+          name: id
+          required: false
+          schema:
+            type: integer
         - description: name of the Org
           in: query
           name: orgName
