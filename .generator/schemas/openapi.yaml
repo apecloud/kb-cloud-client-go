@@ -9108,6 +9108,10 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
       tags:
         - account
         - kafka
@@ -9149,6 +9153,10 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
       tags:
         - account
         - kafka
@@ -9188,6 +9196,10 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
       tags:
         - account
         - kafka
@@ -9222,15 +9234,22 @@ paths:
               $ref: '#/components/schemas/account'
         required: true
       responses:
-        '204':
-          content: {}
-          description: Update account password successfully.
+        '200':
+          description: upadte kafka account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
       tags:
         - account
         - kafka
