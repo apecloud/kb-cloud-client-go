@@ -15930,6 +15930,9 @@ components:
         component:
           description: component of the cluster to back up
           type: string
+        retentionPeriod:
+          description: specify the retention period
+          type: string
       type: object
       required:
         - backupMethod
