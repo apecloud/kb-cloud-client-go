@@ -328,6 +328,7 @@
 //   - [storageApi.getStorage]
 //   - [storageApi.listStorages]
 //   - [storageClassApi.getStorageClassStats]
+//   - [taskApi.listTaskTypes]
 //   - [tlsApi.getTLSCertificate]
 //   - [tlsApi.tlsSwitcher]
 //   - [userApi.createUserApikey]

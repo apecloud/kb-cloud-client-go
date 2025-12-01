@@ -12072,6 +12072,29 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/taskTypes:
+    get:
+      tags:
+        - task
+        - shared
+      summary: List task types
+      description: List task types
+      operationId: listTaskTypes
+      responses:
+        '200':
+          description: Current task type list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/taskTypeList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/tasks:
     get:
       tags:
@@ -26929,6 +26952,45 @@ components:
           description: ExpiredAt is a timestamp representing the server time when this object will be expired, and deleted automatically.
           format: date-time
       description: KubeBlocks cluster(in recycle bin) information
+    taskType:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the task type
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+        category:
+          type: string
+          description: Category of the task type
+        workflowEngine:
+          type: string
+          description: Workflow engine of the task type
+        resourceType:
+          type: string
+          description: Resource type of the task type
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation time of the task type
+        updatedAt:
+          type: string
+          format: date-time
+          description: Update time of the task type
+      required:
+        - name
+        - workflowEngine
+        - createdAt
+        - updatedAt
+    taskTypeList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/taskType'
     taskList:
       type: object
       required:

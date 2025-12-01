@@ -458,6 +458,7 @@
 //   - [taskApi.getTask]
 //   - [taskApi.getTaskLog]
 //   - [taskApi.listTask]
+//   - [taskApi.listTaskTypes]
 //   - [taskApi.retryTask]
 //   - [taskApi.stopTask]
 //   - [tlsApi.getTLSCertificate]
