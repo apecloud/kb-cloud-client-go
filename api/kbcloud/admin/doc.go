@@ -10,6 +10,7 @@
 //   - [AIApi.listConversations]
 //   - [AIApi.newAIConversation]
 //   - [SLAApi.CalculateSLA]
+//   - [SLAApi.ListEnvironmentOutageRecord]
 //   - [accountApi.createAccount]
 //   - [accountApi.createMongoDBAccount]
 //   - [accountApi.deleteAccount]
