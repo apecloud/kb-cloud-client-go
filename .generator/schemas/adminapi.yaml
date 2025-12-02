@@ -22660,6 +22660,9 @@ components:
         restoreTime:
           description: restore time
           type: string
+        duration:
+          description: duration of restore
+          type: string
         status:
           description: restore status
           properties:
