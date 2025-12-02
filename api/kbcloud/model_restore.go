@@ -32,6 +32,8 @@ type Restore struct {
 	Parameters map[string]string `json:"parameters,omitempty"`
 	// restore time
 	RestoreTime *string `json:"restoreTime,omitempty"`
+	// duration of restore
+	Duration *string `json:"duration,omitempty"`
 	// restore status
 	Status *RestoreStatus `json:"status,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -324,6 +326,34 @@ func (o *Restore) SetRestoreTime(v string) {
 	o.RestoreTime = &v
 }
 
+// GetDuration returns the Duration field value if set, zero value otherwise.
+func (o *Restore) GetDuration() string {
+	if o == nil || o.Duration == nil {
+		var ret string
+		return ret
+	}
+	return *o.Duration
+}
+
+// GetDurationOk returns a tuple with the Duration field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Restore) GetDurationOk() (*string, bool) {
+	if o == nil || o.Duration == nil {
+		return nil, false
+	}
+	return o.Duration, true
+}
+
+// HasDuration returns a boolean if a field has been set.
+func (o *Restore) HasDuration() bool {
+	return o != nil && o.Duration != nil
+}
+
+// SetDuration gets a reference to the given string and assigns it to the Duration field.
+func (o *Restore) SetDuration(v string) {
+	o.Duration = &v
+}
+
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *Restore) GetStatus() RestoreStatus {
 	if o == nil || o.Status == nil {
@@ -386,6 +416,9 @@ func (o Restore) MarshalJSON() ([]byte, error) {
 	if o.RestoreTime != nil {
 		toSerialize["restoreTime"] = o.RestoreTime
 	}
+	if o.Duration != nil {
+		toSerialize["duration"] = o.Duration
+	}
 	if o.Status != nil {
 		toSerialize["status"] = o.Status
 	}
@@ -409,6 +442,7 @@ func (o *Restore) UnmarshalJSON(bytes []byte) (err error) {
 		Name          *string           `json:"name,omitempty"`
 		Parameters    map[string]string `json:"parameters,omitempty"`
 		RestoreTime   *string           `json:"restoreTime,omitempty"`
+		Duration      *string           `json:"duration,omitempty"`
 		Status        *RestoreStatus    `json:"status,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -425,7 +459,7 @@ func (o *Restore) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "backupName", "clusterName", "componentName", "targetPodName", "createdAt", "name", "parameters", "restoreTime", "status"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "backupName", "clusterName", "componentName", "targetPodName", "createdAt", "name", "parameters", "restoreTime", "duration", "status"})
 	} else {
 		return err
 	}
@@ -441,6 +475,7 @@ func (o *Restore) UnmarshalJSON(bytes []byte) (err error) {
 	o.Name = all.Name
 	o.Parameters = all.Parameters
 	o.RestoreTime = all.RestoreTime
+	o.Duration = all.Duration
 	if all.Status != nil && all.Status.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
