@@ -4,10 +4,14 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // DisasterRecoveryPromote the Promote object for disasterRecovery instance
 type DisasterRecoveryPromote struct {
+	// the mode of cluster after promotion. default is the primary cluster's mode
+	Mode common.NullableString `json:"mode,omitempty"`
 	// the reason for promoting
 	Reason *string `json:"reason,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -30,6 +34,45 @@ func NewDisasterRecoveryPromote() *DisasterRecoveryPromote {
 func NewDisasterRecoveryPromoteWithDefaults() *DisasterRecoveryPromote {
 	this := DisasterRecoveryPromote{}
 	return &this
+}
+
+// GetMode returns the Mode field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DisasterRecoveryPromote) GetMode() string {
+	if o == nil || o.Mode.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.Mode.Get()
+}
+
+// GetModeOk returns a tuple with the Mode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *DisasterRecoveryPromote) GetModeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Mode.Get(), o.Mode.IsSet()
+}
+
+// HasMode returns a boolean if a field has been set.
+func (o *DisasterRecoveryPromote) HasMode() bool {
+	return o != nil && o.Mode.IsSet()
+}
+
+// SetMode gets a reference to the given common.NullableString and assigns it to the Mode field.
+func (o *DisasterRecoveryPromote) SetMode(v string) {
+	o.Mode.Set(&v)
+}
+
+// SetModeNil sets the value for Mode to be an explicit nil.
+func (o *DisasterRecoveryPromote) SetModeNil() {
+	o.Mode.Set(nil)
+}
+
+// UnsetMode ensures that no value is present for Mode, not even an explicit nil.
+func (o *DisasterRecoveryPromote) UnsetMode() {
+	o.Mode.Unset()
 }
 
 // GetReason returns the Reason field value if set, zero value otherwise.
@@ -66,6 +109,9 @@ func (o DisasterRecoveryPromote) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Mode.IsSet() {
+		toSerialize["mode"] = o.Mode.Get()
+	}
 	if o.Reason != nil {
 		toSerialize["reason"] = o.Reason
 	}
@@ -79,17 +125,19 @@ func (o DisasterRecoveryPromote) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DisasterRecoveryPromote) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Reason *string `json:"reason,omitempty"`
+		Mode   common.NullableString `json:"mode,omitempty"`
+		Reason *string               `json:"reason,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"reason"})
+		common.DeleteKeys(additionalProperties, &[]string{"mode", "reason"})
 	} else {
 		return err
 	}
+	o.Mode = all.Mode
 	o.Reason = all.Reason
 
 	if len(additionalProperties) > 0 {
