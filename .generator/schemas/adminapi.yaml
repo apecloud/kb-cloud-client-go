@@ -16043,6 +16043,56 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/sla/outages:
+    get:
+      summary: List outage record for environments
+      description: List outage record for environments
+      operationId: ListEnvironmentOutageRecord
+      tags:
+        - SLA
+      parameters:
+        - name: environmentName
+          in: query
+          description: name of the environment, if not specified, return all environments
+          schema:
+            type: string
+          required: false
+        - name: orgName
+          in: query
+          description: name of the organization
+          required: false
+          schema:
+            type: string
+        - name: clusterID
+          in: query
+          description: id of the cluster
+          required: false
+          schema:
+            type: string
+        - name: activeOnly
+          in: query
+          description: whether to return only active outage records
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Outage record retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutageRecordList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 components:
   securitySchemes:
     BearerToken:
