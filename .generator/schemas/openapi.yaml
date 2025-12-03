@@ -18503,6 +18503,10 @@ components:
               value:
                 type: string
                 description: env value
+        rollbackSupported:
+          type: boolean
+          description: indicate whether rollback is supported for this ops
+          default: false
         dependentCustomOps:
           type: object
           properties:

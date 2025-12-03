@@ -22,8 +22,10 @@ type ComponentOpsOption struct {
 	// indicate whether backup is required for this ops
 	BackupRequired *bool `json:"backupRequired,omitempty"`
 	// indicate the backup method when inplace is true
-	BackupMethod       *ComponentOpsOptionBackupMethod       `json:"backupMethod,omitempty"`
-	RestoreEnv         []ComponentOpsOptionRestoreEnvItem    `json:"restoreEnv,omitempty"`
+	BackupMethod *ComponentOpsOptionBackupMethod    `json:"backupMethod,omitempty"`
+	RestoreEnv   []ComponentOpsOptionRestoreEnvItem `json:"restoreEnv,omitempty"`
+	// indicate whether rollback is supported for this ops
+	RollbackSupported  *bool                                 `json:"rollbackSupported,omitempty"`
 	DependentCustomOps *ComponentOpsOptionDependentCustomOps `json:"dependentCustomOps,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -45,6 +47,8 @@ func NewComponentOpsOption(component string) *ComponentOpsOption {
 	this.NeedBackupWhenInPlace = &needBackupWhenInPlace
 	var backupRequired bool = false
 	this.BackupRequired = &backupRequired
+	var rollbackSupported bool = false
+	this.RollbackSupported = &rollbackSupported
 	return &this
 }
 
@@ -61,6 +65,8 @@ func NewComponentOpsOptionWithDefaults() *ComponentOpsOption {
 	this.NeedBackupWhenInPlace = &needBackupWhenInPlace
 	var backupRequired bool = false
 	this.BackupRequired = &backupRequired
+	var rollbackSupported bool = false
+	this.RollbackSupported = &rollbackSupported
 	return &this
 }
 
@@ -284,6 +290,34 @@ func (o *ComponentOpsOption) SetRestoreEnv(v []ComponentOpsOptionRestoreEnvItem)
 	o.RestoreEnv = v
 }
 
+// GetRollbackSupported returns the RollbackSupported field value if set, zero value otherwise.
+func (o *ComponentOpsOption) GetRollbackSupported() bool {
+	if o == nil || o.RollbackSupported == nil {
+		var ret bool
+		return ret
+	}
+	return *o.RollbackSupported
+}
+
+// GetRollbackSupportedOk returns a tuple with the RollbackSupported field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentOpsOption) GetRollbackSupportedOk() (*bool, bool) {
+	if o == nil || o.RollbackSupported == nil {
+		return nil, false
+	}
+	return o.RollbackSupported, true
+}
+
+// HasRollbackSupported returns a boolean if a field has been set.
+func (o *ComponentOpsOption) HasRollbackSupported() bool {
+	return o != nil && o.RollbackSupported != nil
+}
+
+// SetRollbackSupported gets a reference to the given bool and assigns it to the RollbackSupported field.
+func (o *ComponentOpsOption) SetRollbackSupported(v bool) {
+	o.RollbackSupported = &v
+}
+
 // GetDependentCustomOps returns the DependentCustomOps field value if set, zero value otherwise.
 func (o *ComponentOpsOption) GetDependentCustomOps() ComponentOpsOptionDependentCustomOps {
 	if o == nil || o.DependentCustomOps == nil {
@@ -340,6 +374,9 @@ func (o ComponentOpsOption) MarshalJSON() ([]byte, error) {
 	if o.RestoreEnv != nil {
 		toSerialize["restoreEnv"] = o.RestoreEnv
 	}
+	if o.RollbackSupported != nil {
+		toSerialize["rollbackSupported"] = o.RollbackSupported
+	}
 	if o.DependentCustomOps != nil {
 		toSerialize["dependentCustomOps"] = o.DependentCustomOps
 	}
@@ -361,6 +398,7 @@ func (o *ComponentOpsOption) UnmarshalJSON(bytes []byte) (err error) {
 		BackupRequired        *bool                                 `json:"backupRequired,omitempty"`
 		BackupMethod          *ComponentOpsOptionBackupMethod       `json:"backupMethod,omitempty"`
 		RestoreEnv            []ComponentOpsOptionRestoreEnvItem    `json:"restoreEnv,omitempty"`
+		RollbackSupported     *bool                                 `json:"rollbackSupported,omitempty"`
 		DependentCustomOps    *ComponentOpsOptionDependentCustomOps `json:"dependentCustomOps,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -371,7 +409,7 @@ func (o *ComponentOpsOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"modes", "component", "disableHA", "inPlace", "needBackupWhenInPlace", "backupRequired", "backupMethod", "restoreEnv", "dependentCustomOps"})
+		common.DeleteKeys(additionalProperties, &[]string{"modes", "component", "disableHA", "inPlace", "needBackupWhenInPlace", "backupRequired", "backupMethod", "restoreEnv", "rollbackSupported", "dependentCustomOps"})
 	} else {
 		return err
 	}
@@ -388,6 +426,7 @@ func (o *ComponentOpsOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.BackupMethod = all.BackupMethod
 	o.RestoreEnv = all.RestoreEnv
+	o.RollbackSupported = all.RollbackSupported
 	if all.DependentCustomOps != nil && all.DependentCustomOps.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
