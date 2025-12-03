@@ -4263,6 +4263,65 @@ paths:
       tags:
         - engine
         - shared
+    post:
+      description: enable the service version of the engine and create related resources
+      summary: enable the service version of the engine
+      operationId: EnableServiceVersion
+      parameters:
+        - description: environment name
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: Name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                serviceVersion:
+                  type: string
+                  description: The service version to enable
+                engineVersion:
+                  type: string
+                  description: The engine version to enable
+          multipart/form-data:
+            schema:
+              description: the data of image to upload
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: The engine image to upload
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: the id of the upload task
+                type: object
+                properties:
+                  uploadId:
+                    type: string
+                    description: the id of the upload task
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - enableServiceVersion
   /api/v1/organizations/{orgName}/backupRepo:
     get:
       operationId: listBackupRepos
@@ -14890,14 +14949,14 @@ components:
     clusterBatchUpdate:
       type: object
       required:
-        - names
+        - clusterIDs
         - update
       properties:
-        names:
+        clusterIDs:
           type: array
           items:
             type: string
-          description: List of cluster names to update
+          description: List of cluster ID to update
           minItems: 1
           maxItems: 50
         update:
@@ -18652,6 +18711,19 @@ components:
           additionalProperties:
             type: object
             properties: {}
+    disasterRecoverySettings:
+      type: object
+      properties:
+        supportedSourceModes:
+          type: array
+          items:
+            type: string
+        promotionTargetModes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
     engineOptionsDisasterRecoverySource:
       type: object
       properties:
@@ -18674,6 +18746,8 @@ components:
         instanceLimit:
           type: integer
           default: 8
+        settings:
+          $ref: '#/components/schemas/disasterRecoverySettings'
         mode:
           type: string
           description: referenced cluster's mode, default is the primary cluster's mode
@@ -20828,6 +20902,10 @@ components:
     disasterRecoveryPromote:
       description: the Promote object for disasterRecovery instance
       properties:
+        mode:
+          description: the mode of cluster after promotion. default is the primary cluster's mode
+          type: string
+          nullable: true
         reason:
           description: the reason for promoting
           type: string
