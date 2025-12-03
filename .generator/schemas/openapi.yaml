@@ -18304,6 +18304,19 @@ components:
           additionalProperties:
             type: object
             properties: {}
+    disasterRecoverySettings:
+      type: object
+      properties:
+        supportedSourceModes:
+          type: array
+          items:
+            type: string
+        promotionTargetModes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
     engineOptionsDisasterRecoverySource:
       type: object
       properties:
@@ -18326,6 +18339,8 @@ components:
         instanceLimit:
           type: integer
           default: 8
+        settings:
+          $ref: '#/components/schemas/disasterRecoverySettings'
         mode:
           type: string
           description: referenced cluster's mode, default is the primary cluster's mode
@@ -20404,6 +20419,10 @@ components:
     disasterRecoveryPromote:
       description: the Promote object for disasterRecovery instance
       properties:
+        mode:
+          description: the mode of cluster after promotion. default is the primary cluster's mode
+          type: string
+          nullable: true
         reason:
           description: the reason for promoting
           type: string
