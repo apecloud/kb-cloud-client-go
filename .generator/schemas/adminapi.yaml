@@ -7747,6 +7747,122 @@ paths:
       tags:
         - engine
         - shared
+    post:
+      description: enable the service version of the engine and create related resources
+      summary: enable the service version of the engine
+      operationId: EnableServiceVersion
+      parameters:
+        - description: environment name
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: Name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                serviceVersion:
+                  type: string
+                  description: The service version to enable
+                engineVersion:
+                  type: string
+                  description: The engine version to enable
+          multipart/form-data:
+            schema:
+              description: the data of image to upload
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: The engine image to upload
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: the id of the upload task
+                type: object
+                properties:
+                  uploadId:
+                    type: string
+                    description: the id of the upload task
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - enableServiceVersion
+  /admin/v1/environments/{environmentName}/engines/{engineName}/imageUploadProgress:
+    get:
+      description: get the progress of uploading image task
+      summary: get the progress of uploading image task
+      operationId: GetUploadImageProgress
+      parameters:
+        - description: environment name
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: Name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: upload id
+          in: query
+          name: uploadId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uploadId:
+                    type: string
+                    description: the id of the upload task
+                  imageName:
+                    type: string
+                    description: the name of the uploaded image
+                  status:
+                    type: string
+                    description: the status of the upload task
+                  step:
+                    type: string
+                    description: the current step of the upload task
+                  percentage:
+                    type: number
+                    description: the percentage of the upload task
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - engine
+        - progress
+        - serviceVersion
   /admin/v1/organizations/{orgName}/{engineName}/clusterBackupMethod:
     get:
       operationId: getBackupMethod

@@ -172,6 +172,7 @@
 //   - [dmsApi.tenantParameterHistory]
 //   - [dmsApi.testDataSourceV2]
 //   - [dmsApi.updateDataSourceV2]
+//   - [enableServiceVersionApi.EnableServiceVersion]
 //   - [engineApi.ListServiceVersion]
 //   - [engineApi.ListUpgradeableServiceVersion]
 //   - [engineApi.listEngineLicenses]
