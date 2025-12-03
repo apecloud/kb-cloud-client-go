@@ -30,7 +30,7 @@ func (a *EngineApi) GetUploadImageProgress(ctx _context.Context, environmentName
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
 		OperationID: "GetUploadImageProgress",
-		Path:        "/admin/v1/environments/{environmentName}/engines/{engineName}/getUploadImageProgress",
+		Path:        "/admin/v1/environments/{environmentName}/engines/{engineName}/imageUploadProgress",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -40,7 +40,7 @@ func (a *EngineApi) GetUploadImageProgress(ctx _context.Context, environmentName
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/engines/{engineName}/getUploadImageProgress"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/engines/{engineName}/imageUploadProgress"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 

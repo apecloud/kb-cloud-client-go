@@ -7747,7 +7747,6 @@ paths:
       tags:
         - engine
         - shared
-  /admin/v1/environments/{environmentName}/engines/{engineName}/enableServiceVersion:
     post:
       description: enable the service version of the engine and create related resources
       summary: enable the service version of the engine
@@ -7807,7 +7806,7 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - enableServiceVersion
-  /admin/v1/environments/{environmentName}/engines/{engineName}/getUploadImageProgress:
+  /admin/v1/environments/{environmentName}/engines/{engineName}/imageUploadProgress:
     get:
       description: get the progress of uploading image task
       summary: get the progress of uploading image task

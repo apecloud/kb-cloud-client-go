@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"context"
@@ -56,7 +56,7 @@ func (a *EnableServiceVersionApi) EnableServiceVersion(ctx _context.Context, env
 	apiInfo := common.APIInfo{
 		Tag:         "enableServiceVersion",
 		OperationID: "EnableServiceVersion",
-		Path:        "/admin/v1/environments/{environmentName}/engines/{engineName}/serviceVersion",
+		Path:        "/api/v1/environments/{environmentName}/engines/{engineName}/serviceVersion",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -66,7 +66,7 @@ func (a *EnableServiceVersionApi) EnableServiceVersion(ctx _context.Context, env
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/engines/{engineName}/serviceVersion"
+	localVarPath := localBasePath + "/api/v1/environments/{environmentName}/engines/{engineName}/serviceVersion"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 
