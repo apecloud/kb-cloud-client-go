@@ -3161,6 +3161,106 @@ paths:
         - parameterTemplate
         - shared
       x-codegen-request-body-name: body
+  /admin/v1/databaseParameters:
+    get:
+      operationId: listDatabaseParameters
+      summary: List database parameters
+      parameters:
+        - description: engine Name
+          in: query
+          name: engineName
+          schema:
+            type: string
+        - description: component type
+          in: query
+          name: component
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/databaseParameterList'
+          description: list database parameters successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - databaseParameters
+    post:
+      operationId: createDatabaseParameter
+      summary: Create database parameter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/databaseParameterItem'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/databaseParameterItem'
+          description: create database parameter successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - databaseParameters
+      x-codegen-request-body-name: body
+    patch:
+      operationId: updateDatabaseParameter
+      summary: Update database parameter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/databaseParameterItem'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/databaseParameterItem'
+          description: update database parameter successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - databaseParameters
+      x-codegen-request-body-name: body
+    delete:
+      operationId: deleteDatabaseParameter
+      summary: Delete database parameter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/databaseParameterItem'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Returned when database parameter is deleted successfully.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - databaseParameters
+      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}:
     get:
       tags:
@@ -18292,6 +18392,153 @@ components:
         - description
         - name
       type: object
+    databaseParameterType:
+      type: string
+      description: The type of the parameter value
+      enum:
+        - string
+        - integer
+        - number
+        - boolean
+        - array
+    databaseParameterLevel:
+      type: string
+      description: The level of the parameter
+      enum:
+        - normal
+        - important
+        - protected
+    databaseParameterListItem:
+      description: database parameter item
+      type: object
+      required:
+        - name
+        - type
+        - description
+        - needRestart
+        - immutable
+        - level
+      properties:
+        name:
+          description: The name of the parameter
+          type: string
+        description:
+          description: The description of the parameter
+          type: string
+        type:
+          $ref: '#/components/schemas/databaseParameterType'
+        since:
+          description: Since which version the parameter is supported
+          type: string
+        deprecated:
+          description: which version the parameter is deprecated
+          type: string
+        section:
+          description: The section of the parameter
+          type: string
+        default:
+          description: The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
+          type: object
+        needRestart:
+          description: Whether the parameter requires a restart to take effect
+          type: boolean
+        immutable:
+          description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
+          type: boolean
+        level:
+          $ref: '#/components/schemas/databaseParameterLevel'
+        maximum:
+          description: The maximum value of the parameter
+          type: string
+        minimum:
+          description: The minimum value of the parameter
+          type: string
+        enum:
+          description: The value options of the parameter
+          type: array
+          items: {}
+          x-omitempty: true
+        unit:
+          description: The unit of the parameter
+          type: string
+    databaseParameterList:
+      description: A list of database parameters
+      type: object
+      required:
+        - engineName
+        - component
+      properties:
+        engineName:
+          description: Name of database engine
+          type: string
+        component:
+          description: Name of component
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/databaseParameterListItem'
+    databaseParameterItem:
+      description: A database parameter item
+      type: object
+      required:
+        - engineName
+        - component
+        - name
+        - type
+        - description
+        - needRestart
+        - immutable
+        - level
+      properties:
+        engineName:
+          description: Name of database engine
+          type: string
+        component:
+          description: Name of component
+          type: string
+        name:
+          description: The name of the parameter
+          type: string
+        description:
+          description: The description of the parameter
+          type: string
+        type:
+          $ref: '#/components/schemas/databaseParameterType'
+        since:
+          description: Since which version the parameter is supported
+          type: string
+        deprecated:
+          description: which version the parameter is deprecated
+          type: string
+        section:
+          description: The section of the parameter
+          type: string
+        default:
+          description: The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
+          type: object
+        needRestart:
+          description: Whether the parameter requires a restart to take effect
+          type: boolean
+        immutable:
+          description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
+          type: boolean
+        level:
+          $ref: '#/components/schemas/databaseParameterLevel'
+        maximum:
+          description: The maximum value of the parameter
+          type: string
+        minimum:
+          description: The minimum value of the parameter
+          type: string
+        enum:
+          description: The value options of the parameter
+          type: array
+          items: {}
+          x-omitempty: true
+        unit:
+          description: The unit of the parameter
+          type: string
     datasource:
       required:
         - type
