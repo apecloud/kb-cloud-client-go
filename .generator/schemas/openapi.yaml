@@ -14890,14 +14890,14 @@ components:
     clusterBatchUpdate:
       type: object
       required:
-        - names
+        - clusterIDs
         - update
       properties:
-        names:
+        clusterIDs:
           type: array
           items:
             type: string
-          description: List of cluster names to update
+          description: List of cluster ID to update
           minItems: 1
           maxItems: 50
         update:
