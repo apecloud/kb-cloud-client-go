@@ -173,6 +173,8 @@
 //   - [dmsApi.tenantParameterHistory]
 //   - [dmsApi.testDataSourceV2]
 //   - [dmsApi.updateDataSourceV2]
+//   - [enableServiceVersionApi.EnableServiceVersion]
+//   - [engineApi.GetUploadImageProgress]
 //   - [engineApi.ListServiceVersion]
 //   - [engineApi.ListUpgradeableServiceVersion]
 //   - [engineApi.createEngineResourceConstraint]
