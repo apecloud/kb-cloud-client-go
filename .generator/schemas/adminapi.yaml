@@ -3196,6 +3196,106 @@ paths:
         - parameterTemplate
         - shared
       x-codegen-request-body-name: body
+  /admin/v1/databaseParameters:
+    get:
+      operationId: listDatabaseParameters
+      summary: List database parameters
+      parameters:
+        - description: engine Name
+          in: query
+          name: engineName
+          schema:
+            type: string
+        - description: component type
+          in: query
+          name: component
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/databaseParameterList'
+          description: list database parameters successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - databaseParameters
+    post:
+      operationId: createDatabaseParameter
+      summary: Create database parameter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/databaseParameterItem'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/databaseParameterItem'
+          description: create database parameter successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - databaseParameters
+      x-codegen-request-body-name: body
+    patch:
+      operationId: updateDatabaseParameter
+      summary: Update database parameter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/databaseParameterItem'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/databaseParameterItem'
+          description: update database parameter successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - databaseParameters
+      x-codegen-request-body-name: body
+    delete:
+      operationId: deleteDatabaseParameter
+      summary: Delete database parameter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/databaseParameterItem'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Returned when database parameter is deleted successfully.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - databaseParameters
+      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}:
     get:
       tags:
@@ -16043,6 +16143,56 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/sla/outages:
+    get:
+      summary: List outage record for environments
+      description: List outage record for environments
+      operationId: ListEnvironmentOutageRecord
+      tags:
+        - SLA
+      parameters:
+        - name: environmentName
+          in: query
+          description: name of the environment, if not specified, return all environments
+          schema:
+            type: string
+          required: false
+        - name: orgName
+          in: query
+          description: name of the organization
+          required: false
+          schema:
+            type: string
+        - name: clusterID
+          in: query
+          description: id of the cluster
+          required: false
+          schema:
+            type: string
+        - name: activeOnly
+          in: query
+          description: whether to return only active outage records
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Outage record retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutageRecordList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 components:
   securitySchemes:
     BearerToken:
@@ -17390,14 +17540,14 @@ components:
     clusterBatchUpdate:
       type: object
       required:
-        - names
+        - clusterIDs
         - update
       properties:
-        names:
+        clusterIDs:
           type: array
           items:
             type: string
-          description: List of cluster names to update
+          description: List of cluster ID to update
           minItems: 1
           maxItems: 50
         update:
@@ -18579,6 +18729,151 @@ components:
         - description
         - name
       type: object
+    databaseParameterType:
+      type: string
+      description: The type of the parameter value
+      enum:
+        - string
+        - integer
+        - number
+        - boolean
+        - array
+    databaseParameterLevel:
+      type: string
+      description: The level of the parameter
+      enum:
+        - normal
+        - important
+        - protected
+    databaseParameterListItem:
+      description: database parameter item
+      type: object
+      required:
+        - name
+        - type
+        - description
+        - needRestart
+        - immutable
+        - level
+      properties:
+        name:
+          description: The name of the parameter
+          type: string
+        description:
+          description: The description of the parameter
+          type: string
+        type:
+          $ref: '#/components/schemas/databaseParameterType'
+        since:
+          description: Since which version the parameter is supported
+          type: string
+        deprecated:
+          description: which version the parameter is deprecated
+          type: string
+        section:
+          description: The section of the parameter
+          type: string
+        default:
+          description: The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
+          type: object
+        needRestart:
+          description: Whether the parameter requires a restart to take effect
+          type: boolean
+        immutable:
+          description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
+          type: boolean
+        level:
+          $ref: '#/components/schemas/databaseParameterLevel'
+        maximum:
+          description: The maximum value of the parameter
+          type: string
+        minimum:
+          description: The minimum value of the parameter
+          type: string
+        enum:
+          description: The value options of the parameter
+          type: array
+          items: {}
+        unit:
+          description: The unit of the parameter
+          type: string
+    databaseParameterList:
+      description: A list of database parameters
+      type: object
+      required:
+        - engineName
+        - component
+      properties:
+        engineName:
+          description: Name of database engine
+          type: string
+        component:
+          description: Name of component
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/databaseParameterListItem'
+    databaseParameterItem:
+      description: A database parameter item
+      type: object
+      required:
+        - engineName
+        - component
+        - name
+        - type
+        - description
+        - needRestart
+        - immutable
+        - level
+      properties:
+        engineName:
+          description: Name of database engine
+          type: string
+        component:
+          description: Name of component
+          type: string
+        name:
+          description: The name of the parameter
+          type: string
+        description:
+          description: The description of the parameter
+          type: string
+        type:
+          $ref: '#/components/schemas/databaseParameterType'
+        since:
+          description: Since which version the parameter is supported
+          type: string
+        deprecated:
+          description: which version the parameter is deprecated
+          type: string
+        section:
+          description: The section of the parameter
+          type: string
+        default:
+          description: The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
+          type: object
+        needRestart:
+          description: Whether the parameter requires a restart to take effect
+          type: boolean
+        immutable:
+          description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
+          type: boolean
+        level:
+          $ref: '#/components/schemas/databaseParameterLevel'
+        maximum:
+          description: The maximum value of the parameter
+          type: string
+        minimum:
+          description: The minimum value of the parameter
+          type: string
+        enum:
+          description: The value options of the parameter
+          type: array
+          items: {}
+        unit:
+          description: The unit of the parameter
+          type: string
     datasource:
       required:
         - type
@@ -22610,6 +22905,9 @@ components:
         restoreTime:
           description: restore time
           type: string
+        duration:
+          description: duration of restore
+          type: string
         status:
           description: restore status
           properties:
@@ -24142,6 +24440,19 @@ components:
           additionalProperties:
             type: object
             properties: {}
+    disasterRecoverySettings:
+      type: object
+      properties:
+        supportedSourceModes:
+          type: array
+          items:
+            type: string
+        promotionTargetModes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
     engineOptionsDisasterRecoverySource:
       type: object
       properties:
@@ -24164,6 +24475,8 @@ components:
         instanceLimit:
           type: integer
           default: 8
+        settings:
+          $ref: '#/components/schemas/disasterRecoverySettings'
         mode:
           type: string
           description: referenced cluster's mode, default is the primary cluster's mode
