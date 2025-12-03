@@ -12,8 +12,8 @@ import (
 
 // ClusterBatchUpdate ClusterBatchUpdate is the payload for batch updating multiple clusters with the same update information
 type ClusterBatchUpdate struct {
-	// List of cluster names to update
-	Names []string `json:"names"`
+	// List of cluster ID to update
+	ClusterIDs []string `json:"clusterIDs"`
 	// ClusterBatchUpdateData contains the update information to be applied to all clusters in the batch
 	Update ClusterBatchUpdateData `json:"update"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -25,9 +25,9 @@ type ClusterBatchUpdate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewClusterBatchUpdate(names []string, update ClusterBatchUpdateData) *ClusterBatchUpdate {
+func NewClusterBatchUpdate(clusterIDs []string, update ClusterBatchUpdateData) *ClusterBatchUpdate {
 	this := ClusterBatchUpdate{}
-	this.Names = names
+	this.ClusterIDs = clusterIDs
 	this.Update = update
 	return &this
 }
@@ -40,27 +40,27 @@ func NewClusterBatchUpdateWithDefaults() *ClusterBatchUpdate {
 	return &this
 }
 
-// GetNames returns the Names field value.
-func (o *ClusterBatchUpdate) GetNames() []string {
+// GetClusterIDs returns the ClusterIDs field value.
+func (o *ClusterBatchUpdate) GetClusterIDs() []string {
 	if o == nil {
 		var ret []string
 		return ret
 	}
-	return o.Names
+	return o.ClusterIDs
 }
 
-// GetNamesOk returns a tuple with the Names field value
+// GetClusterIDsOk returns a tuple with the ClusterIDs field value
 // and a boolean to check if the value has been set.
-func (o *ClusterBatchUpdate) GetNamesOk() (*[]string, bool) {
+func (o *ClusterBatchUpdate) GetClusterIDsOk() (*[]string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Names, true
+	return &o.ClusterIDs, true
 }
 
-// SetNames sets field value.
-func (o *ClusterBatchUpdate) SetNames(v []string) {
-	o.Names = v
+// SetClusterIDs sets field value.
+func (o *ClusterBatchUpdate) SetClusterIDs(v []string) {
+	o.ClusterIDs = v
 }
 
 // GetUpdate returns the Update field value.
@@ -92,7 +92,7 @@ func (o ClusterBatchUpdate) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["names"] = o.Names
+	toSerialize["clusterIDs"] = o.ClusterIDs
 	toSerialize["update"] = o.Update
 
 	for key, value := range o.AdditionalProperties {
@@ -104,27 +104,27 @@ func (o ClusterBatchUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterBatchUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Names  *[]string               `json:"names"`
-		Update *ClusterBatchUpdateData `json:"update"`
+		ClusterIDs *[]string               `json:"clusterIDs"`
+		Update     *ClusterBatchUpdateData `json:"update"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Names == nil {
-		return fmt.Errorf("required field names missing")
+	if all.ClusterIDs == nil {
+		return fmt.Errorf("required field clusterIDs missing")
 	}
 	if all.Update == nil {
 		return fmt.Errorf("required field update missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"names", "update"})
+		common.DeleteKeys(additionalProperties, &[]string{"clusterIDs", "update"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	o.Names = *all.Names
+	o.ClusterIDs = *all.ClusterIDs
 	if all.Update.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
