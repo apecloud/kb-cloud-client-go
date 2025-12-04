@@ -1598,7 +1598,6 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - cluster
-        - shared
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/clusters/validate:
     post:
