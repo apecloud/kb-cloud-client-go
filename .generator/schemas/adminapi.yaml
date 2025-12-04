@@ -1533,18 +1533,11 @@ paths:
         - cluster
         - shared
       x-codegen-request-body-name: body
-  /admin/v1/organizations/{orgName}/clusters/batch:
+  /admin/v1/clusters/batch:
     post:
-      operationId: batchUpdateClusters
+      operationId: batchUpdateClustersGlobal
       summary: Batch update clusters
       description: Update multiple clusters with the same update information (displayName and/or maintainceWindow) in a single request
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
       requestBody:
         content:
           application/json:
@@ -1563,7 +1556,6 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - cluster
-        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/validate:
     post:

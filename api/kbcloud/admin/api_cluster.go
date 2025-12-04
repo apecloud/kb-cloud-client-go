@@ -18,9 +18,9 @@ import (
 // ClusterApi service type
 type ClusterApi common.Service
 
-// BatchUpdateClusters Batch update clusters.
+// BatchUpdateClustersGlobal Batch update clusters.
 // Update multiple clusters with the same update information (displayName and/or maintainceWindow) in a single request
-func (a *ClusterApi) BatchUpdateClusters(ctx _context.Context, orgName string, body ClusterBatchUpdate) (*_nethttp.Response, error) {
+func (a *ClusterApi) BatchUpdateClustersGlobal(ctx _context.Context, body ClusterBatchUpdate) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
@@ -29,19 +29,18 @@ func (a *ClusterApi) BatchUpdateClusters(ctx _context.Context, orgName string, b
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "cluster",
-		OperationID: "batchUpdateClusters",
-		Path:        "/admin/v1/organizations/{orgName}/clusters/batch",
+		OperationID: "batchUpdateClustersGlobal",
+		Path:        "/admin/v1/clusters/batch",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.BatchUpdateClusters")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.BatchUpdateClustersGlobal")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/batch"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/clusters/batch"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}

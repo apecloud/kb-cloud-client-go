@@ -98,7 +98,7 @@
 //   - [classTypesApi.getClassType]
 //   - [classTypesApi.getClassTypes]
 //   - [classTypesApi.updateClassType]
-//   - [clusterApi.batchUpdateClusters]
+//   - [clusterApi.batchUpdateClustersGlobal]
 //   - [clusterApi.createCluster]
 //   - [clusterApi.deleteCluster]
 //   - [clusterApi.describeClusterHaHistory]
