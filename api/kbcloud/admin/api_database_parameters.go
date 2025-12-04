@@ -97,7 +97,7 @@ func (a *DatabaseParametersApi) CreateDatabaseParameter(ctx _context.Context, bo
 }
 
 // DeleteDatabaseParameter Delete database parameter.
-func (a *DatabaseParametersApi) DeleteDatabaseParameter(ctx _context.Context, body DatabaseParameterItem) (*_nethttp.Response, error) {
+func (a *DatabaseParametersApi) DeleteDatabaseParameter(ctx _context.Context, body DeleteDatabaseParameterItem) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
