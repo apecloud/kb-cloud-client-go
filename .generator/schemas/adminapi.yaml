@@ -3283,7 +3283,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/databaseParameterItem'
+              $ref: '#/components/schemas/deleteDatabaseParameterItem'
         required: true
       responses:
         '204':
@@ -18624,6 +18624,31 @@ components:
           x-omitempty: true
         unit:
           description: The unit of the parameter
+          type: string
+    deleteDatabaseParameterItem:
+      description: A database parameter item for deletion
+      type: object
+      required:
+        - engineName
+        - component
+        - name
+        - since
+        - deprecated
+      properties:
+        engineName:
+          description: Name of database engine
+          type: string
+        component:
+          description: Name of component
+          type: string
+        name:
+          description: The name of the parameter
+          type: string
+        since:
+          description: Since which version the parameter is supported
+          type: string
+        deprecated:
+          description: which version the parameter is deprecated
           type: string
     datasource:
       required:
