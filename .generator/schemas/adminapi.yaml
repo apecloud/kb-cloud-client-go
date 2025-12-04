@@ -5265,36 +5265,6 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
-  /admin/v1/environments/checkNodeSSHConfig:
-    post:
-      tags:
-        - environment
-      summary: Check nodes ssh config
-      description: Check ssh config of provided IP addresses
-      operationId: checkNodeSSHConfig
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/sshConfigCheckRequest'
-        required: true
-      responses:
-        '200':
-          description: IP connectivity check results
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/sshConfigCheckResponse'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /admin/v1/environments/{environmentName}:
     delete:
       operationId: deleteEnvironment
@@ -5599,80 +5569,6 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - environment
-  /admin/v1/environments/{environmentName}/nodes/scaleout:
-    post:
-      tags:
-        - environment
-      summary: Scale out environment nodes
-      description: Scale out environment by adding new nodes using sealos
-      operationId: scaleOutEnvironmentNodes
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/nodeScaleRequest'
-        required: true
-      responses:
-        '202':
-          description: Node scaling task accepted
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/task'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/environments/{environmentName}/nodes/scalein:
-    post:
-      tags:
-        - environment
-      summary: Scale in environment nodes
-      description: Scale in environment by removing nodes using sealos
-      operationId: scaleDownEnvironmentNodes
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/nodeScaleInRequest'
-        required: true
-      responses:
-        '202':
-          description: Node scale in task accepted
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/task'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /admin/v1/environments/{environmentName}/nodes/{nodeName}/cordon:
     patch:
       description: cordon the specified Environment node
@@ -20839,84 +20735,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/preflight'
-    sshConfig:
-      type: object
-      properties:
-        username:
-          type: string
-          description: SSH username for connecting to the node
-          minLength: 1
-          maxLength: 32
-          pattern: ^[a-z_][a-z0-9_-]*$
-        password:
-          type: string
-          description: SSH password for connecting to the node
-          format: password
-          minLength: 1
-          writeOnly: true
-        port:
-          type: integer
-          description: SSH port number
-          default: 22
-          minimum: 1
-          maximum: 65535
-    sshNodeSpec:
-      type: object
-      required:
-        - ip
-      properties:
-        ip:
-          type: string
-          format: ipv4
-          description: IP address of the node
-        ssh:
-          $ref: '#/components/schemas/sshConfig'
-          description: SSH configuration for this specific node
-          x-nullable: true
-    sshConfigCheckRequest:
-      type: object
-      required:
-        - nodes
-      properties:
-        masters:
-          type: array
-          items:
-            $ref: '#/components/schemas/sshNodeSpec'
-          minItems: 1
-          maxItems: 20
-          description: List of masters (jumpserver) to perform preflight checks
-        nodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/sshNodeSpec'
-          minItems: 1
-          maxItems: 20
-          description: List of nodes to perform preflight checks
-        defaultSSH:
-          $ref: '#/components/schemas/sshConfig'
-          description: Default SSH configuration for all nodes. Individual node SSH config will override this.
-    sshConfigCheckResult:
-      type: object
-      required:
-        - ip
-        - reachable
-      properties:
-        ip:
-          type: string
-          format: ipv4
-        reachable:
-          type: boolean
-        message:
-          type: string
-    sshConfigCheckResponse:
-      type: object
-      required:
-        - results
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/sshConfigCheckResult'
     cloudResourceCleanPolicy:
       type: string
       description: The policy to clean cloud resources, either `Delete` or `Retain`
@@ -21143,296 +20961,6 @@ components:
       required:
         - items
       type: object
-    nodeScaleSpec:
-      type: object
-      required:
-        - ip
-        - availabilityZone
-        - markControlPlane
-        - markDataPlane
-      properties:
-        ip:
-          type: string
-          description: IP address of the node to be added
-          format: ipv4
-        availabilityZone:
-          type: string
-        markControlPlane:
-          type: boolean
-          description: Whether mark the node serves as control plane
-          default: false
-        markDataPlane:
-          description: Whether mark the node serves as data plane
-          type: boolean
-          default: true
-        ssh:
-          description: SSH connection details for the node. If not provided, environment default will be used
-          $ref: '#/components/schemas/sshConfig'
-          x-nullable: true
-    nodeScaleRequest:
-      type: object
-      required:
-        - nodes
-      properties:
-        masters:
-          type: array
-          items:
-            $ref: '#/components/schemas/sshNodeSpec'
-          minItems: 1
-          maxItems: 20
-          description: List of masters (jumpserver for ssh), at least one node is needed
-        nodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/nodeScaleSpec'
-          minItems: 1
-          maxItems: 20
-          description: List of nodes to be added, support 1-20 nodes per request
-        defaultSSH:
-          description: Default SSH configuration for all nodes. Individual node SSH config will override this
-          $ref: '#/components/schemas/sshConfig'
-          x-nullable: true
-    taskStatus:
-      type: string
-      enum:
-        - Pending
-        - Running
-        - Stopped
-        - Succeed
-        - Failed
-      description: Current status of the task
-    taskStep:
-      type: object
-      required:
-        - stepId
-        - inputs
-        - stepName
-        - methodName
-        - status
-        - createdAt
-        - updatedAt
-      properties:
-        stepId:
-          type: string
-          description: Unique identifier for the step
-        stepName:
-          type: string
-          description: Name of the step
-        methodName:
-          type: string
-          description: Method to be executed in this step
-        inputs:
-          type: object
-          description: Input parameters for the step
-          additionalProperties:
-            type: string
-        outputs:
-          type: object
-          description: Output parameters from the step
-          additionalProperties:
-            type: string
-        retryLimit:
-          type: integer
-          description: Number of times to retry the step in case of failure
-        currRetryCount:
-          type: integer
-          description: Current retry count for the step
-        timeoutSecond:
-          type: integer
-          description: Timeout duration for the step in seconds
-        status:
-          $ref: '#/components/schemas/taskStatus'
-        message:
-          type: string
-          description: Detailed message about the step status
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the step was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the step was last updated
-        startedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the task was deleted
-          x-nullable: true
-        completionTime:
-          type: string
-          format: date-time
-          description: Time when the task completed or failed
-          x-nullable: true
-    taskFailurePolicy:
-      type: string
-      enum:
-        - interrupt
-        - ignore
-      description: Policy to handle failures
-    task:
-      type: object
-      required:
-        - taskId
-        - status
-        - taskName
-        - taskType
-        - createdAt
-        - updatedAt
-      properties:
-        taskId:
-          type: string
-          description: ID of the scaling task
-        taskName:
-          type: string
-          description: Name of the task
-        taskType:
-          type: string
-          description: Type of task operation
-        status:
-          $ref: '#/components/schemas/taskStatus'
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the task was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the task was last updated
-        deletedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the task was deleted
-          x-nullable: true
-        startedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the task was deleted
-          x-nullable: true
-        completionTime:
-          type: string
-          format: date-time
-          description: Time when the task completed or failed
-          x-nullable: true
-        message:
-          type: string
-          description: Detailed message about the task status
-          x-nullable: true
-        progress:
-          type: integer
-          description: Progress percentage of the task
-          minimum: 0
-          maximum: 100
-        steps:
-          type: array
-          items:
-            $ref: '#/components/schemas/taskStep'
-        parallelism:
-          type: integer
-          description: Degree of parallelism for the task
-        failurePolicy:
-          $ref: '#/components/schemas/taskFailurePolicy'
-        retryLimit:
-          type: integer
-          description: Maximum number of retries for the task
-        timeoutSecond:
-          type: integer
-          description: Timeout duration for the task in seconds
-        operator:
-          type: string
-          description: The user created the task
-          x-nullable: true
-        clusterTaskId:
-          type: string
-          description: ID of the cluster task
-          x-nullable: true
-    scaleInType:
-      type: string
-      enum:
-        - Parallel
-        - Serial
-      default: Serial
-      description: Type of scale in strategy
-    scaleInHealthCheck:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          default: true
-          description: Whether to perform health checks during scale in
-        healthyThreshold:
-          type: integer
-          minimum: 1
-          default: 3
-          description: Number of consecutive successful health checks required
-        unhealthyThreshold:
-          type: integer
-          minimum: 1
-          default: 3
-          description: Number of consecutive failed health checks before marking unhealthy
-        interval:
-          type: string
-          pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
-          default: 10s
-          description: Interval between health checks
-        timeout:
-          type: string
-          pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
-          default: 5s
-          description: Timeout for each health check
-    scaleInStrategy:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/scaleInType'
-        maxUnavailable:
-          type: string
-          pattern: ^([0-9]+|[0-9]+%|)$
-          default: 25%
-          description: Maximum number of nodes that can be unavailable during scale in. Can be an absolute number or a percentage.
-        maxSurge:
-          type: string
-          pattern: ^([0-9]+|[0-9]+%|)$
-          default: 0%
-          description: Maximum number of nodes that can be scheduled above the desired number. Can be an absolute number or a percentage.
-        drainTimeout:
-          type: string
-          pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
-          default: 5m
-          description: How long to wait for pod eviction when draining a node
-        podEvictionWaitTime:
-          type: string
-          pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
-          default: 30s
-          description: Time to wait between pod evictions
-        minReadySeconds:
-          type: integer
-          minimum: 0
-          default: 30
-          description: Minimum time a replacement node should be ready before proceeding
-        healthCheck:
-          $ref: '#/components/schemas/scaleInHealthCheck'
-          description: Health check configuration for the scale in process
-    nodeScaleInRequest:
-      type: object
-      required:
-        - nodes
-      properties:
-        nodes:
-          type: array
-          items:
-            type: string
-          description: List of node names to be removed
-        drain:
-          type: boolean
-          description: Whether to drain nodes before removal
-          default: true
-        strategy:
-          $ref: '#/components/schemas/scaleInStrategy'
-          description: Strategy to control the scale in process
-        force:
-          type: boolean
-          description: Force remove nodes even if they have pods not managed by ReplicationController, ReplicaSet, Job, DaemonSet or StatefulSet
-          default: false
     listBody:
       description: Represents a list of JSON bodies.
       items:
@@ -26953,6 +26481,159 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/taskType'
+    taskStatus:
+      type: string
+      enum:
+        - Pending
+        - Running
+        - Stopped
+        - Succeed
+        - Failed
+      description: Current status of the task
+    taskStep:
+      type: object
+      required:
+        - stepId
+        - inputs
+        - stepName
+        - methodName
+        - status
+        - createdAt
+        - updatedAt
+      properties:
+        stepId:
+          type: string
+          description: Unique identifier for the step
+        stepName:
+          type: string
+          description: Name of the step
+        methodName:
+          type: string
+          description: Method to be executed in this step
+        inputs:
+          type: object
+          description: Input parameters for the step
+          additionalProperties:
+            type: string
+        outputs:
+          type: object
+          description: Output parameters from the step
+          additionalProperties:
+            type: string
+        retryLimit:
+          type: integer
+          description: Number of times to retry the step in case of failure
+        currRetryCount:
+          type: integer
+          description: Current retry count for the step
+        timeoutSecond:
+          type: integer
+          description: Timeout duration for the step in seconds
+        status:
+          $ref: '#/components/schemas/taskStatus'
+        message:
+          type: string
+          description: Detailed message about the step status
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the step was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the step was last updated
+        startedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
+        completionTime:
+          type: string
+          format: date-time
+          description: Time when the task completed or failed
+          x-nullable: true
+    taskFailurePolicy:
+      type: string
+      enum:
+        - interrupt
+        - ignore
+      description: Policy to handle failures
+    task:
+      type: object
+      required:
+        - taskId
+        - status
+        - taskName
+        - taskType
+        - createdAt
+        - updatedAt
+      properties:
+        taskId:
+          type: string
+          description: ID of the scaling task
+        taskName:
+          type: string
+          description: Name of the task
+        taskType:
+          type: string
+          description: Type of task operation
+        status:
+          $ref: '#/components/schemas/taskStatus'
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was last updated
+        deletedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
+        startedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
+        completionTime:
+          type: string
+          format: date-time
+          description: Time when the task completed or failed
+          x-nullable: true
+        message:
+          type: string
+          description: Detailed message about the task status
+          x-nullable: true
+        progress:
+          type: integer
+          description: Progress percentage of the task
+          minimum: 0
+          maximum: 100
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/taskStep'
+        parallelism:
+          type: integer
+          description: Degree of parallelism for the task
+        failurePolicy:
+          $ref: '#/components/schemas/taskFailurePolicy'
+        retryLimit:
+          type: integer
+          description: Maximum number of retries for the task
+        timeoutSecond:
+          type: integer
+          description: Timeout duration for the task in seconds
+        operator:
+          type: string
+          description: The user created the task
+          x-nullable: true
+        clusterTaskId:
+          type: string
+          description: ID of the cluster task
+          x-nullable: true
     taskList:
       type: object
       required:
