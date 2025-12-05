@@ -4,11 +4,14 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type BasicAuthModel struct {
 	UserName *string `json:"userName,omitempty"`
-	Password *string `json:"password,omitempty"`
+	// if password is not provided when patch replication channel, it means not to modify the password
+	Password common.NullableString `json:"password,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -59,32 +62,43 @@ func (o *BasicAuthModel) SetUserName(v string) {
 	o.UserName = &v
 }
 
-// GetPassword returns the Password field value if set, zero value otherwise.
+// GetPassword returns the Password field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *BasicAuthModel) GetPassword() string {
-	if o == nil || o.Password == nil {
+	if o == nil || o.Password.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.Password
+	return *o.Password.Get()
 }
 
 // GetPasswordOk returns a tuple with the Password field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *BasicAuthModel) GetPasswordOk() (*string, bool) {
-	if o == nil || o.Password == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Password, true
+	return o.Password.Get(), o.Password.IsSet()
 }
 
 // HasPassword returns a boolean if a field has been set.
 func (o *BasicAuthModel) HasPassword() bool {
-	return o != nil && o.Password != nil
+	return o != nil && o.Password.IsSet()
 }
 
-// SetPassword gets a reference to the given string and assigns it to the Password field.
+// SetPassword gets a reference to the given common.NullableString and assigns it to the Password field.
 func (o *BasicAuthModel) SetPassword(v string) {
-	o.Password = &v
+	o.Password.Set(&v)
+}
+
+// SetPasswordNil sets the value for Password to be an explicit nil.
+func (o *BasicAuthModel) SetPasswordNil() {
+	o.Password.Set(nil)
+}
+
+// UnsetPassword ensures that no value is present for Password, not even an explicit nil.
+func (o *BasicAuthModel) UnsetPassword() {
+	o.Password.Unset()
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -96,8 +110,8 @@ func (o BasicAuthModel) MarshalJSON() ([]byte, error) {
 	if o.UserName != nil {
 		toSerialize["userName"] = o.UserName
 	}
-	if o.Password != nil {
-		toSerialize["password"] = o.Password
+	if o.Password.IsSet() {
+		toSerialize["password"] = o.Password.Get()
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -109,8 +123,8 @@ func (o BasicAuthModel) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BasicAuthModel) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		UserName *string `json:"userName,omitempty"`
-		Password *string `json:"password,omitempty"`
+		UserName *string               `json:"userName,omitempty"`
+		Password common.NullableString `json:"password,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

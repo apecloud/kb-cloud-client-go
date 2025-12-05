@@ -28131,10 +28131,10 @@ components:
           type: string
     preCheckStatus:
       enum:
-        - pending
-        - running
-        - succeed
-        - failed
+        - Pending
+        - Running
+        - Succeed
+        - Failed
       type: string
     preCheckTaskItem:
       type: object
