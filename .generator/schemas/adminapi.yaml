@@ -15894,6 +15894,13 @@ paths:
           required: false
           schema:
             type: string
+        - name: desc
+          in: query
+          description: Whether to sort in descending order.
+          required: false
+          schema:
+            type: boolean
+            default: false
         - name: limit
           in: query
           description: Limit the number of clusters to return.

@@ -206,6 +206,7 @@ type CalculateSLAOptionalParameters struct {
 	Page              *int32
 	PageSize          *int32
 	OrderBy           *string
+	Desc              *bool
 	Limit             *int32
 }
 
@@ -260,6 +261,12 @@ func (r *CalculateSLAOptionalParameters) WithPageSize(pageSize int32) *Calculate
 // WithOrderBy sets the corresponding parameter name and returns the struct.
 func (r *CalculateSLAOptionalParameters) WithOrderBy(orderBy string) *CalculateSLAOptionalParameters {
 	r.OrderBy = &orderBy
+	return r
+}
+
+// WithDesc sets the corresponding parameter name and returns the struct.
+func (r *CalculateSLAOptionalParameters) WithDesc(desc bool) *CalculateSLAOptionalParameters {
+	r.Desc = &desc
 	return r
 }
 
@@ -361,6 +368,9 @@ func (a *SLAApi) CalculateSLA(ctx _context.Context, rangeVar int32, o ...Calcula
 	}
 	if optionalParams.OrderBy != nil {
 		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
+	}
+	if optionalParams.Desc != nil {
+		localVarQueryParams.Add("desc", common.ParameterToString(*optionalParams.Desc, ""))
 	}
 	if optionalParams.Limit != nil {
 		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
