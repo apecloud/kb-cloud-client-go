@@ -22449,13 +22449,32 @@ components:
         - custom
         - kubeblocks
       type: string
+    authType:
+      enum:
+        - basic
+      type: string
+    basicAuthModel:
+      type: object
+      properties:
+        userName:
+          type: string
+        password:
+          type: string
+          description: if password is not provided when patch replication channel, it means not to modify the password
+          nullable: true
     customEndpoint:
       type: object
       properties:
         connectionString:
+          description: display connection string information, including connection details such as url, database, etc
           type: string
-        userName:
+        connection:
           type: string
+        authType:
+          $ref: '#/components/schemas/authType'
+        basicAuth:
+          $ref: '#/components/schemas/basicAuthModel'
+          nullable: true
     kubeblocksEndpoint:
       type: object
       properties:
@@ -22479,6 +22498,11 @@ components:
           nullable: true
         kubeblocks:
           $ref: '#/components/schemas/kubeblocksEndpoint'
+          nullable: true
+        extraCfgs:
+          type: object
+          additionalProperties:
+            type: string
           nullable: true
     dataChannelObject:
       type: object
@@ -22536,17 +22560,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/dataChannelItem'
-    authType:
-      enum:
-        - basic
-      type: string
-    basicAuthModel:
-      type: object
-      properties:
-        userName:
-          type: string
-        password:
-          type: string
     customEndpointCreate:
       type: object
       properties:
@@ -22762,10 +22775,10 @@ components:
           type: string
     preCheckStatus:
       enum:
-        - pending
-        - running
-        - succeed
-        - failed
+        - Pending
+        - Running
+        - Succeed
+        - Failed
       type: string
     preCheckTaskItem:
       type: object

@@ -14,10 +14,10 @@ type PreCheckStatus string
 
 // List of PreCheckStatus.
 const (
-	PreCheckStatusPending PreCheckStatus = "pending"
-	PreCheckStatusRunning PreCheckStatus = "running"
-	PreCheckStatusSucceed PreCheckStatus = "succeed"
-	PreCheckStatusFailed  PreCheckStatus = "failed"
+	PreCheckStatusPending PreCheckStatus = "Pending"
+	PreCheckStatusRunning PreCheckStatus = "Running"
+	PreCheckStatusSucceed PreCheckStatus = "Succeed"
+	PreCheckStatusFailed  PreCheckStatus = "Failed"
 )
 
 var allowedPreCheckStatusEnumValues = []PreCheckStatus{
