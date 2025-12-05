@@ -20,7 +20,6 @@ type SLAApi common.Service
 // CalculateDailySLAOptionalParameters holds optional parameters for CalculateDailySLA.
 type CalculateDailySLAOptionalParameters struct {
 	EnvironmentName *[]string
-	EndTime         *int64
 	ClusterId       *[]string
 	Engine          *[]string
 	OrgName         *[]string
@@ -36,12 +35,6 @@ func NewCalculateDailySLAOptionalParameters() *CalculateDailySLAOptionalParamete
 // WithEnvironmentName sets the corresponding parameter name and returns the struct.
 func (r *CalculateDailySLAOptionalParameters) WithEnvironmentName(environmentName []string) *CalculateDailySLAOptionalParameters {
 	r.EnvironmentName = &environmentName
-	return r
-}
-
-// WithEndTime sets the corresponding parameter name and returns the struct.
-func (r *CalculateDailySLAOptionalParameters) WithEndTime(endTime int64) *CalculateDailySLAOptionalParameters {
-	r.EndTime = &endTime
 	return r
 }
 
@@ -71,7 +64,7 @@ func (r *CalculateDailySLAOptionalParameters) WithTimezoneOffset(timezoneOffset 
 
 // CalculateDailySLA Calculate daily SLA for a environment or a cluster since a specific date.
 // Calculate daily SLA for a environment or a cluster since a specific date
-func (a *SLAApi) CalculateDailySLA(ctx _context.Context, startTime int64, o ...CalculateDailySLAOptionalParameters) ([]DailySLA, *_nethttp.Response, error) {
+func (a *SLAApi) CalculateDailySLA(ctx _context.Context, rangeVar int32, o ...CalculateDailySLAOptionalParameters) ([]DailySLA, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -105,7 +98,7 @@ func (a *SLAApi) CalculateDailySLA(ctx _context.Context, startTime int64, o ...C
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("startTime", common.ParameterToString(startTime, ""))
+	localVarQueryParams.Add("range", common.ParameterToString(rangeVar, ""))
 	if optionalParams.EnvironmentName != nil {
 		t := *optionalParams.EnvironmentName
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
@@ -116,9 +109,6 @@ func (a *SLAApi) CalculateDailySLA(ctx _context.Context, startTime int64, o ...C
 		} else {
 			localVarQueryParams.Add("environmentName", common.ParameterToString(t, "multi"))
 		}
-	}
-	if optionalParams.EndTime != nil {
-		localVarQueryParams.Add("endTime", common.ParameterToString(*optionalParams.EndTime, ""))
 	}
 	if optionalParams.ClusterId != nil {
 		t := *optionalParams.ClusterId
@@ -208,12 +198,15 @@ func (a *SLAApi) CalculateDailySLA(ctx _context.Context, startTime int64, o ...C
 
 // CalculateSLAOptionalParameters holds optional parameters for CalculateSLA.
 type CalculateSLAOptionalParameters struct {
-	EnvironmentName *[]string
-	ClusterId       *[]string
-	Engine          *[]string
-	OrgName         *[]string
-	StartTime       *int64
-	EndTime         *int64
+	EnvironmentName   *[]string
+	ClusterId         *[]string
+	Engine            *[]string
+	OrgName           *[]string
+	ClusterNamePrefix *string
+	Page              *int32
+	PageSize          *int32
+	OrderBy           *string
+	Limit             *int32
 }
 
 // NewCalculateSLAOptionalParameters creates an empty struct for parameters.
@@ -246,25 +239,43 @@ func (r *CalculateSLAOptionalParameters) WithOrgName(orgName []string) *Calculat
 	return r
 }
 
-// WithStartTime sets the corresponding parameter name and returns the struct.
-func (r *CalculateSLAOptionalParameters) WithStartTime(startTime int64) *CalculateSLAOptionalParameters {
-	r.StartTime = &startTime
+// WithClusterNamePrefix sets the corresponding parameter name and returns the struct.
+func (r *CalculateSLAOptionalParameters) WithClusterNamePrefix(clusterNamePrefix string) *CalculateSLAOptionalParameters {
+	r.ClusterNamePrefix = &clusterNamePrefix
 	return r
 }
 
-// WithEndTime sets the corresponding parameter name and returns the struct.
-func (r *CalculateSLAOptionalParameters) WithEndTime(endTime int64) *CalculateSLAOptionalParameters {
-	r.EndTime = &endTime
+// WithPage sets the corresponding parameter name and returns the struct.
+func (r *CalculateSLAOptionalParameters) WithPage(page int32) *CalculateSLAOptionalParameters {
+	r.Page = &page
+	return r
+}
+
+// WithPageSize sets the corresponding parameter name and returns the struct.
+func (r *CalculateSLAOptionalParameters) WithPageSize(pageSize int32) *CalculateSLAOptionalParameters {
+	r.PageSize = &pageSize
+	return r
+}
+
+// WithOrderBy sets the corresponding parameter name and returns the struct.
+func (r *CalculateSLAOptionalParameters) WithOrderBy(orderBy string) *CalculateSLAOptionalParameters {
+	r.OrderBy = &orderBy
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *CalculateSLAOptionalParameters) WithLimit(limit int32) *CalculateSLAOptionalParameters {
+	r.Limit = &limit
 	return r
 }
 
 // CalculateSLA Calculate SLA for a environment.
 // Calculate SLA for a environment
-func (a *SLAApi) CalculateSLA(ctx _context.Context, o ...CalculateSLAOptionalParameters) ([]SLA, *_nethttp.Response, error) {
+func (a *SLAApi) CalculateSLA(ctx _context.Context, rangeVar int32, o ...CalculateSLAOptionalParameters) (ClustersSLA, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []SLA
+		localVarReturnValue ClustersSLA
 		optionalParams      CalculateSLAOptionalParameters
 	)
 
@@ -294,6 +305,7 @@ func (a *SLAApi) CalculateSLA(ctx _context.Context, o ...CalculateSLAOptionalPar
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("range", common.ParameterToString(rangeVar, ""))
 	if optionalParams.EnvironmentName != nil {
 		t := *optionalParams.EnvironmentName
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
@@ -338,11 +350,20 @@ func (a *SLAApi) CalculateSLA(ctx _context.Context, o ...CalculateSLAOptionalPar
 			localVarQueryParams.Add("orgName", common.ParameterToString(t, "multi"))
 		}
 	}
-	if optionalParams.StartTime != nil {
-		localVarQueryParams.Add("startTime", common.ParameterToString(*optionalParams.StartTime, ""))
+	if optionalParams.ClusterNamePrefix != nil {
+		localVarQueryParams.Add("clusterNamePrefix", common.ParameterToString(*optionalParams.ClusterNamePrefix, ""))
 	}
-	if optionalParams.EndTime != nil {
-		localVarQueryParams.Add("endTime", common.ParameterToString(*optionalParams.EndTime, ""))
+	if optionalParams.Page != nil {
+		localVarQueryParams.Add("page", common.ParameterToString(*optionalParams.Page, ""))
+	}
+	if optionalParams.PageSize != nil {
+		localVarQueryParams.Add("pageSize", common.ParameterToString(*optionalParams.PageSize, ""))
+	}
+	if optionalParams.OrderBy != nil {
+		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
