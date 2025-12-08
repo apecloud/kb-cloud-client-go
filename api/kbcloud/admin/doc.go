@@ -178,6 +178,7 @@
 //   - [engineApi.GetUploadImageProgress]
 //   - [engineApi.ListServiceVersion]
 //   - [engineApi.ListUpgradeableServiceVersion]
+//   - [engineApi.availableServiceVersion]
 //   - [engineApi.createEngineResourceConstraint]
 //   - [engineApi.createEngineVersion]
 //   - [engineApi.deleteEngineResourceConstraint]

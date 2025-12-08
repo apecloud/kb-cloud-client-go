@@ -7794,6 +7794,46 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - enableServiceVersion
+  /admin/v1/environments/{environmentName}/engines/{engineName}/availableServiceVersion:
+    get:
+      description: list the service version of the engine
+      summary: list the service version of the engine
+      operationId: availableServiceVersion
+      parameters:
+        - description: environment name
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: Name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: component type, refer to componentDef and support NamePrefix
+          in: query
+          name: component
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineServiceVersions'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - engine
+        - shared
   /admin/v1/environments/{environmentName}/engines/{engineName}/imageUploadProgress:
     get:
       description: get the progress of uploading image task
