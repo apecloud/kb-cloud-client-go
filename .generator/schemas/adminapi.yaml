@@ -15860,9 +15860,121 @@ paths:
             type: array
             items:
               type: string
-        - name: startTime
+        - name: range
           in: query
-          description: UTC timestamp of the start time to calculate SLA, unit is second
+          description: Time range to calculate SLA, unit is day, available values are "30", "90", "365".
+          required: true
+          schema:
+            type: integer
+        - name: clusterNamePrefix
+          in: query
+          description: Filter clusters by name prefix (fuzzy search).
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Page number for pagination, starts from 1.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+        - name: pageSize
+          in: query
+          description: Number of items per page.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+        - name: orderBy
+          in: query
+          description: Order by field, available values are "clusterName", "sla", "engine".
+          required: false
+          schema:
+            type: string
+        - name: desc
+          in: query
+          description: Whether to sort in descending order.
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: limit
+          in: query
+          description: Limit the number of clusters to return.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+      responses:
+        '200':
+          description: SLA calculated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClustersSLA'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/sla/daily:
+    get:
+      summary: Calculate daily SLA for a environment or a cluster since a specific date
+      description: Calculate daily SLA for a environment or a cluster since a specific date
+      operationId: CalculateDailySLA
+      tags:
+        - SLA
+      parameters:
+        - name: environmentName
+          in: query
+          description: name of the environment
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: range
+          in: query
+          description: Time range to calculate SLA, unit is day, available values are "30", "90", "365".
+          required: true
+          schema:
+            type: integer
+        - name: clusterID
+          in: query
+          description: id of the cluster
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: engine
+          in: query
+          description: database engine type
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: orgName
+          in: query
+          description: name of the organization
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: timezoneOffset
+          in: query
+          description: timezone offset in seconds, e.g. offset of UTC+08:00 is +8 * 60 * 60, default is 0
           required: false
           schema:
             type: integer
@@ -15873,7 +15985,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SLAList'
+                $ref: '#/components/schemas/DailySLAList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -27496,9 +27608,9 @@ components:
         extendStepMB:
           type: string
           description: the extend step of this file, unit MB
-        maxSizeGB:
+        maxSizeMB:
           type: string
-          description: the max size of this file, unit GB
+          description: the max size of this file, unit MB
         usedRatioInMax:
           type: string
           description: the used ratio in the max size of this file
@@ -28605,6 +28717,35 @@ components:
       description: A list of SLA records.
       items:
         $ref: '#/components/schemas/SLA'
+    ClustersSLA:
+      type: object
+      description: The SLA (Service Level Agreement) for a cluster.
+      properties:
+        items:
+          type: object
+          $ref: '#/components/schemas/SLAList'
+        total:
+          type: integer
+          format: int64
+          description: The total number of cluster SLA records.
+    DailySLA:
+      type: object
+      description: The SLA (Service Level Agreement) for a cluster on a specific date.
+      properties:
+        date:
+          type: string
+          format: date
+          description: The date for which the SLA is calculated.
+        sla:
+          type: number
+          description: The SLA value for the cluster on the specified date. Null indicates that the cluster was not existing on that date.
+          x-omitempty: false
+          nullable: true
+    DailySLAList:
+      type: array
+      description: A list of daily SLA records.
+      items:
+        $ref: '#/components/schemas/DailySLA'
   responses:
     '204':
       description: No Content
