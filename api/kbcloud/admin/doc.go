@@ -9,6 +9,7 @@
 //   - [AIApi.getConversationMessages]
 //   - [AIApi.listConversations]
 //   - [AIApi.newAIConversation]
+//   - [SLAApi.CalculateDailySLA]
 //   - [SLAApi.CalculateSLA]
 //   - [SLAApi.ListEnvironmentOutageRecord]
 //   - [accountApi.createAccount]
