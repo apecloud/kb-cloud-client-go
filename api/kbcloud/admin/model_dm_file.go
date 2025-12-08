@@ -25,8 +25,8 @@ type DmFile struct {
 	UsedRatio *string `json:"usedRatio,omitempty"`
 	// the extend step of this file, unit MB
 	ExtendStepMb *string `json:"extendStepMB,omitempty"`
-	// the max size of this file, unit GB
-	MaxSizeGb *string `json:"maxSizeGB,omitempty"`
+	// the max size of this file, unit MB
+	MaxSizeMb *string `json:"maxSizeMB,omitempty"`
 	// the used ratio in the max size of this file
 	UsedRatioInMax *string `json:"usedRatioInMax,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -243,32 +243,32 @@ func (o *DmFile) SetExtendStepMb(v string) {
 	o.ExtendStepMb = &v
 }
 
-// GetMaxSizeGb returns the MaxSizeGb field value if set, zero value otherwise.
-func (o *DmFile) GetMaxSizeGb() string {
-	if o == nil || o.MaxSizeGb == nil {
+// GetMaxSizeMb returns the MaxSizeMb field value if set, zero value otherwise.
+func (o *DmFile) GetMaxSizeMb() string {
+	if o == nil || o.MaxSizeMb == nil {
 		var ret string
 		return ret
 	}
-	return *o.MaxSizeGb
+	return *o.MaxSizeMb
 }
 
-// GetMaxSizeGbOk returns a tuple with the MaxSizeGb field value if set, nil otherwise
+// GetMaxSizeMbOk returns a tuple with the MaxSizeMb field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DmFile) GetMaxSizeGbOk() (*string, bool) {
-	if o == nil || o.MaxSizeGb == nil {
+func (o *DmFile) GetMaxSizeMbOk() (*string, bool) {
+	if o == nil || o.MaxSizeMb == nil {
 		return nil, false
 	}
-	return o.MaxSizeGb, true
+	return o.MaxSizeMb, true
 }
 
-// HasMaxSizeGb returns a boolean if a field has been set.
-func (o *DmFile) HasMaxSizeGb() bool {
-	return o != nil && o.MaxSizeGb != nil
+// HasMaxSizeMb returns a boolean if a field has been set.
+func (o *DmFile) HasMaxSizeMb() bool {
+	return o != nil && o.MaxSizeMb != nil
 }
 
-// SetMaxSizeGb gets a reference to the given string and assigns it to the MaxSizeGb field.
-func (o *DmFile) SetMaxSizeGb(v string) {
-	o.MaxSizeGb = &v
+// SetMaxSizeMb gets a reference to the given string and assigns it to the MaxSizeMb field.
+func (o *DmFile) SetMaxSizeMb(v string) {
+	o.MaxSizeMb = &v
 }
 
 // GetUsedRatioInMax returns the UsedRatioInMax field value if set, zero value otherwise.
@@ -324,8 +324,8 @@ func (o DmFile) MarshalJSON() ([]byte, error) {
 	if o.ExtendStepMb != nil {
 		toSerialize["extendStepMB"] = o.ExtendStepMb
 	}
-	if o.MaxSizeGb != nil {
-		toSerialize["maxSizeGB"] = o.MaxSizeGb
+	if o.MaxSizeMb != nil {
+		toSerialize["maxSizeMB"] = o.MaxSizeMb
 	}
 	if o.UsedRatioInMax != nil {
 		toSerialize["usedRatioInMax"] = o.UsedRatioInMax
@@ -347,7 +347,7 @@ func (o *DmFile) UnmarshalJSON(bytes []byte) (err error) {
 		UsedSizeMb      *string `json:"usedSizeMB,omitempty"`
 		UsedRatio       *string `json:"usedRatio,omitempty"`
 		ExtendStepMb    *string `json:"extendStepMB,omitempty"`
-		MaxSizeGb       *string `json:"maxSizeGB,omitempty"`
+		MaxSizeMb       *string `json:"maxSizeMB,omitempty"`
 		UsedRatioInMax  *string `json:"usedRatioInMax,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -358,7 +358,7 @@ func (o *DmFile) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "autoExtend", "allocatedSizeMB", "usedSizeMB", "usedRatio", "extendStepMB", "maxSizeGB", "usedRatioInMax"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "autoExtend", "allocatedSizeMB", "usedSizeMB", "usedRatio", "extendStepMB", "maxSizeMB", "usedRatioInMax"})
 	} else {
 		return err
 	}
@@ -369,7 +369,7 @@ func (o *DmFile) UnmarshalJSON(bytes []byte) (err error) {
 	o.UsedSizeMb = all.UsedSizeMb
 	o.UsedRatio = all.UsedRatio
 	o.ExtendStepMb = all.ExtendStepMb
-	o.MaxSizeGb = all.MaxSizeGb
+	o.MaxSizeMb = all.MaxSizeMb
 	o.UsedRatioInMax = all.UsedRatioInMax
 
 	if len(additionalProperties) > 0 {

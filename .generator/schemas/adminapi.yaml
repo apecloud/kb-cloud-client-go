@@ -27603,9 +27603,9 @@ components:
         extendStepMB:
           type: string
           description: the extend step of this file, unit MB
-        maxSizeGB:
+        maxSizeMB:
           type: string
-          description: the max size of this file, unit GB
+          description: the max size of this file, unit MB
         usedRatioInMax:
           type: string
           description: the used ratio in the max size of this file
