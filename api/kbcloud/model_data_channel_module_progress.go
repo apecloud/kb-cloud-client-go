@@ -11,7 +11,7 @@ import (
 type DataChannelModuleProgress struct {
 	ModuleName *string                `json:"moduleName,omitempty"`
 	Progress   common.NullableFloat64 `json:"progress,omitempty"`
-	Status     *ChannelStatus         `json:"status,omitempty"`
+	Status     *string                `json:"status,omitempty"`
 	Message    common.NullableString  `json:"message,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -103,9 +103,9 @@ func (o *DataChannelModuleProgress) UnsetProgress() {
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *DataChannelModuleProgress) GetStatus() ChannelStatus {
+func (o *DataChannelModuleProgress) GetStatus() string {
 	if o == nil || o.Status == nil {
-		var ret ChannelStatus
+		var ret string
 		return ret
 	}
 	return *o.Status
@@ -113,7 +113,7 @@ func (o *DataChannelModuleProgress) GetStatus() ChannelStatus {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DataChannelModuleProgress) GetStatusOk() (*ChannelStatus, bool) {
+func (o *DataChannelModuleProgress) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -125,8 +125,8 @@ func (o *DataChannelModuleProgress) HasStatus() bool {
 	return o != nil && o.Status != nil
 }
 
-// SetStatus gets a reference to the given ChannelStatus and assigns it to the Status field.
-func (o *DataChannelModuleProgress) SetStatus(v ChannelStatus) {
+// SetStatus gets a reference to the given string and assigns it to the Status field.
+func (o *DataChannelModuleProgress) SetStatus(v string) {
 	o.Status = &v
 }
 
@@ -199,7 +199,7 @@ func (o *DataChannelModuleProgress) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		ModuleName *string                `json:"moduleName,omitempty"`
 		Progress   common.NullableFloat64 `json:"progress,omitempty"`
-		Status     *ChannelStatus         `json:"status,omitempty"`
+		Status     *string                `json:"status,omitempty"`
 		Message    common.NullableString  `json:"message,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -211,23 +211,13 @@ func (o *DataChannelModuleProgress) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
 	o.ModuleName = all.ModuleName
 	o.Progress = all.Progress
-	if all.Status != nil && !all.Status.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Status = all.Status
-	}
+	o.Status = all.Status
 	o.Message = all.Message
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
