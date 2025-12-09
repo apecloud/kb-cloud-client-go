@@ -20565,13 +20565,6 @@ components:
         - Error
         - Disabled
         - Enabled
-    hostingStatus:
-      type: string
-      description: Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
-      enum:
-        - Hostable
-        - Non-hostable
-        - Hosted
     clusterInfo:
       type: object
       description: Cluster information
@@ -20597,8 +20590,6 @@ components:
           description: Environment module version
         status:
           $ref: '#/components/schemas/environmentModuleStatus'
-        hostingStatus:
-          $ref: '#/components/schemas/hostingStatus'
         replicas:
           type: integer
           description: Number of replicas
@@ -20607,9 +20598,13 @@ components:
           description: Deployment location
         clusterInfo:
           $ref: '#/components/schemas/clusterInfo'
-          description: Cluster information, only returned when hosting_status is Hosted
+          description: Cluster information
         description:
           $ref: '#/components/schemas/localizedDescription'
+          description: Module description in multiple languages
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Module display name in multiple languages
         optional:
           type: boolean
           description: indicate module is optional
