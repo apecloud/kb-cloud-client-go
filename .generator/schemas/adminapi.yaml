@@ -26031,6 +26031,12 @@ components:
         updatedAt:
           format: date-time
           type: string
+        timeRangeStart:
+          format: date-time
+          type: string
+        timeRangeEnd:
+          format: date-time
+          type: string
     inspectionTaskFormat:
       description: Specifies the format of the task in the aggregate task result.
       enum:
