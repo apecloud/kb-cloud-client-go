@@ -12976,6 +12976,15 @@ components:
         - eventName
         - resourceName
         - resourceType
+    localizedDescription:
+      type: object
+      properties:
+        zh-CN:
+          type: string
+          x-nullable: true
+        en-US:
+          type: string
+          x-nullable: true
     eventFilterOption:
       description: Represents a single filter result item.
       properties:
@@ -12985,6 +12994,8 @@ components:
         value:
           description: The actual value associated with the filter option.
           type: string
+        description:
+          $ref: '#/components/schemas/localizedDescription'
       required:
         - title
         - value
@@ -13010,15 +13021,6 @@ components:
       enum:
         - cluster
         - role
-    localizedDescription:
-      type: object
-      properties:
-        zh-CN:
-          type: string
-          x-nullable: true
-        en-US:
-          type: string
-          x-nullable: true
     eventSource:
       description: event source
       enum:

@@ -16176,6 +16176,69 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/sla/uncompliant:
+    get:
+      summary: List uncompliant clusters
+      description: List uncompliant clusters that sla lower than the threshold
+      operationId: ListUncompliantClusters
+      tags:
+        - SLA
+      parameters:
+        - name: environmentName
+          in: query
+          description: name of the environment
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: engine
+          in: query
+          description: database engine type
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: orgName
+          in: query
+          description: name of the organization
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: range
+          in: query
+          description: Time range to calculate SLA, unit is day, available values are "30", "90", "365".
+          required: true
+          schema:
+            type: integer
+        - name: threshold
+          in: query
+          description: SLA threshold, unit is percent, available values are "99.0", "99.5", "99.9", default is "99.5".
+          required: false
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Uncompliant clusters retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SLA'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 components:
   securitySchemes:
     BearerToken:
@@ -18289,6 +18352,8 @@ components:
         value:
           description: The actual value associated with the filter option.
           type: string
+        description:
+          $ref: '#/components/schemas/localizedDescription'
       required:
         - title
         - value

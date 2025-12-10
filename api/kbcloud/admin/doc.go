@@ -14,6 +14,7 @@
 //   - [SLAApi.GetSLASettingsInEnv]
 //   - [SLAApi.GetSLASupportEngines]
 //   - [SLAApi.ListEnvironmentOutageRecord]
+//   - [SLAApi.ListUncompliantClusters]
 //   - [SLAApi.UpdateSLASettingsInEnv]
 //   - [accountApi.createAccount]
 //   - [accountApi.createMongoDBAccount]
