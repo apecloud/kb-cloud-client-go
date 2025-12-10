@@ -1533,18 +1533,11 @@ paths:
         - cluster
         - shared
       x-codegen-request-body-name: body
-  /admin/v1/organizations/{orgName}/clusters/batch:
+  /admin/v1/clusters/batch:
     post:
-      operationId: batchUpdateClusters
+      operationId: batchUpdateClustersGlobal
       summary: Batch update clusters
       description: Update multiple clusters with the same update information (displayName and/or maintainceWindow) in a single request
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
       requestBody:
         content:
           application/json:
@@ -1563,7 +1556,6 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - cluster
-        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/validate:
     post:
@@ -3195,6 +3187,106 @@ paths:
       tags:
         - parameterTemplate
         - shared
+      x-codegen-request-body-name: body
+  /admin/v1/databaseParameters:
+    get:
+      operationId: listDatabaseParameters
+      summary: List database parameters
+      parameters:
+        - description: engine Name
+          in: query
+          name: engineName
+          schema:
+            type: string
+        - description: component type
+          in: query
+          name: component
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/databaseParameterList'
+          description: list database parameters successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - databaseParameters
+    post:
+      operationId: createDatabaseParameter
+      summary: Create database parameter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/databaseParameterItem'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/databaseParameterItem'
+          description: create database parameter successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - databaseParameters
+      x-codegen-request-body-name: body
+    patch:
+      operationId: updateDatabaseParameter
+      summary: Update database parameter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/databaseParameterItem'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/databaseParameterItem'
+          description: update database parameter successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - databaseParameters
+      x-codegen-request-body-name: body
+    delete:
+      operationId: deleteDatabaseParameter
+      summary: Delete database parameter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deleteDatabaseParameterItem'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Returned when database parameter is deleted successfully.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - databaseParameters
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}:
     get:
@@ -5165,36 +5257,6 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
-  /admin/v1/environments/checkNodeSSHConfig:
-    post:
-      tags:
-        - environment
-      summary: Check nodes ssh config
-      description: Check ssh config of provided IP addresses
-      operationId: checkNodeSSHConfig
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/sshConfigCheckRequest'
-        required: true
-      responses:
-        '200':
-          description: IP connectivity check results
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/sshConfigCheckResponse'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /admin/v1/environments/{environmentName}:
     delete:
       operationId: deleteEnvironment
@@ -5499,80 +5561,6 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - environment
-  /admin/v1/environments/{environmentName}/nodes/scaleout:
-    post:
-      tags:
-        - environment
-      summary: Scale out environment nodes
-      description: Scale out environment by adding new nodes using sealos
-      operationId: scaleOutEnvironmentNodes
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/nodeScaleRequest'
-        required: true
-      responses:
-        '202':
-          description: Node scaling task accepted
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/task'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/environments/{environmentName}/nodes/scalein:
-    post:
-      tags:
-        - environment
-      summary: Scale in environment nodes
-      description: Scale in environment by removing nodes using sealos
-      operationId: scaleDownEnvironmentNodes
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/nodeScaleInRequest'
-        required: true
-      responses:
-        '202':
-          description: Node scale in task accepted
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/task'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /admin/v1/environments/{environmentName}/nodes/{nodeName}/cordon:
     patch:
       description: cordon the specified Environment node
@@ -7747,6 +7735,162 @@ paths:
       tags:
         - engine
         - shared
+    post:
+      description: enable the service version of the engine and create related resources
+      summary: enable the service version of the engine
+      operationId: EnableServiceVersion
+      parameters:
+        - description: environment name
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: Name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                serviceVersion:
+                  type: string
+                  description: The service version to enable
+                engineVersion:
+                  type: string
+                  description: The engine version to enable
+          multipart/form-data:
+            schema:
+              description: the data of image to upload
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: The engine image to upload
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: the id of the upload task
+                type: object
+                properties:
+                  uploadId:
+                    type: string
+                    description: the id of the upload task
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - enableServiceVersion
+  /admin/v1/environments/{environmentName}/engines/{engineName}/availableServiceVersion:
+    get:
+      description: list the service version of the engine
+      summary: list the service version of the engine
+      operationId: availableServiceVersion
+      parameters:
+        - description: environment name
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: Name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: component type, refer to componentDef and support NamePrefix
+          in: query
+          name: component
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineServiceVersions'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - engine
+        - shared
+  /admin/v1/environments/{environmentName}/engines/{engineName}/imageUploadProgress:
+    get:
+      description: get the progress of uploading image task
+      summary: get the progress of uploading image task
+      operationId: GetUploadImageProgress
+      parameters:
+        - description: environment name
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: Name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: upload id
+          in: query
+          name: uploadId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uploadId:
+                    type: string
+                    description: the id of the upload task
+                  imageName:
+                    type: string
+                    description: the name of the uploaded image
+                  status:
+                    type: string
+                    description: the status of the upload task
+                  step:
+                    type: string
+                    description: the current step of the upload task
+                  percentage:
+                    type: number
+                    description: the percentage of the upload task
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - engine
+        - progress
+        - serviceVersion
   /admin/v1/organizations/{orgName}/{engineName}/clusterBackupMethod:
     get:
       operationId: getBackupMethod
@@ -11588,269 +11732,6 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - instance
-  /admin/v1/metadb/summary:
-    get:
-      tags:
-        - metadb
-      operationId: getPostgresClusterInfo
-      summary: Get summary of postgresql cluster.
-      deprecated: true
-      parameters:
-        - name: clusterName
-          in: query
-          description: name of the cluster
-          required: false
-          schema:
-            type: string
-        - name: namespace
-          in: query
-          description: namespace of the cluster
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/summary'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/metadb/instances:
-    get:
-      operationId: metadbListInstances
-      summary: List metadb cluster instances
-      deprecated: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/metadb_instanceList'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - metadb
-  /admin/v1/metadb/instancesMetrics:
-    get:
-      operationId: getMetadbInstancesMetrics
-      summary: Get instances metrics in metadb
-      deprecated: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/metadb_instanceMetricsList'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/409'
-      tags:
-        - metadb
-  /admin/v1/metadb/backups:
-    post:
-      tags:
-        - metadb
-      operationId: metadbBackup
-      summary: Backup metadb to S3(AWS S3 or minio)
-      deprecated: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/metadb_backup'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
-    get:
-      tags:
-        - metadb
-      operationId: listMetadbBackups
-      summary: List all names of backups in S3.
-      deprecated: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/metadb_backupList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - metadb
-      operationId: deleteMetadbBackups
-      summary: Delete backups by name or delete all
-      deprecated: true
-      parameters:
-        - name: backupName
-          in: query
-          description: Delete target backup by name
-          schema:
-            type: string
-        - name: all
-          in: query
-          description: Delete all backups in the storage
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          content: {}
-          description: OK
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/metadb/backupConfig:
-    get:
-      tags:
-        - metadb
-      operationId: metadbBackupGetConfig
-      summary: get backup config
-      deprecated: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/backupConfig'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
-    patch:
-      tags:
-        - metadb
-      operationId: metadbBackupConfig
-      summary: set backup config
-      deprecated: true
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/backupConfig'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/backupConfig'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/metadb/restore:
-    post:
-      tags:
-        - metadb
-      operationId: metadbRestore
-      summary: Restore metadb
-      deprecated: true
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/metadb_restore'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/metadb_restore'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/metadb/volumeExpand:
-    post:
-      operationId: metadbVolumeExpand
-      summary: Expand cluster volume size
-      deprecated: true
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/volumeExpand'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/volumeExpand'
-          description: Accepted
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - metadb
-  /admin/v1/metadb/vscale:
-    post:
-      tags:
-        - metadb
-      operationId: metadbVerticalScale
-      summary: vertical scale
-      deprecated: true
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/vscale'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/vscale'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
   /admin/v1/platformParameters:
     get:
       tags:
@@ -16019,9 +15900,121 @@ paths:
             type: array
             items:
               type: string
-        - name: startTime
+        - name: range
           in: query
-          description: UTC timestamp of the start time to calculate SLA, unit is second
+          description: Time range to calculate SLA, unit is day, available values are "30", "90", "365".
+          required: true
+          schema:
+            type: integer
+        - name: clusterNamePrefix
+          in: query
+          description: Filter clusters by name prefix (fuzzy search).
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Page number for pagination, starts from 1.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+        - name: pageSize
+          in: query
+          description: Number of items per page.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+        - name: orderBy
+          in: query
+          description: Order by field, available values are "clusterName", "sla", "engine".
+          required: false
+          schema:
+            type: string
+        - name: desc
+          in: query
+          description: Whether to sort in descending order.
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: limit
+          in: query
+          description: Limit the number of clusters to return.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+      responses:
+        '200':
+          description: SLA calculated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClustersSLA'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/sla/daily:
+    get:
+      summary: Calculate daily SLA for a environment or a cluster since a specific date
+      description: Calculate daily SLA for a environment or a cluster since a specific date
+      operationId: CalculateDailySLA
+      tags:
+        - SLA
+      parameters:
+        - name: environmentName
+          in: query
+          description: name of the environment
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: range
+          in: query
+          description: Time range to calculate SLA, unit is day, available values are "30", "90", "365".
+          required: true
+          schema:
+            type: integer
+        - name: clusterID
+          in: query
+          description: id of the cluster
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: engine
+          in: query
+          description: database engine type
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: orgName
+          in: query
+          description: name of the organization
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: timezoneOffset
+          in: query
+          description: timezone offset in seconds, e.g. offset of UTC+08:00 is +8 * 60 * 60, default is 0
           required: false
           schema:
             type: integer
@@ -16032,7 +16025,147 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SLAList'
+                $ref: '#/components/schemas/DailySLAList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/sla/outages:
+    get:
+      summary: List outage record for environments
+      description: List outage record for environments
+      operationId: ListEnvironmentOutageRecord
+      tags:
+        - SLA
+      parameters:
+        - name: environmentName
+          in: query
+          description: name of the environment, if not specified, return all environments
+          schema:
+            type: string
+          required: false
+        - name: orgName
+          in: query
+          description: name of the organization
+          required: false
+          schema:
+            type: string
+        - name: clusterID
+          in: query
+          description: id of the cluster
+          required: false
+          schema:
+            type: string
+        - name: activeOnly
+          in: query
+          description: whether to return only active outage records
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Outage record retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutageRecordList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/sla/settings:
+    get:
+      summary: Get SLA settings
+      description: Get SLA settings in a environment
+      operationId: GetSLASettingsInEnv
+      tags:
+        - SLA
+      parameters:
+        - name: environmentName
+          in: query
+          description: name of the environment
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: SLA settings retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SLASettings'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      summary: Update SLA settings
+      description: Update SLA settings in a environment
+      operationId: UpdateSLASettingsInEnv
+      tags:
+        - SLA
+      parameters:
+        - name: environmentName
+          in: query
+          description: name of the environment
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SLASettings'
+      responses:
+        '204':
+          description: SLA settings updated successfully
+          content: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/sla/engines:
+    get:
+      summary: Get SLA supported engines
+      description: Get SLA supported engines in a environment
+      operationId: GetSLASupportEngines
+      tags:
+        - SLA
+      responses:
+        '200':
+          description: SLA engines retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -17390,14 +17523,14 @@ components:
     clusterBatchUpdate:
       type: object
       required:
-        - names
+        - clusterIDs
         - update
       properties:
-        names:
+        clusterIDs:
           type: array
           items:
             type: string
-          description: List of cluster names to update
+          description: List of cluster ID to update
           minItems: 1
           maxItems: 50
         update:
@@ -18579,6 +18712,178 @@ components:
         - description
         - name
       type: object
+    databaseParameterType:
+      type: string
+      description: The type of the parameter value
+      enum:
+        - string
+        - integer
+        - number
+        - boolean
+        - array
+    databaseParameterLevel:
+      type: string
+      description: The level of the parameter
+      enum:
+        - normal
+        - important
+        - protected
+    databaseParameterListItem:
+      description: database parameter item
+      type: object
+      required:
+        - name
+        - type
+        - description
+        - needRestart
+        - immutable
+        - level
+      properties:
+        name:
+          description: The name of the parameter
+          type: string
+        description:
+          description: The description of the parameter
+          type: string
+        type:
+          $ref: '#/components/schemas/databaseParameterType'
+        since:
+          description: Since which version the parameter is supported
+          type: string
+        deprecated:
+          description: which version the parameter is deprecated
+          type: string
+        section:
+          description: The section of the parameter
+          type: string
+        default:
+          description: The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
+          type: object
+        needRestart:
+          description: Whether the parameter requires a restart to take effect
+          type: boolean
+        immutable:
+          description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
+          type: boolean
+        level:
+          $ref: '#/components/schemas/databaseParameterLevel'
+        maximum:
+          description: The maximum value of the parameter
+          type: string
+        minimum:
+          description: The minimum value of the parameter
+          type: string
+        enum:
+          description: The value options of the parameter
+          type: array
+          items: {}
+          x-omitempty: true
+        unit:
+          description: The unit of the parameter
+          type: string
+    databaseParameterList:
+      description: A list of database parameters
+      type: object
+      required:
+        - engineName
+        - component
+      properties:
+        engineName:
+          description: Name of database engine
+          type: string
+        component:
+          description: Name of component
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/databaseParameterListItem'
+    databaseParameterItem:
+      description: A database parameter item
+      type: object
+      required:
+        - engineName
+        - component
+        - name
+        - type
+        - description
+        - needRestart
+        - immutable
+        - level
+      properties:
+        engineName:
+          description: Name of database engine
+          type: string
+        component:
+          description: Name of component
+          type: string
+        name:
+          description: The name of the parameter
+          type: string
+        description:
+          description: The description of the parameter
+          type: string
+        type:
+          $ref: '#/components/schemas/databaseParameterType'
+        since:
+          description: Since which version the parameter is supported
+          type: string
+        deprecated:
+          description: which version the parameter is deprecated
+          type: string
+        section:
+          description: The section of the parameter
+          type: string
+        default:
+          description: The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
+          type: object
+        needRestart:
+          description: Whether the parameter requires a restart to take effect
+          type: boolean
+        immutable:
+          description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
+          type: boolean
+        level:
+          $ref: '#/components/schemas/databaseParameterLevel'
+        maximum:
+          description: The maximum value of the parameter
+          type: string
+        minimum:
+          description: The minimum value of the parameter
+          type: string
+        enum:
+          description: The value options of the parameter
+          type: array
+          items: {}
+          x-omitempty: true
+        unit:
+          description: The unit of the parameter
+          type: string
+    deleteDatabaseParameterItem:
+      description: A database parameter item for deletion
+      type: object
+      required:
+        - engineName
+        - component
+        - name
+        - since
+        - deprecated
+      properties:
+        engineName:
+          description: Name of database engine
+          type: string
+        component:
+          description: Name of component
+          type: string
+        name:
+          description: The name of the parameter
+          type: string
+        since:
+          description: Since which version the parameter is supported
+          type: string
+        deprecated:
+          description: which version the parameter is deprecated
+          type: string
     datasource:
       required:
         - type
@@ -19368,6 +19673,8 @@ components:
         clusterTaskId:
           type: string
         dependentClusterTaskId:
+          type: string
+        taskId:
           type: string
       required:
         - opsRequestName
@@ -20347,13 +20654,6 @@ components:
         - Error
         - Disabled
         - Enabled
-    hostingStatus:
-      type: string
-      description: Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
-      enum:
-        - Hostable
-        - Non-hostable
-        - Hosted
     clusterInfo:
       type: object
       description: Cluster information
@@ -20379,8 +20679,6 @@ components:
           description: Environment module version
         status:
           $ref: '#/components/schemas/environmentModuleStatus'
-        hostingStatus:
-          $ref: '#/components/schemas/hostingStatus'
         replicas:
           type: integer
           description: Number of replicas
@@ -20389,9 +20687,13 @@ components:
           description: Deployment location
         clusterInfo:
           $ref: '#/components/schemas/clusterInfo'
-          description: Cluster information, only returned when hosting_status is Hosted
+          description: Cluster information
         description:
           $ref: '#/components/schemas/localizedDescription'
+          description: Module description in multiple languages
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Module display name in multiple languages
         optional:
           type: boolean
           description: indicate module is optional
@@ -20664,84 +20966,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/preflight'
-    sshConfig:
-      type: object
-      properties:
-        username:
-          type: string
-          description: SSH username for connecting to the node
-          minLength: 1
-          maxLength: 32
-          pattern: ^[a-z_][a-z0-9_-]*$
-        password:
-          type: string
-          description: SSH password for connecting to the node
-          format: password
-          minLength: 1
-          writeOnly: true
-        port:
-          type: integer
-          description: SSH port number
-          default: 22
-          minimum: 1
-          maximum: 65535
-    sshNodeSpec:
-      type: object
-      required:
-        - ip
-      properties:
-        ip:
-          type: string
-          format: ipv4
-          description: IP address of the node
-        ssh:
-          $ref: '#/components/schemas/sshConfig'
-          description: SSH configuration for this specific node
-          x-nullable: true
-    sshConfigCheckRequest:
-      type: object
-      required:
-        - nodes
-      properties:
-        masters:
-          type: array
-          items:
-            $ref: '#/components/schemas/sshNodeSpec'
-          minItems: 1
-          maxItems: 20
-          description: List of masters (jumpserver) to perform preflight checks
-        nodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/sshNodeSpec'
-          minItems: 1
-          maxItems: 20
-          description: List of nodes to perform preflight checks
-        defaultSSH:
-          $ref: '#/components/schemas/sshConfig'
-          description: Default SSH configuration for all nodes. Individual node SSH config will override this.
-    sshConfigCheckResult:
-      type: object
-      required:
-        - ip
-        - reachable
-      properties:
-        ip:
-          type: string
-          format: ipv4
-        reachable:
-          type: boolean
-        message:
-          type: string
-    sshConfigCheckResponse:
-      type: object
-      required:
-        - results
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/sshConfigCheckResult'
     cloudResourceCleanPolicy:
       type: string
       description: The policy to clean cloud resources, either `Delete` or `Retain`
@@ -20968,296 +21192,6 @@ components:
       required:
         - items
       type: object
-    nodeScaleSpec:
-      type: object
-      required:
-        - ip
-        - availabilityZone
-        - markControlPlane
-        - markDataPlane
-      properties:
-        ip:
-          type: string
-          description: IP address of the node to be added
-          format: ipv4
-        availabilityZone:
-          type: string
-        markControlPlane:
-          type: boolean
-          description: Whether mark the node serves as control plane
-          default: false
-        markDataPlane:
-          description: Whether mark the node serves as data plane
-          type: boolean
-          default: true
-        ssh:
-          description: SSH connection details for the node. If not provided, environment default will be used
-          $ref: '#/components/schemas/sshConfig'
-          x-nullable: true
-    nodeScaleRequest:
-      type: object
-      required:
-        - nodes
-      properties:
-        masters:
-          type: array
-          items:
-            $ref: '#/components/schemas/sshNodeSpec'
-          minItems: 1
-          maxItems: 20
-          description: List of masters (jumpserver for ssh), at least one node is needed
-        nodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/nodeScaleSpec'
-          minItems: 1
-          maxItems: 20
-          description: List of nodes to be added, support 1-20 nodes per request
-        defaultSSH:
-          description: Default SSH configuration for all nodes. Individual node SSH config will override this
-          $ref: '#/components/schemas/sshConfig'
-          x-nullable: true
-    taskStatus:
-      type: string
-      enum:
-        - Pending
-        - Running
-        - Stopped
-        - Succeed
-        - Failed
-      description: Current status of the task
-    taskStep:
-      type: object
-      required:
-        - stepId
-        - inputs
-        - stepName
-        - methodName
-        - status
-        - createdAt
-        - updatedAt
-      properties:
-        stepId:
-          type: string
-          description: Unique identifier for the step
-        stepName:
-          type: string
-          description: Name of the step
-        methodName:
-          type: string
-          description: Method to be executed in this step
-        inputs:
-          type: object
-          description: Input parameters for the step
-          additionalProperties:
-            type: string
-        outputs:
-          type: object
-          description: Output parameters from the step
-          additionalProperties:
-            type: string
-        retryLimit:
-          type: integer
-          description: Number of times to retry the step in case of failure
-        currRetryCount:
-          type: integer
-          description: Current retry count for the step
-        timeoutSecond:
-          type: integer
-          description: Timeout duration for the step in seconds
-        status:
-          $ref: '#/components/schemas/taskStatus'
-        message:
-          type: string
-          description: Detailed message about the step status
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the step was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the step was last updated
-        startedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the task was deleted
-          x-nullable: true
-        completionTime:
-          type: string
-          format: date-time
-          description: Time when the task completed or failed
-          x-nullable: true
-    taskFailurePolicy:
-      type: string
-      enum:
-        - interrupt
-        - ignore
-      description: Policy to handle failures
-    task:
-      type: object
-      required:
-        - taskId
-        - status
-        - taskName
-        - taskType
-        - createdAt
-        - updatedAt
-      properties:
-        taskId:
-          type: string
-          description: ID of the scaling task
-        taskName:
-          type: string
-          description: Name of the task
-        taskType:
-          type: string
-          description: Type of task operation
-        status:
-          $ref: '#/components/schemas/taskStatus'
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the task was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the task was last updated
-        deletedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the task was deleted
-          x-nullable: true
-        startedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the task was deleted
-          x-nullable: true
-        completionTime:
-          type: string
-          format: date-time
-          description: Time when the task completed or failed
-          x-nullable: true
-        message:
-          type: string
-          description: Detailed message about the task status
-          x-nullable: true
-        progress:
-          type: integer
-          description: Progress percentage of the task
-          minimum: 0
-          maximum: 100
-        steps:
-          type: array
-          items:
-            $ref: '#/components/schemas/taskStep'
-        parallelism:
-          type: integer
-          description: Degree of parallelism for the task
-        failurePolicy:
-          $ref: '#/components/schemas/taskFailurePolicy'
-        retryLimit:
-          type: integer
-          description: Maximum number of retries for the task
-        timeoutSecond:
-          type: integer
-          description: Timeout duration for the task in seconds
-        operator:
-          type: string
-          description: The user created the task
-          x-nullable: true
-        clusterTaskId:
-          type: string
-          description: ID of the cluster task
-          x-nullable: true
-    scaleInType:
-      type: string
-      enum:
-        - Parallel
-        - Serial
-      default: Serial
-      description: Type of scale in strategy
-    scaleInHealthCheck:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          default: true
-          description: Whether to perform health checks during scale in
-        healthyThreshold:
-          type: integer
-          minimum: 1
-          default: 3
-          description: Number of consecutive successful health checks required
-        unhealthyThreshold:
-          type: integer
-          minimum: 1
-          default: 3
-          description: Number of consecutive failed health checks before marking unhealthy
-        interval:
-          type: string
-          pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
-          default: 10s
-          description: Interval between health checks
-        timeout:
-          type: string
-          pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
-          default: 5s
-          description: Timeout for each health check
-    scaleInStrategy:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/scaleInType'
-        maxUnavailable:
-          type: string
-          pattern: ^([0-9]+|[0-9]+%|)$
-          default: 25%
-          description: Maximum number of nodes that can be unavailable during scale in. Can be an absolute number or a percentage.
-        maxSurge:
-          type: string
-          pattern: ^([0-9]+|[0-9]+%|)$
-          default: 0%
-          description: Maximum number of nodes that can be scheduled above the desired number. Can be an absolute number or a percentage.
-        drainTimeout:
-          type: string
-          pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
-          default: 5m
-          description: How long to wait for pod eviction when draining a node
-        podEvictionWaitTime:
-          type: string
-          pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
-          default: 30s
-          description: Time to wait between pod evictions
-        minReadySeconds:
-          type: integer
-          minimum: 0
-          default: 30
-          description: Minimum time a replacement node should be ready before proceeding
-        healthCheck:
-          $ref: '#/components/schemas/scaleInHealthCheck'
-          description: Health check configuration for the scale in process
-    nodeScaleInRequest:
-      type: object
-      required:
-        - nodes
-      properties:
-        nodes:
-          type: array
-          items:
-            type: string
-          description: List of node names to be removed
-        drain:
-          type: boolean
-          description: Whether to drain nodes before removal
-          default: true
-        strategy:
-          $ref: '#/components/schemas/scaleInStrategy'
-          description: Strategy to control the scale in process
-        force:
-          type: boolean
-          description: Force remove nodes even if they have pods not managed by ReplicationController, ReplicaSet, Job, DaemonSet or StatefulSet
-          default: false
     listBody:
       description: Represents a list of JSON bodies.
       items:
@@ -22610,6 +22544,9 @@ components:
         restoreTime:
           description: restore time
           type: string
+        duration:
+          description: duration of restore
+          type: string
         status:
           description: restore status
           properties:
@@ -23603,6 +23540,20 @@ components:
           type: array
           items:
             type: string
+        maxLen:
+          type: integer
+          format: int32
+          default: 64
+          description: |
+            max length of account name.
+            If not set, use default value.
+        minLen:
+          type: integer
+          format: int32
+          default: 3
+          description: |
+            min length of account name.
+            If not set, use default value.
         accountNamePattern:
           type: string
         create:
@@ -23631,6 +23582,20 @@ components:
         update:
           type: boolean
           x-omitempty: false
+        maxLen:
+          type: integer
+          format: int32
+          default: 64
+          description: |
+            max length of database name.
+            If not set, use default value.
+        minLen:
+          type: integer
+          format: int32
+          default: 3
+          description: |
+            min length of database name.
+            If not set, use default value.
         databaseNamePattern:
           type: string
         listOption:
@@ -23938,6 +23903,10 @@ components:
               value:
                 type: string
                 description: env value
+        rollbackSupported:
+          type: boolean
+          description: indicate whether rollback is supported for this ops
+          default: false
         dependentCustomOps:
           type: object
           properties:
@@ -24142,6 +24111,19 @@ components:
           additionalProperties:
             type: object
             properties: {}
+    disasterRecoverySettings:
+      type: object
+      properties:
+        supportedSourceModes:
+          type: array
+          items:
+            type: string
+        promotionTargetModes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
     engineOptionsDisasterRecoverySource:
       type: object
       properties:
@@ -24164,6 +24146,8 @@ components:
         instanceLimit:
           type: integer
           default: 8
+        settings:
+          $ref: '#/components/schemas/disasterRecoverySettings'
         mode:
           type: string
           description: referenced cluster's mode, default is the primary cluster's mode
@@ -26077,6 +26061,12 @@ components:
         updatedAt:
           format: date-time
           type: string
+        timeRangeStart:
+          format: date-time
+          type: string
+        timeRangeEnd:
+          format: date-time
+          type: string
     inspectionTaskFormat:
       description: Specifies the format of the task in the aggregate task result.
       enum:
@@ -26429,241 +26419,6 @@ components:
         isVariable:
           type: boolean
           description: whether the param is tenant variable or param
-    summary:
-      type: object
-      properties:
-        namespace:
-          type: string
-          description: The namespace of cluster
-        name:
-          type: string
-          description: The name of cluster
-        cpuRequests:
-          type: string
-          description: The CPU requests in configuration
-        cpuLimits:
-          type: string
-          description: The CPU limits in configuration
-        memoryRequests:
-          type: string
-          description: The memory requests in configuration
-        memoryLimits:
-          type: string
-          description: The memory limits in configuration
-        storageSize:
-          type: string
-          description: The storage size of volume
-        replicas:
-          type: integer
-          description: The number of postgresql pods
-        backupEndpoint:
-          type: string
-          description: The endpoint of backup
-        backupPath:
-          type: string
-          description: The path where to store backup
-        backupSchedule:
-          type: string
-          description: The backup schedule
-        status:
-          type: string
-          description: The status of cluster
-        creationTime:
-          type: string
-          description: The creation time of cluster
-    metadb_instance:
-      description: Instance is the information of metadb cluster instances
-      properties:
-        cluster:
-          description: Cluster name
-          type: string
-        cpu:
-          description: cpu with uint cores.
-          type: string
-        memory:
-          description: Memory with uint Gi.
-          type: string
-        name:
-          description: Instance name
-          type: string
-        node:
-          description: node name
-          type: string
-        role:
-          description: Role for instance
-          type: string
-      required:
-        - cluster
-        - cpu
-        - memory
-        - name
-        - node
-        - role
-      type: object
-    metadb_instanceList:
-      description: ClusterList is a list of metadb cluster
-      properties:
-        items:
-          description: Items is the list of metadb cluster objects in the list
-          items:
-            $ref: '#/components/schemas/metadb_instance'
-          type: array
-      required:
-        - items
-      type: object
-    metadb_instanceMetrics:
-      description: instance metrics
-      properties:
-        instanceName:
-          description: the name of the instance
-          type: string
-        cpuUsage:
-          description: cpu with uint cores.
-          type: string
-        memoryUsage:
-          description: memory with uint Gi.
-          type: string
-      required:
-        - instanceName
-        - cpuUsage
-        - memoryUsage
-      type: object
-    metadb_instanceMetricsList:
-      description: instance metrics list
-      properties:
-        items:
-          description: instanceMetrics list
-          type: array
-          items:
-            $ref: '#/components/schemas/metadb_instanceMetrics'
-      required:
-        - items
-      type: object
-    metadb_backup:
-      properties:
-        path:
-          description: the path of storaging backups
-          type: string
-        completionTimestamp:
-          description: Date/time when the backup finished being processed.
-          type: string
-        creationTimestamp:
-          description: Date/time when the backup was created.
-          type: string
-        duration:
-          description: The duration time of backup execution. When converted to a string, the form is "1h2m0.5s".
-          type: string
-        name:
-          description: name of the backup
-          type: string
-      required:
-        - completionTimestamp
-        - creationTimestamp
-        - duration
-        - name
-      type: object
-    metadb_backupList:
-      description: BackupList is a list of backups
-      properties:
-        items:
-          description: Items is the list of backup objects in the list
-          items:
-            $ref: '#/components/schemas/metadb_backup'
-          type: array
-      required:
-        - items
-      type: object
-    backupConfig:
-      type: object
-      properties:
-        provider:
-          type: string
-        schedule:
-          type: string
-        accessKeyId:
-          type: string
-        secretAccessKey:
-          type: string
-        endpoint:
-          type: string
-        region:
-          type: string
-        bucket:
-          type: string
-        autoBackup:
-          default: false
-          type: boolean
-          description: enable or disable auto backup
-        nextBackupTime:
-          description: time for next backup
-          type: string
-        retentionDay:
-          description: specify the retention days
-          type: integer
-          default: 5
-          minimum: 2
-        lastBackupTime:
-          description: the time of last backup
-          type: string
-    metadb_restore:
-      type: object
-      properties:
-        namespace:
-          description: the namespace of new cluster, default value is original namespace
-          type: string
-        backupName:
-          description: the name of backup
-          type: string
-        clusterName:
-          description: the name of new cluster
-          type: string
-        timestamp:
-          description: determine backup files based on timestamp
-          type: string
-        duration:
-          description: the duration time of restore execution
-          type: string
-        completionTimestamp:
-          description: completion time
-          format: date-time
-          type: string
-        startTimestamp:
-          description: start time
-          format: date-time
-          type: string
-        cpu:
-          type: number
-          format: double
-        memory:
-          type: number
-          format: double
-        storage:
-          minimum: 1
-          type: number
-          format: double
-        replicas:
-          type: integer
-          description: the number of postgresql pods
-      required:
-        - clusterName
-    volumeExpand:
-      type: object
-      properties:
-        size:
-          description: the new volume size of cluster
-          type: string
-    vscale:
-      type: object
-      properties:
-        cpu:
-          description: the cpu resource of vertical scale
-          type: string
-        memory:
-          description: the memory resource of vertical scale
-          type: string
-      required:
-        - cpu
-        - memory
     platformParameterCategory:
       enum:
         - recycle-bin
@@ -26991,6 +26746,159 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/taskType'
+    taskStatus:
+      type: string
+      enum:
+        - Pending
+        - Running
+        - Stopped
+        - Succeed
+        - Failed
+      description: Current status of the task
+    taskStep:
+      type: object
+      required:
+        - stepId
+        - inputs
+        - stepName
+        - methodName
+        - status
+        - createdAt
+        - updatedAt
+      properties:
+        stepId:
+          type: string
+          description: Unique identifier for the step
+        stepName:
+          type: string
+          description: Name of the step
+        methodName:
+          type: string
+          description: Method to be executed in this step
+        inputs:
+          type: object
+          description: Input parameters for the step
+          additionalProperties:
+            type: string
+        outputs:
+          type: object
+          description: Output parameters from the step
+          additionalProperties:
+            type: string
+        retryLimit:
+          type: integer
+          description: Number of times to retry the step in case of failure
+        currRetryCount:
+          type: integer
+          description: Current retry count for the step
+        timeoutSecond:
+          type: integer
+          description: Timeout duration for the step in seconds
+        status:
+          $ref: '#/components/schemas/taskStatus'
+        message:
+          type: string
+          description: Detailed message about the step status
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the step was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the step was last updated
+        startedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
+        completionTime:
+          type: string
+          format: date-time
+          description: Time when the task completed or failed
+          x-nullable: true
+    taskFailurePolicy:
+      type: string
+      enum:
+        - interrupt
+        - ignore
+      description: Policy to handle failures
+    task:
+      type: object
+      required:
+        - taskId
+        - status
+        - taskName
+        - taskType
+        - createdAt
+        - updatedAt
+      properties:
+        taskId:
+          type: string
+          description: ID of the scaling task
+        taskName:
+          type: string
+          description: Name of the task
+        taskType:
+          type: string
+          description: Type of task operation
+        status:
+          $ref: '#/components/schemas/taskStatus'
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was last updated
+        deletedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
+        startedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
+        completionTime:
+          type: string
+          format: date-time
+          description: Time when the task completed or failed
+          x-nullable: true
+        message:
+          type: string
+          description: Detailed message about the task status
+          x-nullable: true
+        progress:
+          type: integer
+          description: Progress percentage of the task
+          minimum: 0
+          maximum: 100
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/taskStep'
+        parallelism:
+          type: integer
+          description: Degree of parallelism for the task
+        failurePolicy:
+          $ref: '#/components/schemas/taskFailurePolicy'
+        retryLimit:
+          type: integer
+          description: Maximum number of retries for the task
+        timeoutSecond:
+          type: integer
+          description: Timeout duration for the task in seconds
+        operator:
+          type: string
+          description: The user created the task
+          x-nullable: true
+        clusterTaskId:
+          type: string
+          description: ID of the cluster task
+          x-nullable: true
     taskList:
       type: object
       required:
@@ -27861,9 +27769,9 @@ components:
         extendStepMB:
           type: string
           description: the extend step of this file, unit MB
-        maxSizeGB:
+        maxSizeMB:
           type: string
-          description: the max size of this file, unit GB
+          description: the max size of this file, unit MB
         usedRatioInMax:
           type: string
           description: the used ratio in the max size of this file
@@ -28496,10 +28404,10 @@ components:
           type: string
     preCheckStatus:
       enum:
-        - pending
-        - running
-        - succeed
-        - failed
+        - Pending
+        - Running
+        - Succeed
+        - Failed
       type: string
     preCheckTaskItem:
       type: object
@@ -28970,6 +28878,65 @@ components:
       description: A list of SLA records.
       items:
         $ref: '#/components/schemas/SLA'
+    ClustersSLA:
+      type: object
+      description: The SLA (Service Level Agreement) for a cluster.
+      properties:
+        items:
+          type: object
+          $ref: '#/components/schemas/SLAList'
+        total:
+          type: integer
+          format: int64
+          description: The total number of cluster SLA records.
+    DailySLA:
+      type: object
+      description: The SLA (Service Level Agreement) for a cluster on a specific date.
+      properties:
+        date:
+          type: string
+          format: date
+          description: The date for which the SLA is calculated.
+        sla:
+          type: number
+          description: The SLA value for the cluster on the specified date. Null indicates that the cluster was not existing on that date.
+          x-omitempty: false
+          nullable: true
+    DailySLAList:
+      type: array
+      description: A list of daily SLA records.
+      items:
+        $ref: '#/components/schemas/DailySLA'
+    SLASettings:
+      type: object
+      properties:
+        environmentName:
+          type: string
+          description: The name of the environment.
+        probeInterval:
+          type: string
+          format: duration
+        probeTimeout:
+          type: string
+          format: duration
+        enableProbeRetry:
+          type: boolean
+        probeRetryCount:
+          type: integer
+        probeRetryInterval:
+          type: string
+          format: duration
+        probeEngines:
+          type: array
+          items:
+            type: string
+        probePoolSize:
+          type: integer
+        collectorBatchSize:
+          type: integer
+        collectorMaxWaitTime:
+          type: string
+          format: duration
   responses:
     '204':
       description: No Content

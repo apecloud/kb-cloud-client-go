@@ -1598,7 +1598,6 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - cluster
-        - shared
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/clusters/validate:
     post:
@@ -4263,6 +4262,65 @@ paths:
       tags:
         - engine
         - shared
+    post:
+      description: enable the service version of the engine and create related resources
+      summary: enable the service version of the engine
+      operationId: EnableServiceVersion
+      parameters:
+        - description: environment name
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: Name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                serviceVersion:
+                  type: string
+                  description: The service version to enable
+                engineVersion:
+                  type: string
+                  description: The engine version to enable
+          multipart/form-data:
+            schema:
+              description: the data of image to upload
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: The engine image to upload
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: the id of the upload task
+                type: object
+                properties:
+                  uploadId:
+                    type: string
+                    description: the id of the upload task
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - enableServiceVersion
   /api/v1/organizations/{orgName}/backupRepo:
     get:
       operationId: listBackupRepos
@@ -13635,13 +13693,6 @@ components:
         - Error
         - Disabled
         - Enabled
-    hostingStatus:
-      type: string
-      description: Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
-      enum:
-        - Hostable
-        - Non-hostable
-        - Hosted
     clusterInfo:
       type: object
       description: Cluster information
@@ -13667,8 +13718,6 @@ components:
           description: Environment module version
         status:
           $ref: '#/components/schemas/environmentModuleStatus'
-        hostingStatus:
-          $ref: '#/components/schemas/hostingStatus'
         replicas:
           type: integer
           description: Number of replicas
@@ -13677,9 +13726,13 @@ components:
           description: Deployment location
         clusterInfo:
           $ref: '#/components/schemas/clusterInfo'
-          description: Cluster information, only returned when hosting_status is Hosted
+          description: Cluster information
         description:
           $ref: '#/components/schemas/localizedDescription'
+          description: Module description in multiple languages
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Module display name in multiple languages
         optional:
           type: boolean
           description: indicate module is optional
@@ -14890,14 +14943,14 @@ components:
     clusterBatchUpdate:
       type: object
       required:
-        - names
+        - clusterIDs
         - update
       properties:
-        names:
+        clusterIDs:
           type: array
           items:
             type: string
-          description: List of cluster names to update
+          description: List of cluster ID to update
           minItems: 1
           maxItems: 50
         update:
@@ -15262,6 +15315,8 @@ components:
         clusterTaskId:
           type: string
         dependentClusterTaskId:
+          type: string
+        taskId:
           type: string
       required:
         - opsRequestName
@@ -16655,6 +16710,9 @@ components:
           type: object
         restoreTime:
           description: restore time
+          type: string
+        duration:
+          description: duration of restore
           type: string
         status:
           description: restore status
@@ -18106,6 +18164,20 @@ components:
           type: array
           items:
             type: string
+        maxLen:
+          type: integer
+          format: int32
+          default: 64
+          description: |
+            max length of account name.
+            If not set, use default value.
+        minLen:
+          type: integer
+          format: int32
+          default: 3
+          description: |
+            min length of account name.
+            If not set, use default value.
         accountNamePattern:
           type: string
         create:
@@ -18134,6 +18206,20 @@ components:
         update:
           type: boolean
           x-omitempty: false
+        maxLen:
+          type: integer
+          format: int32
+          default: 64
+          description: |
+            max length of database name.
+            If not set, use default value.
+        minLen:
+          type: integer
+          format: int32
+          default: 3
+          description: |
+            min length of database name.
+            If not set, use default value.
         databaseNamePattern:
           type: string
         listOption:
@@ -18441,6 +18527,10 @@ components:
               value:
                 type: string
                 description: env value
+        rollbackSupported:
+          type: boolean
+          description: indicate whether rollback is supported for this ops
+          default: false
         dependentCustomOps:
           type: object
           properties:
@@ -18645,6 +18735,19 @@ components:
           additionalProperties:
             type: object
             properties: {}
+    disasterRecoverySettings:
+      type: object
+      properties:
+        supportedSourceModes:
+          type: array
+          items:
+            type: string
+        promotionTargetModes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
     engineOptionsDisasterRecoverySource:
       type: object
       properties:
@@ -18667,6 +18770,8 @@ components:
         instanceLimit:
           type: integer
           default: 8
+        settings:
+          $ref: '#/components/schemas/disasterRecoverySettings'
         mode:
           type: string
           description: referenced cluster's mode, default is the primary cluster's mode
@@ -20821,6 +20926,10 @@ components:
     disasterRecoveryPromote:
       description: the Promote object for disasterRecovery instance
       properties:
+        mode:
+          description: the mode of cluster after promotion. default is the primary cluster's mode
+          type: string
+          nullable: true
         reason:
           description: the reason for promoting
           type: string
@@ -21680,9 +21789,9 @@ components:
         extendStepMB:
           type: string
           description: the extend step of this file, unit MB
-        maxSizeGB:
+        maxSizeMB:
           type: string
-          description: the max size of this file, unit GB
+          description: the max size of this file, unit MB
         usedRatioInMax:
           type: string
           description: the used ratio in the max size of this file
@@ -22365,13 +22474,32 @@ components:
         - custom
         - kubeblocks
       type: string
+    authType:
+      enum:
+        - basic
+      type: string
+    basicAuthModel:
+      type: object
+      properties:
+        userName:
+          type: string
+        password:
+          type: string
+          description: if password is not provided when patch replication channel, it means not to modify the password
+          nullable: true
     customEndpoint:
       type: object
       properties:
         connectionString:
+          description: display connection string information, including connection details such as url, database, etc
           type: string
-        userName:
+        connection:
           type: string
+        authType:
+          $ref: '#/components/schemas/authType'
+        basicAuth:
+          $ref: '#/components/schemas/basicAuthModel'
+          nullable: true
     kubeblocksEndpoint:
       type: object
       properties:
@@ -22395,6 +22523,11 @@ components:
           nullable: true
         kubeblocks:
           $ref: '#/components/schemas/kubeblocksEndpoint'
+          nullable: true
+        extraCfgs:
+          type: object
+          additionalProperties:
+            type: string
           nullable: true
     dataChannelObject:
       type: object
@@ -22452,17 +22585,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/dataChannelItem'
-    authType:
-      enum:
-        - basic
-      type: string
-    basicAuthModel:
-      type: object
-      properties:
-        userName:
-          type: string
-        password:
-          type: string
     customEndpointCreate:
       type: object
       properties:
@@ -22560,7 +22682,7 @@ components:
           format: double
           nullable: true
         status:
-          $ref: '#/components/schemas/channelStatus'
+          type: string
         message:
           type: string
           nullable: true
@@ -22678,10 +22800,10 @@ components:
           type: string
     preCheckStatus:
       enum:
-        - pending
-        - running
-        - succeed
-        - failed
+        - Pending
+        - Running
+        - Succeed
+        - Failed
       type: string
     preCheckTaskItem:
       type: object

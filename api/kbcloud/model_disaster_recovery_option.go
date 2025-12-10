@@ -11,8 +11,9 @@ import (
 )
 
 type DisasterRecoveryOption struct {
-	Enabled       bool   `json:"enabled"`
-	InstanceLimit *int32 `json:"instanceLimit,omitempty"`
+	Enabled       bool                      `json:"enabled"`
+	InstanceLimit *int32                    `json:"instanceLimit,omitempty"`
+	Settings      *DisasterRecoverySettings `json:"settings,omitempty"`
 	// referenced cluster's mode, default is the primary cluster's mode
 	Mode   common.NullableString                `json:"mode,omitempty"`
 	Status *EngineOptionsDisasterRecoveryStatus `json:"status,omitempty"`
@@ -94,6 +95,34 @@ func (o *DisasterRecoveryOption) SetInstanceLimit(v int32) {
 	o.InstanceLimit = &v
 }
 
+// GetSettings returns the Settings field value if set, zero value otherwise.
+func (o *DisasterRecoveryOption) GetSettings() DisasterRecoverySettings {
+	if o == nil || o.Settings == nil {
+		var ret DisasterRecoverySettings
+		return ret
+	}
+	return *o.Settings
+}
+
+// GetSettingsOk returns a tuple with the Settings field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DisasterRecoveryOption) GetSettingsOk() (*DisasterRecoverySettings, bool) {
+	if o == nil || o.Settings == nil {
+		return nil, false
+	}
+	return o.Settings, true
+}
+
+// HasSettings returns a boolean if a field has been set.
+func (o *DisasterRecoveryOption) HasSettings() bool {
+	return o != nil && o.Settings != nil
+}
+
+// SetSettings gets a reference to the given DisasterRecoverySettings and assigns it to the Settings field.
+func (o *DisasterRecoveryOption) SetSettings(v DisasterRecoverySettings) {
+	o.Settings = &v
+}
+
 // GetMode returns the Mode field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DisasterRecoveryOption) GetMode() string {
 	if o == nil || o.Mode.Get() == nil {
@@ -171,6 +200,9 @@ func (o DisasterRecoveryOption) MarshalJSON() ([]byte, error) {
 	if o.InstanceLimit != nil {
 		toSerialize["instanceLimit"] = o.InstanceLimit
 	}
+	if o.Settings != nil {
+		toSerialize["settings"] = o.Settings
+	}
 	if o.Mode.IsSet() {
 		toSerialize["mode"] = o.Mode.Get()
 	}
@@ -189,6 +221,7 @@ func (o *DisasterRecoveryOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Enabled       *bool                                `json:"enabled"`
 		InstanceLimit *int32                               `json:"instanceLimit,omitempty"`
+		Settings      *DisasterRecoverySettings            `json:"settings,omitempty"`
 		Mode          common.NullableString                `json:"mode,omitempty"`
 		Status        *EngineOptionsDisasterRecoveryStatus `json:"status,omitempty"`
 	}{}
@@ -200,7 +233,7 @@ func (o *DisasterRecoveryOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"enabled", "instanceLimit", "mode", "status"})
+		common.DeleteKeys(additionalProperties, &[]string{"enabled", "instanceLimit", "settings", "mode", "status"})
 	} else {
 		return err
 	}
@@ -208,6 +241,10 @@ func (o *DisasterRecoveryOption) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Enabled = *all.Enabled
 	o.InstanceLimit = all.InstanceLimit
+	if all.Settings != nil && all.Settings.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Settings = all.Settings
 	o.Mode = all.Mode
 	if all.Status != nil && all.Status.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true

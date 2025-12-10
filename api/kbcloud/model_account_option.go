@@ -15,16 +15,24 @@ type AccountOption struct {
 	// If not set, use default value.
 	// If set to 0, it means not allowed to create super user account.
 	//
-	MaxSuperUserAccount      common.NullableInt32 `json:"maxSuperUserAccount,omitempty"`
-	Enabled                  bool                 `json:"enabled"`
-	Privileges               []string             `json:"privileges,omitempty"`
-	AccountNamePattern       string               `json:"accountNamePattern"`
-	Create                   bool                 `json:"create"`
-	ResetPassword            bool                 `json:"resetPassword"`
-	Delete                   bool                 `json:"delete"`
-	DisplayRootAccount       *bool                `json:"displayRootAccount,omitempty"`
-	ResetRootPassword        *bool                `json:"resetRootPassword,omitempty"`
-	SupportMultipleComponent *bool                `json:"supportMultipleComponent,omitempty"`
+	MaxSuperUserAccount common.NullableInt32 `json:"maxSuperUserAccount,omitempty"`
+	Enabled             bool                 `json:"enabled"`
+	Privileges          []string             `json:"privileges,omitempty"`
+	// max length of account name.
+	// If not set, use default value.
+	//
+	MaxLen *int32 `json:"maxLen,omitempty"`
+	// min length of account name.
+	// If not set, use default value.
+	//
+	MinLen                   *int32 `json:"minLen,omitempty"`
+	AccountNamePattern       string `json:"accountNamePattern"`
+	Create                   bool   `json:"create"`
+	ResetPassword            bool   `json:"resetPassword"`
+	Delete                   bool   `json:"delete"`
+	DisplayRootAccount       *bool  `json:"displayRootAccount,omitempty"`
+	ResetRootPassword        *bool  `json:"resetRootPassword,omitempty"`
+	SupportMultipleComponent *bool  `json:"supportMultipleComponent,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -39,6 +47,10 @@ func NewAccountOption(enabled bool, accountNamePattern string, create bool, rese
 	var maxSuperUserAccount int32 = 2
 	this.MaxSuperUserAccount = *common.NewNullableInt32(&maxSuperUserAccount)
 	this.Enabled = enabled
+	var maxLen int32 = 64
+	this.MaxLen = &maxLen
+	var minLen int32 = 3
+	this.MinLen = &minLen
 	this.AccountNamePattern = accountNamePattern
 	this.Create = create
 	this.ResetPassword = resetPassword
@@ -55,6 +67,10 @@ func NewAccountOptionWithDefaults() *AccountOption {
 	this := AccountOption{}
 	var maxSuperUserAccount int32 = 2
 	this.MaxSuperUserAccount = *common.NewNullableInt32(&maxSuperUserAccount)
+	var maxLen int32 = 64
+	this.MaxLen = &maxLen
+	var minLen int32 = 3
+	this.MinLen = &minLen
 	var supportMultipleComponent bool = false
 	this.SupportMultipleComponent = &supportMultipleComponent
 	return &this
@@ -148,6 +164,62 @@ func (o *AccountOption) HasPrivileges() bool {
 // SetPrivileges gets a reference to the given []string and assigns it to the Privileges field.
 func (o *AccountOption) SetPrivileges(v []string) {
 	o.Privileges = v
+}
+
+// GetMaxLen returns the MaxLen field value if set, zero value otherwise.
+func (o *AccountOption) GetMaxLen() int32 {
+	if o == nil || o.MaxLen == nil {
+		var ret int32
+		return ret
+	}
+	return *o.MaxLen
+}
+
+// GetMaxLenOk returns a tuple with the MaxLen field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AccountOption) GetMaxLenOk() (*int32, bool) {
+	if o == nil || o.MaxLen == nil {
+		return nil, false
+	}
+	return o.MaxLen, true
+}
+
+// HasMaxLen returns a boolean if a field has been set.
+func (o *AccountOption) HasMaxLen() bool {
+	return o != nil && o.MaxLen != nil
+}
+
+// SetMaxLen gets a reference to the given int32 and assigns it to the MaxLen field.
+func (o *AccountOption) SetMaxLen(v int32) {
+	o.MaxLen = &v
+}
+
+// GetMinLen returns the MinLen field value if set, zero value otherwise.
+func (o *AccountOption) GetMinLen() int32 {
+	if o == nil || o.MinLen == nil {
+		var ret int32
+		return ret
+	}
+	return *o.MinLen
+}
+
+// GetMinLenOk returns a tuple with the MinLen field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AccountOption) GetMinLenOk() (*int32, bool) {
+	if o == nil || o.MinLen == nil {
+		return nil, false
+	}
+	return o.MinLen, true
+}
+
+// HasMinLen returns a boolean if a field has been set.
+func (o *AccountOption) HasMinLen() bool {
+	return o != nil && o.MinLen != nil
+}
+
+// SetMinLen gets a reference to the given int32 and assigns it to the MinLen field.
+func (o *AccountOption) SetMinLen(v int32) {
+	o.MinLen = &v
 }
 
 // GetAccountNamePattern returns the AccountNamePattern field value.
@@ -339,6 +411,12 @@ func (o AccountOption) MarshalJSON() ([]byte, error) {
 	if o.Privileges != nil {
 		toSerialize["privileges"] = o.Privileges
 	}
+	if o.MaxLen != nil {
+		toSerialize["maxLen"] = o.MaxLen
+	}
+	if o.MinLen != nil {
+		toSerialize["minLen"] = o.MinLen
+	}
 	toSerialize["accountNamePattern"] = o.AccountNamePattern
 	toSerialize["create"] = o.Create
 	toSerialize["resetPassword"] = o.ResetPassword
@@ -365,6 +443,8 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 		MaxSuperUserAccount      common.NullableInt32 `json:"maxSuperUserAccount,omitempty"`
 		Enabled                  *bool                `json:"enabled"`
 		Privileges               []string             `json:"privileges,omitempty"`
+		MaxLen                   *int32               `json:"maxLen,omitempty"`
+		MinLen                   *int32               `json:"minLen,omitempty"`
 		AccountNamePattern       *string              `json:"accountNamePattern"`
 		Create                   *bool                `json:"create"`
 		ResetPassword            *bool                `json:"resetPassword"`
@@ -393,13 +473,15 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"maxSuperUserAccount", "enabled", "privileges", "accountNamePattern", "create", "resetPassword", "delete", "displayRootAccount", "resetRootPassword", "supportMultipleComponent"})
+		common.DeleteKeys(additionalProperties, &[]string{"maxSuperUserAccount", "enabled", "privileges", "maxLen", "minLen", "accountNamePattern", "create", "resetPassword", "delete", "displayRootAccount", "resetRootPassword", "supportMultipleComponent"})
 	} else {
 		return err
 	}
 	o.MaxSuperUserAccount = all.MaxSuperUserAccount
 	o.Enabled = *all.Enabled
 	o.Privileges = all.Privileges
+	o.MaxLen = all.MaxLen
+	o.MinLen = all.MinLen
 	o.AccountNamePattern = *all.AccountNamePattern
 	o.Create = *all.Create
 	o.ResetPassword = *all.ResetPassword

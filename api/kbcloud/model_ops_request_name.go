@@ -16,6 +16,7 @@ type OpsRequestName struct {
 	DependentOpsName       *string `json:"dependentOpsName,omitempty"`
 	ClusterTaskId          *string `json:"clusterTaskId,omitempty"`
 	DependentClusterTaskId *string `json:"dependentClusterTaskId,omitempty"`
+	TaskId                 *string `json:"taskId,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -146,6 +147,34 @@ func (o *OpsRequestName) SetDependentClusterTaskId(v string) {
 	o.DependentClusterTaskId = &v
 }
 
+// GetTaskId returns the TaskId field value if set, zero value otherwise.
+func (o *OpsRequestName) GetTaskId() string {
+	if o == nil || o.TaskId == nil {
+		var ret string
+		return ret
+	}
+	return *o.TaskId
+}
+
+// GetTaskIdOk returns a tuple with the TaskId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OpsRequestName) GetTaskIdOk() (*string, bool) {
+	if o == nil || o.TaskId == nil {
+		return nil, false
+	}
+	return o.TaskId, true
+}
+
+// HasTaskId returns a boolean if a field has been set.
+func (o *OpsRequestName) HasTaskId() bool {
+	return o != nil && o.TaskId != nil
+}
+
+// SetTaskId gets a reference to the given string and assigns it to the TaskId field.
+func (o *OpsRequestName) SetTaskId(v string) {
+	o.TaskId = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsRequestName) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -162,6 +191,9 @@ func (o OpsRequestName) MarshalJSON() ([]byte, error) {
 	if o.DependentClusterTaskId != nil {
 		toSerialize["dependentClusterTaskId"] = o.DependentClusterTaskId
 	}
+	if o.TaskId != nil {
+		toSerialize["taskId"] = o.TaskId
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -176,6 +208,7 @@ func (o *OpsRequestName) UnmarshalJSON(bytes []byte) (err error) {
 		DependentOpsName       *string `json:"dependentOpsName,omitempty"`
 		ClusterTaskId          *string `json:"clusterTaskId,omitempty"`
 		DependentClusterTaskId *string `json:"dependentClusterTaskId,omitempty"`
+		TaskId                 *string `json:"taskId,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -185,7 +218,7 @@ func (o *OpsRequestName) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"opsRequestName", "dependentOpsName", "clusterTaskId", "dependentClusterTaskId"})
+		common.DeleteKeys(additionalProperties, &[]string{"opsRequestName", "dependentOpsName", "clusterTaskId", "dependentClusterTaskId", "taskId"})
 	} else {
 		return err
 	}
@@ -193,6 +226,7 @@ func (o *OpsRequestName) UnmarshalJSON(bytes []byte) (err error) {
 	o.DependentOpsName = all.DependentOpsName
 	o.ClusterTaskId = all.ClusterTaskId
 	o.DependentClusterTaskId = all.DependentClusterTaskId
+	o.TaskId = all.TaskId
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
