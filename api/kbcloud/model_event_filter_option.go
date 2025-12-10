@@ -15,7 +15,8 @@ type EventFilterOption struct {
 	// The human-readable title of the filter option.
 	Title string `json:"title"`
 	// The actual value associated with the filter option.
-	Value string `json:"value"`
+	Value       string                `json:"value"`
+	Description *LocalizedDescription `json:"description,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -86,6 +87,34 @@ func (o *EventFilterOption) SetValue(v string) {
 	o.Value = v
 }
 
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *EventFilterOption) GetDescription() LocalizedDescription {
+	if o == nil || o.Description == nil {
+		var ret LocalizedDescription
+		return ret
+	}
+	return *o.Description
+}
+
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EventFilterOption) GetDescriptionOk() (*LocalizedDescription, bool) {
+	if o == nil || o.Description == nil {
+		return nil, false
+	}
+	return o.Description, true
+}
+
+// HasDescription returns a boolean if a field has been set.
+func (o *EventFilterOption) HasDescription() bool {
+	return o != nil && o.Description != nil
+}
+
+// SetDescription gets a reference to the given LocalizedDescription and assigns it to the Description field.
+func (o *EventFilterOption) SetDescription(v LocalizedDescription) {
+	o.Description = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EventFilterOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -94,6 +123,9 @@ func (o EventFilterOption) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["title"] = o.Title
 	toSerialize["value"] = o.Value
+	if o.Description != nil {
+		toSerialize["description"] = o.Description
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -104,8 +136,9 @@ func (o EventFilterOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EventFilterOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Title *string `json:"title"`
-		Value *string `json:"value"`
+		Title       *string               `json:"title"`
+		Value       *string               `json:"value"`
+		Description *LocalizedDescription `json:"description,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -118,15 +151,25 @@ func (o *EventFilterOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"title", "value"})
+		common.DeleteKeys(additionalProperties, &[]string{"title", "value", "description"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Title = *all.Title
 	o.Value = *all.Value
+	if all.Description != nil && all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Description = all.Description
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
