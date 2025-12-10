@@ -12,6 +12,7 @@
 //   - [SLAApi.CalculateDailySLA]
 //   - [SLAApi.CalculateSLA]
 //   - [SLAApi.GetSLASettingsInEnv]
+//   - [SLAApi.GetSLASupportEngines]
 //   - [SLAApi.ListEnvironmentOutageRecord]
 //   - [SLAApi.UpdateSLASettingsInEnv]
 //   - [accountApi.createAccount]
