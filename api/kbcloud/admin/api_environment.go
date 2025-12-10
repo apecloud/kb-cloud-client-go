@@ -2262,6 +2262,7 @@ type ListEnvironmentOptionalParameters struct {
 	EnvironmentType *EnvironmentType
 	Engine          *string
 	Version         *string
+	SlaEnabled      *bool
 }
 
 // NewListEnvironmentOptionalParameters creates an empty struct for parameters.
@@ -2303,6 +2304,12 @@ func (r *ListEnvironmentOptionalParameters) WithEngine(engine string) *ListEnvir
 // WithVersion sets the corresponding parameter name and returns the struct.
 func (r *ListEnvironmentOptionalParameters) WithVersion(version string) *ListEnvironmentOptionalParameters {
 	r.Version = &version
+	return r
+}
+
+// WithSlaEnabled sets the corresponding parameter name and returns the struct.
+func (r *ListEnvironmentOptionalParameters) WithSlaEnabled(slaEnabled bool) *ListEnvironmentOptionalParameters {
+	r.SlaEnabled = &slaEnabled
 	return r
 }
 
@@ -2359,6 +2366,9 @@ func (a *EnvironmentApi) ListEnvironment(ctx _context.Context, o ...ListEnvironm
 	}
 	if optionalParams.Version != nil {
 		localVarQueryParams.Add("version", common.ParameterToString(*optionalParams.Version, ""))
+	}
+	if optionalParams.SlaEnabled != nil {
+		localVarQueryParams.Add("slaEnabled", common.ParameterToString(*optionalParams.SlaEnabled, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
