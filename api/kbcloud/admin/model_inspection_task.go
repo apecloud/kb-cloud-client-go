@@ -15,19 +15,21 @@ type InspectionTask struct {
 	Creator *string `json:"creator,omitempty"`
 	Status  *string `json:"status,omitempty"`
 	// Specifies the supported engines for the inspection task.
-	Engine      *InspectionSupportedEngines `json:"engine,omitempty"`
-	OrgName     *string                     `json:"orgName,omitempty"`
-	ClusterId   *string                     `json:"clusterID,omitempty"`
-	ClusterName *string                     `json:"clusterName,omitempty"`
-	EnvName     *string                     `json:"envName,omitempty"`
-	EnvId       *string                     `json:"envID,omitempty"`
-	NodeName    *string                     `json:"nodeName,omitempty"`
-	IsAuto      *bool                       `json:"isAuto,omitempty"`
-	Score       *int32                      `json:"score,omitempty"`
-	Result      *string                     `json:"result,omitempty"`
-	Items       []InspectionTaskItem        `json:"items,omitempty"`
-	CreatedAt   *time.Time                  `json:"createdAt,omitempty"`
-	UpdatedAt   *time.Time                  `json:"updatedAt,omitempty"`
+	Engine         *InspectionSupportedEngines `json:"engine,omitempty"`
+	OrgName        *string                     `json:"orgName,omitempty"`
+	ClusterId      *string                     `json:"clusterID,omitempty"`
+	ClusterName    *string                     `json:"clusterName,omitempty"`
+	EnvName        *string                     `json:"envName,omitempty"`
+	EnvId          *string                     `json:"envID,omitempty"`
+	NodeName       *string                     `json:"nodeName,omitempty"`
+	IsAuto         *bool                       `json:"isAuto,omitempty"`
+	Score          *int32                      `json:"score,omitempty"`
+	Result         *string                     `json:"result,omitempty"`
+	Items          []InspectionTaskItem        `json:"items,omitempty"`
+	CreatedAt      *time.Time                  `json:"createdAt,omitempty"`
+	UpdatedAt      *time.Time                  `json:"updatedAt,omitempty"`
+	TimeRangeStart *time.Time                  `json:"timeRangeStart,omitempty"`
+	TimeRangeEnd   *time.Time                  `json:"timeRangeEnd,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -498,6 +500,62 @@ func (o *InspectionTask) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
 
+// GetTimeRangeStart returns the TimeRangeStart field value if set, zero value otherwise.
+func (o *InspectionTask) GetTimeRangeStart() time.Time {
+	if o == nil || o.TimeRangeStart == nil {
+		var ret time.Time
+		return ret
+	}
+	return *o.TimeRangeStart
+}
+
+// GetTimeRangeStartOk returns a tuple with the TimeRangeStart field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionTask) GetTimeRangeStartOk() (*time.Time, bool) {
+	if o == nil || o.TimeRangeStart == nil {
+		return nil, false
+	}
+	return o.TimeRangeStart, true
+}
+
+// HasTimeRangeStart returns a boolean if a field has been set.
+func (o *InspectionTask) HasTimeRangeStart() bool {
+	return o != nil && o.TimeRangeStart != nil
+}
+
+// SetTimeRangeStart gets a reference to the given time.Time and assigns it to the TimeRangeStart field.
+func (o *InspectionTask) SetTimeRangeStart(v time.Time) {
+	o.TimeRangeStart = &v
+}
+
+// GetTimeRangeEnd returns the TimeRangeEnd field value if set, zero value otherwise.
+func (o *InspectionTask) GetTimeRangeEnd() time.Time {
+	if o == nil || o.TimeRangeEnd == nil {
+		var ret time.Time
+		return ret
+	}
+	return *o.TimeRangeEnd
+}
+
+// GetTimeRangeEndOk returns a tuple with the TimeRangeEnd field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionTask) GetTimeRangeEndOk() (*time.Time, bool) {
+	if o == nil || o.TimeRangeEnd == nil {
+		return nil, false
+	}
+	return o.TimeRangeEnd, true
+}
+
+// HasTimeRangeEnd returns a boolean if a field has been set.
+func (o *InspectionTask) HasTimeRangeEnd() bool {
+	return o != nil && o.TimeRangeEnd != nil
+}
+
+// SetTimeRangeEnd gets a reference to the given time.Time and assigns it to the TimeRangeEnd field.
+func (o *InspectionTask) SetTimeRangeEnd(v time.Time) {
+	o.TimeRangeEnd = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o InspectionTask) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -560,6 +618,20 @@ func (o InspectionTask) MarshalJSON() ([]byte, error) {
 			toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
+	if o.TimeRangeStart != nil {
+		if o.TimeRangeStart.Nanosecond() == 0 {
+			toSerialize["timeRangeStart"] = o.TimeRangeStart.Format("2006-01-02T15:04:05Z07:00")
+		} else {
+			toSerialize["timeRangeStart"] = o.TimeRangeStart.Format("2006-01-02T15:04:05.000Z07:00")
+		}
+	}
+	if o.TimeRangeEnd != nil {
+		if o.TimeRangeEnd.Nanosecond() == 0 {
+			toSerialize["timeRangeEnd"] = o.TimeRangeEnd.Format("2006-01-02T15:04:05Z07:00")
+		} else {
+			toSerialize["timeRangeEnd"] = o.TimeRangeEnd.Format("2006-01-02T15:04:05.000Z07:00")
+		}
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -570,29 +642,31 @@ func (o InspectionTask) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InspectionTask) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id          *string                     `json:"id,omitempty"`
-		Creator     *string                     `json:"creator,omitempty"`
-		Status      *string                     `json:"status,omitempty"`
-		Engine      *InspectionSupportedEngines `json:"engine,omitempty"`
-		OrgName     *string                     `json:"orgName,omitempty"`
-		ClusterId   *string                     `json:"clusterID,omitempty"`
-		ClusterName *string                     `json:"clusterName,omitempty"`
-		EnvName     *string                     `json:"envName,omitempty"`
-		EnvId       *string                     `json:"envID,omitempty"`
-		NodeName    *string                     `json:"nodeName,omitempty"`
-		IsAuto      *bool                       `json:"isAuto,omitempty"`
-		Score       *int32                      `json:"score,omitempty"`
-		Result      *string                     `json:"result,omitempty"`
-		Items       []InspectionTaskItem        `json:"items,omitempty"`
-		CreatedAt   *time.Time                  `json:"createdAt,omitempty"`
-		UpdatedAt   *time.Time                  `json:"updatedAt,omitempty"`
+		Id             *string                     `json:"id,omitempty"`
+		Creator        *string                     `json:"creator,omitempty"`
+		Status         *string                     `json:"status,omitempty"`
+		Engine         *InspectionSupportedEngines `json:"engine,omitempty"`
+		OrgName        *string                     `json:"orgName,omitempty"`
+		ClusterId      *string                     `json:"clusterID,omitempty"`
+		ClusterName    *string                     `json:"clusterName,omitempty"`
+		EnvName        *string                     `json:"envName,omitempty"`
+		EnvId          *string                     `json:"envID,omitempty"`
+		NodeName       *string                     `json:"nodeName,omitempty"`
+		IsAuto         *bool                       `json:"isAuto,omitempty"`
+		Score          *int32                      `json:"score,omitempty"`
+		Result         *string                     `json:"result,omitempty"`
+		Items          []InspectionTaskItem        `json:"items,omitempty"`
+		CreatedAt      *time.Time                  `json:"createdAt,omitempty"`
+		UpdatedAt      *time.Time                  `json:"updatedAt,omitempty"`
+		TimeRangeStart *time.Time                  `json:"timeRangeStart,omitempty"`
+		TimeRangeEnd   *time.Time                  `json:"timeRangeEnd,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "creator", "status", "engine", "orgName", "clusterID", "clusterName", "envName", "envID", "nodeName", "isAuto", "score", "result", "items", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "creator", "status", "engine", "orgName", "clusterID", "clusterName", "envName", "envID", "nodeName", "isAuto", "score", "result", "items", "createdAt", "updatedAt", "timeRangeStart", "timeRangeEnd"})
 	} else {
 		return err
 	}
@@ -618,6 +692,8 @@ func (o *InspectionTask) UnmarshalJSON(bytes []byte) (err error) {
 	o.Items = all.Items
 	o.CreatedAt = all.CreatedAt
 	o.UpdatedAt = all.UpdatedAt
+	o.TimeRangeStart = all.TimeRangeStart
+	o.TimeRangeEnd = all.TimeRangeEnd
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

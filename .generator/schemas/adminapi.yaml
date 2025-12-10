@@ -16086,6 +16086,96 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/sla/settings:
+    get:
+      summary: Get SLA settings
+      description: Get SLA settings in a environment
+      operationId: GetSLASettingsInEnv
+      tags:
+        - SLA
+      parameters:
+        - name: environmentName
+          in: query
+          description: name of the environment
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: SLA settings retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SLASettings'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      summary: Update SLA settings
+      description: Update SLA settings in a environment
+      operationId: UpdateSLASettingsInEnv
+      tags:
+        - SLA
+      parameters:
+        - name: environmentName
+          in: query
+          description: name of the environment
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SLASettings'
+      responses:
+        '204':
+          description: SLA settings updated successfully
+          content: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/sla/engines:
+    get:
+      summary: Get SLA supported engines
+      description: Get SLA supported engines in a environment
+      operationId: GetSLASupportEngines
+      tags:
+        - SLA
+      responses:
+        '200':
+          description: SLA engines retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 components:
   securitySchemes:
     BearerToken:
@@ -25944,6 +26034,12 @@ components:
         updatedAt:
           format: date-time
           type: string
+        timeRangeStart:
+          format: date-time
+          type: string
+        timeRangeEnd:
+          format: date-time
+          type: string
     inspectionTaskFormat:
       description: Specifies the format of the task in the aggregate task result.
       enum:
@@ -28784,6 +28880,36 @@ components:
       description: A list of daily SLA records.
       items:
         $ref: '#/components/schemas/DailySLA'
+    SLASettings:
+      type: object
+      properties:
+        environmentName:
+          type: string
+          description: The name of the environment.
+        probeInterval:
+          type: string
+          format: duration
+        probeTimeout:
+          type: string
+          format: duration
+        enableProbeRetry:
+          type: boolean
+        probeRetryCount:
+          type: integer
+        probeRetryInterval:
+          type: string
+          format: duration
+        probeEngines:
+          type: array
+          items:
+            type: string
+        probePoolSize:
+          type: integer
+        collectorBatchSize:
+          type: integer
+        collectorMaxWaitTime:
+          type: string
+          format: duration
   responses:
     '204':
       description: No Content
