@@ -11984,11 +11984,48 @@ paths:
       description: List tasks
       operationId: listTask
       parameters:
+        - name: orgName
+          in: query
+          description: Filter by organization name
+          schema:
+            type: string
+        - name: resourceId
+          in: query
+          description: Filter by resource ID (such as cluster ID, environment ID, etc.)
+          schema:
+            type: string
+        - name: resourceType
+          in: query
+          description: Filter by resource type
+          schema:
+            type: string
         - name: taskType
           in: query
           description: Filter by task type
           schema:
             type: string
+        - name: start
+          in: query
+          description: Start timestamp (Unix timestamp)
+          schema:
+            type: integer
+        - name: end
+          in: query
+          description: End timestamp (Unix timestamp)
+          schema:
+            type: integer
+        - name: pageNumber
+          in: query
+          description: The pageNumber of the query
+          schema:
+            type: integer
+            format: int64
+        - name: pageSize
+          in: query
+          description: The pageSize of the query
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: Current task list
@@ -16176,6 +16213,69 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/sla/uncompliant:
+    get:
+      summary: List uncompliant clusters
+      description: List uncompliant clusters that sla lower than the threshold
+      operationId: ListUncompliantClusters
+      tags:
+        - SLA
+      parameters:
+        - name: environmentName
+          in: query
+          description: name of the environment
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: engine
+          in: query
+          description: database engine type
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: orgName
+          in: query
+          description: name of the organization
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: range
+          in: query
+          description: Time range to calculate SLA, unit is day, available values are "30", "90", "365".
+          required: true
+          schema:
+            type: integer
+        - name: threshold
+          in: query
+          description: SLA threshold, unit is percent, available values are "99.0", "99.5", "99.9", default is "99.5".
+          required: false
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Uncompliant clusters retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SLA'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 components:
   securitySchemes:
     BearerToken:
@@ -18289,6 +18389,8 @@ components:
         value:
           description: The actual value associated with the filter option.
           type: string
+        description:
+          $ref: '#/components/schemas/localizedDescription'
       required:
         - title
         - value
@@ -26755,6 +26857,78 @@ components:
         - Succeed
         - Failed
       description: Current status of the task
+    taskListItem:
+      type: object
+      required:
+        - taskId
+        - status
+        - taskName
+        - taskType
+        - createdAt
+        - updatedAt
+      properties:
+        taskId:
+          type: string
+          description: ID of the scaling task
+        taskName:
+          type: string
+          description: Name of the task
+        taskType:
+          type: string
+          description: Type of task operation
+        status:
+          $ref: '#/components/schemas/taskStatus'
+        resourceType:
+          type: string
+          description: Resource type of the task
+        resourceId:
+          type: string
+          description: Resource ID of the task
+        orgName:
+          type: string
+          description: Organization name of the task
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was last updated
+        startedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
+        completionTime:
+          type: string
+          format: date-time
+          description: Time when the task completed or failed
+          x-nullable: true
+        message:
+          type: string
+          description: Detailed message about the task status
+          x-nullable: true
+        progress:
+          type: integer
+          description: Progress percentage of the task
+          minimum: 0
+          maximum: 100
+        operator:
+          type: string
+          description: The user created the task
+          x-nullable: true
+    taskList:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/taskListItem'
+        pagination:
+          $ref: '#/components/schemas/paginationResult'
     taskStep:
       type: object
       required:
@@ -26817,6 +26991,10 @@ components:
           format: date-time
           description: Time when the task completed or failed
           x-nullable: true
+        detail:
+          type: object
+          description: Detailed information about the step
+          additionalProperties: true
     taskFailurePolicy:
       type: string
       enum:
@@ -26895,19 +27073,15 @@ components:
           type: string
           description: The user created the task
           x-nullable: true
-        clusterTaskId:
+        resourceType:
           type: string
-          description: ID of the cluster task
-          x-nullable: true
-    taskList:
-      type: object
-      required:
-        - items
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/task'
+          description: Resource type of the task
+        resourceId:
+          type: string
+          description: Resource ID of the task
+        orgName:
+          type: string
+          description: Organization name of the task
     opsStatus:
       enum:
         - Pending
