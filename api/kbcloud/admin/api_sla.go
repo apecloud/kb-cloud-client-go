@@ -718,6 +718,167 @@ func (a *SLAApi) ListEnvironmentOutageRecord(ctx _context.Context, o ...ListEnvi
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// ListUncompliantClustersOptionalParameters holds optional parameters for ListUncompliantClusters.
+type ListUncompliantClustersOptionalParameters struct {
+	EnvironmentName *[]string
+	Engine          *[]string
+	OrgName         *[]string
+	Threshold       *float64
+}
+
+// NewListUncompliantClustersOptionalParameters creates an empty struct for parameters.
+func NewListUncompliantClustersOptionalParameters() *ListUncompliantClustersOptionalParameters {
+	this := ListUncompliantClustersOptionalParameters{}
+	return &this
+}
+
+// WithEnvironmentName sets the corresponding parameter name and returns the struct.
+func (r *ListUncompliantClustersOptionalParameters) WithEnvironmentName(environmentName []string) *ListUncompliantClustersOptionalParameters {
+	r.EnvironmentName = &environmentName
+	return r
+}
+
+// WithEngine sets the corresponding parameter name and returns the struct.
+func (r *ListUncompliantClustersOptionalParameters) WithEngine(engine []string) *ListUncompliantClustersOptionalParameters {
+	r.Engine = &engine
+	return r
+}
+
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *ListUncompliantClustersOptionalParameters) WithOrgName(orgName []string) *ListUncompliantClustersOptionalParameters {
+	r.OrgName = &orgName
+	return r
+}
+
+// WithThreshold sets the corresponding parameter name and returns the struct.
+func (r *ListUncompliantClustersOptionalParameters) WithThreshold(threshold float64) *ListUncompliantClustersOptionalParameters {
+	r.Threshold = &threshold
+	return r
+}
+
+// ListUncompliantClusters List uncompliant clusters.
+// List uncompliant clusters that sla lower than the threshold
+func (a *SLAApi) ListUncompliantClusters(ctx _context.Context, rangeVar int32, o ...ListUncompliantClustersOptionalParameters) ([]SLA, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []SLA
+		optionalParams      ListUncompliantClustersOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListUncompliantClustersOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "SLA",
+		OperationID: "ListUncompliantClusters",
+		Path:        "/admin/v1/sla/uncompliant",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".SLAApi.ListUncompliantClusters")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/sla/uncompliant"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("range", common.ParameterToString(rangeVar, ""))
+	if optionalParams.EnvironmentName != nil {
+		t := *optionalParams.EnvironmentName
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("environmentName", common.ParameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("environmentName", common.ParameterToString(t, "multi"))
+		}
+	}
+	if optionalParams.Engine != nil {
+		t := *optionalParams.Engine
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("engine", common.ParameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("engine", common.ParameterToString(t, "multi"))
+		}
+	}
+	if optionalParams.OrgName != nil {
+		t := *optionalParams.OrgName
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("orgName", common.ParameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("orgName", common.ParameterToString(t, "multi"))
+		}
+	}
+	if optionalParams.Threshold != nil {
+		localVarQueryParams.Add("threshold", common.ParameterToString(*optionalParams.Threshold, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // UpdateSLASettingsInEnv Update SLA settings.
 // Update SLA settings in a environment
 func (a *SLAApi) UpdateSLASettingsInEnv(ctx _context.Context, environmentName string, body SLASettings) (*_nethttp.Response, error) {
