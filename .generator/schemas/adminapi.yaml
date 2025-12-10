@@ -19674,6 +19674,8 @@ components:
           type: string
         dependentClusterTaskId:
           type: string
+        taskId:
+          type: string
       required:
         - opsRequestName
       type: object
