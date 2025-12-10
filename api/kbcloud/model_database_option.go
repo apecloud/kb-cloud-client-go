@@ -11,8 +11,16 @@ import (
 )
 
 type DatabaseOption struct {
-	Enabled             bool    `json:"enabled"`
-	Update              *bool   `json:"update,omitempty"`
+	Enabled bool  `json:"enabled"`
+	Update  *bool `json:"update,omitempty"`
+	// max length of database name.
+	// If not set, use default value.
+	//
+	MaxLen *int32 `json:"maxLen,omitempty"`
+	// min length of database name.
+	// If not set, use default value.
+	//
+	MinLen              *int32  `json:"minLen,omitempty"`
 	DatabaseNamePattern *string `json:"databaseNamePattern,omitempty"`
 	// The database option information that will be displayed when listing databases
 	//
@@ -35,6 +43,10 @@ type DatabaseOption struct {
 func NewDatabaseOption(enabled bool) *DatabaseOption {
 	this := DatabaseOption{}
 	this.Enabled = enabled
+	var maxLen int32 = 64
+	this.MaxLen = &maxLen
+	var minLen int32 = 3
+	this.MinLen = &minLen
 	return &this
 }
 
@@ -43,6 +55,10 @@ func NewDatabaseOption(enabled bool) *DatabaseOption {
 // but it doesn't guarantee that properties required by API are set.
 func NewDatabaseOptionWithDefaults() *DatabaseOption {
 	this := DatabaseOption{}
+	var maxLen int32 = 64
+	this.MaxLen = &maxLen
+	var minLen int32 = 3
+	this.MinLen = &minLen
 	return &this
 }
 
@@ -95,6 +111,62 @@ func (o *DatabaseOption) HasUpdate() bool {
 // SetUpdate gets a reference to the given bool and assigns it to the Update field.
 func (o *DatabaseOption) SetUpdate(v bool) {
 	o.Update = &v
+}
+
+// GetMaxLen returns the MaxLen field value if set, zero value otherwise.
+func (o *DatabaseOption) GetMaxLen() int32 {
+	if o == nil || o.MaxLen == nil {
+		var ret int32
+		return ret
+	}
+	return *o.MaxLen
+}
+
+// GetMaxLenOk returns a tuple with the MaxLen field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DatabaseOption) GetMaxLenOk() (*int32, bool) {
+	if o == nil || o.MaxLen == nil {
+		return nil, false
+	}
+	return o.MaxLen, true
+}
+
+// HasMaxLen returns a boolean if a field has been set.
+func (o *DatabaseOption) HasMaxLen() bool {
+	return o != nil && o.MaxLen != nil
+}
+
+// SetMaxLen gets a reference to the given int32 and assigns it to the MaxLen field.
+func (o *DatabaseOption) SetMaxLen(v int32) {
+	o.MaxLen = &v
+}
+
+// GetMinLen returns the MinLen field value if set, zero value otherwise.
+func (o *DatabaseOption) GetMinLen() int32 {
+	if o == nil || o.MinLen == nil {
+		var ret int32
+		return ret
+	}
+	return *o.MinLen
+}
+
+// GetMinLenOk returns a tuple with the MinLen field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DatabaseOption) GetMinLenOk() (*int32, bool) {
+	if o == nil || o.MinLen == nil {
+		return nil, false
+	}
+	return o.MinLen, true
+}
+
+// HasMinLen returns a boolean if a field has been set.
+func (o *DatabaseOption) HasMinLen() bool {
+	return o != nil && o.MinLen != nil
+}
+
+// SetMinLen gets a reference to the given int32 and assigns it to the MinLen field.
+func (o *DatabaseOption) SetMinLen(v int32) {
+	o.MinLen = &v
 }
 
 // GetDatabaseNamePattern returns the DatabaseNamePattern field value if set, zero value otherwise.
@@ -219,6 +291,12 @@ func (o DatabaseOption) MarshalJSON() ([]byte, error) {
 	if o.Update != nil {
 		toSerialize["update"] = o.Update
 	}
+	if o.MaxLen != nil {
+		toSerialize["maxLen"] = o.MaxLen
+	}
+	if o.MinLen != nil {
+		toSerialize["minLen"] = o.MinLen
+	}
 	if o.DatabaseNamePattern != nil {
 		toSerialize["databaseNamePattern"] = o.DatabaseNamePattern
 	}
@@ -243,6 +321,8 @@ func (o *DatabaseOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Enabled                *bool                                      `json:"enabled"`
 		Update                 *bool                                      `json:"update,omitempty"`
+		MaxLen                 *int32                                     `json:"maxLen,omitempty"`
+		MinLen                 *int32                                     `json:"minLen,omitempty"`
 		DatabaseNamePattern    *string                                    `json:"databaseNamePattern,omitempty"`
 		ListOption             []string                                   `json:"listOption,omitempty"`
 		AvailableOptions       []string                                   `json:"availableOptions,omitempty"`
@@ -256,12 +336,14 @@ func (o *DatabaseOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"enabled", "update", "databaseNamePattern", "listOption", "availableOptions", "availbaleUpdateOptions"})
+		common.DeleteKeys(additionalProperties, &[]string{"enabled", "update", "maxLen", "minLen", "databaseNamePattern", "listOption", "availableOptions", "availbaleUpdateOptions"})
 	} else {
 		return err
 	}
 	o.Enabled = *all.Enabled
 	o.Update = all.Update
+	o.MaxLen = all.MaxLen
+	o.MinLen = all.MinLen
 	o.DatabaseNamePattern = all.DatabaseNamePattern
 	o.ListOption = all.ListOption
 	o.AvailableOptions = all.AvailableOptions

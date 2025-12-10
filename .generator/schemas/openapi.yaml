@@ -17771,6 +17771,20 @@ components:
           type: array
           items:
             type: string
+        maxLen:
+          type: integer
+          format: int32
+          default: 64
+          description: |
+            max length of account name.
+            If not set, use default value.
+        minLen:
+          type: integer
+          format: int32
+          default: 3
+          description: |
+            min length of account name.
+            If not set, use default value.
         accountNamePattern:
           type: string
         create:
@@ -17799,6 +17813,20 @@ components:
         update:
           type: boolean
           x-omitempty: false
+        maxLen:
+          type: integer
+          format: int32
+          default: 64
+          description: |
+            max length of database name.
+            If not set, use default value.
+        minLen:
+          type: integer
+          format: int32
+          default: 3
+          description: |
+            min length of database name.
+            If not set, use default value.
         databaseNamePattern:
           type: string
         listOption:
