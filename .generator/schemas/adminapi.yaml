@@ -18289,6 +18289,8 @@ components:
         value:
           description: The actual value associated with the filter option.
           type: string
+        description:
+          $ref: '#/components/schemas/localizedDescription'
       required:
         - title
         - value
