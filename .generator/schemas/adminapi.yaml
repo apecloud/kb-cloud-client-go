@@ -27884,9 +27884,9 @@ components:
         autoExtend:
           type: boolean
           description: whether this tablespace auto extend
-        maxSizeGB:
+        maxSizeMB:
           type: string
-          description: the max size can be allocated of this tablespace, unit GB
+          description: the max size can be allocated of this tablespace, unit MB
         usedRatioInMax:
           type: string
           description: the used ratio in the max allocated size of this tablespace
