@@ -13572,6 +13572,9 @@ components:
           type: string
           format: date-time
           description: the update time of the storage class
+        minSizeGi:
+          type: integer
+          description: the minimum size of the storage class
       required:
         - name
         - creationTimestamp

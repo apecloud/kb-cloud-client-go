@@ -57,6 +57,8 @@ type StorageClassInfo struct {
 	Id string `json:"id"`
 	// the update time of the storage class
 	UpdatedAt common.NullableTime `json:"updatedAt,omitempty"`
+	// the minimum size of the storage class
+	MinSizeGi *int32 `json:"minSizeGi,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -657,6 +659,34 @@ func (o *StorageClassInfo) UnsetUpdatedAt() {
 	o.UpdatedAt.Unset()
 }
 
+// GetMinSizeGi returns the MinSizeGi field value if set, zero value otherwise.
+func (o *StorageClassInfo) GetMinSizeGi() int32 {
+	if o == nil || o.MinSizeGi == nil {
+		var ret int32
+		return ret
+	}
+	return *o.MinSizeGi
+}
+
+// GetMinSizeGiOk returns a tuple with the MinSizeGi field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageClassInfo) GetMinSizeGiOk() (*int32, bool) {
+	if o == nil || o.MinSizeGi == nil {
+		return nil, false
+	}
+	return o.MinSizeGi, true
+}
+
+// HasMinSizeGi returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasMinSizeGi() bool {
+	return o != nil && o.MinSizeGi != nil
+}
+
+// SetMinSizeGi gets a reference to the given int32 and assigns it to the MinSizeGi field.
+func (o *StorageClassInfo) SetMinSizeGi(v int32) {
+	o.MinSizeGi = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageClassInfo) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -699,6 +729,9 @@ func (o StorageClassInfo) MarshalJSON() ([]byte, error) {
 	if o.UpdatedAt.IsSet() {
 		toSerialize["updatedAt"] = o.UpdatedAt.Get()
 	}
+	if o.MinSizeGi != nil {
+		toSerialize["minSizeGi"] = o.MinSizeGi
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -731,6 +764,7 @@ func (o *StorageClassInfo) UnmarshalJSON(bytes []byte) (err error) {
 		Enabled              *bool               `json:"enabled"`
 		Id                   *string             `json:"id"`
 		UpdatedAt            common.NullableTime `json:"updatedAt,omitempty"`
+		MinSizeGi            *int32              `json:"minSizeGi,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -782,7 +816,7 @@ func (o *StorageClassInfo) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "creationTimestamp", "provisioner", "parameters", "labels", "annotations", "reclaimPolicy", "allowVolumeExpansion", "volumeBindingMode", "pvcCount", "allowClone", "allowSnapshot", "isDefaultClass", "type", "hostPath", "mountOptions", "createdAt", "description", "displayName", "enabled", "id", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "creationTimestamp", "provisioner", "parameters", "labels", "annotations", "reclaimPolicy", "allowVolumeExpansion", "volumeBindingMode", "pvcCount", "allowClone", "allowSnapshot", "isDefaultClass", "type", "hostPath", "mountOptions", "createdAt", "description", "displayName", "enabled", "id", "updatedAt", "minSizeGi"})
 	} else {
 		return err
 	}
@@ -808,6 +842,7 @@ func (o *StorageClassInfo) UnmarshalJSON(bytes []byte) (err error) {
 	o.Enabled = *all.Enabled
 	o.Id = *all.Id
 	o.UpdatedAt = all.UpdatedAt
+	o.MinSizeGi = all.MinSizeGi
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
