@@ -397,6 +397,7 @@
 //   - [projectApi.createProject]
 //   - [projectApi.deleteProject]
 //   - [projectApi.listProjects]
+//   - [projectApi.updateProject]
 //   - [providerApi.createCloudProvider]
 //   - [providerApi.deleteCloudProvider]
 //   - [providerApi.getCloudProvider]

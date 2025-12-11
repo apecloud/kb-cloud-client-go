@@ -6853,6 +6853,45 @@ paths:
         '404':
           $ref: '#/components/responses/404'
   /admin/v1/environments/{environmentName}/projects/{projectName}:
+    patch:
+      tags:
+        - project
+      operationId: updateProject
+      summary: Update a project in an environment
+      parameters:
+        - name: environmentName
+          in: path
+          description: environment name
+          schema:
+            type: string
+          required: true
+        - name: projectName
+          in: path
+          description: project name
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/projectUpdate'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/project'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
     delete:
       tags:
         - project
@@ -21928,6 +21967,9 @@ components:
         status:
           type: string
           description: The status of project.
+        description:
+          type: string
+          description: The description of the project.
     projectList:
       description: Project list.
       type: object
@@ -21946,6 +21988,9 @@ components:
         name:
           type: string
           description: The name of the project.
+        description:
+          type: string
+          description: The description of the project.
     project:
       description: Project with detail information.
       type: object
@@ -21964,6 +22009,16 @@ components:
         envID:
           type: string
           description: The environment ID of the project.
+        description:
+          type: string
+          description: The description of the project.
+    projectUpdate:
+      description: Project update.
+      type: object
+      properties:
+        description:
+          type: string
+          description: The description of the project.
     backupRepoAccessMethod:
       description: the access method for backup repo
       default: Tool
