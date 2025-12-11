@@ -170,8 +170,6 @@ type ListTaskOptionalParameters struct {
 	ResourceId   *string
 	ResourceType *string
 	TaskType     *string
-	Start        *int32
-	End          *int32
 	PageNumber   *int64
 	PageSize     *int64
 }
@@ -206,18 +204,6 @@ func (r *ListTaskOptionalParameters) WithTaskType(taskType string) *ListTaskOpti
 	return r
 }
 
-// WithStart sets the corresponding parameter name and returns the struct.
-func (r *ListTaskOptionalParameters) WithStart(start int32) *ListTaskOptionalParameters {
-	r.Start = &start
-	return r
-}
-
-// WithEnd sets the corresponding parameter name and returns the struct.
-func (r *ListTaskOptionalParameters) WithEnd(end int32) *ListTaskOptionalParameters {
-	r.End = &end
-	return r
-}
-
 // WithPageNumber sets the corresponding parameter name and returns the struct.
 func (r *ListTaskOptionalParameters) WithPageNumber(pageNumber int64) *ListTaskOptionalParameters {
 	r.PageNumber = &pageNumber
@@ -232,7 +218,7 @@ func (r *ListTaskOptionalParameters) WithPageSize(pageSize int64) *ListTaskOptio
 
 // ListTask List task.
 // List tasks
-func (a *TaskApi) ListTask(ctx _context.Context, o ...ListTaskOptionalParameters) (TaskList, *_nethttp.Response, error) {
+func (a *TaskApi) ListTask(ctx _context.Context, start int64, end int64, o ...ListTaskOptionalParameters) (TaskList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -266,6 +252,8 @@ func (a *TaskApi) ListTask(ctx _context.Context, o ...ListTaskOptionalParameters
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
+	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
 	if optionalParams.OrgName != nil {
 		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
 	}
@@ -277,12 +265,6 @@ func (a *TaskApi) ListTask(ctx _context.Context, o ...ListTaskOptionalParameters
 	}
 	if optionalParams.TaskType != nil {
 		localVarQueryParams.Add("taskType", common.ParameterToString(*optionalParams.TaskType, ""))
-	}
-	if optionalParams.Start != nil {
-		localVarQueryParams.Add("start", common.ParameterToString(*optionalParams.Start, ""))
-	}
-	if optionalParams.End != nil {
-		localVarQueryParams.Add("end", common.ParameterToString(*optionalParams.End, ""))
 	}
 	if optionalParams.PageNumber != nil {
 		localVarQueryParams.Add("pageNumber", common.ParameterToString(*optionalParams.PageNumber, ""))

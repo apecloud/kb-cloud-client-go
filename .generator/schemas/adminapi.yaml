@@ -5201,6 +5201,11 @@ paths:
           name: version
           schema:
             type: string
+        - description: whether the environment is enabled for SLA
+          in: query
+          name: slaEnabled
+          schema:
+            type: boolean
       responses:
         '200':
           content:
@@ -12004,16 +12009,8 @@ paths:
           description: Filter by task type
           schema:
             type: string
-        - name: start
-          in: query
-          description: Start timestamp (Unix timestamp)
-          schema:
-            type: integer
-        - name: end
-          in: query
-          description: End timestamp (Unix timestamp)
-          schema:
-            type: integer
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
         - name: pageNumber
           in: query
           description: The pageNumber of the query
@@ -26884,6 +26881,9 @@ components:
         resourceId:
           type: string
           description: Resource ID of the task
+        resourceName:
+          type: string
+          description: Resource name of the task
         orgName:
           type: string
           description: Organization name of the task
@@ -27075,10 +27075,13 @@ components:
           x-nullable: true
         resourceType:
           type: string
-          description: Resource type of the task
+          description: Resource type of the task, e.g. "cluster", "environment", etc.
         resourceId:
           type: string
           description: Resource ID of the task
+        resourceName:
+          type: string
+          description: Resource name of the task
         orgName:
           type: string
           description: Organization name of the task

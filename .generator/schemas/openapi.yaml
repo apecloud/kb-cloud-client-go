@@ -6046,6 +6046,92 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/tasks:
+    get:
+      tags:
+        - task
+      summary: List task
+      description: List tasks
+      operationId: listTask
+      parameters:
+        - name: orgName
+          in: query
+          description: Filter by organization name
+          schema:
+            type: string
+        - name: resourceId
+          in: query
+          description: Filter by resource ID (such as cluster ID, environment ID, etc.)
+          schema:
+            type: string
+        - name: resourceType
+          in: query
+          description: Filter by resource type
+          schema:
+            type: string
+        - name: taskType
+          in: query
+          description: Filter by task type
+          schema:
+            type: string
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+        - name: pageNumber
+          in: query
+          description: The pageNumber of the query
+          schema:
+            type: integer
+            format: int64
+        - name: pageSize
+          in: query
+          description: The pageSize of the query
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Current task list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/taskList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/tasks/{taskId}:
+    get:
+      summary: Get task detail
+      description: Get task
+      operationId: getTask
+      parameters:
+        - description: ID of the task
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Current status of the task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/task'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - task
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}:
     get:
       tags:
@@ -19581,6 +19667,246 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/taskType'
+    taskStatus:
+      type: string
+      enum:
+        - Pending
+        - Running
+        - Stopped
+        - Succeed
+        - Failed
+      description: Current status of the task
+    taskListItem:
+      type: object
+      required:
+        - taskId
+        - status
+        - taskName
+        - taskType
+        - createdAt
+        - updatedAt
+      properties:
+        taskId:
+          type: string
+          description: ID of the scaling task
+        taskName:
+          type: string
+          description: Name of the task
+        taskType:
+          type: string
+          description: Type of task operation
+        status:
+          $ref: '#/components/schemas/taskStatus'
+        resourceType:
+          type: string
+          description: Resource type of the task
+        resourceId:
+          type: string
+          description: Resource ID of the task
+        resourceName:
+          type: string
+          description: Resource name of the task
+        orgName:
+          type: string
+          description: Organization name of the task
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was last updated
+        startedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
+        completionTime:
+          type: string
+          format: date-time
+          description: Time when the task completed or failed
+          x-nullable: true
+        message:
+          type: string
+          description: Detailed message about the task status
+          x-nullable: true
+        progress:
+          type: integer
+          description: Progress percentage of the task
+          minimum: 0
+          maximum: 100
+        operator:
+          type: string
+          description: The user created the task
+          x-nullable: true
+    taskList:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/taskListItem'
+        pagination:
+          $ref: '#/components/schemas/paginationResult'
+    taskStep:
+      type: object
+      required:
+        - stepId
+        - inputs
+        - stepName
+        - methodName
+        - status
+        - createdAt
+        - updatedAt
+      properties:
+        stepId:
+          type: string
+          description: Unique identifier for the step
+        stepName:
+          type: string
+          description: Name of the step
+        methodName:
+          type: string
+          description: Method to be executed in this step
+        inputs:
+          type: object
+          description: Input parameters for the step
+          additionalProperties:
+            type: string
+        outputs:
+          type: object
+          description: Output parameters from the step
+          additionalProperties:
+            type: string
+        retryLimit:
+          type: integer
+          description: Number of times to retry the step in case of failure
+        currRetryCount:
+          type: integer
+          description: Current retry count for the step
+        timeoutSecond:
+          type: integer
+          description: Timeout duration for the step in seconds
+        status:
+          $ref: '#/components/schemas/taskStatus'
+        message:
+          type: string
+          description: Detailed message about the step status
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the step was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the step was last updated
+        startedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
+        completionTime:
+          type: string
+          format: date-time
+          description: Time when the task completed or failed
+          x-nullable: true
+        detail:
+          type: object
+          description: Detailed information about the step
+          additionalProperties: true
+    taskFailurePolicy:
+      type: string
+      enum:
+        - interrupt
+        - ignore
+      description: Policy to handle failures
+    task:
+      type: object
+      required:
+        - taskId
+        - status
+        - taskName
+        - taskType
+        - createdAt
+        - updatedAt
+      properties:
+        taskId:
+          type: string
+          description: ID of the scaling task
+        taskName:
+          type: string
+          description: Name of the task
+        taskType:
+          type: string
+          description: Type of task operation
+        status:
+          $ref: '#/components/schemas/taskStatus'
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was last updated
+        deletedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
+        startedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
+        completionTime:
+          type: string
+          format: date-time
+          description: Time when the task completed or failed
+          x-nullable: true
+        message:
+          type: string
+          description: Detailed message about the task status
+          x-nullable: true
+        progress:
+          type: integer
+          description: Progress percentage of the task
+          minimum: 0
+          maximum: 100
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/taskStep'
+        parallelism:
+          type: integer
+          description: Degree of parallelism for the task
+        failurePolicy:
+          $ref: '#/components/schemas/taskFailurePolicy'
+        retryLimit:
+          type: integer
+          description: Maximum number of retries for the task
+        timeoutSecond:
+          type: integer
+          description: Timeout duration for the task in seconds
+        operator:
+          type: string
+          description: The user created the task
+          x-nullable: true
+        resourceType:
+          type: string
+          description: Resource type of the task, e.g. "cluster", "environment", etc.
+        resourceId:
+          type: string
+          description: Resource ID of the task
+        resourceName:
+          type: string
+          description: Resource name of the task
+        orgName:
+          type: string
+          description: Organization name of the task
     datasource:
       required:
         - type
