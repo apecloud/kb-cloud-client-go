@@ -21991,6 +21991,7 @@ components:
         description:
           type: string
           description: The description of the project.
+          maxLength: 128
     project:
       description: Project with detail information.
       type: object
@@ -22019,6 +22020,7 @@ components:
         description:
           type: string
           description: The description of the project.
+          maxLength: 128
     backupRepoAccessMethod:
       description: the access method for backup repo
       default: Tool
