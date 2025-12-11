@@ -5201,6 +5201,11 @@ paths:
           name: version
           schema:
             type: string
+        - description: whether the environment is enabled for SLA
+          in: query
+          name: slaEnabled
+          schema:
+            type: boolean
       responses:
         '200':
           content:
