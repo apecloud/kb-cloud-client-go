@@ -25,8 +25,8 @@ type DmTablespace struct {
 	UsedRatio *string `json:"usedRatio,omitempty"`
 	// whether this tablespace auto extend
 	AutoExtend *bool `json:"autoExtend,omitempty"`
-	// the max size can be allocated of this tablespace, unit GB
-	MaxSizeGb *string `json:"maxSizeGB,omitempty"`
+	// the max size can be allocated of this tablespace, unit MB
+	MaxSizeMb *string `json:"maxSizeMB,omitempty"`
 	// the used ratio in the max allocated size of this tablespace
 	UsedRatioInMax *string `json:"usedRatioInMax,omitempty"`
 	// the status of this tablespace
@@ -241,32 +241,32 @@ func (o *DmTablespace) SetAutoExtend(v bool) {
 	o.AutoExtend = &v
 }
 
-// GetMaxSizeGb returns the MaxSizeGb field value if set, zero value otherwise.
-func (o *DmTablespace) GetMaxSizeGb() string {
-	if o == nil || o.MaxSizeGb == nil {
+// GetMaxSizeMb returns the MaxSizeMb field value if set, zero value otherwise.
+func (o *DmTablespace) GetMaxSizeMb() string {
+	if o == nil || o.MaxSizeMb == nil {
 		var ret string
 		return ret
 	}
-	return *o.MaxSizeGb
+	return *o.MaxSizeMb
 }
 
-// GetMaxSizeGbOk returns a tuple with the MaxSizeGb field value if set, nil otherwise
+// GetMaxSizeMbOk returns a tuple with the MaxSizeMb field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DmTablespace) GetMaxSizeGbOk() (*string, bool) {
-	if o == nil || o.MaxSizeGb == nil {
+func (o *DmTablespace) GetMaxSizeMbOk() (*string, bool) {
+	if o == nil || o.MaxSizeMb == nil {
 		return nil, false
 	}
-	return o.MaxSizeGb, true
+	return o.MaxSizeMb, true
 }
 
-// HasMaxSizeGb returns a boolean if a field has been set.
-func (o *DmTablespace) HasMaxSizeGb() bool {
-	return o != nil && o.MaxSizeGb != nil
+// HasMaxSizeMb returns a boolean if a field has been set.
+func (o *DmTablespace) HasMaxSizeMb() bool {
+	return o != nil && o.MaxSizeMb != nil
 }
 
-// SetMaxSizeGb gets a reference to the given string and assigns it to the MaxSizeGb field.
-func (o *DmTablespace) SetMaxSizeGb(v string) {
-	o.MaxSizeGb = &v
+// SetMaxSizeMb gets a reference to the given string and assigns it to the MaxSizeMb field.
+func (o *DmTablespace) SetMaxSizeMb(v string) {
+	o.MaxSizeMb = &v
 }
 
 // GetUsedRatioInMax returns the UsedRatioInMax field value if set, zero value otherwise.
@@ -348,8 +348,8 @@ func (o DmTablespace) MarshalJSON() ([]byte, error) {
 	if o.AutoExtend != nil {
 		toSerialize["autoExtend"] = o.AutoExtend
 	}
-	if o.MaxSizeGb != nil {
-		toSerialize["maxSizeGB"] = o.MaxSizeGb
+	if o.MaxSizeMb != nil {
+		toSerialize["maxSizeMB"] = o.MaxSizeMb
 	}
 	if o.UsedRatioInMax != nil {
 		toSerialize["usedRatioInMax"] = o.UsedRatioInMax
@@ -374,7 +374,7 @@ func (o *DmTablespace) UnmarshalJSON(bytes []byte) (err error) {
 		UsedSizeMb      *string           `json:"usedSizeMB,omitempty"`
 		UsedRatio       *string           `json:"usedRatio,omitempty"`
 		AutoExtend      *bool             `json:"autoExtend,omitempty"`
-		MaxSizeGb       *string           `json:"maxSizeGB,omitempty"`
+		MaxSizeMb       *string           `json:"maxSizeMB,omitempty"`
 		UsedRatioInMax  *string           `json:"usedRatioInMax,omitempty"`
 		Status          *TableSpaceStatus `json:"status,omitempty"`
 	}{}
@@ -389,7 +389,7 @@ func (o *DmTablespace) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "users", "files", "allocatedSizeMB", "usedSizeMB", "usedRatio", "autoExtend", "maxSizeGB", "usedRatioInMax", "status"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "users", "files", "allocatedSizeMB", "usedSizeMB", "usedRatio", "autoExtend", "maxSizeMB", "usedRatioInMax", "status"})
 	} else {
 		return err
 	}
@@ -402,7 +402,7 @@ func (o *DmTablespace) UnmarshalJSON(bytes []byte) (err error) {
 	o.UsedSizeMb = all.UsedSizeMb
 	o.UsedRatio = all.UsedRatio
 	o.AutoExtend = all.AutoExtend
-	o.MaxSizeGb = all.MaxSizeGb
+	o.MaxSizeMb = all.MaxSizeMb
 	o.UsedRatioInMax = all.UsedRatioInMax
 	if all.Status != nil && !all.Status.IsValid() {
 		hasInvalidField = true
