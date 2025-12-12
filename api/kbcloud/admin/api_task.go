@@ -166,7 +166,12 @@ func (a *TaskApi) GetTaskLog(ctx _context.Context, taskId string) (*_nethttp.Res
 
 // ListTaskOptionalParameters holds optional parameters for ListTask.
 type ListTaskOptionalParameters struct {
-	TaskType *string
+	OrgName      *string
+	ResourceId   *string
+	ResourceType *string
+	TaskType     *string
+	PageNumber   *int64
+	PageSize     *int64
 }
 
 // NewListTaskOptionalParameters creates an empty struct for parameters.
@@ -175,15 +180,45 @@ func NewListTaskOptionalParameters() *ListTaskOptionalParameters {
 	return &this
 }
 
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *ListTaskOptionalParameters) WithOrgName(orgName string) *ListTaskOptionalParameters {
+	r.OrgName = &orgName
+	return r
+}
+
+// WithResourceId sets the corresponding parameter name and returns the struct.
+func (r *ListTaskOptionalParameters) WithResourceId(resourceId string) *ListTaskOptionalParameters {
+	r.ResourceId = &resourceId
+	return r
+}
+
+// WithResourceType sets the corresponding parameter name and returns the struct.
+func (r *ListTaskOptionalParameters) WithResourceType(resourceType string) *ListTaskOptionalParameters {
+	r.ResourceType = &resourceType
+	return r
+}
+
 // WithTaskType sets the corresponding parameter name and returns the struct.
 func (r *ListTaskOptionalParameters) WithTaskType(taskType string) *ListTaskOptionalParameters {
 	r.TaskType = &taskType
 	return r
 }
 
+// WithPageNumber sets the corresponding parameter name and returns the struct.
+func (r *ListTaskOptionalParameters) WithPageNumber(pageNumber int64) *ListTaskOptionalParameters {
+	r.PageNumber = &pageNumber
+	return r
+}
+
+// WithPageSize sets the corresponding parameter name and returns the struct.
+func (r *ListTaskOptionalParameters) WithPageSize(pageSize int64) *ListTaskOptionalParameters {
+	r.PageSize = &pageSize
+	return r
+}
+
 // ListTask List task.
 // List tasks
-func (a *TaskApi) ListTask(ctx _context.Context, o ...ListTaskOptionalParameters) (TaskList, *_nethttp.Response, error) {
+func (a *TaskApi) ListTask(ctx _context.Context, start int64, end int64, o ...ListTaskOptionalParameters) (TaskList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -217,8 +252,25 @@ func (a *TaskApi) ListTask(ctx _context.Context, o ...ListTaskOptionalParameters
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
+	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
+	if optionalParams.ResourceId != nil {
+		localVarQueryParams.Add("resourceId", common.ParameterToString(*optionalParams.ResourceId, ""))
+	}
+	if optionalParams.ResourceType != nil {
+		localVarQueryParams.Add("resourceType", common.ParameterToString(*optionalParams.ResourceType, ""))
+	}
 	if optionalParams.TaskType != nil {
 		localVarQueryParams.Add("taskType", common.ParameterToString(*optionalParams.TaskType, ""))
+	}
+	if optionalParams.PageNumber != nil {
+		localVarQueryParams.Add("pageNumber", common.ParameterToString(*optionalParams.PageNumber, ""))
+	}
+	if optionalParams.PageSize != nil {
+		localVarQueryParams.Add("pageSize", common.ParameterToString(*optionalParams.PageSize, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
