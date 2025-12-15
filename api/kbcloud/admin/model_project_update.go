@@ -4,16 +4,10 @@
 
 package admin
 
-import (
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
-
-// ProjectCreate Project create.
-type ProjectCreate struct {
-	// The name of the project.
-	Name string `json:"name"`
+// ProjectUpdate Project update.
+type ProjectUpdate struct {
 	// The description of the project.
 	Description *string `json:"description,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -21,49 +15,25 @@ type ProjectCreate struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewProjectCreate instantiates a new ProjectCreate object.
+// NewProjectUpdate instantiates a new ProjectUpdate object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewProjectCreate(name string) *ProjectCreate {
-	this := ProjectCreate{}
-	this.Name = name
+func NewProjectUpdate() *ProjectUpdate {
+	this := ProjectUpdate{}
 	return &this
 }
 
-// NewProjectCreateWithDefaults instantiates a new ProjectCreate object.
+// NewProjectUpdateWithDefaults instantiates a new ProjectUpdate object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewProjectCreateWithDefaults() *ProjectCreate {
-	this := ProjectCreate{}
+func NewProjectUpdateWithDefaults() *ProjectUpdate {
+	this := ProjectUpdate{}
 	return &this
-}
-
-// GetName returns the Name field value.
-func (o *ProjectCreate) GetName() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.Name
-}
-
-// GetNameOk returns a tuple with the Name field value
-// and a boolean to check if the value has been set.
-func (o *ProjectCreate) GetNameOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Name, true
-}
-
-// SetName sets field value.
-func (o *ProjectCreate) SetName(v string) {
-	o.Name = v
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
-func (o *ProjectCreate) GetDescription() string {
+func (o *ProjectUpdate) GetDescription() string {
 	if o == nil || o.Description == nil {
 		var ret string
 		return ret
@@ -73,7 +43,7 @@ func (o *ProjectCreate) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ProjectCreate) GetDescriptionOk() (*string, bool) {
+func (o *ProjectUpdate) GetDescriptionOk() (*string, bool) {
 	if o == nil || o.Description == nil {
 		return nil, false
 	}
@@ -81,22 +51,21 @@ func (o *ProjectCreate) GetDescriptionOk() (*string, bool) {
 }
 
 // HasDescription returns a boolean if a field has been set.
-func (o *ProjectCreate) HasDescription() bool {
+func (o *ProjectUpdate) HasDescription() bool {
 	return o != nil && o.Description != nil
 }
 
 // SetDescription gets a reference to the given string and assigns it to the Description field.
-func (o *ProjectCreate) SetDescription(v string) {
+func (o *ProjectUpdate) SetDescription(v string) {
 	o.Description = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ProjectCreate) MarshalJSON() ([]byte, error) {
+func (o ProjectUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["name"] = o.Name
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
@@ -108,24 +77,19 @@ func (o ProjectCreate) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ProjectCreate) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ProjectUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string `json:"name"`
 		Description *string `json:"description,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Name == nil {
-		return fmt.Errorf("required field name missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "description"})
+		common.DeleteKeys(additionalProperties, &[]string{"description"})
 	} else {
 		return err
 	}
-	o.Name = *all.Name
 	o.Description = all.Description
 
 	if len(additionalProperties) > 0 {

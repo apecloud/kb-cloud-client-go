@@ -21180,6 +21180,9 @@ components:
         status:
           type: string
           description: The status of project.
+        description:
+          type: string
+          description: The description of the project.
     projectList:
       description: Project list.
       type: object
