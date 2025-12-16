@@ -7324,7 +7324,7 @@ paths:
       tags:
         - backupRepo
   /admin/v1/environments/{environmentName}/backupRepo/{backupRepoName}/files:
-    post:
+    get:
       tags:
         - backupRepo
       operationId: listBackupRepoFolder

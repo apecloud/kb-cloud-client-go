@@ -127,7 +127,7 @@ func (a *BackupRepoApi) GetBackupRepo(ctx _context.Context, environmentName stri
 // ListBackupRepoFolder list backup repo folder.
 func (a *BackupRepoApi) ListBackupRepoFolder(ctx _context.Context, environmentName string, backupRepoName string, path string) (FileEntryList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue FileEntryList
 	)
