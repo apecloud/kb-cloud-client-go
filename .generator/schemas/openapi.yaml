@@ -3566,7 +3566,7 @@ paths:
         - backup
         - shared
       x-codegen-request-body-name: body
-  /api/v1/environments/{environmentName}/organizations/{orgName}/engines/{engineName}/buildBacku:
+  /api/v1/environments/{environmentName}/organizations/{orgName}/engines/{engineName}/buildBackup:
     post:
       operationId: buildBackupObj
       summary: build backup object with a existing backup directory
@@ -4439,7 +4439,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backupRepo
-  /api/v1/environments/{environmentName}/backupRepo/{backupRepoName}/listFolder:
+  /api/v1/environments/{environmentName}/backupRepo/{backupRepoName}/files:
     post:
       tags:
         - backupRepo

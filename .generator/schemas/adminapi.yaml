@@ -7199,7 +7199,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backupRepo
-  /admin/v1/environments/{environmentName}/backupRepo/{backupRepoName}/listFolder:
+  /admin/v1/environments/{environmentName}/backupRepo/{backupRepoName}/files:
     post:
       tags:
         - backupRepo

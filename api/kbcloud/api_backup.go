@@ -30,7 +30,7 @@ func (a *BackupApi) BuildBackupObj(ctx _context.Context, orgName string, environ
 	apiInfo := common.APIInfo{
 		Tag:         "backup",
 		OperationID: "buildBackupObj",
-		Path:        "/api/v1/environments/{environmentName}/organizations/{orgName}/engines/{engineName}/buildBacku",
+		Path:        "/api/v1/environments/{environmentName}/organizations/{orgName}/engines/{engineName}/buildBackup",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -40,7 +40,7 @@ func (a *BackupApi) BuildBackupObj(ctx _context.Context, orgName string, environ
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/environments/{environmentName}/organizations/{orgName}/engines/{engineName}/buildBacku"
+	localVarPath := localBasePath + "/api/v1/environments/{environmentName}/organizations/{orgName}/engines/{engineName}/buildBackup"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)

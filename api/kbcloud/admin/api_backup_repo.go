@@ -393,7 +393,7 @@ func (a *BackupRepoApi) ListBackupRepoFolder(ctx _context.Context, environmentNa
 	apiInfo := common.APIInfo{
 		Tag:         "backupRepo",
 		OperationID: "listBackupRepoFolder",
-		Path:        "/admin/v1/environments/{environmentName}/backupRepo/{backupRepoName}/listFolder",
+		Path:        "/admin/v1/environments/{environmentName}/backupRepo/{backupRepoName}/files",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -403,7 +403,7 @@ func (a *BackupRepoApi) ListBackupRepoFolder(ctx _context.Context, environmentNa
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/backupRepo/{backupRepoName}/listFolder"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/backupRepo/{backupRepoName}/files"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"backupRepoName"+"}", _neturl.PathEscape(common.ParameterToString(backupRepoName, "")), -1)
 
