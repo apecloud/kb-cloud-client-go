@@ -4440,7 +4440,7 @@ paths:
       tags:
         - backupRepo
   /api/v1/environments/{environmentName}/backupRepo/{backupRepoName}/files:
-    post:
+    get:
       tags:
         - backupRepo
       operationId: listBackupRepoFolder
