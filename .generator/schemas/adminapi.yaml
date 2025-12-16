@@ -16689,6 +16689,9 @@ components:
           type: string
           format: date-time
           description: The time the organization was created.
+        description:
+          type: string
+          description: The description of the organization.
     organizationList:
       description: Organization list.
       type: object
@@ -16903,6 +16906,15 @@ components:
       required:
         - items
       type: object
+    localizedDescription:
+      type: object
+      properties:
+        zh-CN:
+          type: string
+          x-nullable: true
+        en-US:
+          type: string
+          x-nullable: true
     role:
       description: Role information
       type: object
@@ -16914,8 +16926,7 @@ components:
           description: The type of the role
           type: string
         description:
-          description: The description of the role
-          type: string
+          $ref: '#/components/schemas/localizedDescription'
         createdAt:
           description: The time when the role was created. Read-Only
           format: date-time
@@ -16924,6 +16935,8 @@ components:
           description: The time when the role was updated. Read-Only
           format: date-time
           type: string
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
     roleList:
       description: RoleList is a list of Roles
       properties:
@@ -16942,27 +16955,20 @@ components:
         name:
           description: The name of the role
           type: string
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
         description:
-          description: The description of the role
-          type: string
+          $ref: '#/components/schemas/localizedDescription'
       required:
         - name
     roleUpdate:
       description: Role update
       type: object
       properties:
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
         description:
-          description: The description of the role
-          type: string
-    localizedDescription:
-      type: object
-      properties:
-        zh-CN:
-          type: string
-          x-nullable: true
-        en-US:
-          type: string
-          x-nullable: true
+          $ref: '#/components/schemas/localizedDescription'
     orgParameter:
       description: org parameter item
       type: object
