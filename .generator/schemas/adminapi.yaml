@@ -7199,6 +7199,44 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backupRepo
+  /admin/v1/environments/{environmentName}/backupRepo/{backupRepoName}/files:
+    post:
+      tags:
+        - backupRepo
+      operationId: listBackupRepoFolder
+      summary: list backup repo folder
+      parameters:
+        - name: environmentName
+          in: path
+          description: name of the environment
+          required: true
+          schema:
+            type: string
+        - name: backupRepoName
+          in: path
+          description: name of the environment
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: query
+          description: path of the folder
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/fileEntryList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/imageRegistries:
     get:
       operationId: listImageRegistries
@@ -7339,6 +7377,63 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/backupCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backup'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - backup
+        - shared
+      x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/organizations/{orgName}/engines/{engineName}/buildBackup:
+    post:
+      operationId: buildBackupObj
+      summary: build backup object with a existing backup directory
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                backupPath:
+                  type: string
+                  description: the backup directory path
+                backupRepoName:
+                  type: string
+                  description: the backup repo name
+                rootUserPassword:
+                  type: string
+                  description: the root user password of database
+                clusterName:
+                  type: string
+                  description: the cluster name
         required: true
       responses:
         '200':
@@ -9293,6 +9388,12 @@ paths:
           required: false
           schema:
             $ref: '#/components/schemas/engineOptionVersion'
+        - description: Whether to filter load backup from offline instance
+          in: query
+          name: filterLoadBackupFromOfflineInstance
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: A successful response.
@@ -23858,6 +23959,27 @@ components:
               description: cross mode recovery options
               items:
                 type: string
+        offlineBackupOption:
+          type: object
+          properties:
+            useParentDirAsBackupPath:
+              type: boolean
+              description: whether to use the parent directory of the backup path as the actual backup path
+            supported:
+              type: boolean
+              description: whether offline backup is supported
+            rootUser:
+              type: string
+              description: the root user for offline backup
+            backupMethod:
+              type: string
+              description: the backup method for offline backup
+            componentName:
+              type: string
+              description: the component name for offline backup
+            status:
+              type: object
+              additionalProperties: true
         backupParameters:
           type: object
           additionalProperties:
