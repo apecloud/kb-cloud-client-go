@@ -28,10 +28,8 @@ type Key struct {
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	// The last update timestamp of the key.
 	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-	// the name of data key
-	DataKeyName *string `json:"dataKeyName,omitempty"`
-	// the sysmetric key
-	SysmetricKey *string `json:"sysmetricKey,omitempty"`
+	// the key content. This field will not be included in list/get response.
+	Key *string `json:"key,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -278,60 +276,32 @@ func (o *Key) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
 
-// GetDataKeyName returns the DataKeyName field value if set, zero value otherwise.
-func (o *Key) GetDataKeyName() string {
-	if o == nil || o.DataKeyName == nil {
+// GetKey returns the Key field value if set, zero value otherwise.
+func (o *Key) GetKey() string {
+	if o == nil || o.Key == nil {
 		var ret string
 		return ret
 	}
-	return *o.DataKeyName
+	return *o.Key
 }
 
-// GetDataKeyNameOk returns a tuple with the DataKeyName field value if set, nil otherwise
+// GetKeyOk returns a tuple with the Key field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Key) GetDataKeyNameOk() (*string, bool) {
-	if o == nil || o.DataKeyName == nil {
+func (o *Key) GetKeyOk() (*string, bool) {
+	if o == nil || o.Key == nil {
 		return nil, false
 	}
-	return o.DataKeyName, true
+	return o.Key, true
 }
 
-// HasDataKeyName returns a boolean if a field has been set.
-func (o *Key) HasDataKeyName() bool {
-	return o != nil && o.DataKeyName != nil
+// HasKey returns a boolean if a field has been set.
+func (o *Key) HasKey() bool {
+	return o != nil && o.Key != nil
 }
 
-// SetDataKeyName gets a reference to the given string and assigns it to the DataKeyName field.
-func (o *Key) SetDataKeyName(v string) {
-	o.DataKeyName = &v
-}
-
-// GetSysmetricKey returns the SysmetricKey field value if set, zero value otherwise.
-func (o *Key) GetSysmetricKey() string {
-	if o == nil || o.SysmetricKey == nil {
-		var ret string
-		return ret
-	}
-	return *o.SysmetricKey
-}
-
-// GetSysmetricKeyOk returns a tuple with the SysmetricKey field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Key) GetSysmetricKeyOk() (*string, bool) {
-	if o == nil || o.SysmetricKey == nil {
-		return nil, false
-	}
-	return o.SysmetricKey, true
-}
-
-// HasSysmetricKey returns a boolean if a field has been set.
-func (o *Key) HasSysmetricKey() bool {
-	return o != nil && o.SysmetricKey != nil
-}
-
-// SetSysmetricKey gets a reference to the given string and assigns it to the SysmetricKey field.
-func (o *Key) SetSysmetricKey(v string) {
-	o.SysmetricKey = &v
+// SetKey gets a reference to the given string and assigns it to the Key field.
+func (o *Key) SetKey(v string) {
+	o.Key = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -372,11 +342,8 @@ func (o Key) MarshalJSON() ([]byte, error) {
 			toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
-	if o.DataKeyName != nil {
-		toSerialize["dataKeyName"] = o.DataKeyName
-	}
-	if o.SysmetricKey != nil {
-		toSerialize["sysmetricKey"] = o.SysmetricKey
+	if o.Key != nil {
+		toSerialize["key"] = o.Key
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -388,23 +355,22 @@ func (o Key) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Key) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id           *string              `json:"id,omitempty"`
-		Name         *string              `json:"name,omitempty"`
-		Algorithm    *EncryptionAlgorithm `json:"algorithm,omitempty"`
-		KeyUsage     *EncryptionKeyUsage  `json:"keyUsage,omitempty"`
-		Clusters     []string             `json:"clusters,omitempty"`
-		Backups      []string             `json:"backups,omitempty"`
-		CreatedAt    *time.Time           `json:"createdAt,omitempty"`
-		UpdatedAt    *time.Time           `json:"updatedAt,omitempty"`
-		DataKeyName  *string              `json:"dataKeyName,omitempty"`
-		SysmetricKey *string              `json:"sysmetricKey,omitempty"`
+		Id        *string              `json:"id,omitempty"`
+		Name      *string              `json:"name,omitempty"`
+		Algorithm *EncryptionAlgorithm `json:"algorithm,omitempty"`
+		KeyUsage  *EncryptionKeyUsage  `json:"keyUsage,omitempty"`
+		Clusters  []string             `json:"clusters,omitempty"`
+		Backups   []string             `json:"backups,omitempty"`
+		CreatedAt *time.Time           `json:"createdAt,omitempty"`
+		UpdatedAt *time.Time           `json:"updatedAt,omitempty"`
+		Key       *string              `json:"key,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "algorithm", "keyUsage", "clusters", "backups", "createdAt", "updatedAt", "dataKeyName", "sysmetricKey"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "algorithm", "keyUsage", "clusters", "backups", "createdAt", "updatedAt", "key"})
 	} else {
 		return err
 	}
@@ -426,8 +392,7 @@ func (o *Key) UnmarshalJSON(bytes []byte) (err error) {
 	o.Backups = all.Backups
 	o.CreatedAt = all.CreatedAt
 	o.UpdatedAt = all.UpdatedAt
-	o.DataKeyName = all.DataKeyName
-	o.SysmetricKey = all.SysmetricKey
+	o.Key = all.Key
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
