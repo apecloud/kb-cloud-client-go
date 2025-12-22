@@ -645,6 +645,8 @@ func (a *DataReplicationApi) ListDataChannelEvents(ctx _context.Context, orgName
 type ListDataChannelParametersOptionalParameters struct {
 	StandardName *string
 	ChannelId    *string
+	Source       *string
+	Target       *string
 	ModuleName   *string
 }
 
@@ -663,6 +665,18 @@ func (r *ListDataChannelParametersOptionalParameters) WithStandardName(standardN
 // WithChannelId sets the corresponding parameter name and returns the struct.
 func (r *ListDataChannelParametersOptionalParameters) WithChannelId(channelId string) *ListDataChannelParametersOptionalParameters {
 	r.ChannelId = &channelId
+	return r
+}
+
+// WithSource sets the corresponding parameter name and returns the struct.
+func (r *ListDataChannelParametersOptionalParameters) WithSource(source string) *ListDataChannelParametersOptionalParameters {
+	r.Source = &source
+	return r
+}
+
+// WithTarget sets the corresponding parameter name and returns the struct.
+func (r *ListDataChannelParametersOptionalParameters) WithTarget(target string) *ListDataChannelParametersOptionalParameters {
+	r.Target = &target
 	return r
 }
 
@@ -715,6 +729,12 @@ func (a *DataReplicationApi) ListDataChannelParameters(ctx _context.Context, org
 	}
 	if optionalParams.ChannelId != nil {
 		localVarQueryParams.Add("channelID", common.ParameterToString(*optionalParams.ChannelId, ""))
+	}
+	if optionalParams.Source != nil {
+		localVarQueryParams.Add("source", common.ParameterToString(*optionalParams.Source, ""))
+	}
+	if optionalParams.Target != nil {
+		localVarQueryParams.Add("target", common.ParameterToString(*optionalParams.Target, ""))
 	}
 	if optionalParams.ModuleName != nil {
 		localVarQueryParams.Add("moduleName", common.ParameterToString(*optionalParams.ModuleName, ""))

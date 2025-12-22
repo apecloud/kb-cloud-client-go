@@ -24747,43 +24747,6 @@ components:
         objectExpressionTips:
           $ref: '#/components/schemas/internationalDesc'
           nullable: true
-    engineMapping:
-      type: object
-      properties:
-        source:
-          type: string
-        target:
-          type: string
-        modules:
-          type: array
-          items:
-            type: string
-        events:
-          type: array
-          items:
-            type: array
-            items:
-              $ref: '#/components/schemas/eventObject'
-            description: the events of the engine mapping, the first one is the default event
-        replicationMetadata:
-          $ref: '#/components/schemas/replicationMetadataObject'
-        descriptions:
-          $ref: '#/components/schemas/mappingDescription'
-        preCheckers:
-          type: array
-          items:
-            type: string
-    standardResource:
-      type: object
-      properties:
-        limit:
-          type: number
-          format: double
-          nullable: true
-        request:
-          type: number
-          format: double
-          nullable: true
     parameterValueType:
       enum:
         - string
@@ -24811,6 +24774,47 @@ components:
         type: array
         items:
           $ref: '#/components/schemas/dataChannelParameter'
+    engineMapping:
+      type: object
+      properties:
+        source:
+          type: string
+        target:
+          type: string
+        modules:
+          type: array
+          items:
+            type: string
+        events:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/eventObject'
+            description: the events of the engine mapping, the first one is the default event
+        replicationMetadata:
+          $ref: '#/components/schemas/replicationMetadataObject'
+        descriptions:
+          $ref: '#/components/schemas/mappingDescription'
+        preCheckers:
+          type: array
+          items:
+            type: string
+        parameterTemplate:
+          description: the parameter template of the engine mapping, has a higher priority than the parameterTemplate in standardDefinition
+          $ref: '#/components/schemas/dataChannelParameterOption'
+          nullable: true
+    standardResource:
+      type: object
+      properties:
+        limit:
+          type: number
+          format: double
+          nullable: true
+        request:
+          type: number
+          format: double
+          nullable: true
     standardDefinition:
       type: object
       properties:
