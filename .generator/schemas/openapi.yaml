@@ -6141,17 +6141,18 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/tasks:
+  /api/v1/organizations/{orgName}/tasks:
     get:
       tags:
         - task
       summary: List task
       description: List tasks
-      operationId: listTask
+      operationId: listTasks
       parameters:
         - name: orgName
-          in: query
-          description: Filter by organization name
+          in: path
+          description: name of the Org
+          required: true
           schema:
             type: string
         - name: resourceId
@@ -6198,12 +6199,18 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/tasks/{taskId}:
+  /api/v1/organizations/{orgName}/tasks/{taskId}:
     get:
       summary: Get task detail
       description: Get task
       operationId: getTask
       parameters:
+        - description: Organization name
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
         - description: ID of the task
           in: path
           name: taskId
