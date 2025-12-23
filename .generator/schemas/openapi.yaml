@@ -11221,6 +11221,167 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/data/rabbitmq/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      summary: List RabbitMQ accounts
+      description: List all RabbitMQ accounts
+      operationId: listRabbitAccounts
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - account
+        - shared
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RbmqAccountsList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: Create RabbitMQ account
+      description: Create a new RabbitMQ account
+      operationId: createRabbitAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - account
+        - shared
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RbmqAccountRequest'
+      responses:
+        '201':
+          description: A successful response.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/rabbitmq/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    delete:
+      summary: Delete RabbitMQ account
+      description: Delete a RabbitMQ account
+      operationId: deleteRabbitAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - account
+        - shared
+      responses:
+        '204':
+          description: A successful response.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      summary: Update RabbitMQ account
+      description: Update a RabbitMQ account
+      operationId: updateRabbitAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - account
+        - shared
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RbmqAccountRequest'
+      responses:
+        '204':
+          description: A successful response.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/llm:
     get:
       tags:
@@ -22899,6 +23060,83 @@ components:
         PgExtension:
           type: object
           $ref: '#/components/schemas/PgExtension'
+    RbmqUser:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+    RbmqVhostPermission:
+      type: object
+      properties:
+        vhost:
+          type: string
+          description: VHost name
+        read:
+          type: string
+          description: Read permission regexp
+        write:
+          type: string
+          description: Write permission regexp
+        config:
+          type: string
+          description: Config permission regexp
+    RbmqTopicPermission:
+      type: object
+      properties:
+        vhost:
+          type: string
+          description: VHost name
+        exchange:
+          type: string
+          description: Exchange name
+        read:
+          type: string
+          description: Read permission regexp
+        write:
+          type: string
+          description: Write permission regexp
+    RbmqPermission:
+      type: object
+      properties:
+        vhostPermission:
+          type: array
+          items:
+            $ref: '#/components/schemas/RbmqVhostPermission'
+          description: List of VHost permissions
+        topicPermission:
+          type: array
+          items:
+            $ref: '#/components/schemas/RbmqTopicPermission'
+          description: List of topic permissions
+    RbmqAccountsList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              user:
+                $ref: '#/components/schemas/RbmqUser'
+                description: RabbitMQ user
+              userPermission:
+                $ref: '#/components/schemas/RbmqPermission'
+                description: RabbitMQ user permissions
+    RbmqAccountRequest:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/RbmqUser'
+          description: RabbitMQ user
+        userPermission:
+          $ref: '#/components/schemas/RbmqPermission'
+          description: RabbitMQ user permissions
     AccessLevel:
       type: string
       enum:
