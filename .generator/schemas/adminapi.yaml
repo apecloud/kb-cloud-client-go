@@ -22594,11 +22594,8 @@ components:
         baseBackupName:
           description: the base backup name
           type: string
-        encryptionMasterKey:
-          description: the master key for encryption
-          type: string
-        encryptionDataKey:
-          description: the data key for encryption
+        encryptionKeyName:
+          description: the key name used for encryption
           type: string
       required:
         - autoBackup
@@ -22623,13 +22620,10 @@ components:
       properties:
         enabled:
           type: boolean
-          description: whether enable enc
-        masterKey:
+          description: whether enable encryption for backup
+        keyName:
           type: string
-          description: the master key for encryption
-        dataKey:
-          type: string
-          description: the data key for encryption
+          description: the key name used for encryption. If this field is empty, a new key will be generated.
       type: object
     backupPolicy:
       description: BackupPolicy is the payload for KubeBlocks cluster backup policy
@@ -28678,9 +28672,6 @@ components:
       type: string
       enum:
         - encryption
-        - decryption
-        - signing
-        - verification
       description: The intended usage of the key.
     key:
       description: mutiple kv pair
@@ -28714,12 +28705,9 @@ components:
           type: string
           format: date-time
           description: The last update timestamp of the key.
-        dataKeyName:
+        key:
           type: string
-          description: the name of data key
-        sysmetricKey:
-          type: string
-          description: the sysmetric key
+          description: the key content. This field will not be included in list/get response.
     keyList:
       description: key list
       properties:
