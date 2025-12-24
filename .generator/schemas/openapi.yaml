@@ -11337,7 +11337,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-    put:
+    patch:
       summary: Update RabbitMQ account password
       description: Update a RabbitMQ account password
       operationId: updateRabbitAccountPassword
@@ -11420,6 +11420,80 @@ paths:
         '204':
           description: A successful response.
           content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/rabbitmq/organizations/{orgName}/clusters/{clusterName}/vhosts:
+    get:
+      summary: List RabbitMQ vhosts
+      description: List RabbitMQ vhosts
+      operationId: listRabbitVHosts
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - vhost
+        - shared
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RbmqVHostList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/rabbitmq/organizations/{orgName}/clusters/{clusterName}/exchanges:
+    get:
+      summary: List RabbitMQ exchanges
+      description: List RabbitMQ exchanges
+      operationId: listRabbitExchanges
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - exchange
+        - shared
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RbmqExchangeList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -23183,6 +23257,126 @@ components:
         userPermission:
           $ref: '#/components/schemas/RbmqPermission'
           description: RabbitMQ user permissions
+    RbmqVHost:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Virtual host name
+        description:
+          type: string
+          description: Virtual host description
+        tags:
+          type: array
+          items:
+            type: string
+        default_queue_type:
+          type: string
+          description: Type of queue to create in virtual host when unspecified
+        tracing:
+          type: boolean
+          description: True if tracing is enabled for this virtual host
+        messages:
+          type: integer
+          description: Total number of messages in queues of this virtual host
+        messages_rate:
+          type: number
+          format: double
+          description: Rate of messages in queues of this virtual host per second
+        messages_ready:
+          type: integer
+          description: Total number of messages ready to be delivered in queues of this virtual host
+        messages_ready_rate:
+          type: number
+          format: double
+          description: Rate of messages ready to be delivered in queues of this virtual host per second
+        messages_unacknowledged:
+          type: integer
+          description: Total number of messages pending acknowledgement from consumers in this virtual host
+        messages_unacknowledged_rate:
+          type: number
+          format: double
+          description: Rate of messages pending acknowledgement from consumers in this virtual host per second
+        recv_oct:
+          type: integer
+          format: int64
+          description: Octets received
+        send_oct:
+          type: integer
+          format: int64
+          description: Octets sent
+        recv_cnt:
+          type: integer
+          format: int64
+          description: Count of received messages
+        send_cnt:
+          type: integer
+          format: int64
+          description: Count of sent messages
+        send_pend:
+          type: integer
+          format: int64
+          description: Count of pending messages to be sent
+        recv_oct_rate:
+          type: number
+          format: double
+          description: Rate of octets received per second
+        send_oct_rate:
+          type: number
+          format: double
+          description: Rate of octets sent per second
+    RbmqVHostList:
+      type: array
+      items:
+        $ref: '#/components/schemas/RbmqVHost'
+    RbmqMessageStats:
+      type: object
+      properties:
+        publish_in:
+          type: integer
+          description: Messages published in
+        publish_in_rate:
+          type: number
+          format: double
+          description: Rate of messages published in per second
+        publish_out:
+          type: integer
+          description: Messages published out
+        publish_out_rate:
+          type: number
+          format: double
+          description: Rate of messages published out per second
+    RbmqExchange:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Exchange name
+        vhost:
+          type: string
+          description: VHost name
+        type:
+          type: string
+          description: Exchange type
+        durable:
+          type: boolean
+          description: Durable
+        auto_delete:
+          type: boolean
+          description: Auto delete
+        internal:
+          type: boolean
+          description: Internal
+        arguments:
+          type: object
+          additionalProperties: true
+          description: Arguments
+        message_stats:
+          $ref: '#/components/schemas/RbmqMessageStats'
+    RbmqExchangeList:
+      type: array
+      items:
+        $ref: '#/components/schemas/RbmqExchange'
     AccessLevel:
       type: string
       enum:

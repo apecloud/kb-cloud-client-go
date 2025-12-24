@@ -12,6 +12,8 @@
 //   - [RabbitMQApi.createRabbitAccount]
 //   - [RabbitMQApi.deleteRabbitAccount]
 //   - [RabbitMQApi.listRabbitAccounts]
+//   - [RabbitMQApi.listRabbitExchanges]
+//   - [RabbitMQApi.listRabbitVHosts]
 //   - [RabbitMQApi.updateRabbitAccountPassword]
 //   - [RabbitMQApi.updateRabbitAccountPrivileges]
 //   - [SLAApi.CalculateSLAInOrg]
