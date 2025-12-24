@@ -13925,9 +13925,9 @@ paths:
         '500':
           $ref: '#/components/responses/500'
     put:
-      summary: Update RabbitMQ account
-      description: Update a RabbitMQ account
-      operationId: updateRabbitAccount
+      summary: Update RabbitMQ account password
+      description: Update a RabbitMQ account password
+      operationId: updateRabbitAccountPassword
       parameters:
         - description: name of the Org
           in: path
@@ -13956,7 +13956,53 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RbmqAccountRequest'
+              $ref: '#/components/schemas/RbmqUser'
+      responses:
+        '204':
+          description: A successful response.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/rabbitmq/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/privileges:
+    put:
+      summary: Update RabbitMQ account privileges
+      description: Update a RabbitMQ account privileges
+      operationId: updateRabbitAccountPrivileges
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - account
+        - shared
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RbmqPermission'
       responses:
         '204':
           description: A successful response.
@@ -28274,10 +28320,6 @@ components:
           type: string
         password:
           type: string
-        tags:
-          type: array
-          items:
-            type: string
     RbmqVhostPermission:
       type: object
       properties:
@@ -28311,6 +28353,10 @@ components:
     RbmqPermission:
       type: object
       properties:
+        tags:
+          type: array
+          items:
+            type: string
         vhostPermission:
           type: array
           items:

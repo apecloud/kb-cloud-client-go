@@ -7,9 +7,8 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type RbmqUser struct {
-	Username *string  `json:"username,omitempty"`
-	Password *string  `json:"password,omitempty"`
-	Tags     []string `json:"tags,omitempty"`
+	Username *string `json:"username,omitempty"`
+	Password *string `json:"password,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -88,34 +87,6 @@ func (o *RbmqUser) SetPassword(v string) {
 	o.Password = &v
 }
 
-// GetTags returns the Tags field value if set, zero value otherwise.
-func (o *RbmqUser) GetTags() []string {
-	if o == nil || o.Tags == nil {
-		var ret []string
-		return ret
-	}
-	return o.Tags
-}
-
-// GetTagsOk returns a tuple with the Tags field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *RbmqUser) GetTagsOk() (*[]string, bool) {
-	if o == nil || o.Tags == nil {
-		return nil, false
-	}
-	return &o.Tags, true
-}
-
-// HasTags returns a boolean if a field has been set.
-func (o *RbmqUser) HasTags() bool {
-	return o != nil && o.Tags != nil
-}
-
-// SetTags gets a reference to the given []string and assigns it to the Tags field.
-func (o *RbmqUser) SetTags(v []string) {
-	o.Tags = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o RbmqUser) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -128,9 +99,6 @@ func (o RbmqUser) MarshalJSON() ([]byte, error) {
 	if o.Password != nil {
 		toSerialize["password"] = o.Password
 	}
-	if o.Tags != nil {
-		toSerialize["tags"] = o.Tags
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -141,22 +109,20 @@ func (o RbmqUser) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *RbmqUser) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Username *string  `json:"username,omitempty"`
-		Password *string  `json:"password,omitempty"`
-		Tags     []string `json:"tags,omitempty"`
+		Username *string `json:"username,omitempty"`
+		Password *string `json:"password,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"username", "password", "tags"})
+		common.DeleteKeys(additionalProperties, &[]string{"username", "password"})
 	} else {
 		return err
 	}
 	o.Username = all.Username
 	o.Password = all.Password
-	o.Tags = all.Tags
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
