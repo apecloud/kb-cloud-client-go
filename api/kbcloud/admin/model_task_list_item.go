@@ -41,7 +41,8 @@ type TaskListItem struct {
 	// Progress percentage of the task
 	Progress *int32 `json:"progress,omitempty"`
 	// The user created the task
-	Operator *string `json:"operator,omitempty"`
+	Operator  *string       `json:"operator,omitempty"`
+	Scheduled *TaskSchedule `json:"scheduled,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -460,6 +461,34 @@ func (o *TaskListItem) SetOperator(v string) {
 	o.Operator = &v
 }
 
+// GetScheduled returns the Scheduled field value if set, zero value otherwise.
+func (o *TaskListItem) GetScheduled() TaskSchedule {
+	if o == nil || o.Scheduled == nil {
+		var ret TaskSchedule
+		return ret
+	}
+	return *o.Scheduled
+}
+
+// GetScheduledOk returns a tuple with the Scheduled field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *TaskListItem) GetScheduledOk() (*TaskSchedule, bool) {
+	if o == nil || o.Scheduled == nil {
+		return nil, false
+	}
+	return o.Scheduled, true
+}
+
+// HasScheduled returns a boolean if a field has been set.
+func (o *TaskListItem) HasScheduled() bool {
+	return o != nil && o.Scheduled != nil
+}
+
+// SetScheduled gets a reference to the given TaskSchedule and assigns it to the Scheduled field.
+func (o *TaskListItem) SetScheduled(v TaskSchedule) {
+	o.Scheduled = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o TaskListItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -515,6 +544,9 @@ func (o TaskListItem) MarshalJSON() ([]byte, error) {
 	if o.Operator != nil {
 		toSerialize["operator"] = o.Operator
 	}
+	if o.Scheduled != nil {
+		toSerialize["scheduled"] = o.Scheduled
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -525,21 +557,22 @@ func (o TaskListItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *TaskListItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		TaskId         *string     `json:"taskId"`
-		TaskName       *string     `json:"taskName"`
-		TaskType       *string     `json:"taskType"`
-		Status         *TaskStatus `json:"status"`
-		ResourceType   *string     `json:"resourceType,omitempty"`
-		ResourceId     *string     `json:"resourceId,omitempty"`
-		ResourceName   *string     `json:"resourceName,omitempty"`
-		OrgName        *string     `json:"orgName,omitempty"`
-		CreatedAt      *time.Time  `json:"createdAt"`
-		UpdatedAt      *time.Time  `json:"updatedAt"`
-		StartedAt      *time.Time  `json:"startedAt,omitempty"`
-		CompletionTime *time.Time  `json:"completionTime,omitempty"`
-		Message        *string     `json:"message,omitempty"`
-		Progress       *int32      `json:"progress,omitempty"`
-		Operator       *string     `json:"operator,omitempty"`
+		TaskId         *string       `json:"taskId"`
+		TaskName       *string       `json:"taskName"`
+		TaskType       *string       `json:"taskType"`
+		Status         *TaskStatus   `json:"status"`
+		ResourceType   *string       `json:"resourceType,omitempty"`
+		ResourceId     *string       `json:"resourceId,omitempty"`
+		ResourceName   *string       `json:"resourceName,omitempty"`
+		OrgName        *string       `json:"orgName,omitempty"`
+		CreatedAt      *time.Time    `json:"createdAt"`
+		UpdatedAt      *time.Time    `json:"updatedAt"`
+		StartedAt      *time.Time    `json:"startedAt,omitempty"`
+		CompletionTime *time.Time    `json:"completionTime,omitempty"`
+		Message        *string       `json:"message,omitempty"`
+		Progress       *int32        `json:"progress,omitempty"`
+		Operator       *string       `json:"operator,omitempty"`
+		Scheduled      *TaskSchedule `json:"scheduled,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -564,7 +597,7 @@ func (o *TaskListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"taskId", "taskName", "taskType", "status", "resourceType", "resourceId", "resourceName", "orgName", "createdAt", "updatedAt", "startedAt", "completionTime", "message", "progress", "operator"})
+		common.DeleteKeys(additionalProperties, &[]string{"taskId", "taskName", "taskType", "status", "resourceType", "resourceId", "resourceName", "orgName", "createdAt", "updatedAt", "startedAt", "completionTime", "message", "progress", "operator", "scheduled"})
 	} else {
 		return err
 	}
@@ -589,6 +622,10 @@ func (o *TaskListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.Message = all.Message
 	o.Progress = all.Progress
 	o.Operator = all.Operator
+	if all.Scheduled != nil && all.Scheduled.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Scheduled = all.Scheduled
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

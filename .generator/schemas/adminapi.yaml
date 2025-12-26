@@ -4828,6 +4828,12 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/opsStop'
+        required: false
       responses:
         '202':
           content:
@@ -4861,6 +4867,12 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/opsStart'
+        required: false
       responses:
         '202':
           content:
@@ -20168,6 +20180,30 @@ components:
           type: array
         pagination:
           $ref: '#/components/schemas/clusterLogPagination'
+    taskScheduleType:
+      type: string
+      enum:
+        - immediate
+        - scheduled
+        - maintenanceWindow
+      description: Schedule type for task execution
+    taskSchedule:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/taskScheduleType'
+        startTime:
+          type: string
+          format: date-time
+          description: Start time of the execution window (required for scheduled type)
+          x-nullable: true
+        endTime:
+          type: string
+          format: date-time
+          description: End time of the execution window (required for scheduled type)
+          x-nullable: true
+      required:
+        - type
     reconfigureCreate:
       description: ReconfigureCreate is the payload to reconfigure a KubeBlocks cluster
       properties:
@@ -20186,6 +20222,8 @@ components:
         rawContent:
           description: The raw content of the configuration file
           type: string
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
       required:
         - component
       type: object
@@ -20219,6 +20257,8 @@ components:
           type: integer
           nullable: true
           minimum: 0
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
       type: object
     opsRebuildInstanceInstanceParam:
       description: instance params for RebuildInstance ops
@@ -20251,6 +20291,8 @@ components:
             required:
               - instances
           type: array
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
       type: object
     resourceStats:
       description: ResourceStats holds the requests, limits, and available stats for a resource.
@@ -20360,6 +20402,10 @@ components:
           minLength: 1
         component:
           type: string
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
+          description: Scheduled execution configuration
+          nullable: true
       required:
         - version
         - component
@@ -20463,6 +20509,8 @@ components:
         classCode:
           description: class code of the cluster
           type: string
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
       type: object
     opsHScale:
       description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
@@ -20490,6 +20538,8 @@ components:
           type: integer
           nullable: true
           minimum: 0
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
       type: object
     opsPromote:
       description: OpsPromote is the payload to promote a KubeBlocks cluster
@@ -20503,6 +20553,26 @@ components:
         instanceName:
           type: string
           x-nullable: false
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
+      type: object
+    opsStop:
+      description: OpsStop is the payload to stop a KubeBlocks cluster
+      properties:
+        componentNames:
+          type: array
+          items:
+            type: string
+          description: List of component names to stop
+          nullable: true
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
+      type: object
+    opsStart:
+      description: OpsStart is the payload to start a KubeBlocks cluster
+      properties:
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
       type: object
     opsExposeType:
       type: string
@@ -27385,6 +27455,10 @@ components:
           type: string
           description: The user created the task
           x-nullable: true
+        scheduled:
+          $ref: '#/components/schemas/taskSchedule'
+          description: Scheduled execution configuration
+          x-nullable: true
     taskList:
       type: object
       required:
@@ -27552,6 +27626,10 @@ components:
         orgName:
           type: string
           description: Organization name of the task
+        scheduled:
+          $ref: '#/components/schemas/taskSchedule'
+          description: Scheduled execution configuration
+          x-nullable: true
     opsStatus:
       enum:
         - Pending
@@ -27579,6 +27657,7 @@ components:
         - Restore
         - RebuildInstance
         - Custom
+        - UpdateLicense
       type: string
     clusterTaskList:
       description: TaskList is a list of operation task objects

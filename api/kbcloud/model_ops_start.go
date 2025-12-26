@@ -4,89 +4,35 @@
 
 package kbcloud
 
-import (
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
-
-// OpsUpgrade OpsUpgrade is the payload to upgrade a KubeBlocks cluster
-type OpsUpgrade struct {
-	Version   string        `json:"version"`
-	Component string        `json:"component"`
-	Schedule  *TaskSchedule `json:"schedule,omitempty"`
+// OpsStart OpsStart is the payload to start a KubeBlocks cluster
+type OpsStart struct {
+	Schedule *TaskSchedule `json:"schedule,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewOpsUpgrade instantiates a new OpsUpgrade object.
+// NewOpsStart instantiates a new OpsStart object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOpsUpgrade(version string, component string) *OpsUpgrade {
-	this := OpsUpgrade{}
-	this.Version = version
-	this.Component = component
+func NewOpsStart() *OpsStart {
+	this := OpsStart{}
 	return &this
 }
 
-// NewOpsUpgradeWithDefaults instantiates a new OpsUpgrade object.
+// NewOpsStartWithDefaults instantiates a new OpsStart object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewOpsUpgradeWithDefaults() *OpsUpgrade {
-	this := OpsUpgrade{}
+func NewOpsStartWithDefaults() *OpsStart {
+	this := OpsStart{}
 	return &this
-}
-
-// GetVersion returns the Version field value.
-func (o *OpsUpgrade) GetVersion() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.Version
-}
-
-// GetVersionOk returns a tuple with the Version field value
-// and a boolean to check if the value has been set.
-func (o *OpsUpgrade) GetVersionOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Version, true
-}
-
-// SetVersion sets field value.
-func (o *OpsUpgrade) SetVersion(v string) {
-	o.Version = v
-}
-
-// GetComponent returns the Component field value.
-func (o *OpsUpgrade) GetComponent() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.Component
-}
-
-// GetComponentOk returns a tuple with the Component field value
-// and a boolean to check if the value has been set.
-func (o *OpsUpgrade) GetComponentOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Component, true
-}
-
-// SetComponent sets field value.
-func (o *OpsUpgrade) SetComponent(v string) {
-	o.Component = v
 }
 
 // GetSchedule returns the Schedule field value if set, zero value otherwise.
-func (o *OpsUpgrade) GetSchedule() TaskSchedule {
+func (o *OpsStart) GetSchedule() TaskSchedule {
 	if o == nil || o.Schedule == nil {
 		var ret TaskSchedule
 		return ret
@@ -96,7 +42,7 @@ func (o *OpsUpgrade) GetSchedule() TaskSchedule {
 
 // GetScheduleOk returns a tuple with the Schedule field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OpsUpgrade) GetScheduleOk() (*TaskSchedule, bool) {
+func (o *OpsStart) GetScheduleOk() (*TaskSchedule, bool) {
 	if o == nil || o.Schedule == nil {
 		return nil, false
 	}
@@ -104,23 +50,21 @@ func (o *OpsUpgrade) GetScheduleOk() (*TaskSchedule, bool) {
 }
 
 // HasSchedule returns a boolean if a field has been set.
-func (o *OpsUpgrade) HasSchedule() bool {
+func (o *OpsStart) HasSchedule() bool {
 	return o != nil && o.Schedule != nil
 }
 
 // SetSchedule gets a reference to the given TaskSchedule and assigns it to the Schedule field.
-func (o *OpsUpgrade) SetSchedule(v TaskSchedule) {
+func (o *OpsStart) SetSchedule(v TaskSchedule) {
 	o.Schedule = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o OpsUpgrade) MarshalJSON() ([]byte, error) {
+func (o OpsStart) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["version"] = o.Version
-	toSerialize["component"] = o.Component
 	if o.Schedule != nil {
 		toSerialize["schedule"] = o.Schedule
 	}
@@ -132,31 +76,21 @@ func (o OpsUpgrade) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *OpsUpgrade) UnmarshalJSON(bytes []byte) (err error) {
+func (o *OpsStart) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Version   *string       `json:"version"`
-		Component *string       `json:"component"`
-		Schedule  *TaskSchedule `json:"schedule,omitempty"`
+		Schedule *TaskSchedule `json:"schedule,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Version == nil {
-		return fmt.Errorf("required field version missing")
-	}
-	if all.Component == nil {
-		return fmt.Errorf("required field component missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"version", "component", "schedule"})
+		common.DeleteKeys(additionalProperties, &[]string{"schedule"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	o.Version = *all.Version
-	o.Component = *all.Component
 	if all.Schedule != nil && all.Schedule.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

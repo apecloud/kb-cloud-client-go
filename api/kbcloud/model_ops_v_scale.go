@@ -19,7 +19,8 @@ type OpsVScale struct {
 	// memory size
 	Memory *string `json:"memory,omitempty"`
 	// class code of the cluster
-	ClassCode *string `json:"classCode,omitempty"`
+	ClassCode *string       `json:"classCode,omitempty"`
+	Schedule  *TaskSchedule `json:"schedule,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -150,6 +151,34 @@ func (o *OpsVScale) SetClassCode(v string) {
 	o.ClassCode = &v
 }
 
+// GetSchedule returns the Schedule field value if set, zero value otherwise.
+func (o *OpsVScale) GetSchedule() TaskSchedule {
+	if o == nil || o.Schedule == nil {
+		var ret TaskSchedule
+		return ret
+	}
+	return *o.Schedule
+}
+
+// GetScheduleOk returns a tuple with the Schedule field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OpsVScale) GetScheduleOk() (*TaskSchedule, bool) {
+	if o == nil || o.Schedule == nil {
+		return nil, false
+	}
+	return o.Schedule, true
+}
+
+// HasSchedule returns a boolean if a field has been set.
+func (o *OpsVScale) HasSchedule() bool {
+	return o != nil && o.Schedule != nil
+}
+
+// SetSchedule gets a reference to the given TaskSchedule and assigns it to the Schedule field.
+func (o *OpsVScale) SetSchedule(v TaskSchedule) {
+	o.Schedule = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsVScale) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -166,6 +195,9 @@ func (o OpsVScale) MarshalJSON() ([]byte, error) {
 	if o.ClassCode != nil {
 		toSerialize["classCode"] = o.ClassCode
 	}
+	if o.Schedule != nil {
+		toSerialize["schedule"] = o.Schedule
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -176,10 +208,11 @@ func (o OpsVScale) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsVScale) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component *string `json:"component"`
-		Cpu       *string `json:"cpu,omitempty"`
-		Memory    *string `json:"memory,omitempty"`
-		ClassCode *string `json:"classCode,omitempty"`
+		Component *string       `json:"component"`
+		Cpu       *string       `json:"cpu,omitempty"`
+		Memory    *string       `json:"memory,omitempty"`
+		ClassCode *string       `json:"classCode,omitempty"`
+		Schedule  *TaskSchedule `json:"schedule,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -189,17 +222,27 @@ func (o *OpsVScale) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "cpu", "memory", "classCode"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "cpu", "memory", "classCode", "schedule"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Component = *all.Component
 	o.Cpu = all.Cpu
 	o.Memory = all.Memory
 	o.ClassCode = all.ClassCode
+	if all.Schedule != nil && all.Schedule.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Schedule = all.Schedule
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
