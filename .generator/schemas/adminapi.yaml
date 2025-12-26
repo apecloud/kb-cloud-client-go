@@ -24456,6 +24456,10 @@ components:
           type: boolean
           default: false
           description: whether the endpoint follows the network mode of the component
+        compatibleKBVersion:
+          type: string
+          description: compatible KubeBlocks Major versions
+          nullable: true
     networkModeOption:
       type: array
       items:
