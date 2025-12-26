@@ -12,8 +12,9 @@ import (
 
 // OpsPromote OpsPromote is the payload to promote a KubeBlocks cluster
 type OpsPromote struct {
-	ComponentName string `json:"componentName"`
-	InstanceName  string `json:"instanceName"`
+	ComponentName string        `json:"componentName"`
+	InstanceName  string        `json:"instanceName"`
+	Schedule      *TaskSchedule `json:"schedule,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -84,6 +85,34 @@ func (o *OpsPromote) SetInstanceName(v string) {
 	o.InstanceName = v
 }
 
+// GetSchedule returns the Schedule field value if set, zero value otherwise.
+func (o *OpsPromote) GetSchedule() TaskSchedule {
+	if o == nil || o.Schedule == nil {
+		var ret TaskSchedule
+		return ret
+	}
+	return *o.Schedule
+}
+
+// GetScheduleOk returns a tuple with the Schedule field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OpsPromote) GetScheduleOk() (*TaskSchedule, bool) {
+	if o == nil || o.Schedule == nil {
+		return nil, false
+	}
+	return o.Schedule, true
+}
+
+// HasSchedule returns a boolean if a field has been set.
+func (o *OpsPromote) HasSchedule() bool {
+	return o != nil && o.Schedule != nil
+}
+
+// SetSchedule gets a reference to the given TaskSchedule and assigns it to the Schedule field.
+func (o *OpsPromote) SetSchedule(v TaskSchedule) {
+	o.Schedule = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsPromote) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -92,6 +121,9 @@ func (o OpsPromote) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["componentName"] = o.ComponentName
 	toSerialize["instanceName"] = o.InstanceName
+	if o.Schedule != nil {
+		toSerialize["schedule"] = o.Schedule
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -102,8 +134,9 @@ func (o OpsPromote) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsPromote) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ComponentName *string `json:"componentName"`
-		InstanceName  *string `json:"instanceName"`
+		ComponentName *string       `json:"componentName"`
+		InstanceName  *string       `json:"instanceName"`
+		Schedule      *TaskSchedule `json:"schedule,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -116,15 +149,25 @@ func (o *OpsPromote) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"componentName", "instanceName"})
+		common.DeleteKeys(additionalProperties, &[]string{"componentName", "instanceName", "schedule"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.ComponentName = *all.ComponentName
 	o.InstanceName = *all.InstanceName
+	if all.Schedule != nil && all.Schedule.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Schedule = all.Schedule
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

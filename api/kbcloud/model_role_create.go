@@ -13,9 +13,9 @@ import (
 // RoleCreate Role create
 type RoleCreate struct {
 	// The name of the role
-	Name string `json:"name"`
-	// The description of the role
-	Description *string `json:"description,omitempty"`
+	Name        string                `json:"name"`
+	DisplayName *LocalizedDescription `json:"displayName,omitempty"`
+	Description *LocalizedDescription `json:"description,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -62,10 +62,38 @@ func (o *RoleCreate) SetName(v string) {
 	o.Name = v
 }
 
+// GetDisplayName returns the DisplayName field value if set, zero value otherwise.
+func (o *RoleCreate) GetDisplayName() LocalizedDescription {
+	if o == nil || o.DisplayName == nil {
+		var ret LocalizedDescription
+		return ret
+	}
+	return *o.DisplayName
+}
+
+// GetDisplayNameOk returns a tuple with the DisplayName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RoleCreate) GetDisplayNameOk() (*LocalizedDescription, bool) {
+	if o == nil || o.DisplayName == nil {
+		return nil, false
+	}
+	return o.DisplayName, true
+}
+
+// HasDisplayName returns a boolean if a field has been set.
+func (o *RoleCreate) HasDisplayName() bool {
+	return o != nil && o.DisplayName != nil
+}
+
+// SetDisplayName gets a reference to the given LocalizedDescription and assigns it to the DisplayName field.
+func (o *RoleCreate) SetDisplayName(v LocalizedDescription) {
+	o.DisplayName = &v
+}
+
 // GetDescription returns the Description field value if set, zero value otherwise.
-func (o *RoleCreate) GetDescription() string {
+func (o *RoleCreate) GetDescription() LocalizedDescription {
 	if o == nil || o.Description == nil {
-		var ret string
+		var ret LocalizedDescription
 		return ret
 	}
 	return *o.Description
@@ -73,7 +101,7 @@ func (o *RoleCreate) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RoleCreate) GetDescriptionOk() (*string, bool) {
+func (o *RoleCreate) GetDescriptionOk() (*LocalizedDescription, bool) {
 	if o == nil || o.Description == nil {
 		return nil, false
 	}
@@ -85,8 +113,8 @@ func (o *RoleCreate) HasDescription() bool {
 	return o != nil && o.Description != nil
 }
 
-// SetDescription gets a reference to the given string and assigns it to the Description field.
-func (o *RoleCreate) SetDescription(v string) {
+// SetDescription gets a reference to the given LocalizedDescription and assigns it to the Description field.
+func (o *RoleCreate) SetDescription(v LocalizedDescription) {
 	o.Description = &v
 }
 
@@ -97,6 +125,9 @@ func (o RoleCreate) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["name"] = o.Name
+	if o.DisplayName != nil {
+		toSerialize["displayName"] = o.DisplayName
+	}
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
@@ -110,8 +141,9 @@ func (o RoleCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *RoleCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string `json:"name"`
-		Description *string `json:"description,omitempty"`
+		Name        *string               `json:"name"`
+		DisplayName *LocalizedDescription `json:"displayName,omitempty"`
+		Description *LocalizedDescription `json:"description,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -121,15 +153,28 @@ func (o *RoleCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "description"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "displayName", "description"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Name = *all.Name
+	if all.DisplayName != nil && all.DisplayName.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.DisplayName = all.DisplayName
+	if all.Description != nil && all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
 	o.Description = all.Description
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

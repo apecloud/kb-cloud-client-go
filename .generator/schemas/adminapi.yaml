@@ -4828,6 +4828,12 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/opsStop'
+        required: false
       responses:
         '202':
           content:
@@ -4861,6 +4867,12 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/opsStart'
+        required: false
       responses:
         '202':
           content:
@@ -6853,6 +6865,45 @@ paths:
         '404':
           $ref: '#/components/responses/404'
   /admin/v1/environments/{environmentName}/projects/{projectName}:
+    patch:
+      tags:
+        - project
+      operationId: updateProject
+      summary: Update a project in an environment
+      parameters:
+        - name: environmentName
+          in: path
+          description: environment name
+          schema:
+            type: string
+          required: true
+        - name: projectName
+          in: path
+          description: project name
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/projectUpdate'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/project'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
     delete:
       tags:
         - project
@@ -7160,6 +7211,44 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backupRepo
+  /admin/v1/environments/{environmentName}/backupRepo/{backupRepoName}/files:
+    get:
+      tags:
+        - backupRepo
+      operationId: listBackupRepoFolder
+      summary: list backup repo folder
+      parameters:
+        - name: environmentName
+          in: path
+          description: name of the environment
+          required: true
+          schema:
+            type: string
+        - name: backupRepoName
+          in: path
+          description: name of the environment
+          required: true
+          schema:
+            type: string
+        - name: path
+          in: query
+          description: path of the folder
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/fileEntryList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/imageRegistries:
     get:
       operationId: listImageRegistries
@@ -7300,6 +7389,63 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/backupCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backup'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - backup
+        - shared
+      x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/organizations/{orgName}/engines/{engineName}/buildBackup:
+    post:
+      operationId: buildBackupObj
+      summary: build backup object with a existing backup directory
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                backupPath:
+                  type: string
+                  description: the backup directory path
+                backupRepoName:
+                  type: string
+                  description: the backup repo name
+                rootUserPassword:
+                  type: string
+                  description: the root user password of database
+                clusterName:
+                  type: string
+                  description: the cluster name
         required: true
       responses:
         '200':
@@ -9254,6 +9400,12 @@ paths:
           required: false
           schema:
             $ref: '#/components/schemas/engineOptionVersion'
+        - description: Whether to filter load backup from offline instance
+          in: query
+          name: filterLoadBackupFromOfflineInstance
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: A successful response.
@@ -13668,6 +13820,287 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/data/rabbitmq/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      summary: List RabbitMQ accounts
+      description: List all RabbitMQ accounts
+      operationId: listRabbitAccounts
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - account
+        - shared
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RbmqAccountsList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: Create RabbitMQ account
+      description: Create a new RabbitMQ account
+      operationId: createRabbitAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - account
+        - shared
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RbmqAccountRequest'
+      responses:
+        '201':
+          description: A successful response.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/rabbitmq/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    delete:
+      summary: Delete RabbitMQ account
+      description: Delete a RabbitMQ account
+      operationId: deleteRabbitAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - account
+        - shared
+      responses:
+        '204':
+          description: A successful response.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      summary: Update RabbitMQ account password
+      description: Update a RabbitMQ account password
+      operationId: updateRabbitAccountPassword
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - account
+        - shared
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RbmqUser'
+      responses:
+        '204':
+          description: A successful response.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/rabbitmq/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/privileges:
+    put:
+      summary: Update RabbitMQ account privileges
+      description: Update a RabbitMQ account privileges
+      operationId: updateRabbitAccountPrivileges
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - account
+        - shared
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RbmqPermission'
+      responses:
+        '204':
+          description: A successful response.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/rabbitmq/organizations/{orgName}/clusters/{clusterName}/vhosts:
+    get:
+      summary: List RabbitMQ vhosts
+      description: List RabbitMQ vhosts
+      operationId: listRabbitVHosts
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - vhost
+        - shared
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RbmqVHostList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/rabbitmq/organizations/{orgName}/clusters/{clusterName}/exchanges:
+    get:
+      summary: List RabbitMQ exchanges
+      description: List RabbitMQ exchanges
+      operationId: listRabbitExchanges
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - exchange
+        - shared
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RbmqExchangeList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/damengdb/organizations/{orgName}/clusters/{clusterName}/tablespaces:
     get:
       tags:
@@ -16549,6 +16982,9 @@ components:
           type: string
           format: date-time
           description: The time the organization was created.
+        description:
+          type: string
+          description: The description of the organization.
     organizationList:
       description: Organization list.
       type: object
@@ -16763,6 +17199,15 @@ components:
       required:
         - items
       type: object
+    localizedDescription:
+      type: object
+      properties:
+        zh-CN:
+          type: string
+          x-nullable: true
+        en-US:
+          type: string
+          x-nullable: true
     role:
       description: Role information
       type: object
@@ -16774,8 +17219,7 @@ components:
           description: The type of the role
           type: string
         description:
-          description: The description of the role
-          type: string
+          $ref: '#/components/schemas/localizedDescription'
         createdAt:
           description: The time when the role was created. Read-Only
           format: date-time
@@ -16784,6 +17228,8 @@ components:
           description: The time when the role was updated. Read-Only
           format: date-time
           type: string
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
     roleList:
       description: RoleList is a list of Roles
       properties:
@@ -16802,27 +17248,20 @@ components:
         name:
           description: The name of the role
           type: string
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
         description:
-          description: The description of the role
-          type: string
+          $ref: '#/components/schemas/localizedDescription'
       required:
         - name
     roleUpdate:
       description: Role update
       type: object
       properties:
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
         description:
-          description: The description of the role
-          type: string
-    localizedDescription:
-      type: object
-      properties:
-        zh-CN:
-          type: string
-          x-nullable: true
-        en-US:
-          type: string
-          x-nullable: true
+          $ref: '#/components/schemas/localizedDescription'
     orgParameter:
       description: org parameter item
       type: object
@@ -19741,6 +20180,30 @@ components:
           type: array
         pagination:
           $ref: '#/components/schemas/clusterLogPagination'
+    taskScheduleType:
+      type: string
+      enum:
+        - immediate
+        - scheduled
+        - maintenanceWindow
+      description: Schedule type for task execution
+    taskSchedule:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/taskScheduleType'
+        startTime:
+          type: string
+          format: date-time
+          description: Start time of the execution window (required for scheduled type)
+          x-nullable: true
+        endTime:
+          type: string
+          format: date-time
+          description: End time of the execution window (required for scheduled type)
+          x-nullable: true
+      required:
+        - type
     reconfigureCreate:
       description: ReconfigureCreate is the payload to reconfigure a KubeBlocks cluster
       properties:
@@ -19759,6 +20222,8 @@ components:
         rawContent:
           description: The raw content of the configuration file
           type: string
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
       required:
         - component
       type: object
@@ -19792,6 +20257,8 @@ components:
           type: integer
           nullable: true
           minimum: 0
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
       type: object
     opsRebuildInstanceInstanceParam:
       description: instance params for RebuildInstance ops
@@ -19824,6 +20291,8 @@ components:
             required:
               - instances
           type: array
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
       type: object
     resourceStats:
       description: ResourceStats holds the requests, limits, and available stats for a resource.
@@ -19933,6 +20402,10 @@ components:
           minLength: 1
         component:
           type: string
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
+          description: Scheduled execution configuration
+          nullable: true
       required:
         - version
         - component
@@ -20036,6 +20509,8 @@ components:
         classCode:
           description: class code of the cluster
           type: string
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
       type: object
     opsHScale:
       description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
@@ -20063,6 +20538,8 @@ components:
           type: integer
           nullable: true
           minimum: 0
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
       type: object
     opsPromote:
       description: OpsPromote is the payload to promote a KubeBlocks cluster
@@ -20076,6 +20553,26 @@ components:
         instanceName:
           type: string
           x-nullable: false
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
+      type: object
+    opsStop:
+      description: OpsStop is the payload to stop a KubeBlocks cluster
+      properties:
+        componentNames:
+          type: array
+          items:
+            type: string
+          description: List of component names to stop
+          nullable: true
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
+      type: object
+    opsStart:
+      description: OpsStart is the payload to start a KubeBlocks cluster
+      properties:
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
       type: object
     opsExposeType:
       type: string
@@ -21957,6 +22454,9 @@ components:
         status:
           type: string
           description: The status of project.
+        description:
+          type: string
+          description: The description of the project.
     projectList:
       description: Project list.
       type: object
@@ -21975,6 +22475,10 @@ components:
         name:
           type: string
           description: The name of the project.
+        description:
+          type: string
+          description: The description of the project.
+          maxLength: 128
     project:
       description: Project with detail information.
       type: object
@@ -21993,6 +22497,17 @@ components:
         envID:
           type: string
           description: The environment ID of the project.
+        description:
+          type: string
+          description: The description of the project.
+    projectUpdate:
+      description: Project update.
+      type: object
+      properties:
+        description:
+          type: string
+          description: The description of the project.
+          maxLength: 128
     backupRepoAccessMethod:
       description: the access method for backup repo
       default: Tool
@@ -22430,11 +22945,8 @@ components:
         baseBackupName:
           description: the base backup name
           type: string
-        encryptionMasterKey:
-          description: the master key for encryption
-          type: string
-        encryptionDataKey:
-          description: the data key for encryption
+        encryptionKeyName:
+          description: the key name used for encryption
           type: string
       required:
         - autoBackup
@@ -22459,13 +22971,10 @@ components:
       properties:
         enabled:
           type: boolean
-          description: whether enable enc
-        masterKey:
+          description: whether enable encryption for backup
+        keyName:
           type: string
-          description: the master key for encryption
-        dataKey:
-          type: string
-          description: the data key for encryption
+          description: the key name used for encryption. If this field is empty, a new key will be generated.
       type: object
     backupPolicy:
       description: BackupPolicy is the payload for KubeBlocks cluster backup policy
@@ -23801,6 +24310,27 @@ components:
               description: cross mode recovery options
               items:
                 type: string
+        offlineBackupOption:
+          type: object
+          properties:
+            useParentDirAsBackupPath:
+              type: boolean
+              description: whether to use the parent directory of the backup path as the actual backup path
+            supported:
+              type: boolean
+              description: whether offline backup is supported
+            rootUser:
+              type: string
+              description: the root user for offline backup
+            backupMethod:
+              type: string
+              description: the backup method for offline backup
+            componentName:
+              type: string
+              description: the component name for offline backup
+            status:
+              type: object
+              additionalProperties: true
         backupParameters:
           type: object
           additionalProperties:
@@ -24562,43 +25092,6 @@ components:
         objectExpressionTips:
           $ref: '#/components/schemas/internationalDesc'
           nullable: true
-    engineMapping:
-      type: object
-      properties:
-        source:
-          type: string
-        target:
-          type: string
-        modules:
-          type: array
-          items:
-            type: string
-        events:
-          type: array
-          items:
-            type: array
-            items:
-              $ref: '#/components/schemas/eventObject'
-            description: the events of the engine mapping, the first one is the default event
-        replicationMetadata:
-          $ref: '#/components/schemas/replicationMetadataObject'
-        descriptions:
-          $ref: '#/components/schemas/mappingDescription'
-        preCheckers:
-          type: array
-          items:
-            type: string
-    standardResource:
-      type: object
-      properties:
-        limit:
-          type: number
-          format: double
-          nullable: true
-        request:
-          type: number
-          format: double
-          nullable: true
     parameterValueType:
       enum:
         - string
@@ -24626,6 +25119,47 @@ components:
         type: array
         items:
           $ref: '#/components/schemas/dataChannelParameter'
+    engineMapping:
+      type: object
+      properties:
+        source:
+          type: string
+        target:
+          type: string
+        modules:
+          type: array
+          items:
+            type: string
+        events:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/eventObject'
+            description: the events of the engine mapping, the first one is the default event
+        replicationMetadata:
+          $ref: '#/components/schemas/replicationMetadataObject'
+        descriptions:
+          $ref: '#/components/schemas/mappingDescription'
+        preCheckers:
+          type: array
+          items:
+            type: string
+        parameterTemplate:
+          description: the parameter template of the engine mapping, has a higher priority than the parameterTemplate in standardDefinition
+          $ref: '#/components/schemas/dataChannelParameterOption'
+          nullable: true
+    standardResource:
+      type: object
+      properties:
+        limit:
+          type: number
+          format: double
+          nullable: true
+        request:
+          type: number
+          format: double
+          nullable: true
     standardDefinition:
       type: object
       properties:
@@ -26921,6 +27455,10 @@ components:
           type: string
           description: The user created the task
           x-nullable: true
+        scheduled:
+          $ref: '#/components/schemas/taskSchedule'
+          description: Scheduled execution configuration
+          x-nullable: true
     taskList:
       type: object
       required:
@@ -27088,6 +27626,10 @@ components:
         orgName:
           type: string
           description: Organization name of the task
+        scheduled:
+          $ref: '#/components/schemas/taskSchedule'
+          description: Scheduled execution configuration
+          x-nullable: true
     opsStatus:
       enum:
         - Pending
@@ -27115,6 +27657,7 @@ components:
         - Restore
         - RebuildInstance
         - Custom
+        - UpdateLicense
       type: string
     clusterTaskList:
       description: TaskList is a list of operation task objects
@@ -27923,6 +28466,203 @@ components:
           items:
             $ref: '#/components/schemas/ACLUser'
             nullable: true
+    RbmqUser:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    RbmqVhostPermission:
+      type: object
+      properties:
+        vhost:
+          type: string
+          description: VHost name
+        read:
+          type: string
+          description: Read permission regexp
+        write:
+          type: string
+          description: Write permission regexp
+        config:
+          type: string
+          description: Config permission regexp
+    RbmqTopicPermission:
+      type: object
+      properties:
+        vhost:
+          type: string
+          description: VHost name
+        exchange:
+          type: string
+          description: Exchange name
+        read:
+          type: string
+          description: Read permission regexp
+        write:
+          type: string
+          description: Write permission regexp
+    RbmqPermission:
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            type: string
+        vhostPermission:
+          type: array
+          items:
+            $ref: '#/components/schemas/RbmqVhostPermission'
+          description: List of VHost permissions
+        topicPermission:
+          type: array
+          items:
+            $ref: '#/components/schemas/RbmqTopicPermission'
+          description: List of topic permissions
+    RbmqAccountsList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              user:
+                $ref: '#/components/schemas/RbmqUser'
+                description: RabbitMQ user
+              userPermission:
+                $ref: '#/components/schemas/RbmqPermission'
+                description: RabbitMQ user permissions
+    RbmqAccountRequest:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/RbmqUser'
+          description: RabbitMQ user
+        userPermission:
+          $ref: '#/components/schemas/RbmqPermission'
+          description: RabbitMQ user permissions
+    RbmqVHost:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Virtual host name
+        description:
+          type: string
+          description: Virtual host description
+        tags:
+          type: array
+          items:
+            type: string
+        default_queue_type:
+          type: string
+          description: Type of queue to create in virtual host when unspecified
+        tracing:
+          type: boolean
+          description: True if tracing is enabled for this virtual host
+        messages:
+          type: integer
+          description: Total number of messages in queues of this virtual host
+        messages_rate:
+          type: number
+          format: double
+          description: Rate of messages in queues of this virtual host per second
+        messages_ready:
+          type: integer
+          description: Total number of messages ready to be delivered in queues of this virtual host
+        messages_ready_rate:
+          type: number
+          format: double
+          description: Rate of messages ready to be delivered in queues of this virtual host per second
+        messages_unacknowledged:
+          type: integer
+          description: Total number of messages pending acknowledgement from consumers in this virtual host
+        messages_unacknowledged_rate:
+          type: number
+          format: double
+          description: Rate of messages pending acknowledgement from consumers in this virtual host per second
+        recv_oct:
+          type: integer
+          format: int64
+          description: Octets received
+        send_oct:
+          type: integer
+          format: int64
+          description: Octets sent
+        recv_cnt:
+          type: integer
+          format: int64
+          description: Count of received messages
+        send_cnt:
+          type: integer
+          format: int64
+          description: Count of sent messages
+        send_pend:
+          type: integer
+          format: int64
+          description: Count of pending messages to be sent
+        recv_oct_rate:
+          type: number
+          format: double
+          description: Rate of octets received per second
+        send_oct_rate:
+          type: number
+          format: double
+          description: Rate of octets sent per second
+    RbmqVHostList:
+      type: array
+      items:
+        $ref: '#/components/schemas/RbmqVHost'
+    RbmqMessageStats:
+      type: object
+      properties:
+        publish_in:
+          type: integer
+          description: Messages published in
+        publish_in_rate:
+          type: number
+          format: double
+          description: Rate of messages published in per second
+        publish_out:
+          type: integer
+          description: Messages published out
+        publish_out_rate:
+          type: number
+          format: double
+          description: Rate of messages published out per second
+    RbmqExchange:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Exchange name
+        vhost:
+          type: string
+          description: VHost name
+        type:
+          type: string
+          description: Exchange type
+        durable:
+          type: boolean
+          description: Durable
+        auto_delete:
+          type: boolean
+          description: Auto delete
+        internal:
+          type: boolean
+          description: Internal
+        arguments:
+          type: object
+          additionalProperties: true
+          description: Arguments
+        message_stats:
+          $ref: '#/components/schemas/RbmqMessageStats'
+    RbmqExchangeList:
+      type: array
+      items:
+        $ref: '#/components/schemas/RbmqExchange'
     DmFile:
       type: object
       required:
@@ -28489,9 +29229,6 @@ components:
       type: string
       enum:
         - encryption
-        - decryption
-        - signing
-        - verification
       description: The intended usage of the key.
     key:
       description: mutiple kv pair
@@ -28525,12 +29262,9 @@ components:
           type: string
           format: date-time
           description: The last update timestamp of the key.
-        dataKeyName:
+        key:
           type: string
-          description: the name of data key
-        sysmetricKey:
-          type: string
-          description: the sysmetric key
+          description: the key content. This field will not be included in list/get response.
     keyList:
       description: key list
       properties:
@@ -29117,6 +29851,9 @@ components:
         collectorMaxWaitTime:
           type: string
           format: duration
+        slaThreshold:
+          type: number
+          description: The SLA threshold value for the cluster.
   responses:
     '204':
       description: No Content

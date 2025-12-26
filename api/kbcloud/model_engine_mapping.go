@@ -16,6 +16,8 @@ type EngineMapping struct {
 	ReplicationMetadata *ReplicationMetadataObject `json:"replicationMetadata,omitempty"`
 	Descriptions        *MappingDescription        `json:"descriptions,omitempty"`
 	PreCheckers         []string                   `json:"preCheckers,omitempty"`
+	// module parameter template, the key is the module name, the value is the parameter template
+	ParameterTemplate map[string][]DataChannelParameter `json:"parameterTemplate,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -234,6 +236,34 @@ func (o *EngineMapping) SetPreCheckers(v []string) {
 	o.PreCheckers = v
 }
 
+// GetParameterTemplate returns the ParameterTemplate field value if set, zero value otherwise.
+func (o *EngineMapping) GetParameterTemplate() map[string][]DataChannelParameter {
+	if o == nil || o.ParameterTemplate == nil {
+		var ret map[string][]DataChannelParameter
+		return ret
+	}
+	return o.ParameterTemplate
+}
+
+// GetParameterTemplateOk returns a tuple with the ParameterTemplate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineMapping) GetParameterTemplateOk() (*map[string][]DataChannelParameter, bool) {
+	if o == nil || o.ParameterTemplate == nil {
+		return nil, false
+	}
+	return &o.ParameterTemplate, true
+}
+
+// HasParameterTemplate returns a boolean if a field has been set.
+func (o *EngineMapping) HasParameterTemplate() bool {
+	return o != nil && o.ParameterTemplate != nil
+}
+
+// SetParameterTemplate gets a reference to the given map[string][]DataChannelParameter and assigns it to the ParameterTemplate field.
+func (o *EngineMapping) SetParameterTemplate(v map[string][]DataChannelParameter) {
+	o.ParameterTemplate = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineMapping) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -261,6 +291,9 @@ func (o EngineMapping) MarshalJSON() ([]byte, error) {
 	if o.PreCheckers != nil {
 		toSerialize["preCheckers"] = o.PreCheckers
 	}
+	if o.ParameterTemplate != nil {
+		toSerialize["parameterTemplate"] = o.ParameterTemplate
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -271,20 +304,21 @@ func (o EngineMapping) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineMapping) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Source              *string                    `json:"source,omitempty"`
-		Target              *string                    `json:"target,omitempty"`
-		Modules             []string                   `json:"modules,omitempty"`
-		Events              [][]EventObject            `json:"events,omitempty"`
-		ReplicationMetadata *ReplicationMetadataObject `json:"replicationMetadata,omitempty"`
-		Descriptions        *MappingDescription        `json:"descriptions,omitempty"`
-		PreCheckers         []string                   `json:"preCheckers,omitempty"`
+		Source              *string                           `json:"source,omitempty"`
+		Target              *string                           `json:"target,omitempty"`
+		Modules             []string                          `json:"modules,omitempty"`
+		Events              [][]EventObject                   `json:"events,omitempty"`
+		ReplicationMetadata *ReplicationMetadataObject        `json:"replicationMetadata,omitempty"`
+		Descriptions        *MappingDescription               `json:"descriptions,omitempty"`
+		PreCheckers         []string                          `json:"preCheckers,omitempty"`
+		ParameterTemplate   map[string][]DataChannelParameter `json:"parameterTemplate,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"source", "target", "modules", "events", "replicationMetadata", "descriptions", "preCheckers"})
+		common.DeleteKeys(additionalProperties, &[]string{"source", "target", "modules", "events", "replicationMetadata", "descriptions", "preCheckers", "parameterTemplate"})
 	} else {
 		return err
 	}
@@ -303,6 +337,7 @@ func (o *EngineMapping) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Descriptions = all.Descriptions
 	o.PreCheckers = all.PreCheckers
+	o.ParameterTemplate = all.ParameterTemplate
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -18,6 +18,8 @@ type SLASettings struct {
 	ProbePoolSize        *int32   `json:"probePoolSize,omitempty"`
 	CollectorBatchSize   *int32   `json:"collectorBatchSize,omitempty"`
 	CollectorMaxWaitTime *string  `json:"collectorMaxWaitTime,omitempty"`
+	// The SLA threshold value for the cluster.
+	SlaThreshold *float64 `json:"slaThreshold,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -320,6 +322,34 @@ func (o *SLASettings) SetCollectorMaxWaitTime(v string) {
 	o.CollectorMaxWaitTime = &v
 }
 
+// GetSlaThreshold returns the SlaThreshold field value if set, zero value otherwise.
+func (o *SLASettings) GetSlaThreshold() float64 {
+	if o == nil || o.SlaThreshold == nil {
+		var ret float64
+		return ret
+	}
+	return *o.SlaThreshold
+}
+
+// GetSlaThresholdOk returns a tuple with the SlaThreshold field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SLASettings) GetSlaThresholdOk() (*float64, bool) {
+	if o == nil || o.SlaThreshold == nil {
+		return nil, false
+	}
+	return o.SlaThreshold, true
+}
+
+// HasSlaThreshold returns a boolean if a field has been set.
+func (o *SLASettings) HasSlaThreshold() bool {
+	return o != nil && o.SlaThreshold != nil
+}
+
+// SetSlaThreshold gets a reference to the given float64 and assigns it to the SlaThreshold field.
+func (o *SLASettings) SetSlaThreshold(v float64) {
+	o.SlaThreshold = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o SLASettings) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -356,6 +386,9 @@ func (o SLASettings) MarshalJSON() ([]byte, error) {
 	if o.CollectorMaxWaitTime != nil {
 		toSerialize["collectorMaxWaitTime"] = o.CollectorMaxWaitTime
 	}
+	if o.SlaThreshold != nil {
+		toSerialize["slaThreshold"] = o.SlaThreshold
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -376,13 +409,14 @@ func (o *SLASettings) UnmarshalJSON(bytes []byte) (err error) {
 		ProbePoolSize        *int32   `json:"probePoolSize,omitempty"`
 		CollectorBatchSize   *int32   `json:"collectorBatchSize,omitempty"`
 		CollectorMaxWaitTime *string  `json:"collectorMaxWaitTime,omitempty"`
+		SlaThreshold         *float64 `json:"slaThreshold,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"environmentName", "probeInterval", "probeTimeout", "enableProbeRetry", "probeRetryCount", "probeRetryInterval", "probeEngines", "probePoolSize", "collectorBatchSize", "collectorMaxWaitTime"})
+		common.DeleteKeys(additionalProperties, &[]string{"environmentName", "probeInterval", "probeTimeout", "enableProbeRetry", "probeRetryCount", "probeRetryInterval", "probeEngines", "probePoolSize", "collectorBatchSize", "collectorMaxWaitTime", "slaThreshold"})
 	} else {
 		return err
 	}
@@ -396,6 +430,7 @@ func (o *SLASettings) UnmarshalJSON(bytes []byte) (err error) {
 	o.ProbePoolSize = all.ProbePoolSize
 	o.CollectorBatchSize = all.CollectorBatchSize
 	o.CollectorMaxWaitTime = all.CollectorMaxWaitTime
+	o.SlaThreshold = all.SlaThreshold
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

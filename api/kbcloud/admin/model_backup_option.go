@@ -18,12 +18,13 @@ type BackupOption struct {
 	//
 	DefaultComponent *string `json:"defaultComponent,omitempty"`
 	// selector for the default backup policy template. this is necessary when referencing other addon components
-	DefaultBptSelector map[string]string                 `json:"defaultBPTSelector,omitempty"`
-	RestoreOption      *BackupOptionRestoreOption        `json:"restoreOption,omitempty"`
-	BackupParameters   map[string]map[string]interface{} `json:"backupParameters,omitempty"`
-	FullMethod         []BackupMethodOption              `json:"fullMethod"`
-	IncrementalMethod  []BackupMethodOption              `json:"incrementalMethod,omitempty"`
-	ContinuousMethod   []BackupMethodOption              `json:"continuousMethod,omitempty"`
+	DefaultBptSelector  map[string]string                 `json:"defaultBPTSelector,omitempty"`
+	RestoreOption       *BackupOptionRestoreOption        `json:"restoreOption,omitempty"`
+	OfflineBackupOption *BackupOptionOfflineBackupOption  `json:"offlineBackupOption,omitempty"`
+	BackupParameters    map[string]map[string]interface{} `json:"backupParameters,omitempty"`
+	FullMethod          []BackupMethodOption              `json:"fullMethod"`
+	IncrementalMethod   []BackupMethodOption              `json:"incrementalMethod,omitempty"`
+	ContinuousMethod    []BackupMethodOption              `json:"continuousMethod,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -155,6 +156,34 @@ func (o *BackupOption) SetRestoreOption(v BackupOptionRestoreOption) {
 	o.RestoreOption = &v
 }
 
+// GetOfflineBackupOption returns the OfflineBackupOption field value if set, zero value otherwise.
+func (o *BackupOption) GetOfflineBackupOption() BackupOptionOfflineBackupOption {
+	if o == nil || o.OfflineBackupOption == nil {
+		var ret BackupOptionOfflineBackupOption
+		return ret
+	}
+	return *o.OfflineBackupOption
+}
+
+// GetOfflineBackupOptionOk returns a tuple with the OfflineBackupOption field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupOption) GetOfflineBackupOptionOk() (*BackupOptionOfflineBackupOption, bool) {
+	if o == nil || o.OfflineBackupOption == nil {
+		return nil, false
+	}
+	return o.OfflineBackupOption, true
+}
+
+// HasOfflineBackupOption returns a boolean if a field has been set.
+func (o *BackupOption) HasOfflineBackupOption() bool {
+	return o != nil && o.OfflineBackupOption != nil
+}
+
+// SetOfflineBackupOption gets a reference to the given BackupOptionOfflineBackupOption and assigns it to the OfflineBackupOption field.
+func (o *BackupOption) SetOfflineBackupOption(v BackupOptionOfflineBackupOption) {
+	o.OfflineBackupOption = &v
+}
+
 // GetBackupParameters returns the BackupParameters field value if set, zero value otherwise.
 func (o *BackupOption) GetBackupParameters() map[string]map[string]interface{} {
 	if o == nil || o.BackupParameters == nil {
@@ -278,6 +307,9 @@ func (o BackupOption) MarshalJSON() ([]byte, error) {
 	if o.RestoreOption != nil {
 		toSerialize["restoreOption"] = o.RestoreOption
 	}
+	if o.OfflineBackupOption != nil {
+		toSerialize["offlineBackupOption"] = o.OfflineBackupOption
+	}
 	if o.BackupParameters != nil {
 		toSerialize["backupParameters"] = o.BackupParameters
 	}
@@ -298,14 +330,15 @@ func (o BackupOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		DefaultMethod      *string                           `json:"defaultMethod"`
-		DefaultComponent   *string                           `json:"defaultComponent,omitempty"`
-		DefaultBptSelector map[string]string                 `json:"defaultBPTSelector,omitempty"`
-		RestoreOption      *BackupOptionRestoreOption        `json:"restoreOption,omitempty"`
-		BackupParameters   map[string]map[string]interface{} `json:"backupParameters,omitempty"`
-		FullMethod         *[]BackupMethodOption             `json:"fullMethod"`
-		IncrementalMethod  []BackupMethodOption              `json:"incrementalMethod,omitempty"`
-		ContinuousMethod   []BackupMethodOption              `json:"continuousMethod,omitempty"`
+		DefaultMethod       *string                           `json:"defaultMethod"`
+		DefaultComponent    *string                           `json:"defaultComponent,omitempty"`
+		DefaultBptSelector  map[string]string                 `json:"defaultBPTSelector,omitempty"`
+		RestoreOption       *BackupOptionRestoreOption        `json:"restoreOption,omitempty"`
+		OfflineBackupOption *BackupOptionOfflineBackupOption  `json:"offlineBackupOption,omitempty"`
+		BackupParameters    map[string]map[string]interface{} `json:"backupParameters,omitempty"`
+		FullMethod          *[]BackupMethodOption             `json:"fullMethod"`
+		IncrementalMethod   []BackupMethodOption              `json:"incrementalMethod,omitempty"`
+		ContinuousMethod    []BackupMethodOption              `json:"continuousMethod,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -318,7 +351,7 @@ func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"defaultMethod", "defaultComponent", "defaultBPTSelector", "restoreOption", "backupParameters", "fullMethod", "incrementalMethod", "continuousMethod"})
+		common.DeleteKeys(additionalProperties, &[]string{"defaultMethod", "defaultComponent", "defaultBPTSelector", "restoreOption", "offlineBackupOption", "backupParameters", "fullMethod", "incrementalMethod", "continuousMethod"})
 	} else {
 		return err
 	}
@@ -331,6 +364,10 @@ func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.RestoreOption = all.RestoreOption
+	if all.OfflineBackupOption != nil && all.OfflineBackupOption.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.OfflineBackupOption = all.OfflineBackupOption
 	o.BackupParameters = all.BackupParameters
 	o.FullMethod = *all.FullMethod
 	o.IncrementalMethod = all.IncrementalMethod

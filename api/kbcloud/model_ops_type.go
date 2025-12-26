@@ -28,6 +28,7 @@ const (
 	OpsTypeRestore           OpsType = "Restore"
 	OpsTypeRebuildInstance   OpsType = "RebuildInstance"
 	OpsTypeCustom            OpsType = "Custom"
+	OpsTypeUpdateLicense     OpsType = "UpdateLicense"
 )
 
 var allowedOpsTypeEnumValues = []OpsType{
@@ -45,6 +46,7 @@ var allowedOpsTypeEnumValues = []OpsType{
 	OpsTypeRestore,
 	OpsTypeRebuildInstance,
 	OpsTypeCustom,
+	OpsTypeUpdateLicense,
 }
 
 // GetAllowedValues returns the list of possible values.

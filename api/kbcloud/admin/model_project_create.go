@@ -14,6 +14,8 @@ import (
 type ProjectCreate struct {
 	// The name of the project.
 	Name string `json:"name"`
+	// The description of the project.
+	Description *string `json:"description,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -60,6 +62,34 @@ func (o *ProjectCreate) SetName(v string) {
 	o.Name = v
 }
 
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *ProjectCreate) GetDescription() string {
+	if o == nil || o.Description == nil {
+		var ret string
+		return ret
+	}
+	return *o.Description
+}
+
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ProjectCreate) GetDescriptionOk() (*string, bool) {
+	if o == nil || o.Description == nil {
+		return nil, false
+	}
+	return o.Description, true
+}
+
+// HasDescription returns a boolean if a field has been set.
+func (o *ProjectCreate) HasDescription() bool {
+	return o != nil && o.Description != nil
+}
+
+// SetDescription gets a reference to the given string and assigns it to the Description field.
+func (o *ProjectCreate) SetDescription(v string) {
+	o.Description = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ProjectCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -67,6 +97,9 @@ func (o ProjectCreate) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["name"] = o.Name
+	if o.Description != nil {
+		toSerialize["description"] = o.Description
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -77,7 +110,8 @@ func (o ProjectCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ProjectCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name"`
+		Name        *string `json:"name"`
+		Description *string `json:"description,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -87,11 +121,12 @@ func (o *ProjectCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "description"})
 	} else {
 		return err
 	}
 	o.Name = *all.Name
+	o.Description = all.Description
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
