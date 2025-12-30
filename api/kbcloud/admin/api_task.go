@@ -170,6 +170,7 @@ type ListTaskOptionalParameters struct {
 	ResourceId   *string
 	ResourceType *string
 	TaskType     *string
+	Status       *string
 	PageNumber   *int64
 	PageSize     *int64
 }
@@ -201,6 +202,12 @@ func (r *ListTaskOptionalParameters) WithResourceType(resourceType string) *List
 // WithTaskType sets the corresponding parameter name and returns the struct.
 func (r *ListTaskOptionalParameters) WithTaskType(taskType string) *ListTaskOptionalParameters {
 	r.TaskType = &taskType
+	return r
+}
+
+// WithStatus sets the corresponding parameter name and returns the struct.
+func (r *ListTaskOptionalParameters) WithStatus(status string) *ListTaskOptionalParameters {
+	r.Status = &status
 	return r
 }
 
@@ -265,6 +272,9 @@ func (a *TaskApi) ListTask(ctx _context.Context, start int64, end int64, o ...Li
 	}
 	if optionalParams.TaskType != nil {
 		localVarQueryParams.Add("taskType", common.ParameterToString(*optionalParams.TaskType, ""))
+	}
+	if optionalParams.Status != nil {
+		localVarQueryParams.Add("status", common.ParameterToString(*optionalParams.Status, ""))
 	}
 	if optionalParams.PageNumber != nil {
 		localVarQueryParams.Add("pageNumber", common.ParameterToString(*optionalParams.PageNumber, ""))
