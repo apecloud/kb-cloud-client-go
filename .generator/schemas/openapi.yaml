@@ -6100,6 +6100,11 @@ paths:
           description: Filter by task type
           schema:
             type: string
+        - name: status
+          in: query
+          description: Filter by task status (supports multiple statuses separated by commas, e.g., "Running,Pending")
+          schema:
+            type: string
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
         - name: pageNumber
@@ -12184,7 +12189,7 @@ paths:
           name: opsType
           required: true
           schema:
-            $ref: '#/components/schemas/opsType'
+            $ref: '#/components/schemas/dataReplicationOpsType'
       responses:
         '204':
           content: {}
@@ -23861,14 +23866,13 @@ components:
         isRestart:
           type: boolean
           nullable: true
-    opsType:
+    dataReplicationOpsType:
       description: data replication ops type
       enum:
         - pause
         - resume
         - restart
       type: string
-      x-go-name: DataReplicationOpsType
     eventItem:
       type: object
       properties:
