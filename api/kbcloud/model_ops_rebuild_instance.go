@@ -11,6 +11,7 @@ type OpsRebuildInstance struct {
 	// will ignore role check during rebuilding instance.
 	IgnoreRoleCheck *bool                            `json:"ignoreRoleCheck,omitempty"`
 	Requests        []OpsRebuildInstanceRequestsItem `json:"requests,omitempty"`
+	Schedule        *TaskSchedule                    `json:"schedule,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -89,6 +90,34 @@ func (o *OpsRebuildInstance) SetRequests(v []OpsRebuildInstanceRequestsItem) {
 	o.Requests = v
 }
 
+// GetSchedule returns the Schedule field value if set, zero value otherwise.
+func (o *OpsRebuildInstance) GetSchedule() TaskSchedule {
+	if o == nil || o.Schedule == nil {
+		var ret TaskSchedule
+		return ret
+	}
+	return *o.Schedule
+}
+
+// GetScheduleOk returns a tuple with the Schedule field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OpsRebuildInstance) GetScheduleOk() (*TaskSchedule, bool) {
+	if o == nil || o.Schedule == nil {
+		return nil, false
+	}
+	return o.Schedule, true
+}
+
+// HasSchedule returns a boolean if a field has been set.
+func (o *OpsRebuildInstance) HasSchedule() bool {
+	return o != nil && o.Schedule != nil
+}
+
+// SetSchedule gets a reference to the given TaskSchedule and assigns it to the Schedule field.
+func (o *OpsRebuildInstance) SetSchedule(v TaskSchedule) {
+	o.Schedule = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsRebuildInstance) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -100,6 +129,9 @@ func (o OpsRebuildInstance) MarshalJSON() ([]byte, error) {
 	}
 	if o.Requests != nil {
 		toSerialize["requests"] = o.Requests
+	}
+	if o.Schedule != nil {
+		toSerialize["schedule"] = o.Schedule
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -113,21 +145,32 @@ func (o *OpsRebuildInstance) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		IgnoreRoleCheck *bool                            `json:"ignoreRoleCheck,omitempty"`
 		Requests        []OpsRebuildInstanceRequestsItem `json:"requests,omitempty"`
+		Schedule        *TaskSchedule                    `json:"schedule,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"ignoreRoleCheck", "requests"})
+		common.DeleteKeys(additionalProperties, &[]string{"ignoreRoleCheck", "requests", "schedule"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.IgnoreRoleCheck = all.IgnoreRoleCheck
 	o.Requests = all.Requests
+	if all.Schedule != nil && all.Schedule.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Schedule = all.Schedule
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

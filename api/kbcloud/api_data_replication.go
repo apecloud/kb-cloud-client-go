@@ -104,7 +104,7 @@ func (a *DataReplicationApi) CreateDataChannel(ctx _context.Context, orgName str
 // CreateDataChannelOps Create a new data channel ops.
 // Create a new data channel ops.
 // Deprecated: This API is deprecated.
-func (a *DataReplicationApi) CreateDataChannelOps(ctx _context.Context, orgName string, channelId string, opsType DataReplication_opsType) (*_nethttp.Response, error) {
+func (a *DataReplicationApi) CreateDataChannelOps(ctx _context.Context, orgName string, channelId string, opsType OpsType) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}

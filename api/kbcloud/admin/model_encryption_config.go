@@ -8,12 +8,10 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // EncryptionConfig encryption config for cluster
 type EncryptionConfig struct {
-	// whether enable enc
+	// whether enable encryption for backup
 	Enabled *bool `json:"enabled,omitempty"`
-	// the master key for encryption
-	MasterKey *string `json:"masterKey,omitempty"`
-	// the data key for encryption
-	DataKey *string `json:"dataKey,omitempty"`
+	// the key name used for encryption. If this field is empty, a new key will be generated.
+	KeyName *string `json:"keyName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -64,60 +62,32 @@ func (o *EncryptionConfig) SetEnabled(v bool) {
 	o.Enabled = &v
 }
 
-// GetMasterKey returns the MasterKey field value if set, zero value otherwise.
-func (o *EncryptionConfig) GetMasterKey() string {
-	if o == nil || o.MasterKey == nil {
+// GetKeyName returns the KeyName field value if set, zero value otherwise.
+func (o *EncryptionConfig) GetKeyName() string {
+	if o == nil || o.KeyName == nil {
 		var ret string
 		return ret
 	}
-	return *o.MasterKey
+	return *o.KeyName
 }
 
-// GetMasterKeyOk returns a tuple with the MasterKey field value if set, nil otherwise
+// GetKeyNameOk returns a tuple with the KeyName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EncryptionConfig) GetMasterKeyOk() (*string, bool) {
-	if o == nil || o.MasterKey == nil {
+func (o *EncryptionConfig) GetKeyNameOk() (*string, bool) {
+	if o == nil || o.KeyName == nil {
 		return nil, false
 	}
-	return o.MasterKey, true
+	return o.KeyName, true
 }
 
-// HasMasterKey returns a boolean if a field has been set.
-func (o *EncryptionConfig) HasMasterKey() bool {
-	return o != nil && o.MasterKey != nil
+// HasKeyName returns a boolean if a field has been set.
+func (o *EncryptionConfig) HasKeyName() bool {
+	return o != nil && o.KeyName != nil
 }
 
-// SetMasterKey gets a reference to the given string and assigns it to the MasterKey field.
-func (o *EncryptionConfig) SetMasterKey(v string) {
-	o.MasterKey = &v
-}
-
-// GetDataKey returns the DataKey field value if set, zero value otherwise.
-func (o *EncryptionConfig) GetDataKey() string {
-	if o == nil || o.DataKey == nil {
-		var ret string
-		return ret
-	}
-	return *o.DataKey
-}
-
-// GetDataKeyOk returns a tuple with the DataKey field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *EncryptionConfig) GetDataKeyOk() (*string, bool) {
-	if o == nil || o.DataKey == nil {
-		return nil, false
-	}
-	return o.DataKey, true
-}
-
-// HasDataKey returns a boolean if a field has been set.
-func (o *EncryptionConfig) HasDataKey() bool {
-	return o != nil && o.DataKey != nil
-}
-
-// SetDataKey gets a reference to the given string and assigns it to the DataKey field.
-func (o *EncryptionConfig) SetDataKey(v string) {
-	o.DataKey = &v
+// SetKeyName gets a reference to the given string and assigns it to the KeyName field.
+func (o *EncryptionConfig) SetKeyName(v string) {
+	o.KeyName = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -129,11 +99,8 @@ func (o EncryptionConfig) MarshalJSON() ([]byte, error) {
 	if o.Enabled != nil {
 		toSerialize["enabled"] = o.Enabled
 	}
-	if o.MasterKey != nil {
-		toSerialize["masterKey"] = o.MasterKey
-	}
-	if o.DataKey != nil {
-		toSerialize["dataKey"] = o.DataKey
+	if o.KeyName != nil {
+		toSerialize["keyName"] = o.KeyName
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -145,22 +112,20 @@ func (o EncryptionConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EncryptionConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Enabled   *bool   `json:"enabled,omitempty"`
-		MasterKey *string `json:"masterKey,omitempty"`
-		DataKey   *string `json:"dataKey,omitempty"`
+		Enabled *bool   `json:"enabled,omitempty"`
+		KeyName *string `json:"keyName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"enabled", "masterKey", "dataKey"})
+		common.DeleteKeys(additionalProperties, &[]string{"enabled", "keyName"})
 	} else {
 		return err
 	}
 	o.Enabled = all.Enabled
-	o.MasterKey = all.MasterKey
-	o.DataKey = all.DataKey
+	o.KeyName = all.KeyName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

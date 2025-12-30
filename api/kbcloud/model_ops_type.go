@@ -10,41 +10,20 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// OpsType data replication ops type
 type OpsType string
 
 // List of OpsType.
 const (
-	OpsTypeVerticalScaling   OpsType = "VerticalScaling"
-	OpsTypeHorizontalScaling OpsType = "HorizontalScaling"
-	OpsTypeVolumeExpansion   OpsType = "VolumeExpansion"
-	OpsTypeUpgrade           OpsType = "Upgrade"
-	OpsTypeReconfiguring     OpsType = "Reconfiguring"
-	OpsTypeSwitchover        OpsType = "Switchover"
-	OpsTypeRestart           OpsType = "Restart"
-	OpsTypeStop              OpsType = "Stop"
-	OpsTypeStart             OpsType = "Start"
-	OpsTypeExpose            OpsType = "Expose"
-	OpsTypeBackup            OpsType = "Backup"
-	OpsTypeRestore           OpsType = "Restore"
-	OpsTypeRebuildInstance   OpsType = "RebuildInstance"
-	OpsTypeCustom            OpsType = "Custom"
+	OpsTypePause   OpsType = "pause"
+	OpsTypeResume  OpsType = "resume"
+	OpsTypeRestart OpsType = "restart"
 )
 
 var allowedOpsTypeEnumValues = []OpsType{
-	OpsTypeVerticalScaling,
-	OpsTypeHorizontalScaling,
-	OpsTypeVolumeExpansion,
-	OpsTypeUpgrade,
-	OpsTypeReconfiguring,
-	OpsTypeSwitchover,
+	OpsTypePause,
+	OpsTypeResume,
 	OpsTypeRestart,
-	OpsTypeStop,
-	OpsTypeStart,
-	OpsTypeExpose,
-	OpsTypeBackup,
-	OpsTypeRestore,
-	OpsTypeRebuildInstance,
-	OpsTypeCustom,
 }
 
 // GetAllowedValues returns the list of possible values.

@@ -36,8 +36,6 @@ tags:
     description: Cluster APIs
   - name: clusterLog
     description: Cluster Log APIs
-  - name: clusterTask
-    description: Cluster task APIS
   - name: account
     description: Cluster Account APIs
   - name: opsrequest
@@ -2404,6 +2402,12 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/opsStop'
+        required: false
       responses:
         '202':
           content:
@@ -2437,6 +2441,12 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/opsStart'
+        required: false
       responses:
         '202':
           content:
@@ -2917,7 +2927,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/clusterTask'
+                $ref: '#/components/schemas/opsRequestName'
           description: Accepted
         '401':
           $ref: '#/components/responses/401'
@@ -3009,86 +3019,6 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}:
-    get:
-      description: Get cluster task
-      summary: Get cluster task
-      operationId: getClusterTask
-      parameters:
-        - description: Organization Name
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: Cluster Name
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: Task ID
-          in: path
-          name: taskId
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/clusterTask'
-          description: Successful operation
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - clusterTask
-        - shared
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks:
-    get:
-      operationId: listClusterTasks
-      summary: List cluster tasks in console
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          schema:
-            type: string
-          required: true
-        - description: name of the KubeBlocks cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: You want to check the status of the task. If not passed, all selected by default
-          in: query
-          name: status
-          schema:
-            $ref: '#/components/schemas/opsStatus'
-        - description: You want to check the type of the task. If not passed, all selected by default
-          in: query
-          name: clusterTaskType
-          schema:
-            $ref: '#/components/schemas/opsType'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/clusterTaskList'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - clusterTask
   /api/v1/organizations/{orgName}/clusters/{clusterName}/autohealing:
     get:
       operationId: getAutohealing
@@ -9695,7 +9625,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/clusterTask'
+                $ref: '#/components/schemas/opsRequestName'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -9744,7 +9674,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/clusterTask'
+                $ref: '#/components/schemas/opsRequestName'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -9798,7 +9728,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/clusterTask'
+                $ref: '#/components/schemas/opsRequestName'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -11221,6 +11151,287 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/data/rabbitmq/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      summary: List RabbitMQ accounts
+      description: List all RabbitMQ accounts
+      operationId: listRabbitAccounts
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - account
+        - shared
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RbmqAccountsList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: Create RabbitMQ account
+      description: Create a new RabbitMQ account
+      operationId: createRabbitAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - account
+        - shared
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RbmqAccountRequest'
+      responses:
+        '201':
+          description: A successful response.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/rabbitmq/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    delete:
+      summary: Delete RabbitMQ account
+      description: Delete a RabbitMQ account
+      operationId: deleteRabbitAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - account
+        - shared
+      responses:
+        '204':
+          description: A successful response.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      summary: Update RabbitMQ account password
+      description: Update a RabbitMQ account password
+      operationId: updateRabbitAccountPassword
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - account
+        - shared
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RbmqUser'
+      responses:
+        '204':
+          description: A successful response.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/rabbitmq/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/privileges:
+    put:
+      summary: Update RabbitMQ account privileges
+      description: Update a RabbitMQ account privileges
+      operationId: updateRabbitAccountPrivileges
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - account
+        - shared
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RbmqPermission'
+      responses:
+        '204':
+          description: A successful response.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/rabbitmq/organizations/{orgName}/clusters/{clusterName}/vhosts:
+    get:
+      summary: List RabbitMQ vhosts
+      description: List RabbitMQ vhosts
+      operationId: listRabbitVHosts
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - vhost
+        - shared
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RbmqVHostList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/rabbitmq/organizations/{orgName}/clusters/{clusterName}/exchanges:
+    get:
+      summary: List RabbitMQ exchanges
+      description: List RabbitMQ exchanges
+      operationId: listRabbitExchanges
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - RabbitMQ
+        - exchange
+        - shared
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RbmqExchangeList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/llm:
     get:
       tags:
@@ -11973,7 +12184,7 @@ paths:
           name: opsType
           required: true
           schema:
-            $ref: '#/components/schemas/dataReplication_opsType'
+            $ref: '#/components/schemas/opsType'
       responses:
         '204':
           content: {}
@@ -15889,6 +16100,30 @@ components:
           type: array
         pagination:
           $ref: '#/components/schemas/clusterLogPagination'
+    taskScheduleType:
+      type: string
+      enum:
+        - immediate
+        - scheduled
+        - maintenanceWindow
+      description: Schedule type for task execution
+    taskSchedule:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/taskScheduleType'
+        startTime:
+          type: string
+          format: date-time
+          description: Start time of the execution window (required for scheduled type)
+          x-nullable: true
+        endTime:
+          type: string
+          format: date-time
+          description: End time of the execution window (required for scheduled type)
+          x-nullable: true
+      required:
+        - type
     reconfigureCreate:
       description: ReconfigureCreate is the payload to reconfigure a KubeBlocks cluster
       properties:
@@ -15907,6 +16142,8 @@ components:
         rawContent:
           description: The raw content of the configuration file
           type: string
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
       required:
         - component
       type: object
@@ -15926,6 +16163,24 @@ components:
       required:
         - opsRequestName
       type: object
+    opsStop:
+      description: OpsStop is the payload to stop a KubeBlocks cluster
+      properties:
+        componentNames:
+          type: array
+          items:
+            type: string
+          description: List of component names to stop
+          nullable: true
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
+      type: object
+    opsStart:
+      description: OpsStart is the payload to start a KubeBlocks cluster
+      properties:
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
+      type: object
     opsRestart:
       description: OpsRestart is the payload to restart a KubeBlocks cluster
       required:
@@ -15940,6 +16195,8 @@ components:
           type: integer
           nullable: true
           minimum: 0
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
       type: object
     opsRebuildInstanceInstanceParam:
       description: instance params for RebuildInstance ops
@@ -15972,6 +16229,8 @@ components:
             required:
               - instances
           type: array
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
       type: object
     nodeStatus:
       type: string
@@ -16055,6 +16314,10 @@ components:
           minLength: 1
         component:
           type: string
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
+          description: Scheduled execution configuration
+          nullable: true
       required:
         - version
         - component
@@ -16158,6 +16421,8 @@ components:
         classCode:
           description: class code of the cluster
           type: string
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
       type: object
     opsHScale:
       description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
@@ -16185,6 +16450,8 @@ components:
           type: integer
           nullable: true
           minimum: 0
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
       type: object
     opsPromote:
       description: OpsPromote is the payload to promote a KubeBlocks cluster
@@ -16198,6 +16465,8 @@ components:
         instanceName:
           type: string
           x-nullable: false
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
       type: object
     opsExposeType:
       type: string
@@ -16300,162 +16569,6 @@ components:
             type: object
             $ref: '#/components/schemas/opsParameter'
       type: object
-    customOpsTask:
-      description: customOpsTask is the information of custom ops task
-      properties:
-        objectKey:
-          description: the pod name
-          type: string
-        namespace:
-          description: namespace of the task
-          type: string
-        status:
-          description: status of the task
-          type: string
-        targetPodName:
-          description: target pod name of the task
-          type: string
-        retries:
-          description: retries of the task
-          type: integer
-          format: int32
-      type: object
-    customOpsTasks:
-      description: customOpsTasks is a list of custom ops task. This field is provided when ops is `custom`.
-      properties:
-        items:
-          description: The list of custom ops task.
-          items:
-            $ref: '#/components/schemas/customOpsTask'
-          type: array
-      type: object
-    clusterTaskProgress:
-      description: clusterTaskProgress is the information of the task progress
-      properties:
-        name:
-          description: conponent name
-          type: string
-        group:
-          description: group name
-          type: string
-        objectKey:
-          description: the instance name
-          type: string
-          nullable: true
-        message:
-          description: message of the task progress
-          type: string
-        status:
-          description: status of the task progress
-          type: string
-        startTime:
-          description: start time of the task progress
-          format: date-time
-          type: string
-          nullable: true
-        endTime:
-          description: end time of the task progress
-          format: date-time
-          type: string
-          nullable: true
-        customOpsName:
-          description: Indicates the name of an OpsAction, Either `objectKey` or `customOpsName` must be provided. This field is provided when ops is `custom`.
-          type: string
-          nullable: true
-        customOpsTasks:
-          $ref: '#/components/schemas/customOpsTasks'
-      type: object
-    clusterTaskProgresses:
-      description: clusterTaskProgresses is a list of task progress detail
-      properties:
-        items:
-          description: Items is the list of task progress detail in the list
-          items:
-            $ref: '#/components/schemas/clusterTaskProgress'
-          type: array
-      type: object
-    clusterTaskDetail:
-      type: object
-      description: taskCondition is the information of the task condition
-      properties:
-        reason:
-          description: reason of the task condition
-          type: string
-        type:
-          description: type of the task condition
-          type: string
-        status:
-          description: status of the task condition
-          type: string
-        message:
-          description: message of the task condition
-          type: string
-        lastTransitionTime:
-          description: last transition time of the task condition
-          format: date-time
-          type: string
-    clusterTaskDetails:
-      description: taskConditions is a list of task condition
-      properties:
-        items:
-          description: Items is the list of task condition in the list
-          items:
-            $ref: '#/components/schemas/clusterTaskDetail'
-          type: array
-      type: object
-    clusterTask:
-      type: object
-      description: task is the information of the operation
-      required:
-        - name
-        - namespace
-        - status
-        - taskType
-        - progress
-      properties:
-        id:
-          description: ID of the task
-          type: string
-        name:
-          description: Name of the task
-          type: string
-        namespace:
-          description: Namespace of the task
-          type: string
-        orgName:
-          description: OrgName of the task
-          type: string
-        clusterName:
-          description: ClusterName of the task
-          type: string
-        status:
-          description: status of the task
-          type: string
-        taskType:
-          description: task type
-          type: string
-        progress:
-          description: progress of the task
-          type: string
-        taskProgresses:
-          $ref: '#/components/schemas/clusterTaskProgresses'
-        taskDetails:
-          $ref: '#/components/schemas/clusterTaskDetails'
-        opsLog:
-          description: pod log of the custom task
-          type: string
-        description:
-          description: description of the custom task
-          type: string
-        startTime:
-          type: string
-          format: date-time
-          description: Time when the task started
-        completionTime:
-          type: string
-          format: date-time
-          description: Time when the task completed or failed
-          nullable: true
     opsIoQuotas:
       description: IO Quotas describes IOPS and BPS for volumes of a KubeBlocks cluster
       properties:
@@ -16480,43 +16593,6 @@ components:
       required:
         - volumes
         - component
-      type: object
-    opsStatus:
-      enum:
-        - Pending
-        - Creating
-        - Running
-        - Cancelling
-        - Succeed
-        - Cancelled
-        - Failed
-        - Aborted
-      type: string
-    opsType:
-      enum:
-        - VerticalScaling
-        - HorizontalScaling
-        - VolumeExpansion
-        - Upgrade
-        - Reconfiguring
-        - Switchover
-        - Restart
-        - Stop
-        - Start
-        - Expose
-        - Backup
-        - Restore
-        - RebuildInstance
-        - Custom
-      type: string
-    clusterTaskList:
-      description: TaskList is a list of operation task objects
-      properties:
-        items:
-          description: Items is the list of operation task objects in the list
-          items:
-            $ref: '#/components/schemas/clusterTask'
-          type: array
       type: object
     autohealingList:
       description: An Autohealing object in k8s
@@ -17047,11 +17123,8 @@ components:
         baseBackupName:
           description: the base backup name
           type: string
-        encryptionMasterKey:
-          description: the master key for encryption
-          type: string
-        encryptionDataKey:
-          description: the data key for encryption
+        encryptionKeyName:
+          description: the key name used for encryption
           type: string
       required:
         - autoBackup
@@ -17076,13 +17149,10 @@ components:
       properties:
         enabled:
           type: boolean
-          description: whether enable enc
-        masterKey:
+          description: whether enable encryption for backup
+        keyName:
           type: string
-          description: the master key for encryption
-        dataKey:
-          type: string
-          description: the data key for encryption
+          description: the key name used for encryption. If this field is empty, a new key will be generated.
       type: object
     backupPolicy:
       description: BackupPolicy is the payload for KubeBlocks cluster backup policy
@@ -19074,6 +19144,10 @@ components:
           type: boolean
           default: false
           description: whether the endpoint follows the network mode of the component
+        compatibleKBVersion:
+          type: string
+          description: compatible KubeBlocks Major versions
+          nullable: true
     networkModeOption:
       type: array
       items:
@@ -20282,6 +20356,10 @@ components:
           type: string
           description: The user created the task
           x-nullable: true
+        scheduled:
+          $ref: '#/components/schemas/taskSchedule'
+          description: Scheduled execution configuration
+          x-nullable: true
     taskList:
       type: object
       required:
@@ -20449,6 +20527,10 @@ components:
         orgName:
           type: string
           description: Organization name of the task
+        scheduled:
+          $ref: '#/components/schemas/taskSchedule'
+          description: Scheduled execution configuration
+          x-nullable: true
     datasource:
       required:
         - type
@@ -22905,6 +22987,203 @@ components:
         PgExtension:
           type: object
           $ref: '#/components/schemas/PgExtension'
+    RbmqUser:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    RbmqVhostPermission:
+      type: object
+      properties:
+        vhost:
+          type: string
+          description: VHost name
+        read:
+          type: string
+          description: Read permission regexp
+        write:
+          type: string
+          description: Write permission regexp
+        config:
+          type: string
+          description: Config permission regexp
+    RbmqTopicPermission:
+      type: object
+      properties:
+        vhost:
+          type: string
+          description: VHost name
+        exchange:
+          type: string
+          description: Exchange name
+        read:
+          type: string
+          description: Read permission regexp
+        write:
+          type: string
+          description: Write permission regexp
+    RbmqPermission:
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            type: string
+        vhostPermission:
+          type: array
+          items:
+            $ref: '#/components/schemas/RbmqVhostPermission'
+          description: List of VHost permissions
+        topicPermission:
+          type: array
+          items:
+            $ref: '#/components/schemas/RbmqTopicPermission'
+          description: List of topic permissions
+    RbmqAccountsList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              user:
+                $ref: '#/components/schemas/RbmqUser'
+                description: RabbitMQ user
+              userPermission:
+                $ref: '#/components/schemas/RbmqPermission'
+                description: RabbitMQ user permissions
+    RbmqAccountRequest:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/RbmqUser'
+          description: RabbitMQ user
+        userPermission:
+          $ref: '#/components/schemas/RbmqPermission'
+          description: RabbitMQ user permissions
+    RbmqVHost:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Virtual host name
+        description:
+          type: string
+          description: Virtual host description
+        tags:
+          type: array
+          items:
+            type: string
+        default_queue_type:
+          type: string
+          description: Type of queue to create in virtual host when unspecified
+        tracing:
+          type: boolean
+          description: True if tracing is enabled for this virtual host
+        messages:
+          type: integer
+          description: Total number of messages in queues of this virtual host
+        messages_rate:
+          type: number
+          format: double
+          description: Rate of messages in queues of this virtual host per second
+        messages_ready:
+          type: integer
+          description: Total number of messages ready to be delivered in queues of this virtual host
+        messages_ready_rate:
+          type: number
+          format: double
+          description: Rate of messages ready to be delivered in queues of this virtual host per second
+        messages_unacknowledged:
+          type: integer
+          description: Total number of messages pending acknowledgement from consumers in this virtual host
+        messages_unacknowledged_rate:
+          type: number
+          format: double
+          description: Rate of messages pending acknowledgement from consumers in this virtual host per second
+        recv_oct:
+          type: integer
+          format: int64
+          description: Octets received
+        send_oct:
+          type: integer
+          format: int64
+          description: Octets sent
+        recv_cnt:
+          type: integer
+          format: int64
+          description: Count of received messages
+        send_cnt:
+          type: integer
+          format: int64
+          description: Count of sent messages
+        send_pend:
+          type: integer
+          format: int64
+          description: Count of pending messages to be sent
+        recv_oct_rate:
+          type: number
+          format: double
+          description: Rate of octets received per second
+        send_oct_rate:
+          type: number
+          format: double
+          description: Rate of octets sent per second
+    RbmqVHostList:
+      type: array
+      items:
+        $ref: '#/components/schemas/RbmqVHost'
+    RbmqMessageStats:
+      type: object
+      properties:
+        publish_in:
+          type: integer
+          description: Messages published in
+        publish_in_rate:
+          type: number
+          format: double
+          description: Rate of messages published in per second
+        publish_out:
+          type: integer
+          description: Messages published out
+        publish_out_rate:
+          type: number
+          format: double
+          description: Rate of messages published out per second
+    RbmqExchange:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Exchange name
+        vhost:
+          type: string
+          description: VHost name
+        type:
+          type: string
+          description: Exchange type
+        durable:
+          type: boolean
+          description: Durable
+        auto_delete:
+          type: boolean
+          description: Auto delete
+        internal:
+          type: boolean
+          description: Internal
+        arguments:
+          type: object
+          additionalProperties: true
+          description: Arguments
+        message_stats:
+          $ref: '#/components/schemas/RbmqMessageStats'
+    RbmqExchangeList:
+      type: array
+      items:
+        $ref: '#/components/schemas/RbmqExchange'
     AccessLevel:
       type: string
       enum:
@@ -23169,9 +23448,6 @@ components:
       type: string
       enum:
         - encryption
-        - decryption
-        - signing
-        - verification
       description: The intended usage of the key.
     key:
       description: mutiple kv pair
@@ -23205,12 +23481,9 @@ components:
           type: string
           format: date-time
           description: The last update timestamp of the key.
-        dataKeyName:
+        key:
           type: string
-          description: the name of data key
-        sysmetricKey:
-          type: string
-          description: the sysmetric key
+          description: the key content. This field will not be included in list/get response.
     keyList:
       description: key list
       properties:
@@ -23588,12 +23861,14 @@ components:
         isRestart:
           type: boolean
           nullable: true
-    dataReplication_opsType:
+    opsType:
+      description: data replication ops type
       enum:
         - pause
         - resume
         - restart
       type: string
+      x-go-name: DataReplicationOpsType
     eventItem:
       type: object
       properties:
@@ -24548,7 +24823,6 @@ x-tagGroups:
       - whitelist
       - database
       - recycleBinCluster
-      - clusterTask
   - name: Backup & Restore
     tags:
       - backup

@@ -34,6 +34,8 @@ type EndpointOption struct {
 	DisasterRecoverySelector map[string]string `json:"disasterRecoverySelector,omitempty"`
 	// whether the endpoint follows the network mode of the component
 	FollowNetworkMode *bool `json:"followNetworkMode,omitempty"`
+	// compatible KubeBlocks Major versions
+	CompatibleKbVersion common.NullableString `json:"compatibleKBVersion,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -456,6 +458,45 @@ func (o *EndpointOption) SetFollowNetworkMode(v bool) {
 	o.FollowNetworkMode = &v
 }
 
+// GetCompatibleKbVersion returns the CompatibleKbVersion field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *EndpointOption) GetCompatibleKbVersion() string {
+	if o == nil || o.CompatibleKbVersion.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.CompatibleKbVersion.Get()
+}
+
+// GetCompatibleKbVersionOk returns a tuple with the CompatibleKbVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *EndpointOption) GetCompatibleKbVersionOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CompatibleKbVersion.Get(), o.CompatibleKbVersion.IsSet()
+}
+
+// HasCompatibleKbVersion returns a boolean if a field has been set.
+func (o *EndpointOption) HasCompatibleKbVersion() bool {
+	return o != nil && o.CompatibleKbVersion.IsSet()
+}
+
+// SetCompatibleKbVersion gets a reference to the given common.NullableString and assigns it to the CompatibleKbVersion field.
+func (o *EndpointOption) SetCompatibleKbVersion(v string) {
+	o.CompatibleKbVersion.Set(&v)
+}
+
+// SetCompatibleKbVersionNil sets the value for CompatibleKbVersion to be an explicit nil.
+func (o *EndpointOption) SetCompatibleKbVersionNil() {
+	o.CompatibleKbVersion.Set(nil)
+}
+
+// UnsetCompatibleKbVersion ensures that no value is present for CompatibleKbVersion, not even an explicit nil.
+func (o *EndpointOption) UnsetCompatibleKbVersion() {
+	o.CompatibleKbVersion.Unset()
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EndpointOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -493,6 +534,9 @@ func (o EndpointOption) MarshalJSON() ([]byte, error) {
 	if o.FollowNetworkMode != nil {
 		toSerialize["followNetworkMode"] = o.FollowNetworkMode
 	}
+	if o.CompatibleKbVersion.IsSet() {
+		toSerialize["compatibleKBVersion"] = o.CompatibleKbVersion.Get()
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -518,6 +562,7 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 		Selector                 map[string]string            `json:"selector,omitempty"`
 		DisasterRecoverySelector map[string]string            `json:"disasterRecoverySelector,omitempty"`
 		FollowNetworkMode        *bool                        `json:"followNetworkMode,omitempty"`
+		CompatibleKbVersion      common.NullableString        `json:"compatibleKBVersion,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -545,7 +590,7 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "portName", "port", "protocol", "targetPort", "type", "supportsSystemUse", "supportsReadonly", "servicePattern", "serviceNameRegex", "serviceName", "selector", "disasterRecoverySelector", "followNetworkMode"})
+		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "portName", "port", "protocol", "targetPort", "type", "supportsSystemUse", "supportsReadonly", "servicePattern", "serviceNameRegex", "serviceName", "selector", "disasterRecoverySelector", "followNetworkMode", "compatibleKBVersion"})
 	} else {
 		return err
 	}
@@ -573,6 +618,7 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Selector = all.Selector
 	o.DisasterRecoverySelector = all.DisasterRecoverySelector
 	o.FollowNetworkMode = all.FollowNetworkMode
+	o.CompatibleKbVersion = all.CompatibleKbVersion
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
