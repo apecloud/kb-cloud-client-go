@@ -6023,6 +6023,52 @@ paths:
       tags:
         - engine
         - shared
+  /api/v1/engines:
+    get:
+      operationId: listAllEngines
+      summary: List all engines
+      parameters:
+        - description: engine name
+          in: query
+          name: name
+          schema:
+            type: string
+        - description: engine Type
+          in: query
+          name: type
+          schema:
+            type: string
+        - description: engine version
+          in: query
+          name: version
+          schema:
+            type: string
+        - name: provider
+          in: query
+          description: engine provider
+          schema:
+            type: string
+        - name: all
+          in: query
+          description: list all engines include uninstall engines
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - engine
   /api/v1/engines/resourceConstraints:
     get:
       operationId: listEngineResourceConstraints

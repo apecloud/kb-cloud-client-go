@@ -184,6 +184,7 @@
 //   - [enableServiceVersionApi.EnableServiceVersion]
 //   - [engineApi.ListServiceVersion]
 //   - [engineApi.ListUpgradeableServiceVersion]
+//   - [engineApi.listAllEngines]
 //   - [engineApi.listEngineLicenses]
 //   - [engineApi.listEngineResourceConstraints]
 //   - [engineApi.listEngineTypes]
