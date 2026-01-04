@@ -17920,10 +17920,6 @@ components:
           title: Environment Name
           type: string
           description: Environment Name
-        environmentType:
-          title: Environment Type
-          type: string
-          description: Environment Types
         cloudRegion:
           title: Cloud Region
           type: string
@@ -21601,6 +21597,9 @@ components:
         displayName:
           description: The display name of the context
           type: string
+          nullable: true
+        type:
+          $ref: '#/components/schemas/environmentType'
           nullable: true
         organizations:
           items:

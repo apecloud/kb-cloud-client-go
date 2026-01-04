@@ -32,8 +32,6 @@ type Cluster struct {
 	EnvironmentId *string `json:"environmentId,omitempty"`
 	// Environment Name
 	EnvironmentName string `json:"environmentName"`
-	// Environment Types
-	EnvironmentType *string `json:"environmentType,omitempty"`
 	// Cloud Region
 	CloudRegion *string `json:"cloudRegion,omitempty"`
 	// Name of project, it is the alias of environment namespace
@@ -481,34 +479,6 @@ func (o *Cluster) GetEnvironmentNameOk() (*string, bool) {
 // SetEnvironmentName sets field value.
 func (o *Cluster) SetEnvironmentName(v string) {
 	o.EnvironmentName = v
-}
-
-// GetEnvironmentType returns the EnvironmentType field value if set, zero value otherwise.
-func (o *Cluster) GetEnvironmentType() string {
-	if o == nil || o.EnvironmentType == nil {
-		var ret string
-		return ret
-	}
-	return *o.EnvironmentType
-}
-
-// GetEnvironmentTypeOk returns a tuple with the EnvironmentType field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Cluster) GetEnvironmentTypeOk() (*string, bool) {
-	if o == nil || o.EnvironmentType == nil {
-		return nil, false
-	}
-	return o.EnvironmentType, true
-}
-
-// HasEnvironmentType returns a boolean if a field has been set.
-func (o *Cluster) HasEnvironmentType() bool {
-	return o != nil && o.EnvironmentType != nil
-}
-
-// SetEnvironmentType gets a reference to the given string and assigns it to the EnvironmentType field.
-func (o *Cluster) SetEnvironmentType(v string) {
-	o.EnvironmentType = &v
 }
 
 // GetCloudRegion returns the CloudRegion field value if set, zero value otherwise.
@@ -1442,9 +1412,6 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 		toSerialize["environmentId"] = o.EnvironmentId
 	}
 	toSerialize["environmentName"] = o.EnvironmentName
-	if o.EnvironmentType != nil {
-		toSerialize["environmentType"] = o.EnvironmentType
-	}
 	if o.CloudRegion != nil {
 		toSerialize["cloudRegion"] = o.CloudRegion
 	}
@@ -1565,7 +1532,6 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 		CloudProvider          *string                     `json:"cloudProvider,omitempty"`
 		EnvironmentId          *string                     `json:"environmentId,omitempty"`
 		EnvironmentName        *string                     `json:"environmentName"`
-		EnvironmentType        *string                     `json:"environmentType,omitempty"`
 		CloudRegion            *string                     `json:"cloudRegion,omitempty"`
 		Project                *string                     `json:"project,omitempty"`
 		Name                   *string                     `json:"name"`
@@ -1613,7 +1579,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "mode", "proxyEnabled", "components", "extra", "initOptions", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static", "networkMode", "serviceRefs", "referencedBy", "objectStorageConfig", "maintainceWindow"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "mode", "proxyEnabled", "components", "extra", "initOptions", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static", "networkMode", "serviceRefs", "referencedBy", "objectStorageConfig", "maintainceWindow"})
 	} else {
 		return err
 	}
@@ -1633,7 +1599,6 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	o.CloudProvider = all.CloudProvider
 	o.EnvironmentId = all.EnvironmentId
 	o.EnvironmentName = *all.EnvironmentName
-	o.EnvironmentType = all.EnvironmentType
 	o.CloudRegion = all.CloudRegion
 	o.Project = all.Project
 	o.Name = *all.Name
