@@ -20,6 +20,7 @@ const (
 	InspectionSupportedEnginesRedis    InspectionSupportedEngines = "redis"
 	InspectionSupportedEnginesDamengdb InspectionSupportedEngines = "damengdb"
 	InspectionSupportedEnginesKafka    InspectionSupportedEngines = "kafka"
+	InspectionSupportedEnginesKingbase InspectionSupportedEngines = "kingbase"
 )
 
 var allowedInspectionSupportedEnginesEnumValues = []InspectionSupportedEngines{
@@ -28,6 +29,7 @@ var allowedInspectionSupportedEnginesEnumValues = []InspectionSupportedEngines{
 	InspectionSupportedEnginesRedis,
 	InspectionSupportedEnginesDamengdb,
 	InspectionSupportedEnginesKafka,
+	InspectionSupportedEnginesKingbase,
 }
 
 // GetAllowedValues returns the list of possible values.

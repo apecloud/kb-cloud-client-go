@@ -11,11 +11,12 @@ import (
 )
 
 type LogOption struct {
-	Component string `json:"component"`
-	Error     bool   `json:"error"`
-	Slow      bool   `json:"slow"`
-	Audit     bool   `json:"audit"`
-	Running   bool   `json:"running"`
+	Component      string                `json:"component"`
+	Error          bool                  `json:"error"`
+	Slow           bool                  `json:"slow"`
+	Audit          bool                  `json:"audit"`
+	Running        bool                  `json:"running"`
+	SqlAuditSwitch *SqlAuditSwitchOption `json:"sqlAuditSwitch,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -158,6 +159,34 @@ func (o *LogOption) SetRunning(v bool) {
 	o.Running = v
 }
 
+// GetSqlAuditSwitch returns the SqlAuditSwitch field value if set, zero value otherwise.
+func (o *LogOption) GetSqlAuditSwitch() SqlAuditSwitchOption {
+	if o == nil || o.SqlAuditSwitch == nil {
+		var ret SqlAuditSwitchOption
+		return ret
+	}
+	return *o.SqlAuditSwitch
+}
+
+// GetSqlAuditSwitchOk returns a tuple with the SqlAuditSwitch field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *LogOption) GetSqlAuditSwitchOk() (*SqlAuditSwitchOption, bool) {
+	if o == nil || o.SqlAuditSwitch == nil {
+		return nil, false
+	}
+	return o.SqlAuditSwitch, true
+}
+
+// HasSqlAuditSwitch returns a boolean if a field has been set.
+func (o *LogOption) HasSqlAuditSwitch() bool {
+	return o != nil && o.SqlAuditSwitch != nil
+}
+
+// SetSqlAuditSwitch gets a reference to the given SqlAuditSwitchOption and assigns it to the SqlAuditSwitch field.
+func (o *LogOption) SetSqlAuditSwitch(v SqlAuditSwitchOption) {
+	o.SqlAuditSwitch = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o LogOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -169,6 +198,9 @@ func (o LogOption) MarshalJSON() ([]byte, error) {
 	toSerialize["slow"] = o.Slow
 	toSerialize["audit"] = o.Audit
 	toSerialize["running"] = o.Running
+	if o.SqlAuditSwitch != nil {
+		toSerialize["sqlAuditSwitch"] = o.SqlAuditSwitch
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -179,11 +211,12 @@ func (o LogOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *LogOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component *string `json:"component"`
-		Error     *bool   `json:"error"`
-		Slow      *bool   `json:"slow"`
-		Audit     *bool   `json:"audit"`
-		Running   *bool   `json:"running"`
+		Component      *string               `json:"component"`
+		Error          *bool                 `json:"error"`
+		Slow           *bool                 `json:"slow"`
+		Audit          *bool                 `json:"audit"`
+		Running        *bool                 `json:"running"`
+		SqlAuditSwitch *SqlAuditSwitchOption `json:"sqlAuditSwitch,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -205,18 +238,28 @@ func (o *LogOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "error", "slow", "audit", "running"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "error", "slow", "audit", "running", "sqlAuditSwitch"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Component = *all.Component
 	o.Error = *all.Error
 	o.Slow = *all.Slow
 	o.Audit = *all.Audit
 	o.Running = *all.Running
+	if all.SqlAuditSwitch != nil && all.SqlAuditSwitch.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.SqlAuditSwitch = all.SqlAuditSwitch
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
