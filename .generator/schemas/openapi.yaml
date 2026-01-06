@@ -14638,7 +14638,10 @@ components:
           description: Module display name in multiple languages
         optional:
           type: boolean
-          description: indicate module is optional
+          description: indicate module is optional. If false, the module is required and must be installed
+        defaultEnabled:
+          type: boolean
+          description: indicate whether module is enabled by default when creating environment. Only effective when optional is true
       required:
         - name
         - status
