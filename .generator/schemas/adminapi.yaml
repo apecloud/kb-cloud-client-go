@@ -26636,6 +26636,7 @@ components:
         - redis
         - damengdb
         - kafka
+        - kingbase
     inspectionTaskItem:
       properties:
         id:
