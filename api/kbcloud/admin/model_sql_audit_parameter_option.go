@@ -12,8 +12,6 @@ import (
 
 // SqlAuditParameterOption Parameter configuration for querying and controlling (required when type is parameter). When type is parameter, both query and control (reconfigure) are inferred from this configuration.
 type SqlAuditParameterOption struct {
-	// Component name
-	Component string `json:"component"`
 	// Configuration spec name
 	ConfigSpec string `json:"configSpec"`
 	// Configuration file name
@@ -33,9 +31,8 @@ type SqlAuditParameterOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewSqlAuditParameterOption(component string, configSpec string, configFileName string, key string) *SqlAuditParameterOption {
+func NewSqlAuditParameterOption(configSpec string, configFileName string, key string) *SqlAuditParameterOption {
 	this := SqlAuditParameterOption{}
-	this.Component = component
 	this.ConfigSpec = configSpec
 	this.ConfigFileName = configFileName
 	this.Key = key
@@ -48,29 +45,6 @@ func NewSqlAuditParameterOption(component string, configSpec string, configFileN
 func NewSqlAuditParameterOptionWithDefaults() *SqlAuditParameterOption {
 	this := SqlAuditParameterOption{}
 	return &this
-}
-
-// GetComponent returns the Component field value.
-func (o *SqlAuditParameterOption) GetComponent() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.Component
-}
-
-// GetComponentOk returns a tuple with the Component field value
-// and a boolean to check if the value has been set.
-func (o *SqlAuditParameterOption) GetComponentOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Component, true
-}
-
-// SetComponent sets field value.
-func (o *SqlAuditParameterOption) SetComponent(v string) {
-	o.Component = v
 }
 
 // GetConfigSpec returns the ConfigSpec field value.
@@ -204,7 +178,6 @@ func (o SqlAuditParameterOption) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["component"] = o.Component
 	toSerialize["configSpec"] = o.ConfigSpec
 	toSerialize["configFileName"] = o.ConfigFileName
 	toSerialize["key"] = o.Key
@@ -224,7 +197,6 @@ func (o SqlAuditParameterOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *SqlAuditParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component      *string  `json:"component"`
 		ConfigSpec     *string  `json:"configSpec"`
 		ConfigFileName *string  `json:"configFileName"`
 		Key            *string  `json:"key"`
@@ -233,9 +205,6 @@ func (o *SqlAuditParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
-	}
-	if all.Component == nil {
-		return fmt.Errorf("required field component missing")
 	}
 	if all.ConfigSpec == nil {
 		return fmt.Errorf("required field configSpec missing")
@@ -248,11 +217,10 @@ func (o *SqlAuditParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "configSpec", "configFileName", "key", "enabledValues", "disabledValues"})
+		common.DeleteKeys(additionalProperties, &[]string{"configSpec", "configFileName", "key", "enabledValues", "disabledValues"})
 	} else {
 		return err
 	}
-	o.Component = *all.Component
 	o.ConfigSpec = *all.ConfigSpec
 	o.ConfigFileName = *all.ConfigFileName
 	o.Key = *all.Key
