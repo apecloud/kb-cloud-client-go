@@ -22,6 +22,10 @@ type SqlAuditParameterOption struct {
 	EnabledValues []string `json:"enabledValues,omitempty"`
 	// List of parameter values that indicate SQL audit is disabled (case-insensitive comparison)
 	DisabledValues []string `json:"disabledValues,omitempty"`
+	// If true, process parameter value from left to right, supporting subtraction (e.g., pgaudit.log with -read). Each part modifies the current state. Final state determines if audit is enabled. Default is false.
+	ProcessOrder *bool `json:"processOrder,omitempty"`
+	// Special value that enables all classes when processOrder is true (e.g., "all" for pgaudit.log). If this value is encountered, it enables all audit classes. Optional, only used when processOrder is true.
+	AllValue *string `json:"allValue,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -36,6 +40,8 @@ func NewSqlAuditParameterOption(configSpec string, configFileName string, key st
 	this.ConfigSpec = configSpec
 	this.ConfigFileName = configFileName
 	this.Key = key
+	var processOrder bool = false
+	this.ProcessOrder = &processOrder
 	return &this
 }
 
@@ -44,6 +50,8 @@ func NewSqlAuditParameterOption(configSpec string, configFileName string, key st
 // but it doesn't guarantee that properties required by API are set.
 func NewSqlAuditParameterOptionWithDefaults() *SqlAuditParameterOption {
 	this := SqlAuditParameterOption{}
+	var processOrder bool = false
+	this.ProcessOrder = &processOrder
 	return &this
 }
 
@@ -172,6 +180,62 @@ func (o *SqlAuditParameterOption) SetDisabledValues(v []string) {
 	o.DisabledValues = v
 }
 
+// GetProcessOrder returns the ProcessOrder field value if set, zero value otherwise.
+func (o *SqlAuditParameterOption) GetProcessOrder() bool {
+	if o == nil || o.ProcessOrder == nil {
+		var ret bool
+		return ret
+	}
+	return *o.ProcessOrder
+}
+
+// GetProcessOrderOk returns a tuple with the ProcessOrder field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SqlAuditParameterOption) GetProcessOrderOk() (*bool, bool) {
+	if o == nil || o.ProcessOrder == nil {
+		return nil, false
+	}
+	return o.ProcessOrder, true
+}
+
+// HasProcessOrder returns a boolean if a field has been set.
+func (o *SqlAuditParameterOption) HasProcessOrder() bool {
+	return o != nil && o.ProcessOrder != nil
+}
+
+// SetProcessOrder gets a reference to the given bool and assigns it to the ProcessOrder field.
+func (o *SqlAuditParameterOption) SetProcessOrder(v bool) {
+	o.ProcessOrder = &v
+}
+
+// GetAllValue returns the AllValue field value if set, zero value otherwise.
+func (o *SqlAuditParameterOption) GetAllValue() string {
+	if o == nil || o.AllValue == nil {
+		var ret string
+		return ret
+	}
+	return *o.AllValue
+}
+
+// GetAllValueOk returns a tuple with the AllValue field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SqlAuditParameterOption) GetAllValueOk() (*string, bool) {
+	if o == nil || o.AllValue == nil {
+		return nil, false
+	}
+	return o.AllValue, true
+}
+
+// HasAllValue returns a boolean if a field has been set.
+func (o *SqlAuditParameterOption) HasAllValue() bool {
+	return o != nil && o.AllValue != nil
+}
+
+// SetAllValue gets a reference to the given string and assigns it to the AllValue field.
+func (o *SqlAuditParameterOption) SetAllValue(v string) {
+	o.AllValue = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o SqlAuditParameterOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -186,6 +250,12 @@ func (o SqlAuditParameterOption) MarshalJSON() ([]byte, error) {
 	}
 	if o.DisabledValues != nil {
 		toSerialize["disabledValues"] = o.DisabledValues
+	}
+	if o.ProcessOrder != nil {
+		toSerialize["processOrder"] = o.ProcessOrder
+	}
+	if o.AllValue != nil {
+		toSerialize["allValue"] = o.AllValue
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -202,6 +272,8 @@ func (o *SqlAuditParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 		Key            *string  `json:"key"`
 		EnabledValues  []string `json:"enabledValues,omitempty"`
 		DisabledValues []string `json:"disabledValues,omitempty"`
+		ProcessOrder   *bool    `json:"processOrder,omitempty"`
+		AllValue       *string  `json:"allValue,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -217,7 +289,7 @@ func (o *SqlAuditParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"configSpec", "configFileName", "key", "enabledValues", "disabledValues"})
+		common.DeleteKeys(additionalProperties, &[]string{"configSpec", "configFileName", "key", "enabledValues", "disabledValues", "processOrder", "allValue"})
 	} else {
 		return err
 	}
@@ -226,6 +298,8 @@ func (o *SqlAuditParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Key = *all.Key
 	o.EnabledValues = all.EnabledValues
 	o.DisabledValues = all.DisabledValues
+	o.ProcessOrder = all.ProcessOrder
+	o.AllValue = all.AllValue
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
