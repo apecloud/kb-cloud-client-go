@@ -19766,6 +19766,13 @@ components:
           items:
             type: string
           description: List of parameter values that indicate SQL audit is disabled (case-insensitive comparison)
+        processOrder:
+          type: boolean
+          description: If true, process parameter value from left to right, supporting subtraction (e.g., pgaudit.log with -read). Each part modifies the current state. Final state determines if audit is enabled. Default is false.
+          default: false
+        allValue:
+          type: string
+          description: Special value that enables all classes when processOrder is true (e.g., "all" for pgaudit.log). If this value is encountered, it enables all audit classes. Optional, only used when processOrder is true.
     sqlAuditSwitchOption:
       type: object
       required:
