@@ -19743,14 +19743,10 @@ components:
       type: object
       description: Parameter configuration for querying and controlling (required when type is parameter). When type is parameter, both query and control (reconfigure) are inferred from this configuration.
       required:
-        - component
         - configSpec
         - configFileName
         - key
       properties:
-        component:
-          type: string
-          description: Component name
         configSpec:
           type: string
           description: Configuration spec name
