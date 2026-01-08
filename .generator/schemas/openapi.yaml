@@ -19734,11 +19734,47 @@ components:
                       type: string
                     id:
                       type: string
-    sqlAuditSwitchOptionType:
-      type: string
-      enum:
+    sqlAuditSQLQueryOption:
+      type: object
+      required:
         - sql
-        - parameter
+      properties:
+        sql:
+          type: string
+          description: SQL query to check audit log status
+        enabledValues:
+          type: array
+          items:
+            type: string
+          description: List of query result values that indicate SQL audit is enabled (case-insensitive comparison). If not provided, defaults to ["1", "true", "on", "enabled", "yes"].
+        disabledValues:
+          type: array
+          items:
+            type: string
+          description: List of query result values that indicate SQL audit is disabled (case-insensitive comparison). If not provided, defaults to ["0", "false", "off", "disabled", "no"].
+    sqlAuditSQLOption:
+      type: object
+      required:
+        - query
+        - enable
+        - disable
+      properties:
+        query:
+          $ref: '#/components/schemas/sqlAuditSQLQueryOption'
+          description: Configuration for querying audit log status
+        enable:
+          type: array
+          items:
+            type: string
+          description: SQL statements to enable audit log. Multiple statements will be joined and executed.
+        disable:
+          type: array
+          items:
+            type: string
+          description: SQL statements to disable audit log. Multiple statements will be joined and executed.
+        user:
+          type: string
+          description: Specific user account name to execute SQL statements. If not provided, uses the default datasource account.
     sqlAuditParameterOption:
       type: object
       description: Parameter configuration for querying and controlling (required when type is parameter). When type is parameter, both query and control (reconfigure) are inferred from this configuration.
@@ -19775,17 +19811,14 @@ components:
           description: Special value that enables all classes when processOrder is true (e.g., "all" for pgaudit.log). If this value is encountered, it enables all audit classes. Optional, only used when processOrder is true.
     sqlAuditSwitchOption:
       type: object
-      required:
-        - type
+      description: SQL audit switch configuration. Either sql or parameter must be provided.
       properties:
-        type:
-          $ref: '#/components/schemas/sqlAuditSwitchOptionType'
-          description: 'Method type for querying and controlling SQL audit log: sql or parameter. When type is parameter, control is automatically inferred as reconfigure.'
         sql:
-          type: string
-          description: SQL query to check audit log status (required when type is sql)
+          $ref: '#/components/schemas/sqlAuditSQLOption'
+          description: SQL-based configuration for querying and controlling audit log
         parameter:
           $ref: '#/components/schemas/sqlAuditParameterOption'
+          description: Parameter-based configuration for querying and controlling audit log
     logOption:
       type: object
       required:

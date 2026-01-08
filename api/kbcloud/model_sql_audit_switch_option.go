@@ -4,16 +4,11 @@
 
 package kbcloud
 
-import (
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
-
+// SqlAuditSwitchOption SQL audit switch configuration. Either sql or parameter must be provided.
 type SqlAuditSwitchOption struct {
-	Type SqlAuditSwitchOptionType `json:"type"`
-	// SQL query to check audit log status (required when type is sql)
-	Sql *string `json:"sql,omitempty"`
+	Sql *SqlAuditSQLOption `json:"sql,omitempty"`
 	// Parameter configuration for querying and controlling (required when type is parameter). When type is parameter, both query and control (reconfigure) are inferred from this configuration.
 	Parameter *SqlAuditParameterOption `json:"parameter,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -25,9 +20,8 @@ type SqlAuditSwitchOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewSqlAuditSwitchOption(typeVar SqlAuditSwitchOptionType) *SqlAuditSwitchOption {
+func NewSqlAuditSwitchOption() *SqlAuditSwitchOption {
 	this := SqlAuditSwitchOption{}
-	this.Type = typeVar
 	return &this
 }
 
@@ -39,33 +33,10 @@ func NewSqlAuditSwitchOptionWithDefaults() *SqlAuditSwitchOption {
 	return &this
 }
 
-// GetType returns the Type field value.
-func (o *SqlAuditSwitchOption) GetType() SqlAuditSwitchOptionType {
-	if o == nil {
-		var ret SqlAuditSwitchOptionType
-		return ret
-	}
-	return o.Type
-}
-
-// GetTypeOk returns a tuple with the Type field value
-// and a boolean to check if the value has been set.
-func (o *SqlAuditSwitchOption) GetTypeOk() (*SqlAuditSwitchOptionType, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Type, true
-}
-
-// SetType sets field value.
-func (o *SqlAuditSwitchOption) SetType(v SqlAuditSwitchOptionType) {
-	o.Type = v
-}
-
 // GetSql returns the Sql field value if set, zero value otherwise.
-func (o *SqlAuditSwitchOption) GetSql() string {
+func (o *SqlAuditSwitchOption) GetSql() SqlAuditSQLOption {
 	if o == nil || o.Sql == nil {
-		var ret string
+		var ret SqlAuditSQLOption
 		return ret
 	}
 	return *o.Sql
@@ -73,7 +44,7 @@ func (o *SqlAuditSwitchOption) GetSql() string {
 
 // GetSqlOk returns a tuple with the Sql field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SqlAuditSwitchOption) GetSqlOk() (*string, bool) {
+func (o *SqlAuditSwitchOption) GetSqlOk() (*SqlAuditSQLOption, bool) {
 	if o == nil || o.Sql == nil {
 		return nil, false
 	}
@@ -85,8 +56,8 @@ func (o *SqlAuditSwitchOption) HasSql() bool {
 	return o != nil && o.Sql != nil
 }
 
-// SetSql gets a reference to the given string and assigns it to the Sql field.
-func (o *SqlAuditSwitchOption) SetSql(v string) {
+// SetSql gets a reference to the given SqlAuditSQLOption and assigns it to the Sql field.
+func (o *SqlAuditSwitchOption) SetSql(v SqlAuditSQLOption) {
 	o.Sql = &v
 }
 
@@ -124,7 +95,6 @@ func (o SqlAuditSwitchOption) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["type"] = o.Type
 	if o.Sql != nil {
 		toSerialize["sql"] = o.Sql
 	}
@@ -141,28 +111,22 @@ func (o SqlAuditSwitchOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *SqlAuditSwitchOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Type      *SqlAuditSwitchOptionType `json:"type"`
-		Sql       *string                   `json:"sql,omitempty"`
-		Parameter *SqlAuditParameterOption  `json:"parameter,omitempty"`
+		Sql       *SqlAuditSQLOption       `json:"sql,omitempty"`
+		Parameter *SqlAuditParameterOption `json:"parameter,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Type == nil {
-		return fmt.Errorf("required field type missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"type", "sql", "parameter"})
+		common.DeleteKeys(additionalProperties, &[]string{"sql", "parameter"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	if !all.Type.IsValid() {
+	if all.Sql != nil && all.Sql.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
-	} else {
-		o.Type = *all.Type
 	}
 	o.Sql = all.Sql
 	if all.Parameter != nil && all.Parameter.UnparsedObject != nil && o.UnparsedObject == nil {
