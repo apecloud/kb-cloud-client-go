@@ -26,8 +26,10 @@ type EnvironmentModule struct {
 	ClusterInfo *ClusterInfo          `json:"clusterInfo,omitempty"`
 	Description *LocalizedDescription `json:"description,omitempty"`
 	DisplayName *LocalizedDescription `json:"displayName,omitempty"`
-	// indicate module is optional
+	// indicate module is optional. If false, the module is required and must be installed
 	Optional *bool `json:"optional,omitempty"`
+	// indicate whether module is enabled by default when creating environment. Only effective when optional is true
+	DefaultEnabled *bool `json:"defaultEnabled,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -294,6 +296,34 @@ func (o *EnvironmentModule) SetOptional(v bool) {
 	o.Optional = &v
 }
 
+// GetDefaultEnabled returns the DefaultEnabled field value if set, zero value otherwise.
+func (o *EnvironmentModule) GetDefaultEnabled() bool {
+	if o == nil || o.DefaultEnabled == nil {
+		var ret bool
+		return ret
+	}
+	return *o.DefaultEnabled
+}
+
+// GetDefaultEnabledOk returns a tuple with the DefaultEnabled field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentModule) GetDefaultEnabledOk() (*bool, bool) {
+	if o == nil || o.DefaultEnabled == nil {
+		return nil, false
+	}
+	return o.DefaultEnabled, true
+}
+
+// HasDefaultEnabled returns a boolean if a field has been set.
+func (o *EnvironmentModule) HasDefaultEnabled() bool {
+	return o != nil && o.DefaultEnabled != nil
+}
+
+// SetDefaultEnabled gets a reference to the given bool and assigns it to the DefaultEnabled field.
+func (o *EnvironmentModule) SetDefaultEnabled(v bool) {
+	o.DefaultEnabled = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -323,6 +353,9 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	if o.Optional != nil {
 		toSerialize["optional"] = o.Optional
 	}
+	if o.DefaultEnabled != nil {
+		toSerialize["defaultEnabled"] = o.DefaultEnabled
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -333,15 +366,16 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string                  `json:"name"`
-		Version     *string                  `json:"version,omitempty"`
-		Status      *EnvironmentModuleStatus `json:"status"`
-		Replicas    *int32                   `json:"replicas,omitempty"`
-		Location    *string                  `json:"location,omitempty"`
-		ClusterInfo *ClusterInfo             `json:"clusterInfo,omitempty"`
-		Description *LocalizedDescription    `json:"description,omitempty"`
-		DisplayName *LocalizedDescription    `json:"displayName,omitempty"`
-		Optional    *bool                    `json:"optional,omitempty"`
+		Name           *string                  `json:"name"`
+		Version        *string                  `json:"version,omitempty"`
+		Status         *EnvironmentModuleStatus `json:"status"`
+		Replicas       *int32                   `json:"replicas,omitempty"`
+		Location       *string                  `json:"location,omitempty"`
+		ClusterInfo    *ClusterInfo             `json:"clusterInfo,omitempty"`
+		Description    *LocalizedDescription    `json:"description,omitempty"`
+		DisplayName    *LocalizedDescription    `json:"displayName,omitempty"`
+		Optional       *bool                    `json:"optional,omitempty"`
+		DefaultEnabled *bool                    `json:"defaultEnabled,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -354,7 +388,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "replicas", "location", "clusterInfo", "description", "displayName", "optional"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "replicas", "location", "clusterInfo", "description", "displayName", "optional", "defaultEnabled"})
 	} else {
 		return err
 	}
@@ -382,6 +416,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.DisplayName = all.DisplayName
 	o.Optional = all.Optional
+	o.DefaultEnabled = all.DefaultEnabled
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

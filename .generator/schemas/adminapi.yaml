@@ -1985,6 +1985,88 @@ paths:
       tags:
         - cluster
         - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/sqlAudit:
+    get:
+      operationId: getSqlAudit
+      summary: Get SQL audit log status
+      description: Query the SQL audit log switch status for a cluster component
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: component type
+          in: query
+          name: component
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sqlAuditStatus'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
+        - shared
+    post:
+      operationId: updateSqlAudit
+      summary: Update SQL audit log status
+      description: Enable or disable SQL audit log for a cluster component
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sqlAuditRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sqlAuditResponse'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
+        - shared
+      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusterTags:
     get:
       tags:
@@ -17840,10 +17922,6 @@ components:
           title: Environment Name
           type: string
           description: Environment Name
-        environmentType:
-          title: Environment Type
-          type: string
-          description: Environment Types
         cloudRegion:
           title: Cloud Region
           type: string
@@ -18267,6 +18345,45 @@ components:
           description: Items is the list of endpoint objects in the list
           items:
             $ref: '#/components/schemas/endpoint'
+    sqlAuditStatus:
+      type: object
+      description: SQL audit log status
+      required:
+        - enabled
+      properties:
+        enabled:
+          type: boolean
+          description: Whether SQL audit log is enabled
+        options:
+          type: object
+          additionalProperties: true
+          description: Additional configuration options for SQL audit log (engine-specific)
+    sqlAuditRequest:
+      type: object
+      description: Request to update SQL audit log status
+      required:
+        - component
+        - enabled
+      properties:
+        component:
+          type: string
+          description: Component type to update SQL audit log for
+        enabled:
+          type: boolean
+          description: Whether to enable SQL audit log
+    sqlAuditResponse:
+      type: object
+      description: Response after updating SQL audit log status
+      required:
+        - enabled
+        - taskId
+      properties:
+        enabled:
+          type: boolean
+          description: Whether SQL audit log is enabled after the operation
+        taskId:
+          type: string
+          description: Task ID if the operation is asynchronous (e.g. reconfigure)
     tag:
       description: tag info
       properties:
@@ -21064,7 +21181,10 @@ components:
           description: Module display name in multiple languages
         optional:
           type: boolean
-          description: indicate module is optional
+          description: indicate module is optional. If false, the module is required and must be installed
+        defaultEnabled:
+          type: boolean
+          description: indicate whether module is enabled by default when creating environment. Only effective when optional is true
       required:
         - name
         - status
@@ -21365,6 +21485,9 @@ components:
         displayName:
           description: The display name of the context
           type: string
+          nullable: true
+        type:
+          $ref: '#/components/schemas/environmentType'
           nullable: true
         organizations:
           items:
@@ -23886,10 +24009,14 @@ components:
                   sourceKey:
                     type: string
                   sourceValue:
+                    type: object
+                    additionalProperties: true
                     description: Can be any type (string, number, boolean, object, etc.)
                   targetKey:
                     type: string
                   targetValue:
+                    type: object
+                    additionalProperties: true
                     description: Can be any type (string, number, boolean, object, etc.)
         hideOnCreate:
           type: boolean
@@ -24410,6 +24537,91 @@ components:
                       type: string
                     id:
                       type: string
+    sqlAuditSQLQueryOption:
+      type: object
+      required:
+        - sql
+      properties:
+        sql:
+          type: string
+          description: SQL query to check audit log status
+        enabledValues:
+          type: array
+          items:
+            type: string
+          description: List of query result values that indicate SQL audit is enabled (case-insensitive comparison). If not provided, defaults to ["1", "true", "on", "enabled", "yes"].
+        disabledValues:
+          type: array
+          items:
+            type: string
+          description: List of query result values that indicate SQL audit is disabled (case-insensitive comparison). If not provided, defaults to ["0", "false", "off", "disabled", "no"].
+    sqlAuditSQLOption:
+      type: object
+      required:
+        - query
+        - enable
+        - disable
+      properties:
+        query:
+          $ref: '#/components/schemas/sqlAuditSQLQueryOption'
+          description: Configuration for querying audit log status
+        enable:
+          type: array
+          items:
+            type: string
+          description: SQL statements to enable audit log. Multiple statements will be joined and executed.
+        disable:
+          type: array
+          items:
+            type: string
+          description: SQL statements to disable audit log. Multiple statements will be joined and executed.
+        user:
+          type: string
+          description: Specific user account name to execute SQL statements. If not provided, uses the default datasource account.
+    sqlAuditParameterOption:
+      type: object
+      description: Parameter configuration for querying and controlling (required when type is parameter). When type is parameter, both query and control (reconfigure) are inferred from this configuration.
+      required:
+        - configSpec
+        - configFileName
+        - key
+      properties:
+        configSpec:
+          type: string
+          description: Configuration spec name
+        configFileName:
+          type: string
+          description: Configuration file name
+        key:
+          type: string
+          description: Parameter key to query
+        enabledValues:
+          type: array
+          items:
+            type: string
+          description: List of parameter values that indicate SQL audit is enabled (case-insensitive comparison)
+        disabledValues:
+          type: array
+          items:
+            type: string
+          description: List of parameter values that indicate SQL audit is disabled (case-insensitive comparison)
+        processOrder:
+          type: boolean
+          description: If true, process parameter value from left to right, supporting subtraction (e.g., pgaudit.log with -read). Each part modifies the current state. Final state determines if audit is enabled. Default is false.
+          default: false
+        allValue:
+          type: string
+          description: Special value that enables all classes when processOrder is true (e.g., "all" for pgaudit.log). If this value is encountered, it enables all audit classes. Optional, only used when processOrder is true.
+    sqlAuditSwitchOption:
+      type: object
+      description: SQL audit switch configuration. Either sql or parameter must be provided.
+      properties:
+        sql:
+          $ref: '#/components/schemas/sqlAuditSQLOption'
+          description: SQL-based configuration for querying and controlling audit log
+        parameter:
+          $ref: '#/components/schemas/sqlAuditParameterOption'
+          description: Parameter-based configuration for querying and controlling audit log
     logOption:
       type: object
       required:
@@ -24429,6 +24641,9 @@ components:
           type: boolean
         running:
           type: boolean
+        sqlAuditSwitch:
+          $ref: '#/components/schemas/sqlAuditSwitchOption'
+          description: SQL audit log switch configuration. Only applicable when audit is true. If method type is parameter, control is automatically inferred as reconfigure.
     parameterConfig:
       required:
         - configSpecName
@@ -26398,6 +26613,7 @@ components:
         - redis
         - damengdb
         - kafka
+        - kingbase
     inspectionTaskItem:
       properties:
         id:
