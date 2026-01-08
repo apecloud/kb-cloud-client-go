@@ -11,11 +11,12 @@ import (
 )
 
 type LogOption struct {
-	Component      string                `json:"component"`
-	Error          bool                  `json:"error"`
-	Slow           bool                  `json:"slow"`
-	Audit          bool                  `json:"audit"`
-	Running        bool                  `json:"running"`
+	Component string `json:"component"`
+	Error     bool   `json:"error"`
+	Slow      bool   `json:"slow"`
+	Audit     bool   `json:"audit"`
+	Running   bool   `json:"running"`
+	// SQL audit switch configuration. Either sql or parameter must be provided.
 	SqlAuditSwitch *SqlAuditSwitchOption `json:"sqlAuditSwitch,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
