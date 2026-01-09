@@ -27482,13 +27482,11 @@ components:
         inputs:
           type: object
           description: Input parameters for the step
-          additionalProperties:
-            type: string
+          additionalProperties: true
         outputs:
           type: object
           description: Output parameters from the step
-          additionalProperties:
-            type: string
+          additionalProperties: true
         retryLimit:
           type: integer
           description: Number of times to retry the step in case of failure
