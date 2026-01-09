@@ -171,11 +171,11 @@ func (a *OpsrequestApi) ClusterVolumeExpand(ctx _context.Context, orgName string
 }
 
 // CustomOps Create custom OpsRequest.
-func (a *OpsrequestApi) CustomOps(ctx _context.Context, orgName string, clusterName string, body OpsCustom) (ClusterTask, *_nethttp.Response, error) {
+func (a *OpsrequestApi) CustomOps(ctx _context.Context, orgName string, clusterName string, body OpsCustom) (OpsRequestName, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue ClusterTask
+		localVarReturnValue OpsRequestName
 	)
 
 	// Add api info to context

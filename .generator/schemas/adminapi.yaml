@@ -32,8 +32,6 @@ tags:
     description: Project APIs
   - name: cluster
     description: Cluster APIs
-  - name: clusterTask
-    description: Cluster Task APIs
   - name: instance
     description: Cluster instance APIs
   - name: imageRegistry
@@ -5079,7 +5077,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/clusterTask'
+                $ref: '#/components/schemas/opsRequestName'
           description: Accepted
         '401':
           $ref: '#/components/responses/401'
@@ -12403,84 +12401,6 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/clustertasks:
-    get:
-      operationId: listClusterTasks
-      summary: List cluster tasks
-      parameters:
-        - description: name of the Org
-          in: query
-          name: orgName
-          schema:
-            type: string
-        - description: name of the KubeBlocks cluster
-          in: query
-          name: clusterName
-          schema:
-            type: string
-        - description: You want to check the status of the task. If not passed, all selected by default
-          in: query
-          name: status
-          schema:
-            $ref: '#/components/schemas/opsStatus'
-        - description: You want to check the type of the task. If not passed, all selected by default
-          in: query
-          name: clusterTaskType
-          schema:
-            $ref: '#/components/schemas/opsType'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/clusterTaskList'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - clusterTask
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}:
-    get:
-      description: Get cluster task
-      summary: Get cluster task
-      operationId: getClusterTask
-      parameters:
-        - description: Organization Name
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: Cluster Name
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: Task ID
-          in: path
-          name: taskId
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/clusterTask'
-          description: Successful operation
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - clusterTask
-        - shared
   /admin/v1/organizations/{orgName}/cluster/{clusterName}/available-relations:
     get:
       tags:
@@ -13793,7 +13713,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/clusterTask'
+                $ref: '#/components/schemas/opsRequestName'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -13842,7 +13762,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/clusterTask'
+                $ref: '#/components/schemas/opsRequestName'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -13896,7 +13816,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/clusterTask'
+                $ref: '#/components/schemas/opsRequestName'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -20797,162 +20717,6 @@ components:
             type: object
             $ref: '#/components/schemas/opsParameter'
       type: object
-    customOpsTask:
-      description: customOpsTask is the information of custom ops task
-      properties:
-        objectKey:
-          description: the pod name
-          type: string
-        namespace:
-          description: namespace of the task
-          type: string
-        status:
-          description: status of the task
-          type: string
-        targetPodName:
-          description: target pod name of the task
-          type: string
-        retries:
-          description: retries of the task
-          type: integer
-          format: int32
-      type: object
-    customOpsTasks:
-      description: customOpsTasks is a list of custom ops task. This field is provided when ops is `custom`.
-      properties:
-        items:
-          description: The list of custom ops task.
-          items:
-            $ref: '#/components/schemas/customOpsTask'
-          type: array
-      type: object
-    clusterTaskProgress:
-      description: clusterTaskProgress is the information of the task progress
-      properties:
-        name:
-          description: conponent name
-          type: string
-        group:
-          description: group name
-          type: string
-        objectKey:
-          description: the instance name
-          type: string
-          nullable: true
-        message:
-          description: message of the task progress
-          type: string
-        status:
-          description: status of the task progress
-          type: string
-        startTime:
-          description: start time of the task progress
-          format: date-time
-          type: string
-          nullable: true
-        endTime:
-          description: end time of the task progress
-          format: date-time
-          type: string
-          nullable: true
-        customOpsName:
-          description: Indicates the name of an OpsAction, Either `objectKey` or `customOpsName` must be provided. This field is provided when ops is `custom`.
-          type: string
-          nullable: true
-        customOpsTasks:
-          $ref: '#/components/schemas/customOpsTasks'
-      type: object
-    clusterTaskProgresses:
-      description: clusterTaskProgresses is a list of task progress detail
-      properties:
-        items:
-          description: Items is the list of task progress detail in the list
-          items:
-            $ref: '#/components/schemas/clusterTaskProgress'
-          type: array
-      type: object
-    clusterTaskDetail:
-      type: object
-      description: taskCondition is the information of the task condition
-      properties:
-        reason:
-          description: reason of the task condition
-          type: string
-        type:
-          description: type of the task condition
-          type: string
-        status:
-          description: status of the task condition
-          type: string
-        message:
-          description: message of the task condition
-          type: string
-        lastTransitionTime:
-          description: last transition time of the task condition
-          format: date-time
-          type: string
-    clusterTaskDetails:
-      description: taskConditions is a list of task condition
-      properties:
-        items:
-          description: Items is the list of task condition in the list
-          items:
-            $ref: '#/components/schemas/clusterTaskDetail'
-          type: array
-      type: object
-    clusterTask:
-      type: object
-      description: task is the information of the operation
-      required:
-        - name
-        - namespace
-        - status
-        - taskType
-        - progress
-      properties:
-        id:
-          description: ID of the task
-          type: string
-        name:
-          description: Name of the task
-          type: string
-        namespace:
-          description: Namespace of the task
-          type: string
-        orgName:
-          description: OrgName of the task
-          type: string
-        clusterName:
-          description: ClusterName of the task
-          type: string
-        status:
-          description: status of the task
-          type: string
-        taskType:
-          description: task type
-          type: string
-        progress:
-          description: progress of the task
-          type: string
-        taskProgresses:
-          $ref: '#/components/schemas/clusterTaskProgresses'
-        taskDetails:
-          $ref: '#/components/schemas/clusterTaskDetails'
-        opsLog:
-          description: pod log of the custom task
-          type: string
-        description:
-          description: description of the custom task
-          type: string
-        startTime:
-          type: string
-          format: date-time
-          description: Time when the task started
-        completionTime:
-          type: string
-          format: date-time
-          description: Time when the task completed or failed
-          nullable: true
     opsIoQuotas:
       description: IO Quotas describes IOPS and BPS for volumes of a KubeBlocks cluster
       properties:
@@ -27855,44 +27619,6 @@ components:
           $ref: '#/components/schemas/taskSchedule'
           description: Scheduled execution configuration
           x-nullable: true
-    opsStatus:
-      enum:
-        - Pending
-        - Creating
-        - Running
-        - Cancelling
-        - Succeed
-        - Cancelled
-        - Failed
-        - Aborted
-      type: string
-    opsType:
-      enum:
-        - VerticalScaling
-        - HorizontalScaling
-        - VolumeExpansion
-        - Upgrade
-        - Reconfiguring
-        - Switchover
-        - Restart
-        - Stop
-        - Start
-        - Expose
-        - Backup
-        - Restore
-        - RebuildInstance
-        - Custom
-        - UpdateLicense
-      type: string
-    clusterTaskList:
-      description: TaskList is a list of operation task objects
-      properties:
-        items:
-          description: Items is the list of operation task objects in the list
-          items:
-            $ref: '#/components/schemas/clusterTask'
-          type: array
-      type: object
     availableClusterList:
       type: array
       items:
@@ -30204,7 +29930,6 @@ x-tagGroups:
       - database
       - recycleBinCluster
       - relation
-      - clusterTask
   - name: License
     tags:
       - license
