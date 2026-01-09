@@ -44,6 +44,8 @@ type EnvironmentUpdate struct {
 	DeletePolicy *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
 	// Cluster operation validation policy, such as create, hscale, vscale, etc.
 	ClusterValidationPolicy *ClusterValidationPolicy `json:"clusterValidationPolicy,omitempty"`
+	// Cloud Provider
+	Provider common.NullableString `json:"provider,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -654,6 +656,45 @@ func (o *EnvironmentUpdate) SetClusterValidationPolicy(v ClusterValidationPolicy
 	o.ClusterValidationPolicy = &v
 }
 
+// GetProvider returns the Provider field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *EnvironmentUpdate) GetProvider() string {
+	if o == nil || o.Provider.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.Provider.Get()
+}
+
+// GetProviderOk returns a tuple with the Provider field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *EnvironmentUpdate) GetProviderOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Provider.Get(), o.Provider.IsSet()
+}
+
+// HasProvider returns a boolean if a field has been set.
+func (o *EnvironmentUpdate) HasProvider() bool {
+	return o != nil && o.Provider.IsSet()
+}
+
+// SetProvider gets a reference to the given common.NullableString and assigns it to the Provider field.
+func (o *EnvironmentUpdate) SetProvider(v string) {
+	o.Provider.Set(&v)
+}
+
+// SetProviderNil sets the value for Provider to be an explicit nil.
+func (o *EnvironmentUpdate) SetProviderNil() {
+	o.Provider.Set(nil)
+}
+
+// UnsetProvider ensures that no value is present for Provider, not even an explicit nil.
+func (o *EnvironmentUpdate) UnsetProvider() {
+	o.Provider.Unset()
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -711,6 +752,9 @@ func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 	if o.ClusterValidationPolicy != nil {
 		toSerialize["clusterValidationPolicy"] = o.ClusterValidationPolicy
 	}
+	if o.Provider.IsSet() {
+		toSerialize["provider"] = o.Provider.Get()
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -738,13 +782,14 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		NetworkModes            []NetworkMode               `json:"networkModes,omitempty"`
 		DeletePolicy            *EnvironmentDeletePolicy    `json:"deletePolicy,omitempty"`
 		ClusterValidationPolicy *ClusterValidationPolicy    `json:"clusterValidationPolicy,omitempty"`
+		Provider                common.NullableString       `json:"provider,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "type", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "podAntiAffinityEnabled", "imageRegistry", "nodePortEnabled", "lbEnabled", "internetLBEnabled", "networkModes", "deletePolicy", "clusterValidationPolicy"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "type", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "podAntiAffinityEnabled", "imageRegistry", "nodePortEnabled", "lbEnabled", "internetLBEnabled", "networkModes", "deletePolicy", "clusterValidationPolicy", "provider"})
 	} else {
 		return err
 	}
@@ -782,6 +827,7 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.ClusterValidationPolicy = all.ClusterValidationPolicy
 	}
+	o.Provider = all.Provider
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -21549,6 +21549,10 @@ components:
         clusterValidationPolicy:
           $ref: '#/components/schemas/clusterValidationPolicy'
           nullable: true
+        provider:
+          description: Cloud Provider
+          type: string
+          nullable: true
     environmentStatusHistory:
       description: EventEnvironmentState contains details for the current and previous state of the environment.
       type: object
