@@ -144,8 +144,6 @@
 //   - [clusterTagApi.getTags]
 //   - [clusterTagApi.listOrgTags]
 //   - [clusterTagApi.updateTag]
-//   - [clusterTaskApi.getClusterTask]
-//   - [clusterTaskApi.listClusterTasks]
 //   - [damengApi.createTablespace]
 //   - [damengApi.deleteTablespace]
 //   - [damengApi.getTablespace]
