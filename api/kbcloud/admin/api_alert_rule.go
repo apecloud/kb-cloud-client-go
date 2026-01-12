@@ -7,7 +7,6 @@ package admin
 import (
 	"context"
 	_context "context"
-	_io "io"
 	_nethttp "net/http"
 	_neturl "net/url"
 	"strings"
@@ -192,76 +191,6 @@ func (a *AlertRuleApi) DeleteAlertRule(ctx _context.Context, alertName string) (
 	}
 
 	return localVarHTTPResponse, nil
-}
-
-// DownloadOrgAlertRuleFile Download organization-specific alert rule configuration file.
-// Downloads the current alert rule configuration for a specific organization as a YAML file.
-func (a *AlertRuleApi) DownloadOrgAlertRuleFile(ctx _context.Context) (_io.Reader, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue _io.Reader
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "alertRule",
-		OperationID: "downloadOrgAlertRuleFile",
-		Path:        "/admin/v1/alerts/rules/download",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertRuleApi.DownloadOrgAlertRuleFile")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/alerts/rules/download"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-
-		localVarBody, err := common.ReadBody(localVarHTTPResponse)
-		if err != nil {
-			return localVarReturnValue, localVarHTTPResponse, err
-		}
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-	localVarReturnValue = localVarHTTPResponse.Body
-
-	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 // GetAlertRule Get alert rule.
@@ -603,111 +532,6 @@ func (a *AlertRuleApi) UpdateAlertRule(ctx _context.Context, body AlertRule) (Al
 	}
 
 	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-// UpdateRuleConfigOptionalParameters holds optional parameters for UpdateRuleConfig.
-type UpdateRuleConfigOptionalParameters struct {
-	Content *_io.Reader
-}
-
-// NewUpdateRuleConfigOptionalParameters creates an empty struct for parameters.
-func NewUpdateRuleConfigOptionalParameters() *UpdateRuleConfigOptionalParameters {
-	this := UpdateRuleConfigOptionalParameters{}
-	return &this
-}
-
-// WithContent sets the corresponding parameter name and returns the struct.
-func (r *UpdateRuleConfigOptionalParameters) WithContent(content _io.Reader) *UpdateRuleConfigOptionalParameters {
-	r.Content = &content
-	return r
-}
-
-// UpdateRuleConfig Update alert rule configuration via YAML upload.
-// Replaces the entire alert rule configuration with the content of the uploaded YAML file.
-func (a *AlertRuleApi) UpdateRuleConfig(ctx _context.Context, o ...UpdateRuleConfigOptionalParameters) (*_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod = _nethttp.MethodPut
-		localVarPostBody   interface{}
-		optionalParams     UpdateRuleConfigOptionalParameters
-	)
-
-	if len(o) > 1 {
-		return nil, common.ReportError("only one argument of type UpdateRuleConfigOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "alertRule",
-		OperationID: "updateRuleConfig",
-		Path:        "/admin/v1/alerts/rules/upload",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertRuleApi.UpdateRuleConfig")
-	if err != nil {
-		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/alerts/rules/upload"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "multipart/form-data"
-	localVarHeaderParams["Accept"] = "*/*"
-
-	formFile := common.FormFile{}
-	formFile.FormFileName = "content"
-	var localVarFile _io.Reader
-	if optionalParams.Content != nil {
-		localVarFile = *optionalParams.Content
-	}
-	if localVarFile != nil {
-		fbs, _ := _io.ReadAll(localVarFile)
-		formFile.FileBytes = fbs
-	}
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, &formFile)
-	if err != nil {
-		return nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
 }
 
 // NewAlertRuleApi Returns NewAlertRuleApi.
