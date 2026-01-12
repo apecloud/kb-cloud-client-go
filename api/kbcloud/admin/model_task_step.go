@@ -19,9 +19,9 @@ type TaskStep struct {
 	// Method to be executed in this step
 	MethodName string `json:"methodName"`
 	// Input parameters for the step
-	Inputs map[string]string `json:"inputs"`
+	Inputs map[string]interface{} `json:"inputs"`
 	// Output parameters from the step
-	Outputs map[string]string `json:"outputs,omitempty"`
+	Outputs map[string]interface{} `json:"outputs,omitempty"`
 	// Number of times to retry the step in case of failure
 	RetryLimit *int32 `json:"retryLimit,omitempty"`
 	// Current retry count for the step
@@ -51,7 +51,7 @@ type TaskStep struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewTaskStep(stepId string, stepName string, methodName string, inputs map[string]string, status TaskStatus, createdAt time.Time, updatedAt time.Time) *TaskStep {
+func NewTaskStep(stepId string, stepName string, methodName string, inputs map[string]interface{}, status TaskStatus, createdAt time.Time, updatedAt time.Time) *TaskStep {
 	this := TaskStep{}
 	this.StepId = stepId
 	this.StepName = stepName
@@ -141,9 +141,9 @@ func (o *TaskStep) SetMethodName(v string) {
 }
 
 // GetInputs returns the Inputs field value.
-func (o *TaskStep) GetInputs() map[string]string {
+func (o *TaskStep) GetInputs() map[string]interface{} {
 	if o == nil {
-		var ret map[string]string
+		var ret map[string]interface{}
 		return ret
 	}
 	return o.Inputs
@@ -151,7 +151,7 @@ func (o *TaskStep) GetInputs() map[string]string {
 
 // GetInputsOk returns a tuple with the Inputs field value
 // and a boolean to check if the value has been set.
-func (o *TaskStep) GetInputsOk() (*map[string]string, bool) {
+func (o *TaskStep) GetInputsOk() (*map[string]interface{}, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -159,14 +159,14 @@ func (o *TaskStep) GetInputsOk() (*map[string]string, bool) {
 }
 
 // SetInputs sets field value.
-func (o *TaskStep) SetInputs(v map[string]string) {
+func (o *TaskStep) SetInputs(v map[string]interface{}) {
 	o.Inputs = v
 }
 
 // GetOutputs returns the Outputs field value if set, zero value otherwise.
-func (o *TaskStep) GetOutputs() map[string]string {
+func (o *TaskStep) GetOutputs() map[string]interface{} {
 	if o == nil || o.Outputs == nil {
-		var ret map[string]string
+		var ret map[string]interface{}
 		return ret
 	}
 	return o.Outputs
@@ -174,7 +174,7 @@ func (o *TaskStep) GetOutputs() map[string]string {
 
 // GetOutputsOk returns a tuple with the Outputs field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TaskStep) GetOutputsOk() (*map[string]string, bool) {
+func (o *TaskStep) GetOutputsOk() (*map[string]interface{}, bool) {
 	if o == nil || o.Outputs == nil {
 		return nil, false
 	}
@@ -186,8 +186,8 @@ func (o *TaskStep) HasOutputs() bool {
 	return o != nil && o.Outputs != nil
 }
 
-// SetOutputs gets a reference to the given map[string]string and assigns it to the Outputs field.
-func (o *TaskStep) SetOutputs(v map[string]string) {
+// SetOutputs gets a reference to the given map[string]interface{} and assigns it to the Outputs field.
+func (o *TaskStep) SetOutputs(v map[string]interface{}) {
 	o.Outputs = v
 }
 
@@ -519,21 +519,21 @@ func (o TaskStep) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *TaskStep) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		StepId         *string                `json:"stepId"`
-		StepName       *string                `json:"stepName"`
-		MethodName     *string                `json:"methodName"`
-		Inputs         *map[string]string     `json:"inputs"`
-		Outputs        map[string]string      `json:"outputs,omitempty"`
-		RetryLimit     *int32                 `json:"retryLimit,omitempty"`
-		CurrRetryCount *int32                 `json:"currRetryCount,omitempty"`
-		TimeoutSecond  *int32                 `json:"timeoutSecond,omitempty"`
-		Status         *TaskStatus            `json:"status"`
-		Message        *string                `json:"message,omitempty"`
-		CreatedAt      *time.Time             `json:"createdAt"`
-		UpdatedAt      *time.Time             `json:"updatedAt"`
-		StartedAt      *time.Time             `json:"startedAt,omitempty"`
-		CompletionTime *time.Time             `json:"completionTime,omitempty"`
-		Detail         map[string]interface{} `json:"detail,omitempty"`
+		StepId         *string                 `json:"stepId"`
+		StepName       *string                 `json:"stepName"`
+		MethodName     *string                 `json:"methodName"`
+		Inputs         *map[string]interface{} `json:"inputs"`
+		Outputs        map[string]interface{}  `json:"outputs,omitempty"`
+		RetryLimit     *int32                  `json:"retryLimit,omitempty"`
+		CurrRetryCount *int32                  `json:"currRetryCount,omitempty"`
+		TimeoutSecond  *int32                  `json:"timeoutSecond,omitempty"`
+		Status         *TaskStatus             `json:"status"`
+		Message        *string                 `json:"message,omitempty"`
+		CreatedAt      *time.Time              `json:"createdAt"`
+		UpdatedAt      *time.Time              `json:"updatedAt"`
+		StartedAt      *time.Time              `json:"startedAt,omitempty"`
+		CompletionTime *time.Time              `json:"completionTime,omitempty"`
+		Detail         map[string]interface{}  `json:"detail,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
