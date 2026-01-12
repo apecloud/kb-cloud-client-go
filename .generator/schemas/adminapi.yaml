@@ -8858,63 +8858,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/alerts/rules/download:
-    get:
-      tags:
-        - alertRule
-      summary: Download organization-specific alert rule configuration file
-      description: Downloads the current alert rule configuration for a specific organization as a YAML file.
-      operationId: downloadOrgAlertRuleFile
-      responses:
-        '200':
-          description: Successful download of the organization-specific alert rule configuration file.
-          content:
-            application/x-yaml:
-              schema:
-                type: string
-                format: binary
-                description: YAML file content containing the new alert rule configuration
-            application/json:
-              schema:
-                type: string
-                format: binary
-                description: JSON file content containing the new alert rule configuration
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/alerts/rules/upload:
-    put:
-      tags:
-        - alertRule
-      summary: Update alert rule configuration via YAML upload
-      description: Replaces the entire alert rule configuration with the content of the uploaded YAML file.
-      operationId: updateRuleConfig
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/alertRuleConfig'
-      responses:
-        '204':
-          description: Alert rule configuration updated successfully.
-        '400':
-          description: Invalid YAML format or content.
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          description: Internal server error during update.
-          $ref: '#/components/responses/500'
   /admin/v1/alerts/rules/reset:
     post:
       tags:
@@ -23382,13 +23325,6 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertRuleList is a list of alert rules
-    alertRuleConfig:
-      type: object
-      properties:
-        content:
-          type: string
-          format: binary
-          description: YAML file content containing the new alert rule configuration
     alertStatus:
       enum:
         - resolved
@@ -27486,13 +27422,11 @@ components:
         inputs:
           type: object
           description: Input parameters for the step
-          additionalProperties:
-            type: string
+          additionalProperties: true
         outputs:
           type: object
           description: Output parameters from the step
-          additionalProperties:
-            type: string
+          additionalProperties: true
         retryLimit:
           type: integer
           description: Number of times to retry the step in case of failure
