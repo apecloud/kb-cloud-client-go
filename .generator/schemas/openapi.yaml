@@ -23875,6 +23875,9 @@ components:
           type: string
         clusterName:
           type: string
+        displayName:
+          type: string
+          nullable: true
     dataChannelListEndpoint:
       type: object
       properties:

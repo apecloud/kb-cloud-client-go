@@ -4,13 +4,16 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type KubeblocksEndpoint struct {
-	EnvironmentId   *string `json:"environmentID,omitempty"`
-	EnvironmentName *string `json:"environmentName,omitempty"`
-	ClusterId       *string `json:"clusterID,omitempty"`
-	ClusterName     *string `json:"clusterName,omitempty"`
+	EnvironmentId   *string               `json:"environmentID,omitempty"`
+	EnvironmentName *string               `json:"environmentName,omitempty"`
+	ClusterId       *string               `json:"clusterID,omitempty"`
+	ClusterName     *string               `json:"clusterName,omitempty"`
+	DisplayName     common.NullableString `json:"displayName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -145,6 +148,45 @@ func (o *KubeblocksEndpoint) SetClusterName(v string) {
 	o.ClusterName = &v
 }
 
+// GetDisplayName returns the DisplayName field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *KubeblocksEndpoint) GetDisplayName() string {
+	if o == nil || o.DisplayName.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.DisplayName.Get()
+}
+
+// GetDisplayNameOk returns a tuple with the DisplayName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *KubeblocksEndpoint) GetDisplayNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.DisplayName.Get(), o.DisplayName.IsSet()
+}
+
+// HasDisplayName returns a boolean if a field has been set.
+func (o *KubeblocksEndpoint) HasDisplayName() bool {
+	return o != nil && o.DisplayName.IsSet()
+}
+
+// SetDisplayName gets a reference to the given common.NullableString and assigns it to the DisplayName field.
+func (o *KubeblocksEndpoint) SetDisplayName(v string) {
+	o.DisplayName.Set(&v)
+}
+
+// SetDisplayNameNil sets the value for DisplayName to be an explicit nil.
+func (o *KubeblocksEndpoint) SetDisplayNameNil() {
+	o.DisplayName.Set(nil)
+}
+
+// UnsetDisplayName ensures that no value is present for DisplayName, not even an explicit nil.
+func (o *KubeblocksEndpoint) UnsetDisplayName() {
+	o.DisplayName.Unset()
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o KubeblocksEndpoint) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -163,6 +205,9 @@ func (o KubeblocksEndpoint) MarshalJSON() ([]byte, error) {
 	if o.ClusterName != nil {
 		toSerialize["clusterName"] = o.ClusterName
 	}
+	if o.DisplayName.IsSet() {
+		toSerialize["displayName"] = o.DisplayName.Get()
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -173,17 +218,18 @@ func (o KubeblocksEndpoint) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *KubeblocksEndpoint) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EnvironmentId   *string `json:"environmentID,omitempty"`
-		EnvironmentName *string `json:"environmentName,omitempty"`
-		ClusterId       *string `json:"clusterID,omitempty"`
-		ClusterName     *string `json:"clusterName,omitempty"`
+		EnvironmentId   *string               `json:"environmentID,omitempty"`
+		EnvironmentName *string               `json:"environmentName,omitempty"`
+		ClusterId       *string               `json:"clusterID,omitempty"`
+		ClusterName     *string               `json:"clusterName,omitempty"`
+		DisplayName     common.NullableString `json:"displayName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"environmentID", "environmentName", "clusterID", "clusterName"})
+		common.DeleteKeys(additionalProperties, &[]string{"environmentID", "environmentName", "clusterID", "clusterName", "displayName"})
 	} else {
 		return err
 	}
@@ -191,6 +237,7 @@ func (o *KubeblocksEndpoint) UnmarshalJSON(bytes []byte) (err error) {
 	o.EnvironmentName = all.EnvironmentName
 	o.ClusterId = all.ClusterId
 	o.ClusterName = all.ClusterName
+	o.DisplayName = all.DisplayName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
