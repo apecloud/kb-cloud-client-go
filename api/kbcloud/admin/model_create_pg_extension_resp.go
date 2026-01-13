@@ -7,7 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type CreatePgExtensionResp struct {
-	// OpsRequestName is the name of a KubeBlocks OpsRequest
+	// OpsRequestName is the name of a KubeBlocks OpsRequest response
 	OpsRequestResult *OpsRequestName `json:"opsRequestResult,omitempty"`
 	PgExtension      *PgExtension    `json:"PgExtension,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
