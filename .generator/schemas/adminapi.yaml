@@ -16317,12 +16317,20 @@ paths:
             type: array
             items:
               type: string
-        - name: range
+        - name: startTime
           in: query
-          description: Time range to calculate SLA, unit is day, available values are "30", "90", "365".
+          description: SLA calculation start time Unix timestamp, unit is second.
           required: true
           schema:
             type: integer
+            format: int64
+        - name: endTime
+          in: query
+          description: SLA calculation end time Unix timestamp, unit is second.
+          required: true
+          schema:
+            type: integer
+            format: int64
         - name: clusterNamePrefix
           in: query
           description: Filter clusters by name prefix (fuzzy search).
@@ -16347,7 +16355,7 @@ paths:
             minimum: 1
         - name: orderBy
           in: query
-          description: Order by field, available values are "clusterName", "sla", "engine".
+          description: Order by field, available values are "clusterName", "engine".
           required: false
           schema:
             type: string
@@ -16358,9 +16366,64 @@ paths:
           schema:
             type: boolean
             default: false
+      responses:
+        '200':
+          description: SLA calculated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClustersSLA'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/sla/rank:
+    get:
+      summary: List SLA rank for a environment
+      description: List SLA rank for a environment
+      operationId: ListSLARank
+      tags:
+        - SLA
+      parameters:
+        - name: environmentName
+          in: query
+          description: name of the environment
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: engine
+          in: query
+          description: database engine type
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: orgName
+          in: query
+          description: name of the organization
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: range
+          in: query
+          description: Time range to calculate SLA, unit is day, available values are "30", "90", "365".
+          required: true
+          schema:
+            type: integer
         - name: limit
           in: query
-          description: Limit the number of clusters to return.
+          description: Number of items per page.
           required: false
           schema:
             type: integer
@@ -27395,7 +27458,6 @@ components:
       type: object
       required:
         - stepId
-        - inputs
         - stepName
         - methodName
         - status

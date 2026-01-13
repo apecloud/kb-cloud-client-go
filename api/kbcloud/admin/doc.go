@@ -21,6 +21,7 @@
 //   - [SLAApi.GetSLASettingsInEnv]
 //   - [SLAApi.GetSLASupportEngines]
 //   - [SLAApi.ListEnvironmentOutageRecord]
+//   - [SLAApi.ListSLARank]
 //   - [SLAApi.ListUncompliantClusters]
 //   - [SLAApi.UpdateSLASettingsInEnv]
 //   - [accountApi.createAccount]
