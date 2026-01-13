@@ -16234,20 +16234,16 @@ components:
         - component
       type: object
     opsRequestName:
-      description: OpsRequestName is the name of a KubeBlocks OpsRequest
+      description: OpsRequestName is the name of a KubeBlocks OpsRequest response
       properties:
         opsRequestName:
           type: string
-        dependentOpsName:
-          type: string
         clusterTaskId:
-          type: string
-        dependentClusterTaskId:
           type: string
         taskId:
           type: string
       required:
-        - opsRequestName
+        - taskId
       type: object
     opsStop:
       description: OpsStop is the payload to stop a KubeBlocks cluster
