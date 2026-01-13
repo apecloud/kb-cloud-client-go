@@ -207,7 +207,6 @@ type CalculateSLAOptionalParameters struct {
 	PageSize          *int32
 	OrderBy           *string
 	Desc              *bool
-	Limit             *int32
 }
 
 // NewCalculateSLAOptionalParameters creates an empty struct for parameters.
@@ -270,15 +269,9 @@ func (r *CalculateSLAOptionalParameters) WithDesc(desc bool) *CalculateSLAOption
 	return r
 }
 
-// WithLimit sets the corresponding parameter name and returns the struct.
-func (r *CalculateSLAOptionalParameters) WithLimit(limit int32) *CalculateSLAOptionalParameters {
-	r.Limit = &limit
-	return r
-}
-
 // CalculateSLA Calculate SLA for a environment.
 // Calculate SLA for a environment
-func (a *SLAApi) CalculateSLA(ctx _context.Context, rangeVar int32, o ...CalculateSLAOptionalParameters) (ClustersSLA, *_nethttp.Response, error) {
+func (a *SLAApi) CalculateSLA(ctx _context.Context, startTime int64, endTime int64, o ...CalculateSLAOptionalParameters) (ClustersSLA, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -312,7 +305,8 @@ func (a *SLAApi) CalculateSLA(ctx _context.Context, rangeVar int32, o ...Calcula
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("range", common.ParameterToString(rangeVar, ""))
+	localVarQueryParams.Add("startTime", common.ParameterToString(startTime, ""))
+	localVarQueryParams.Add("endTime", common.ParameterToString(endTime, ""))
 	if optionalParams.EnvironmentName != nil {
 		t := *optionalParams.EnvironmentName
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
@@ -371,9 +365,6 @@ func (a *SLAApi) CalculateSLA(ctx _context.Context, rangeVar int32, o ...Calcula
 	}
 	if optionalParams.Desc != nil {
 		localVarQueryParams.Add("desc", common.ParameterToString(*optionalParams.Desc, ""))
-	}
-	if optionalParams.Limit != nil {
-		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -667,6 +658,167 @@ func (a *SLAApi) ListEnvironmentOutageRecord(ctx _context.Context, o ...ListEnvi
 	}
 	if optionalParams.ActiveOnly != nil {
 		localVarQueryParams.Add("activeOnly", common.ParameterToString(*optionalParams.ActiveOnly, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// ListSLARankOptionalParameters holds optional parameters for ListSLARank.
+type ListSLARankOptionalParameters struct {
+	EnvironmentName *[]string
+	Engine          *[]string
+	OrgName         *[]string
+	Limit           *int32
+}
+
+// NewListSLARankOptionalParameters creates an empty struct for parameters.
+func NewListSLARankOptionalParameters() *ListSLARankOptionalParameters {
+	this := ListSLARankOptionalParameters{}
+	return &this
+}
+
+// WithEnvironmentName sets the corresponding parameter name and returns the struct.
+func (r *ListSLARankOptionalParameters) WithEnvironmentName(environmentName []string) *ListSLARankOptionalParameters {
+	r.EnvironmentName = &environmentName
+	return r
+}
+
+// WithEngine sets the corresponding parameter name and returns the struct.
+func (r *ListSLARankOptionalParameters) WithEngine(engine []string) *ListSLARankOptionalParameters {
+	r.Engine = &engine
+	return r
+}
+
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *ListSLARankOptionalParameters) WithOrgName(orgName []string) *ListSLARankOptionalParameters {
+	r.OrgName = &orgName
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *ListSLARankOptionalParameters) WithLimit(limit int32) *ListSLARankOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// ListSLARank List SLA rank for a environment.
+// List SLA rank for a environment
+func (a *SLAApi) ListSLARank(ctx _context.Context, rangeVar int32, o ...ListSLARankOptionalParameters) (ClustersSLA, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ClustersSLA
+		optionalParams      ListSLARankOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListSLARankOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "SLA",
+		OperationID: "ListSLARank",
+		Path:        "/admin/v1/sla/rank",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".SLAApi.ListSLARank")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/sla/rank"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("range", common.ParameterToString(rangeVar, ""))
+	if optionalParams.EnvironmentName != nil {
+		t := *optionalParams.EnvironmentName
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("environmentName", common.ParameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("environmentName", common.ParameterToString(t, "multi"))
+		}
+	}
+	if optionalParams.Engine != nil {
+		t := *optionalParams.Engine
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("engine", common.ParameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("engine", common.ParameterToString(t, "multi"))
+		}
+	}
+	if optionalParams.OrgName != nil {
+		t := *optionalParams.OrgName
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("orgName", common.ParameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("orgName", common.ParameterToString(t, "multi"))
+		}
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

@@ -16,7 +16,6 @@
 //   - [RabbitMQApi.listRabbitVHosts]
 //   - [RabbitMQApi.updateRabbitAccountPassword]
 //   - [RabbitMQApi.updateRabbitAccountPrivileges]
-//   - [SLAApi.CalculateSLAInOrg]
 //   - [accountApi.createAccount]
 //   - [accountApi.createHiveAccount]
 //   - [accountApi.createKafkaAccount]
