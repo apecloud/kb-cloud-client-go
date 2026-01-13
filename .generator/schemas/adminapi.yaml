@@ -20276,20 +20276,16 @@ components:
         - component
       type: object
     opsRequestName:
-      description: OpsRequestName is the name of a KubeBlocks OpsRequest
+      description: OpsRequestName is the name of a KubeBlocks OpsRequest response
       properties:
         opsRequestName:
           type: string
-        dependentOpsName:
-          type: string
         clusterTaskId:
-          type: string
-        dependentClusterTaskId:
           type: string
         taskId:
           type: string
       required:
-        - opsRequestName
+        - taskId
       type: object
     opsRestart:
       description: OpsRestart is the payload to restart a KubeBlocks cluster
@@ -24012,14 +24008,10 @@ components:
                   sourceKey:
                     type: string
                   sourceValue:
-                    type: object
-                    additionalProperties: true
                     description: Can be any type (string, number, boolean, object, etc.)
                   targetKey:
                     type: string
                   targetValue:
-                    type: object
-                    additionalProperties: true
                     description: Can be any type (string, number, boolean, object, etc.)
         hideOnCreate:
           type: boolean
@@ -27466,7 +27458,6 @@ components:
       type: object
       required:
         - stepId
-        - inputs
         - stepName
         - methodName
         - status
