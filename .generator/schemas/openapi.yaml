@@ -5847,76 +5847,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/organizations/{orgName}/alerts/rules/config:
-    get:
-      tags:
-        - alertRule
-      summary: Download organization-specific alert rule configuration file
-      description: Downloads the current alert rule configuration for a specific organization as a YAML file.
-      operationId: downloadOrgAlertRuleFile
-      parameters:
-        - name: orgName
-          in: path
-          required: true
-          description: The name of the organization.
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Successful download of the organization-specific alert rule configuration file.
-          content:
-            application/x-yaml:
-              schema:
-                type: string
-                format: binary
-                description: YAML file content containing the new alert rule configuration
-            application/json:
-              schema:
-                type: string
-                format: binary
-                description: JSON file content containing the new alert rule configuration
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-    put:
-      tags:
-        - alertRule
-      summary: Update alert rule configuration via YAML upload
-      description: Replaces the entire alert rule configuration with the content of the uploaded YAML file.
-      operationId: updateRuleConfig
-      parameters:
-        - name: orgName
-          in: path
-          required: true
-          description: The name of the organization.
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/alertRuleConfig'
-      responses:
-        '204':
-          description: Alert rule configuration updated successfully.
-        '400':
-          description: Invalid YAML format or content.
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          description: Internal server error during update.
-          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/alerts/rules/config/restore:
     post:
       tags:
@@ -17190,8 +17120,6 @@ components:
         - backupMethod
         - backupPolicyName
         - backupType
-        - cloudProvider
-        - cloudRegion
         - creationTimestamp
         - engine
         - environmentName
@@ -18372,13 +18300,6 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertInhibitList is a list of alert inhibit
-    alertRuleConfig:
-      type: object
-      properties:
-        content:
-          type: string
-          format: binary
-          description: YAML file content containing the new alert rule configuration
     engineTypeItem:
       type: object
       properties:
