@@ -22851,8 +22851,6 @@ components:
         - backupMethod
         - backupPolicyName
         - backupType
-        - cloudProvider
-        - cloudRegion
         - creationTimestamp
         - engine
         - environmentName
