@@ -13,6 +13,8 @@ type StandardDefinition struct {
 	IsDefault   common.NullableBool `json:"isDefault,omitempty"`
 	Cpu         *StandardResource   `json:"cpu,omitempty"`
 	Memory      *StandardResource   `json:"memory,omitempty"`
+	// module parameter template, the key is the module name, the value is the parameter template
+	ParameterTemplate map[string][]DataChannelParameter `json:"parameterTemplate,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -214,6 +216,34 @@ func (o *StandardDefinition) SetMemory(v StandardResource) {
 	o.Memory = &v
 }
 
+// GetParameterTemplate returns the ParameterTemplate field value if set, zero value otherwise.
+func (o *StandardDefinition) GetParameterTemplate() map[string][]DataChannelParameter {
+	if o == nil || o.ParameterTemplate == nil {
+		var ret map[string][]DataChannelParameter
+		return ret
+	}
+	return o.ParameterTemplate
+}
+
+// GetParameterTemplateOk returns a tuple with the ParameterTemplate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StandardDefinition) GetParameterTemplateOk() (*map[string][]DataChannelParameter, bool) {
+	if o == nil || o.ParameterTemplate == nil {
+		return nil, false
+	}
+	return &o.ParameterTemplate, true
+}
+
+// HasParameterTemplate returns a boolean if a field has been set.
+func (o *StandardDefinition) HasParameterTemplate() bool {
+	return o != nil && o.ParameterTemplate != nil
+}
+
+// SetParameterTemplate gets a reference to the given map[string][]DataChannelParameter and assigns it to the ParameterTemplate field.
+func (o *StandardDefinition) SetParameterTemplate(v map[string][]DataChannelParameter) {
+	o.ParameterTemplate = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o StandardDefinition) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -238,6 +268,9 @@ func (o StandardDefinition) MarshalJSON() ([]byte, error) {
 	if o.Memory != nil {
 		toSerialize["memory"] = o.Memory
 	}
+	if o.ParameterTemplate != nil {
+		toSerialize["parameterTemplate"] = o.ParameterTemplate
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -248,19 +281,20 @@ func (o StandardDefinition) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StandardDefinition) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string             `json:"name,omitempty"`
-		Title       *InternationalDesc  `json:"title,omitempty"`
-		Description *InternationalDesc  `json:"description,omitempty"`
-		IsDefault   common.NullableBool `json:"isDefault,omitempty"`
-		Cpu         *StandardResource   `json:"cpu,omitempty"`
-		Memory      *StandardResource   `json:"memory,omitempty"`
+		Name              *string                           `json:"name,omitempty"`
+		Title             *InternationalDesc                `json:"title,omitempty"`
+		Description       *InternationalDesc                `json:"description,omitempty"`
+		IsDefault         common.NullableBool               `json:"isDefault,omitempty"`
+		Cpu               *StandardResource                 `json:"cpu,omitempty"`
+		Memory            *StandardResource                 `json:"memory,omitempty"`
+		ParameterTemplate map[string][]DataChannelParameter `json:"parameterTemplate,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "isDefault", "cpu", "memory"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "isDefault", "cpu", "memory", "parameterTemplate"})
 	} else {
 		return err
 	}
@@ -284,6 +318,7 @@ func (o *StandardDefinition) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Memory = all.Memory
+	o.ParameterTemplate = all.ParameterTemplate
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

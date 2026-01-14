@@ -4,13 +4,21 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // ParameterList A list of cluster parameter
 type ParameterList struct {
-	// family of parameter template
-	Family *string         `json:"family,omitempty"`
-	Items  []ParameterItem `json:"items,omitempty"`
+	// Major version of database engine, eg: 8.0
+	MajorVersion string `json:"majorVersion"`
+	// Name of database engine
+	Engine string `json:"engine"`
+	// Name of component
+	Component string          `json:"component"`
+	Items     []ParameterItem `json:"items,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -20,8 +28,11 @@ type ParameterList struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParameterList() *ParameterList {
+func NewParameterList(majorVersion string, engine string, component string) *ParameterList {
 	this := ParameterList{}
+	this.MajorVersion = majorVersion
+	this.Engine = engine
+	this.Component = component
 	return &this
 }
 
@@ -33,32 +44,73 @@ func NewParameterListWithDefaults() *ParameterList {
 	return &this
 }
 
-// GetFamily returns the Family field value if set, zero value otherwise.
-func (o *ParameterList) GetFamily() string {
-	if o == nil || o.Family == nil {
+// GetMajorVersion returns the MajorVersion field value.
+func (o *ParameterList) GetMajorVersion() string {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Family
+	return o.MajorVersion
 }
 
-// GetFamilyOk returns a tuple with the Family field value if set, nil otherwise
+// GetMajorVersionOk returns a tuple with the MajorVersion field value
 // and a boolean to check if the value has been set.
-func (o *ParameterList) GetFamilyOk() (*string, bool) {
-	if o == nil || o.Family == nil {
+func (o *ParameterList) GetMajorVersionOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Family, true
+	return &o.MajorVersion, true
 }
 
-// HasFamily returns a boolean if a field has been set.
-func (o *ParameterList) HasFamily() bool {
-	return o != nil && o.Family != nil
+// SetMajorVersion sets field value.
+func (o *ParameterList) SetMajorVersion(v string) {
+	o.MajorVersion = v
 }
 
-// SetFamily gets a reference to the given string and assigns it to the Family field.
-func (o *ParameterList) SetFamily(v string) {
-	o.Family = &v
+// GetEngine returns the Engine field value.
+func (o *ParameterList) GetEngine() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.Engine
+}
+
+// GetEngineOk returns a tuple with the Engine field value
+// and a boolean to check if the value has been set.
+func (o *ParameterList) GetEngineOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Engine, true
+}
+
+// SetEngine sets field value.
+func (o *ParameterList) SetEngine(v string) {
+	o.Engine = v
+}
+
+// GetComponent returns the Component field value.
+func (o *ParameterList) GetComponent() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.Component
+}
+
+// GetComponentOk returns a tuple with the Component field value
+// and a boolean to check if the value has been set.
+func (o *ParameterList) GetComponentOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Component, true
+}
+
+// SetComponent sets field value.
+func (o *ParameterList) SetComponent(v string) {
+	o.Component = v
 }
 
 // GetItems returns the Items field value if set, zero value otherwise.
@@ -95,9 +147,9 @@ func (o ParameterList) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Family != nil {
-		toSerialize["family"] = o.Family
-	}
+	toSerialize["majorVersion"] = o.MajorVersion
+	toSerialize["engine"] = o.Engine
+	toSerialize["component"] = o.Component
 	if o.Items != nil {
 		toSerialize["items"] = o.Items
 	}
@@ -111,19 +163,32 @@ func (o ParameterList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Family *string         `json:"family,omitempty"`
-		Items  []ParameterItem `json:"items,omitempty"`
+		MajorVersion *string         `json:"majorVersion"`
+		Engine       *string         `json:"engine"`
+		Component    *string         `json:"component"`
+		Items        []ParameterItem `json:"items,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
+	if all.MajorVersion == nil {
+		return fmt.Errorf("required field majorVersion missing")
+	}
+	if all.Engine == nil {
+		return fmt.Errorf("required field engine missing")
+	}
+	if all.Component == nil {
+		return fmt.Errorf("required field component missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"family", "items"})
+		common.DeleteKeys(additionalProperties, &[]string{"majorVersion", "engine", "component", "items"})
 	} else {
 		return err
 	}
-	o.Family = all.Family
+	o.MajorVersion = *all.MajorVersion
+	o.Engine = *all.Engine
+	o.Component = *all.Component
 	o.Items = all.Items
 
 	if len(additionalProperties) > 0 {

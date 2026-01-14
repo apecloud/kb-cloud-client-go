@@ -19,7 +19,7 @@ type OpsrequestApi common.Service
 
 // CancelOps Cancel OpsRequest.
 // cancel a OpsRequest
-func (a *OpsrequestApi) CancelOps(ctx _context.Context, orgName string, opsName string, clusterName string, opsType string) (*_nethttp.Response, error) {
+func (a *OpsrequestApi) CancelOps(ctx _context.Context, orgName string, opsName string, clusterName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
@@ -47,7 +47,6 @@ func (a *OpsrequestApi) CancelOps(ctx _context.Context, orgName string, opsName 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("opsType", common.ParameterToString(opsType, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -172,11 +171,11 @@ func (a *OpsrequestApi) ClusterVolumeExpand(ctx _context.Context, orgName string
 }
 
 // CustomOps Create custom OpsRequest.
-func (a *OpsrequestApi) CustomOps(ctx _context.Context, orgName string, clusterName string, body OpsCustom) (ClusterTask, *_nethttp.Response, error) {
+func (a *OpsrequestApi) CustomOps(ctx _context.Context, orgName string, clusterName string, body OpsCustom) (OpsRequestName, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue ClusterTask
+		localVarReturnValue OpsRequestName
 	)
 
 	// Add api info to context
@@ -321,72 +320,6 @@ func (a *OpsrequestApi) ExposeCluster(ctx _context.Context, orgName string, clus
 			newErr.ErrorModel = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-// GetOpsRequestStatus Get OpsRequest Status.
-// get a OpsRequest status, deprecated, instead use cluster task api
-// Deprecated: This API is deprecated.
-func (a *OpsrequestApi) GetOpsRequestStatus(ctx _context.Context, orgName string, clusterName string, opsName string) (Ops_opsStatus, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue Ops_opsStatus
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "opsrequest",
-		OperationID: "getOpsRequestStatus",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OpsrequestApi.GetOpsRequestStatus")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"opsName"+"}", _neturl.PathEscape(common.ParameterToString(opsName, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -973,13 +906,38 @@ func (a *OpsrequestApi) SpecifyClusterIOQuotas(ctx _context.Context, orgName str
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// StartClusterOptionalParameters holds optional parameters for StartCluster.
+type StartClusterOptionalParameters struct {
+	Body *OpsStart
+}
+
+// NewStartClusterOptionalParameters creates an empty struct for parameters.
+func NewStartClusterOptionalParameters() *StartClusterOptionalParameters {
+	this := StartClusterOptionalParameters{}
+	return &this
+}
+
+// WithBody sets the corresponding parameter name and returns the struct.
+func (r *StartClusterOptionalParameters) WithBody(body OpsStart) *StartClusterOptionalParameters {
+	r.Body = &body
+	return r
+}
+
 // StartCluster Start cluster.
-func (a *OpsrequestApi) StartCluster(ctx _context.Context, orgName string, clusterName string) (OpsRequestName, *_nethttp.Response, error) {
+func (a *OpsrequestApi) StartCluster(ctx _context.Context, orgName string, clusterName string, o ...StartClusterOptionalParameters) (OpsRequestName, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue OpsRequestName
+		optionalParams      StartClusterOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type StartClusterOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -1002,8 +960,13 @@ func (a *OpsrequestApi) StartCluster(ctx _context.Context, orgName string, clust
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	// body params
+	if optionalParams.Body != nil {
+		localVarPostBody = &optionalParams.Body
+	}
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
@@ -1052,13 +1015,38 @@ func (a *OpsrequestApi) StartCluster(ctx _context.Context, orgName string, clust
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// StopClusterOptionalParameters holds optional parameters for StopCluster.
+type StopClusterOptionalParameters struct {
+	Body *OpsStop
+}
+
+// NewStopClusterOptionalParameters creates an empty struct for parameters.
+func NewStopClusterOptionalParameters() *StopClusterOptionalParameters {
+	this := StopClusterOptionalParameters{}
+	return &this
+}
+
+// WithBody sets the corresponding parameter name and returns the struct.
+func (r *StopClusterOptionalParameters) WithBody(body OpsStop) *StopClusterOptionalParameters {
+	r.Body = &body
+	return r
+}
+
 // StopCluster Stop cluster.
-func (a *OpsrequestApi) StopCluster(ctx _context.Context, orgName string, clusterName string) (OpsRequestName, *_nethttp.Response, error) {
+func (a *OpsrequestApi) StopCluster(ctx _context.Context, orgName string, clusterName string, o ...StopClusterOptionalParameters) (OpsRequestName, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue OpsRequestName
+		optionalParams      StopClusterOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type StopClusterOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -1081,8 +1069,13 @@ func (a *OpsrequestApi) StopCluster(ctx _context.Context, orgName string, cluste
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	// body params
+	if optionalParams.Body != nil {
+		localVarPostBody = &optionalParams.Body
+	}
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,

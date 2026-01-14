@@ -7,10 +7,9 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type CustomEndpointCreate struct {
-	Connection *string           `json:"connection,omitempty"`
-	AuthType   *AuthType         `json:"authType,omitempty"`
-	BasicAuth  *BasicAuthModel   `json:"basicAuth,omitempty"`
-	ExtraCfgs  map[string]string `json:"extraCfgs,omitempty"`
+	Connection *string         `json:"connection,omitempty"`
+	AuthType   *AuthType       `json:"authType,omitempty"`
+	BasicAuth  *BasicAuthModel `json:"basicAuth,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -117,34 +116,6 @@ func (o *CustomEndpointCreate) SetBasicAuth(v BasicAuthModel) {
 	o.BasicAuth = &v
 }
 
-// GetExtraCfgs returns the ExtraCfgs field value if set, zero value otherwise.
-func (o *CustomEndpointCreate) GetExtraCfgs() map[string]string {
-	if o == nil || o.ExtraCfgs == nil {
-		var ret map[string]string
-		return ret
-	}
-	return o.ExtraCfgs
-}
-
-// GetExtraCfgsOk returns a tuple with the ExtraCfgs field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *CustomEndpointCreate) GetExtraCfgsOk() (*map[string]string, bool) {
-	if o == nil || o.ExtraCfgs == nil {
-		return nil, false
-	}
-	return &o.ExtraCfgs, true
-}
-
-// HasExtraCfgs returns a boolean if a field has been set.
-func (o *CustomEndpointCreate) HasExtraCfgs() bool {
-	return o != nil && o.ExtraCfgs != nil
-}
-
-// SetExtraCfgs gets a reference to the given map[string]string and assigns it to the ExtraCfgs field.
-func (o *CustomEndpointCreate) SetExtraCfgs(v map[string]string) {
-	o.ExtraCfgs = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o CustomEndpointCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -160,9 +131,6 @@ func (o CustomEndpointCreate) MarshalJSON() ([]byte, error) {
 	if o.BasicAuth != nil {
 		toSerialize["basicAuth"] = o.BasicAuth
 	}
-	if o.ExtraCfgs != nil {
-		toSerialize["extraCfgs"] = o.ExtraCfgs
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -173,17 +141,16 @@ func (o CustomEndpointCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *CustomEndpointCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Connection *string           `json:"connection,omitempty"`
-		AuthType   *AuthType         `json:"authType,omitempty"`
-		BasicAuth  *BasicAuthModel   `json:"basicAuth,omitempty"`
-		ExtraCfgs  map[string]string `json:"extraCfgs,omitempty"`
+		Connection *string         `json:"connection,omitempty"`
+		AuthType   *AuthType       `json:"authType,omitempty"`
+		BasicAuth  *BasicAuthModel `json:"basicAuth,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"connection", "authType", "basicAuth", "extraCfgs"})
+		common.DeleteKeys(additionalProperties, &[]string{"connection", "authType", "basicAuth"})
 	} else {
 		return err
 	}
@@ -199,7 +166,6 @@ func (o *CustomEndpointCreate) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.BasicAuth = all.BasicAuth
-	o.ExtraCfgs = all.ExtraCfgs
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

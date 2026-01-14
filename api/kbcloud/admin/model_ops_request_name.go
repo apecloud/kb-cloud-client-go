@@ -10,12 +10,11 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// OpsRequestName OpsRequestName is the name of a KubeBlocks OpsRequest
+// OpsRequestName OpsRequestName is the name of a KubeBlocks OpsRequest response
 type OpsRequestName struct {
-	OpsRequestName         string  `json:"opsRequestName"`
-	DependentOpsName       *string `json:"dependentOpsName,omitempty"`
-	ClusterTaskId          *string `json:"clusterTaskId,omitempty"`
-	DependentClusterTaskId *string `json:"dependentClusterTaskId,omitempty"`
+	OpsRequestName *string `json:"opsRequestName,omitempty"`
+	ClusterTaskId  *string `json:"clusterTaskId,omitempty"`
+	TaskId         string  `json:"taskId"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -25,9 +24,9 @@ type OpsRequestName struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOpsRequestName(opsRequestName string) *OpsRequestName {
+func NewOpsRequestName(taskId string) *OpsRequestName {
 	this := OpsRequestName{}
-	this.OpsRequestName = opsRequestName
+	this.TaskId = taskId
 	return &this
 }
 
@@ -39,55 +38,32 @@ func NewOpsRequestNameWithDefaults() *OpsRequestName {
 	return &this
 }
 
-// GetOpsRequestName returns the OpsRequestName field value.
+// GetOpsRequestName returns the OpsRequestName field value if set, zero value otherwise.
 func (o *OpsRequestName) GetOpsRequestName() string {
-	if o == nil {
+	if o == nil || o.OpsRequestName == nil {
 		var ret string
 		return ret
 	}
-	return o.OpsRequestName
+	return *o.OpsRequestName
 }
 
-// GetOpsRequestNameOk returns a tuple with the OpsRequestName field value
+// GetOpsRequestNameOk returns a tuple with the OpsRequestName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *OpsRequestName) GetOpsRequestNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.OpsRequestName == nil {
 		return nil, false
 	}
-	return &o.OpsRequestName, true
+	return o.OpsRequestName, true
 }
 
-// SetOpsRequestName sets field value.
+// HasOpsRequestName returns a boolean if a field has been set.
+func (o *OpsRequestName) HasOpsRequestName() bool {
+	return o != nil && o.OpsRequestName != nil
+}
+
+// SetOpsRequestName gets a reference to the given string and assigns it to the OpsRequestName field.
 func (o *OpsRequestName) SetOpsRequestName(v string) {
-	o.OpsRequestName = v
-}
-
-// GetDependentOpsName returns the DependentOpsName field value if set, zero value otherwise.
-func (o *OpsRequestName) GetDependentOpsName() string {
-	if o == nil || o.DependentOpsName == nil {
-		var ret string
-		return ret
-	}
-	return *o.DependentOpsName
-}
-
-// GetDependentOpsNameOk returns a tuple with the DependentOpsName field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *OpsRequestName) GetDependentOpsNameOk() (*string, bool) {
-	if o == nil || o.DependentOpsName == nil {
-		return nil, false
-	}
-	return o.DependentOpsName, true
-}
-
-// HasDependentOpsName returns a boolean if a field has been set.
-func (o *OpsRequestName) HasDependentOpsName() bool {
-	return o != nil && o.DependentOpsName != nil
-}
-
-// SetDependentOpsName gets a reference to the given string and assigns it to the DependentOpsName field.
-func (o *OpsRequestName) SetDependentOpsName(v string) {
-	o.DependentOpsName = &v
+	o.OpsRequestName = &v
 }
 
 // GetClusterTaskId returns the ClusterTaskId field value if set, zero value otherwise.
@@ -118,32 +94,27 @@ func (o *OpsRequestName) SetClusterTaskId(v string) {
 	o.ClusterTaskId = &v
 }
 
-// GetDependentClusterTaskId returns the DependentClusterTaskId field value if set, zero value otherwise.
-func (o *OpsRequestName) GetDependentClusterTaskId() string {
-	if o == nil || o.DependentClusterTaskId == nil {
+// GetTaskId returns the TaskId field value.
+func (o *OpsRequestName) GetTaskId() string {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.DependentClusterTaskId
+	return o.TaskId
 }
 
-// GetDependentClusterTaskIdOk returns a tuple with the DependentClusterTaskId field value if set, nil otherwise
+// GetTaskIdOk returns a tuple with the TaskId field value
 // and a boolean to check if the value has been set.
-func (o *OpsRequestName) GetDependentClusterTaskIdOk() (*string, bool) {
-	if o == nil || o.DependentClusterTaskId == nil {
+func (o *OpsRequestName) GetTaskIdOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.DependentClusterTaskId, true
+	return &o.TaskId, true
 }
 
-// HasDependentClusterTaskId returns a boolean if a field has been set.
-func (o *OpsRequestName) HasDependentClusterTaskId() bool {
-	return o != nil && o.DependentClusterTaskId != nil
-}
-
-// SetDependentClusterTaskId gets a reference to the given string and assigns it to the DependentClusterTaskId field.
-func (o *OpsRequestName) SetDependentClusterTaskId(v string) {
-	o.DependentClusterTaskId = &v
+// SetTaskId sets field value.
+func (o *OpsRequestName) SetTaskId(v string) {
+	o.TaskId = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -152,16 +123,13 @@ func (o OpsRequestName) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["opsRequestName"] = o.OpsRequestName
-	if o.DependentOpsName != nil {
-		toSerialize["dependentOpsName"] = o.DependentOpsName
+	if o.OpsRequestName != nil {
+		toSerialize["opsRequestName"] = o.OpsRequestName
 	}
 	if o.ClusterTaskId != nil {
 		toSerialize["clusterTaskId"] = o.ClusterTaskId
 	}
-	if o.DependentClusterTaskId != nil {
-		toSerialize["dependentClusterTaskId"] = o.DependentClusterTaskId
-	}
+	toSerialize["taskId"] = o.TaskId
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -172,27 +140,25 @@ func (o OpsRequestName) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsRequestName) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		OpsRequestName         *string `json:"opsRequestName"`
-		DependentOpsName       *string `json:"dependentOpsName,omitempty"`
-		ClusterTaskId          *string `json:"clusterTaskId,omitempty"`
-		DependentClusterTaskId *string `json:"dependentClusterTaskId,omitempty"`
+		OpsRequestName *string `json:"opsRequestName,omitempty"`
+		ClusterTaskId  *string `json:"clusterTaskId,omitempty"`
+		TaskId         *string `json:"taskId"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.OpsRequestName == nil {
-		return fmt.Errorf("required field opsRequestName missing")
+	if all.TaskId == nil {
+		return fmt.Errorf("required field taskId missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"opsRequestName", "dependentOpsName", "clusterTaskId", "dependentClusterTaskId"})
+		common.DeleteKeys(additionalProperties, &[]string{"opsRequestName", "clusterTaskId", "taskId"})
 	} else {
 		return err
 	}
-	o.OpsRequestName = *all.OpsRequestName
-	o.DependentOpsName = all.DependentOpsName
+	o.OpsRequestName = all.OpsRequestName
 	o.ClusterTaskId = all.ClusterTaskId
-	o.DependentClusterTaskId = all.DependentClusterTaskId
+	o.TaskId = *all.TaskId
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

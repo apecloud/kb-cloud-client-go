@@ -13,8 +13,8 @@ type ParamTplsItem struct {
 	// name of assigned parameter template
 	ParamTplName *string `json:"paramTplName,omitempty"`
 	// id of parameter template
-	ParamTplId        *string            `json:"paramTplID,omitempty"`
-	ParamTplPartition *ParamTplPartition `json:"paramTplPartition,omitempty"`
+	ParamTplId        *string                     `json:"paramTplID,omitempty"`
+	ParamTplPartition *ParameterTemplatePartition `json:"paramTplPartition,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -122,9 +122,9 @@ func (o *ParamTplsItem) SetParamTplId(v string) {
 }
 
 // GetParamTplPartition returns the ParamTplPartition field value if set, zero value otherwise.
-func (o *ParamTplsItem) GetParamTplPartition() ParamTplPartition {
+func (o *ParamTplsItem) GetParamTplPartition() ParameterTemplatePartition {
 	if o == nil || o.ParamTplPartition == nil {
-		var ret ParamTplPartition
+		var ret ParameterTemplatePartition
 		return ret
 	}
 	return *o.ParamTplPartition
@@ -132,7 +132,7 @@ func (o *ParamTplsItem) GetParamTplPartition() ParamTplPartition {
 
 // GetParamTplPartitionOk returns a tuple with the ParamTplPartition field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ParamTplsItem) GetParamTplPartitionOk() (*ParamTplPartition, bool) {
+func (o *ParamTplsItem) GetParamTplPartitionOk() (*ParameterTemplatePartition, bool) {
 	if o == nil || o.ParamTplPartition == nil {
 		return nil, false
 	}
@@ -144,8 +144,8 @@ func (o *ParamTplsItem) HasParamTplPartition() bool {
 	return o != nil && o.ParamTplPartition != nil
 }
 
-// SetParamTplPartition gets a reference to the given ParamTplPartition and assigns it to the ParamTplPartition field.
-func (o *ParamTplsItem) SetParamTplPartition(v ParamTplPartition) {
+// SetParamTplPartition gets a reference to the given ParameterTemplatePartition and assigns it to the ParamTplPartition field.
+func (o *ParamTplsItem) SetParamTplPartition(v ParameterTemplatePartition) {
 	o.ParamTplPartition = &v
 }
 
@@ -177,10 +177,10 @@ func (o ParamTplsItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParamTplsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component         *string            `json:"component,omitempty"`
-		ParamTplName      *string            `json:"paramTplName,omitempty"`
-		ParamTplId        *string            `json:"paramTplID,omitempty"`
-		ParamTplPartition *ParamTplPartition `json:"paramTplPartition,omitempty"`
+		Component         *string                     `json:"component,omitempty"`
+		ParamTplName      *string                     `json:"paramTplName,omitempty"`
+		ParamTplId        *string                     `json:"paramTplID,omitempty"`
+		ParamTplPartition *ParameterTemplatePartition `json:"paramTplPartition,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

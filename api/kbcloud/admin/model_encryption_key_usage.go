@@ -15,17 +15,11 @@ type EncryptionKeyUsage string
 
 // List of EncryptionKeyUsage.
 const (
-	EncryptionKeyUsageEncryption   EncryptionKeyUsage = "encryption"
-	EncryptionKeyUsageDecryption   EncryptionKeyUsage = "decryption"
-	EncryptionKeyUsageSigning      EncryptionKeyUsage = "signing"
-	EncryptionKeyUsageVerification EncryptionKeyUsage = "verification"
+	EncryptionKeyUsageEncryption EncryptionKeyUsage = "encryption"
 )
 
 var allowedEncryptionKeyUsageEnumValues = []EncryptionKeyUsage{
 	EncryptionKeyUsageEncryption,
-	EncryptionKeyUsageDecryption,
-	EncryptionKeyUsageSigning,
-	EncryptionKeyUsageVerification,
 }
 
 // GetAllowedValues returns the list of possible values.

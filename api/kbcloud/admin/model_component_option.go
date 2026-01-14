@@ -11,16 +11,19 @@ import (
 )
 
 type ComponentOption struct {
+	// cloud shell type
+	CloudShellType *string `json:"cloudShellType,omitempty"`
 	// component type
 	Name string `json:"name"`
 	// Determine whether the componentDef of kb-cluster belongs to this component type through this matching regularization.
 	// if not set, componentDef must be equal to component type.
 	//
-	MatchRegex *string                 `json:"matchRegex,omitempty"`
-	Title      LocalizedDescription    `json:"title"`
-	Order      int32                   `json:"order"`
-	RoleOrder  []string                `json:"roleOrder,omitempty"`
-	Version    *ComponentOptionVersion `json:"version,omitempty"`
+	MatchRegex                *string                 `json:"matchRegex,omitempty"`
+	Title                     LocalizedDescription    `json:"title"`
+	Order                     int32                   `json:"order"`
+	RoleOrder                 []string                `json:"roleOrder,omitempty"`
+	DisasterRecoveryRoleOrder []string                `json:"disasterRecoveryRoleOrder,omitempty"`
+	Version                   *ComponentOptionVersion `json:"version,omitempty"`
 	// Main component flag
 	Main *bool `json:"main,omitempty"`
 	// whether the component supports custom secret
@@ -48,6 +51,34 @@ func NewComponentOption(name string, title LocalizedDescription, order int32) *C
 func NewComponentOptionWithDefaults() *ComponentOption {
 	this := ComponentOption{}
 	return &this
+}
+
+// GetCloudShellType returns the CloudShellType field value if set, zero value otherwise.
+func (o *ComponentOption) GetCloudShellType() string {
+	if o == nil || o.CloudShellType == nil {
+		var ret string
+		return ret
+	}
+	return *o.CloudShellType
+}
+
+// GetCloudShellTypeOk returns a tuple with the CloudShellType field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentOption) GetCloudShellTypeOk() (*string, bool) {
+	if o == nil || o.CloudShellType == nil {
+		return nil, false
+	}
+	return o.CloudShellType, true
+}
+
+// HasCloudShellType returns a boolean if a field has been set.
+func (o *ComponentOption) HasCloudShellType() bool {
+	return o != nil && o.CloudShellType != nil
+}
+
+// SetCloudShellType gets a reference to the given string and assigns it to the CloudShellType field.
+func (o *ComponentOption) SetCloudShellType(v string) {
+	o.CloudShellType = &v
 }
 
 // GetName returns the Name field value.
@@ -175,6 +206,34 @@ func (o *ComponentOption) SetRoleOrder(v []string) {
 	o.RoleOrder = v
 }
 
+// GetDisasterRecoveryRoleOrder returns the DisasterRecoveryRoleOrder field value if set, zero value otherwise.
+func (o *ComponentOption) GetDisasterRecoveryRoleOrder() []string {
+	if o == nil || o.DisasterRecoveryRoleOrder == nil {
+		var ret []string
+		return ret
+	}
+	return o.DisasterRecoveryRoleOrder
+}
+
+// GetDisasterRecoveryRoleOrderOk returns a tuple with the DisasterRecoveryRoleOrder field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentOption) GetDisasterRecoveryRoleOrderOk() (*[]string, bool) {
+	if o == nil || o.DisasterRecoveryRoleOrder == nil {
+		return nil, false
+	}
+	return &o.DisasterRecoveryRoleOrder, true
+}
+
+// HasDisasterRecoveryRoleOrder returns a boolean if a field has been set.
+func (o *ComponentOption) HasDisasterRecoveryRoleOrder() bool {
+	return o != nil && o.DisasterRecoveryRoleOrder != nil
+}
+
+// SetDisasterRecoveryRoleOrder gets a reference to the given []string and assigns it to the DisasterRecoveryRoleOrder field.
+func (o *ComponentOption) SetDisasterRecoveryRoleOrder(v []string) {
+	o.DisasterRecoveryRoleOrder = v
+}
+
 // GetVersion returns the Version field value if set, zero value otherwise.
 func (o *ComponentOption) GetVersion() ComponentOptionVersion {
 	if o == nil || o.Version == nil {
@@ -265,6 +324,9 @@ func (o ComponentOption) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.CloudShellType != nil {
+		toSerialize["cloudShellType"] = o.CloudShellType
+	}
 	toSerialize["name"] = o.Name
 	if o.MatchRegex != nil {
 		toSerialize["matchRegex"] = o.MatchRegex
@@ -273,6 +335,9 @@ func (o ComponentOption) MarshalJSON() ([]byte, error) {
 	toSerialize["order"] = o.Order
 	if o.RoleOrder != nil {
 		toSerialize["roleOrder"] = o.RoleOrder
+	}
+	if o.DisasterRecoveryRoleOrder != nil {
+		toSerialize["disasterRecoveryRoleOrder"] = o.DisasterRecoveryRoleOrder
 	}
 	if o.Version != nil {
 		toSerialize["version"] = o.Version
@@ -293,14 +358,16 @@ func (o ComponentOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name         *string                 `json:"name"`
-		MatchRegex   *string                 `json:"matchRegex,omitempty"`
-		Title        *LocalizedDescription   `json:"title"`
-		Order        *int32                  `json:"order"`
-		RoleOrder    []string                `json:"roleOrder,omitempty"`
-		Version      *ComponentOptionVersion `json:"version,omitempty"`
-		Main         *bool                   `json:"main,omitempty"`
-		CustomSecret *bool                   `json:"customSecret,omitempty"`
+		CloudShellType            *string                 `json:"cloudShellType,omitempty"`
+		Name                      *string                 `json:"name"`
+		MatchRegex                *string                 `json:"matchRegex,omitempty"`
+		Title                     *LocalizedDescription   `json:"title"`
+		Order                     *int32                  `json:"order"`
+		RoleOrder                 []string                `json:"roleOrder,omitempty"`
+		DisasterRecoveryRoleOrder []string                `json:"disasterRecoveryRoleOrder,omitempty"`
+		Version                   *ComponentOptionVersion `json:"version,omitempty"`
+		Main                      *bool                   `json:"main,omitempty"`
+		CustomSecret              *bool                   `json:"customSecret,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -316,12 +383,13 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "matchRegex", "title", "order", "roleOrder", "version", "main", "customSecret"})
+		common.DeleteKeys(additionalProperties, &[]string{"cloudShellType", "name", "matchRegex", "title", "order", "roleOrder", "disasterRecoveryRoleOrder", "version", "main", "customSecret"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.CloudShellType = all.CloudShellType
 	o.Name = *all.Name
 	o.MatchRegex = all.MatchRegex
 	if all.Title.UnparsedObject != nil && o.UnparsedObject == nil {
@@ -330,6 +398,7 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Title = *all.Title
 	o.Order = *all.Order
 	o.RoleOrder = all.RoleOrder
+	o.DisasterRecoveryRoleOrder = all.DisasterRecoveryRoleOrder
 	if all.Version != nil && all.Version.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

@@ -25,6 +25,8 @@ type OrganizationItem struct {
 	ClusterTotal int32 `json:"clusterTotal"`
 	// The time the organization was created.
 	CreatedAt time.Time `json:"createdAt"`
+	// The description of the organization.
+	Description *string `json:"description,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -199,6 +201,34 @@ func (o *OrganizationItem) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *OrganizationItem) GetDescription() string {
+	if o == nil || o.Description == nil {
+		var ret string
+		return ret
+	}
+	return *o.Description
+}
+
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OrganizationItem) GetDescriptionOk() (*string, bool) {
+	if o == nil || o.Description == nil {
+		return nil, false
+	}
+	return o.Description, true
+}
+
+// HasDescription returns a boolean if a field has been set.
+func (o *OrganizationItem) HasDescription() bool {
+	return o != nil && o.Description != nil
+}
+
+// SetDescription gets a reference to the given string and assigns it to the Description field.
+func (o *OrganizationItem) SetDescription(v string) {
+	o.Description = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o OrganizationItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -219,6 +249,9 @@ func (o OrganizationItem) MarshalJSON() ([]byte, error) {
 	} else {
 		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 	}
+	if o.Description != nil {
+		toSerialize["description"] = o.Description
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -235,6 +268,7 @@ func (o *OrganizationItem) UnmarshalJSON(bytes []byte) (err error) {
 		CreatorId    *string    `json:"creatorID,omitempty"`
 		ClusterTotal *int32     `json:"clusterTotal"`
 		CreatedAt    *time.Time `json:"createdAt"`
+		Description  *string    `json:"description,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -253,7 +287,7 @@ func (o *OrganizationItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "displayName", "creator", "creatorID", "clusterTotal", "createdAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "displayName", "creator", "creatorID", "clusterTotal", "createdAt", "description"})
 	} else {
 		return err
 	}
@@ -263,6 +297,7 @@ func (o *OrganizationItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.CreatorId = all.CreatorId
 	o.ClusterTotal = *all.ClusterTotal
 	o.CreatedAt = *all.CreatedAt
+	o.Description = all.Description
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

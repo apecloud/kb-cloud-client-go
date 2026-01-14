@@ -11,11 +11,13 @@ import (
 )
 
 type EndpointOption struct {
-	Title     LocalizedDescription `json:"title"`
-	Component string               `json:"component"`
-	PortName  string               `json:"portName"`
-	Type      []string             `json:"type"`
-	Port      int32                `json:"port"`
+	Title      LocalizedDescription `json:"title"`
+	Component  string               `json:"component"`
+	PortName   string               `json:"portName"`
+	Port       int32                `json:"port"`
+	Protocol   string               `json:"protocol"`
+	TargetPort string               `json:"targetPort"`
+	Type       []string             `json:"type"`
 	// whether the endpoint supports system use, such as health check, dms, databases & accounts management etc.
 	SupportsSystemUse *bool `json:"supportsSystemUse,omitempty"`
 	// whether the engine supports readonly endpoint
@@ -28,8 +30,12 @@ type EndpointOption struct {
 	ServiceName *string `json:"serviceName,omitempty"`
 	// selector of k8s service
 	Selector map[string]string `json:"selector,omitempty"`
+	// selector of k8s service
+	DisasterRecoverySelector map[string]string `json:"disasterRecoverySelector,omitempty"`
 	// whether the endpoint follows the network mode of the component
 	FollowNetworkMode *bool `json:"followNetworkMode,omitempty"`
+	// compatible KubeBlocks Major versions
+	CompatibleKbVersion common.NullableString `json:"compatibleKBVersion,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -39,13 +45,15 @@ type EndpointOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEndpointOption(title LocalizedDescription, component string, portName string, typeVar []string, port int32) *EndpointOption {
+func NewEndpointOption(title LocalizedDescription, component string, portName string, port int32, protocol string, targetPort string, typeVar []string) *EndpointOption {
 	this := EndpointOption{}
 	this.Title = title
 	this.Component = component
 	this.PortName = portName
-	this.Type = typeVar
 	this.Port = port
+	this.Protocol = protocol
+	this.TargetPort = targetPort
+	this.Type = typeVar
 	var servicePattern EngineOptionsServicePattern = EngineOptionsServicePatternClusterComponent
 	this.ServicePattern = &servicePattern
 	var followNetworkMode bool = false
@@ -134,29 +142,6 @@ func (o *EndpointOption) SetPortName(v string) {
 	o.PortName = v
 }
 
-// GetType returns the Type field value.
-func (o *EndpointOption) GetType() []string {
-	if o == nil {
-		var ret []string
-		return ret
-	}
-	return o.Type
-}
-
-// GetTypeOk returns a tuple with the Type field value
-// and a boolean to check if the value has been set.
-func (o *EndpointOption) GetTypeOk() (*[]string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Type, true
-}
-
-// SetType sets field value.
-func (o *EndpointOption) SetType(v []string) {
-	o.Type = v
-}
-
 // GetPort returns the Port field value.
 func (o *EndpointOption) GetPort() int32 {
 	if o == nil {
@@ -178,6 +163,75 @@ func (o *EndpointOption) GetPortOk() (*int32, bool) {
 // SetPort sets field value.
 func (o *EndpointOption) SetPort(v int32) {
 	o.Port = v
+}
+
+// GetProtocol returns the Protocol field value.
+func (o *EndpointOption) GetProtocol() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.Protocol
+}
+
+// GetProtocolOk returns a tuple with the Protocol field value
+// and a boolean to check if the value has been set.
+func (o *EndpointOption) GetProtocolOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Protocol, true
+}
+
+// SetProtocol sets field value.
+func (o *EndpointOption) SetProtocol(v string) {
+	o.Protocol = v
+}
+
+// GetTargetPort returns the TargetPort field value.
+func (o *EndpointOption) GetTargetPort() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.TargetPort
+}
+
+// GetTargetPortOk returns a tuple with the TargetPort field value
+// and a boolean to check if the value has been set.
+func (o *EndpointOption) GetTargetPortOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.TargetPort, true
+}
+
+// SetTargetPort sets field value.
+func (o *EndpointOption) SetTargetPort(v string) {
+	o.TargetPort = v
+}
+
+// GetType returns the Type field value.
+func (o *EndpointOption) GetType() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+	return o.Type
+}
+
+// GetTypeOk returns a tuple with the Type field value
+// and a boolean to check if the value has been set.
+func (o *EndpointOption) GetTypeOk() (*[]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Type, true
+}
+
+// SetType sets field value.
+func (o *EndpointOption) SetType(v []string) {
+	o.Type = v
 }
 
 // GetSupportsSystemUse returns the SupportsSystemUse field value if set, zero value otherwise.
@@ -348,6 +402,34 @@ func (o *EndpointOption) SetSelector(v map[string]string) {
 	o.Selector = v
 }
 
+// GetDisasterRecoverySelector returns the DisasterRecoverySelector field value if set, zero value otherwise.
+func (o *EndpointOption) GetDisasterRecoverySelector() map[string]string {
+	if o == nil || o.DisasterRecoverySelector == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.DisasterRecoverySelector
+}
+
+// GetDisasterRecoverySelectorOk returns a tuple with the DisasterRecoverySelector field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EndpointOption) GetDisasterRecoverySelectorOk() (*map[string]string, bool) {
+	if o == nil || o.DisasterRecoverySelector == nil {
+		return nil, false
+	}
+	return &o.DisasterRecoverySelector, true
+}
+
+// HasDisasterRecoverySelector returns a boolean if a field has been set.
+func (o *EndpointOption) HasDisasterRecoverySelector() bool {
+	return o != nil && o.DisasterRecoverySelector != nil
+}
+
+// SetDisasterRecoverySelector gets a reference to the given map[string]string and assigns it to the DisasterRecoverySelector field.
+func (o *EndpointOption) SetDisasterRecoverySelector(v map[string]string) {
+	o.DisasterRecoverySelector = v
+}
+
 // GetFollowNetworkMode returns the FollowNetworkMode field value if set, zero value otherwise.
 func (o *EndpointOption) GetFollowNetworkMode() bool {
 	if o == nil || o.FollowNetworkMode == nil {
@@ -376,6 +458,45 @@ func (o *EndpointOption) SetFollowNetworkMode(v bool) {
 	o.FollowNetworkMode = &v
 }
 
+// GetCompatibleKbVersion returns the CompatibleKbVersion field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *EndpointOption) GetCompatibleKbVersion() string {
+	if o == nil || o.CompatibleKbVersion.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.CompatibleKbVersion.Get()
+}
+
+// GetCompatibleKbVersionOk returns a tuple with the CompatibleKbVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *EndpointOption) GetCompatibleKbVersionOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CompatibleKbVersion.Get(), o.CompatibleKbVersion.IsSet()
+}
+
+// HasCompatibleKbVersion returns a boolean if a field has been set.
+func (o *EndpointOption) HasCompatibleKbVersion() bool {
+	return o != nil && o.CompatibleKbVersion.IsSet()
+}
+
+// SetCompatibleKbVersion gets a reference to the given common.NullableString and assigns it to the CompatibleKbVersion field.
+func (o *EndpointOption) SetCompatibleKbVersion(v string) {
+	o.CompatibleKbVersion.Set(&v)
+}
+
+// SetCompatibleKbVersionNil sets the value for CompatibleKbVersion to be an explicit nil.
+func (o *EndpointOption) SetCompatibleKbVersionNil() {
+	o.CompatibleKbVersion.Set(nil)
+}
+
+// UnsetCompatibleKbVersion ensures that no value is present for CompatibleKbVersion, not even an explicit nil.
+func (o *EndpointOption) UnsetCompatibleKbVersion() {
+	o.CompatibleKbVersion.Unset()
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EndpointOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -385,8 +506,10 @@ func (o EndpointOption) MarshalJSON() ([]byte, error) {
 	toSerialize["title"] = o.Title
 	toSerialize["component"] = o.Component
 	toSerialize["portName"] = o.PortName
-	toSerialize["type"] = o.Type
 	toSerialize["port"] = o.Port
+	toSerialize["protocol"] = o.Protocol
+	toSerialize["targetPort"] = o.TargetPort
+	toSerialize["type"] = o.Type
 	if o.SupportsSystemUse != nil {
 		toSerialize["supportsSystemUse"] = o.SupportsSystemUse
 	}
@@ -405,8 +528,14 @@ func (o EndpointOption) MarshalJSON() ([]byte, error) {
 	if o.Selector != nil {
 		toSerialize["selector"] = o.Selector
 	}
+	if o.DisasterRecoverySelector != nil {
+		toSerialize["disasterRecoverySelector"] = o.DisasterRecoverySelector
+	}
 	if o.FollowNetworkMode != nil {
 		toSerialize["followNetworkMode"] = o.FollowNetworkMode
+	}
+	if o.CompatibleKbVersion.IsSet() {
+		toSerialize["compatibleKBVersion"] = o.CompatibleKbVersion.Get()
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -418,18 +547,22 @@ func (o EndpointOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Title             *LocalizedDescription        `json:"title"`
-		Component         *string                      `json:"component"`
-		PortName          *string                      `json:"portName"`
-		Type              *[]string                    `json:"type"`
-		Port              *int32                       `json:"port"`
-		SupportsSystemUse *bool                        `json:"supportsSystemUse,omitempty"`
-		SupportsReadonly  *bool                        `json:"supportsReadonly,omitempty"`
-		ServicePattern    *EngineOptionsServicePattern `json:"servicePattern,omitempty"`
-		ServiceNameRegex  *string                      `json:"serviceNameRegex,omitempty"`
-		ServiceName       *string                      `json:"serviceName,omitempty"`
-		Selector          map[string]string            `json:"selector,omitempty"`
-		FollowNetworkMode *bool                        `json:"followNetworkMode,omitempty"`
+		Title                    *LocalizedDescription        `json:"title"`
+		Component                *string                      `json:"component"`
+		PortName                 *string                      `json:"portName"`
+		Port                     *int32                       `json:"port"`
+		Protocol                 *string                      `json:"protocol"`
+		TargetPort               *string                      `json:"targetPort"`
+		Type                     *[]string                    `json:"type"`
+		SupportsSystemUse        *bool                        `json:"supportsSystemUse,omitempty"`
+		SupportsReadonly         *bool                        `json:"supportsReadonly,omitempty"`
+		ServicePattern           *EngineOptionsServicePattern `json:"servicePattern,omitempty"`
+		ServiceNameRegex         *string                      `json:"serviceNameRegex,omitempty"`
+		ServiceName              *string                      `json:"serviceName,omitempty"`
+		Selector                 map[string]string            `json:"selector,omitempty"`
+		DisasterRecoverySelector map[string]string            `json:"disasterRecoverySelector,omitempty"`
+		FollowNetworkMode        *bool                        `json:"followNetworkMode,omitempty"`
+		CompatibleKbVersion      common.NullableString        `json:"compatibleKBVersion,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -443,15 +576,21 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	if all.PortName == nil {
 		return fmt.Errorf("required field portName missing")
 	}
-	if all.Type == nil {
-		return fmt.Errorf("required field type missing")
-	}
 	if all.Port == nil {
 		return fmt.Errorf("required field port missing")
 	}
+	if all.Protocol == nil {
+		return fmt.Errorf("required field protocol missing")
+	}
+	if all.TargetPort == nil {
+		return fmt.Errorf("required field targetPort missing")
+	}
+	if all.Type == nil {
+		return fmt.Errorf("required field type missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "portName", "type", "port", "supportsSystemUse", "supportsReadonly", "servicePattern", "serviceNameRegex", "serviceName", "selector", "followNetworkMode"})
+		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "portName", "port", "protocol", "targetPort", "type", "supportsSystemUse", "supportsReadonly", "servicePattern", "serviceNameRegex", "serviceName", "selector", "disasterRecoverySelector", "followNetworkMode", "compatibleKBVersion"})
 	} else {
 		return err
 	}
@@ -463,8 +602,10 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Title = *all.Title
 	o.Component = *all.Component
 	o.PortName = *all.PortName
-	o.Type = *all.Type
 	o.Port = *all.Port
+	o.Protocol = *all.Protocol
+	o.TargetPort = *all.TargetPort
+	o.Type = *all.Type
 	o.SupportsSystemUse = all.SupportsSystemUse
 	o.SupportsReadonly = all.SupportsReadonly
 	if all.ServicePattern != nil && !all.ServicePattern.IsValid() {
@@ -475,7 +616,9 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.ServiceNameRegex = all.ServiceNameRegex
 	o.ServiceName = all.ServiceName
 	o.Selector = all.Selector
+	o.DisasterRecoverySelector = all.DisasterRecoverySelector
 	o.FollowNetworkMode = all.FollowNetworkMode
+	o.CompatibleKbVersion = all.CompatibleKbVersion
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

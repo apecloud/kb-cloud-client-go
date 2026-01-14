@@ -7,11 +7,15 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type EngineMapping struct {
-	Source       *string             `json:"source,omitempty"`
-	Target       *string             `json:"target,omitempty"`
-	Modules      []string            `json:"modules,omitempty"`
-	Events       [][]EventObject     `json:"events,omitempty"`
-	Descriptions *MappingDescription `json:"descriptions,omitempty"`
+	Source              *string                    `json:"source,omitempty"`
+	Target              *string                    `json:"target,omitempty"`
+	Modules             []string                   `json:"modules,omitempty"`
+	Events              [][]EventObject            `json:"events,omitempty"`
+	ReplicationMetadata *ReplicationMetadataObject `json:"replicationMetadata,omitempty"`
+	Descriptions        *MappingDescription        `json:"descriptions,omitempty"`
+	PreCheckers         []string                   `json:"preCheckers,omitempty"`
+	// module parameter template, the key is the module name, the value is the parameter template
+	ParameterTemplate map[string][]DataChannelParameter `json:"parameterTemplate,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -146,6 +150,34 @@ func (o *EngineMapping) SetEvents(v [][]EventObject) {
 	o.Events = v
 }
 
+// GetReplicationMetadata returns the ReplicationMetadata field value if set, zero value otherwise.
+func (o *EngineMapping) GetReplicationMetadata() ReplicationMetadataObject {
+	if o == nil || o.ReplicationMetadata == nil {
+		var ret ReplicationMetadataObject
+		return ret
+	}
+	return *o.ReplicationMetadata
+}
+
+// GetReplicationMetadataOk returns a tuple with the ReplicationMetadata field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineMapping) GetReplicationMetadataOk() (*ReplicationMetadataObject, bool) {
+	if o == nil || o.ReplicationMetadata == nil {
+		return nil, false
+	}
+	return o.ReplicationMetadata, true
+}
+
+// HasReplicationMetadata returns a boolean if a field has been set.
+func (o *EngineMapping) HasReplicationMetadata() bool {
+	return o != nil && o.ReplicationMetadata != nil
+}
+
+// SetReplicationMetadata gets a reference to the given ReplicationMetadataObject and assigns it to the ReplicationMetadata field.
+func (o *EngineMapping) SetReplicationMetadata(v ReplicationMetadataObject) {
+	o.ReplicationMetadata = &v
+}
+
 // GetDescriptions returns the Descriptions field value if set, zero value otherwise.
 func (o *EngineMapping) GetDescriptions() MappingDescription {
 	if o == nil || o.Descriptions == nil {
@@ -174,6 +206,62 @@ func (o *EngineMapping) SetDescriptions(v MappingDescription) {
 	o.Descriptions = &v
 }
 
+// GetPreCheckers returns the PreCheckers field value if set, zero value otherwise.
+func (o *EngineMapping) GetPreCheckers() []string {
+	if o == nil || o.PreCheckers == nil {
+		var ret []string
+		return ret
+	}
+	return o.PreCheckers
+}
+
+// GetPreCheckersOk returns a tuple with the PreCheckers field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineMapping) GetPreCheckersOk() (*[]string, bool) {
+	if o == nil || o.PreCheckers == nil {
+		return nil, false
+	}
+	return &o.PreCheckers, true
+}
+
+// HasPreCheckers returns a boolean if a field has been set.
+func (o *EngineMapping) HasPreCheckers() bool {
+	return o != nil && o.PreCheckers != nil
+}
+
+// SetPreCheckers gets a reference to the given []string and assigns it to the PreCheckers field.
+func (o *EngineMapping) SetPreCheckers(v []string) {
+	o.PreCheckers = v
+}
+
+// GetParameterTemplate returns the ParameterTemplate field value if set, zero value otherwise.
+func (o *EngineMapping) GetParameterTemplate() map[string][]DataChannelParameter {
+	if o == nil || o.ParameterTemplate == nil {
+		var ret map[string][]DataChannelParameter
+		return ret
+	}
+	return o.ParameterTemplate
+}
+
+// GetParameterTemplateOk returns a tuple with the ParameterTemplate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineMapping) GetParameterTemplateOk() (*map[string][]DataChannelParameter, bool) {
+	if o == nil || o.ParameterTemplate == nil {
+		return nil, false
+	}
+	return &o.ParameterTemplate, true
+}
+
+// HasParameterTemplate returns a boolean if a field has been set.
+func (o *EngineMapping) HasParameterTemplate() bool {
+	return o != nil && o.ParameterTemplate != nil
+}
+
+// SetParameterTemplate gets a reference to the given map[string][]DataChannelParameter and assigns it to the ParameterTemplate field.
+func (o *EngineMapping) SetParameterTemplate(v map[string][]DataChannelParameter) {
+	o.ParameterTemplate = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineMapping) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -192,8 +280,17 @@ func (o EngineMapping) MarshalJSON() ([]byte, error) {
 	if o.Events != nil {
 		toSerialize["events"] = o.Events
 	}
+	if o.ReplicationMetadata != nil {
+		toSerialize["replicationMetadata"] = o.ReplicationMetadata
+	}
 	if o.Descriptions != nil {
 		toSerialize["descriptions"] = o.Descriptions
+	}
+	if o.PreCheckers != nil {
+		toSerialize["preCheckers"] = o.PreCheckers
+	}
+	if o.ParameterTemplate != nil {
+		toSerialize["parameterTemplate"] = o.ParameterTemplate
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -205,18 +302,21 @@ func (o EngineMapping) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineMapping) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Source       *string             `json:"source,omitempty"`
-		Target       *string             `json:"target,omitempty"`
-		Modules      []string            `json:"modules,omitempty"`
-		Events       [][]EventObject     `json:"events,omitempty"`
-		Descriptions *MappingDescription `json:"descriptions,omitempty"`
+		Source              *string                           `json:"source,omitempty"`
+		Target              *string                           `json:"target,omitempty"`
+		Modules             []string                          `json:"modules,omitempty"`
+		Events              [][]EventObject                   `json:"events,omitempty"`
+		ReplicationMetadata *ReplicationMetadataObject        `json:"replicationMetadata,omitempty"`
+		Descriptions        *MappingDescription               `json:"descriptions,omitempty"`
+		PreCheckers         []string                          `json:"preCheckers,omitempty"`
+		ParameterTemplate   map[string][]DataChannelParameter `json:"parameterTemplate,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"source", "target", "modules", "events", "descriptions"})
+		common.DeleteKeys(additionalProperties, &[]string{"source", "target", "modules", "events", "replicationMetadata", "descriptions", "preCheckers", "parameterTemplate"})
 	} else {
 		return err
 	}
@@ -226,10 +326,16 @@ func (o *EngineMapping) UnmarshalJSON(bytes []byte) (err error) {
 	o.Target = all.Target
 	o.Modules = all.Modules
 	o.Events = all.Events
+	if all.ReplicationMetadata != nil && all.ReplicationMetadata.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ReplicationMetadata = all.ReplicationMetadata
 	if all.Descriptions != nil && all.Descriptions.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Descriptions = all.Descriptions
+	o.PreCheckers = all.PreCheckers
+	o.ParameterTemplate = all.ParameterTemplate
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

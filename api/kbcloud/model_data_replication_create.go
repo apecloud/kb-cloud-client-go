@@ -7,15 +7,16 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type DataReplicationCreate struct {
-	ChannelName        *string                    `json:"channelName,omitempty"`
-	Modules            []string                   `json:"modules,omitempty"`
-	EnvironmentId      *string                    `json:"environmentID,omitempty"`
-	Project            *string                    `json:"project,omitempty"`
-	StandardDefinition *string                    `json:"standardDefinition,omitempty"`
-	Source             *DataChannelEndpointCreate `json:"source,omitempty"`
-	Target             *DataChannelEndpointCreate `json:"target,omitempty"`
-	ReplicationObjects *DataChannelObject         `json:"replicationObjects,omitempty"`
-	Events             []EventObject              `json:"events,omitempty"`
+	ChannelName        *string                                   `json:"channelName,omitempty"`
+	Modules            []string                                  `json:"modules,omitempty"`
+	EnvironmentId      *string                                   `json:"environmentID,omitempty"`
+	Project            *string                                   `json:"project,omitempty"`
+	StandardDefinition *string                                   `json:"standardDefinition,omitempty"`
+	Source             *DataChannelEndpointCreate                `json:"source,omitempty"`
+	Target             *DataChannelEndpointCreate                `json:"target,omitempty"`
+	ReplicationObjects *DataChannelObject                        `json:"replicationObjects,omitempty"`
+	Events             []EventObject                             `json:"events,omitempty"`
+	Parameters         map[string][]DataChannelParameterKeyValue `json:"parameters,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -294,6 +295,35 @@ func (o *DataReplicationCreate) SetEvents(v []EventObject) {
 	o.Events = v
 }
 
+// GetParameters returns the Parameters field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DataReplicationCreate) GetParameters() map[string][]DataChannelParameterKeyValue {
+	if o == nil {
+		var ret map[string][]DataChannelParameterKeyValue
+		return ret
+	}
+	return o.Parameters
+}
+
+// GetParametersOk returns a tuple with the Parameters field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *DataReplicationCreate) GetParametersOk() (*map[string][]DataChannelParameterKeyValue, bool) {
+	if o == nil || o.Parameters == nil {
+		return nil, false
+	}
+	return &o.Parameters, true
+}
+
+// HasParameters returns a boolean if a field has been set.
+func (o *DataReplicationCreate) HasParameters() bool {
+	return o != nil && o.Parameters != nil
+}
+
+// SetParameters gets a reference to the given map[string][]DataChannelParameterKeyValue and assigns it to the Parameters field.
+func (o *DataReplicationCreate) SetParameters(v map[string][]DataChannelParameterKeyValue) {
+	o.Parameters = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o DataReplicationCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -327,6 +357,9 @@ func (o DataReplicationCreate) MarshalJSON() ([]byte, error) {
 	if o.Events != nil {
 		toSerialize["events"] = o.Events
 	}
+	if o.Parameters != nil {
+		toSerialize["parameters"] = o.Parameters
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -337,22 +370,23 @@ func (o DataReplicationCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DataReplicationCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ChannelName        *string                    `json:"channelName,omitempty"`
-		Modules            []string                   `json:"modules,omitempty"`
-		EnvironmentId      *string                    `json:"environmentID,omitempty"`
-		Project            *string                    `json:"project,omitempty"`
-		StandardDefinition *string                    `json:"standardDefinition,omitempty"`
-		Source             *DataChannelEndpointCreate `json:"source,omitempty"`
-		Target             *DataChannelEndpointCreate `json:"target,omitempty"`
-		ReplicationObjects *DataChannelObject         `json:"replicationObjects,omitempty"`
-		Events             []EventObject              `json:"events,omitempty"`
+		ChannelName        *string                                   `json:"channelName,omitempty"`
+		Modules            []string                                  `json:"modules,omitempty"`
+		EnvironmentId      *string                                   `json:"environmentID,omitempty"`
+		Project            *string                                   `json:"project,omitempty"`
+		StandardDefinition *string                                   `json:"standardDefinition,omitempty"`
+		Source             *DataChannelEndpointCreate                `json:"source,omitempty"`
+		Target             *DataChannelEndpointCreate                `json:"target,omitempty"`
+		ReplicationObjects *DataChannelObject                        `json:"replicationObjects,omitempty"`
+		Events             []EventObject                             `json:"events,omitempty"`
+		Parameters         map[string][]DataChannelParameterKeyValue `json:"parameters,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"channelName", "modules", "environmentID", "project", "standardDefinition", "source", "target", "replicationObjects", "events"})
+		common.DeleteKeys(additionalProperties, &[]string{"channelName", "modules", "environmentID", "project", "standardDefinition", "source", "target", "replicationObjects", "events", "parameters"})
 	} else {
 		return err
 	}
@@ -376,6 +410,7 @@ func (o *DataReplicationCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.ReplicationObjects = all.ReplicationObjects
 	o.Events = all.Events
+	o.Parameters = all.Parameters
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -17,6 +17,87 @@ import (
 // EngineApi service type
 type EngineApi common.Service
 
+// GetUploadImageProgress get the progress of uploading image task.
+// get the progress of uploading image task
+func (a *EngineApi) GetUploadImageProgress(ctx _context.Context, environmentName string, engineName string, uploadId string) (interface{}, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue interface{}
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engine",
+		OperationID: "GetUploadImageProgress",
+		Path:        "/admin/v1/environments/{environmentName}/engines/{engineName}/imageUploadProgress",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.GetUploadImageProgress")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/engines/{engineName}/imageUploadProgress"
+	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("uploadId", common.ParameterToString(uploadId, ""))
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // ListServiceVersionOptionalParameters holds optional parameters for ListServiceVersion.
 type ListServiceVersionOptionalParameters struct {
 	Component *string
@@ -36,7 +117,7 @@ func (r *ListServiceVersionOptionalParameters) WithComponent(component string) *
 
 // ListServiceVersion list the service version of the engine.
 // list the service version of the engine
-func (a *EngineApi) ListServiceVersion(ctx _context.Context, environmentName string, engineName string, engineMode string, o ...ListServiceVersionOptionalParameters) (EngineServiceVersions, *_nethttp.Response, error) {
+func (a *EngineApi) ListServiceVersion(ctx _context.Context, environmentName string, engineName string, engineMode string, engineVersion string, o ...ListServiceVersionOptionalParameters) (EngineServiceVersions, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -73,6 +154,7 @@ func (a *EngineApi) ListServiceVersion(ctx _context.Context, environmentName str
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("engineMode", common.ParameterToString(engineMode, ""))
+	localVarQueryParams.Add("engineVersion", common.ParameterToString(engineVersion, ""))
 	if optionalParams.Component != nil {
 		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
 	}
@@ -185,6 +267,114 @@ func (a *EngineApi) ListUpgradeableServiceVersion(ctx _context.Context, clusterN
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// AvailableServiceVersionOptionalParameters holds optional parameters for AvailableServiceVersion.
+type AvailableServiceVersionOptionalParameters struct {
+	Component *string
+}
+
+// NewAvailableServiceVersionOptionalParameters creates an empty struct for parameters.
+func NewAvailableServiceVersionOptionalParameters() *AvailableServiceVersionOptionalParameters {
+	this := AvailableServiceVersionOptionalParameters{}
+	return &this
+}
+
+// WithComponent sets the corresponding parameter name and returns the struct.
+func (r *AvailableServiceVersionOptionalParameters) WithComponent(component string) *AvailableServiceVersionOptionalParameters {
+	r.Component = &component
+	return r
+}
+
+// AvailableServiceVersion list the service version of the engine.
+// list the service version of the engine
+func (a *EngineApi) AvailableServiceVersion(ctx _context.Context, environmentName string, engineName string, o ...AvailableServiceVersionOptionalParameters) (EngineServiceVersions, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue EngineServiceVersions
+		optionalParams      AvailableServiceVersionOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type AvailableServiceVersionOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engine",
+		OperationID: "availableServiceVersion",
+		Path:        "/admin/v1/environments/{environmentName}/engines/{engineName}/availableServiceVersion",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.AvailableServiceVersion")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/engines/{engineName}/availableServiceVersion"
+	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Component != nil {
+		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -698,7 +888,7 @@ func (a *EngineApi) GetEngineByNameInEnv(ctx _context.Context, environmentName s
 // ListAllEnginesOptionalParameters holds optional parameters for ListAllEngines.
 type ListAllEnginesOptionalParameters struct {
 	Name     *string
-	Type     *EngineType
+	Type     *string
 	Version  *string
 	Provider *string
 	All      *bool
@@ -717,7 +907,7 @@ func (r *ListAllEnginesOptionalParameters) WithName(name string) *ListAllEngines
 }
 
 // WithType sets the corresponding parameter name and returns the struct.
-func (r *ListAllEnginesOptionalParameters) WithType(typeVar EngineType) *ListAllEnginesOptionalParameters {
+func (r *ListAllEnginesOptionalParameters) WithType(typeVar string) *ListAllEnginesOptionalParameters {
 	r.Type = &typeVar
 	return r
 }
@@ -965,6 +1155,83 @@ func (a *EngineApi) ListEngineResourceConstraints(ctx _context.Context, o ...Lis
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// ListEngineTypes List engine types.
+func (a *EngineApi) ListEngineTypes(ctx _context.Context) (EngineTypeList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue EngineTypeList
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engine",
+		OperationID: "listEngineTypes",
+		Path:        "/admin/v1/engineTypes",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.ListEngineTypes")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/engineTypes"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // ListEngineVersions Get engine version list.
 // Get engine version list
 func (a *EngineApi) ListEngineVersions(ctx _context.Context, engineName string) (EngineVersionList, *_nethttp.Response, error) {
@@ -1047,7 +1314,7 @@ func (a *EngineApi) ListEngineVersions(ctx _context.Context, engineName string) 
 // ListEnginesInEnvOptionalParameters holds optional parameters for ListEnginesInEnv.
 type ListEnginesInEnvOptionalParameters struct {
 	Name     *string
-	Type     *EngineType
+	Type     *string
 	Version  *string
 	Provider *string
 	All      *bool
@@ -1066,7 +1333,7 @@ func (r *ListEnginesInEnvOptionalParameters) WithName(name string) *ListEnginesI
 }
 
 // WithType sets the corresponding parameter name and returns the struct.
-func (r *ListEnginesInEnvOptionalParameters) WithType(typeVar EngineType) *ListEnginesInEnvOptionalParameters {
+func (r *ListEnginesInEnvOptionalParameters) WithType(typeVar string) *ListEnginesInEnvOptionalParameters {
 	r.Type = &typeVar
 	return r
 }

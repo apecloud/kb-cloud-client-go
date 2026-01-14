@@ -38,7 +38,7 @@ type DisasterRecoveryHistoryItem struct {
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	// the update time of promote event
 	UpdateAt *time.Time `json:"updateAt,omitempty"`
-	// the status of promote event, support values: [Succeed, Failed, Running, Unknown]
+	// the status of promote event, support values: [Pending, Succeed, Failed, Running, Unknown]
 	Status NullableDisasterRecoveryStatus `json:"status,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -51,7 +51,7 @@ type DisasterRecoveryHistoryItem struct {
 // will change when the set of required properties is changed.
 func NewDisasterRecoveryHistoryItem() *DisasterRecoveryHistoryItem {
 	this := DisasterRecoveryHistoryItem{}
-	var status DisasterRecoveryStatus = DisasterRecoveryStatusUnknown
+	var status DisasterRecoveryStatus = DisasterRecoveryStatusPending
 	this.Status = *NewNullableDisasterRecoveryStatus(&status)
 	return &this
 }
@@ -61,7 +61,7 @@ func NewDisasterRecoveryHistoryItem() *DisasterRecoveryHistoryItem {
 // but it doesn't guarantee that properties required by API are set.
 func NewDisasterRecoveryHistoryItemWithDefaults() *DisasterRecoveryHistoryItem {
 	this := DisasterRecoveryHistoryItem{}
-	var status DisasterRecoveryStatus = DisasterRecoveryStatusUnknown
+	var status DisasterRecoveryStatus = DisasterRecoveryStatusPending
 	this.Status = *NewNullableDisasterRecoveryStatus(&status)
 	return &this
 }

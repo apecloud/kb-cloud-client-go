@@ -62,9 +62,9 @@ type Backup struct {
 	// the id of cluster that backup belong to
 	ClusterId *string `json:"clusterId,omitempty"`
 	// the cloud provider
-	CloudProvider string `json:"cloudProvider"`
+	CloudProvider *string `json:"cloudProvider,omitempty"`
 	// the cloud region
-	CloudRegion string `json:"cloudRegion"`
+	CloudRegion *string `json:"cloudRegion,omitempty"`
 	// the environment name
 	EnvironmentName string `json:"environmentName"`
 	// the cluster engine
@@ -73,10 +73,8 @@ type Backup struct {
 	ParentBackupName *string `json:"parentBackupName,omitempty"`
 	// the base backup name
 	BaseBackupName *string `json:"baseBackupName,omitempty"`
-	// the master key for encryption
-	EncryptionMasterKey *string `json:"encryptionMasterKey,omitempty"`
-	// the data key for encryption
-	EncryptionDataKey *string `json:"encryptionDataKey,omitempty"`
+	// the key name used for encryption
+	EncryptionKeyName *string `json:"encryptionKeyName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -86,7 +84,7 @@ type Backup struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBackup(autoBackup bool, backupMethod string, backupPolicyName string, backupType BackupType, creationTimestamp time.Time, name string, orgName string, snapshotVolumes bool, sourceCluster string, status BackupStatus, totalSize string, retentionPeriod string, cloudProvider string, cloudRegion string, environmentName string, engine string) *Backup {
+func NewBackup(autoBackup bool, backupMethod string, backupPolicyName string, backupType BackupType, creationTimestamp time.Time, name string, orgName string, snapshotVolumes bool, sourceCluster string, status BackupStatus, totalSize string, retentionPeriod string, environmentName string, engine string) *Backup {
 	this := Backup{}
 	this.AutoBackup = autoBackup
 	this.BackupMethod = backupMethod
@@ -100,8 +98,6 @@ func NewBackup(autoBackup bool, backupMethod string, backupPolicyName string, ba
 	this.Status = status
 	this.TotalSize = totalSize
 	this.RetentionPeriod = retentionPeriod
-	this.CloudProvider = cloudProvider
-	this.CloudRegion = cloudRegion
 	this.EnvironmentName = environmentName
 	this.Engine = engine
 	return &this
@@ -810,50 +806,60 @@ func (o *Backup) SetClusterId(v string) {
 	o.ClusterId = &v
 }
 
-// GetCloudProvider returns the CloudProvider field value.
+// GetCloudProvider returns the CloudProvider field value if set, zero value otherwise.
 func (o *Backup) GetCloudProvider() string {
-	if o == nil {
+	if o == nil || o.CloudProvider == nil {
 		var ret string
 		return ret
 	}
-	return o.CloudProvider
+	return *o.CloudProvider
 }
 
-// GetCloudProviderOk returns a tuple with the CloudProvider field value
+// GetCloudProviderOk returns a tuple with the CloudProvider field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Backup) GetCloudProviderOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.CloudProvider == nil {
 		return nil, false
 	}
-	return &o.CloudProvider, true
+	return o.CloudProvider, true
 }
 
-// SetCloudProvider sets field value.
+// HasCloudProvider returns a boolean if a field has been set.
+func (o *Backup) HasCloudProvider() bool {
+	return o != nil && o.CloudProvider != nil
+}
+
+// SetCloudProvider gets a reference to the given string and assigns it to the CloudProvider field.
 func (o *Backup) SetCloudProvider(v string) {
-	o.CloudProvider = v
+	o.CloudProvider = &v
 }
 
-// GetCloudRegion returns the CloudRegion field value.
+// GetCloudRegion returns the CloudRegion field value if set, zero value otherwise.
 func (o *Backup) GetCloudRegion() string {
-	if o == nil {
+	if o == nil || o.CloudRegion == nil {
 		var ret string
 		return ret
 	}
-	return o.CloudRegion
+	return *o.CloudRegion
 }
 
-// GetCloudRegionOk returns a tuple with the CloudRegion field value
+// GetCloudRegionOk returns a tuple with the CloudRegion field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Backup) GetCloudRegionOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.CloudRegion == nil {
 		return nil, false
 	}
-	return &o.CloudRegion, true
+	return o.CloudRegion, true
 }
 
-// SetCloudRegion sets field value.
+// HasCloudRegion returns a boolean if a field has been set.
+func (o *Backup) HasCloudRegion() bool {
+	return o != nil && o.CloudRegion != nil
+}
+
+// SetCloudRegion gets a reference to the given string and assigns it to the CloudRegion field.
 func (o *Backup) SetCloudRegion(v string) {
-	o.CloudRegion = v
+	o.CloudRegion = &v
 }
 
 // GetEnvironmentName returns the EnvironmentName field value.
@@ -958,60 +964,32 @@ func (o *Backup) SetBaseBackupName(v string) {
 	o.BaseBackupName = &v
 }
 
-// GetEncryptionMasterKey returns the EncryptionMasterKey field value if set, zero value otherwise.
-func (o *Backup) GetEncryptionMasterKey() string {
-	if o == nil || o.EncryptionMasterKey == nil {
+// GetEncryptionKeyName returns the EncryptionKeyName field value if set, zero value otherwise.
+func (o *Backup) GetEncryptionKeyName() string {
+	if o == nil || o.EncryptionKeyName == nil {
 		var ret string
 		return ret
 	}
-	return *o.EncryptionMasterKey
+	return *o.EncryptionKeyName
 }
 
-// GetEncryptionMasterKeyOk returns a tuple with the EncryptionMasterKey field value if set, nil otherwise
+// GetEncryptionKeyNameOk returns a tuple with the EncryptionKeyName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Backup) GetEncryptionMasterKeyOk() (*string, bool) {
-	if o == nil || o.EncryptionMasterKey == nil {
+func (o *Backup) GetEncryptionKeyNameOk() (*string, bool) {
+	if o == nil || o.EncryptionKeyName == nil {
 		return nil, false
 	}
-	return o.EncryptionMasterKey, true
+	return o.EncryptionKeyName, true
 }
 
-// HasEncryptionMasterKey returns a boolean if a field has been set.
-func (o *Backup) HasEncryptionMasterKey() bool {
-	return o != nil && o.EncryptionMasterKey != nil
+// HasEncryptionKeyName returns a boolean if a field has been set.
+func (o *Backup) HasEncryptionKeyName() bool {
+	return o != nil && o.EncryptionKeyName != nil
 }
 
-// SetEncryptionMasterKey gets a reference to the given string and assigns it to the EncryptionMasterKey field.
-func (o *Backup) SetEncryptionMasterKey(v string) {
-	o.EncryptionMasterKey = &v
-}
-
-// GetEncryptionDataKey returns the EncryptionDataKey field value if set, zero value otherwise.
-func (o *Backup) GetEncryptionDataKey() string {
-	if o == nil || o.EncryptionDataKey == nil {
-		var ret string
-		return ret
-	}
-	return *o.EncryptionDataKey
-}
-
-// GetEncryptionDataKeyOk returns a tuple with the EncryptionDataKey field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Backup) GetEncryptionDataKeyOk() (*string, bool) {
-	if o == nil || o.EncryptionDataKey == nil {
-		return nil, false
-	}
-	return o.EncryptionDataKey, true
-}
-
-// HasEncryptionDataKey returns a boolean if a field has been set.
-func (o *Backup) HasEncryptionDataKey() bool {
-	return o != nil && o.EncryptionDataKey != nil
-}
-
-// SetEncryptionDataKey gets a reference to the given string and assigns it to the EncryptionDataKey field.
-func (o *Backup) SetEncryptionDataKey(v string) {
-	o.EncryptionDataKey = &v
+// SetEncryptionKeyName gets a reference to the given string and assigns it to the EncryptionKeyName field.
+func (o *Backup) SetEncryptionKeyName(v string) {
+	o.EncryptionKeyName = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -1075,8 +1053,12 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 	if o.ClusterId != nil {
 		toSerialize["clusterId"] = o.ClusterId
 	}
-	toSerialize["cloudProvider"] = o.CloudProvider
-	toSerialize["cloudRegion"] = o.CloudRegion
+	if o.CloudProvider != nil {
+		toSerialize["cloudProvider"] = o.CloudProvider
+	}
+	if o.CloudRegion != nil {
+		toSerialize["cloudRegion"] = o.CloudRegion
+	}
 	toSerialize["environmentName"] = o.EnvironmentName
 	toSerialize["engine"] = o.Engine
 	if o.ParentBackupName != nil {
@@ -1085,11 +1067,8 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 	if o.BaseBackupName != nil {
 		toSerialize["baseBackupName"] = o.BaseBackupName
 	}
-	if o.EncryptionMasterKey != nil {
-		toSerialize["encryptionMasterKey"] = o.EncryptionMasterKey
-	}
-	if o.EncryptionDataKey != nil {
-		toSerialize["encryptionDataKey"] = o.EncryptionDataKey
+	if o.EncryptionKeyName != nil {
+		toSerialize["encryptionKeyName"] = o.EncryptionKeyName
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -1126,14 +1105,13 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 		Expiration          common.NullableTime `json:"expiration,omitempty"`
 		Id                  *string             `json:"id,omitempty"`
 		ClusterId           *string             `json:"clusterId,omitempty"`
-		CloudProvider       *string             `json:"cloudProvider"`
-		CloudRegion         *string             `json:"cloudRegion"`
+		CloudProvider       *string             `json:"cloudProvider,omitempty"`
+		CloudRegion         *string             `json:"cloudRegion,omitempty"`
 		EnvironmentName     *string             `json:"environmentName"`
 		Engine              *string             `json:"engine"`
 		ParentBackupName    *string             `json:"parentBackupName,omitempty"`
 		BaseBackupName      *string             `json:"baseBackupName,omitempty"`
-		EncryptionMasterKey *string             `json:"encryptionMasterKey,omitempty"`
-		EncryptionDataKey   *string             `json:"encryptionDataKey,omitempty"`
+		EncryptionKeyName   *string             `json:"encryptionKeyName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1174,12 +1152,6 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	if all.RetentionPeriod == nil {
 		return fmt.Errorf("required field retentionPeriod missing")
 	}
-	if all.CloudProvider == nil {
-		return fmt.Errorf("required field cloudProvider missing")
-	}
-	if all.CloudRegion == nil {
-		return fmt.Errorf("required field cloudRegion missing")
-	}
 	if all.EnvironmentName == nil {
 		return fmt.Errorf("required field environmentName missing")
 	}
@@ -1188,7 +1160,7 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "backupMethod", "backupPolicyName", "backupRepo", "backupType", "completionTimestamp", "creationTimestamp", "duration", "name", "orgName", "snapshotVolumes", "sourceCluster", "startTimestamp", "status", "timeRangeEnd", "timeRangeStart", "totalSize", "failureReason", "extras", "targetPods", "path", "retentionPeriod", "expiration", "id", "clusterId", "cloudProvider", "cloudRegion", "environmentName", "engine", "parentBackupName", "baseBackupName", "encryptionMasterKey", "encryptionDataKey"})
+		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "backupMethod", "backupPolicyName", "backupRepo", "backupType", "completionTimestamp", "creationTimestamp", "duration", "name", "orgName", "snapshotVolumes", "sourceCluster", "startTimestamp", "status", "timeRangeEnd", "timeRangeStart", "totalSize", "failureReason", "extras", "targetPods", "path", "retentionPeriod", "expiration", "id", "clusterId", "cloudProvider", "cloudRegion", "environmentName", "engine", "parentBackupName", "baseBackupName", "encryptionKeyName"})
 	} else {
 		return err
 	}
@@ -1227,14 +1199,13 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	o.Expiration = all.Expiration
 	o.Id = all.Id
 	o.ClusterId = all.ClusterId
-	o.CloudProvider = *all.CloudProvider
-	o.CloudRegion = *all.CloudRegion
+	o.CloudProvider = all.CloudProvider
+	o.CloudRegion = all.CloudRegion
 	o.EnvironmentName = *all.EnvironmentName
 	o.Engine = *all.Engine
 	o.ParentBackupName = all.ParentBackupName
 	o.BaseBackupName = all.BaseBackupName
-	o.EncryptionMasterKey = all.EncryptionMasterKey
-	o.EncryptionDataKey = all.EncryptionDataKey
+	o.EncryptionKeyName = all.EncryptionKeyName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

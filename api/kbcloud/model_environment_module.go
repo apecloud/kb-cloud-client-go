@@ -18,8 +18,6 @@ type EnvironmentModule struct {
 	Version *string `json:"version,omitempty"`
 	// Status of environment module
 	Status EnvironmentModuleStatus `json:"status"`
-	// Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
-	HostingStatus *HostingStatus `json:"hostingStatus,omitempty"`
 	// Number of replicas
 	Replicas *int32 `json:"replicas,omitempty"`
 	// Deployment location
@@ -27,8 +25,11 @@ type EnvironmentModule struct {
 	// Cluster information
 	ClusterInfo *ClusterInfo          `json:"clusterInfo,omitempty"`
 	Description *LocalizedDescription `json:"description,omitempty"`
-	// indicate module is optional
+	DisplayName *LocalizedDescription `json:"displayName,omitempty"`
+	// indicate module is optional. If false, the module is required and must be installed
 	Optional *bool `json:"optional,omitempty"`
+	// indicate whether module is enabled by default when creating environment. Only effective when optional is true
+	DefaultEnabled *bool `json:"defaultEnabled,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -125,34 +126,6 @@ func (o *EnvironmentModule) GetStatusOk() (*EnvironmentModuleStatus, bool) {
 // SetStatus sets field value.
 func (o *EnvironmentModule) SetStatus(v EnvironmentModuleStatus) {
 	o.Status = v
-}
-
-// GetHostingStatus returns the HostingStatus field value if set, zero value otherwise.
-func (o *EnvironmentModule) GetHostingStatus() HostingStatus {
-	if o == nil || o.HostingStatus == nil {
-		var ret HostingStatus
-		return ret
-	}
-	return *o.HostingStatus
-}
-
-// GetHostingStatusOk returns a tuple with the HostingStatus field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *EnvironmentModule) GetHostingStatusOk() (*HostingStatus, bool) {
-	if o == nil || o.HostingStatus == nil {
-		return nil, false
-	}
-	return o.HostingStatus, true
-}
-
-// HasHostingStatus returns a boolean if a field has been set.
-func (o *EnvironmentModule) HasHostingStatus() bool {
-	return o != nil && o.HostingStatus != nil
-}
-
-// SetHostingStatus gets a reference to the given HostingStatus and assigns it to the HostingStatus field.
-func (o *EnvironmentModule) SetHostingStatus(v HostingStatus) {
-	o.HostingStatus = &v
 }
 
 // GetReplicas returns the Replicas field value if set, zero value otherwise.
@@ -267,6 +240,34 @@ func (o *EnvironmentModule) SetDescription(v LocalizedDescription) {
 	o.Description = &v
 }
 
+// GetDisplayName returns the DisplayName field value if set, zero value otherwise.
+func (o *EnvironmentModule) GetDisplayName() LocalizedDescription {
+	if o == nil || o.DisplayName == nil {
+		var ret LocalizedDescription
+		return ret
+	}
+	return *o.DisplayName
+}
+
+// GetDisplayNameOk returns a tuple with the DisplayName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentModule) GetDisplayNameOk() (*LocalizedDescription, bool) {
+	if o == nil || o.DisplayName == nil {
+		return nil, false
+	}
+	return o.DisplayName, true
+}
+
+// HasDisplayName returns a boolean if a field has been set.
+func (o *EnvironmentModule) HasDisplayName() bool {
+	return o != nil && o.DisplayName != nil
+}
+
+// SetDisplayName gets a reference to the given LocalizedDescription and assigns it to the DisplayName field.
+func (o *EnvironmentModule) SetDisplayName(v LocalizedDescription) {
+	o.DisplayName = &v
+}
+
 // GetOptional returns the Optional field value if set, zero value otherwise.
 func (o *EnvironmentModule) GetOptional() bool {
 	if o == nil || o.Optional == nil {
@@ -295,6 +296,34 @@ func (o *EnvironmentModule) SetOptional(v bool) {
 	o.Optional = &v
 }
 
+// GetDefaultEnabled returns the DefaultEnabled field value if set, zero value otherwise.
+func (o *EnvironmentModule) GetDefaultEnabled() bool {
+	if o == nil || o.DefaultEnabled == nil {
+		var ret bool
+		return ret
+	}
+	return *o.DefaultEnabled
+}
+
+// GetDefaultEnabledOk returns a tuple with the DefaultEnabled field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentModule) GetDefaultEnabledOk() (*bool, bool) {
+	if o == nil || o.DefaultEnabled == nil {
+		return nil, false
+	}
+	return o.DefaultEnabled, true
+}
+
+// HasDefaultEnabled returns a boolean if a field has been set.
+func (o *EnvironmentModule) HasDefaultEnabled() bool {
+	return o != nil && o.DefaultEnabled != nil
+}
+
+// SetDefaultEnabled gets a reference to the given bool and assigns it to the DefaultEnabled field.
+func (o *EnvironmentModule) SetDefaultEnabled(v bool) {
+	o.DefaultEnabled = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -306,9 +335,6 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 		toSerialize["version"] = o.Version
 	}
 	toSerialize["status"] = o.Status
-	if o.HostingStatus != nil {
-		toSerialize["hostingStatus"] = o.HostingStatus
-	}
 	if o.Replicas != nil {
 		toSerialize["replicas"] = o.Replicas
 	}
@@ -321,8 +347,14 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
+	if o.DisplayName != nil {
+		toSerialize["displayName"] = o.DisplayName
+	}
 	if o.Optional != nil {
 		toSerialize["optional"] = o.Optional
+	}
+	if o.DefaultEnabled != nil {
+		toSerialize["defaultEnabled"] = o.DefaultEnabled
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -334,15 +366,16 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name          *string                  `json:"name"`
-		Version       *string                  `json:"version,omitempty"`
-		Status        *EnvironmentModuleStatus `json:"status"`
-		HostingStatus *HostingStatus           `json:"hostingStatus,omitempty"`
-		Replicas      *int32                   `json:"replicas,omitempty"`
-		Location      *string                  `json:"location,omitempty"`
-		ClusterInfo   *ClusterInfo             `json:"clusterInfo,omitempty"`
-		Description   *LocalizedDescription    `json:"description,omitempty"`
-		Optional      *bool                    `json:"optional,omitempty"`
+		Name           *string                  `json:"name"`
+		Version        *string                  `json:"version,omitempty"`
+		Status         *EnvironmentModuleStatus `json:"status"`
+		Replicas       *int32                   `json:"replicas,omitempty"`
+		Location       *string                  `json:"location,omitempty"`
+		ClusterInfo    *ClusterInfo             `json:"clusterInfo,omitempty"`
+		Description    *LocalizedDescription    `json:"description,omitempty"`
+		DisplayName    *LocalizedDescription    `json:"displayName,omitempty"`
+		Optional       *bool                    `json:"optional,omitempty"`
+		DefaultEnabled *bool                    `json:"defaultEnabled,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -355,7 +388,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "hostingStatus", "replicas", "location", "clusterInfo", "description", "optional"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "replicas", "location", "clusterInfo", "description", "displayName", "optional", "defaultEnabled"})
 	} else {
 		return err
 	}
@@ -368,11 +401,6 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.Status = *all.Status
 	}
-	if all.HostingStatus != nil && !all.HostingStatus.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.HostingStatus = all.HostingStatus
-	}
 	o.Replicas = all.Replicas
 	o.Location = all.Location
 	if all.ClusterInfo != nil && all.ClusterInfo.UnparsedObject != nil && o.UnparsedObject == nil {
@@ -383,7 +411,12 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Description = all.Description
+	if all.DisplayName != nil && all.DisplayName.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.DisplayName = all.DisplayName
 	o.Optional = all.Optional
+	o.DefaultEnabled = all.DefaultEnabled
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

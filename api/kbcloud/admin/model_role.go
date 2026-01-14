@@ -15,13 +15,13 @@ type Role struct {
 	// The name of the role
 	Name *string `json:"name,omitempty"`
 	// The type of the role
-	Type *string `json:"type,omitempty"`
-	// The description of the role
-	Description *string `json:"description,omitempty"`
+	Type        *string               `json:"type,omitempty"`
+	Description *LocalizedDescription `json:"description,omitempty"`
 	// The time when the role was created. Read-Only
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	// The time when the role was updated. Read-Only
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+	UpdatedAt   *time.Time            `json:"updatedAt,omitempty"`
+	DisplayName *LocalizedDescription `json:"displayName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -101,9 +101,9 @@ func (o *Role) SetType(v string) {
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
-func (o *Role) GetDescription() string {
+func (o *Role) GetDescription() LocalizedDescription {
 	if o == nil || o.Description == nil {
-		var ret string
+		var ret LocalizedDescription
 		return ret
 	}
 	return *o.Description
@@ -111,7 +111,7 @@ func (o *Role) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Role) GetDescriptionOk() (*string, bool) {
+func (o *Role) GetDescriptionOk() (*LocalizedDescription, bool) {
 	if o == nil || o.Description == nil {
 		return nil, false
 	}
@@ -123,8 +123,8 @@ func (o *Role) HasDescription() bool {
 	return o != nil && o.Description != nil
 }
 
-// SetDescription gets a reference to the given string and assigns it to the Description field.
-func (o *Role) SetDescription(v string) {
+// SetDescription gets a reference to the given LocalizedDescription and assigns it to the Description field.
+func (o *Role) SetDescription(v LocalizedDescription) {
 	o.Description = &v
 }
 
@@ -184,6 +184,34 @@ func (o *Role) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
 
+// GetDisplayName returns the DisplayName field value if set, zero value otherwise.
+func (o *Role) GetDisplayName() LocalizedDescription {
+	if o == nil || o.DisplayName == nil {
+		var ret LocalizedDescription
+		return ret
+	}
+	return *o.DisplayName
+}
+
+// GetDisplayNameOk returns a tuple with the DisplayName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Role) GetDisplayNameOk() (*LocalizedDescription, bool) {
+	if o == nil || o.DisplayName == nil {
+		return nil, false
+	}
+	return o.DisplayName, true
+}
+
+// HasDisplayName returns a boolean if a field has been set.
+func (o *Role) HasDisplayName() bool {
+	return o != nil && o.DisplayName != nil
+}
+
+// SetDisplayName gets a reference to the given LocalizedDescription and assigns it to the DisplayName field.
+func (o *Role) SetDisplayName(v LocalizedDescription) {
+	o.DisplayName = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Role) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -213,6 +241,9 @@ func (o Role) MarshalJSON() ([]byte, error) {
 			toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
+	if o.DisplayName != nil {
+		toSerialize["displayName"] = o.DisplayName
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -223,29 +254,43 @@ func (o Role) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Role) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string    `json:"name,omitempty"`
-		Type        *string    `json:"type,omitempty"`
-		Description *string    `json:"description,omitempty"`
-		CreatedAt   *time.Time `json:"createdAt,omitempty"`
-		UpdatedAt   *time.Time `json:"updatedAt,omitempty"`
+		Name        *string               `json:"name,omitempty"`
+		Type        *string               `json:"type,omitempty"`
+		Description *LocalizedDescription `json:"description,omitempty"`
+		CreatedAt   *time.Time            `json:"createdAt,omitempty"`
+		UpdatedAt   *time.Time            `json:"updatedAt,omitempty"`
+		DisplayName *LocalizedDescription `json:"displayName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "description", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "description", "createdAt", "updatedAt", "displayName"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Name = all.Name
 	o.Type = all.Type
+	if all.Description != nil && all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
 	o.Description = all.Description
 	o.CreatedAt = all.CreatedAt
 	o.UpdatedAt = all.UpdatedAt
+	if all.DisplayName != nil && all.DisplayName.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.DisplayName = all.DisplayName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

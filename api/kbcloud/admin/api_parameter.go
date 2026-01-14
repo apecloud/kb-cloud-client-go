@@ -152,7 +152,7 @@ func (r *ListParametersHistoryOptionalParameters) WithParameterName(parameterNam
 }
 
 // ListParametersHistory List parameters history of the cluster.
-func (a *ParameterApi) ListParametersHistory(ctx _context.Context, orgName string, clusterName string, o ...ListParametersHistoryOptionalParameters) (ParameterHistoryList, *_nethttp.Response, error) {
+func (a *ParameterApi) ListParametersHistory(ctx _context.Context, orgName string, clusterName string, component string, o ...ListParametersHistoryOptionalParameters) (ParameterHistoryList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -188,6 +188,7 @@ func (a *ParameterApi) ListParametersHistory(ctx _context.Context, orgName strin
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("component", common.ParameterToString(component, ""))
 	if optionalParams.ParameterName != nil {
 		localVarQueryParams.Add("parameterName", common.ParameterToString(*optionalParams.ParameterName, ""))
 	}

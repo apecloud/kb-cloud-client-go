@@ -355,7 +355,8 @@ func (a *EngineOptionApi) ListEngineOptionHistory(ctx _context.Context, engineNa
 
 // ListEngineOptionsOptionalParameters holds optional parameters for ListEngineOptions.
 type ListEngineOptionsOptionalParameters struct {
-	Version *EngineOptionVersion
+	Version                             *EngineOptionVersion
+	FilterLoadBackupFromOfflineInstance *bool
 }
 
 // NewListEngineOptionsOptionalParameters creates an empty struct for parameters.
@@ -367,6 +368,12 @@ func NewListEngineOptionsOptionalParameters() *ListEngineOptionsOptionalParamete
 // WithVersion sets the corresponding parameter name and returns the struct.
 func (r *ListEngineOptionsOptionalParameters) WithVersion(version EngineOptionVersion) *ListEngineOptionsOptionalParameters {
 	r.Version = &version
+	return r
+}
+
+// WithFilterLoadBackupFromOfflineInstance sets the corresponding parameter name and returns the struct.
+func (r *ListEngineOptionsOptionalParameters) WithFilterLoadBackupFromOfflineInstance(filterLoadBackupFromOfflineInstance bool) *ListEngineOptionsOptionalParameters {
+	r.FilterLoadBackupFromOfflineInstance = &filterLoadBackupFromOfflineInstance
 	return r
 }
 
@@ -408,6 +415,9 @@ func (a *EngineOptionApi) ListEngineOptions(ctx _context.Context, o ...ListEngin
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.Version != nil {
 		localVarQueryParams.Add("version", common.ParameterToString(*optionalParams.Version, ""))
+	}
+	if optionalParams.FilterLoadBackupFromOfflineInstance != nil {
+		localVarQueryParams.Add("filterLoadBackupFromOfflineInstance", common.ParameterToString(*optionalParams.FilterLoadBackupFromOfflineInstance, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

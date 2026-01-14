@@ -359,10 +359,11 @@ func (a *ParameterTemplateApi) GetClusterParameterTemplate(ctx _context.Context,
 // ListParameterTemplatesOptionalParameters holds optional parameters for ListParameterTemplates.
 type ListParameterTemplatesOptionalParameters struct {
 	OrgName    *string
-	Partition  *ParamTplPartition
+	Partition  *ParameterTemplatePartition
 	Version    *string
 	Component  *string
 	EngineName *string
+	EngineMode *string
 }
 
 // NewListParameterTemplatesOptionalParameters creates an empty struct for parameters.
@@ -378,7 +379,7 @@ func (r *ListParameterTemplatesOptionalParameters) WithOrgName(orgName string) *
 }
 
 // WithPartition sets the corresponding parameter name and returns the struct.
-func (r *ListParameterTemplatesOptionalParameters) WithPartition(partition ParamTplPartition) *ListParameterTemplatesOptionalParameters {
+func (r *ListParameterTemplatesOptionalParameters) WithPartition(partition ParameterTemplatePartition) *ListParameterTemplatesOptionalParameters {
 	r.Partition = &partition
 	return r
 }
@@ -398,6 +399,12 @@ func (r *ListParameterTemplatesOptionalParameters) WithComponent(component strin
 // WithEngineName sets the corresponding parameter name and returns the struct.
 func (r *ListParameterTemplatesOptionalParameters) WithEngineName(engineName string) *ListParameterTemplatesOptionalParameters {
 	r.EngineName = &engineName
+	return r
+}
+
+// WithEngineMode sets the corresponding parameter name and returns the struct.
+func (r *ListParameterTemplatesOptionalParameters) WithEngineMode(engineMode string) *ListParameterTemplatesOptionalParameters {
+	r.EngineMode = &engineMode
 	return r
 }
 
@@ -450,6 +457,9 @@ func (a *ParameterTemplateApi) ListParameterTemplates(ctx _context.Context, o ..
 	}
 	if optionalParams.EngineName != nil {
 		localVarQueryParams.Add("engineName", common.ParameterToString(*optionalParams.EngineName, ""))
+	}
+	if optionalParams.EngineMode != nil {
+		localVarQueryParams.Add("engineMode", common.ParameterToString(*optionalParams.EngineMode, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -585,7 +595,7 @@ func (a *ParameterTemplateApi) PatchParameterTemplate(ctx _context.Context, orgN
 
 // ReadParameterTemplateOptionalParameters holds optional parameters for ReadParameterTemplate.
 type ReadParameterTemplateOptionalParameters struct {
-	Partition  *ParamTplPartition
+	Partition  *ParameterTemplatePartition
 	RawContent *bool
 }
 
@@ -596,7 +606,7 @@ func NewReadParameterTemplateOptionalParameters() *ReadParameterTemplateOptional
 }
 
 // WithPartition sets the corresponding parameter name and returns the struct.
-func (r *ReadParameterTemplateOptionalParameters) WithPartition(partition ParamTplPartition) *ReadParameterTemplateOptionalParameters {
+func (r *ReadParameterTemplateOptionalParameters) WithPartition(partition ParameterTemplatePartition) *ReadParameterTemplateOptionalParameters {
 	r.Partition = &partition
 	return r
 }

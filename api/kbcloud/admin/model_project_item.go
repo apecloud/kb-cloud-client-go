@@ -21,6 +21,8 @@ type ProjectItem struct {
 	CreatedAt time.Time `json:"createdAt"`
 	// The status of project.
 	Status string `json:"status"`
+	// The description of the project.
+	Description *string `json:"description,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -139,6 +141,34 @@ func (o *ProjectItem) SetStatus(v string) {
 	o.Status = v
 }
 
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *ProjectItem) GetDescription() string {
+	if o == nil || o.Description == nil {
+		var ret string
+		return ret
+	}
+	return *o.Description
+}
+
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ProjectItem) GetDescriptionOk() (*string, bool) {
+	if o == nil || o.Description == nil {
+		return nil, false
+	}
+	return o.Description, true
+}
+
+// HasDescription returns a boolean if a field has been set.
+func (o *ProjectItem) HasDescription() bool {
+	return o != nil && o.Description != nil
+}
+
+// SetDescription gets a reference to the given string and assigns it to the Description field.
+func (o *ProjectItem) SetDescription(v string) {
+	o.Description = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ProjectItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -153,6 +183,9 @@ func (o ProjectItem) MarshalJSON() ([]byte, error) {
 		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 	}
 	toSerialize["status"] = o.Status
+	if o.Description != nil {
+		toSerialize["description"] = o.Description
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -167,6 +200,7 @@ func (o *ProjectItem) UnmarshalJSON(bytes []byte) (err error) {
 		ClusterTotal *int32     `json:"clusterTotal"`
 		CreatedAt    *time.Time `json:"createdAt"`
 		Status       *string    `json:"status"`
+		Description  *string    `json:"description,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -185,7 +219,7 @@ func (o *ProjectItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "clusterTotal", "createdAt", "status"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "clusterTotal", "createdAt", "status", "description"})
 	} else {
 		return err
 	}
@@ -193,6 +227,7 @@ func (o *ProjectItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.ClusterTotal = *all.ClusterTotal
 	o.CreatedAt = *all.CreatedAt
 	o.Status = *all.Status
+	o.Description = all.Description
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

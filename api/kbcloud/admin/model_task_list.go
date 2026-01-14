@@ -11,7 +11,9 @@ import (
 )
 
 type TaskList struct {
-	Items []Task `json:"items"`
+	Items []TaskListItem `json:"items"`
+	// Pagination information
+	Pagination *PaginationResult `json:"pagination,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -21,7 +23,7 @@ type TaskList struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewTaskList(items []Task) *TaskList {
+func NewTaskList(items []TaskListItem) *TaskList {
 	this := TaskList{}
 	this.Items = items
 	return &this
@@ -36,9 +38,9 @@ func NewTaskListWithDefaults() *TaskList {
 }
 
 // GetItems returns the Items field value.
-func (o *TaskList) GetItems() []Task {
+func (o *TaskList) GetItems() []TaskListItem {
 	if o == nil {
-		var ret []Task
+		var ret []TaskListItem
 		return ret
 	}
 	return o.Items
@@ -46,7 +48,7 @@ func (o *TaskList) GetItems() []Task {
 
 // GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *TaskList) GetItemsOk() (*[]Task, bool) {
+func (o *TaskList) GetItemsOk() (*[]TaskListItem, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -54,8 +56,36 @@ func (o *TaskList) GetItemsOk() (*[]Task, bool) {
 }
 
 // SetItems sets field value.
-func (o *TaskList) SetItems(v []Task) {
+func (o *TaskList) SetItems(v []TaskListItem) {
 	o.Items = v
+}
+
+// GetPagination returns the Pagination field value if set, zero value otherwise.
+func (o *TaskList) GetPagination() PaginationResult {
+	if o == nil || o.Pagination == nil {
+		var ret PaginationResult
+		return ret
+	}
+	return *o.Pagination
+}
+
+// GetPaginationOk returns a tuple with the Pagination field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *TaskList) GetPaginationOk() (*PaginationResult, bool) {
+	if o == nil || o.Pagination == nil {
+		return nil, false
+	}
+	return o.Pagination, true
+}
+
+// HasPagination returns a boolean if a field has been set.
+func (o *TaskList) HasPagination() bool {
+	return o != nil && o.Pagination != nil
+}
+
+// SetPagination gets a reference to the given PaginationResult and assigns it to the Pagination field.
+func (o *TaskList) SetPagination(v PaginationResult) {
+	o.Pagination = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -65,6 +95,9 @@ func (o TaskList) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["items"] = o.Items
+	if o.Pagination != nil {
+		toSerialize["pagination"] = o.Pagination
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -75,7 +108,8 @@ func (o TaskList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *TaskList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items *[]Task `json:"items"`
+		Items      *[]TaskListItem   `json:"items"`
+		Pagination *PaginationResult `json:"pagination,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -85,14 +119,24 @@ func (o *TaskList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items"})
+		common.DeleteKeys(additionalProperties, &[]string{"items", "pagination"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Items = *all.Items
+	if all.Pagination != nil && all.Pagination.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Pagination = all.Pagination
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

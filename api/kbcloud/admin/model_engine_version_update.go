@@ -28,6 +28,8 @@ type EngineVersionUpdate struct {
 	ChartsImage common.NullableString `json:"chartsImage,omitempty"`
 	// Determines if the image registry is set
 	SetImageRegistry common.NullableBool `json:"setImageRegistry,omitempty"`
+	// Service versions supported by this engine version
+	ServiceVersions common.NullableList[string] `json:"serviceVersions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -336,6 +338,45 @@ func (o *EngineVersionUpdate) UnsetSetImageRegistry() {
 	o.SetImageRegistry.Unset()
 }
 
+// GetServiceVersions returns the ServiceVersions field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *EngineVersionUpdate) GetServiceVersions() []string {
+	if o == nil || o.ServiceVersions.Get() == nil {
+		var ret []string
+		return ret
+	}
+	return *o.ServiceVersions.Get()
+}
+
+// GetServiceVersionsOk returns a tuple with the ServiceVersions field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *EngineVersionUpdate) GetServiceVersionsOk() (*[]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ServiceVersions.Get(), o.ServiceVersions.IsSet()
+}
+
+// HasServiceVersions returns a boolean if a field has been set.
+func (o *EngineVersionUpdate) HasServiceVersions() bool {
+	return o != nil && o.ServiceVersions.IsSet()
+}
+
+// SetServiceVersions gets a reference to the given common.NullableList[string] and assigns it to the ServiceVersions field.
+func (o *EngineVersionUpdate) SetServiceVersions(v []string) {
+	o.ServiceVersions.Set(&v)
+}
+
+// SetServiceVersionsNil sets the value for ServiceVersions to be an explicit nil.
+func (o *EngineVersionUpdate) SetServiceVersionsNil() {
+	o.ServiceVersions.Set(nil)
+}
+
+// UnsetServiceVersions ensures that no value is present for ServiceVersions, not even an explicit nil.
+func (o *EngineVersionUpdate) UnsetServiceVersions() {
+	o.ServiceVersions.Unset()
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineVersionUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -362,6 +403,9 @@ func (o EngineVersionUpdate) MarshalJSON() ([]byte, error) {
 	if o.SetImageRegistry.IsSet() {
 		toSerialize["setImageRegistry"] = o.SetImageRegistry.Get()
 	}
+	if o.ServiceVersions.IsSet() {
+		toSerialize["serviceVersions"] = o.ServiceVersions.Get()
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -372,14 +416,15 @@ func (o EngineVersionUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineVersionUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EngineName          *string               `json:"engineName"`
-		Version             *string               `json:"version"`
-		KbVersionConstraint common.NullableString `json:"kbVersionConstraint,omitempty"`
-		ClusterChartUrl     common.NullableString `json:"clusterChartUrl,omitempty"`
-		ChartUrl            common.NullableString `json:"chartUrl,omitempty"`
-		SetValues           common.NullableString `json:"setValues,omitempty"`
-		ChartsImage         common.NullableString `json:"chartsImage,omitempty"`
-		SetImageRegistry    common.NullableBool   `json:"setImageRegistry,omitempty"`
+		EngineName          *string                     `json:"engineName"`
+		Version             *string                     `json:"version"`
+		KbVersionConstraint common.NullableString       `json:"kbVersionConstraint,omitempty"`
+		ClusterChartUrl     common.NullableString       `json:"clusterChartUrl,omitempty"`
+		ChartUrl            common.NullableString       `json:"chartUrl,omitempty"`
+		SetValues           common.NullableString       `json:"setValues,omitempty"`
+		ChartsImage         common.NullableString       `json:"chartsImage,omitempty"`
+		SetImageRegistry    common.NullableBool         `json:"setImageRegistry,omitempty"`
+		ServiceVersions     common.NullableList[string] `json:"serviceVersions,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -392,7 +437,7 @@ func (o *EngineVersionUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "version", "kbVersionConstraint", "clusterChartUrl", "chartUrl", "setValues", "chartsImage", "setImageRegistry"})
+		common.DeleteKeys(additionalProperties, &[]string{"engineName", "version", "kbVersionConstraint", "clusterChartUrl", "chartUrl", "setValues", "chartsImage", "setImageRegistry", "serviceVersions"})
 	} else {
 		return err
 	}
@@ -404,6 +449,7 @@ func (o *EngineVersionUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	o.SetValues = all.SetValues
 	o.ChartsImage = all.ChartsImage
 	o.SetImageRegistry = all.SetImageRegistry
+	o.ServiceVersions = all.ServiceVersions
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

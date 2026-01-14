@@ -24,8 +24,7 @@ type OrgParameter struct {
 	Type string `json:"type"`
 	// org parameter constraints including min, max, enum, default value
 	Constraints OrgParameterConstraints `json:"constraints"`
-	// org parameter description
-	Description string `json:"description"`
+	Description LocalizedDescription    `json:"description"`
 	// org parameter value
 	Value string `json:"value"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -37,7 +36,7 @@ type OrgParameter struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOrgParameter(id string, orgId string, name string, category string, typeVar string, constraints OrgParameterConstraints, description string, value string) *OrgParameter {
+func NewOrgParameter(id string, orgId string, name string, category string, typeVar string, constraints OrgParameterConstraints, description LocalizedDescription, value string) *OrgParameter {
 	this := OrgParameter{}
 	this.Id = id
 	this.OrgId = orgId
@@ -197,9 +196,9 @@ func (o *OrgParameter) SetConstraints(v OrgParameterConstraints) {
 }
 
 // GetDescription returns the Description field value.
-func (o *OrgParameter) GetDescription() string {
+func (o *OrgParameter) GetDescription() LocalizedDescription {
 	if o == nil {
-		var ret string
+		var ret LocalizedDescription
 		return ret
 	}
 	return o.Description
@@ -207,7 +206,7 @@ func (o *OrgParameter) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value
 // and a boolean to check if the value has been set.
-func (o *OrgParameter) GetDescriptionOk() (*string, bool) {
+func (o *OrgParameter) GetDescriptionOk() (*LocalizedDescription, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -215,7 +214,7 @@ func (o *OrgParameter) GetDescriptionOk() (*string, bool) {
 }
 
 // SetDescription sets field value.
-func (o *OrgParameter) SetDescription(v string) {
+func (o *OrgParameter) SetDescription(v LocalizedDescription) {
 	o.Description = v
 }
 
@@ -272,7 +271,7 @@ func (o *OrgParameter) UnmarshalJSON(bytes []byte) (err error) {
 		Category    *string                  `json:"category"`
 		Type        *string                  `json:"type"`
 		Constraints *OrgParameterConstraints `json:"constraints"`
-		Description *string                  `json:"description"`
+		Description *LocalizedDescription    `json:"description"`
 		Value       *string                  `json:"value"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -319,6 +318,9 @@ func (o *OrgParameter) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Constraints = *all.Constraints
+	if all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
 	o.Description = *all.Description
 	o.Value = *all.Value
 
