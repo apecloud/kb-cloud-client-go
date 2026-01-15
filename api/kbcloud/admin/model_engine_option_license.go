@@ -16,7 +16,8 @@ type EngineOptionLicense struct {
 	// support to refer the cluster name with variable ${clusterName}
 	SecretName string `json:"secretName"`
 	// the license file name
-	FileName   string          `json:"fileName"`
+	FileName string `json:"fileName"`
+	// set the custom ops to update license for different components
 	Components []LicenseOption `json:"components,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

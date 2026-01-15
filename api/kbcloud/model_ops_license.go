@@ -13,7 +13,7 @@ import (
 // OpsLicense OpsLicense is the payload to update a KubeBlocks cluster license
 type OpsLicense struct {
 	// component type
-	Component string `json:"component"`
+	Component *string `json:"component,omitempty"`
 	// license ID
 	LicenseId string `json:"licenseId"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -25,9 +25,8 @@ type OpsLicense struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOpsLicense(component string, licenseId string) *OpsLicense {
+func NewOpsLicense(licenseId string) *OpsLicense {
 	this := OpsLicense{}
-	this.Component = component
 	this.LicenseId = licenseId
 	return &this
 }
@@ -40,27 +39,32 @@ func NewOpsLicenseWithDefaults() *OpsLicense {
 	return &this
 }
 
-// GetComponent returns the Component field value.
+// GetComponent returns the Component field value if set, zero value otherwise.
 func (o *OpsLicense) GetComponent() string {
-	if o == nil {
+	if o == nil || o.Component == nil {
 		var ret string
 		return ret
 	}
-	return o.Component
+	return *o.Component
 }
 
-// GetComponentOk returns a tuple with the Component field value
+// GetComponentOk returns a tuple with the Component field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *OpsLicense) GetComponentOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Component == nil {
 		return nil, false
 	}
-	return &o.Component, true
+	return o.Component, true
 }
 
-// SetComponent sets field value.
+// HasComponent returns a boolean if a field has been set.
+func (o *OpsLicense) HasComponent() bool {
+	return o != nil && o.Component != nil
+}
+
+// SetComponent gets a reference to the given string and assigns it to the Component field.
 func (o *OpsLicense) SetComponent(v string) {
-	o.Component = v
+	o.Component = &v
 }
 
 // GetLicenseId returns the LicenseId field value.
@@ -92,7 +96,9 @@ func (o OpsLicense) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["component"] = o.Component
+	if o.Component != nil {
+		toSerialize["component"] = o.Component
+	}
 	toSerialize["licenseId"] = o.LicenseId
 
 	for key, value := range o.AdditionalProperties {
@@ -104,14 +110,11 @@ func (o OpsLicense) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsLicense) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component *string `json:"component"`
+		Component *string `json:"component,omitempty"`
 		LicenseId *string `json:"licenseId"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
-	}
-	if all.Component == nil {
-		return fmt.Errorf("required field component missing")
 	}
 	if all.LicenseId == nil {
 		return fmt.Errorf("required field licenseId missing")
@@ -122,7 +125,7 @@ func (o *OpsLicense) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-	o.Component = *all.Component
+	o.Component = all.Component
 	o.LicenseId = *all.LicenseId
 
 	if len(additionalProperties) > 0 {

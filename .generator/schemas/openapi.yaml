@@ -16470,7 +16470,6 @@ components:
     opsLicense:
       description: OpsLicense is the payload to update a KubeBlocks cluster license
       required:
-        - component
         - licenseId
       properties:
         component:
@@ -20219,6 +20218,7 @@ components:
               description: the license file name
             components:
               type: array
+              description: set the custom ops to update license for different components
               items:
                 $ref: '#/components/schemas/licenseOption'
         storageExpansion:
