@@ -6147,9 +6147,15 @@ paths:
   /api/v1/organizations/{orgName}/tasks/{taskId}/cancel:
     post:
       summary: Cancel a task
-      description: Cancel a task by taskID. For opsrequest workflow engine, this will cancel the underlying OpsRequest CR.
+      description: Cancel a task by taskID within the organization.
       operationId: cancelTask
       parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
         - description: ID of the task
           in: path
           name: taskId

@@ -18,7 +18,7 @@ import (
 type TaskApi common.Service
 
 // CancelTask Cancel a task.
-// Cancel a task by taskID. For opsrequest workflow engine, this will cancel the underlying OpsRequest CR.
+// Cancel a task by taskID.
 func (a *TaskApi) CancelTask(ctx _context.Context, taskId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost

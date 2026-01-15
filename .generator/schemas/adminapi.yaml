@@ -12275,7 +12275,7 @@ paths:
   /admin/v1/tasks/{taskId}/cancel:
     post:
       summary: Cancel a task
-      description: Cancel a task by taskID. For opsrequest workflow engine, this will cancel the underlying OpsRequest CR.
+      description: Cancel a task by taskID.
       operationId: cancelTask
       parameters:
         - description: ID of the task

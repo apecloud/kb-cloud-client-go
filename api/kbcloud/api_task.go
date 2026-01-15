@@ -18,8 +18,8 @@ import (
 type TaskApi common.Service
 
 // CancelTask Cancel a task.
-// Cancel a task by taskID. For opsrequest workflow engine, this will cancel the underlying OpsRequest CR.
-func (a *TaskApi) CancelTask(ctx _context.Context, taskId string) (*_nethttp.Response, error) {
+// Cancel a task by taskID within the organization.
+func (a *TaskApi) CancelTask(ctx _context.Context, orgName string, taskId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
@@ -40,6 +40,7 @@ func (a *TaskApi) CancelTask(ctx _context.Context, taskId string) (*_nethttp.Res
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/tasks/{taskId}/cancel"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"taskId"+"}", _neturl.PathEscape(common.ParameterToString(taskId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
