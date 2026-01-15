@@ -46,6 +46,8 @@ type EnvironmentUpdate struct {
 	ClusterValidationPolicy *ClusterValidationPolicy `json:"clusterValidationPolicy,omitempty"`
 	// Cloud Provider
 	Provider common.NullableString `json:"provider,omitempty"`
+	// whether to enable calculate the cluster SLA for the environment
+	SlaEnabled *bool `json:"slaEnabled,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -69,6 +71,8 @@ func NewEnvironmentUpdate() *EnvironmentUpdate {
 	this.DeletePolicy = &deletePolicy
 	var clusterValidationPolicy ClusterValidationPolicy = ClusterValidationPolicyValidateOnly
 	this.ClusterValidationPolicy = &clusterValidationPolicy
+	var slaEnabled bool = false
+	this.SlaEnabled = &slaEnabled
 	return &this
 }
 
@@ -89,6 +93,8 @@ func NewEnvironmentUpdateWithDefaults() *EnvironmentUpdate {
 	this.DeletePolicy = &deletePolicy
 	var clusterValidationPolicy ClusterValidationPolicy = ClusterValidationPolicyValidateOnly
 	this.ClusterValidationPolicy = &clusterValidationPolicy
+	var slaEnabled bool = false
+	this.SlaEnabled = &slaEnabled
 	return &this
 }
 
@@ -695,6 +701,34 @@ func (o *EnvironmentUpdate) UnsetProvider() {
 	o.Provider.Unset()
 }
 
+// GetSlaEnabled returns the SlaEnabled field value if set, zero value otherwise.
+func (o *EnvironmentUpdate) GetSlaEnabled() bool {
+	if o == nil || o.SlaEnabled == nil {
+		var ret bool
+		return ret
+	}
+	return *o.SlaEnabled
+}
+
+// GetSlaEnabledOk returns a tuple with the SlaEnabled field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentUpdate) GetSlaEnabledOk() (*bool, bool) {
+	if o == nil || o.SlaEnabled == nil {
+		return nil, false
+	}
+	return o.SlaEnabled, true
+}
+
+// HasSlaEnabled returns a boolean if a field has been set.
+func (o *EnvironmentUpdate) HasSlaEnabled() bool {
+	return o != nil && o.SlaEnabled != nil
+}
+
+// SetSlaEnabled gets a reference to the given bool and assigns it to the SlaEnabled field.
+func (o *EnvironmentUpdate) SetSlaEnabled(v bool) {
+	o.SlaEnabled = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -755,6 +789,9 @@ func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 	if o.Provider.IsSet() {
 		toSerialize["provider"] = o.Provider.Get()
 	}
+	if o.SlaEnabled != nil {
+		toSerialize["slaEnabled"] = o.SlaEnabled
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -783,13 +820,14 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		DeletePolicy            *EnvironmentDeletePolicy    `json:"deletePolicy,omitempty"`
 		ClusterValidationPolicy *ClusterValidationPolicy    `json:"clusterValidationPolicy,omitempty"`
 		Provider                common.NullableString       `json:"provider,omitempty"`
+		SlaEnabled              *bool                       `json:"slaEnabled,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "type", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "podAntiAffinityEnabled", "imageRegistry", "nodePortEnabled", "lbEnabled", "internetLBEnabled", "networkModes", "deletePolicy", "clusterValidationPolicy", "provider"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "type", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "podAntiAffinityEnabled", "imageRegistry", "nodePortEnabled", "lbEnabled", "internetLBEnabled", "networkModes", "deletePolicy", "clusterValidationPolicy", "provider", "slaEnabled"})
 	} else {
 		return err
 	}
@@ -828,6 +866,7 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		o.ClusterValidationPolicy = all.ClusterValidationPolicy
 	}
 	o.Provider = all.Provider
+	o.SlaEnabled = all.SlaEnabled
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
