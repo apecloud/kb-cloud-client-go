@@ -19,7 +19,8 @@ type OpsCustom struct {
 	// ops definition name.
 	DependentOnOps []string `json:"dependentOnOps,omitempty"`
 	// custom ops parameters
-	Params []OpsParameter `json:"params,omitempty"`
+	Params   []OpsParameter `json:"params,omitempty"`
+	Schedule *TaskSchedule  `json:"schedule,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -146,6 +147,34 @@ func (o *OpsCustom) SetParams(v []OpsParameter) {
 	o.Params = v
 }
 
+// GetSchedule returns the Schedule field value if set, zero value otherwise.
+func (o *OpsCustom) GetSchedule() TaskSchedule {
+	if o == nil || o.Schedule == nil {
+		var ret TaskSchedule
+		return ret
+	}
+	return *o.Schedule
+}
+
+// GetScheduleOk returns a tuple with the Schedule field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OpsCustom) GetScheduleOk() (*TaskSchedule, bool) {
+	if o == nil || o.Schedule == nil {
+		return nil, false
+	}
+	return o.Schedule, true
+}
+
+// HasSchedule returns a boolean if a field has been set.
+func (o *OpsCustom) HasSchedule() bool {
+	return o != nil && o.Schedule != nil
+}
+
+// SetSchedule gets a reference to the given TaskSchedule and assigns it to the Schedule field.
+func (o *OpsCustom) SetSchedule(v TaskSchedule) {
+	o.Schedule = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsCustom) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -159,6 +188,9 @@ func (o OpsCustom) MarshalJSON() ([]byte, error) {
 	}
 	if o.Params != nil {
 		toSerialize["params"] = o.Params
+	}
+	if o.Schedule != nil {
+		toSerialize["schedule"] = o.Schedule
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -174,6 +206,7 @@ func (o *OpsCustom) UnmarshalJSON(bytes []byte) (err error) {
 		OpsType        *string        `json:"opsType"`
 		DependentOnOps []string       `json:"dependentOnOps,omitempty"`
 		Params         []OpsParameter `json:"params,omitempty"`
+		Schedule       *TaskSchedule  `json:"schedule,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -186,17 +219,27 @@ func (o *OpsCustom) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"compName", "opsType", "dependentOnOps", "params"})
+		common.DeleteKeys(additionalProperties, &[]string{"compName", "opsType", "dependentOnOps", "params", "schedule"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.CompName = *all.CompName
 	o.OpsType = *all.OpsType
 	o.DependentOnOps = all.DependentOnOps
 	o.Params = all.Params
+	if all.Schedule != nil && all.Schedule.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Schedule = all.Schedule
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
