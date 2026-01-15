@@ -21346,6 +21346,10 @@ components:
           $ref: '#/components/schemas/environmentArchitecture'
         dns:
           $ref: '#/components/schemas/dns'
+        slaEnabled:
+          description: whether to enable calculate the cluster SLA for the environment
+          type: boolean
+          default: false
     environmentList:
       description: EnvironmentList is a list of Environments
       properties:
@@ -21550,6 +21554,10 @@ components:
           description: Cloud Provider
           type: string
           nullable: true
+        slaEnabled:
+          description: whether to enable calculate the cluster SLA for the environment
+          type: boolean
+          default: false
     environmentStatusHistory:
       description: EventEnvironmentState contains details for the current and previous state of the environment.
       type: object
