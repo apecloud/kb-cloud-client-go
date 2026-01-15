@@ -18,8 +18,8 @@ type TaskType struct {
 	Description *LocalizedDescription `json:"description,omitempty"`
 	// Category of the task type
 	Category *string `json:"category,omitempty"`
-	// Workflow engine of the task type
-	WorkflowEngine string `json:"workflowEngine"`
+	// Allow actions of the task type
+	AllowActions []string `json:"allowActions,omitempty"`
 	// Resource type of the task type
 	ResourceType *string `json:"resourceType,omitempty"`
 	// Creation time of the task type
@@ -35,10 +35,9 @@ type TaskType struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewTaskType(name string, workflowEngine string, createdAt time.Time, updatedAt time.Time) *TaskType {
+func NewTaskType(name string, createdAt time.Time, updatedAt time.Time) *TaskType {
 	this := TaskType{}
 	this.Name = name
-	this.WorkflowEngine = workflowEngine
 	this.CreatedAt = createdAt
 	this.UpdatedAt = updatedAt
 	return &this
@@ -159,27 +158,32 @@ func (o *TaskType) SetCategory(v string) {
 	o.Category = &v
 }
 
-// GetWorkflowEngine returns the WorkflowEngine field value.
-func (o *TaskType) GetWorkflowEngine() string {
-	if o == nil {
-		var ret string
+// GetAllowActions returns the AllowActions field value if set, zero value otherwise.
+func (o *TaskType) GetAllowActions() []string {
+	if o == nil || o.AllowActions == nil {
+		var ret []string
 		return ret
 	}
-	return o.WorkflowEngine
+	return o.AllowActions
 }
 
-// GetWorkflowEngineOk returns a tuple with the WorkflowEngine field value
+// GetAllowActionsOk returns a tuple with the AllowActions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TaskType) GetWorkflowEngineOk() (*string, bool) {
-	if o == nil {
+func (o *TaskType) GetAllowActionsOk() (*[]string, bool) {
+	if o == nil || o.AllowActions == nil {
 		return nil, false
 	}
-	return &o.WorkflowEngine, true
+	return &o.AllowActions, true
 }
 
-// SetWorkflowEngine sets field value.
-func (o *TaskType) SetWorkflowEngine(v string) {
-	o.WorkflowEngine = v
+// HasAllowActions returns a boolean if a field has been set.
+func (o *TaskType) HasAllowActions() bool {
+	return o != nil && o.AllowActions != nil
+}
+
+// SetAllowActions gets a reference to the given []string and assigns it to the AllowActions field.
+func (o *TaskType) SetAllowActions(v []string) {
+	o.AllowActions = v
 }
 
 // GetResourceType returns the ResourceType field value if set, zero value otherwise.
@@ -272,7 +276,9 @@ func (o TaskType) MarshalJSON() ([]byte, error) {
 	if o.Category != nil {
 		toSerialize["category"] = o.Category
 	}
-	toSerialize["workflowEngine"] = o.WorkflowEngine
+	if o.AllowActions != nil {
+		toSerialize["allowActions"] = o.AllowActions
+	}
 	if o.ResourceType != nil {
 		toSerialize["resourceType"] = o.ResourceType
 	}
@@ -296,23 +302,20 @@ func (o TaskType) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *TaskType) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name           *string               `json:"name"`
-		DisplayName    *LocalizedDescription `json:"displayName,omitempty"`
-		Description    *LocalizedDescription `json:"description,omitempty"`
-		Category       *string               `json:"category,omitempty"`
-		WorkflowEngine *string               `json:"workflowEngine"`
-		ResourceType   *string               `json:"resourceType,omitempty"`
-		CreatedAt      *time.Time            `json:"createdAt"`
-		UpdatedAt      *time.Time            `json:"updatedAt"`
+		Name         *string               `json:"name"`
+		DisplayName  *LocalizedDescription `json:"displayName,omitempty"`
+		Description  *LocalizedDescription `json:"description,omitempty"`
+		Category     *string               `json:"category,omitempty"`
+		AllowActions []string              `json:"allowActions,omitempty"`
+		ResourceType *string               `json:"resourceType,omitempty"`
+		CreatedAt    *time.Time            `json:"createdAt"`
+		UpdatedAt    *time.Time            `json:"updatedAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
-	}
-	if all.WorkflowEngine == nil {
-		return fmt.Errorf("required field workflowEngine missing")
 	}
 	if all.CreatedAt == nil {
 		return fmt.Errorf("required field createdAt missing")
@@ -322,7 +325,7 @@ func (o *TaskType) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "displayName", "description", "category", "workflowEngine", "resourceType", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "displayName", "description", "category", "allowActions", "resourceType", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}
@@ -338,7 +341,7 @@ func (o *TaskType) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Description = all.Description
 	o.Category = all.Category
-	o.WorkflowEngine = *all.WorkflowEngine
+	o.AllowActions = all.AllowActions
 	o.ResourceType = all.ResourceType
 	o.CreatedAt = *all.CreatedAt
 	o.UpdatedAt = *all.UpdatedAt

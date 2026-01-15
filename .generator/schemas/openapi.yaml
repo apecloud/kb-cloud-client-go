@@ -2939,43 +2939,6 @@ paths:
         - opsrequest
         - shared
       x-codegen-request-body-name: body
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}/cancel:
-    post:
-      description: cancel a OpsRequest
-      summary: Cancel OpsRequest
-      operationId: cancelOps
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the OpsRequest
-          in: path
-          name: opsName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - opsrequest
-        - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/volumes/io-quotas:
     post:
       tags:
@@ -6171,6 +6134,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/task'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - task
+  /api/v1/organizations/{orgName}/tasks/{taskId}/cancel:
+    post:
+      summary: Cancel a task
+      description: Cancel a task by taskID. For opsrequest workflow engine, this will cancel the underlying OpsRequest CR.
+      operationId: cancelTask
+      parameters:
+        - description: ID of the task
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Task cancelled successfully
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -20329,9 +20320,11 @@ components:
         category:
           type: string
           description: Category of the task type
-        workflowEngine:
-          type: string
-          description: Workflow engine of the task type
+        allowActions:
+          type: array
+          items:
+            type: string
+          description: Allow actions of the task type
         resourceType:
           type: string
           description: Resource type of the task type
@@ -20345,7 +20338,6 @@ components:
           description: Update time of the task type
       required:
         - name
-        - workflowEngine
         - createdAt
         - updatedAt
     taskTypeList:
