@@ -16518,6 +16518,10 @@ components:
           items:
             type: object
             $ref: '#/components/schemas/opsParameter'
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
+          description: Scheduled execution configuration
+          nullable: true
       type: object
     opsIoQuotas:
       description: IO Quotas describes IOPS and BPS for volumes of a KubeBlocks cluster
