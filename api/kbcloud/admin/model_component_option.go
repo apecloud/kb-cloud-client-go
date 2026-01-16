@@ -18,12 +18,12 @@ type ComponentOption struct {
 	// Determine whether the componentDef of kb-cluster belongs to this component type through this matching regularization.
 	// if not set, componentDef must be equal to component type.
 	//
-	MatchRegex                *string                 `json:"matchRegex,omitempty"`
-	Title                     LocalizedDescription    `json:"title"`
-	Order                     int32                   `json:"order"`
-	RoleOrder                 []string                `json:"roleOrder,omitempty"`
-	DisasterRecoveryRoleOrder []string                `json:"disasterRecoveryRoleOrder,omitempty"`
-	Version                   *ComponentOptionVersion `json:"version,omitempty"`
+	MatchRegex                *string                `json:"matchRegex,omitempty"`
+	Title                     LocalizedDescription   `json:"title"`
+	Order                     int32                  `json:"order"`
+	RoleOrder                 []string               `json:"roleOrder,omitempty"`
+	DisasterRecoveryRoleOrder []string               `json:"disasterRecoveryRoleOrder,omitempty"`
+	Version                   ComponentOptionVersion `json:"version"`
 	// Main component flag
 	Main *bool `json:"main,omitempty"`
 	// whether the component supports custom secret
@@ -37,11 +37,12 @@ type ComponentOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewComponentOption(name string, title LocalizedDescription, order int32) *ComponentOption {
+func NewComponentOption(name string, title LocalizedDescription, order int32, version ComponentOptionVersion) *ComponentOption {
 	this := ComponentOption{}
 	this.Name = name
 	this.Title = title
 	this.Order = order
+	this.Version = version
 	return &this
 }
 
@@ -234,32 +235,27 @@ func (o *ComponentOption) SetDisasterRecoveryRoleOrder(v []string) {
 	o.DisasterRecoveryRoleOrder = v
 }
 
-// GetVersion returns the Version field value if set, zero value otherwise.
+// GetVersion returns the Version field value.
 func (o *ComponentOption) GetVersion() ComponentOptionVersion {
-	if o == nil || o.Version == nil {
+	if o == nil {
 		var ret ComponentOptionVersion
 		return ret
 	}
-	return *o.Version
+	return o.Version
 }
 
-// GetVersionOk returns a tuple with the Version field value if set, nil otherwise
+// GetVersionOk returns a tuple with the Version field value
 // and a boolean to check if the value has been set.
 func (o *ComponentOption) GetVersionOk() (*ComponentOptionVersion, bool) {
-	if o == nil || o.Version == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Version, true
+	return &o.Version, true
 }
 
-// HasVersion returns a boolean if a field has been set.
-func (o *ComponentOption) HasVersion() bool {
-	return o != nil && o.Version != nil
-}
-
-// SetVersion gets a reference to the given ComponentOptionVersion and assigns it to the Version field.
+// SetVersion sets field value.
 func (o *ComponentOption) SetVersion(v ComponentOptionVersion) {
-	o.Version = &v
+	o.Version = v
 }
 
 // GetMain returns the Main field value if set, zero value otherwise.
@@ -339,9 +335,7 @@ func (o ComponentOption) MarshalJSON() ([]byte, error) {
 	if o.DisasterRecoveryRoleOrder != nil {
 		toSerialize["disasterRecoveryRoleOrder"] = o.DisasterRecoveryRoleOrder
 	}
-	if o.Version != nil {
-		toSerialize["version"] = o.Version
-	}
+	toSerialize["version"] = o.Version
 	if o.Main != nil {
 		toSerialize["main"] = o.Main
 	}
@@ -365,7 +359,7 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 		Order                     *int32                  `json:"order"`
 		RoleOrder                 []string                `json:"roleOrder,omitempty"`
 		DisasterRecoveryRoleOrder []string                `json:"disasterRecoveryRoleOrder,omitempty"`
-		Version                   *ComponentOptionVersion `json:"version,omitempty"`
+		Version                   *ComponentOptionVersion `json:"version"`
 		Main                      *bool                   `json:"main,omitempty"`
 		CustomSecret              *bool                   `json:"customSecret,omitempty"`
 	}{}
@@ -380,6 +374,9 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.Order == nil {
 		return fmt.Errorf("required field order missing")
+	}
+	if all.Version == nil {
+		return fmt.Errorf("required field version missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -399,10 +396,10 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Order = *all.Order
 	o.RoleOrder = all.RoleOrder
 	o.DisasterRecoveryRoleOrder = all.DisasterRecoveryRoleOrder
-	if all.Version != nil && all.Version.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Version.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.Version = all.Version
+	o.Version = *all.Version
 	o.Main = all.Main
 	o.CustomSecret = all.CustomSecret
 
