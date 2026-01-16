@@ -75,6 +75,8 @@ func NewEnvironmentCreate(name string, typeVar EnvironmentType, provisionConfig 
 // but it doesn't guarantee that properties required by API are set.
 func NewEnvironmentCreateWithDefaults() *EnvironmentCreate {
 	this := EnvironmentCreate{}
+	var typeVar EnvironmentType = EnvironmentTypePublic
+	this.Type = typeVar
 	var deletePolicy EnvironmentDeletePolicy = EnvironmentDeletePolicyDoNotDelete
 	this.DeletePolicy = &deletePolicy
 	var overwrite bool = false
