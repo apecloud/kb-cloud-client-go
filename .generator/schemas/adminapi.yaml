@@ -16710,6 +16710,65 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/vulns:
+    get:
+      operationId: listVulns
+      summary: List vulnerabilities
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/vulnList'
+          description: Returned when vulnerabilities are listed successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - vuln
+    put:
+      operationId: uploadVulns
+      summary: Upload vulnerabilities
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/vulnUploadFormData'
+      responses:
+        '200':
+          content: {}
+          description: Returned when vulnerabilities are uploaded successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - vuln
+    patch:
+      operationId: markVulnsAsIgnored
+      summary: Mark vulnerabilities as ignored
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/markVulnsAsIgnored'
+      responses:
+        '200':
+          content: {}
+          description: Returned when vulnerabilities are marked as ignored successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - vuln
 components:
   securitySchemes:
     BearerToken:
@@ -29799,6 +29858,104 @@ components:
         slaThreshold:
           type: number
           description: The SLA threshold value for the cluster.
+    refItem:
+      description: a reference of the vulnerability
+      properties:
+        rType:
+          description: the type of the reference
+          type: string
+        url:
+          description: the URL of the reference
+          type: string
+      required:
+        - rType
+        - url
+    vulnListItem:
+      description: a vulnerability which affected the cluster
+      properties:
+        cveId:
+          description: the CVE ID of the vulnerability
+          type: string
+        engineName:
+          description: the engine name of the vulnerability
+          type: string
+        productName:
+          description: the product name of the vulnerability
+          type: string
+        version:
+          description: the version of the product which is affected by the vulnerability
+          type: string
+        detail:
+          description: the detail of the vulnerability
+          type: string
+        severity:
+          description: the severity of the vulnerability
+          type: string
+        publishedAt:
+          description: the published time of the vulnerability
+          type: string
+          format: date-time
+        modifiedAt:
+          description: the modified time of the vulnerability
+          type: string
+          format: date-time
+        refs:
+          description: the references of the vulnerability
+          type: array
+          items:
+            $ref: '#/components/schemas/refItem'
+      required:
+        - cveId
+        - engineName
+        - productName
+        - version
+        - severity
+        - publishedAt
+        - modifiedAt
+    vulnList:
+      description: a list of vulnerabilities
+      properties:
+        items:
+          description: a list of vulnerabilities
+          items:
+            $ref: '#/components/schemas/vulnListItem'
+          type: array
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      required:
+        - items
+      type: object
+    vulnUploadFormData:
+      description: the data of the upload task
+      type: object
+      required:
+        - file
+      properties:
+        file:
+          type: string
+          format: binary
+          description: the data file, zip or other format
+    markVulnsAsIgnored:
+      description: the data of the mark request
+      type: object
+      required:
+        - cveId
+        - engineName
+        - productName
+        - version
+      properties:
+        cveId:
+          type: string
+          description: the CVE ID of the vulnerability
+        engineName:
+          type: string
+          description: the engine name of the vulnerability
+        productName:
+          type: string
+          description: the product name of the vulnerability
+        version:
+          type: string
+          description: the version of the product which is affected by the vulnerability
   responses:
     '204':
       description: No Content
