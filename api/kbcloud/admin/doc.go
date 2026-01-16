@@ -486,4 +486,6 @@
 //   - [vipPoolApi.createVIPPool]
 //   - [vipPoolApi.deleteVIPPool]
 //   - [vipPoolApi.listVIPPool]
+//   - [vulnApi.listVulns]
+//   - [vulnApi.uploadVulns]
 package admin
