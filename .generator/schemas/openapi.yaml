@@ -18485,6 +18485,7 @@ components:
         - name
         - title
         - order
+        - version
       properties:
         cloudShellType:
           type: string
