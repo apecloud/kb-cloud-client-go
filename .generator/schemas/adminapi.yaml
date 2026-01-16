@@ -16749,6 +16749,26 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - vuln
+    patch:
+      operationId: markVulnsAsIgnored
+      summary: Mark vulnerabilities as ignored
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/markVulnsAsIgnored'
+      responses:
+        '200':
+          content: {}
+          description: Returned when vulnerabilities are marked as ignored successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - vuln
 components:
   securitySchemes:
     BearerToken:
@@ -29915,6 +29935,27 @@ components:
           type: string
           format: binary
           description: the data file, zip or other format
+    markVulnsAsIgnored:
+      description: the data of the mark request
+      type: object
+      required:
+        - cveId
+        - engineName
+        - productName
+        - version
+      properties:
+        cveId:
+          type: string
+          description: the CVE ID of the vulnerability
+        engineName:
+          type: string
+          description: the engine name of the vulnerability
+        productName:
+          type: string
+          description: the product name of the vulnerability
+        version:
+          type: string
+          description: the version of the product which is affected by the vulnerability
   responses:
     '204':
       description: No Content
