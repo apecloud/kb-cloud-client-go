@@ -14044,6 +14044,7 @@ components:
       enum:
         - public
         - private
+      default: public
     clusterValidationPolicy:
       type: string
       description: Cluster operation validation policy, such as create, hscale, vscale, etc.
@@ -18484,6 +18485,7 @@ components:
         - name
         - title
         - order
+        - version
       properties:
         cloudShellType:
           type: string
