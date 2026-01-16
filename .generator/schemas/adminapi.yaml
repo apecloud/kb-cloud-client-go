@@ -17508,6 +17508,7 @@ components:
       enum:
         - public
         - private
+      default: public
     clusterLicense:
       type: object
       properties:
@@ -21547,7 +21548,7 @@ components:
           nullable: true
         type:
           $ref: '#/components/schemas/environmentType'
-          nullable: true
+          x-nullable: true
         organizations:
           items:
             type: string

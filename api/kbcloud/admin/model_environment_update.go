@@ -59,6 +59,8 @@ type EnvironmentUpdate struct {
 // will change when the set of required properties is changed.
 func NewEnvironmentUpdate() *EnvironmentUpdate {
 	this := EnvironmentUpdate{}
+	var typeVar EnvironmentType = EnvironmentTypePublic
+	this.Type = &typeVar
 	var podAntiAffinityEnabled bool = true
 	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
 	var nodePortEnabled bool = true
@@ -81,6 +83,8 @@ func NewEnvironmentUpdate() *EnvironmentUpdate {
 // but it doesn't guarantee that properties required by API are set.
 func NewEnvironmentUpdateWithDefaults() *EnvironmentUpdate {
 	this := EnvironmentUpdate{}
+	var typeVar EnvironmentType = EnvironmentTypePublic
+	this.Type = &typeVar
 	var podAntiAffinityEnabled bool = true
 	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
 	var nodePortEnabled bool = true

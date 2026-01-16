@@ -90,6 +90,8 @@ func NewEnvironment(provider string, region string, availabilityZones []string, 
 // but it doesn't guarantee that properties required by API are set.
 func NewEnvironmentWithDefaults() *Environment {
 	this := Environment{}
+	var typeVar EnvironmentType = EnvironmentTypePublic
+	this.Type = typeVar
 	var podAntiAffinityEnabled bool = true
 	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
 	var clusterValidationPolicy ClusterValidationPolicy = ClusterValidationPolicyValidateOnly
