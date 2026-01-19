@@ -19,7 +19,6 @@ type DisasterRecoveryApi common.Service
 
 // CreateDisasterRecovery Create a new disaster recovery instance.
 // Create a new disaster recovery instance for a database cluster.
-// Deprecated: This API is deprecated.
 func (a *DisasterRecoveryApi) CreateDisasterRecovery(ctx _context.Context, parentClusterId string, orgName string, body DisasterRecoveryCreate) (DisasterRecoveryTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -103,7 +102,6 @@ func (a *DisasterRecoveryApi) CreateDisasterRecovery(ctx _context.Context, paren
 
 // ListDisasterRecovery List Disaster Recovery instances under the main cluster.
 // Retrieve a list of disaster recovery instances for a specific database cluster.
-// Deprecated: This API is deprecated.
 func (a *DisasterRecoveryApi) ListDisasterRecovery(ctx _context.Context, parentClusterId string, orgName string) (DisasterRecoveryClusterList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

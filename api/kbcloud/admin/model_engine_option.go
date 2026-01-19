@@ -49,6 +49,8 @@ type EngineOption struct {
 	// List of CPU architectures supported by this engine. If not set, all architectures are supported.
 	//
 	Architectures common.NullableList[string] `json:"architectures,omitempty"`
+	// blueGreenDeploymentEngine is the engine of a blue-green deployment.
+	BlueGreenDeployment *BlueGreenDeploymentEngineOption `json:"blueGreenDeployment,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject map[string]interface{} `json:"-"`
 }
@@ -973,6 +975,34 @@ func (o *EngineOption) UnsetArchitectures() {
 	o.Architectures.Unset()
 }
 
+// GetBlueGreenDeployment returns the BlueGreenDeployment field value if set, zero value otherwise.
+func (o *EngineOption) GetBlueGreenDeployment() BlueGreenDeploymentEngineOption {
+	if o == nil || o.BlueGreenDeployment == nil {
+		var ret BlueGreenDeploymentEngineOption
+		return ret
+	}
+	return *o.BlueGreenDeployment
+}
+
+// GetBlueGreenDeploymentOk returns a tuple with the BlueGreenDeployment field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOption) GetBlueGreenDeploymentOk() (*BlueGreenDeploymentEngineOption, bool) {
+	if o == nil || o.BlueGreenDeployment == nil {
+		return nil, false
+	}
+	return o.BlueGreenDeployment, true
+}
+
+// HasBlueGreenDeployment returns a boolean if a field has been set.
+func (o *EngineOption) HasBlueGreenDeployment() bool {
+	return o != nil && o.BlueGreenDeployment != nil
+}
+
+// SetBlueGreenDeployment gets a reference to the given BlueGreenDeploymentEngineOption and assigns it to the BlueGreenDeployment field.
+func (o *EngineOption) SetBlueGreenDeployment(v BlueGreenDeploymentEngineOption) {
+	o.BlueGreenDeployment = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -1049,46 +1079,50 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 	if o.Architectures.IsSet() {
 		toSerialize["architectures"] = o.Architectures.Get()
 	}
+	if o.BlueGreenDeployment != nil {
+		toSerialize["blueGreenDeployment"] = o.BlueGreenDeployment
+	}
 	return common.Marshal(toSerialize)
 }
 
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EngineName       *string                     `json:"engineName"`
-		MaturityLevel    *string                     `json:"maturityLevel,omitempty"`
-		Title            *string                     `json:"title"`
-		Status           *EngineOptionStatus         `json:"status,omitempty"`
-		Description      *LocalizedDescription       `json:"description"`
-		Versions         []string                    `json:"versions,omitempty"`
-		Components       *[]ComponentOption          `json:"components"`
-		Modes            *[]ModeOption               `json:"modes"`
-		Account          *AccountOption              `json:"account,omitempty"`
-		Database         *DatabaseOption             `json:"database,omitempty"`
-		Dms              *DmsOption                  `json:"dms"`
-		Backup           *BackupOption               `json:"backup,omitempty"`
-		Bench            *BenchOption                `json:"bench,omitempty"`
-		Endpoints        *[]EndpointOption           `json:"endpoints"`
-		NetworkModes     []NetworkModeOptionItem     `json:"networkModes,omitempty"`
-		Promote          *[]ComponentOpsOption       `json:"promote"`
-		Stop             *[]ComponentOpsOption       `json:"stop"`
-		Start            *[]ComponentOpsOption       `json:"start"`
-		Restart          *[]ComponentOpsOption       `json:"restart"`
-		Hscale           *[]ComponentOpsOption       `json:"hscale"`
-		Vscale           *[]ComponentOpsOption       `json:"vscale"`
-		License          *EngineOptionLicense        `json:"license,omitempty"`
-		StorageExpansion []ComponentOpsOption        `json:"storageExpansion,omitempty"`
-		RebuildInstance  []ComponentOpsOption        `json:"rebuildInstance,omitempty"`
-		Upgrade          []ComponentOpsOption        `json:"upgrade,omitempty"`
-		Metrics          *MetricsOption              `json:"metrics,omitempty"`
-		Dashboards       *[]DashboardOption          `json:"dashboards"`
-		Logs             *[]LogOption                `json:"logs"`
-		Parameters       *[]ParameterOption          `json:"parameters"`
-		DisasterRecovery *DisasterRecoveryOption     `json:"disasterRecovery,omitempty"`
-		Cdc              []CdcOption                 `json:"cdc,omitempty"`
-		DataReplication  *DataReplicationOption      `json:"dataReplication,omitempty"`
-		Import           *ImportOption               `json:"import,omitempty"`
-		Architectures    common.NullableList[string] `json:"architectures,omitempty"`
+		EngineName          *string                          `json:"engineName"`
+		MaturityLevel       *string                          `json:"maturityLevel,omitempty"`
+		Title               *string                          `json:"title"`
+		Status              *EngineOptionStatus              `json:"status,omitempty"`
+		Description         *LocalizedDescription            `json:"description"`
+		Versions            []string                         `json:"versions,omitempty"`
+		Components          *[]ComponentOption               `json:"components"`
+		Modes               *[]ModeOption                    `json:"modes"`
+		Account             *AccountOption                   `json:"account,omitempty"`
+		Database            *DatabaseOption                  `json:"database,omitempty"`
+		Dms                 *DmsOption                       `json:"dms"`
+		Backup              *BackupOption                    `json:"backup,omitempty"`
+		Bench               *BenchOption                     `json:"bench,omitempty"`
+		Endpoints           *[]EndpointOption                `json:"endpoints"`
+		NetworkModes        []NetworkModeOptionItem          `json:"networkModes,omitempty"`
+		Promote             *[]ComponentOpsOption            `json:"promote"`
+		Stop                *[]ComponentOpsOption            `json:"stop"`
+		Start               *[]ComponentOpsOption            `json:"start"`
+		Restart             *[]ComponentOpsOption            `json:"restart"`
+		Hscale              *[]ComponentOpsOption            `json:"hscale"`
+		Vscale              *[]ComponentOpsOption            `json:"vscale"`
+		License             *EngineOptionLicense             `json:"license,omitempty"`
+		StorageExpansion    []ComponentOpsOption             `json:"storageExpansion,omitempty"`
+		RebuildInstance     []ComponentOpsOption             `json:"rebuildInstance,omitempty"`
+		Upgrade             []ComponentOpsOption             `json:"upgrade,omitempty"`
+		Metrics             *MetricsOption                   `json:"metrics,omitempty"`
+		Dashboards          *[]DashboardOption               `json:"dashboards"`
+		Logs                *[]LogOption                     `json:"logs"`
+		Parameters          *[]ParameterOption               `json:"parameters"`
+		DisasterRecovery    *DisasterRecoveryOption          `json:"disasterRecovery,omitempty"`
+		Cdc                 []CdcOption                      `json:"cdc,omitempty"`
+		DataReplication     *DataReplicationOption           `json:"dataReplication,omitempty"`
+		Import              *ImportOption                    `json:"import,omitempty"`
+		Architectures       common.NullableList[string]      `json:"architectures,omitempty"`
+		BlueGreenDeployment *BlueGreenDeploymentEngineOption `json:"blueGreenDeployment,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1214,6 +1248,10 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Import = all.Import
 	o.Architectures = all.Architectures
+	if all.BlueGreenDeployment != nil && all.BlueGreenDeployment.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.BlueGreenDeployment = all.BlueGreenDeployment
 
 	if hasInvalidField {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

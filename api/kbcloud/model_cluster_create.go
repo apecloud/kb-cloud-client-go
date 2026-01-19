@@ -14,7 +14,7 @@ import (
 type ClusterCreate struct {
 	// When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
 	ParentId common.NullableString `json:"parentId,omitempty"`
-	// Describes the type of cluster, [Normal] normal cluster; [DisasterRecovery] disaster recovery cluster
+	// Describes the type of cluster
 	ClusterType NullableClusterType `json:"clusterType,omitempty"`
 	// Org Name
 	OrgName *string `json:"orgName,omitempty"`

@@ -2635,7 +2635,6 @@ paths:
       operationId: listDisasterRecovery
       summary: List Disaster Recovery instances under the main cluster
       description: Retrieve a list of disaster recovery instances for a specific database cluster.
-      deprecated: true
       parameters:
         - description: The ID of the parent database cluster
           in: path
@@ -2668,7 +2667,6 @@ paths:
       operationId: createDisasterRecovery
       summary: Create a new disaster recovery instance
       description: Create a new disaster recovery instance for a database cluster.
-      deprecated: true
       parameters:
         - description: The ID of the parent database cluster
           in: path
@@ -17385,11 +17383,12 @@ components:
       title: ClusterType
       type: string
       nullable: true
-      description: Describes the type of cluster, [Normal] normal cluster; [DisasterRecovery] disaster recovery cluster
+      description: Describes the type of cluster
       default: Normal
       enum:
         - Normal
         - DisasterRecovery
+        - BlueGreenDeployment
     clusterListItem:
       description: KubeBlocks cluster information
       properties:
@@ -25401,6 +25400,13 @@ components:
         sinkEngineName:
           type: string
           description: Engine name for sink/target database
+    blueGreenDeploymentEngineOption:
+      description: blueGreenDeploymentEngine is the engine of a blue-green deployment.
+      properties:
+        enabled:
+          description: Whether the blue-green deployment is enabled.
+          type: boolean
+      type: object
     engineOption:
       type: object
       additionalProperties: false
@@ -25550,6 +25556,9 @@ components:
             type: string
           description: |
             List of CPU architectures supported by this engine. If not set, all architectures are supported.
+          nullable: true
+        blueGreenDeployment:
+          $ref: '#/components/schemas/blueGreenDeploymentEngineOption'
           nullable: true
     engineOptionList:
       required:

@@ -102,6 +102,8 @@ tags:
     description: Data Import APIs
   - name: SLA
     description: SLA APIs
+  - name: blueGreenDeployment
+    description: Blue Green Deployment APIs
 paths:
   /api/v1/user:
     get:
@@ -7967,7 +7969,6 @@ paths:
       operationId: deleteDisasterRecovery
       summary: Delete a disaster recovery instance
       description: Delete a specific disaster recovery instance
-      deprecated: true
       parameters:
         - description: name of the org
           in: path
@@ -8005,7 +8006,6 @@ paths:
       operationId: listDisasterRecovery
       summary: List Disaster Recovery instances under the main cluster
       description: Retrieve a list of disaster recovery instances for a specific database cluster.
-      deprecated: true
       parameters:
         - description: The ID of the parent database cluster
           in: path
@@ -8038,7 +8038,6 @@ paths:
       operationId: createDisasterRecovery
       summary: Create a new disaster recovery instance
       description: Create a new disaster recovery instance for a database cluster.
-      deprecated: true
       parameters:
         - description: The ID of the parent database cluster
           in: path
@@ -8079,7 +8078,6 @@ paths:
       operationId: promoteDisasterRecovery
       summary: Promote a disaster recovery instance to the main instance
       description: Promote the disaster recovery instance to the primary database instance.
-      deprecated: true
       parameters:
         - description: The ID of the disaster recovery instance
           in: path
@@ -8120,7 +8118,6 @@ paths:
       operationId: getDisasterRecoveryHistory
       summary: Get switch history of a disaster recovery instance
       description: Retrieve the history of failover and failback operations for a specific disaster recovery instance.
-      deprecated: true
       parameters:
         - description: The ID of the disaster recovery instance
           in: path
@@ -8154,7 +8151,6 @@ paths:
       operationId: getDisasterRecoveryStatus
       summary: Retrieve Disaster Recovery Instance Status
       description: Get detailed information about the status of a specific disaster recovery instance, including delay and current replication point.
-      deprecated: true
       parameters:
         - description: Unique identifier of the disaster recovery instance
           in: path
@@ -11996,7 +11992,6 @@ paths:
         - storage
   /api/v1/organizations/{orgName}/replication/channel:
     get:
-      deprecated: true
       operationId: listDataChannels
       summary: List Data Channels
       description: Retrieve a list of data channels.
@@ -12037,7 +12032,6 @@ paths:
       tags:
         - dataReplication
     post:
-      deprecated: true
       operationId: createDataChannel
       summary: Create a new data channel
       description: Create a new data channel.
@@ -12072,7 +12066,6 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/replication/channel/{channelID}:
     get:
-      deprecated: true
       operationId: getDataChannel
       summary: Get Data Channel Details
       description: Retrieve a data channel detail.
@@ -12105,7 +12098,6 @@ paths:
       tags:
         - dataReplication
     delete:
-      deprecated: true
       operationId: deleteDataChannel
       summary: Delete a data channel
       description: Delete a data channel.
@@ -12135,7 +12127,6 @@ paths:
       tags:
         - dataReplication
     patch:
-      deprecated: true
       operationId: updateDataChannel
       summary: Update a data channel
       description: Update a new data channel.
@@ -12176,7 +12167,6 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/replication/channel/{channelID}/ops/{opsType}:
     post:
-      deprecated: true
       operationId: createDataChannelOps
       summary: Create a new data channel ops
       description: Create a new data channel ops.
@@ -12213,7 +12203,6 @@ paths:
         - dataReplication
   /api/v1/organizations/{orgName}/replication/channel/{channelID}/events:
     get:
-      deprecated: true
       operationId: listDataChannelEvents
       summary: List Data Channel Events
       description: Retrieve a list of data channel events.
@@ -12247,7 +12236,6 @@ paths:
         - dataReplication
   /api/v1/organizations/{orgName}/replication/channel/objects:
     post:
-      deprecated: true
       operationId: queryReplicationObject
       summary: query replication object
       description: query replication object.
@@ -12284,7 +12272,6 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/replication/channel/precheck:
     post:
-      deprecated: true
       operationId: createPreCheck
       summary: create pre check
       description: create pre check.
@@ -12319,7 +12306,6 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/replication/channel/precheck/{preCheckID}:
     get:
-      deprecated: true
       operationId: getPreCheck
       summary: get preCheck
       description: get preCheck.
@@ -12383,7 +12369,6 @@ paths:
         - dataReplication
   /api/v1/organizations/{orgName}/replication/channel/{channelID}/logs:
     get:
-      deprecated: true
       description: Query logs of a data channel
       summary: Query data channel logs
       operationId: queryDataChannelLogs
@@ -12424,7 +12409,6 @@ paths:
         - dataReplication
   /api/v1/organizations/{orgName}/replication/channel/parameters:
     get:
-      deprecated: true
       operationId: listDataChannelParameters
       summary: List Data Channel Parameters
       description: Retrieve a list of data channel parameters.
@@ -13380,6 +13364,333 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/blueGreenDeployment/{deploymentID}:
+    get:
+      operationId: getBlueGreenDeployment
+      summary: Get a blue-green deployment instance
+      description: Retrieve details for a single blue-green deployment instance by parent cluster and organization.
+      parameters:
+        - description: The unique identifier of the blue-green deployment instance
+          in: path
+          name: deploymentID
+          required: true
+          schema:
+            type: string
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/blueGreenDeploymentItem'
+          description: Details of the blue-green deployment instance.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - blueGreenDeployment
+    delete:
+      operationId: deleteBlueGreenDeployment
+      summary: Delete a blue-green deployment instance
+      description: Delete a specified blue-green deployment instance.
+      parameters:
+        - description: The unique identifier of the blue-green deployment instance
+          in: path
+          name: deploymentID
+          required: true
+          schema:
+            type: string
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/blueGreenDeploymentTask'
+          description: Async job task information for blue-green deployment instance deletion.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - blueGreenDeployment
+  /api/v1/organizations/{orgName}/parent/{parentClusterID}/blueGreenDeployment:
+    get:
+      operationId: listBlueGreenDeployments
+      summary: List blue-green deployment instances for the specified parent cluster
+      description: Retrieve a list of blue-green deployment instances associated with the given parent database cluster.
+      parameters:
+        - description: The unique identifier of the parent database cluster
+          in: path
+          name: parentClusterID
+          required: true
+          schema:
+            type: string
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/blueGreenDeploymentItemList'
+          description: A list of blue-green deployment instances.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - blueGreenDeployment
+    post:
+      operationId: createBlueGreenDeployment
+      summary: Create a new blue-green deployment instance
+      description: Create a blue-green deployment instance for the specified parent cluster.
+      parameters:
+        - description: The unique identifier of the parent database cluster
+          in: path
+          name: parentClusterID
+          required: true
+          schema:
+            type: string
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/blueGreenDeploymentCreation'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/blueGreenDeploymentItem'
+          description: Response containing the created blue-green deployment.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - blueGreenDeployment
+      x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/blueGreenDeployment/{deploymentID}/switch:
+    post:
+      operationId: switchBlueGreenDeployment
+      summary: Switch roles of blue-green deployment instances
+      description: Switch the specified blue-green deployment cluster to act as the primary instance.
+      parameters:
+        - description: The unique identifier of the blue-green deployment cluster
+          in: path
+          name: deploymentID
+          required: true
+          schema:
+            type: string
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/blueGreenDeploymentSwitchResponse'
+          description: Async job task information for the blue-green deployment switch operation.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - blueGreenDeployment
+      x-codegen-request-body-name: body
+    get:
+      operationId: getBlueGreenDeploymentSwitchDetail
+      summary: Get blue-green deployment switch job detail
+      description: Retrieve detailed information about the switch-over operation for a blue-green deployment cluster.
+      parameters:
+        - description: The unique identifier of the blue-green deployment instance
+          in: path
+          name: deploymentID
+          required: true
+          schema:
+            type: string
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/blueGreenDeploymentSwitchResponse'
+          description: Details of the blue-green deployment switch job/task.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - blueGreenDeployment
+  /api/v1/organizations/{orgName}/blueGreenDeployment/{deploymentID}/status:
+    get:
+      operationId: getBlueGreenDeploymentStatus
+      summary: Get status of a blue-green deployment instance
+      description: Retrieve the current replication status, delays, and replication point of the specified blue-green deployment instance.
+      parameters:
+        - description: The unique identifier of the blue-green deployment instance
+          in: path
+          name: deploymentID
+          required: true
+          schema:
+            type: string
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/blueGreenDeploymentStatusResponse'
+          description: Successfully retrieved replication status.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - blueGreenDeployment
+  /api/v1/organizations/{orgName}/parent/{parentClusterID}/blueGreenDeployment/precheck:
+    post:
+      operationId: createBlueGreenDeploymentPreCheck
+      summary: Run a precheck for blue-green deployment
+      description: Trigger a precheck task to verify settings or readiness for blue-green deployment.
+      parameters:
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The unique identifier of the parent database cluster
+          in: path
+          name: parentClusterID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/blueGreenDeploymentPreCheckCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/blueGreenDeploymentPreCheckResponse'
+          description: Precheck task creation response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - blueGreenDeployment
+      x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/blueGreenDeployment/precheck/{preCheckID}:
+    get:
+      operationId: getBlueGreenDeploymentPreCheckDetail
+      summary: Get blue-green deployment precheck task detail
+      description: Retrieve the details of a precheck task for a blue-green deployment.
+      parameters:
+        - description: The unique identifier of the precheck task
+          in: path
+          name: preCheckID
+          required: true
+          schema:
+            type: string
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/blueGreenDeploymentPreCheckResponse'
+          description: Details of the precheck task.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - blueGreenDeployment
 components:
   securitySchemes:
     BearerToken:
@@ -14992,11 +15303,12 @@ components:
       title: ClusterType
       type: string
       nullable: true
-      description: Describes the type of cluster, [Normal] normal cluster; [DisasterRecovery] disaster recovery cluster
+      description: Describes the type of cluster
       default: Normal
       enum:
         - Normal
         - DisasterRecovery
+        - BlueGreenDeployment
     clusterListItem:
       description: KubeBlocks cluster information
       properties:
@@ -20119,6 +20431,13 @@ components:
         sinkEngineName:
           type: string
           description: Engine name for sink/target database
+    blueGreenDeploymentEngineOption:
+      description: blueGreenDeploymentEngine is the engine of a blue-green deployment.
+      properties:
+        enabled:
+          description: Whether the blue-green deployment is enabled.
+          type: boolean
+      type: object
     engineOption:
       type: object
       additionalProperties: false
@@ -20268,6 +20587,9 @@ components:
             type: string
           description: |
             List of CPU architectures supported by this engine. If not set, all architectures are supported.
+          nullable: true
+        blueGreenDeployment:
+          $ref: '#/components/schemas/blueGreenDeploymentEngineOption'
           nullable: true
     engineOptionList:
       required:
@@ -24710,6 +25032,181 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/aggregateTaskResult'
+    blueGreenDeploymentStatus:
+      description: The status of a blue-green deployment.
+      enum:
+        - Maintenance
+        - Synchronizing
+        - Synced
+        - Interrupted
+        - Switched
+        - Failed
+      type: string
+    blueGreenDeploymentItem:
+      description: blueGreenDeploymentItem is the response to a blue-green deployment creation request.
+      properties:
+        deploymentID:
+          description: The ID of the blue-green deployment.
+          type: string
+        deploymentName:
+          description: The name of the blue-green deployment.
+          type: string
+        blueCluster:
+          $ref: '#/components/schemas/clusterListItem'
+        greenCluster:
+          $ref: '#/components/schemas/clusterListItem'
+        deploymentStatus:
+          description: The status of the blue-green deployment. This is different from the cluster status.
+          $ref: '#/components/schemas/blueGreenDeploymentStatus'
+        createdAt:
+          description: The creation time of the blue-green deployment.
+          type: string
+          format: date-time
+        updatedAt:
+          description: The update time of the blue-green deployment.
+          type: string
+          format: date-time
+      required:
+        - deploymentID
+      type: object
+    blueGreenDeploymentTask:
+      description: Task information of a blue-green deployment job.
+      properties:
+        taskId:
+          description: Task ID.
+          type: string
+      required:
+        - taskId
+      type: object
+    blueGreenDeploymentItemList:
+      description: blueGreenDeploymentItemList is the response type for listing blue-green deployment instances.
+      properties:
+        items:
+          description: The list of blue-green deployment instances.
+          items:
+            $ref: '#/components/schemas/blueGreenDeploymentItem'
+          type: array
+      required:
+        - items
+      type: object
+    blueGreenDeploymentCreation:
+      description: blueGreenDeploymentCreation defines the request to create a blue-green deployment.
+      properties:
+        deploymentName:
+          description: The name of the blue-green deployment.
+          type: string
+        greenCluster:
+          $ref: '#/components/schemas/clusterCreate'
+      required:
+        - greenCluster
+      type: object
+    blueGreenDeploymentSwitchStepStatus:
+      description: The status of a step in a blue-green deployment switch.
+      enum:
+        - Pending
+        - Running
+        - Succeed
+        - Failed
+      type: string
+    blueGreenDeploymentSwitchStep:
+      description: blueGreenDeploymentSwitchStep details a step in the blue-green deployment switch process.
+      type: object
+      properties:
+        stepName:
+          description: The name of the step.
+          type: string
+        stepStatus:
+          description: The status of the step.
+          $ref: '#/components/schemas/blueGreenDeploymentSwitchStepStatus'
+        stepMessage:
+          description: The message of the step.
+          type: string
+        stepDetail:
+          description: Additional details of the step.
+          type: object
+    blueGreenDeploymentSwitchResponse:
+      description: blueGreenDeploymentSwitchResponse represents the response when switching a blue-green deployment.
+      properties:
+        deploymentID:
+          description: The ID of the blue-green deployment.
+          type: string
+        taskId:
+          description: Task ID.
+          type: string
+        steps:
+          description: The steps involved in the blue-green deployment switch.
+          items:
+            $ref: '#/components/schemas/blueGreenDeploymentSwitchStep'
+          type: array
+      required:
+        - taskId
+      type: object
+    blueGreenDeploymentStatusResponse:
+      description: blueGreenDeploymentStatusResponse represents the response containing the blue-green deployment status.
+      properties:
+        deploymentID:
+          description: The ID of the blue-green deployment.
+          type: string
+        deploymentStatus:
+          description: The status of the blue-green deployment.
+          $ref: '#/components/schemas/blueGreenDeploymentStatus'
+        eventLag:
+          description: The lag of the event.
+          type: string
+        timestampLag:
+          description: The lag of the timestamp.
+          type: string
+          nullable: true
+      required:
+        - deploymentID
+      type: object
+    blueGreenDeploymentPreCheckCreate:
+      description: blueGreenDeploymentPreCheckCreate defines the request to create a precheck task for a blue-green deployment.
+      properties:
+        greenCluster:
+          $ref: '#/components/schemas/clusterCreate'
+      required:
+        - greenCluster
+      type: object
+    blueGreenDeploymentPrecheckStatus:
+      description: The status of a step in a blue-green deployment precheck.
+      enum:
+        - Pending
+        - Running
+        - Succeed
+        - Warning
+        - Failed
+      type: string
+    blueGreenDeploymentPrecheckItem:
+      description: blueGreenDeploymentPrecheckItem is a precheck item in the blue-green deployment precheck result.
+      type: object
+      properties:
+        checkerName:
+          description: The name of the checker.
+          type: string
+        checkerDesc:
+          description: The description of the checker.
+          type: string
+        status:
+          $ref: '#/components/schemas/blueGreenDeploymentPrecheckStatus'
+        message:
+          description: The message from the checker.
+          type: string
+          nullable: true
+    blueGreenDeploymentPreCheckResponse:
+      description: blueGreenDeploymentPreCheckResponse is the response for retrieving the precheck task of a blue-green deployment.
+      properties:
+        taskId:
+          description: Task ID.
+          type: string
+        checkers:
+          description: The checkers of the precheck task.
+          items:
+            $ref: '#/components/schemas/blueGreenDeploymentPrecheckItem'
+          type: array
+      required:
+        - taskId
+      type: object
   responses:
     '400':
       content:
@@ -24867,3 +25364,6 @@ x-tagGroups:
   - name: import
     tags:
       - import
+  - name: blueGreenDeployment
+    tags:
+      - blueGreenDeployment
