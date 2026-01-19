@@ -24577,11 +24577,13 @@ components:
       description: Specifies the supported engines for the inspection task.
       enum:
         - node
+        - common
         - mysql
         - redis
         - damengdb
         - kafka
         - kingbase
+        - postgresql
     inspectionTaskItem:
       properties:
         id:

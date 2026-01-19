@@ -15,21 +15,25 @@ type InspectionSupportedEngines string
 
 // List of InspectionSupportedEngines.
 const (
-	InspectionSupportedEnginesNode     InspectionSupportedEngines = "node"
-	InspectionSupportedEnginesMysql    InspectionSupportedEngines = "mysql"
-	InspectionSupportedEnginesRedis    InspectionSupportedEngines = "redis"
-	InspectionSupportedEnginesDamengdb InspectionSupportedEngines = "damengdb"
-	InspectionSupportedEnginesKafka    InspectionSupportedEngines = "kafka"
-	InspectionSupportedEnginesKingbase InspectionSupportedEngines = "kingbase"
+	InspectionSupportedEnginesNode       InspectionSupportedEngines = "node"
+	InspectionSupportedEnginesCommon     InspectionSupportedEngines = "common"
+	InspectionSupportedEnginesMysql      InspectionSupportedEngines = "mysql"
+	InspectionSupportedEnginesRedis      InspectionSupportedEngines = "redis"
+	InspectionSupportedEnginesDamengdb   InspectionSupportedEngines = "damengdb"
+	InspectionSupportedEnginesKafka      InspectionSupportedEngines = "kafka"
+	InspectionSupportedEnginesKingbase   InspectionSupportedEngines = "kingbase"
+	InspectionSupportedEnginesPostgresql InspectionSupportedEngines = "postgresql"
 )
 
 var allowedInspectionSupportedEnginesEnumValues = []InspectionSupportedEngines{
 	InspectionSupportedEnginesNode,
+	InspectionSupportedEnginesCommon,
 	InspectionSupportedEnginesMysql,
 	InspectionSupportedEnginesRedis,
 	InspectionSupportedEnginesDamengdb,
 	InspectionSupportedEnginesKafka,
 	InspectionSupportedEnginesKingbase,
+	InspectionSupportedEnginesPostgresql,
 }
 
 // GetAllowedValues returns the list of possible values.
