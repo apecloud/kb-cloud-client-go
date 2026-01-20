@@ -17121,9 +17121,6 @@ components:
         encryptionKeyName:
           description: the key name used for encryption
           type: string
-        restoreCluster:
-          description: this backup can restore to cluster
-          type: boolean
       required:
         - autoBackup
         - backupMethod
