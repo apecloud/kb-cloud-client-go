@@ -8115,6 +8115,11 @@ paths:
           description: defined whether to search for rebuilding instance.
           schema:
             type: boolean
+        - name: withRestoreCluster
+          in: query
+          description: defined whether to search for restoring cluster.
+          schema:
+            type: boolean
         - name: withHScale
           in: query
           description: defined whether to search for rebuilding instance.
@@ -9659,8 +9664,7 @@ paths:
           name: licenseId
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         '204':
           content: {}
