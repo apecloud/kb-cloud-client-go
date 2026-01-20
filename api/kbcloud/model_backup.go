@@ -75,6 +75,8 @@ type Backup struct {
 	BaseBackupName *string `json:"baseBackupName,omitempty"`
 	// the key name used for encryption
 	EncryptionKeyName *string `json:"encryptionKeyName,omitempty"`
+	// this backup can restore to cluster
+	RestoreCluster *bool `json:"restoreCluster,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -992,6 +994,34 @@ func (o *Backup) SetEncryptionKeyName(v string) {
 	o.EncryptionKeyName = &v
 }
 
+// GetRestoreCluster returns the RestoreCluster field value if set, zero value otherwise.
+func (o *Backup) GetRestoreCluster() bool {
+	if o == nil || o.RestoreCluster == nil {
+		var ret bool
+		return ret
+	}
+	return *o.RestoreCluster
+}
+
+// GetRestoreClusterOk returns a tuple with the RestoreCluster field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Backup) GetRestoreClusterOk() (*bool, bool) {
+	if o == nil || o.RestoreCluster == nil {
+		return nil, false
+	}
+	return o.RestoreCluster, true
+}
+
+// HasRestoreCluster returns a boolean if a field has been set.
+func (o *Backup) HasRestoreCluster() bool {
+	return o != nil && o.RestoreCluster != nil
+}
+
+// SetRestoreCluster gets a reference to the given bool and assigns it to the RestoreCluster field.
+func (o *Backup) SetRestoreCluster(v bool) {
+	o.RestoreCluster = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Backup) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -1070,6 +1100,9 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 	if o.EncryptionKeyName != nil {
 		toSerialize["encryptionKeyName"] = o.EncryptionKeyName
 	}
+	if o.RestoreCluster != nil {
+		toSerialize["restoreCluster"] = o.RestoreCluster
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -1112,6 +1145,7 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 		ParentBackupName    *string             `json:"parentBackupName,omitempty"`
 		BaseBackupName      *string             `json:"baseBackupName,omitempty"`
 		EncryptionKeyName   *string             `json:"encryptionKeyName,omitempty"`
+		RestoreCluster      *bool               `json:"restoreCluster,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1160,7 +1194,7 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "backupMethod", "backupPolicyName", "backupRepo", "backupType", "completionTimestamp", "creationTimestamp", "duration", "name", "orgName", "snapshotVolumes", "sourceCluster", "startTimestamp", "status", "timeRangeEnd", "timeRangeStart", "totalSize", "failureReason", "extras", "targetPods", "path", "retentionPeriod", "expiration", "id", "clusterId", "cloudProvider", "cloudRegion", "environmentName", "engine", "parentBackupName", "baseBackupName", "encryptionKeyName"})
+		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "backupMethod", "backupPolicyName", "backupRepo", "backupType", "completionTimestamp", "creationTimestamp", "duration", "name", "orgName", "snapshotVolumes", "sourceCluster", "startTimestamp", "status", "timeRangeEnd", "timeRangeStart", "totalSize", "failureReason", "extras", "targetPods", "path", "retentionPeriod", "expiration", "id", "clusterId", "cloudProvider", "cloudRegion", "environmentName", "engine", "parentBackupName", "baseBackupName", "encryptionKeyName", "restoreCluster"})
 	} else {
 		return err
 	}
@@ -1206,6 +1240,7 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	o.ParentBackupName = all.ParentBackupName
 	o.BaseBackupName = all.BaseBackupName
 	o.EncryptionKeyName = all.EncryptionKeyName
+	o.RestoreCluster = all.RestoreCluster
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -8117,6 +8117,11 @@ paths:
           description: defined whether to search for rebuilding instance.
           schema:
             type: boolean
+        - name: withRestoreCluster
+          in: query
+          description: defined whether to search for restoring cluster.
+          schema:
+            type: boolean
         - name: withHScale
           in: query
           description: defined whether to search for rebuilding instance.
@@ -22907,6 +22912,9 @@ components:
         encryptionKeyName:
           description: the key name used for encryption
           type: string
+        restoreCluster:
+          description: this backup can restore to cluster
+          type: boolean
       required:
         - autoBackup
         - backupMethod
