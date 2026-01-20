@@ -19415,6 +19415,8 @@ components:
           type: boolean
         running:
           type: boolean
+        disableDisasterRecoveryAudit:
+          type: boolean
         sqlAuditSwitch:
           $ref: '#/components/schemas/sqlAuditSwitchOption'
           description: SQL audit log switch configuration. Only applicable when audit is true. If method type is parameter, control is automatically inferred as reconfigure.

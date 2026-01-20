@@ -11,11 +11,12 @@ import (
 )
 
 type LogOption struct {
-	Component string `json:"component"`
-	Error     bool   `json:"error"`
-	Slow      bool   `json:"slow"`
-	Audit     bool   `json:"audit"`
-	Running   bool   `json:"running"`
+	Component                    string `json:"component"`
+	Error                        bool   `json:"error"`
+	Slow                         bool   `json:"slow"`
+	Audit                        bool   `json:"audit"`
+	Running                      bool   `json:"running"`
+	DisableDisasterRecoveryAudit *bool  `json:"disableDisasterRecoveryAudit,omitempty"`
 	// SQL audit switch configuration. Either sql or parameter must be provided.
 	SqlAuditSwitch *SqlAuditSwitchOption `json:"sqlAuditSwitch,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -160,6 +161,34 @@ func (o *LogOption) SetRunning(v bool) {
 	o.Running = v
 }
 
+// GetDisableDisasterRecoveryAudit returns the DisableDisasterRecoveryAudit field value if set, zero value otherwise.
+func (o *LogOption) GetDisableDisasterRecoveryAudit() bool {
+	if o == nil || o.DisableDisasterRecoveryAudit == nil {
+		var ret bool
+		return ret
+	}
+	return *o.DisableDisasterRecoveryAudit
+}
+
+// GetDisableDisasterRecoveryAuditOk returns a tuple with the DisableDisasterRecoveryAudit field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *LogOption) GetDisableDisasterRecoveryAuditOk() (*bool, bool) {
+	if o == nil || o.DisableDisasterRecoveryAudit == nil {
+		return nil, false
+	}
+	return o.DisableDisasterRecoveryAudit, true
+}
+
+// HasDisableDisasterRecoveryAudit returns a boolean if a field has been set.
+func (o *LogOption) HasDisableDisasterRecoveryAudit() bool {
+	return o != nil && o.DisableDisasterRecoveryAudit != nil
+}
+
+// SetDisableDisasterRecoveryAudit gets a reference to the given bool and assigns it to the DisableDisasterRecoveryAudit field.
+func (o *LogOption) SetDisableDisasterRecoveryAudit(v bool) {
+	o.DisableDisasterRecoveryAudit = &v
+}
+
 // GetSqlAuditSwitch returns the SqlAuditSwitch field value if set, zero value otherwise.
 func (o *LogOption) GetSqlAuditSwitch() SqlAuditSwitchOption {
 	if o == nil || o.SqlAuditSwitch == nil {
@@ -199,6 +228,9 @@ func (o LogOption) MarshalJSON() ([]byte, error) {
 	toSerialize["slow"] = o.Slow
 	toSerialize["audit"] = o.Audit
 	toSerialize["running"] = o.Running
+	if o.DisableDisasterRecoveryAudit != nil {
+		toSerialize["disableDisasterRecoveryAudit"] = o.DisableDisasterRecoveryAudit
+	}
 	if o.SqlAuditSwitch != nil {
 		toSerialize["sqlAuditSwitch"] = o.SqlAuditSwitch
 	}
@@ -212,12 +244,13 @@ func (o LogOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *LogOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component      *string               `json:"component"`
-		Error          *bool                 `json:"error"`
-		Slow           *bool                 `json:"slow"`
-		Audit          *bool                 `json:"audit"`
-		Running        *bool                 `json:"running"`
-		SqlAuditSwitch *SqlAuditSwitchOption `json:"sqlAuditSwitch,omitempty"`
+		Component                    *string               `json:"component"`
+		Error                        *bool                 `json:"error"`
+		Slow                         *bool                 `json:"slow"`
+		Audit                        *bool                 `json:"audit"`
+		Running                      *bool                 `json:"running"`
+		DisableDisasterRecoveryAudit *bool                 `json:"disableDisasterRecoveryAudit,omitempty"`
+		SqlAuditSwitch               *SqlAuditSwitchOption `json:"sqlAuditSwitch,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -239,7 +272,7 @@ func (o *LogOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "error", "slow", "audit", "running", "sqlAuditSwitch"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "error", "slow", "audit", "running", "disableDisasterRecoveryAudit", "sqlAuditSwitch"})
 	} else {
 		return err
 	}
@@ -250,6 +283,7 @@ func (o *LogOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Slow = *all.Slow
 	o.Audit = *all.Audit
 	o.Running = *all.Running
+	o.DisableDisasterRecoveryAudit = all.DisableDisasterRecoveryAudit
 	if all.SqlAuditSwitch != nil && all.SqlAuditSwitch.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
