@@ -9613,8 +9613,7 @@ paths:
           name: licenseId
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         '200':
           content:
@@ -26402,8 +26401,7 @@ components:
         - serviceVersions
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
           description: Primary Key for the EngineVersionRecord
         engineName:
           type: string
