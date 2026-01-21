@@ -19506,8 +19506,6 @@ components:
         - engineName
         - component
         - name
-        - since
-        - deprecated
       properties:
         engineName:
           description: Name of database engine

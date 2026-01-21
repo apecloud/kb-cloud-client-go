@@ -19,9 +19,9 @@ type DeleteDatabaseParameterItem struct {
 	// The name of the parameter
 	Name string `json:"name"`
 	// Since which version the parameter is supported
-	Since string `json:"since"`
+	Since *string `json:"since,omitempty"`
 	// which version the parameter is deprecated
-	Deprecated string `json:"deprecated"`
+	Deprecated *string `json:"deprecated,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -31,13 +31,11 @@ type DeleteDatabaseParameterItem struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewDeleteDatabaseParameterItem(engineName string, component string, name string, since string, deprecated string) *DeleteDatabaseParameterItem {
+func NewDeleteDatabaseParameterItem(engineName string, component string, name string) *DeleteDatabaseParameterItem {
 	this := DeleteDatabaseParameterItem{}
 	this.EngineName = engineName
 	this.Component = component
 	this.Name = name
-	this.Since = since
-	this.Deprecated = deprecated
 	return &this
 }
 
@@ -118,50 +116,60 @@ func (o *DeleteDatabaseParameterItem) SetName(v string) {
 	o.Name = v
 }
 
-// GetSince returns the Since field value.
+// GetSince returns the Since field value if set, zero value otherwise.
 func (o *DeleteDatabaseParameterItem) GetSince() string {
-	if o == nil {
+	if o == nil || o.Since == nil {
 		var ret string
 		return ret
 	}
-	return o.Since
+	return *o.Since
 }
 
-// GetSinceOk returns a tuple with the Since field value
+// GetSinceOk returns a tuple with the Since field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *DeleteDatabaseParameterItem) GetSinceOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Since == nil {
 		return nil, false
 	}
-	return &o.Since, true
+	return o.Since, true
 }
 
-// SetSince sets field value.
+// HasSince returns a boolean if a field has been set.
+func (o *DeleteDatabaseParameterItem) HasSince() bool {
+	return o != nil && o.Since != nil
+}
+
+// SetSince gets a reference to the given string and assigns it to the Since field.
 func (o *DeleteDatabaseParameterItem) SetSince(v string) {
-	o.Since = v
+	o.Since = &v
 }
 
-// GetDeprecated returns the Deprecated field value.
+// GetDeprecated returns the Deprecated field value if set, zero value otherwise.
 func (o *DeleteDatabaseParameterItem) GetDeprecated() string {
-	if o == nil {
+	if o == nil || o.Deprecated == nil {
 		var ret string
 		return ret
 	}
-	return o.Deprecated
+	return *o.Deprecated
 }
 
-// GetDeprecatedOk returns a tuple with the Deprecated field value
+// GetDeprecatedOk returns a tuple with the Deprecated field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *DeleteDatabaseParameterItem) GetDeprecatedOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Deprecated == nil {
 		return nil, false
 	}
-	return &o.Deprecated, true
+	return o.Deprecated, true
 }
 
-// SetDeprecated sets field value.
+// HasDeprecated returns a boolean if a field has been set.
+func (o *DeleteDatabaseParameterItem) HasDeprecated() bool {
+	return o != nil && o.Deprecated != nil
+}
+
+// SetDeprecated gets a reference to the given string and assigns it to the Deprecated field.
 func (o *DeleteDatabaseParameterItem) SetDeprecated(v string) {
-	o.Deprecated = v
+	o.Deprecated = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -173,8 +181,12 @@ func (o DeleteDatabaseParameterItem) MarshalJSON() ([]byte, error) {
 	toSerialize["engineName"] = o.EngineName
 	toSerialize["component"] = o.Component
 	toSerialize["name"] = o.Name
-	toSerialize["since"] = o.Since
-	toSerialize["deprecated"] = o.Deprecated
+	if o.Since != nil {
+		toSerialize["since"] = o.Since
+	}
+	if o.Deprecated != nil {
+		toSerialize["deprecated"] = o.Deprecated
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -188,8 +200,8 @@ func (o *DeleteDatabaseParameterItem) UnmarshalJSON(bytes []byte) (err error) {
 		EngineName *string `json:"engineName"`
 		Component  *string `json:"component"`
 		Name       *string `json:"name"`
-		Since      *string `json:"since"`
-		Deprecated *string `json:"deprecated"`
+		Since      *string `json:"since,omitempty"`
+		Deprecated *string `json:"deprecated,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -203,12 +215,6 @@ func (o *DeleteDatabaseParameterItem) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
 	}
-	if all.Since == nil {
-		return fmt.Errorf("required field since missing")
-	}
-	if all.Deprecated == nil {
-		return fmt.Errorf("required field deprecated missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"engineName", "component", "name", "since", "deprecated"})
@@ -218,8 +224,8 @@ func (o *DeleteDatabaseParameterItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.EngineName = *all.EngineName
 	o.Component = *all.Component
 	o.Name = *all.Name
-	o.Since = *all.Since
-	o.Deprecated = *all.Deprecated
+	o.Since = all.Since
+	o.Deprecated = all.Deprecated
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
