@@ -29897,6 +29897,9 @@ components:
         severity:
           description: the severity of the vulnerability
           type: string
+        cvssVector:
+          description: the CVSS vector and score of the vulnerability
+          type: string
         publishedAt:
           description: the published time of the vulnerability
           type: string

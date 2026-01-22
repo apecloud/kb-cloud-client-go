@@ -25,6 +25,8 @@ type VulnListItem struct {
 	Detail *string `json:"detail,omitempty"`
 	// the severity of the vulnerability
 	Severity string `json:"severity"`
+	// the CVSS vector and score of the vulnerability
+	CvssVector *string `json:"cvssVector,omitempty"`
 	// the published time of the vulnerability
 	PublishedAt time.Time `json:"publishedAt"`
 	// the modified time of the vulnerability
@@ -203,6 +205,34 @@ func (o *VulnListItem) SetSeverity(v string) {
 	o.Severity = v
 }
 
+// GetCvssVector returns the CvssVector field value if set, zero value otherwise.
+func (o *VulnListItem) GetCvssVector() string {
+	if o == nil || o.CvssVector == nil {
+		var ret string
+		return ret
+	}
+	return *o.CvssVector
+}
+
+// GetCvssVectorOk returns a tuple with the CvssVector field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *VulnListItem) GetCvssVectorOk() (*string, bool) {
+	if o == nil || o.CvssVector == nil {
+		return nil, false
+	}
+	return o.CvssVector, true
+}
+
+// HasCvssVector returns a boolean if a field has been set.
+func (o *VulnListItem) HasCvssVector() bool {
+	return o != nil && o.CvssVector != nil
+}
+
+// SetCvssVector gets a reference to the given string and assigns it to the CvssVector field.
+func (o *VulnListItem) SetCvssVector(v string) {
+	o.CvssVector = &v
+}
+
 // GetPublishedAt returns the PublishedAt field value.
 func (o *VulnListItem) GetPublishedAt() time.Time {
 	if o == nil {
@@ -291,6 +321,9 @@ func (o VulnListItem) MarshalJSON() ([]byte, error) {
 		toSerialize["detail"] = o.Detail
 	}
 	toSerialize["severity"] = o.Severity
+	if o.CvssVector != nil {
+		toSerialize["cvssVector"] = o.CvssVector
+	}
 	if o.PublishedAt.Nanosecond() == 0 {
 		toSerialize["publishedAt"] = o.PublishedAt.Format("2006-01-02T15:04:05Z07:00")
 	} else {
@@ -320,6 +353,7 @@ func (o *VulnListItem) UnmarshalJSON(bytes []byte) (err error) {
 		Version     *string    `json:"version"`
 		Detail      *string    `json:"detail,omitempty"`
 		Severity    *string    `json:"severity"`
+		CvssVector  *string    `json:"cvssVector,omitempty"`
 		PublishedAt *time.Time `json:"publishedAt"`
 		ModifiedAt  *time.Time `json:"modifiedAt"`
 		Refs        []RefItem  `json:"refs,omitempty"`
@@ -350,7 +384,7 @@ func (o *VulnListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cveId", "engineName", "productName", "version", "detail", "severity", "publishedAt", "modifiedAt", "refs"})
+		common.DeleteKeys(additionalProperties, &[]string{"cveId", "engineName", "productName", "version", "detail", "severity", "cvssVector", "publishedAt", "modifiedAt", "refs"})
 	} else {
 		return err
 	}
@@ -360,6 +394,7 @@ func (o *VulnListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.Version = *all.Version
 	o.Detail = all.Detail
 	o.Severity = *all.Severity
+	o.CvssVector = all.CvssVector
 	o.PublishedAt = *all.PublishedAt
 	o.ModifiedAt = *all.ModifiedAt
 	o.Refs = all.Refs
