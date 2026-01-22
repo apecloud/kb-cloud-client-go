@@ -22732,7 +22732,7 @@ components:
       enum:
         - READWRITE
         - READONLY
-        - UNKNOWN
+        - CUSTOM
       type: string
     ACLUser:
       x-go-name: RedisACLUser
@@ -22774,6 +22774,10 @@ components:
           items:
             type: string
           description: List of password hashes to be removed
+        acl_rules:
+          type: string
+          description: Custom ACL rules
+          x-omitempty: true
       required:
         - name
         - role

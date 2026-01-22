@@ -29,6 +29,8 @@ type ACLUser struct {
 	PasswordsToRemove []string `json:"passwords_to_remove,omitempty"`
 	// List of password hashes to be removed
 	PasswordHashesToRemove []string `json:"password_hashes_to_remove,omitempty"`
+	// Custom ACL rules
+	AclRules *string `json:"acl_rules,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -295,6 +297,34 @@ func (o *ACLUser) SetPasswordHashesToRemove(v []string) {
 	o.PasswordHashesToRemove = v
 }
 
+// GetAclRules returns the AclRules field value if set, zero value otherwise.
+func (o *ACLUser) GetAclRules() string {
+	if o == nil || o.AclRules == nil {
+		var ret string
+		return ret
+	}
+	return *o.AclRules
+}
+
+// GetAclRulesOk returns a tuple with the AclRules field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ACLUser) GetAclRulesOk() (*string, bool) {
+	if o == nil || o.AclRules == nil {
+		return nil, false
+	}
+	return o.AclRules, true
+}
+
+// HasAclRules returns a boolean if a field has been set.
+func (o *ACLUser) HasAclRules() bool {
+	return o != nil && o.AclRules != nil
+}
+
+// SetAclRules gets a reference to the given string and assigns it to the AclRules field.
+func (o *ACLUser) SetAclRules(v string) {
+	o.AclRules = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ACLUser) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -324,6 +354,9 @@ func (o ACLUser) MarshalJSON() ([]byte, error) {
 	if o.PasswordHashesToRemove != nil {
 		toSerialize["password_hashes_to_remove"] = o.PasswordHashesToRemove
 	}
+	if o.AclRules != nil {
+		toSerialize["acl_rules"] = o.AclRules
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -343,6 +376,7 @@ func (o *ACLUser) UnmarshalJSON(bytes []byte) (err error) {
 		PasswordHashes         []string             `json:"password_hashes,omitempty"`
 		PasswordsToRemove      []string             `json:"passwords_to_remove,omitempty"`
 		PasswordHashesToRemove []string             `json:"password_hashes_to_remove,omitempty"`
+		AclRules               *string              `json:"acl_rules,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -355,7 +389,7 @@ func (o *ACLUser) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"role", "privileges", "name", "enabled", "nopass", "passwords", "password_hashes", "passwords_to_remove", "password_hashes_to_remove"})
+		common.DeleteKeys(additionalProperties, &[]string{"role", "privileges", "name", "enabled", "nopass", "passwords", "password_hashes", "passwords_to_remove", "password_hashes_to_remove", "acl_rules"})
 	} else {
 		return err
 	}
@@ -378,6 +412,7 @@ func (o *ACLUser) UnmarshalJSON(bytes []byte) (err error) {
 	o.PasswordHashes = all.PasswordHashes
 	o.PasswordsToRemove = all.PasswordsToRemove
 	o.PasswordHashesToRemove = all.PasswordHashesToRemove
+	o.AclRules = all.AclRules
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

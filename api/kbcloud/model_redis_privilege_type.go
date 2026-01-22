@@ -17,13 +17,13 @@ type RedisPrivilegeType string
 const (
 	RedisPrivilegeTypeReadwrite RedisPrivilegeType = "READWRITE"
 	RedisPrivilegeTypeReadonly  RedisPrivilegeType = "READONLY"
-	RedisPrivilegeTypeUnknown   RedisPrivilegeType = "UNKNOWN"
+	RedisPrivilegeTypeCustom    RedisPrivilegeType = "CUSTOM"
 )
 
 var allowedRedisPrivilegeTypeEnumValues = []RedisPrivilegeType{
 	RedisPrivilegeTypeReadwrite,
 	RedisPrivilegeTypeReadonly,
-	RedisPrivilegeTypeUnknown,
+	RedisPrivilegeTypeCustom,
 }
 
 // GetAllowedValues returns the list of possible values.
