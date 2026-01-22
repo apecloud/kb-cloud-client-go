@@ -18,8 +18,6 @@ type MarkVulnsAsIgnored struct {
 	EngineName string `json:"engineName"`
 	// the product name of the vulnerability
 	ProductName string `json:"productName"`
-	// the version of the product which is affected by the vulnerability
-	Version string `json:"version"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -29,12 +27,11 @@ type MarkVulnsAsIgnored struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewMarkVulnsAsIgnored(cveId string, engineName string, productName string, version string) *MarkVulnsAsIgnored {
+func NewMarkVulnsAsIgnored(cveId string, engineName string, productName string) *MarkVulnsAsIgnored {
 	this := MarkVulnsAsIgnored{}
 	this.CveId = cveId
 	this.EngineName = engineName
 	this.ProductName = productName
-	this.Version = version
 	return &this
 }
 
@@ -115,29 +112,6 @@ func (o *MarkVulnsAsIgnored) SetProductName(v string) {
 	o.ProductName = v
 }
 
-// GetVersion returns the Version field value.
-func (o *MarkVulnsAsIgnored) GetVersion() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.Version
-}
-
-// GetVersionOk returns a tuple with the Version field value
-// and a boolean to check if the value has been set.
-func (o *MarkVulnsAsIgnored) GetVersionOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Version, true
-}
-
-// SetVersion sets field value.
-func (o *MarkVulnsAsIgnored) SetVersion(v string) {
-	o.Version = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o MarkVulnsAsIgnored) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -147,7 +121,6 @@ func (o MarkVulnsAsIgnored) MarshalJSON() ([]byte, error) {
 	toSerialize["cveId"] = o.CveId
 	toSerialize["engineName"] = o.EngineName
 	toSerialize["productName"] = o.ProductName
-	toSerialize["version"] = o.Version
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -161,7 +134,6 @@ func (o *MarkVulnsAsIgnored) UnmarshalJSON(bytes []byte) (err error) {
 		CveId       *string `json:"cveId"`
 		EngineName  *string `json:"engineName"`
 		ProductName *string `json:"productName"`
-		Version     *string `json:"version"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -175,19 +147,15 @@ func (o *MarkVulnsAsIgnored) UnmarshalJSON(bytes []byte) (err error) {
 	if all.ProductName == nil {
 		return fmt.Errorf("required field productName missing")
 	}
-	if all.Version == nil {
-		return fmt.Errorf("required field version missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cveId", "engineName", "productName", "version"})
+		common.DeleteKeys(additionalProperties, &[]string{"cveId", "engineName", "productName"})
 	} else {
 		return err
 	}
 	o.CveId = *all.CveId
 	o.EngineName = *all.EngineName
 	o.ProductName = *all.ProductName
-	o.Version = *all.Version
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

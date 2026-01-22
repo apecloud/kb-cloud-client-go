@@ -16774,6 +16774,38 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - vuln
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/vulns:
+    get:
+      operationId: listClusterVulns
+      summary: List vulnerabilities which affected the cluster
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterVulns'
+          description: Returned when vulnerabilities which affected the cluster are listed successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - vuln
 components:
   securitySchemes:
     BearerToken:
@@ -29869,6 +29901,27 @@ components:
         slaThreshold:
           type: number
           description: The SLA threshold value for the cluster.
+    affectedClusterItem:
+      description: a cluster which is affected by the vulnerability
+      properties:
+        id:
+          description: the ID of the cluster
+          type: string
+        name:
+          description: the name of the cluster
+          type: string
+        displayName:
+          description: the display name of the cluster
+          type: string
+        clusterType:
+          description: the type of the cluster
+          type: string
+        engine:
+          description: the engine of the cluster
+          type: string
+        orgName:
+          description: the name of the organization
+          type: string
     refItem:
       description: a reference of the vulnerability
       properties:
@@ -29893,14 +29946,24 @@ components:
         productName:
           description: the product name of the vulnerability
           type: string
-        version:
-          description: the version of the product which is affected by the vulnerability
-          type: string
+        versions:
+          description: the versions of the product which are affected by the vulnerability
+          type: array
+          items:
+            type: string
+        affectedClusters:
+          description: the clusters which are affected by the vulnerability
+          type: array
+          items:
+            $ref: '#/components/schemas/affectedClusterItem'
         detail:
           description: the detail of the vulnerability
           type: string
         severity:
           description: the severity of the vulnerability
+          type: string
+        cvssVector:
+          description: the CVSS vector and score of the vulnerability
           type: string
         publishedAt:
           description: the published time of the vulnerability
@@ -29919,7 +29982,7 @@ components:
         - cveId
         - engineName
         - productName
-        - version
+        - versions
         - severity
         - publishedAt
         - modifiedAt
@@ -29953,7 +30016,6 @@ components:
         - cveId
         - engineName
         - productName
-        - version
       properties:
         cveId:
           type: string
@@ -29964,9 +30026,49 @@ components:
         productName:
           type: string
           description: the product name of the vulnerability
-        version:
+    vulnItem:
+      description: a vulnerability which affected the cluster
+      properties:
+        cveId:
+          description: the CVE ID of the vulnerability
           type: string
-          description: the version of the product which is affected by the vulnerability
+        detail:
+          description: the detail of the vulnerability
+          type: string
+        severity:
+          description: the severity of the vulnerability
+          type: string
+        cvssVector:
+          description: the CVSS vector and score of the vulnerability
+          type: string
+        publishedAt:
+          description: the published time of the vulnerability
+          type: string
+          format: date-time
+        modifiedAt:
+          description: the modified time of the vulnerability
+          type: string
+          format: date-time
+        refs:
+          description: the references of the vulnerability
+          type: array
+          items:
+            $ref: '#/components/schemas/refItem'
+      required:
+        - cveId
+        - severity
+        - publishedAt
+        - modifiedAt
+    clusterVulns:
+      description: a list of vulnerabilities which affected the cluster
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/vulnItem'
   responses:
     '204':
       description: No Content
