@@ -28413,7 +28413,7 @@ components:
       enum:
         - READWRITE
         - READONLY
-        - UNKNOWN
+        - CUSTOM
       type: string
     ACLUser:
       x-go-name: RedisACLUser
@@ -28455,6 +28455,10 @@ components:
           items:
             type: string
           description: List of password hashes to be removed
+        acl_rules:
+          type: string
+          description: Custom ACL rules
+          x-omitempty: true
       required:
         - name
         - role
@@ -29864,6 +29868,27 @@ components:
         slaThreshold:
           type: number
           description: The SLA threshold value for the cluster.
+    affectedClusterItem:
+      description: a cluster which is affected by the vulnerability
+      properties:
+        id:
+          description: the ID of the cluster
+          type: string
+        name:
+          description: the name of the cluster
+          type: string
+        displayName:
+          description: the display name of the cluster
+          type: string
+        clusterType:
+          description: the type of the cluster
+          type: string
+        engine:
+          description: the engine of the cluster
+          type: string
+        orgName:
+          description: the name of the organization
+          type: string
     refItem:
       description: a reference of the vulnerability
       properties:
@@ -29888,9 +29913,16 @@ components:
         productName:
           description: the product name of the vulnerability
           type: string
-        version:
-          description: the version of the product which is affected by the vulnerability
-          type: string
+        versions:
+          description: the versions of the product which are affected by the vulnerability
+          type: array
+          items:
+            type: string
+        affectedClusters:
+          description: the clusters which are affected by the vulnerability
+          type: array
+          items:
+            $ref: '#/components/schemas/affectedClusterItem'
         detail:
           description: the detail of the vulnerability
           type: string
@@ -29917,7 +29949,7 @@ components:
         - cveId
         - engineName
         - productName
-        - version
+        - versions
         - severity
         - publishedAt
         - modifiedAt
@@ -29951,7 +29983,6 @@ components:
         - cveId
         - engineName
         - productName
-        - version
       properties:
         cveId:
           type: string
@@ -29962,9 +29993,6 @@ components:
         productName:
           type: string
           description: the product name of the vulnerability
-        version:
-          type: string
-          description: the version of the product which is affected by the vulnerability
   responses:
     '204':
       description: No Content
