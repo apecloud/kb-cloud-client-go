@@ -486,6 +486,7 @@
 //   - [vipPoolApi.createVIPPool]
 //   - [vipPoolApi.deleteVIPPool]
 //   - [vipPoolApi.listVIPPool]
+//   - [vulnApi.listClusterVulns]
 //   - [vulnApi.listVulns]
 //   - [vulnApi.markVulnsAsIgnored]
 //   - [vulnApi.uploadVulns]
