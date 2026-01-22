@@ -16772,6 +16772,38 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - vuln
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/vulns:
+    get:
+      operationId: listClusterVulns
+      summary: List vulnerabilities which affected the cluster
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterVulns'
+          description: Returned when vulnerabilities which affected the cluster are listed successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - vuln
 components:
   securitySchemes:
     BearerToken:
@@ -29993,6 +30025,49 @@ components:
         productName:
           type: string
           description: the product name of the vulnerability
+    vulnItem:
+      description: a vulnerability which affected the cluster
+      properties:
+        cveId:
+          description: the CVE ID of the vulnerability
+          type: string
+        detail:
+          description: the detail of the vulnerability
+          type: string
+        severity:
+          description: the severity of the vulnerability
+          type: string
+        cvssVector:
+          description: the CVSS vector and score of the vulnerability
+          type: string
+        publishedAt:
+          description: the published time of the vulnerability
+          type: string
+          format: date-time
+        modifiedAt:
+          description: the modified time of the vulnerability
+          type: string
+          format: date-time
+        refs:
+          description: the references of the vulnerability
+          type: array
+          items:
+            $ref: '#/components/schemas/refItem'
+      required:
+        - cveId
+        - severity
+        - publishedAt
+        - modifiedAt
+    clusterVulns:
+      description: a list of vulnerabilities which affected the cluster
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/vulnItem'
   responses:
     '204':
       description: No Content
