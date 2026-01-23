@@ -223,6 +223,7 @@
 //   - [environmentApi.createWorkflow]
 //   - [environmentApi.deleteEnvironment]
 //   - [environmentApi.deleteNodeGroup]
+//   - [environmentApi.deleteNodes]
 //   - [environmentApi.getEnvironment]
 //   - [environmentApi.getEnvironmentBackupRepo]
 //   - [environmentApi.getEnvironmentBootstrapManifests]
