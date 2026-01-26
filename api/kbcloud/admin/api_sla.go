@@ -749,11 +749,11 @@ func (r *ListSLARankOptionalParameters) WithLimit(limit int32) *ListSLARankOptio
 
 // ListSLARank List SLA rank for a environment.
 // List SLA rank for a environment
-func (a *SLAApi) ListSLARank(ctx _context.Context, rangeVar int32, o ...ListSLARankOptionalParameters) (ClustersSLA, *_nethttp.Response, error) {
+func (a *SLAApi) ListSLARank(ctx _context.Context, rangeVar int32, o ...ListSLARankOptionalParameters) ([]SLA, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue ClustersSLA
+		localVarReturnValue []SLA
 		optionalParams      ListSLARankOptionalParameters
 	)
 
