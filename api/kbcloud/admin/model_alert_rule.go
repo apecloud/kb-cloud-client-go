@@ -24,9 +24,7 @@ type AlertRule struct {
 	Severity  AlertSeverity `json:"severity"`
 	CreatedAt *time.Time    `json:"createdAt,omitempty"`
 	UpdatedAt *time.Time    `json:"updatedAt,omitempty"`
-	// Alert metric information
-	Metric  *AlertMetric `json:"metric,omitempty"`
-	OrgName *string      `json:"orgName,omitempty"`
+	OrgName   *string       `json:"orgName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -317,34 +315,6 @@ func (o *AlertRule) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
 
-// GetMetric returns the Metric field value if set, zero value otherwise.
-func (o *AlertRule) GetMetric() AlertMetric {
-	if o == nil || o.Metric == nil {
-		var ret AlertMetric
-		return ret
-	}
-	return *o.Metric
-}
-
-// GetMetricOk returns a tuple with the Metric field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AlertRule) GetMetricOk() (*AlertMetric, bool) {
-	if o == nil || o.Metric == nil {
-		return nil, false
-	}
-	return o.Metric, true
-}
-
-// HasMetric returns a boolean if a field has been set.
-func (o *AlertRule) HasMetric() bool {
-	return o != nil && o.Metric != nil
-}
-
-// SetMetric gets a reference to the given AlertMetric and assigns it to the Metric field.
-func (o *AlertRule) SetMetric(v AlertMetric) {
-	o.Metric = &v
-}
-
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
 func (o *AlertRule) GetOrgName() string {
 	if o == nil || o.OrgName == nil {
@@ -409,9 +379,6 @@ func (o AlertRule) MarshalJSON() ([]byte, error) {
 			toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
-	if o.Metric != nil {
-		toSerialize["metric"] = o.Metric
-	}
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
 	}
@@ -435,7 +402,6 @@ func (o *AlertRule) UnmarshalJSON(bytes []byte) (err error) {
 		Severity    *AlertSeverity `json:"severity"`
 		CreatedAt   *time.Time     `json:"createdAt,omitempty"`
 		UpdatedAt   *time.Time     `json:"updatedAt,omitempty"`
-		Metric      *AlertMetric   `json:"metric,omitempty"`
 		OrgName     *string        `json:"orgName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -455,7 +421,7 @@ func (o *AlertRule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "summary", "alertName", "expr", "for", "groupName", "disabled", "severity", "createdAt", "updatedAt", "metric", "orgName"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "summary", "alertName", "expr", "for", "groupName", "disabled", "severity", "createdAt", "updatedAt", "orgName"})
 	} else {
 		return err
 	}
@@ -475,10 +441,6 @@ func (o *AlertRule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.CreatedAt = all.CreatedAt
 	o.UpdatedAt = all.UpdatedAt
-	if all.Metric != nil && all.Metric.UnparsedObject != nil && o.UnparsedObject == nil {
-		hasInvalidField = true
-	}
-	o.Metric = all.Metric
 	o.OrgName = all.OrgName
 
 	if len(additionalProperties) > 0 {

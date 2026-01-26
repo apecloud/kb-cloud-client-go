@@ -5393,37 +5393,6 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
-  /api/v1/organizations/{orgName}/alerts/metrics:
-    get:
-      tags:
-        - alertMetrics
-        - shared
-      operationId: listAlertMetrics
-      summary: List alert metric types
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: category
-          in: query
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/alertMetricList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/alerts/objects:
     get:
       tags:
@@ -18097,20 +18066,6 @@ components:
         - warning
         - info
       type: string
-    alertMetric:
-      required:
-        - key
-      type: object
-      properties:
-        key:
-          type: string
-        threshold:
-          type: integer
-        notation:
-          type: string
-        category:
-          type: string
-      description: Alert metric information
     alertRule:
       required:
         - alertName
@@ -18143,9 +18098,6 @@ components:
         updatedAt:
           type: string
           format: date-time
-        metric:
-          $ref: '#/components/schemas/alertMetric'
-          description: Metric configuration. If provided, expr will be ignored.
         orgName:
           type: string
       description: Alert rule information. Either provide 'expr' for custom expressions, or 'metric' for predefined metrics.
@@ -18171,19 +18123,6 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertRuleList is a list of alert rules
-    alertMetricList:
-      required:
-        - items
-      type: object
-      properties:
-        items:
-          type: array
-          description: Items is the list of alert metric objects in the list
-          items:
-            $ref: '#/components/schemas/alertMetric'
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      description: AlertMetricList is a list of alert metric
     alertStatus:
       enum:
         - resolved
