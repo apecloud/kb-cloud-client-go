@@ -103,7 +103,7 @@ func (a *EnvironmentApi) AddNodes(ctx _context.Context, environmentName string, 
 
 // CheckKubeconfigOptionalParameters holds optional parameters for CheckKubeconfig.
 type CheckKubeconfigOptionalParameters struct {
-	Body *string
+	Body *Kubeconfig
 }
 
 // NewCheckKubeconfigOptionalParameters creates an empty struct for parameters.
@@ -113,7 +113,7 @@ func NewCheckKubeconfigOptionalParameters() *CheckKubeconfigOptionalParameters {
 }
 
 // WithBody sets the corresponding parameter name and returns the struct.
-func (r *CheckKubeconfigOptionalParameters) WithBody(body string) *CheckKubeconfigOptionalParameters {
+func (r *CheckKubeconfigOptionalParameters) WithBody(body Kubeconfig) *CheckKubeconfigOptionalParameters {
 	r.Body = &body
 	return r
 }
@@ -876,7 +876,7 @@ func (a *EnvironmentApi) GetEnvironment(ctx _context.Context, environmentName st
 
 // GetEnvironmentBackupRepoOptionalParameters holds optional parameters for GetEnvironmentBackupRepo.
 type GetEnvironmentBackupRepoOptionalParameters struct {
-	Body *string
+	Body *Kubeconfig
 }
 
 // NewGetEnvironmentBackupRepoOptionalParameters creates an empty struct for parameters.
@@ -886,7 +886,7 @@ func NewGetEnvironmentBackupRepoOptionalParameters() *GetEnvironmentBackupRepoOp
 }
 
 // WithBody sets the corresponding parameter name and returns the struct.
-func (r *GetEnvironmentBackupRepoOptionalParameters) WithBody(body string) *GetEnvironmentBackupRepoOptionalParameters {
+func (r *GetEnvironmentBackupRepoOptionalParameters) WithBody(body Kubeconfig) *GetEnvironmentBackupRepoOptionalParameters {
 	r.Body = &body
 	return r
 }
@@ -2520,7 +2520,7 @@ func (a *EnvironmentApi) ListEnvironment(ctx _context.Context, o ...ListEnvironm
 
 // ListEnvironmentObjectStorageOptionalParameters holds optional parameters for ListEnvironmentObjectStorage.
 type ListEnvironmentObjectStorageOptionalParameters struct {
-	Body *string
+	Body *Kubeconfig
 }
 
 // NewListEnvironmentObjectStorageOptionalParameters creates an empty struct for parameters.
@@ -2530,7 +2530,7 @@ func NewListEnvironmentObjectStorageOptionalParameters() *ListEnvironmentObjectS
 }
 
 // WithBody sets the corresponding parameter name and returns the struct.
-func (r *ListEnvironmentObjectStorageOptionalParameters) WithBody(body string) *ListEnvironmentObjectStorageOptionalParameters {
+func (r *ListEnvironmentObjectStorageOptionalParameters) WithBody(body Kubeconfig) *ListEnvironmentObjectStorageOptionalParameters {
 	r.Body = &body
 	return r
 }
@@ -3777,7 +3777,7 @@ func (a *EnvironmentApi) UncordonEnvironmentNode(ctx _context.Context, environme
 
 // UpdateEnvironmentKubeconfigOptionalParameters holds optional parameters for UpdateEnvironmentKubeconfig.
 type UpdateEnvironmentKubeconfigOptionalParameters struct {
-	Body *string
+	Body *Kubeconfig
 }
 
 // NewUpdateEnvironmentKubeconfigOptionalParameters creates an empty struct for parameters.
@@ -3787,7 +3787,7 @@ func NewUpdateEnvironmentKubeconfigOptionalParameters() *UpdateEnvironmentKubeco
 }
 
 // WithBody sets the corresponding parameter name and returns the struct.
-func (r *UpdateEnvironmentKubeconfigOptionalParameters) WithBody(body string) *UpdateEnvironmentKubeconfigOptionalParameters {
+func (r *UpdateEnvironmentKubeconfigOptionalParameters) WithBody(body Kubeconfig) *UpdateEnvironmentKubeconfigOptionalParameters {
 	r.Body = &body
 	return r
 }

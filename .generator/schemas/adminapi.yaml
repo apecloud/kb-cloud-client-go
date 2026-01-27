@@ -5914,7 +5914,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/kubeConfig'
+              $ref: '#/components/schemas/kubeconfig'
       responses:
         '200':
           content:
@@ -6815,7 +6815,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/kubeConfig'
+              $ref: '#/components/schemas/kubeconfig'
       responses:
         '200':
           content:
@@ -6837,7 +6837,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/kubeConfig'
+              $ref: '#/components/schemas/kubeconfig'
       responses:
         '200':
           content:
@@ -6859,7 +6859,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/kubeConfig'
+              $ref: '#/components/schemas/kubeconfig'
       responses:
         '200':
           content:
@@ -21833,11 +21833,6 @@ components:
           type: string
       title: ''
       type: object
-    kubeConfig:
-      pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-      type: string
-      description: The kubeconfig body as raw binary.
-      format: byte
     environmentConditionStatus:
       description: Status is the status of the condition. Can be True, False, Unknown.
       enum:
