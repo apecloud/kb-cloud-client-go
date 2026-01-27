@@ -29910,8 +29910,10 @@ components:
           format: duration
         enableProbeRetry:
           type: boolean
+          x-omitempty: false
         probeRetryCount:
           type: integer
+          x-omitempty: false
         probeRetryInterval:
           type: string
           format: duration
@@ -29921,6 +29923,7 @@ components:
             type: string
         probePoolSize:
           type: integer
+          x-omitempty: false
         collectorBatchSize:
           type: integer
         collectorMaxWaitTime:
