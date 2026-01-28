@@ -16,6 +16,8 @@ type SLA struct {
 	Detail []OutageRecord `json:"detail,omitempty"`
 	// The SLA value for the cluster.
 	Sla *float64 `json:"sla,omitempty"`
+	// The target SLA threshold value for the cluster.
+	TargetThreshold *float64 `json:"targetThreshold,omitempty"`
 	// The total duration of the outage records.
 	TotalDuration *int64 `json:"totalDuration,omitempty"`
 	// The total downtime duration of the outage records.
@@ -126,6 +128,34 @@ func (o *SLA) SetSla(v float64) {
 	o.Sla = &v
 }
 
+// GetTargetThreshold returns the TargetThreshold field value if set, zero value otherwise.
+func (o *SLA) GetTargetThreshold() float64 {
+	if o == nil || o.TargetThreshold == nil {
+		var ret float64
+		return ret
+	}
+	return *o.TargetThreshold
+}
+
+// GetTargetThresholdOk returns a tuple with the TargetThreshold field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SLA) GetTargetThresholdOk() (*float64, bool) {
+	if o == nil || o.TargetThreshold == nil {
+		return nil, false
+	}
+	return o.TargetThreshold, true
+}
+
+// HasTargetThreshold returns a boolean if a field has been set.
+func (o *SLA) HasTargetThreshold() bool {
+	return o != nil && o.TargetThreshold != nil
+}
+
+// SetTargetThreshold gets a reference to the given float64 and assigns it to the TargetThreshold field.
+func (o *SLA) SetTargetThreshold(v float64) {
+	o.TargetThreshold = &v
+}
+
 // GetTotalDuration returns the TotalDuration field value if set, zero value otherwise.
 func (o *SLA) GetTotalDuration() int64 {
 	if o == nil || o.TotalDuration == nil {
@@ -197,6 +227,9 @@ func (o SLA) MarshalJSON() ([]byte, error) {
 	if o.Sla != nil {
 		toSerialize["sla"] = o.Sla
 	}
+	if o.TargetThreshold != nil {
+		toSerialize["targetThreshold"] = o.TargetThreshold
+	}
 	if o.TotalDuration != nil {
 		toSerialize["totalDuration"] = o.TotalDuration
 	}
@@ -213,18 +246,19 @@ func (o SLA) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *SLA) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Cluster       *ClusterListItem `json:"cluster,omitempty"`
-		Detail        []OutageRecord   `json:"detail,omitempty"`
-		Sla           *float64         `json:"sla,omitempty"`
-		TotalDuration *int64           `json:"totalDuration,omitempty"`
-		TotalDowntime *int64           `json:"totalDowntime,omitempty"`
+		Cluster         *ClusterListItem `json:"cluster,omitempty"`
+		Detail          []OutageRecord   `json:"detail,omitempty"`
+		Sla             *float64         `json:"sla,omitempty"`
+		TargetThreshold *float64         `json:"targetThreshold,omitempty"`
+		TotalDuration   *int64           `json:"totalDuration,omitempty"`
+		TotalDowntime   *int64           `json:"totalDowntime,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cluster", "detail", "sla", "totalDuration", "totalDowntime"})
+		common.DeleteKeys(additionalProperties, &[]string{"cluster", "detail", "sla", "targetThreshold", "totalDuration", "totalDowntime"})
 	} else {
 		return err
 	}
@@ -236,6 +270,7 @@ func (o *SLA) UnmarshalJSON(bytes []byte) (err error) {
 	o.Cluster = all.Cluster
 	o.Detail = all.Detail
 	o.Sla = all.Sla
+	o.TargetThreshold = all.TargetThreshold
 	o.TotalDuration = all.TotalDuration
 	o.TotalDowntime = all.TotalDowntime
 
