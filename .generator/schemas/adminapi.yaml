@@ -29855,6 +29855,9 @@ components:
         sla:
           type: number
           description: The SLA value for the cluster.
+        targetThreshold:
+          type: number
+          description: The target SLA threshold value for the cluster.
         totalDuration:
           type: integer
           format: int64
