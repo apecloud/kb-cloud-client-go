@@ -18523,7 +18523,6 @@ components:
       description: Response after updating SQL audit log status
       required:
         - enabled
-        - taskId
       properties:
         enabled:
           type: boolean
