@@ -22060,7 +22060,7 @@ components:
         id:
           description: ID of VIP Pool
           title: ID
-          type: object
+          type: string
         total:
           description: Total number of IP addresses
           format: int64
