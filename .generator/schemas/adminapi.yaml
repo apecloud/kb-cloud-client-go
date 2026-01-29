@@ -16440,12 +16440,20 @@ paths:
             type: array
             items:
               type: string
-        - name: range
+        - name: startTime
           in: query
-          description: Time range to calculate SLA, unit is day, available values are "30", "90", "365".
+          description: SLA calculation start time Unix timestamp, unit is second.
           required: true
           schema:
             type: integer
+            format: int64
+        - name: endTime
+          in: query
+          description: SLA calculation end time Unix timestamp, unit is second.
+          required: true
+          schema:
+            type: integer
+            format: int64
         - name: limit
           in: query
           description: Number of items per page.
@@ -16487,12 +16495,20 @@ paths:
             type: array
             items:
               type: string
-        - name: range
+        - name: startTime
           in: query
-          description: Time range to calculate SLA, unit is day, available values are "30", "90", "365".
+          description: SLA calculation start time Unix timestamp, unit is second.
           required: true
           schema:
             type: integer
+            format: int64
+        - name: endTime
+          in: query
+          description: SLA calculation end time Unix timestamp, unit is second.
+          required: true
+          schema:
+            type: integer
+            format: int64
         - name: clusterID
           in: query
           description: id of the cluster
@@ -16713,12 +16729,20 @@ paths:
             type: array
             items:
               type: string
-        - name: range
+        - name: startTime
           in: query
-          description: Time range to calculate SLA, unit is day, available values are "30", "90", "365".
+          description: SLA calculation start time Unix timestamp, unit is second.
           required: true
           schema:
             type: integer
+            format: int64
+        - name: endTime
+          in: query
+          description: SLA calculation end time Unix timestamp, unit is second.
+          required: true
+          schema:
+            type: integer
+            format: int64
         - name: threshold
           in: query
           description: SLA threshold, unit is percent, available values are "99.0", "99.5", "99.9", default is "99.5".
