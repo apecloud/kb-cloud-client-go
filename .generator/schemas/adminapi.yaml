@@ -12176,7 +12176,7 @@ paths:
             type: string
         - name: taskType
           in: query
-          description: Filter by task type
+          description: Filter by task type (supports multiple task types separated by commas, e.g., "cluster-scale,cluster-upgrade")
           schema:
             type: string
         - name: status
