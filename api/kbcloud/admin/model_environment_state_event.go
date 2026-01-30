@@ -5,7 +5,6 @@
 package admin
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
@@ -14,15 +13,15 @@ import (
 // EnvironmentStateEvent EventEnvironmentState contains details for the current and previous state of the environment.
 type EnvironmentStateEvent struct {
 	// The current state of the environment.
-	CurrentState string `json:"currentState"`
+	CurrentState *string `json:"CurrentState,omitempty"`
 	// The previous state of the environment.
-	PrevState string `json:"prevState"`
+	PrevState *string `json:"PrevState,omitempty"`
 	// The reason for the state transition.
-	Reason string `json:"reason"`
+	Reason *string `json:"Reason,omitempty"`
 	// The timestamp of the state transition.
-	Timestamp time.Time `json:"timestamp"`
+	Timestamp *time.Time `json:"Timestamp,omitempty"`
 	// The duration of the state in seconds.
-	Duration *int64 `json:"duration,omitempty"`
+	Duration *int64 `json:"Duration,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -32,12 +31,8 @@ type EnvironmentStateEvent struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentStateEvent(currentState string, prevState string, reason string, timestamp time.Time) *EnvironmentStateEvent {
+func NewEnvironmentStateEvent() *EnvironmentStateEvent {
 	this := EnvironmentStateEvent{}
-	this.CurrentState = currentState
-	this.PrevState = prevState
-	this.Reason = reason
-	this.Timestamp = timestamp
 	return &this
 }
 
@@ -49,96 +44,116 @@ func NewEnvironmentStateEventWithDefaults() *EnvironmentStateEvent {
 	return &this
 }
 
-// GetCurrentState returns the CurrentState field value.
+// GetCurrentState returns the CurrentState field value if set, zero value otherwise.
 func (o *EnvironmentStateEvent) GetCurrentState() string {
-	if o == nil {
+	if o == nil || o.CurrentState == nil {
 		var ret string
 		return ret
 	}
-	return o.CurrentState
+	return *o.CurrentState
 }
 
-// GetCurrentStateOk returns a tuple with the CurrentState field value
+// GetCurrentStateOk returns a tuple with the CurrentState field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EnvironmentStateEvent) GetCurrentStateOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.CurrentState == nil {
 		return nil, false
 	}
-	return &o.CurrentState, true
+	return o.CurrentState, true
 }
 
-// SetCurrentState sets field value.
+// HasCurrentState returns a boolean if a field has been set.
+func (o *EnvironmentStateEvent) HasCurrentState() bool {
+	return o != nil && o.CurrentState != nil
+}
+
+// SetCurrentState gets a reference to the given string and assigns it to the CurrentState field.
 func (o *EnvironmentStateEvent) SetCurrentState(v string) {
-	o.CurrentState = v
+	o.CurrentState = &v
 }
 
-// GetPrevState returns the PrevState field value.
+// GetPrevState returns the PrevState field value if set, zero value otherwise.
 func (o *EnvironmentStateEvent) GetPrevState() string {
-	if o == nil {
+	if o == nil || o.PrevState == nil {
 		var ret string
 		return ret
 	}
-	return o.PrevState
+	return *o.PrevState
 }
 
-// GetPrevStateOk returns a tuple with the PrevState field value
+// GetPrevStateOk returns a tuple with the PrevState field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EnvironmentStateEvent) GetPrevStateOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.PrevState == nil {
 		return nil, false
 	}
-	return &o.PrevState, true
+	return o.PrevState, true
 }
 
-// SetPrevState sets field value.
+// HasPrevState returns a boolean if a field has been set.
+func (o *EnvironmentStateEvent) HasPrevState() bool {
+	return o != nil && o.PrevState != nil
+}
+
+// SetPrevState gets a reference to the given string and assigns it to the PrevState field.
 func (o *EnvironmentStateEvent) SetPrevState(v string) {
-	o.PrevState = v
+	o.PrevState = &v
 }
 
-// GetReason returns the Reason field value.
+// GetReason returns the Reason field value if set, zero value otherwise.
 func (o *EnvironmentStateEvent) GetReason() string {
-	if o == nil {
+	if o == nil || o.Reason == nil {
 		var ret string
 		return ret
 	}
-	return o.Reason
+	return *o.Reason
 }
 
-// GetReasonOk returns a tuple with the Reason field value
+// GetReasonOk returns a tuple with the Reason field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EnvironmentStateEvent) GetReasonOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Reason == nil {
 		return nil, false
 	}
-	return &o.Reason, true
+	return o.Reason, true
 }
 
-// SetReason sets field value.
+// HasReason returns a boolean if a field has been set.
+func (o *EnvironmentStateEvent) HasReason() bool {
+	return o != nil && o.Reason != nil
+}
+
+// SetReason gets a reference to the given string and assigns it to the Reason field.
 func (o *EnvironmentStateEvent) SetReason(v string) {
-	o.Reason = v
+	o.Reason = &v
 }
 
-// GetTimestamp returns the Timestamp field value.
+// GetTimestamp returns the Timestamp field value if set, zero value otherwise.
 func (o *EnvironmentStateEvent) GetTimestamp() time.Time {
-	if o == nil {
+	if o == nil || o.Timestamp == nil {
 		var ret time.Time
 		return ret
 	}
-	return o.Timestamp
+	return *o.Timestamp
 }
 
-// GetTimestampOk returns a tuple with the Timestamp field value
+// GetTimestampOk returns a tuple with the Timestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EnvironmentStateEvent) GetTimestampOk() (*time.Time, bool) {
-	if o == nil {
+	if o == nil || o.Timestamp == nil {
 		return nil, false
 	}
-	return &o.Timestamp, true
+	return o.Timestamp, true
 }
 
-// SetTimestamp sets field value.
+// HasTimestamp returns a boolean if a field has been set.
+func (o *EnvironmentStateEvent) HasTimestamp() bool {
+	return o != nil && o.Timestamp != nil
+}
+
+// SetTimestamp gets a reference to the given time.Time and assigns it to the Timestamp field.
 func (o *EnvironmentStateEvent) SetTimestamp(v time.Time) {
-	o.Timestamp = v
+	o.Timestamp = &v
 }
 
 // GetDuration returns the Duration field value if set, zero value otherwise.
@@ -175,16 +190,24 @@ func (o EnvironmentStateEvent) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["currentState"] = o.CurrentState
-	toSerialize["prevState"] = o.PrevState
-	toSerialize["reason"] = o.Reason
-	if o.Timestamp.Nanosecond() == 0 {
-		toSerialize["timestamp"] = o.Timestamp.Format("2006-01-02T15:04:05Z07:00")
-	} else {
-		toSerialize["timestamp"] = o.Timestamp.Format("2006-01-02T15:04:05.000Z07:00")
+	if o.CurrentState != nil {
+		toSerialize["CurrentState"] = o.CurrentState
+	}
+	if o.PrevState != nil {
+		toSerialize["PrevState"] = o.PrevState
+	}
+	if o.Reason != nil {
+		toSerialize["Reason"] = o.Reason
+	}
+	if o.Timestamp != nil {
+		if o.Timestamp.Nanosecond() == 0 {
+			toSerialize["Timestamp"] = o.Timestamp.Format("2006-01-02T15:04:05Z07:00")
+		} else {
+			toSerialize["Timestamp"] = o.Timestamp.Format("2006-01-02T15:04:05.000Z07:00")
+		}
 	}
 	if o.Duration != nil {
-		toSerialize["duration"] = o.Duration
+		toSerialize["Duration"] = o.Duration
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -196,37 +219,25 @@ func (o EnvironmentStateEvent) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentStateEvent) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CurrentState *string    `json:"currentState"`
-		PrevState    *string    `json:"prevState"`
-		Reason       *string    `json:"reason"`
-		Timestamp    *time.Time `json:"timestamp"`
-		Duration     *int64     `json:"duration,omitempty"`
+		CurrentState *string    `json:"CurrentState,omitempty"`
+		PrevState    *string    `json:"PrevState,omitempty"`
+		Reason       *string    `json:"Reason,omitempty"`
+		Timestamp    *time.Time `json:"Timestamp,omitempty"`
+		Duration     *int64     `json:"Duration,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.CurrentState == nil {
-		return fmt.Errorf("required field currentState missing")
-	}
-	if all.PrevState == nil {
-		return fmt.Errorf("required field prevState missing")
-	}
-	if all.Reason == nil {
-		return fmt.Errorf("required field reason missing")
-	}
-	if all.Timestamp == nil {
-		return fmt.Errorf("required field timestamp missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"currentState", "prevState", "reason", "timestamp", "duration"})
+		common.DeleteKeys(additionalProperties, &[]string{"CurrentState", "PrevState", "Reason", "Timestamp", "Duration"})
 	} else {
 		return err
 	}
-	o.CurrentState = *all.CurrentState
-	o.PrevState = *all.PrevState
-	o.Reason = *all.Reason
-	o.Timestamp = *all.Timestamp
+	o.CurrentState = all.CurrentState
+	o.PrevState = all.PrevState
+	o.Reason = all.Reason
+	o.Timestamp = all.Timestamp
 	o.Duration = all.Duration
 
 	if len(additionalProperties) > 0 {

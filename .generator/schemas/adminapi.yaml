@@ -21706,20 +21706,20 @@ components:
       description: EventEnvironmentState contains details for the current and previous state of the environment.
       type: object
       properties:
-        currentState:
+        CurrentState:
           description: The current state of the environment.
           type: string
-        prevState:
+        PrevState:
           description: The previous state of the environment.
           type: string
-        reason:
+        Reason:
           description: The reason for the state transition.
           type: string
-        timestamp:
+        Timestamp:
           description: The timestamp of the state transition.
           type: string
           format: date-time
-        duration:
+        Duration:
           description: The duration of the state in seconds.
           type: integer
           format: int64
