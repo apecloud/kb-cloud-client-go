@@ -1686,45 +1686,13 @@ func (a *EnvironmentApi) GetEnvironmentStatus(ctx _context.Context, environmentN
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetEnvironmentStatusHistoryOptionalParameters holds optional parameters for GetEnvironmentStatusHistory.
-type GetEnvironmentStatusHistoryOptionalParameters struct {
-	StartTime *time.Time
-	EndTime   *time.Time
-}
-
-// NewGetEnvironmentStatusHistoryOptionalParameters creates an empty struct for parameters.
-func NewGetEnvironmentStatusHistoryOptionalParameters() *GetEnvironmentStatusHistoryOptionalParameters {
-	this := GetEnvironmentStatusHistoryOptionalParameters{}
-	return &this
-}
-
-// WithStartTime sets the corresponding parameter name and returns the struct.
-func (r *GetEnvironmentStatusHistoryOptionalParameters) WithStartTime(startTime time.Time) *GetEnvironmentStatusHistoryOptionalParameters {
-	r.StartTime = &startTime
-	return r
-}
-
-// WithEndTime sets the corresponding parameter name and returns the struct.
-func (r *GetEnvironmentStatusHistoryOptionalParameters) WithEndTime(endTime time.Time) *GetEnvironmentStatusHistoryOptionalParameters {
-	r.EndTime = &endTime
-	return r
-}
-
 // GetEnvironmentStatusHistory Get environment status history.
-func (a *EnvironmentApi) GetEnvironmentStatusHistory(ctx _context.Context, environmentName string, o ...GetEnvironmentStatusHistoryOptionalParameters) ([]EnvironmentStatusHistory, *_nethttp.Response, error) {
+func (a *EnvironmentApi) GetEnvironmentStatusHistory(ctx _context.Context, environmentName string, startTime time.Time, endTime time.Time) (EnvironmentStatusHistory, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []EnvironmentStatusHistory
-		optionalParams      GetEnvironmentStatusHistoryOptionalParameters
+		localVarReturnValue EnvironmentStatusHistory
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type GetEnvironmentStatusHistoryOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -1746,12 +1714,8 @@ func (a *EnvironmentApi) GetEnvironmentStatusHistory(ctx _context.Context, envir
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.StartTime != nil {
-		localVarQueryParams.Add("startTime", common.ParameterToString(*optionalParams.StartTime, ""))
-	}
-	if optionalParams.EndTime != nil {
-		localVarQueryParams.Add("endTime", common.ParameterToString(*optionalParams.EndTime, ""))
-	}
+	localVarQueryParams.Add("startTime", common.ParameterToString(startTime, ""))
+	localVarQueryParams.Add("endTime", common.ParameterToString(endTime, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(

@@ -5411,14 +5411,14 @@ paths:
         - description: start time of the query range (nano seconds)
           in: query
           name: startTime
-          required: false
+          required: true
           schema:
             type: string
             format: date-time
         - description: end time of the query range(nano seconds)
           in: query
           name: endTime
-          required: false
+          required: true
           schema:
             type: string
             format: date-time
@@ -5430,9 +5430,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/environmentStatusHistory'
+                $ref: '#/components/schemas/environmentStatusHistory'
   /admin/v1/environments/{environmentName}/resourceStats:
     get:
       description: Returns aggregated resource statistics for the specified environment within an organization.
@@ -21704,28 +21702,84 @@ components:
           description: whether to enable calculate the cluster SLA for the environment
           type: boolean
           default: false
-    environmentStatusHistory:
+    environmentStateEvent:
       description: EventEnvironmentState contains details for the current and previous state of the environment.
       type: object
       properties:
-        CurrentState:
+        currentState:
           description: The current state of the environment.
           type: string
-        PrevState:
+        prevState:
           description: The previous state of the environment.
           type: string
-        Reason:
+        reason:
           description: The reason for the state transition.
           type: string
-        Timestamp:
+        timestamp:
           description: The timestamp of the state transition.
           type: string
           format: date-time
+        duration:
+          description: The duration of the state in seconds.
+          type: integer
+          format: int64
       required:
-        - CurrentState
-        - PrevState
-        - Reason
-        - Timestamp
+        - currentState
+        - prevState
+        - reason
+        - timestamp
+    environmentStatusHistoryDay:
+      description: Daily status history for the environment.
+      type: object
+      properties:
+        date:
+          description: The date of this day's status history.
+          type: string
+        status:
+          description: The primary status for this day based on priority.
+          type: string
+        statusDuration:
+          description: Duration in seconds for each status on this day.
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+        statusHistory:
+          description: List of state transition events that occurred on this day.
+          type: array
+          items:
+            $ref: '#/components/schemas/environmentStateEvent'
+        inherited:
+          description: Indicates if the status was inherited from the previous day.
+          type: boolean
+      required:
+        - date
+        - status
+        - statusDuration
+        - statusHistory
+        - inherited
+    environmentStatusHistory:
+      description: Environment status history with SLA calculation.
+      type: object
+      properties:
+        sla:
+          description: The SLA percentage (availability) for the environment.
+          type: string
+        days:
+          description: Daily status history data.
+          type: array
+          items:
+            $ref: '#/components/schemas/environmentStatusHistoryDay'
+        statusDuration:
+          description: Total duration in seconds for each status across all days.
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+      required:
+        - sla
+        - days
+        - statusDuration
     storageStats:
       description: StorageStats holds the resource stats of the volume, including bound PVC capacity, pod-used PVC capacity, and actual storage usage.
       properties:
