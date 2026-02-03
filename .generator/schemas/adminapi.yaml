@@ -16743,12 +16743,6 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: threshold
-          in: query
-          description: SLA threshold, unit is percent, available values are "99.0", "99.5", "99.9", default is "99.5".
-          required: false
-          schema:
-            type: number
       responses:
         '200':
           description: Uncompliant clusters retrieved successfully

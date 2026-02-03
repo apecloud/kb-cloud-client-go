@@ -877,7 +877,6 @@ type ListUncompliantClustersOptionalParameters struct {
 	EnvironmentName *[]string
 	Engine          *[]string
 	OrgName         *[]string
-	Threshold       *float64
 }
 
 // NewListUncompliantClustersOptionalParameters creates an empty struct for parameters.
@@ -901,12 +900,6 @@ func (r *ListUncompliantClustersOptionalParameters) WithEngine(engine []string) 
 // WithOrgName sets the corresponding parameter name and returns the struct.
 func (r *ListUncompliantClustersOptionalParameters) WithOrgName(orgName []string) *ListUncompliantClustersOptionalParameters {
 	r.OrgName = &orgName
-	return r
-}
-
-// WithThreshold sets the corresponding parameter name and returns the struct.
-func (r *ListUncompliantClustersOptionalParameters) WithThreshold(threshold float64) *ListUncompliantClustersOptionalParameters {
-	r.Threshold = &threshold
 	return r
 }
 
@@ -980,9 +973,6 @@ func (a *SLAApi) ListUncompliantClusters(ctx _context.Context, startTime int64, 
 		} else {
 			localVarQueryParams.Add("orgName", common.ParameterToString(t, "multi"))
 		}
-	}
-	if optionalParams.Threshold != nil {
-		localVarQueryParams.Add("threshold", common.ParameterToString(*optionalParams.Threshold, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
