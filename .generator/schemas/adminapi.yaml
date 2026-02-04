@@ -22003,7 +22003,7 @@ components:
           $ref: '#/components/schemas/workflow'
         upgradeVictoriaMetrics:
           $ref: '#/components/schemas/workflow'
-        upgradeLoki:
+        upgradeLogsMonitor:
           $ref: '#/components/schemas/workflow'
       example:
         install:

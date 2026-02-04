@@ -21,7 +21,7 @@ type WorkflowList struct {
 	// component management workflow
 	UpgradeVictoriaMetrics *Workflow `json:"upgradeVictoriaMetrics,omitempty"`
 	// component management workflow
-	UpgradeLoki *Workflow `json:"upgradeLoki,omitempty"`
+	UpgradeLogsMonitor *Workflow `json:"upgradeLogsMonitor,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -184,32 +184,32 @@ func (o *WorkflowList) SetUpgradeVictoriaMetrics(v Workflow) {
 	o.UpgradeVictoriaMetrics = &v
 }
 
-// GetUpgradeLoki returns the UpgradeLoki field value if set, zero value otherwise.
-func (o *WorkflowList) GetUpgradeLoki() Workflow {
-	if o == nil || o.UpgradeLoki == nil {
+// GetUpgradeLogsMonitor returns the UpgradeLogsMonitor field value if set, zero value otherwise.
+func (o *WorkflowList) GetUpgradeLogsMonitor() Workflow {
+	if o == nil || o.UpgradeLogsMonitor == nil {
 		var ret Workflow
 		return ret
 	}
-	return *o.UpgradeLoki
+	return *o.UpgradeLogsMonitor
 }
 
-// GetUpgradeLokiOk returns a tuple with the UpgradeLoki field value if set, nil otherwise
+// GetUpgradeLogsMonitorOk returns a tuple with the UpgradeLogsMonitor field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *WorkflowList) GetUpgradeLokiOk() (*Workflow, bool) {
-	if o == nil || o.UpgradeLoki == nil {
+func (o *WorkflowList) GetUpgradeLogsMonitorOk() (*Workflow, bool) {
+	if o == nil || o.UpgradeLogsMonitor == nil {
 		return nil, false
 	}
-	return o.UpgradeLoki, true
+	return o.UpgradeLogsMonitor, true
 }
 
-// HasUpgradeLoki returns a boolean if a field has been set.
-func (o *WorkflowList) HasUpgradeLoki() bool {
-	return o != nil && o.UpgradeLoki != nil
+// HasUpgradeLogsMonitor returns a boolean if a field has been set.
+func (o *WorkflowList) HasUpgradeLogsMonitor() bool {
+	return o != nil && o.UpgradeLogsMonitor != nil
 }
 
-// SetUpgradeLoki gets a reference to the given Workflow and assigns it to the UpgradeLoki field.
-func (o *WorkflowList) SetUpgradeLoki(v Workflow) {
-	o.UpgradeLoki = &v
+// SetUpgradeLogsMonitor gets a reference to the given Workflow and assigns it to the UpgradeLogsMonitor field.
+func (o *WorkflowList) SetUpgradeLogsMonitor(v Workflow) {
+	o.UpgradeLogsMonitor = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -233,8 +233,8 @@ func (o WorkflowList) MarshalJSON() ([]byte, error) {
 	if o.UpgradeVictoriaMetrics != nil {
 		toSerialize["upgradeVictoriaMetrics"] = o.UpgradeVictoriaMetrics
 	}
-	if o.UpgradeLoki != nil {
-		toSerialize["upgradeLoki"] = o.UpgradeLoki
+	if o.UpgradeLogsMonitor != nil {
+		toSerialize["upgradeLogsMonitor"] = o.UpgradeLogsMonitor
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -251,14 +251,14 @@ func (o *WorkflowList) UnmarshalJSON(bytes []byte) (err error) {
 		UpgradeKubeblocks      *Workflow `json:"upgradeKubeblocks,omitempty"`
 		UpgradeGemini          *Workflow `json:"upgradeGemini,omitempty"`
 		UpgradeVictoriaMetrics *Workflow `json:"upgradeVictoriaMetrics,omitempty"`
-		UpgradeLoki            *Workflow `json:"upgradeLoki,omitempty"`
+		UpgradeLogsMonitor     *Workflow `json:"upgradeLogsMonitor,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"install", "uninstall", "upgradeKubeblocks", "upgradeGemini", "upgradeVictoriaMetrics", "upgradeLoki"})
+		common.DeleteKeys(additionalProperties, &[]string{"install", "uninstall", "upgradeKubeblocks", "upgradeGemini", "upgradeVictoriaMetrics", "upgradeLogsMonitor"})
 	} else {
 		return err
 	}
@@ -284,10 +284,10 @@ func (o *WorkflowList) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.UpgradeVictoriaMetrics = all.UpgradeVictoriaMetrics
-	if all.UpgradeLoki != nil && all.UpgradeLoki.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.UpgradeLogsMonitor != nil && all.UpgradeLogsMonitor.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.UpgradeLoki = all.UpgradeLoki
+	o.UpgradeLogsMonitor = all.UpgradeLogsMonitor
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
