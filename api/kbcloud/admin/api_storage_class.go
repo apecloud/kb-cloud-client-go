@@ -197,39 +197,14 @@ func (a *StorageClassApi) DeleteStorageClass(ctx _context.Context, environmentNa
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetStorageClassOptionalParameters holds optional parameters for GetStorageClass.
-type GetStorageClassOptionalParameters struct {
-	WithStatsByNode *bool
-}
-
-// NewGetStorageClassOptionalParameters creates an empty struct for parameters.
-func NewGetStorageClassOptionalParameters() *GetStorageClassOptionalParameters {
-	this := GetStorageClassOptionalParameters{}
-	return &this
-}
-
-// WithWithStatsByNode sets the corresponding parameter name and returns the struct.
-func (r *GetStorageClassOptionalParameters) WithWithStatsByNode(withStatsByNode bool) *GetStorageClassOptionalParameters {
-	r.WithStatsByNode = &withStatsByNode
-	return r
-}
-
 // GetStorageClass get storage class.
 // get the storage class for the specified environment.
-func (a *StorageClassApi) GetStorageClass(ctx _context.Context, environmentName string, storageClassName string, o ...GetStorageClassOptionalParameters) (StorageClassInfo, *_nethttp.Response, error) {
+func (a *StorageClassApi) GetStorageClass(ctx _context.Context, environmentName string, storageClassName string) (StorageClassInfo, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue StorageClassInfo
-		optionalParams      GetStorageClassOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type GetStorageClassOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -252,9 +227,6 @@ func (a *StorageClassApi) GetStorageClass(ctx _context.Context, environmentName 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.WithStatsByNode != nil {
-		localVarQueryParams.Add("withStatsByNode", common.ParameterToString(*optionalParams.WithStatsByNode, ""))
-	}
 	localVarHeaderParams["Accept"] = "*/*"
 
 	common.SetAuthKeys(
