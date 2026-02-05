@@ -6432,11 +6432,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: defined whether to search for volume statistics by node. If not set, returns without the stats.
-          in: query
-          name: withStatsByNode
-          schema:
-            type: boolean
       responses:
         '200':
           content:
