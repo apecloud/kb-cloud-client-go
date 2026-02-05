@@ -16142,6 +16142,9 @@ components:
           description: component type
           type: string
           minLength: 1
+        force:
+          type: boolean
+          description: whether to force restart the component
         preConditionDeadlineSeconds:
           description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
           type: integer
