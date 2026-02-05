@@ -22279,9 +22279,6 @@ components:
       description: StorageClassUpdate provides the fields for updating a specific storage class.
       type: object
       properties:
-        isDefaultClass:
-          type: boolean
-          description: Indicates if this is the default storage class.
         displayName:
           type: string
           description: A user-friendly name for the storage class.

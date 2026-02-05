@@ -12,8 +12,6 @@ import (
 
 // StorageClassUpdate StorageClassUpdate provides the fields for updating a specific storage class.
 type StorageClassUpdate struct {
-	// Indicates if this is the default storage class.
-	IsDefaultClass bool `json:"isDefaultClass"`
 	// A user-friendly name for the storage class.
 	DisplayName string `json:"displayName"`
 	// A detailed description of the storage class.
@@ -29,9 +27,8 @@ type StorageClassUpdate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewStorageClassUpdate(isDefaultClass bool, displayName string, description string, enabled bool) *StorageClassUpdate {
+func NewStorageClassUpdate(displayName string, description string, enabled bool) *StorageClassUpdate {
 	this := StorageClassUpdate{}
-	this.IsDefaultClass = isDefaultClass
 	this.DisplayName = displayName
 	this.Description = description
 	this.Enabled = enabled
@@ -44,29 +41,6 @@ func NewStorageClassUpdate(isDefaultClass bool, displayName string, description 
 func NewStorageClassUpdateWithDefaults() *StorageClassUpdate {
 	this := StorageClassUpdate{}
 	return &this
-}
-
-// GetIsDefaultClass returns the IsDefaultClass field value.
-func (o *StorageClassUpdate) GetIsDefaultClass() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-	return o.IsDefaultClass
-}
-
-// GetIsDefaultClassOk returns a tuple with the IsDefaultClass field value
-// and a boolean to check if the value has been set.
-func (o *StorageClassUpdate) GetIsDefaultClassOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.IsDefaultClass, true
-}
-
-// SetIsDefaultClass sets field value.
-func (o *StorageClassUpdate) SetIsDefaultClass(v bool) {
-	o.IsDefaultClass = v
 }
 
 // GetDisplayName returns the DisplayName field value.
@@ -144,7 +118,6 @@ func (o StorageClassUpdate) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["isDefaultClass"] = o.IsDefaultClass
 	toSerialize["displayName"] = o.DisplayName
 	toSerialize["description"] = o.Description
 	toSerialize["enabled"] = o.Enabled
@@ -158,16 +131,12 @@ func (o StorageClassUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageClassUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		IsDefaultClass *bool   `json:"isDefaultClass"`
-		DisplayName    *string `json:"displayName"`
-		Description    *string `json:"description"`
-		Enabled        *bool   `json:"enabled"`
+		DisplayName *string `json:"displayName"`
+		Description *string `json:"description"`
+		Enabled     *bool   `json:"enabled"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
-	}
-	if all.IsDefaultClass == nil {
-		return fmt.Errorf("required field isDefaultClass missing")
 	}
 	if all.DisplayName == nil {
 		return fmt.Errorf("required field displayName missing")
@@ -180,11 +149,10 @@ func (o *StorageClassUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"isDefaultClass", "displayName", "description", "enabled"})
+		common.DeleteKeys(additionalProperties, &[]string{"displayName", "description", "enabled"})
 	} else {
 		return err
 	}
-	o.IsDefaultClass = *all.IsDefaultClass
 	o.DisplayName = *all.DisplayName
 	o.Description = *all.Description
 	o.Enabled = *all.Enabled
