@@ -22289,7 +22289,6 @@ components:
           type: boolean
           description: Indicates if the storage class is enabled.
       required:
-        - isDefaultClass
         - displayName
         - description
         - enabled
