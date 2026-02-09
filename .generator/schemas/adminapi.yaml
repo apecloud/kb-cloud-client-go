@@ -6432,11 +6432,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: defined whether to search for volume statistics by node. If not set, returns without the stats.
-          in: query
-          name: withStatsByNode
-          schema:
-            type: boolean
       responses:
         '200':
           content:
@@ -20426,6 +20421,9 @@ components:
           description: component type
           type: string
           minLength: 1
+        force:
+          type: boolean
+          description: whether to force restart the component
         preConditionDeadlineSeconds:
           description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
           type: integer
