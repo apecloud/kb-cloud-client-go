@@ -22049,7 +22049,7 @@ components:
         - upgradeGemini
         - uninstall
         - upgradeVictoriaMetrics
-        - upgradeLoki
+        - upgradeLogsMonitor
         - update
     workflowCreate:
       type: object

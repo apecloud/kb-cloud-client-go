@@ -20,7 +20,7 @@ const (
 	WorkflowTypeUpgradeGemini          WorkflowType = "upgradeGemini"
 	WorkflowTypeUninstall              WorkflowType = "uninstall"
 	WorkflowTypeUpgradeVictoriaMetrics WorkflowType = "upgradeVictoriaMetrics"
-	WorkflowTypeUpgradeLoki            WorkflowType = "upgradeLoki"
+	WorkflowTypeUpgradeLogsMonitor     WorkflowType = "upgradeLogsMonitor"
 	WorkflowTypeUpdate                 WorkflowType = "update"
 )
 
@@ -30,7 +30,7 @@ var allowedWorkflowTypeEnumValues = []WorkflowType{
 	WorkflowTypeUpgradeGemini,
 	WorkflowTypeUninstall,
 	WorkflowTypeUpgradeVictoriaMetrics,
-	WorkflowTypeUpgradeLoki,
+	WorkflowTypeUpgradeLogsMonitor,
 	WorkflowTypeUpdate,
 }
 
