@@ -12385,7 +12385,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/environmentModuleInfo'
+                type: object
+                properties:
+                  taskId:
+                    type: string
+                    description: the task id
         '400':
           $ref: '#/components/responses/400'
         '401':
