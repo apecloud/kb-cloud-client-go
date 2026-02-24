@@ -3865,11 +3865,11 @@ func (r *UpdateEnvironmentModuleOptionalParameters) WithBody(body EnvironmentMod
 }
 
 // UpdateEnvironmentModule update environment module.
-func (a *EnvironmentApi) UpdateEnvironmentModule(ctx _context.Context, environmentName string, o ...UpdateEnvironmentModuleOptionalParameters) (Workflow, *_nethttp.Response, error) {
+func (a *EnvironmentApi) UpdateEnvironmentModule(ctx _context.Context, environmentName string, o ...UpdateEnvironmentModuleOptionalParameters) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
-		localVarReturnValue Workflow
+		localVarReturnValue interface{}
 		optionalParams      UpdateEnvironmentModuleOptionalParameters
 	)
 
