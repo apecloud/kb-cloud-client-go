@@ -6000,6 +6000,19 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - environment
+  /admin/v1/latestEnvModuleVersion:
+    get:
+      tags:
+        - environment
+      operationId: getLatestEnvModuleVersion
+      summary: Get environment module latest version
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/envModuleVersion'
+          description: A successful response.
   /admin/v1/environments/{environmentName}/loadbalancer:
     get:
       tags:
@@ -21759,6 +21772,16 @@ components:
             $ref: '#/components/schemas/environmentCondition'
           type: array
       type: object
+    envModuleVersion:
+      description: environment module version
+      type: object
+      properties:
+        kubeblocks:
+          type: string
+        gemini:
+          type: string
+        oteld:
+          type: string
     loadBalancerStatus:
       description: Status of the load balancer
       type: string
