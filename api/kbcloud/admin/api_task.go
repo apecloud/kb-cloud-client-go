@@ -233,6 +233,104 @@ func (a *TaskApi) GetTaskLog(ctx _context.Context, taskId string) (*_nethttp.Res
 	return localVarHTTPResponse, nil
 }
 
+// GetTaskStepLogOptionalParameters holds optional parameters for GetTaskStepLog.
+type GetTaskStepLogOptionalParameters struct {
+	Follow *bool
+}
+
+// NewGetTaskStepLogOptionalParameters creates an empty struct for parameters.
+func NewGetTaskStepLogOptionalParameters() *GetTaskStepLogOptionalParameters {
+	this := GetTaskStepLogOptionalParameters{}
+	return &this
+}
+
+// WithFollow sets the corresponding parameter name and returns the struct.
+func (r *GetTaskStepLogOptionalParameters) WithFollow(follow bool) *GetTaskStepLogOptionalParameters {
+	r.Follow = &follow
+	return r
+}
+
+// GetTaskStepLog Get task step log.
+// Get logs for a specific task step (supports job type steps)
+func (a *TaskApi) GetTaskStepLog(ctx _context.Context, taskId string, stepId string, o ...GetTaskStepLogOptionalParameters) (*_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod = _nethttp.MethodGet
+		localVarPostBody   interface{}
+		optionalParams     GetTaskStepLogOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return nil, common.ReportError("only one argument of type GetTaskStepLogOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "task",
+		OperationID: "getTaskStepLog",
+		Path:        "/admin/v1/tasks/{taskId}/steps/{stepId}/log",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TaskApi.GetTaskStepLog")
+	if err != nil {
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/tasks/{taskId}/steps/{stepId}/log"
+	localVarPath = strings.Replace(localVarPath, "{"+"taskId"+"}", _neturl.PathEscape(common.ParameterToString(taskId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"stepId"+"}", _neturl.PathEscape(common.ParameterToString(stepId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Follow != nil {
+		localVarQueryParams.Add("follow", common.ParameterToString(*optionalParams.Follow, ""))
+	}
+	localVarHeaderParams["Accept"] = "*/*"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 // ListTaskOptionalParameters holds optional parameters for ListTask.
 type ListTaskOptionalParameters struct {
 	OrgName      *string

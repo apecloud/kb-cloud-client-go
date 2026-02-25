@@ -460,6 +460,7 @@
 //   - [taskApi.cancelTask]
 //   - [taskApi.getTask]
 //   - [taskApi.getTaskLog]
+//   - [taskApi.getTaskStepLog]
 //   - [taskApi.listTask]
 //   - [taskApi.listTaskTypes]
 //   - [taskApi.retryTask]

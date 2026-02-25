@@ -12192,6 +12192,55 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/tasks/{taskId}/steps/{stepId}/log:
+    get:
+      tags:
+        - task
+      consumes:
+        - '*/*'
+      produces:
+        - text/plain
+      schemes:
+        - https
+        - http
+      operationId: getTaskStepLog
+      summary: Get task step log
+      description: Get logs for a specific task step (supports job type steps)
+      parameters:
+        - description: ID of the task
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+        - description: ID of the step
+          in: path
+          name: stepId
+          required: true
+          schema:
+            type: string
+        - description: Follow log stream (streaming mode for running steps)
+          in: query
+          name: follow
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/cluster/{clusterName}/available-relations:
     get:
       tags:
