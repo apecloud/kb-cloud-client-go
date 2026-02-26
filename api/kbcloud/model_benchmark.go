@@ -42,6 +42,8 @@ type Benchmark struct {
 	CompletionTimestamp *time.Time `json:"completionTimestamp,omitempty"`
 	// the create timestamp of benchmark
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
+	// extra args for benchmark
+	Extra *string `json:"extra,omitempty"`
 	// the status of benchmark
 	Status *BenchmarkStatus `json:"status,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -486,6 +488,34 @@ func (o *Benchmark) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
+// GetExtra returns the Extra field value if set, zero value otherwise.
+func (o *Benchmark) GetExtra() string {
+	if o == nil || o.Extra == nil {
+		var ret string
+		return ret
+	}
+	return *o.Extra
+}
+
+// GetExtraOk returns a tuple with the Extra field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Benchmark) GetExtraOk() (*string, bool) {
+	if o == nil || o.Extra == nil {
+		return nil, false
+	}
+	return o.Extra, true
+}
+
+// HasExtra returns a boolean if a field has been set.
+func (o *Benchmark) HasExtra() bool {
+	return o != nil && o.Extra != nil
+}
+
+// SetExtra gets a reference to the given string and assigns it to the Extra field.
+func (o *Benchmark) SetExtra(v string) {
+	o.Extra = &v
+}
+
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *Benchmark) GetStatus() BenchmarkStatus {
 	if o == nil || o.Status == nil {
@@ -573,6 +603,9 @@ func (o Benchmark) MarshalJSON() ([]byte, error) {
 			toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
+	if o.Extra != nil {
+		toSerialize["extra"] = o.Extra
+	}
 	if o.Status != nil {
 		toSerialize["status"] = o.Status
 	}
@@ -601,6 +634,7 @@ func (o *Benchmark) UnmarshalJSON(bytes []byte) (err error) {
 		Database            *string          `json:"database,omitempty"`
 		CompletionTimestamp *time.Time       `json:"completionTimestamp,omitempty"`
 		CreatedAt           *time.Time       `json:"createdAt,omitempty"`
+		Extra               *string          `json:"extra,omitempty"`
 		Status              *BenchmarkStatus `json:"status,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -608,7 +642,7 @@ func (o *Benchmark) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "type", "config", "prepareLog", "runLog", "cleanupLog", "result", "message", "cluster", "clusterID", "command", "database", "completionTimestamp", "createdAt", "status"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "type", "config", "prepareLog", "runLog", "cleanupLog", "result", "message", "cluster", "clusterID", "command", "database", "completionTimestamp", "createdAt", "extra", "status"})
 	} else {
 		return err
 	}
@@ -633,6 +667,7 @@ func (o *Benchmark) UnmarshalJSON(bytes []byte) (err error) {
 	o.Database = all.Database
 	o.CompletionTimestamp = all.CompletionTimestamp
 	o.CreatedAt = all.CreatedAt
+	o.Extra = all.Extra
 	if all.Status != nil && !all.Status.IsValid() {
 		hasInvalidField = true
 	} else {

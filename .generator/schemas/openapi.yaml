@@ -14598,6 +14598,9 @@ components:
           format: date-time
           type: string
           description: the create timestamp of benchmark
+        extra:
+          type: string
+          description: extra args for benchmark
         status:
           $ref: '#/components/schemas/benchmarkStatus'
     benchmarkList:
