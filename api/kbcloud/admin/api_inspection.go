@@ -388,7 +388,7 @@ func (a *InspectionApi) DeleteAutoInspection(ctx _context.Context, id int32) (*_
 }
 
 // DeleteInspectionScript Delete inspection script.
-func (a *InspectionApi) DeleteInspectionScript(ctx _context.Context, scriptId int32) (*_nethttp.Response, error) {
+func (a *InspectionApi) DeleteInspectionScript(ctx _context.Context, scriptId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
@@ -1413,7 +1413,7 @@ func (a *InspectionApi) UpdateAutoInspection(ctx _context.Context, id int32, bod
 }
 
 // UpdateInspectionScript Update inspection script.
-func (a *InspectionApi) UpdateInspectionScript(ctx _context.Context, scriptId int32, body InspectionScript) (InspectionScript, *_nethttp.Response, error) {
+func (a *InspectionApi) UpdateInspectionScript(ctx _context.Context, scriptId string, body InspectionScript) (InspectionScript, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}

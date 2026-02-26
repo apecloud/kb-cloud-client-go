@@ -13052,7 +13052,7 @@ paths:
           name: scriptId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         content:
           application/json:
@@ -13083,7 +13083,7 @@ paths:
           name: scriptId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: No content.
