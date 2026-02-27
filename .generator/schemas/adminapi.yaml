@@ -10909,7 +10909,7 @@ paths:
           name: id
           required: false
           schema:
-            type: integer
+            type: string
         - description: name of the Org
           in: query
           name: orgName
@@ -10947,7 +10947,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         content:
           application/json:
@@ -10978,7 +10978,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: No content.
