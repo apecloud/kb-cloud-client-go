@@ -13158,7 +13158,7 @@ paths:
           name: id
           required: false
           schema:
-            type: integer
+            type: string
         - description: name of the Org
           in: query
           name: orgName
@@ -13196,7 +13196,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         content:
           application/json:
@@ -13227,7 +13227,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: No content.
@@ -14598,6 +14598,9 @@ components:
           format: date-time
           type: string
           description: the create timestamp of benchmark
+        extra:
+          type: string
+          description: extra args for benchmark
         status:
           $ref: '#/components/schemas/benchmarkStatus'
     benchmarkList:
@@ -16395,6 +16398,18 @@ components:
         replicas:
           description: number of replicas
           type: integer
+          nullable: true
+        onlineInstancesToOffline:
+          type: array
+          items:
+            type: string
+          description: List of online instance names to be switched to offline during scaling in.
+          nullable: true
+        OfflineInstancesToOnline:
+          type: array
+          items:
+            type: string
+          description: List of offline instance names to be switched to online during scaling out.
           nullable: true
         shards:
           description: number of shards, mutually exclusive with replicas.
