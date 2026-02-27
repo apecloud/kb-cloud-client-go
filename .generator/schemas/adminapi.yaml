@@ -20586,6 +20586,18 @@ components:
           description: number of replicas
           type: integer
           nullable: true
+        onlineInstancesToOffline:
+          type: array
+          items:
+            type: string
+          description: List of online instance names to be switched to offline during scaling in.
+          nullable: true
+        OfflineInstancesToOnline:
+          type: array
+          items:
+            type: string
+          description: List of offline instance names to be switched to online during scaling out.
+          nullable: true
         shards:
           description: number of shards, mutually exclusive with replicas.
           type: integer
