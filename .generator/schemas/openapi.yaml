@@ -2159,6 +2159,77 @@ paths:
       tags:
         - clusterLog
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/aggregate:
+    get:
+      description: Aggregate slow logs of a cluster (Victoria Logs backend only)
+      summary: Aggregate cluster slow logs
+      operationId: aggregateSlowLogs
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: query
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: string
+        - in: query
+          name: sortType
+          schema:
+            $ref: '#/components/schemas/sortType'
+        - in: query
+          name: groupBy
+          schema:
+            type: string
+        - in: query
+          name: topN
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterExecutionLogAggregateResponse'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/audit:
     get:
       description: Query audit logs of a cluster
@@ -2207,6 +2278,77 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/clusterExecutionLog'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/audit/aggregate:
+    get:
+      description: Aggregate audit logs of a cluster (Victoria Logs backend only)
+      summary: Aggregate cluster audit logs
+      operationId: aggregateAuditLogs
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: query
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: string
+        - in: query
+          name: sortType
+          schema:
+            $ref: '#/components/schemas/sortType'
+        - in: query
+          name: groupBy
+          schema:
+            type: string
+        - in: query
+          name: topN
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterExecutionLogAggregateResponse'
           description: Successful operation
         '401':
           $ref: '#/components/responses/401'
@@ -16059,6 +16201,41 @@ components:
           type: array
         pagination:
           $ref: '#/components/schemas/clusterLogPagination'
+    clusterExecutionLogAggregateItem:
+      type: object
+      description: Aggregate item for grouped execution logs
+      properties:
+        groupKey:
+          type: string
+        count:
+          type: integer
+          format: int64
+        avgExecutionTime:
+          type: number
+          format: double
+        maxExecutionTime:
+          type: number
+          format: double
+    clusterExecutionLogAggregateSummary:
+      type: object
+      description: Aggregate summary for execution logs
+      properties:
+        totalCount:
+          type: integer
+          format: int64
+        groupCount:
+          type: integer
+          format: int64
+    clusterExecutionLogAggregateResponse:
+      type: object
+      description: Aggregate response for cluster execution logs
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterExecutionLogAggregateItem'
+        summary:
+          $ref: '#/components/schemas/clusterExecutionLogAggregateSummary'
     taskScheduleType:
       type: string
       enum:
