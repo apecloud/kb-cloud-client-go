@@ -23,6 +23,8 @@ type BlueGreenDeploymentItem struct {
 	GreenCluster *ClusterListItem `json:"greenCluster,omitempty"`
 	// The status of a blue-green deployment.
 	DeploymentStatus *BlueGreenDeploymentStatus `json:"deploymentStatus,omitempty"`
+	// The lag of the replication.
+	ReplicationLag common.NullableString `json:"replicationLag,omitempty"`
 	// The creation time of the blue-green deployment.
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	// The update time of the blue-green deployment.
@@ -185,6 +187,45 @@ func (o *BlueGreenDeploymentItem) SetDeploymentStatus(v BlueGreenDeploymentStatu
 	o.DeploymentStatus = &v
 }
 
+// GetReplicationLag returns the ReplicationLag field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *BlueGreenDeploymentItem) GetReplicationLag() string {
+	if o == nil || o.ReplicationLag.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.ReplicationLag.Get()
+}
+
+// GetReplicationLagOk returns a tuple with the ReplicationLag field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *BlueGreenDeploymentItem) GetReplicationLagOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ReplicationLag.Get(), o.ReplicationLag.IsSet()
+}
+
+// HasReplicationLag returns a boolean if a field has been set.
+func (o *BlueGreenDeploymentItem) HasReplicationLag() bool {
+	return o != nil && o.ReplicationLag.IsSet()
+}
+
+// SetReplicationLag gets a reference to the given common.NullableString and assigns it to the ReplicationLag field.
+func (o *BlueGreenDeploymentItem) SetReplicationLag(v string) {
+	o.ReplicationLag.Set(&v)
+}
+
+// SetReplicationLagNil sets the value for ReplicationLag to be an explicit nil.
+func (o *BlueGreenDeploymentItem) SetReplicationLagNil() {
+	o.ReplicationLag.Set(nil)
+}
+
+// UnsetReplicationLag ensures that no value is present for ReplicationLag, not even an explicit nil.
+func (o *BlueGreenDeploymentItem) UnsetReplicationLag() {
+	o.ReplicationLag.Unset()
+}
+
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *BlueGreenDeploymentItem) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
@@ -260,6 +301,9 @@ func (o BlueGreenDeploymentItem) MarshalJSON() ([]byte, error) {
 	if o.DeploymentStatus != nil {
 		toSerialize["deploymentStatus"] = o.DeploymentStatus
 	}
+	if o.ReplicationLag.IsSet() {
+		toSerialize["replicationLag"] = o.ReplicationLag.Get()
+	}
 	if o.CreatedAt != nil {
 		if o.CreatedAt.Nanosecond() == 0 {
 			toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
@@ -289,6 +333,7 @@ func (o *BlueGreenDeploymentItem) UnmarshalJSON(bytes []byte) (err error) {
 		BlueCluster      *ClusterListItem           `json:"blueCluster,omitempty"`
 		GreenCluster     *ClusterListItem           `json:"greenCluster,omitempty"`
 		DeploymentStatus *BlueGreenDeploymentStatus `json:"deploymentStatus,omitempty"`
+		ReplicationLag   common.NullableString      `json:"replicationLag,omitempty"`
 		CreatedAt        *time.Time                 `json:"createdAt,omitempty"`
 		UpdatedAt        *time.Time                 `json:"updatedAt,omitempty"`
 	}{}
@@ -300,7 +345,7 @@ func (o *BlueGreenDeploymentItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"deploymentID", "deploymentName", "blueCluster", "greenCluster", "deploymentStatus", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"deploymentID", "deploymentName", "blueCluster", "greenCluster", "deploymentStatus", "replicationLag", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}
@@ -321,6 +366,7 @@ func (o *BlueGreenDeploymentItem) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.DeploymentStatus = all.DeploymentStatus
 	}
+	o.ReplicationLag = all.ReplicationLag
 	o.CreatedAt = all.CreatedAt
 	o.UpdatedAt = all.UpdatedAt
 

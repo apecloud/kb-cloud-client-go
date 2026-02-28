@@ -14,6 +14,8 @@ import (
 type BlueGreenDeploymentPreCheckResponse struct {
 	// Task ID.
 	TaskId string `json:"taskId"`
+	// Current status of the task
+	TaskStatus *TaskStatus `json:"taskStatus,omitempty"`
 	// The checkers of the precheck task.
 	Checkers []BlueGreenDeploymentPrecheckItem `json:"checkers,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -62,6 +64,34 @@ func (o *BlueGreenDeploymentPreCheckResponse) SetTaskId(v string) {
 	o.TaskId = v
 }
 
+// GetTaskStatus returns the TaskStatus field value if set, zero value otherwise.
+func (o *BlueGreenDeploymentPreCheckResponse) GetTaskStatus() TaskStatus {
+	if o == nil || o.TaskStatus == nil {
+		var ret TaskStatus
+		return ret
+	}
+	return *o.TaskStatus
+}
+
+// GetTaskStatusOk returns a tuple with the TaskStatus field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BlueGreenDeploymentPreCheckResponse) GetTaskStatusOk() (*TaskStatus, bool) {
+	if o == nil || o.TaskStatus == nil {
+		return nil, false
+	}
+	return o.TaskStatus, true
+}
+
+// HasTaskStatus returns a boolean if a field has been set.
+func (o *BlueGreenDeploymentPreCheckResponse) HasTaskStatus() bool {
+	return o != nil && o.TaskStatus != nil
+}
+
+// SetTaskStatus gets a reference to the given TaskStatus and assigns it to the TaskStatus field.
+func (o *BlueGreenDeploymentPreCheckResponse) SetTaskStatus(v TaskStatus) {
+	o.TaskStatus = &v
+}
+
 // GetCheckers returns the Checkers field value if set, zero value otherwise.
 func (o *BlueGreenDeploymentPreCheckResponse) GetCheckers() []BlueGreenDeploymentPrecheckItem {
 	if o == nil || o.Checkers == nil {
@@ -97,6 +127,9 @@ func (o BlueGreenDeploymentPreCheckResponse) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["taskId"] = o.TaskId
+	if o.TaskStatus != nil {
+		toSerialize["taskStatus"] = o.TaskStatus
+	}
 	if o.Checkers != nil {
 		toSerialize["checkers"] = o.Checkers
 	}
@@ -110,8 +143,9 @@ func (o BlueGreenDeploymentPreCheckResponse) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BlueGreenDeploymentPreCheckResponse) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		TaskId   *string                           `json:"taskId"`
-		Checkers []BlueGreenDeploymentPrecheckItem `json:"checkers,omitempty"`
+		TaskId     *string                           `json:"taskId"`
+		TaskStatus *TaskStatus                       `json:"taskStatus,omitempty"`
+		Checkers   []BlueGreenDeploymentPrecheckItem `json:"checkers,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -121,15 +155,26 @@ func (o *BlueGreenDeploymentPreCheckResponse) UnmarshalJSON(bytes []byte) (err e
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"taskId", "checkers"})
+		common.DeleteKeys(additionalProperties, &[]string{"taskId", "taskStatus", "checkers"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.TaskId = *all.TaskId
+	if all.TaskStatus != nil && !all.TaskStatus.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.TaskStatus = all.TaskStatus
+	}
 	o.Checkers = all.Checkers
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

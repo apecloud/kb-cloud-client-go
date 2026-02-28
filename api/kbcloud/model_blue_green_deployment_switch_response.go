@@ -16,6 +16,8 @@ type BlueGreenDeploymentSwitchResponse struct {
 	DeploymentId *string `json:"deploymentID,omitempty"`
 	// Task ID.
 	TaskId string `json:"taskId"`
+	// Current status of the task
+	TaskStatus *TaskStatus `json:"taskStatus,omitempty"`
 	// The steps involved in the blue-green deployment switch.
 	Steps []BlueGreenDeploymentSwitchStep `json:"steps,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -92,6 +94,34 @@ func (o *BlueGreenDeploymentSwitchResponse) SetTaskId(v string) {
 	o.TaskId = v
 }
 
+// GetTaskStatus returns the TaskStatus field value if set, zero value otherwise.
+func (o *BlueGreenDeploymentSwitchResponse) GetTaskStatus() TaskStatus {
+	if o == nil || o.TaskStatus == nil {
+		var ret TaskStatus
+		return ret
+	}
+	return *o.TaskStatus
+}
+
+// GetTaskStatusOk returns a tuple with the TaskStatus field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BlueGreenDeploymentSwitchResponse) GetTaskStatusOk() (*TaskStatus, bool) {
+	if o == nil || o.TaskStatus == nil {
+		return nil, false
+	}
+	return o.TaskStatus, true
+}
+
+// HasTaskStatus returns a boolean if a field has been set.
+func (o *BlueGreenDeploymentSwitchResponse) HasTaskStatus() bool {
+	return o != nil && o.TaskStatus != nil
+}
+
+// SetTaskStatus gets a reference to the given TaskStatus and assigns it to the TaskStatus field.
+func (o *BlueGreenDeploymentSwitchResponse) SetTaskStatus(v TaskStatus) {
+	o.TaskStatus = &v
+}
+
 // GetSteps returns the Steps field value if set, zero value otherwise.
 func (o *BlueGreenDeploymentSwitchResponse) GetSteps() []BlueGreenDeploymentSwitchStep {
 	if o == nil || o.Steps == nil {
@@ -130,6 +160,9 @@ func (o BlueGreenDeploymentSwitchResponse) MarshalJSON() ([]byte, error) {
 		toSerialize["deploymentID"] = o.DeploymentId
 	}
 	toSerialize["taskId"] = o.TaskId
+	if o.TaskStatus != nil {
+		toSerialize["taskStatus"] = o.TaskStatus
+	}
 	if o.Steps != nil {
 		toSerialize["steps"] = o.Steps
 	}
@@ -145,6 +178,7 @@ func (o *BlueGreenDeploymentSwitchResponse) UnmarshalJSON(bytes []byte) (err err
 	all := struct {
 		DeploymentId *string                         `json:"deploymentID,omitempty"`
 		TaskId       *string                         `json:"taskId"`
+		TaskStatus   *TaskStatus                     `json:"taskStatus,omitempty"`
 		Steps        []BlueGreenDeploymentSwitchStep `json:"steps,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -155,16 +189,27 @@ func (o *BlueGreenDeploymentSwitchResponse) UnmarshalJSON(bytes []byte) (err err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"deploymentID", "taskId", "steps"})
+		common.DeleteKeys(additionalProperties, &[]string{"deploymentID", "taskId", "taskStatus", "steps"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.DeploymentId = all.DeploymentId
 	o.TaskId = *all.TaskId
+	if all.TaskStatus != nil && !all.TaskStatus.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.TaskStatus = all.TaskStatus
+	}
 	o.Steps = all.Steps
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

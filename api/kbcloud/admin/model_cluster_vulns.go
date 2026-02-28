@@ -4,38 +4,68 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
 
-// KubeConfig The kubeconfig body as raw binary.
-type KubeConfig struct {
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
+
+// ClusterVulns a list of vulnerabilities which affected the cluster
+type ClusterVulns struct {
+	Items []VulnItem `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewKubeConfig instantiates a new KubeConfig object.
+// NewClusterVulns instantiates a new ClusterVulns object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewKubeConfig() *KubeConfig {
-	this := KubeConfig{}
+func NewClusterVulns(items []VulnItem) *ClusterVulns {
+	this := ClusterVulns{}
+	this.Items = items
 	return &this
 }
 
-// NewKubeConfigWithDefaults instantiates a new KubeConfig object.
+// NewClusterVulnsWithDefaults instantiates a new ClusterVulns object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewKubeConfigWithDefaults() *KubeConfig {
-	this := KubeConfig{}
+func NewClusterVulnsWithDefaults() *ClusterVulns {
+	this := ClusterVulns{}
 	return &this
+}
+
+// GetItems returns the Items field value.
+func (o *ClusterVulns) GetItems() []VulnItem {
+	if o == nil {
+		var ret []VulnItem
+		return ret
+	}
+	return o.Items
+}
+
+// GetItemsOk returns a tuple with the Items field value
+// and a boolean to check if the value has been set.
+func (o *ClusterVulns) GetItemsOk() (*[]VulnItem, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Items, true
+}
+
+// SetItems sets field value.
+func (o *ClusterVulns) SetItems(v []VulnItem) {
+	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o KubeConfig) MarshalJSON() ([]byte, error) {
+func (o ClusterVulns) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	toSerialize["items"] = o.Items
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -44,18 +74,23 @@ func (o KubeConfig) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *KubeConfig) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ClusterVulns) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		Items *[]VulnItem `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
+	if all.Items == nil {
+		return fmt.Errorf("required field items missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{})
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}
+	o.Items = *all.Items
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

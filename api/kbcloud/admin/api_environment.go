@@ -103,7 +103,7 @@ func (a *EnvironmentApi) AddNodes(ctx _context.Context, environmentName string, 
 
 // CheckKubeconfigOptionalParameters holds optional parameters for CheckKubeconfig.
 type CheckKubeconfigOptionalParameters struct {
-	Body *string
+	Body *Kubeconfig
 }
 
 // NewCheckKubeconfigOptionalParameters creates an empty struct for parameters.
@@ -113,7 +113,7 @@ func NewCheckKubeconfigOptionalParameters() *CheckKubeconfigOptionalParameters {
 }
 
 // WithBody sets the corresponding parameter name and returns the struct.
-func (r *CheckKubeconfigOptionalParameters) WithBody(body string) *CheckKubeconfigOptionalParameters {
+func (r *CheckKubeconfigOptionalParameters) WithBody(body Kubeconfig) *CheckKubeconfigOptionalParameters {
 	r.Body = &body
 	return r
 }
@@ -439,98 +439,6 @@ func (a *EnvironmentApi) CreateNodeGroup(ctx _context.Context, environmentName s
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// CreateWorkflowOptionalParameters holds optional parameters for CreateWorkflow.
-type CreateWorkflowOptionalParameters struct {
-	Body *WorkflowCreate
-}
-
-// NewCreateWorkflowOptionalParameters creates an empty struct for parameters.
-func NewCreateWorkflowOptionalParameters() *CreateWorkflowOptionalParameters {
-	this := CreateWorkflowOptionalParameters{}
-	return &this
-}
-
-// WithBody sets the corresponding parameter name and returns the struct.
-func (r *CreateWorkflowOptionalParameters) WithBody(body WorkflowCreate) *CreateWorkflowOptionalParameters {
-	r.Body = &body
-	return r
-}
-
-// CreateWorkflow create component management workflow, used to upgrade kubeblocks/gemini.
-func (a *EnvironmentApi) CreateWorkflow(ctx _context.Context, environmentName string, o ...CreateWorkflowOptionalParameters) (Workflow, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue Workflow
-		optionalParams      CreateWorkflowOptionalParameters
-	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateWorkflowOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "environment",
-		OperationID: "createWorkflow",
-		Path:        "/admin/v1/environments/{environmentName}/workflow",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.CreateWorkflow")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/workflow"
-	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] = "application/json"
-
-	// body params
-	if optionalParams.Body != nil {
-		localVarPostBody = &optionalParams.Body
-	}
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
 // DeleteEnvironmentOptionalParameters holds optional parameters for DeleteEnvironment.
 type DeleteEnvironmentOptionalParameters struct {
 	Body *EnvironmentDelete
@@ -698,6 +606,104 @@ func (a *EnvironmentApi) DeleteNodeGroup(ctx _context.Context, environmentName s
 	return localVarHTTPResponse, nil
 }
 
+// DeleteNodesOptionalParameters holds optional parameters for DeleteNodes.
+type DeleteNodesOptionalParameters struct {
+	Body *[]string
+}
+
+// NewDeleteNodesOptionalParameters creates an empty struct for parameters.
+func NewDeleteNodesOptionalParameters() *DeleteNodesOptionalParameters {
+	this := DeleteNodesOptionalParameters{}
+	return &this
+}
+
+// WithBody sets the corresponding parameter name and returns the struct.
+func (r *DeleteNodesOptionalParameters) WithBody(body []string) *DeleteNodesOptionalParameters {
+	r.Body = &body
+	return r
+}
+
+// DeleteNodes Delete nodes from environment.
+func (a *EnvironmentApi) DeleteNodes(ctx _context.Context, environmentName string, o ...DeleteNodesOptionalParameters) (*_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod = _nethttp.MethodDelete
+		localVarPostBody   interface{}
+		optionalParams     DeleteNodesOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return nil, common.ReportError("only one argument of type DeleteNodesOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "deleteNodes",
+		Path:        "/admin/v1/environments/{environmentName}/nodes",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.DeleteNodes")
+	if err != nil {
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/nodes"
+	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "application/json"
+
+	// body params
+	if optionalParams.Body != nil {
+		localVarPostBody = &optionalParams.Body
+	}
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 // GetEnvironment Get environment.
 func (a *EnvironmentApi) GetEnvironment(ctx _context.Context, environmentName string) (Environment, *_nethttp.Response, error) {
 	var (
@@ -778,7 +784,7 @@ func (a *EnvironmentApi) GetEnvironment(ctx _context.Context, environmentName st
 
 // GetEnvironmentBackupRepoOptionalParameters holds optional parameters for GetEnvironmentBackupRepo.
 type GetEnvironmentBackupRepoOptionalParameters struct {
-	Body *string
+	Body *Kubeconfig
 }
 
 // NewGetEnvironmentBackupRepoOptionalParameters creates an empty struct for parameters.
@@ -788,7 +794,7 @@ func NewGetEnvironmentBackupRepoOptionalParameters() *GetEnvironmentBackupRepoOp
 }
 
 // WithBody sets the corresponding parameter name and returns the struct.
-func (r *GetEnvironmentBackupRepoOptionalParameters) WithBody(body string) *GetEnvironmentBackupRepoOptionalParameters {
+func (r *GetEnvironmentBackupRepoOptionalParameters) WithBody(body Kubeconfig) *GetEnvironmentBackupRepoOptionalParameters {
 	r.Body = &body
 	return r
 }
@@ -1588,45 +1594,13 @@ func (a *EnvironmentApi) GetEnvironmentStatus(ctx _context.Context, environmentN
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetEnvironmentStatusHistoryOptionalParameters holds optional parameters for GetEnvironmentStatusHistory.
-type GetEnvironmentStatusHistoryOptionalParameters struct {
-	StartTime *time.Time
-	EndTime   *time.Time
-}
-
-// NewGetEnvironmentStatusHistoryOptionalParameters creates an empty struct for parameters.
-func NewGetEnvironmentStatusHistoryOptionalParameters() *GetEnvironmentStatusHistoryOptionalParameters {
-	this := GetEnvironmentStatusHistoryOptionalParameters{}
-	return &this
-}
-
-// WithStartTime sets the corresponding parameter name and returns the struct.
-func (r *GetEnvironmentStatusHistoryOptionalParameters) WithStartTime(startTime time.Time) *GetEnvironmentStatusHistoryOptionalParameters {
-	r.StartTime = &startTime
-	return r
-}
-
-// WithEndTime sets the corresponding parameter name and returns the struct.
-func (r *GetEnvironmentStatusHistoryOptionalParameters) WithEndTime(endTime time.Time) *GetEnvironmentStatusHistoryOptionalParameters {
-	r.EndTime = &endTime
-	return r
-}
-
 // GetEnvironmentStatusHistory Get environment status history.
-func (a *EnvironmentApi) GetEnvironmentStatusHistory(ctx _context.Context, environmentName string, o ...GetEnvironmentStatusHistoryOptionalParameters) ([]EnvironmentStatusHistory, *_nethttp.Response, error) {
+func (a *EnvironmentApi) GetEnvironmentStatusHistory(ctx _context.Context, environmentName string, startTime time.Time, endTime time.Time) (EnvironmentStatusHistory, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []EnvironmentStatusHistory
-		optionalParams      GetEnvironmentStatusHistoryOptionalParameters
+		localVarReturnValue EnvironmentStatusHistory
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type GetEnvironmentStatusHistoryOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -1648,12 +1622,8 @@ func (a *EnvironmentApi) GetEnvironmentStatusHistory(ctx _context.Context, envir
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.StartTime != nil {
-		localVarQueryParams.Add("startTime", common.ParameterToString(*optionalParams.StartTime, ""))
-	}
-	if optionalParams.EndTime != nil {
-		localVarQueryParams.Add("endTime", common.ParameterToString(*optionalParams.EndTime, ""))
-	}
+	localVarQueryParams.Add("startTime", common.ParameterToString(startTime, ""))
+	localVarQueryParams.Add("endTime", common.ParameterToString(endTime, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -1987,194 +1957,6 @@ func (a *EnvironmentApi) GetOptionalEnvironmentModules(ctx _context.Context) ([]
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetWorkflow Get component management workflows.
-func (a *EnvironmentApi) GetWorkflow(ctx _context.Context, environmentName string, workflowName string) (Workflow, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue Workflow
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "environment",
-		OperationID: "getWorkflow",
-		Path:        "/admin/v1/environments/{environmentName}/workflow/{workflowName}",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetWorkflow")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/workflow/{workflowName}"
-	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"workflowName"+"}", _neturl.PathEscape(common.ParameterToString(workflowName, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-// GetWorkflowList Get component management workflow list.
-func (a *EnvironmentApi) GetWorkflowList(ctx _context.Context, environmentName string) (WorkflowList, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue WorkflowList
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "environment",
-		OperationID: "getWorkflowList",
-		Path:        "/admin/v1/environments/{environmentName}/workflow",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetWorkflowList")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/workflow"
-	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-// GetWorkflowLog Get component management workflow log.
-func (a *EnvironmentApi) GetWorkflowLog(ctx _context.Context, environmentName string, workflowName string) (string, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue string
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "environment",
-		OperationID: "getWorkflowLog",
-		Path:        "/admin/v1/environments/{environmentName}/workflow/{workflowName}/log",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetWorkflowLog")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/workflow/{workflowName}/log"
-	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"workflowName"+"}", _neturl.PathEscape(common.ParameterToString(workflowName, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "text/plain"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
 // ListEnvNodeZone List the availability zones where the environment's nodes are located.
 // List available zones of an environment
 func (a *EnvironmentApi) ListEnvNodeZone(ctx _context.Context, environmentName string) ([]string, *_nethttp.Response, error) {
@@ -2422,7 +2204,7 @@ func (a *EnvironmentApi) ListEnvironment(ctx _context.Context, o ...ListEnvironm
 
 // ListEnvironmentObjectStorageOptionalParameters holds optional parameters for ListEnvironmentObjectStorage.
 type ListEnvironmentObjectStorageOptionalParameters struct {
-	Body *string
+	Body *Kubeconfig
 }
 
 // NewListEnvironmentObjectStorageOptionalParameters creates an empty struct for parameters.
@@ -2432,7 +2214,7 @@ func NewListEnvironmentObjectStorageOptionalParameters() *ListEnvironmentObjectS
 }
 
 // WithBody sets the corresponding parameter name and returns the struct.
-func (r *ListEnvironmentObjectStorageOptionalParameters) WithBody(body string) *ListEnvironmentObjectStorageOptionalParameters {
+func (r *ListEnvironmentObjectStorageOptionalParameters) WithBody(body Kubeconfig) *ListEnvironmentObjectStorageOptionalParameters {
 	r.Body = &body
 	return r
 }
@@ -3369,164 +3151,6 @@ func (a *EnvironmentApi) RemoveNodeMaintenanceMode(ctx _context.Context, environ
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ResubmitWorkflow retry workflow from failed.
-func (a *EnvironmentApi) ResubmitWorkflow(ctx _context.Context, environmentName string, workflowName string) (Workflow, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue Workflow
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "environment",
-		OperationID: "resubmitWorkflow",
-		Path:        "/admin/v1/environments/{environmentName}/workflow/{workflowName}/resubmit",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ResubmitWorkflow")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/workflow/{workflowName}/resubmit"
-	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"workflowName"+"}", _neturl.PathEscape(common.ParameterToString(workflowName, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-// RetryWorkflow retry workflow.
-func (a *EnvironmentApi) RetryWorkflow(ctx _context.Context, environmentName string, workflowName string) (Workflow, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue Workflow
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "environment",
-		OperationID: "retryWorkflow",
-		Path:        "/admin/v1/environments/{environmentName}/workflow/{workflowName}/retry",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.RetryWorkflow")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/workflow/{workflowName}/retry"
-	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"workflowName"+"}", _neturl.PathEscape(common.ParameterToString(workflowName, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
 // SetNodeMaintenanceMode Set the node to maintenance mode.
 // Set the node to maintenance mode. This action temporarily disables the node for maintenance activities, ensuring no new workloads are scheduled on it.
 func (a *EnvironmentApi) SetNodeMaintenanceMode(ctx _context.Context, environmentName string, nodeName string) (map[string]interface{}, *_nethttp.Response, error) {
@@ -3679,7 +3303,7 @@ func (a *EnvironmentApi) UncordonEnvironmentNode(ctx _context.Context, environme
 
 // UpdateEnvironmentKubeconfigOptionalParameters holds optional parameters for UpdateEnvironmentKubeconfig.
 type UpdateEnvironmentKubeconfigOptionalParameters struct {
-	Body *string
+	Body *Kubeconfig
 }
 
 // NewUpdateEnvironmentKubeconfigOptionalParameters creates an empty struct for parameters.
@@ -3689,7 +3313,7 @@ func NewUpdateEnvironmentKubeconfigOptionalParameters() *UpdateEnvironmentKubeco
 }
 
 // WithBody sets the corresponding parameter name and returns the struct.
-func (r *UpdateEnvironmentKubeconfigOptionalParameters) WithBody(body string) *UpdateEnvironmentKubeconfigOptionalParameters {
+func (r *UpdateEnvironmentKubeconfigOptionalParameters) WithBody(body Kubeconfig) *UpdateEnvironmentKubeconfigOptionalParameters {
 	r.Body = &body
 	return r
 }
@@ -3803,11 +3427,11 @@ func (r *UpdateEnvironmentModuleOptionalParameters) WithBody(body EnvironmentMod
 }
 
 // UpdateEnvironmentModule update environment module.
-func (a *EnvironmentApi) UpdateEnvironmentModule(ctx _context.Context, environmentName string, o ...UpdateEnvironmentModuleOptionalParameters) (Workflow, *_nethttp.Response, error) {
+func (a *EnvironmentApi) UpdateEnvironmentModule(ctx _context.Context, environmentName string, o ...UpdateEnvironmentModuleOptionalParameters) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
-		localVarReturnValue Workflow
+		localVarReturnValue interface{}
 		optionalParams      UpdateEnvironmentModuleOptionalParameters
 	)
 

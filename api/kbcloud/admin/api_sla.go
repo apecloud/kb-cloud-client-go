@@ -64,7 +64,7 @@ func (r *CalculateDailySLAOptionalParameters) WithTimezoneOffset(timezoneOffset 
 
 // CalculateDailySLA Calculate daily SLA for a environment or a cluster since a specific date.
 // Calculate daily SLA for a environment or a cluster since a specific date
-func (a *SLAApi) CalculateDailySLA(ctx _context.Context, rangeVar int32, o ...CalculateDailySLAOptionalParameters) ([]DailySLA, *_nethttp.Response, error) {
+func (a *SLAApi) CalculateDailySLA(ctx _context.Context, startTime int64, endTime int64, o ...CalculateDailySLAOptionalParameters) ([]DailySLA, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -98,7 +98,8 @@ func (a *SLAApi) CalculateDailySLA(ctx _context.Context, rangeVar int32, o ...Ca
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("range", common.ParameterToString(rangeVar, ""))
+	localVarQueryParams.Add("startTime", common.ParameterToString(startTime, ""))
+	localVarQueryParams.Add("endTime", common.ParameterToString(endTime, ""))
 	if optionalParams.EnvironmentName != nil {
 		t := *optionalParams.EnvironmentName
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
@@ -749,11 +750,11 @@ func (r *ListSLARankOptionalParameters) WithLimit(limit int32) *ListSLARankOptio
 
 // ListSLARank List SLA rank for a environment.
 // List SLA rank for a environment
-func (a *SLAApi) ListSLARank(ctx _context.Context, rangeVar int32, o ...ListSLARankOptionalParameters) (ClustersSLA, *_nethttp.Response, error) {
+func (a *SLAApi) ListSLARank(ctx _context.Context, startTime int64, endTime int64, o ...ListSLARankOptionalParameters) ([]SLA, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue ClustersSLA
+		localVarReturnValue []SLA
 		optionalParams      ListSLARankOptionalParameters
 	)
 
@@ -783,7 +784,8 @@ func (a *SLAApi) ListSLARank(ctx _context.Context, rangeVar int32, o ...ListSLAR
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("range", common.ParameterToString(rangeVar, ""))
+	localVarQueryParams.Add("startTime", common.ParameterToString(startTime, ""))
+	localVarQueryParams.Add("endTime", common.ParameterToString(endTime, ""))
 	if optionalParams.EnvironmentName != nil {
 		t := *optionalParams.EnvironmentName
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
@@ -875,7 +877,6 @@ type ListUncompliantClustersOptionalParameters struct {
 	EnvironmentName *[]string
 	Engine          *[]string
 	OrgName         *[]string
-	Threshold       *float64
 }
 
 // NewListUncompliantClustersOptionalParameters creates an empty struct for parameters.
@@ -902,15 +903,9 @@ func (r *ListUncompliantClustersOptionalParameters) WithOrgName(orgName []string
 	return r
 }
 
-// WithThreshold sets the corresponding parameter name and returns the struct.
-func (r *ListUncompliantClustersOptionalParameters) WithThreshold(threshold float64) *ListUncompliantClustersOptionalParameters {
-	r.Threshold = &threshold
-	return r
-}
-
 // ListUncompliantClusters List uncompliant clusters.
 // List uncompliant clusters that sla lower than the threshold
-func (a *SLAApi) ListUncompliantClusters(ctx _context.Context, rangeVar int32, o ...ListUncompliantClustersOptionalParameters) ([]SLA, *_nethttp.Response, error) {
+func (a *SLAApi) ListUncompliantClusters(ctx _context.Context, startTime int64, endTime int64, o ...ListUncompliantClustersOptionalParameters) ([]SLA, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -944,7 +939,8 @@ func (a *SLAApi) ListUncompliantClusters(ctx _context.Context, rangeVar int32, o
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("range", common.ParameterToString(rangeVar, ""))
+	localVarQueryParams.Add("startTime", common.ParameterToString(startTime, ""))
+	localVarQueryParams.Add("endTime", common.ParameterToString(endTime, ""))
 	if optionalParams.EnvironmentName != nil {
 		t := *optionalParams.EnvironmentName
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
@@ -977,9 +973,6 @@ func (a *SLAApi) ListUncompliantClusters(ctx _context.Context, rangeVar int32, o
 		} else {
 			localVarQueryParams.Add("orgName", common.ParameterToString(t, "multi"))
 		}
-	}
-	if optionalParams.Threshold != nil {
-		localVarQueryParams.Add("threshold", common.ParameterToString(*optionalParams.Threshold, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

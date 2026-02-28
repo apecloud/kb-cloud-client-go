@@ -21,6 +21,7 @@ const (
 	BlueGreenDeploymentStatusInterrupted   BlueGreenDeploymentStatus = "Interrupted"
 	BlueGreenDeploymentStatusSwitched      BlueGreenDeploymentStatus = "Switched"
 	BlueGreenDeploymentStatusFailed        BlueGreenDeploymentStatus = "Failed"
+	BlueGreenDeploymentStatusDeleting      BlueGreenDeploymentStatus = "Deleting"
 )
 
 var allowedBlueGreenDeploymentStatusEnumValues = []BlueGreenDeploymentStatus{
@@ -30,6 +31,7 @@ var allowedBlueGreenDeploymentStatusEnumValues = []BlueGreenDeploymentStatus{
 	BlueGreenDeploymentStatusInterrupted,
 	BlueGreenDeploymentStatusSwitched,
 	BlueGreenDeploymentStatusFailed,
+	BlueGreenDeploymentStatusDeleting,
 }
 
 // GetAllowedValues returns the list of possible values.

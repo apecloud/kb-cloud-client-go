@@ -93,7 +93,6 @@
 //   - [blueGreenDeploymentApi.deleteBlueGreenDeployment]
 //   - [blueGreenDeploymentApi.getBlueGreenDeployment]
 //   - [blueGreenDeploymentApi.getBlueGreenDeploymentPreCheckDetail]
-//   - [blueGreenDeploymentApi.getBlueGreenDeploymentStatus]
 //   - [blueGreenDeploymentApi.getBlueGreenDeploymentSwitchDetail]
 //   - [blueGreenDeploymentApi.listBlueGreenDeployments]
 //   - [blueGreenDeploymentApi.switchBlueGreenDeployment]

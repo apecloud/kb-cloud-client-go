@@ -179,7 +179,7 @@ func (a *EngineLicenseApi) DeleteEngineLicense(ctx _context.Context, licenseId s
 
 // EngineLicense Get engineLicense.
 // Get a engineLicense detail
-func (a *EngineLicenseApi) EngineLicense(ctx _context.Context, licenseId int64) (EngineLicense, *_nethttp.Response, error) {
+func (a *EngineLicenseApi) EngineLicense(ctx _context.Context, licenseId string) (EngineLicense, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}

@@ -11,18 +11,10 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// VulnListItem a vulnerability which affected the cluster
-type VulnListItem struct {
+// VulnItem a vulnerability which affected the cluster
+type VulnItem struct {
 	// the CVE ID of the vulnerability
 	CveId string `json:"cveId"`
-	// the engine name of the vulnerability
-	EngineName string `json:"engineName"`
-	// the product name of the vulnerability
-	ProductName string `json:"productName"`
-	// the versions of the product which are affected by the vulnerability
-	Versions []string `json:"versions"`
-	// the clusters which are affected by the vulnerability
-	AffectedClusters []AffectedClusterItem `json:"affectedClusters,omitempty"`
 	// the detail of the vulnerability
 	Detail *string `json:"detail,omitempty"`
 	// the severity of the vulnerability
@@ -40,32 +32,29 @@ type VulnListItem struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewVulnListItem instantiates a new VulnListItem object.
+// NewVulnItem instantiates a new VulnItem object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewVulnListItem(cveId string, engineName string, productName string, versions []string, severity string, publishedAt time.Time, modifiedAt time.Time) *VulnListItem {
-	this := VulnListItem{}
+func NewVulnItem(cveId string, severity string, publishedAt time.Time, modifiedAt time.Time) *VulnItem {
+	this := VulnItem{}
 	this.CveId = cveId
-	this.EngineName = engineName
-	this.ProductName = productName
-	this.Versions = versions
 	this.Severity = severity
 	this.PublishedAt = publishedAt
 	this.ModifiedAt = modifiedAt
 	return &this
 }
 
-// NewVulnListItemWithDefaults instantiates a new VulnListItem object.
+// NewVulnItemWithDefaults instantiates a new VulnItem object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewVulnListItemWithDefaults() *VulnListItem {
-	this := VulnListItem{}
+func NewVulnItemWithDefaults() *VulnItem {
+	this := VulnItem{}
 	return &this
 }
 
 // GetCveId returns the CveId field value.
-func (o *VulnListItem) GetCveId() string {
+func (o *VulnItem) GetCveId() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -75,7 +64,7 @@ func (o *VulnListItem) GetCveId() string {
 
 // GetCveIdOk returns a tuple with the CveId field value
 // and a boolean to check if the value has been set.
-func (o *VulnListItem) GetCveIdOk() (*string, bool) {
+func (o *VulnItem) GetCveIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -83,109 +72,12 @@ func (o *VulnListItem) GetCveIdOk() (*string, bool) {
 }
 
 // SetCveId sets field value.
-func (o *VulnListItem) SetCveId(v string) {
+func (o *VulnItem) SetCveId(v string) {
 	o.CveId = v
 }
 
-// GetEngineName returns the EngineName field value.
-func (o *VulnListItem) GetEngineName() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.EngineName
-}
-
-// GetEngineNameOk returns a tuple with the EngineName field value
-// and a boolean to check if the value has been set.
-func (o *VulnListItem) GetEngineNameOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.EngineName, true
-}
-
-// SetEngineName sets field value.
-func (o *VulnListItem) SetEngineName(v string) {
-	o.EngineName = v
-}
-
-// GetProductName returns the ProductName field value.
-func (o *VulnListItem) GetProductName() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.ProductName
-}
-
-// GetProductNameOk returns a tuple with the ProductName field value
-// and a boolean to check if the value has been set.
-func (o *VulnListItem) GetProductNameOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.ProductName, true
-}
-
-// SetProductName sets field value.
-func (o *VulnListItem) SetProductName(v string) {
-	o.ProductName = v
-}
-
-// GetVersions returns the Versions field value.
-func (o *VulnListItem) GetVersions() []string {
-	if o == nil {
-		var ret []string
-		return ret
-	}
-	return o.Versions
-}
-
-// GetVersionsOk returns a tuple with the Versions field value
-// and a boolean to check if the value has been set.
-func (o *VulnListItem) GetVersionsOk() (*[]string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Versions, true
-}
-
-// SetVersions sets field value.
-func (o *VulnListItem) SetVersions(v []string) {
-	o.Versions = v
-}
-
-// GetAffectedClusters returns the AffectedClusters field value if set, zero value otherwise.
-func (o *VulnListItem) GetAffectedClusters() []AffectedClusterItem {
-	if o == nil || o.AffectedClusters == nil {
-		var ret []AffectedClusterItem
-		return ret
-	}
-	return o.AffectedClusters
-}
-
-// GetAffectedClustersOk returns a tuple with the AffectedClusters field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *VulnListItem) GetAffectedClustersOk() (*[]AffectedClusterItem, bool) {
-	if o == nil || o.AffectedClusters == nil {
-		return nil, false
-	}
-	return &o.AffectedClusters, true
-}
-
-// HasAffectedClusters returns a boolean if a field has been set.
-func (o *VulnListItem) HasAffectedClusters() bool {
-	return o != nil && o.AffectedClusters != nil
-}
-
-// SetAffectedClusters gets a reference to the given []AffectedClusterItem and assigns it to the AffectedClusters field.
-func (o *VulnListItem) SetAffectedClusters(v []AffectedClusterItem) {
-	o.AffectedClusters = v
-}
-
 // GetDetail returns the Detail field value if set, zero value otherwise.
-func (o *VulnListItem) GetDetail() string {
+func (o *VulnItem) GetDetail() string {
 	if o == nil || o.Detail == nil {
 		var ret string
 		return ret
@@ -195,7 +87,7 @@ func (o *VulnListItem) GetDetail() string {
 
 // GetDetailOk returns a tuple with the Detail field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *VulnListItem) GetDetailOk() (*string, bool) {
+func (o *VulnItem) GetDetailOk() (*string, bool) {
 	if o == nil || o.Detail == nil {
 		return nil, false
 	}
@@ -203,17 +95,17 @@ func (o *VulnListItem) GetDetailOk() (*string, bool) {
 }
 
 // HasDetail returns a boolean if a field has been set.
-func (o *VulnListItem) HasDetail() bool {
+func (o *VulnItem) HasDetail() bool {
 	return o != nil && o.Detail != nil
 }
 
 // SetDetail gets a reference to the given string and assigns it to the Detail field.
-func (o *VulnListItem) SetDetail(v string) {
+func (o *VulnItem) SetDetail(v string) {
 	o.Detail = &v
 }
 
 // GetSeverity returns the Severity field value.
-func (o *VulnListItem) GetSeverity() string {
+func (o *VulnItem) GetSeverity() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -223,7 +115,7 @@ func (o *VulnListItem) GetSeverity() string {
 
 // GetSeverityOk returns a tuple with the Severity field value
 // and a boolean to check if the value has been set.
-func (o *VulnListItem) GetSeverityOk() (*string, bool) {
+func (o *VulnItem) GetSeverityOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -231,12 +123,12 @@ func (o *VulnListItem) GetSeverityOk() (*string, bool) {
 }
 
 // SetSeverity sets field value.
-func (o *VulnListItem) SetSeverity(v string) {
+func (o *VulnItem) SetSeverity(v string) {
 	o.Severity = v
 }
 
 // GetCvssVector returns the CvssVector field value if set, zero value otherwise.
-func (o *VulnListItem) GetCvssVector() string {
+func (o *VulnItem) GetCvssVector() string {
 	if o == nil || o.CvssVector == nil {
 		var ret string
 		return ret
@@ -246,7 +138,7 @@ func (o *VulnListItem) GetCvssVector() string {
 
 // GetCvssVectorOk returns a tuple with the CvssVector field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *VulnListItem) GetCvssVectorOk() (*string, bool) {
+func (o *VulnItem) GetCvssVectorOk() (*string, bool) {
 	if o == nil || o.CvssVector == nil {
 		return nil, false
 	}
@@ -254,17 +146,17 @@ func (o *VulnListItem) GetCvssVectorOk() (*string, bool) {
 }
 
 // HasCvssVector returns a boolean if a field has been set.
-func (o *VulnListItem) HasCvssVector() bool {
+func (o *VulnItem) HasCvssVector() bool {
 	return o != nil && o.CvssVector != nil
 }
 
 // SetCvssVector gets a reference to the given string and assigns it to the CvssVector field.
-func (o *VulnListItem) SetCvssVector(v string) {
+func (o *VulnItem) SetCvssVector(v string) {
 	o.CvssVector = &v
 }
 
 // GetPublishedAt returns the PublishedAt field value.
-func (o *VulnListItem) GetPublishedAt() time.Time {
+func (o *VulnItem) GetPublishedAt() time.Time {
 	if o == nil {
 		var ret time.Time
 		return ret
@@ -274,7 +166,7 @@ func (o *VulnListItem) GetPublishedAt() time.Time {
 
 // GetPublishedAtOk returns a tuple with the PublishedAt field value
 // and a boolean to check if the value has been set.
-func (o *VulnListItem) GetPublishedAtOk() (*time.Time, bool) {
+func (o *VulnItem) GetPublishedAtOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -282,12 +174,12 @@ func (o *VulnListItem) GetPublishedAtOk() (*time.Time, bool) {
 }
 
 // SetPublishedAt sets field value.
-func (o *VulnListItem) SetPublishedAt(v time.Time) {
+func (o *VulnItem) SetPublishedAt(v time.Time) {
 	o.PublishedAt = v
 }
 
 // GetModifiedAt returns the ModifiedAt field value.
-func (o *VulnListItem) GetModifiedAt() time.Time {
+func (o *VulnItem) GetModifiedAt() time.Time {
 	if o == nil {
 		var ret time.Time
 		return ret
@@ -297,7 +189,7 @@ func (o *VulnListItem) GetModifiedAt() time.Time {
 
 // GetModifiedAtOk returns a tuple with the ModifiedAt field value
 // and a boolean to check if the value has been set.
-func (o *VulnListItem) GetModifiedAtOk() (*time.Time, bool) {
+func (o *VulnItem) GetModifiedAtOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -305,12 +197,12 @@ func (o *VulnListItem) GetModifiedAtOk() (*time.Time, bool) {
 }
 
 // SetModifiedAt sets field value.
-func (o *VulnListItem) SetModifiedAt(v time.Time) {
+func (o *VulnItem) SetModifiedAt(v time.Time) {
 	o.ModifiedAt = v
 }
 
 // GetRefs returns the Refs field value if set, zero value otherwise.
-func (o *VulnListItem) GetRefs() []RefItem {
+func (o *VulnItem) GetRefs() []RefItem {
 	if o == nil || o.Refs == nil {
 		var ret []RefItem
 		return ret
@@ -320,7 +212,7 @@ func (o *VulnListItem) GetRefs() []RefItem {
 
 // GetRefsOk returns a tuple with the Refs field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *VulnListItem) GetRefsOk() (*[]RefItem, bool) {
+func (o *VulnItem) GetRefsOk() (*[]RefItem, bool) {
 	if o == nil || o.Refs == nil {
 		return nil, false
 	}
@@ -328,28 +220,22 @@ func (o *VulnListItem) GetRefsOk() (*[]RefItem, bool) {
 }
 
 // HasRefs returns a boolean if a field has been set.
-func (o *VulnListItem) HasRefs() bool {
+func (o *VulnItem) HasRefs() bool {
 	return o != nil && o.Refs != nil
 }
 
 // SetRefs gets a reference to the given []RefItem and assigns it to the Refs field.
-func (o *VulnListItem) SetRefs(v []RefItem) {
+func (o *VulnItem) SetRefs(v []RefItem) {
 	o.Refs = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o VulnListItem) MarshalJSON() ([]byte, error) {
+func (o VulnItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["cveId"] = o.CveId
-	toSerialize["engineName"] = o.EngineName
-	toSerialize["productName"] = o.ProductName
-	toSerialize["versions"] = o.Versions
-	if o.AffectedClusters != nil {
-		toSerialize["affectedClusters"] = o.AffectedClusters
-	}
 	if o.Detail != nil {
 		toSerialize["detail"] = o.Detail
 	}
@@ -378,34 +264,21 @@ func (o VulnListItem) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *VulnListItem) UnmarshalJSON(bytes []byte) (err error) {
+func (o *VulnItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CveId            *string               `json:"cveId"`
-		EngineName       *string               `json:"engineName"`
-		ProductName      *string               `json:"productName"`
-		Versions         *[]string             `json:"versions"`
-		AffectedClusters []AffectedClusterItem `json:"affectedClusters,omitempty"`
-		Detail           *string               `json:"detail,omitempty"`
-		Severity         *string               `json:"severity"`
-		CvssVector       *string               `json:"cvssVector,omitempty"`
-		PublishedAt      *time.Time            `json:"publishedAt"`
-		ModifiedAt       *time.Time            `json:"modifiedAt"`
-		Refs             []RefItem             `json:"refs,omitempty"`
+		CveId       *string    `json:"cveId"`
+		Detail      *string    `json:"detail,omitempty"`
+		Severity    *string    `json:"severity"`
+		CvssVector  *string    `json:"cvssVector,omitempty"`
+		PublishedAt *time.Time `json:"publishedAt"`
+		ModifiedAt  *time.Time `json:"modifiedAt"`
+		Refs        []RefItem  `json:"refs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	if all.CveId == nil {
 		return fmt.Errorf("required field cveId missing")
-	}
-	if all.EngineName == nil {
-		return fmt.Errorf("required field engineName missing")
-	}
-	if all.ProductName == nil {
-		return fmt.Errorf("required field productName missing")
-	}
-	if all.Versions == nil {
-		return fmt.Errorf("required field versions missing")
 	}
 	if all.Severity == nil {
 		return fmt.Errorf("required field severity missing")
@@ -418,15 +291,11 @@ func (o *VulnListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cveId", "engineName", "productName", "versions", "affectedClusters", "detail", "severity", "cvssVector", "publishedAt", "modifiedAt", "refs"})
+		common.DeleteKeys(additionalProperties, &[]string{"cveId", "detail", "severity", "cvssVector", "publishedAt", "modifiedAt", "refs"})
 	} else {
 		return err
 	}
 	o.CveId = *all.CveId
-	o.EngineName = *all.EngineName
-	o.ProductName = *all.ProductName
-	o.Versions = *all.Versions
-	o.AffectedClusters = all.AffectedClusters
 	o.Detail = all.Detail
 	o.Severity = *all.Severity
 	o.CvssVector = all.CvssVector

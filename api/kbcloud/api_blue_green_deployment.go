@@ -19,11 +19,10 @@ type BlueGreenDeploymentApi common.Service
 
 // CreateBlueGreenDeployment Create a new blue-green deployment instance.
 // Create a blue-green deployment instance for the specified parent cluster.
-func (a *BlueGreenDeploymentApi) CreateBlueGreenDeployment(ctx _context.Context, parentClusterId string, orgName string, body BlueGreenDeploymentCreation) (BlueGreenDeploymentItem, *_nethttp.Response, error) {
+func (a *BlueGreenDeploymentApi) CreateBlueGreenDeployment(ctx _context.Context, parentClusterId string, orgName string, body BlueGreenDeploymentCreation) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue BlueGreenDeploymentItem
+		localVarHTTPMethod = _nethttp.MethodPost
+		localVarPostBody   interface{}
 	)
 
 	// Add api info to context
@@ -37,7 +36,7 @@ func (a *BlueGreenDeploymentApi) CreateBlueGreenDeployment(ctx _context.Context,
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BlueGreenDeploymentApi.CreateBlueGreenDeployment")
 	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/parent/{parentClusterID}/blueGreenDeployment"
@@ -59,17 +58,17 @@ func (a *BlueGreenDeploymentApi) CreateBlueGreenDeployment(ctx _context.Context,
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, err
 	}
 
 	localVarHTTPResponse, err := a.Client.CallAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	localVarBody, err := common.ReadBody(localVarHTTPResponse)
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -81,23 +80,14 @@ func (a *BlueGreenDeploymentApi) CreateBlueGreenDeployment(ctx _context.Context,
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
+				return localVarHTTPResponse, newErr
 			}
 			newErr.ErrorModel = v
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarHTTPResponse, newErr
 	}
 
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarHTTPResponse, nil
 }
 
 // CreateBlueGreenDeploymentPreCheck Run a precheck for blue-green deployment.
@@ -368,86 +358,6 @@ func (a *BlueGreenDeploymentApi) GetBlueGreenDeploymentPreCheckDetail(ctx _conte
 
 	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/blueGreenDeployment/precheck/{preCheckID}"
 	localVarPath = strings.Replace(localVarPath, "{"+"preCheckID"+"}", _neturl.PathEscape(common.ParameterToString(preCheckId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 501 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-// GetBlueGreenDeploymentStatus Get status of a blue-green deployment instance.
-// Retrieve the current replication status, delays, and replication point of the specified blue-green deployment instance.
-func (a *BlueGreenDeploymentApi) GetBlueGreenDeploymentStatus(ctx _context.Context, deploymentId string, orgName string) (BlueGreenDeploymentStatusResponse, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue BlueGreenDeploymentStatusResponse
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "blueGreenDeployment",
-		OperationID: "getBlueGreenDeploymentStatus",
-		Path:        "/api/v1/organizations/{orgName}/blueGreenDeployment/{deploymentID}/status",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BlueGreenDeploymentApi.GetBlueGreenDeploymentStatus")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/blueGreenDeployment/{deploymentID}/status"
-	localVarPath = strings.Replace(localVarPath, "{"+"deploymentID"+"}", _neturl.PathEscape(common.ParameterToString(deploymentId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)

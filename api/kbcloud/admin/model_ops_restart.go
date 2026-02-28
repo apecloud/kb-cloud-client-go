@@ -14,6 +14,8 @@ import (
 type OpsRestart struct {
 	// component type
 	Component string `json:"component"`
+	// whether to force restart the component
+	Force *bool `json:"force,omitempty"`
 	// Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
 	PreConditionDeadlineSeconds common.NullableInt32 `json:"preConditionDeadlineSeconds,omitempty"`
 	Schedule                    *TaskSchedule        `json:"schedule,omitempty"`
@@ -61,6 +63,34 @@ func (o *OpsRestart) GetComponentOk() (*string, bool) {
 // SetComponent sets field value.
 func (o *OpsRestart) SetComponent(v string) {
 	o.Component = v
+}
+
+// GetForce returns the Force field value if set, zero value otherwise.
+func (o *OpsRestart) GetForce() bool {
+	if o == nil || o.Force == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Force
+}
+
+// GetForceOk returns a tuple with the Force field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OpsRestart) GetForceOk() (*bool, bool) {
+	if o == nil || o.Force == nil {
+		return nil, false
+	}
+	return o.Force, true
+}
+
+// HasForce returns a boolean if a field has been set.
+func (o *OpsRestart) HasForce() bool {
+	return o != nil && o.Force != nil
+}
+
+// SetForce gets a reference to the given bool and assigns it to the Force field.
+func (o *OpsRestart) SetForce(v bool) {
+	o.Force = &v
 }
 
 // GetPreConditionDeadlineSeconds returns the PreConditionDeadlineSeconds field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -137,6 +167,9 @@ func (o OpsRestart) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["component"] = o.Component
+	if o.Force != nil {
+		toSerialize["force"] = o.Force
+	}
 	if o.PreConditionDeadlineSeconds.IsSet() {
 		toSerialize["preConditionDeadlineSeconds"] = o.PreConditionDeadlineSeconds.Get()
 	}
@@ -154,6 +187,7 @@ func (o OpsRestart) MarshalJSON() ([]byte, error) {
 func (o *OpsRestart) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Component                   *string              `json:"component"`
+		Force                       *bool                `json:"force,omitempty"`
 		PreConditionDeadlineSeconds common.NullableInt32 `json:"preConditionDeadlineSeconds,omitempty"`
 		Schedule                    *TaskSchedule        `json:"schedule,omitempty"`
 	}{}
@@ -165,13 +199,14 @@ func (o *OpsRestart) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "preConditionDeadlineSeconds", "schedule"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "force", "preConditionDeadlineSeconds", "schedule"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Component = *all.Component
+	o.Force = all.Force
 	o.PreConditionDeadlineSeconds = all.PreConditionDeadlineSeconds
 	if all.Schedule != nil && all.Schedule.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true

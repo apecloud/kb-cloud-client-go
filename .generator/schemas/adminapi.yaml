@@ -5409,14 +5409,14 @@ paths:
         - description: start time of the query range (nano seconds)
           in: query
           name: startTime
-          required: false
+          required: true
           schema:
             type: string
             format: date-time
         - description: end time of the query range(nano seconds)
           in: query
           name: endTime
-          required: false
+          required: true
           schema:
             type: string
             format: date-time
@@ -5428,9 +5428,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/environmentStatusHistory'
+                $ref: '#/components/schemas/environmentStatusHistory'
   /admin/v1/environments/{environmentName}/resourceStats:
     get:
       description: Returns aggregated resource statistics for the specified environment within an organization.
@@ -5617,6 +5615,35 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+      tags:
+        - environment
+    delete:
+      operationId: deleteNodes
+      summary: Delete nodes from environment
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when nodes are deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       tags:
         - environment
   /admin/v1/environments/{environmentName}/nodes/{nodeName}/cordon:
@@ -5883,7 +5910,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/kubeConfig'
+              $ref: '#/components/schemas/kubeconfig'
       responses:
         '200':
           content:
@@ -5969,174 +5996,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-      tags:
-        - environment
-  /admin/v1/environments/{environmentName}/workflow:
-    get:
-      tags:
-        - environment
-      operationId: getWorkflowList
-      summary: Get component management workflow list
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/workflowList'
-          description: A successful response.
-    post:
-      tags:
-        - environment
-      operationId: createWorkflow
-      summary: create component management workflow, used to upgrade kubeblocks/gemini
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/workflowCreate'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/workflow'
-          description: A successful response.
-  /admin/v1/environments/{environmentName}/workflow/{workflowName}:
-    get:
-      tags:
-        - environment
-      operationId: getWorkflow
-      summary: Get component management workflows
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-        - description: workflow name
-          in: path
-          name: workflowName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/workflow'
-          description: A successful response.
-  /admin/v1/environments/{environmentName}/workflow/{workflowName}/log:
-    get:
-      tags:
-        - environment
-      operationId: getWorkflowLog
-      summary: Get component management workflow log
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-        - description: workflow name
-          in: path
-          name: workflowName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            text/plain:
-              schema:
-                type: string
-          description: A successful response.
-  /admin/v1/environments/{environmentName}/workflow/{workflowName}/resubmit:
-    post:
-      operationId: resubmitWorkflow
-      summary: retry workflow from failed
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-        - description: workflow name
-          in: path
-          name: workflowName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/workflow'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-      tags:
-        - environment
-  /admin/v1/environments/{environmentName}/workflow/{workflowName}/retry:
-    post:
-      operationId: retryWorkflow
-      summary: retry workflow
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-        - description: workflow name
-          in: path
-          name: workflowName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/workflow'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
       tags:
         - environment
   /admin/v1/latestEnvModuleVersion:
@@ -6403,11 +6262,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: defined whether to search for volume statistics by node. If not set, returns without the stats.
-          in: query
-          name: withStatsByNode
-          schema:
-            type: boolean
       responses:
         '200':
           content:
@@ -6784,7 +6638,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/kubeConfig'
+              $ref: '#/components/schemas/kubeconfig'
       responses:
         '200':
           content:
@@ -6806,7 +6660,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/kubeConfig'
+              $ref: '#/components/schemas/kubeconfig'
       responses:
         '200':
           content:
@@ -6828,7 +6682,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/kubeConfig'
+              $ref: '#/components/schemas/kubeconfig'
       responses:
         '200':
           content:
@@ -9611,8 +9465,7 @@ paths:
           name: licenseId
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         '200':
           content:
@@ -10948,7 +10801,7 @@ paths:
           name: scriptId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         content:
           application/json:
@@ -10979,7 +10832,7 @@ paths:
           name: scriptId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: No content.
@@ -11054,7 +10907,7 @@ paths:
           name: id
           required: false
           schema:
-            type: integer
+            type: string
         - description: name of the Org
           in: query
           name: orgName
@@ -11092,7 +10945,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         content:
           application/json:
@@ -11123,7 +10976,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: No content.
@@ -12146,7 +11999,7 @@ paths:
             type: string
         - name: taskType
           in: query
-          description: Filter by task type
+          description: Filter by task type (supports multiple task types separated by commas, e.g., "cluster-scale,cluster-upgrade")
           schema:
             type: string
         - name: status
@@ -12322,6 +12175,55 @@ paths:
           required: true
           schema:
             type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/tasks/{taskId}/steps/{stepId}/log:
+    get:
+      tags:
+        - task
+      consumes:
+        - '*/*'
+      produces:
+        - text/plain
+      schemes:
+        - https
+        - http
+      operationId: getTaskStepLog
+      summary: Get task step log
+      description: Get logs for a specific task step (supports job type steps)
+      parameters:
+        - description: ID of the task
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+        - description: ID of the step
+          in: path
+          name: stepId
+          required: true
+          schema:
+            type: string
+        - description: Follow log stream (streaming mode for running steps)
+          in: query
+          name: follow
+          required: false
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: OK
@@ -12530,7 +12432,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/workflow'
+                type: object
+                properties:
+                  taskId:
+                    type: string
+                    description: the task id
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -16408,12 +16314,20 @@ paths:
             type: array
             items:
               type: string
-        - name: range
+        - name: startTime
           in: query
-          description: Time range to calculate SLA, unit is day, available values are "30", "90", "365".
+          description: SLA calculation start time Unix timestamp, unit is second.
           required: true
           schema:
             type: integer
+            format: int64
+        - name: endTime
+          in: query
+          description: SLA calculation end time Unix timestamp, unit is second.
+          required: true
+          schema:
+            type: integer
+            format: int64
         - name: limit
           in: query
           description: Number of items per page.
@@ -16428,7 +16342,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClustersSLA'
+                $ref: '#/components/schemas/SLAList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -16455,12 +16369,20 @@ paths:
             type: array
             items:
               type: string
-        - name: range
+        - name: startTime
           in: query
-          description: Time range to calculate SLA, unit is day, available values are "30", "90", "365".
+          description: SLA calculation start time Unix timestamp, unit is second.
           required: true
           schema:
             type: integer
+            format: int64
+        - name: endTime
+          in: query
+          description: SLA calculation end time Unix timestamp, unit is second.
+          required: true
+          schema:
+            type: integer
+            format: int64
         - name: clusterID
           in: query
           description: id of the cluster
@@ -16681,18 +16603,20 @@ paths:
             type: array
             items:
               type: string
-        - name: range
+        - name: startTime
           in: query
-          description: Time range to calculate SLA, unit is day, available values are "30", "90", "365".
+          description: SLA calculation start time Unix timestamp, unit is second.
           required: true
           schema:
             type: integer
-        - name: threshold
+            format: int64
+        - name: endTime
           in: query
-          description: SLA threshold, unit is percent, available values are "99.0", "99.5", "99.9", default is "99.5".
-          required: false
+          description: SLA calculation end time Unix timestamp, unit is second.
+          required: true
           schema:
-            type: number
+            type: integer
+            format: int64
       responses:
         '200':
           description: Uncompliant clusters retrieved successfully
@@ -16763,6 +16687,38 @@ paths:
         '200':
           content: {}
           description: Returned when vulnerabilities are marked as ignored successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - vuln
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/vulns:
+    get:
+      operationId: listClusterVulns
+      summary: List vulnerabilities which affected the cluster
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterVulns'
+          description: Returned when vulnerabilities which affected the cluster are listed successfully.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -17615,6 +17571,10 @@ components:
           title: Replicas
           type: integer
           description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
+        skipResourceConstraints:
+          type: boolean
+          description: Whether to skip resource constraint validation when creating cluster
+          default: false
         classCode:
           type: string
         cpu:
@@ -18436,7 +18396,6 @@ components:
       description: Response after updating SQL audit log status
       required:
         - enabled
-        - taskId
       properties:
         enabled:
           type: boolean
@@ -20350,6 +20309,9 @@ components:
           description: component type
           type: string
           minLength: 1
+        force:
+          type: boolean
+          description: whether to force restart the component
         preConditionDeadlineSeconds:
           description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
           type: integer
@@ -20627,6 +20589,18 @@ components:
           description: number of replicas
           type: integer
           nullable: true
+        onlineInstancesToOffline:
+          type: array
+          items:
+            type: string
+          description: List of online instance names to be switched to offline during scaling in.
+          nullable: true
+        OfflineInstancesToOnline:
+          type: array
+          items:
+            type: string
+          description: List of offline instance names to be switched to online during scaling out.
+          nullable: true
         shards:
           description: number of shards, mutually exclusive with replicas.
           type: integer
@@ -20636,6 +20610,10 @@ components:
           type: integer
           nullable: true
           minimum: 0
+        force:
+          type: boolean
+          description: force the scaling operation without pre-check
+          default: false
         schedule:
           $ref: '#/components/schemas/taskSchedule'
       type: object
@@ -21620,28 +21598,84 @@ components:
           description: whether to enable calculate the cluster SLA for the environment
           type: boolean
           default: false
-    environmentStatusHistory:
+    environmentStateEvent:
       description: EventEnvironmentState contains details for the current and previous state of the environment.
       type: object
       properties:
-        CurrentState:
+        currentState:
           description: The current state of the environment.
           type: string
-        PrevState:
+        prevState:
           description: The previous state of the environment.
           type: string
-        Reason:
+        reason:
           description: The reason for the state transition.
           type: string
-        Timestamp:
+        timestamp:
           description: The timestamp of the state transition.
           type: string
           format: date-time
+        duration:
+          description: The duration of the state in seconds.
+          type: integer
+          format: int64
       required:
-        - CurrentState
-        - PrevState
-        - Reason
-        - Timestamp
+        - currentState
+        - prevState
+        - reason
+        - timestamp
+    environmentStatusHistoryDay:
+      description: Daily status history for the environment.
+      type: object
+      properties:
+        date:
+          description: The date of this day's status history.
+          type: string
+        status:
+          description: The primary status for this day based on priority.
+          type: string
+        statusDuration:
+          description: Duration in seconds for each status on this day.
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+        statusHistory:
+          description: List of state transition events that occurred on this day.
+          type: array
+          items:
+            $ref: '#/components/schemas/environmentStateEvent'
+        inherited:
+          description: Indicates if the status was inherited from the previous day.
+          type: boolean
+      required:
+        - date
+        - status
+        - statusDuration
+        - statusHistory
+        - inherited
+    environmentStatusHistory:
+      description: Environment status history with SLA calculation.
+      type: object
+      properties:
+        sla:
+          description: The SLA percentage (availability) for the environment.
+          type: string
+        days:
+          description: Daily status history data.
+          type: array
+          items:
+            $ref: '#/components/schemas/environmentStatusHistoryDay'
+        statusDuration:
+          description: Total duration in seconds for each status across all days.
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+      required:
+        - sla
+        - days
+        - statusDuration
     storageStats:
       description: StorageStats holds the resource stats of the volume, including bound PVC capacity, pod-used PVC capacity, and actual storage usage.
       properties:
@@ -21772,11 +21806,6 @@ components:
           type: string
       title: ''
       type: object
-    kubeConfig:
-      pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-      type: string
-      description: The kubeconfig body as raw binary.
-      format: byte
     environmentConditionStatus:
       description: Status is the status of the condition. Can be True, False, Unknown.
       enum:
@@ -21811,132 +21840,6 @@ components:
             $ref: '#/components/schemas/environmentCondition'
           type: array
       type: object
-    workflowStep:
-      type: object
-      description: workflow step
-      properties:
-        name:
-          title: step name
-          type: string
-        phase:
-          title: status
-          type: string
-        message:
-          title: message
-          type: string
-        startedAt:
-          title: start time
-          type: string
-          nullable: true
-          format: date-time
-        finishedAt:
-          title: finish time
-          type: string
-          nullable: true
-          format: date-time
-    workflow:
-      description: component management workflow
-      type: object
-      properties:
-        name:
-          title: workflow name
-          type: string
-        phase:
-          title: status
-          type: string
-        message:
-          title: message
-          type: string
-        startedAt:
-          title: start time
-          type: string
-          nullable: true
-          format: date-time
-        finishedAt:
-          title: finish time
-          type: string
-          nullable: true
-          format: date-time
-        steps:
-          type: array
-          description: ordered by time asc
-          items:
-            $ref: '#/components/schemas/workflowStep'
-    workflowList:
-      description: component management workflow list
-      type: object
-      properties:
-        install:
-          $ref: '#/components/schemas/workflow'
-        uninstall:
-          $ref: '#/components/schemas/workflow'
-        upgradeKubeblocks:
-          $ref: '#/components/schemas/workflow'
-        upgradeGemini:
-          $ref: '#/components/schemas/workflow'
-        upgradeVictoriaMetrics:
-          $ref: '#/components/schemas/workflow'
-        upgradeLoki:
-          $ref: '#/components/schemas/workflow'
-      example:
-        install:
-          finishedAt: '2024-04-08T08:09:02.000Z'
-          message: child 'full-managed-installer-2x8cc-4255949067' failed
-          name: full-managed-installer-2x8cc
-          phase: Failed
-          startedAt: '2024-04-08T07:58:43.000Z'
-          steps:
-            - finishedAt: '2024-04-08T08:04:13.000Z'
-              name: terraform
-              phase: Succeeded
-              startedAt: '2024-04-08T07:58:43.000Z'
-            - finishedAt: '2024-04-08T08:05:52.000Z'
-              name: wait-k8s-ready
-              phase: Succeeded
-              startedAt: '2024-04-08T08:04:23.000Z'
-            - finishedAt: '2024-04-08T08:07:31.000Z'
-              name: kubeblocks-installer
-              phase: Succeeded
-              startedAt: '2024-04-08T08:06:02.000Z'
-            - finishedAt: '2024-04-08T08:08:52.000Z'
-              message: Error (exit code 1)
-              name: gemini-installer
-              phase: Failed
-              startedAt: '2024-04-08T08:07:40.000Z'
-        upgradeKubeblocks:
-          finishedAt: '2024-04-08T08:19:36.000Z'
-          message: child 'upgrade-kubeblocks-lxjj2-4244434436' failed
-          name: upgrade-kubeblocks-lxjj2
-          phase: Failed
-          startedAt: '2024-04-08T08:19:26.000Z'
-          steps:
-            - finishedAt: '2024-04-08T08:19:31.000Z'
-              message: Error (exit code 1)
-              name: kubeblocks-installer
-              phase: Failed
-              startedAt: '2024-04-08T08:19:26.000Z'
-    workflowType:
-      description: workflow type
-      type: string
-      enum:
-        - install
-        - upgradeKubeblocks
-        - upgradeGemini
-        - uninstall
-        - upgradeVictoriaMetrics
-        - upgradeLoki
-        - update
-    workflowCreate:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/workflowType'
-        version:
-          title: component version
-          type: string
-        oteldVersion:
-          type: string
-          title: oteld version, only valid in upgradeGemini workflow
     envModuleVersion:
       description: environment module version
       type: object
@@ -22004,7 +21907,7 @@ components:
         id:
           description: ID of VIP Pool
           title: ID
-          type: object
+          type: string
         total:
           description: Total number of IP addresses
           format: int64
@@ -25404,12 +25307,23 @@ components:
         sinkEngineName:
           type: string
           description: Engine name for sink/target database
+    blueGreenDeploymentAccountOption:
+      type: object
+      properties:
+        component:
+          type: string
+        defaultAccountName:
+          type: array
+          items:
+            type: string
     blueGreenDeploymentEngineOption:
       description: blueGreenDeploymentEngine is the engine of a blue-green deployment.
       properties:
         enabled:
           description: Whether the blue-green deployment is enabled.
           type: boolean
+        accounts:
+          $ref: '#/components/schemas/blueGreenDeploymentAccountOption'
       type: object
     engineOption:
       type: object
@@ -26411,8 +26325,7 @@ components:
         - serviceVersions
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
           description: Primary Key for the EngineVersionRecord
         engineName:
           type: string
@@ -28424,7 +28337,7 @@ components:
       enum:
         - READWRITE
         - READONLY
-        - UNKNOWN
+        - CUSTOM
       type: string
     ACLUser:
       x-go-name: RedisACLUser
@@ -28466,6 +28379,10 @@ components:
           items:
             type: string
           description: List of password hashes to be removed
+        acl_rules:
+          type: string
+          description: Custom ACL rules
+          x-omitempty: true
       required:
         - name
         - role
@@ -29800,6 +29717,9 @@ components:
         sla:
           type: number
           description: The SLA value for the cluster.
+        targetThreshold:
+          type: number
+          description: The target SLA threshold value for the cluster.
         totalDuration:
           type: integer
           format: int64
@@ -29856,8 +29776,10 @@ components:
           format: duration
         enableProbeRetry:
           type: boolean
+          x-omitempty: false
         probeRetryCount:
           type: integer
+          x-omitempty: false
         probeRetryInterval:
           type: string
           format: duration
@@ -29867,6 +29789,7 @@ components:
             type: string
         probePoolSize:
           type: integer
+          x-omitempty: false
         collectorBatchSize:
           type: integer
         collectorMaxWaitTime:
@@ -29875,6 +29798,27 @@ components:
         slaThreshold:
           type: number
           description: The SLA threshold value for the cluster.
+    affectedClusterItem:
+      description: a cluster which is affected by the vulnerability
+      properties:
+        id:
+          description: the ID of the cluster
+          type: string
+        name:
+          description: the name of the cluster
+          type: string
+        displayName:
+          description: the display name of the cluster
+          type: string
+        clusterType:
+          description: the type of the cluster
+          type: string
+        engine:
+          description: the engine of the cluster
+          type: string
+        orgName:
+          description: the name of the organization
+          type: string
     refItem:
       description: a reference of the vulnerability
       properties:
@@ -29899,14 +29843,24 @@ components:
         productName:
           description: the product name of the vulnerability
           type: string
-        version:
-          description: the version of the product which is affected by the vulnerability
-          type: string
+        versions:
+          description: the versions of the product which are affected by the vulnerability
+          type: array
+          items:
+            type: string
+        affectedClusters:
+          description: the clusters which are affected by the vulnerability
+          type: array
+          items:
+            $ref: '#/components/schemas/affectedClusterItem'
         detail:
           description: the detail of the vulnerability
           type: string
         severity:
           description: the severity of the vulnerability
+          type: string
+        cvssVector:
+          description: the CVSS vector and score of the vulnerability
           type: string
         publishedAt:
           description: the published time of the vulnerability
@@ -29925,7 +29879,7 @@ components:
         - cveId
         - engineName
         - productName
-        - version
+        - versions
         - severity
         - publishedAt
         - modifiedAt
@@ -29959,7 +29913,6 @@ components:
         - cveId
         - engineName
         - productName
-        - version
       properties:
         cveId:
           type: string
@@ -29970,9 +29923,49 @@ components:
         productName:
           type: string
           description: the product name of the vulnerability
-        version:
+    vulnItem:
+      description: a vulnerability which affected the cluster
+      properties:
+        cveId:
+          description: the CVE ID of the vulnerability
           type: string
-          description: the version of the product which is affected by the vulnerability
+        detail:
+          description: the detail of the vulnerability
+          type: string
+        severity:
+          description: the severity of the vulnerability
+          type: string
+        cvssVector:
+          description: the CVSS vector and score of the vulnerability
+          type: string
+        publishedAt:
+          description: the published time of the vulnerability
+          type: string
+          format: date-time
+        modifiedAt:
+          description: the modified time of the vulnerability
+          type: string
+          format: date-time
+        refs:
+          description: the references of the vulnerability
+          type: array
+          items:
+            $ref: '#/components/schemas/refItem'
+      required:
+        - cveId
+        - severity
+        - publishedAt
+        - modifiedAt
+    clusterVulns:
+      description: a list of vulnerabilities which affected the cluster
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/vulnItem'
   responses:
     '204':
       description: No Content

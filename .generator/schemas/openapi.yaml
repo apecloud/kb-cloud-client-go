@@ -6079,7 +6079,7 @@ paths:
             type: string
         - name: taskType
           in: query
-          description: Filter by task type
+          description: Filter by task type (supports multiple task types separated by commas, e.g., "cluster-scale,cluster-upgrade")
           schema:
             type: string
         - name: status
@@ -13036,7 +13036,7 @@ paths:
           name: scriptId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         content:
           application/json:
@@ -13067,7 +13067,7 @@ paths:
           name: scriptId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: No content.
@@ -13142,7 +13142,7 @@ paths:
           name: id
           required: false
           schema:
-            type: integer
+            type: string
         - description: name of the Org
           in: query
           name: orgName
@@ -13180,7 +13180,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         content:
           application/json:
@@ -13211,7 +13211,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: No content.
@@ -13497,12 +13497,9 @@ paths:
               $ref: '#/components/schemas/blueGreenDeploymentCreation'
         required: true
       responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/blueGreenDeploymentItem'
-          description: Response containing the created blue-green deployment.
+        '204':
+          content: {}
+          description: Returned when blue-green deployment instance is created successfully.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -13574,41 +13571,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/blueGreenDeploymentSwitchResponse'
           description: Details of the blue-green deployment switch job/task.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '501':
-          $ref: '#/components/responses/501'
-      tags:
-        - blueGreenDeployment
-  /api/v1/organizations/{orgName}/blueGreenDeployment/{deploymentID}/status:
-    get:
-      operationId: getBlueGreenDeploymentStatus
-      summary: Get status of a blue-green deployment instance
-      description: Retrieve the current replication status, delays, and replication point of the specified blue-green deployment instance.
-      parameters:
-        - description: The unique identifier of the blue-green deployment instance
-          in: path
-          name: deploymentID
-          required: true
-          schema:
-            type: string
-        - description: Name of the organization
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/blueGreenDeploymentStatusResponse'
-          description: Successfully retrieved replication status.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -14652,7 +14614,7 @@ components:
         id:
           description: ID of VIP Pool
           title: ID
-          type: object
+          type: string
         total:
           description: Total number of IP addresses
           format: int64
@@ -14909,6 +14871,9 @@ components:
           format: date-time
           type: string
           description: the create timestamp of benchmark
+        extra:
+          type: string
+          description: extra args for benchmark
         status:
           $ref: '#/components/schemas/benchmarkStatus'
     benchmarkList:
@@ -15220,7 +15185,6 @@ components:
       required:
         - address
         - cluster
-        - password
         - username
       type: object
       properties:
@@ -15529,6 +15493,10 @@ components:
           title: Replicas
           type: integer
           description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
+        skipResourceConstraints:
+          type: boolean
+          description: Whether to skip resource constraint validation when creating cluster
+          default: false
         classCode:
           type: string
         cpu:
@@ -16455,6 +16423,9 @@ components:
           description: component type
           type: string
           minLength: 1
+        force:
+          type: boolean
+          description: whether to force restart the component
         preConditionDeadlineSeconds:
           description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
           type: integer
@@ -16706,6 +16677,18 @@ components:
           description: number of replicas
           type: integer
           nullable: true
+        onlineInstancesToOffline:
+          type: array
+          items:
+            type: string
+          description: List of online instance names to be switched to offline during scaling in.
+          nullable: true
+        OfflineInstancesToOnline:
+          type: array
+          items:
+            type: string
+          description: List of offline instance names to be switched to online during scaling out.
+          nullable: true
         shards:
           description: number of shards, mutually exclusive with replicas.
           type: integer
@@ -16715,6 +16698,10 @@ components:
           type: integer
           nullable: true
           minimum: 0
+        force:
+          type: boolean
+          description: force the scaling operation without pre-check
+          default: false
         schedule:
           $ref: '#/components/schemas/taskSchedule'
       type: object
@@ -17090,7 +17077,6 @@ components:
       description: Response after updating SQL audit log status
       required:
         - enabled
-        - taskId
       properties:
         enabled:
           type: boolean
@@ -20436,12 +20422,23 @@ components:
         sinkEngineName:
           type: string
           description: Engine name for sink/target database
+    blueGreenDeploymentAccountOption:
+      type: object
+      properties:
+        component:
+          type: string
+        defaultAccountName:
+          type: array
+          items:
+            type: string
     blueGreenDeploymentEngineOption:
       description: blueGreenDeploymentEngine is the engine of a blue-green deployment.
       properties:
         enabled:
           description: Whether the blue-green deployment is enabled.
           type: boolean
+        accounts:
+          $ref: '#/components/schemas/blueGreenDeploymentAccountOption'
       type: object
     engineOption:
       type: object
@@ -23054,7 +23051,7 @@ components:
       enum:
         - READWRITE
         - READONLY
-        - UNKNOWN
+        - CUSTOM
       type: string
     ACLUser:
       x-go-name: RedisACLUser
@@ -23096,6 +23093,10 @@ components:
           items:
             type: string
           description: List of password hashes to be removed
+        acl_rules:
+          type: string
+          description: Custom ACL rules
+          x-omitempty: true
       required:
         - name
         - role
@@ -25046,6 +25047,7 @@ components:
         - Interrupted
         - Switched
         - Failed
+        - Deleting
       type: string
     blueGreenDeploymentItem:
       description: blueGreenDeploymentItem is the response to a blue-green deployment creation request.
@@ -25063,6 +25065,10 @@ components:
         deploymentStatus:
           description: The status of the blue-green deployment. This is different from the cluster status.
           $ref: '#/components/schemas/blueGreenDeploymentStatus'
+        replicationLag:
+          description: The lag of the replication.
+          type: string
+          nullable: true
         createdAt:
           description: The creation time of the blue-green deployment.
           type: string
@@ -25138,6 +25144,8 @@ components:
         taskId:
           description: Task ID.
           type: string
+        taskStatus:
+          $ref: '#/components/schemas/taskStatus'
         steps:
           description: The steps involved in the blue-green deployment switch.
           items:
@@ -25145,25 +25153,6 @@ components:
           type: array
       required:
         - taskId
-      type: object
-    blueGreenDeploymentStatusResponse:
-      description: blueGreenDeploymentStatusResponse represents the response containing the blue-green deployment status.
-      properties:
-        deploymentID:
-          description: The ID of the blue-green deployment.
-          type: string
-        deploymentStatus:
-          description: The status of the blue-green deployment.
-          $ref: '#/components/schemas/blueGreenDeploymentStatus'
-        eventLag:
-          description: The lag of the event.
-          type: string
-        timestampLag:
-          description: The lag of the timestamp.
-          type: string
-          nullable: true
-      required:
-        - deploymentID
       type: object
     blueGreenDeploymentPreCheckCreate:
       description: blueGreenDeploymentPreCheckCreate defines the request to create a precheck task for a blue-green deployment.
@@ -25204,6 +25193,8 @@ components:
         taskId:
           description: Task ID.
           type: string
+        taskStatus:
+          $ref: '#/components/schemas/taskStatus'
         checkers:
           description: The checkers of the precheck task.
           items:
