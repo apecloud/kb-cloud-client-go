@@ -29820,6 +29820,11 @@ components:
           type: array
           items:
             type: string
+        fixedVersions:
+          description: the fixed versions of the product which fixed the vulnerability
+          type: array
+          items:
+            type: string
         affectedClusters:
           description: the clusters which are affected by the vulnerability
           type: array

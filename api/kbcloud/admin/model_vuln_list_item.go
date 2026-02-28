@@ -21,6 +21,8 @@ type VulnListItem struct {
 	ProductName string `json:"productName"`
 	// the versions of the product which are affected by the vulnerability
 	Versions []string `json:"versions"`
+	// the fixed versions of the product which fixed the vulnerability
+	FixedVersions []string `json:"fixedVersions,omitempty"`
 	// the clusters which are affected by the vulnerability
 	AffectedClusters []AffectedClusterItem `json:"affectedClusters,omitempty"`
 	// the detail of the vulnerability
@@ -154,6 +156,34 @@ func (o *VulnListItem) GetVersionsOk() (*[]string, bool) {
 // SetVersions sets field value.
 func (o *VulnListItem) SetVersions(v []string) {
 	o.Versions = v
+}
+
+// GetFixedVersions returns the FixedVersions field value if set, zero value otherwise.
+func (o *VulnListItem) GetFixedVersions() []string {
+	if o == nil || o.FixedVersions == nil {
+		var ret []string
+		return ret
+	}
+	return o.FixedVersions
+}
+
+// GetFixedVersionsOk returns a tuple with the FixedVersions field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *VulnListItem) GetFixedVersionsOk() (*[]string, bool) {
+	if o == nil || o.FixedVersions == nil {
+		return nil, false
+	}
+	return &o.FixedVersions, true
+}
+
+// HasFixedVersions returns a boolean if a field has been set.
+func (o *VulnListItem) HasFixedVersions() bool {
+	return o != nil && o.FixedVersions != nil
+}
+
+// SetFixedVersions gets a reference to the given []string and assigns it to the FixedVersions field.
+func (o *VulnListItem) SetFixedVersions(v []string) {
+	o.FixedVersions = v
 }
 
 // GetAffectedClusters returns the AffectedClusters field value if set, zero value otherwise.
@@ -347,6 +377,9 @@ func (o VulnListItem) MarshalJSON() ([]byte, error) {
 	toSerialize["engineName"] = o.EngineName
 	toSerialize["productName"] = o.ProductName
 	toSerialize["versions"] = o.Versions
+	if o.FixedVersions != nil {
+		toSerialize["fixedVersions"] = o.FixedVersions
+	}
 	if o.AffectedClusters != nil {
 		toSerialize["affectedClusters"] = o.AffectedClusters
 	}
@@ -384,6 +417,7 @@ func (o *VulnListItem) UnmarshalJSON(bytes []byte) (err error) {
 		EngineName       *string               `json:"engineName"`
 		ProductName      *string               `json:"productName"`
 		Versions         *[]string             `json:"versions"`
+		FixedVersions    []string              `json:"fixedVersions,omitempty"`
 		AffectedClusters []AffectedClusterItem `json:"affectedClusters,omitempty"`
 		Detail           *string               `json:"detail,omitempty"`
 		Severity         *string               `json:"severity"`
@@ -418,7 +452,7 @@ func (o *VulnListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cveId", "engineName", "productName", "versions", "affectedClusters", "detail", "severity", "cvssVector", "publishedAt", "modifiedAt", "refs"})
+		common.DeleteKeys(additionalProperties, &[]string{"cveId", "engineName", "productName", "versions", "fixedVersions", "affectedClusters", "detail", "severity", "cvssVector", "publishedAt", "modifiedAt", "refs"})
 	} else {
 		return err
 	}
@@ -426,6 +460,7 @@ func (o *VulnListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.EngineName = *all.EngineName
 	o.ProductName = *all.ProductName
 	o.Versions = *all.Versions
+	o.FixedVersions = all.FixedVersions
 	o.AffectedClusters = all.AffectedClusters
 	o.Detail = all.Detail
 	o.Severity = *all.Severity
