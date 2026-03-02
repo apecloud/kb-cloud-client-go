@@ -17930,9 +17930,11 @@ components:
         description:
           description: Description of parameter template
           type: string
-        majorVersion:
-          description: 'Major version of database engine, eg: 8.0'
-          type: string
+        majorVersions:
+          description: 'Major versions of database engine, eg: 8.0, 8.1, 8.2'
+          type: array
+          items:
+            type: string
         engine:
           description: Name of database engine
           type: string
@@ -17958,7 +17960,7 @@ components:
       required:
         - description
         - paramTplID
-        - majorVersion
+        - majorVersions
         - engine
         - component
         - name
