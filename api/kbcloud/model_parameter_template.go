@@ -16,6 +16,8 @@ type ParameterTemplate struct {
 	Description LocalizedDescription `json:"description"`
 	// match the major version set in the component
 	MajorVersion string `json:"majorVersion"`
+	// match the major versions set in the component, such as 8.0, 8.1, 8.2
+	MajorVersions []string `json:"majorVersions,omitempty"`
 	// parameterConfig contains specific configuration templates for each configuration file, primarily consisting of parameter templates and parameter constraints, mainly used by initializing the default template from addon.
 	Configs []ParameterConfig `json:"configs"`
 	// whether the default parameter template is used by default, set in componentDefinition.configs, only one default parameter template can be set in certain family.
@@ -116,6 +118,34 @@ func (o *ParameterTemplate) SetMajorVersion(v string) {
 	o.MajorVersion = v
 }
 
+// GetMajorVersions returns the MajorVersions field value if set, zero value otherwise.
+func (o *ParameterTemplate) GetMajorVersions() []string {
+	if o == nil || o.MajorVersions == nil {
+		var ret []string
+		return ret
+	}
+	return o.MajorVersions
+}
+
+// GetMajorVersionsOk returns a tuple with the MajorVersions field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterTemplate) GetMajorVersionsOk() (*[]string, bool) {
+	if o == nil || o.MajorVersions == nil {
+		return nil, false
+	}
+	return &o.MajorVersions, true
+}
+
+// HasMajorVersions returns a boolean if a field has been set.
+func (o *ParameterTemplate) HasMajorVersions() bool {
+	return o != nil && o.MajorVersions != nil
+}
+
+// SetMajorVersions gets a reference to the given []string and assigns it to the MajorVersions field.
+func (o *ParameterTemplate) SetMajorVersions(v []string) {
+	o.MajorVersions = v
+}
+
 // GetConfigs returns the Configs field value.
 func (o *ParameterTemplate) GetConfigs() []ParameterConfig {
 	if o == nil {
@@ -171,6 +201,9 @@ func (o ParameterTemplate) MarshalJSON() ([]byte, error) {
 	toSerialize["name"] = o.Name
 	toSerialize["description"] = o.Description
 	toSerialize["majorVersion"] = o.MajorVersion
+	if o.MajorVersions != nil {
+		toSerialize["majorVersions"] = o.MajorVersions
+	}
 	toSerialize["configs"] = o.Configs
 	toSerialize["defaultUse"] = o.DefaultUse
 
@@ -183,11 +216,12 @@ func (o ParameterTemplate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name         *string               `json:"name"`
-		Description  *LocalizedDescription `json:"description"`
-		MajorVersion *string               `json:"majorVersion"`
-		Configs      *[]ParameterConfig    `json:"configs"`
-		DefaultUse   *bool                 `json:"defaultUse"`
+		Name          *string               `json:"name"`
+		Description   *LocalizedDescription `json:"description"`
+		MajorVersion  *string               `json:"majorVersion"`
+		MajorVersions []string              `json:"majorVersions,omitempty"`
+		Configs       *[]ParameterConfig    `json:"configs"`
+		DefaultUse    *bool                 `json:"defaultUse"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -209,7 +243,7 @@ func (o *ParameterTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "majorVersion", "configs", "defaultUse"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "majorVersion", "majorVersions", "configs", "defaultUse"})
 	} else {
 		return err
 	}
@@ -221,6 +255,7 @@ func (o *ParameterTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Description = *all.Description
 	o.MajorVersion = *all.MajorVersion
+	o.MajorVersions = all.MajorVersions
 	o.Configs = *all.Configs
 	o.DefaultUse = *all.DefaultUse
 

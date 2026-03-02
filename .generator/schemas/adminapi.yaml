@@ -24639,6 +24639,11 @@ components:
         majorVersion:
           type: string
           description: match the major version set in the component
+        majorVersions:
+          type: array
+          items:
+            type: string
+          description: match the major versions set in the component, such as 8.0, 8.1, 8.2
         configs:
           type: array
           description: parameterConfig contains specific configuration templates for each configuration file, primarily consisting of parameter templates and parameter constraints, mainly used by initializing the default template from addon.
