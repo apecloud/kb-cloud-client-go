@@ -112,6 +112,8 @@
 //   - [clusterApi.validateClusterCreation]
 //   - [clusterAlertSwitchApi.getClusterAlertDisabled]
 //   - [clusterAlertSwitchApi.setClusterAlertDisabled]
+//   - [clusterLogApi.aggregateAuditLogs]
+//   - [clusterLogApi.aggregateSlowLogs]
 //   - [clusterLogApi.queryAuditLogs]
 //   - [clusterLogApi.queryErrorLogs]
 //   - [clusterLogApi.queryPodLogs]

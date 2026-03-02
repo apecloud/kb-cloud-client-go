@@ -17,6 +17,346 @@ import (
 // ClusterLogApi service type
 type ClusterLogApi common.Service
 
+// AggregateAuditLogsOptionalParameters holds optional parameters for AggregateAuditLogs.
+type AggregateAuditLogsOptionalParameters struct {
+	ComponentName *string
+	InstanceName  *string
+	Query         *string
+	Limit         *string
+	SortType      *SortType
+	GroupBy       *string
+	TopN          *int32
+}
+
+// NewAggregateAuditLogsOptionalParameters creates an empty struct for parameters.
+func NewAggregateAuditLogsOptionalParameters() *AggregateAuditLogsOptionalParameters {
+	this := AggregateAuditLogsOptionalParameters{}
+	return &this
+}
+
+// WithComponentName sets the corresponding parameter name and returns the struct.
+func (r *AggregateAuditLogsOptionalParameters) WithComponentName(componentName string) *AggregateAuditLogsOptionalParameters {
+	r.ComponentName = &componentName
+	return r
+}
+
+// WithInstanceName sets the corresponding parameter name and returns the struct.
+func (r *AggregateAuditLogsOptionalParameters) WithInstanceName(instanceName string) *AggregateAuditLogsOptionalParameters {
+	r.InstanceName = &instanceName
+	return r
+}
+
+// WithQuery sets the corresponding parameter name and returns the struct.
+func (r *AggregateAuditLogsOptionalParameters) WithQuery(query string) *AggregateAuditLogsOptionalParameters {
+	r.Query = &query
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *AggregateAuditLogsOptionalParameters) WithLimit(limit string) *AggregateAuditLogsOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// WithSortType sets the corresponding parameter name and returns the struct.
+func (r *AggregateAuditLogsOptionalParameters) WithSortType(sortType SortType) *AggregateAuditLogsOptionalParameters {
+	r.SortType = &sortType
+	return r
+}
+
+// WithGroupBy sets the corresponding parameter name and returns the struct.
+func (r *AggregateAuditLogsOptionalParameters) WithGroupBy(groupBy string) *AggregateAuditLogsOptionalParameters {
+	r.GroupBy = &groupBy
+	return r
+}
+
+// WithTopN sets the corresponding parameter name and returns the struct.
+func (r *AggregateAuditLogsOptionalParameters) WithTopN(topN int32) *AggregateAuditLogsOptionalParameters {
+	r.TopN = &topN
+	return r
+}
+
+// AggregateAuditLogs Aggregate cluster audit logs.
+// Aggregate audit logs of a cluster (Victoria Logs backend only)
+func (a *ClusterLogApi) AggregateAuditLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...AggregateAuditLogsOptionalParameters) (ClusterExecutionLogAggregateResponse, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ClusterExecutionLogAggregateResponse
+		optionalParams      AggregateAuditLogsOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type AggregateAuditLogsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "clusterLog",
+		OperationID: "aggregateAuditLogs",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/logs/audit/aggregate",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterLogApi.AggregateAuditLogs")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/logs/audit/aggregate"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("startTime", common.ParameterToString(startTime, ""))
+	localVarQueryParams.Add("endTime", common.ParameterToString(endTime, ""))
+	if optionalParams.ComponentName != nil {
+		localVarQueryParams.Add("componentName", common.ParameterToString(*optionalParams.ComponentName, ""))
+	}
+	if optionalParams.InstanceName != nil {
+		localVarQueryParams.Add("instanceName", common.ParameterToString(*optionalParams.InstanceName, ""))
+	}
+	if optionalParams.Query != nil {
+		localVarQueryParams.Add("query", common.ParameterToString(*optionalParams.Query, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.SortType != nil {
+		localVarQueryParams.Add("sortType", common.ParameterToString(*optionalParams.SortType, ""))
+	}
+	if optionalParams.GroupBy != nil {
+		localVarQueryParams.Add("groupBy", common.ParameterToString(*optionalParams.GroupBy, ""))
+	}
+	if optionalParams.TopN != nil {
+		localVarQueryParams.Add("topN", common.ParameterToString(*optionalParams.TopN, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// AggregateSlowLogsOptionalParameters holds optional parameters for AggregateSlowLogs.
+type AggregateSlowLogsOptionalParameters struct {
+	ComponentName *string
+	InstanceName  *string
+	Query         *string
+	Limit         *string
+	SortType      *SortType
+	GroupBy       *string
+	TopN          *int32
+}
+
+// NewAggregateSlowLogsOptionalParameters creates an empty struct for parameters.
+func NewAggregateSlowLogsOptionalParameters() *AggregateSlowLogsOptionalParameters {
+	this := AggregateSlowLogsOptionalParameters{}
+	return &this
+}
+
+// WithComponentName sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithComponentName(componentName string) *AggregateSlowLogsOptionalParameters {
+	r.ComponentName = &componentName
+	return r
+}
+
+// WithInstanceName sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithInstanceName(instanceName string) *AggregateSlowLogsOptionalParameters {
+	r.InstanceName = &instanceName
+	return r
+}
+
+// WithQuery sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithQuery(query string) *AggregateSlowLogsOptionalParameters {
+	r.Query = &query
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithLimit(limit string) *AggregateSlowLogsOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// WithSortType sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithSortType(sortType SortType) *AggregateSlowLogsOptionalParameters {
+	r.SortType = &sortType
+	return r
+}
+
+// WithGroupBy sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithGroupBy(groupBy string) *AggregateSlowLogsOptionalParameters {
+	r.GroupBy = &groupBy
+	return r
+}
+
+// WithTopN sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithTopN(topN int32) *AggregateSlowLogsOptionalParameters {
+	r.TopN = &topN
+	return r
+}
+
+// AggregateSlowLogs Aggregate cluster slow logs.
+// Aggregate slow logs of a cluster (Victoria Logs backend only)
+func (a *ClusterLogApi) AggregateSlowLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...AggregateSlowLogsOptionalParameters) (ClusterExecutionLogAggregateResponse, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ClusterExecutionLogAggregateResponse
+		optionalParams      AggregateSlowLogsOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type AggregateSlowLogsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "clusterLog",
+		OperationID: "aggregateSlowLogs",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/aggregate",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterLogApi.AggregateSlowLogs")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/aggregate"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("startTime", common.ParameterToString(startTime, ""))
+	localVarQueryParams.Add("endTime", common.ParameterToString(endTime, ""))
+	if optionalParams.ComponentName != nil {
+		localVarQueryParams.Add("componentName", common.ParameterToString(*optionalParams.ComponentName, ""))
+	}
+	if optionalParams.InstanceName != nil {
+		localVarQueryParams.Add("instanceName", common.ParameterToString(*optionalParams.InstanceName, ""))
+	}
+	if optionalParams.Query != nil {
+		localVarQueryParams.Add("query", common.ParameterToString(*optionalParams.Query, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.SortType != nil {
+		localVarQueryParams.Add("sortType", common.ParameterToString(*optionalParams.SortType, ""))
+	}
+	if optionalParams.GroupBy != nil {
+		localVarQueryParams.Add("groupBy", common.ParameterToString(*optionalParams.GroupBy, ""))
+	}
+	if optionalParams.TopN != nil {
+		localVarQueryParams.Add("topN", common.ParameterToString(*optionalParams.TopN, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // QueryAuditLogsOptionalParameters holds optional parameters for QueryAuditLogs.
 type QueryAuditLogsOptionalParameters struct {
 	Limit         *string
