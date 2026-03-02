@@ -19071,13 +19071,15 @@ components:
     parameterList:
       description: A list of cluster parameter
       required:
-        - majorVersion
+        - majorVersions
         - engine
         - component
       properties:
-        majorVersion:
-          description: 'Major version of database engine, eg: 8.0'
-          type: string
+        majorVersions:
+          description: 'Major versions of database engine, eg: [8.0, 8.1, 8.2]'
+          type: array
+          items:
+            type: string
         engine:
           description: Name of database engine
           type: string
