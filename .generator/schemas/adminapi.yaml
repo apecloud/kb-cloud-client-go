@@ -26812,6 +26812,7 @@ components:
         envID:
           type: string
         nodeName:
+          description: Node name(s) for inspection. Multiple nodes can be specified as a comma-separated string (e.g. "node1,node2,node3").
           type: string
         isAuto:
           type: boolean
