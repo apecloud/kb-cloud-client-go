@@ -15,7 +15,7 @@ type ParameterTemplate struct {
 	Name        string               `json:"name"`
 	Description LocalizedDescription `json:"description"`
 	// match the major version set in the component
-	MajorVersion string `json:"majorVersion"`
+	MajorVersion *string `json:"majorVersion,omitempty"`
 	// match the major versions set in the component, such as 8.0, 8.1, 8.2
 	MajorVersions []string `json:"majorVersions,omitempty"`
 	// parameterConfig contains specific configuration templates for each configuration file, primarily consisting of parameter templates and parameter constraints, mainly used by initializing the default template from addon.
@@ -31,11 +31,10 @@ type ParameterTemplate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParameterTemplate(name string, description LocalizedDescription, majorVersion string, configs []ParameterConfig, defaultUse bool) *ParameterTemplate {
+func NewParameterTemplate(name string, description LocalizedDescription, configs []ParameterConfig, defaultUse bool) *ParameterTemplate {
 	this := ParameterTemplate{}
 	this.Name = name
 	this.Description = description
-	this.MajorVersion = majorVersion
 	this.Configs = configs
 	this.DefaultUse = defaultUse
 	return &this
@@ -95,27 +94,32 @@ func (o *ParameterTemplate) SetDescription(v LocalizedDescription) {
 	o.Description = v
 }
 
-// GetMajorVersion returns the MajorVersion field value.
+// GetMajorVersion returns the MajorVersion field value if set, zero value otherwise.
 func (o *ParameterTemplate) GetMajorVersion() string {
-	if o == nil {
+	if o == nil || o.MajorVersion == nil {
 		var ret string
 		return ret
 	}
-	return o.MajorVersion
+	return *o.MajorVersion
 }
 
-// GetMajorVersionOk returns a tuple with the MajorVersion field value
+// GetMajorVersionOk returns a tuple with the MajorVersion field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ParameterTemplate) GetMajorVersionOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.MajorVersion == nil {
 		return nil, false
 	}
-	return &o.MajorVersion, true
+	return o.MajorVersion, true
 }
 
-// SetMajorVersion sets field value.
+// HasMajorVersion returns a boolean if a field has been set.
+func (o *ParameterTemplate) HasMajorVersion() bool {
+	return o != nil && o.MajorVersion != nil
+}
+
+// SetMajorVersion gets a reference to the given string and assigns it to the MajorVersion field.
 func (o *ParameterTemplate) SetMajorVersion(v string) {
-	o.MajorVersion = v
+	o.MajorVersion = &v
 }
 
 // GetMajorVersions returns the MajorVersions field value if set, zero value otherwise.
@@ -200,7 +204,9 @@ func (o ParameterTemplate) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["name"] = o.Name
 	toSerialize["description"] = o.Description
-	toSerialize["majorVersion"] = o.MajorVersion
+	if o.MajorVersion != nil {
+		toSerialize["majorVersion"] = o.MajorVersion
+	}
 	if o.MajorVersions != nil {
 		toSerialize["majorVersions"] = o.MajorVersions
 	}
@@ -218,7 +224,7 @@ func (o *ParameterTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name          *string               `json:"name"`
 		Description   *LocalizedDescription `json:"description"`
-		MajorVersion  *string               `json:"majorVersion"`
+		MajorVersion  *string               `json:"majorVersion,omitempty"`
 		MajorVersions []string              `json:"majorVersions,omitempty"`
 		Configs       *[]ParameterConfig    `json:"configs"`
 		DefaultUse    *bool                 `json:"defaultUse"`
@@ -231,9 +237,6 @@ func (o *ParameterTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.Description == nil {
 		return fmt.Errorf("required field description missing")
-	}
-	if all.MajorVersion == nil {
-		return fmt.Errorf("required field majorVersion missing")
 	}
 	if all.Configs == nil {
 		return fmt.Errorf("required field configs missing")
@@ -254,7 +257,7 @@ func (o *ParameterTemplate) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Description = *all.Description
-	o.MajorVersion = *all.MajorVersion
+	o.MajorVersion = all.MajorVersion
 	o.MajorVersions = all.MajorVersions
 	o.Configs = *all.Configs
 	o.DefaultUse = *all.DefaultUse

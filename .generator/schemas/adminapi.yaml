@@ -24631,7 +24631,6 @@ components:
       required:
         - name
         - description
-        - majorVersion
         - configs
         - defaultUse
       properties:
