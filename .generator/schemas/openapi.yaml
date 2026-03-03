@@ -19620,12 +19620,29 @@ components:
         sqlAuditSwitch:
           $ref: '#/components/schemas/sqlAuditSwitchOption'
           description: SQL audit log switch configuration. Only applicable when audit is true. If method type is parameter, control is automatically inferred as reconfigure.
-    parameterConfig:
+    configSpecOption:
+      type: object
+      required:
+        - configSpecName
+        - format
+        - configFileName
+      properties:
+        configSpecName:
+          type: string
+          description: name of config spec
+        format:
+          type: string
+          description: format of the configuration file, such as ini, yaml, conf
+        configFileName:
+          type: string
+          description: name of the configuration file, such as my.cnf, postgresql.conf
+        section:
+          type: string
+          description: section of the configuration file, such as mysqld
+    ref:
       required:
         - configSpecName
         - templateRef
-        - configFileName
-        - format
       type: object
       properties:
         configSpecName:
@@ -19634,21 +19651,12 @@ components:
         templateRef:
           type: string
           description: name of the referenced configuration template file name, all files in parameter template fold under stores
-        configFileName:
-          type: string
-          description: name of the configuration file, such as my.cnf, postgresql.conf
-        format:
-          type: string
-          description: format of the configuration file, such as ini, yaml, conf
-        section:
-          type: string
-          description: section of the configuration file, such as mysqld
     parameterTemplate:
       type: object
       required:
         - name
         - description
-        - configs
+        - refs
         - defaultUse
       properties:
         name:
@@ -19664,11 +19672,11 @@ components:
           items:
             type: string
           description: match the major versions set in the component, such as 8.0, 8.1, 8.2
-        configs:
+        refs:
           type: array
-          description: parameterConfig contains specific configuration templates for each configuration file, primarily consisting of parameter templates and parameter constraints, mainly used by initializing the default template from addon.
+          description: refs contains the references to the configuration templates
           items:
-            $ref: '#/components/schemas/parameterConfig'
+            $ref: '#/components/schemas/ref'
         defaultUse:
           type: boolean
           description: whether the default parameter template is used by default, set in componentDefinition.configs, only one default parameter template can be set in certain family.
@@ -19696,7 +19704,7 @@ components:
           type: array
           description: all parameter configuration specs of this component
           items:
-            type: string
+            $ref: '#/components/schemas/configSpecOption'
         disableHA:
           type: boolean
           default: false

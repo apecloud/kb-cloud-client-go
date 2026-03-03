@@ -20,8 +20,8 @@ type ParameterOption struct {
 	// If set to true, the component can display the raw content of the parameter configuration file.
 	EnableRawContent *bool `json:"enableRawContent,omitempty"`
 	// all parameter configuration specs of this component
-	ConfigSpecs []string `json:"configSpecs"`
-	DisableHa   *bool    `json:"disableHA,omitempty"`
+	ConfigSpecs []ConfigSpecOption `json:"configSpecs"`
+	DisableHa   *bool              `json:"disableHA,omitempty"`
 	// parameter templates, including default parameter templates for different major versions or default parameter templates for different purposes.
 	Templates []ParameterTemplate `json:"templates,omitempty"`
 	// Parameters to be initialized when cluster is created
@@ -35,7 +35,7 @@ type ParameterOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParameterOption(component string, exportTpl bool, enableTemplate bool, configSpecs []string) *ParameterOption {
+func NewParameterOption(component string, exportTpl bool, enableTemplate bool, configSpecs []ConfigSpecOption) *ParameterOption {
 	this := ParameterOption{}
 	this.Component = component
 	this.ExportTpl = exportTpl
@@ -154,9 +154,9 @@ func (o *ParameterOption) SetEnableRawContent(v bool) {
 }
 
 // GetConfigSpecs returns the ConfigSpecs field value.
-func (o *ParameterOption) GetConfigSpecs() []string {
+func (o *ParameterOption) GetConfigSpecs() []ConfigSpecOption {
 	if o == nil {
-		var ret []string
+		var ret []ConfigSpecOption
 		return ret
 	}
 	return o.ConfigSpecs
@@ -164,7 +164,7 @@ func (o *ParameterOption) GetConfigSpecs() []string {
 
 // GetConfigSpecsOk returns a tuple with the ConfigSpecs field value
 // and a boolean to check if the value has been set.
-func (o *ParameterOption) GetConfigSpecsOk() (*[]string, bool) {
+func (o *ParameterOption) GetConfigSpecsOk() (*[]ConfigSpecOption, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -172,7 +172,7 @@ func (o *ParameterOption) GetConfigSpecsOk() (*[]string, bool) {
 }
 
 // SetConfigSpecs sets field value.
-func (o *ParameterOption) SetConfigSpecs(v []string) {
+func (o *ParameterOption) SetConfigSpecs(v []ConfigSpecOption) {
 	o.ConfigSpecs = v
 }
 
@@ -296,7 +296,7 @@ func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 		ExportTpl        *bool                  `json:"exportTpl"`
 		EnableTemplate   *bool                  `json:"enableTemplate"`
 		EnableRawContent *bool                  `json:"enableRawContent,omitempty"`
-		ConfigSpecs      *[]string              `json:"configSpecs"`
+		ConfigSpecs      *[]ConfigSpecOption    `json:"configSpecs"`
 		DisableHa        *bool                  `json:"disableHA,omitempty"`
 		Templates        []ParameterTemplate    `json:"templates,omitempty"`
 		InitOptions      map[string]interface{} `json:"initOptions,omitempty"`

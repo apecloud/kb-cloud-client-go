@@ -18,8 +18,8 @@ type ParameterTemplate struct {
 	MajorVersion *string `json:"majorVersion,omitempty"`
 	// match the major versions set in the component, such as 8.0, 8.1, 8.2
 	MajorVersions []string `json:"majorVersions,omitempty"`
-	// parameterConfig contains specific configuration templates for each configuration file, primarily consisting of parameter templates and parameter constraints, mainly used by initializing the default template from addon.
-	Configs []ParameterConfig `json:"configs"`
+	// refs contains the references to the configuration templates
+	Refs []Ref `json:"refs"`
 	// whether the default parameter template is used by default, set in componentDefinition.configs, only one default parameter template can be set in certain family.
 	DefaultUse bool `json:"defaultUse"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -31,11 +31,11 @@ type ParameterTemplate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParameterTemplate(name string, description LocalizedDescription, configs []ParameterConfig, defaultUse bool) *ParameterTemplate {
+func NewParameterTemplate(name string, description LocalizedDescription, refs []Ref, defaultUse bool) *ParameterTemplate {
 	this := ParameterTemplate{}
 	this.Name = name
 	this.Description = description
-	this.Configs = configs
+	this.Refs = refs
 	this.DefaultUse = defaultUse
 	return &this
 }
@@ -150,27 +150,27 @@ func (o *ParameterTemplate) SetMajorVersions(v []string) {
 	o.MajorVersions = v
 }
 
-// GetConfigs returns the Configs field value.
-func (o *ParameterTemplate) GetConfigs() []ParameterConfig {
+// GetRefs returns the Refs field value.
+func (o *ParameterTemplate) GetRefs() []Ref {
 	if o == nil {
-		var ret []ParameterConfig
+		var ret []Ref
 		return ret
 	}
-	return o.Configs
+	return o.Refs
 }
 
-// GetConfigsOk returns a tuple with the Configs field value
+// GetRefsOk returns a tuple with the Refs field value
 // and a boolean to check if the value has been set.
-func (o *ParameterTemplate) GetConfigsOk() (*[]ParameterConfig, bool) {
+func (o *ParameterTemplate) GetRefsOk() (*[]Ref, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Configs, true
+	return &o.Refs, true
 }
 
-// SetConfigs sets field value.
-func (o *ParameterTemplate) SetConfigs(v []ParameterConfig) {
-	o.Configs = v
+// SetRefs sets field value.
+func (o *ParameterTemplate) SetRefs(v []Ref) {
+	o.Refs = v
 }
 
 // GetDefaultUse returns the DefaultUse field value.
@@ -210,7 +210,7 @@ func (o ParameterTemplate) MarshalJSON() ([]byte, error) {
 	if o.MajorVersions != nil {
 		toSerialize["majorVersions"] = o.MajorVersions
 	}
-	toSerialize["configs"] = o.Configs
+	toSerialize["refs"] = o.Refs
 	toSerialize["defaultUse"] = o.DefaultUse
 
 	for key, value := range o.AdditionalProperties {
@@ -226,7 +226,7 @@ func (o *ParameterTemplate) UnmarshalJSON(bytes []byte) (err error) {
 		Description   *LocalizedDescription `json:"description"`
 		MajorVersion  *string               `json:"majorVersion,omitempty"`
 		MajorVersions []string              `json:"majorVersions,omitempty"`
-		Configs       *[]ParameterConfig    `json:"configs"`
+		Refs          *[]Ref                `json:"refs"`
 		DefaultUse    *bool                 `json:"defaultUse"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -238,15 +238,15 @@ func (o *ParameterTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Description == nil {
 		return fmt.Errorf("required field description missing")
 	}
-	if all.Configs == nil {
-		return fmt.Errorf("required field configs missing")
+	if all.Refs == nil {
+		return fmt.Errorf("required field refs missing")
 	}
 	if all.DefaultUse == nil {
 		return fmt.Errorf("required field defaultUse missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "majorVersion", "majorVersions", "configs", "defaultUse"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "majorVersion", "majorVersions", "refs", "defaultUse"})
 	} else {
 		return err
 	}
@@ -259,7 +259,7 @@ func (o *ParameterTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	o.Description = *all.Description
 	o.MajorVersion = all.MajorVersion
 	o.MajorVersions = all.MajorVersions
-	o.Configs = *all.Configs
+	o.Refs = *all.Refs
 	o.DefaultUse = *all.DefaultUse
 
 	if len(additionalProperties) > 0 {
