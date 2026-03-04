@@ -19071,13 +19071,9 @@ components:
     parameterList:
       description: A list of cluster parameter
       required:
-        - majorVersion
         - engine
         - component
       properties:
-        majorVersion:
-          description: 'Major version of database engine, eg: 8.0'
-          type: string
         engine:
           description: Name of database engine
           type: string
@@ -19144,9 +19140,11 @@ components:
         description:
           description: Description of parameter template
           type: string
-        majorVersion:
-          description: 'Major version of database engine, eg: 8.0'
-          type: string
+        majorVersions:
+          description: 'Major versions of database engine, eg: 8.0, 8.1, 8.2'
+          type: array
+          items:
+            type: string
         engine:
           description: Name of database engine
           type: string
@@ -19172,7 +19170,7 @@ components:
       required:
         - description
         - paramTplID
-        - majorVersion
+        - majorVersions
         - engine
         - component
         - name
@@ -24599,12 +24597,29 @@ components:
         sqlAuditSwitch:
           $ref: '#/components/schemas/sqlAuditSwitchOption'
           description: SQL audit log switch configuration. Only applicable when audit is true. If method type is parameter, control is automatically inferred as reconfigure.
-    parameterConfig:
+    configSpecOption:
+      type: object
+      required:
+        - configSpecName
+        - format
+        - configFileName
+      properties:
+        configSpecName:
+          type: string
+          description: name of config spec
+        format:
+          type: string
+          description: format of the configuration file, such as ini, yaml, conf
+        configFileName:
+          type: string
+          description: name of the configuration file, such as my.cnf, postgresql.conf
+        section:
+          type: string
+          description: section of the configuration file, such as mysqld
+    ref:
       required:
         - configSpecName
         - templateRef
-        - configFileName
-        - format
       type: object
       properties:
         configSpecName:
@@ -24613,22 +24628,12 @@ components:
         templateRef:
           type: string
           description: name of the referenced configuration template file name, all files in parameter template fold under stores
-        configFileName:
-          type: string
-          description: name of the configuration file, such as my.cnf, postgresql.conf
-        format:
-          type: string
-          description: format of the configuration file, such as ini, yaml, conf
-        section:
-          type: string
-          description: section of the configuration file, such as mysqld
     parameterTemplate:
       type: object
       required:
         - name
         - description
-        - majorVersion
-        - configs
+        - refs
         - defaultUse
       properties:
         name:
@@ -24639,11 +24644,17 @@ components:
         majorVersion:
           type: string
           description: match the major version set in the component
-        configs:
+          deprecated: true
+        majorVersions:
           type: array
-          description: parameterConfig contains specific configuration templates for each configuration file, primarily consisting of parameter templates and parameter constraints, mainly used by initializing the default template from addon.
           items:
-            $ref: '#/components/schemas/parameterConfig'
+            type: string
+          description: match the major versions set in the component, such as 8.0, 8.1, 8.2
+        refs:
+          type: array
+          description: refs contains the references to the configuration templates
+          items:
+            $ref: '#/components/schemas/ref'
         defaultUse:
           type: boolean
           description: whether the default parameter template is used by default, set in componentDefinition.configs, only one default parameter template can be set in certain family.
@@ -24671,7 +24682,7 @@ components:
           type: array
           description: all parameter configuration specs of this component
           items:
-            type: string
+            $ref: '#/components/schemas/configSpecOption'
         disableHA:
           type: boolean
           default: false
