@@ -15,6 +15,7 @@ type ParameterTemplate struct {
 	Name        string               `json:"name"`
 	Description LocalizedDescription `json:"description"`
 	// match the major version set in the component
+	// Deprecated
 	MajorVersion *string `json:"majorVersion,omitempty"`
 	// match the major versions set in the component, such as 8.0, 8.1, 8.2
 	MajorVersions []string `json:"majorVersions,omitempty"`
@@ -95,6 +96,7 @@ func (o *ParameterTemplate) SetDescription(v LocalizedDescription) {
 }
 
 // GetMajorVersion returns the MajorVersion field value if set, zero value otherwise.
+// Deprecated
 func (o *ParameterTemplate) GetMajorVersion() string {
 	if o == nil || o.MajorVersion == nil {
 		var ret string
@@ -105,6 +107,7 @@ func (o *ParameterTemplate) GetMajorVersion() string {
 
 // GetMajorVersionOk returns a tuple with the MajorVersion field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// Deprecated
 func (o *ParameterTemplate) GetMajorVersionOk() (*string, bool) {
 	if o == nil || o.MajorVersion == nil {
 		return nil, false
@@ -118,6 +121,7 @@ func (o *ParameterTemplate) HasMajorVersion() bool {
 }
 
 // SetMajorVersion gets a reference to the given string and assigns it to the MajorVersion field.
+// Deprecated
 func (o *ParameterTemplate) SetMajorVersion(v string) {
 	o.MajorVersion = &v
 }

@@ -19661,6 +19661,7 @@ components:
         majorVersion:
           type: string
           description: match the major version set in the component
+          deprecated: true
         majorVersions:
           type: array
           items:
