@@ -12,10 +12,11 @@ import (
 )
 
 type ClusterLicense struct {
-	Id        *string     `json:"id,omitempty"`
-	Name      *string     `json:"name,omitempty"`
-	ExpiredAt *time.Time  `json:"expiredAt,omitempty"`
-	Key       *_io.Reader `json:"key,omitempty"`
+	Id        *string           `json:"id,omitempty"`
+	Name      *string           `json:"name,omitempty"`
+	ExpiredAt *time.Time        `json:"expiredAt,omitempty"`
+	Key       *_io.Reader       `json:"key,omitempty"`
+	Keys      map[string]string `json:"keys,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -150,6 +151,34 @@ func (o *ClusterLicense) SetKey(v _io.Reader) {
 	o.Key = &v
 }
 
+// GetKeys returns the Keys field value if set, zero value otherwise.
+func (o *ClusterLicense) GetKeys() map[string]string {
+	if o == nil || o.Keys == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.Keys
+}
+
+// GetKeysOk returns a tuple with the Keys field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterLicense) GetKeysOk() (*map[string]string, bool) {
+	if o == nil || o.Keys == nil {
+		return nil, false
+	}
+	return &o.Keys, true
+}
+
+// HasKeys returns a boolean if a field has been set.
+func (o *ClusterLicense) HasKeys() bool {
+	return o != nil && o.Keys != nil
+}
+
+// SetKeys gets a reference to the given map[string]string and assigns it to the Keys field.
+func (o *ClusterLicense) SetKeys(v map[string]string) {
+	o.Keys = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterLicense) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -172,6 +201,9 @@ func (o ClusterLicense) MarshalJSON() ([]byte, error) {
 	if o.Key != nil {
 		toSerialize["key"] = o.Key
 	}
+	if o.Keys != nil {
+		toSerialize["keys"] = o.Keys
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -182,17 +214,18 @@ func (o ClusterLicense) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterLicense) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id        *string     `json:"id,omitempty"`
-		Name      *string     `json:"name,omitempty"`
-		ExpiredAt *time.Time  `json:"expiredAt,omitempty"`
-		Key       *_io.Reader `json:"key,omitempty"`
+		Id        *string           `json:"id,omitempty"`
+		Name      *string           `json:"name,omitempty"`
+		ExpiredAt *time.Time        `json:"expiredAt,omitempty"`
+		Key       *_io.Reader       `json:"key,omitempty"`
+		Keys      map[string]string `json:"keys,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "expiredAt", "key"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "expiredAt", "key", "keys"})
 	} else {
 		return err
 	}
@@ -200,6 +233,7 @@ func (o *ClusterLicense) UnmarshalJSON(bytes []byte) (err error) {
 	o.Name = all.Name
 	o.ExpiredAt = all.ExpiredAt
 	o.Key = all.Key
+	o.Keys = all.Keys
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
