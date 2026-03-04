@@ -17897,15 +17897,9 @@ components:
     parameterList:
       description: A list of cluster parameter
       required:
-        - majorVersions
         - engine
         - component
       properties:
-        majorVersions:
-          description: 'Major versions of database engine, eg: [8.0, 8.1, 8.2]'
-          type: array
-          items:
-            type: string
         engine:
           description: Name of database engine
           type: string
@@ -24857,6 +24851,7 @@ components:
         envID:
           type: string
         nodeName:
+          description: Node name(s) for inspection. Multiple nodes can be specified as a comma-separated string (e.g. "node1,node2,node3").
           type: string
         isAuto:
           type: boolean
