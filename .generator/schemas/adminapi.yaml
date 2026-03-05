@@ -9491,9 +9491,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/engineLicenseCreate'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/engineLicenseFormData'
       responses:
         '200':
           content:
@@ -9595,9 +9592,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/engineLicenseEntityCreate'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/engineLicenseEntityFormData'
         description: Engine license entity data
         required: true
       responses:
@@ -25659,20 +25653,14 @@ components:
         type:
           type: string
           description: Type of the license (optional)
-      required:
-        - name
-        - engineName
-        - type
-    engineLicenseFormData:
-      description: the data of the engine license
-      type: object
-      properties:
         licenseFile:
           type: string
           format: binary
           description: The license file to upload
       required:
-        - licenseFile
+        - name
+        - engineName
+        - type
     engineLicenseEntity:
       type: object
       required:
@@ -25721,19 +25709,14 @@ components:
         description:
           type: string
           description: Description of the entity
-      required:
-        - licenseId
-        - nodeName
-        - key
-    engineLicenseEntityFormData:
-      description: the data of the engine license entity
-      type: object
-      properties:
         licenseFile:
           type: string
           format: binary
           description: The key file to upload
       required:
+        - licenseId
+        - nodeName
+        - key
         - licenseFile
     engineTypeItem:
       type: object
