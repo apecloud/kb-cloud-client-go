@@ -410,7 +410,7 @@ func (a *EngineApi) CreateEngineLicenseEntity(ctx _context.Context, body EngineL
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
 		OperationID: "createEngineLicenseEntity",
-		Path:        "/admin/v1/engineLicenseEntitiy",
+		Path:        "/admin/v1/engineLicenseEntity",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -420,7 +420,7 @@ func (a *EngineApi) CreateEngineLicenseEntity(ctx _context.Context, body EngineL
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/engineLicenseEntitiy"
+	localVarPath := localBasePath + "/admin/v1/engineLicenseEntity"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -651,7 +651,7 @@ func (a *EngineApi) DeleteEngineLicenseEntity(ctx _context.Context, entityId str
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
 		OperationID: "deleteEngineLicenseEntity",
-		Path:        "/admin/v1/engineLicenseEntitiy",
+		Path:        "/admin/v1/engineLicenseEntity",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -661,7 +661,7 @@ func (a *EngineApi) DeleteEngineLicenseEntity(ctx _context.Context, entityId str
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/engineLicenseEntitiy"
+	localVarPath := localBasePath + "/admin/v1/engineLicenseEntity"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -1048,7 +1048,7 @@ func (a *EngineApi) GetEngineLicenseEntity(ctx _context.Context, entityId string
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
 		OperationID: "getEngineLicenseEntity",
-		Path:        "/admin/v1/engineLicenseEntitiy",
+		Path:        "/admin/v1/engineLicenseEntity",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1058,7 +1058,7 @@ func (a *EngineApi) GetEngineLicenseEntity(ctx _context.Context, entityId string
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/engineLicenseEntitiy"
+	localVarPath := localBasePath + "/admin/v1/engineLicenseEntity"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
