@@ -64,6 +64,8 @@ tags:
     description: Data Import APIs
   - name: SLA
     description: SLA APIs
+  - name: platformComponent
+    description: Platform Component APIs
 paths:
   /admin/v1/user:
     get:
@@ -12692,6 +12694,51 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
+  /admin/v1/platformComponents:
+    get:
+      description: List platform components
+      summary: List platform components
+      operationId: listPlatformComponents
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/platformComponentList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - platformComponent
+  /admin/v1/platformComponents/{componentName}:
+    get:
+      description: Get platform component detail by name
+      summary: Get platform component detail
+      operationId: getPlatformComponent
+      parameters:
+        - in: path
+          name: componentName
+          required: true
+          description: Platform component name
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/platformComponentDetails'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - platformComponent
   /admin/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/brokers:
     get:
       summary: Get all brokers in cluster
@@ -28035,6 +28082,88 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/environmentModule'
+    platformComponentStatus:
+      type: string
+      description: Platform component status
+      enum:
+        - Running
+        - Error
+      x-nullable: true
+    platformComponent:
+      type: object
+      description: Platform component summary
+      properties:
+        name:
+          type: string
+          description: Component name
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Description in multiple languages (e.g. en-US, zh-CN)
+        status:
+          $ref: '#/components/schemas/platformComponentStatus'
+          description: Status - Running (运行中) or Error (异常)
+        version:
+          type: string
+          description: Component version
+        replicas:
+          type: integer
+          format: int64
+          description: Number of ready replicas
+      required:
+        - name
+        - status
+    platformComponentList:
+      type: array
+      items:
+        $ref: '#/components/schemas/platformComponent'
+      description: List of platform components
+    platformComponentPod:
+      type: object
+      description: Pod summary for platform component detail
+      properties:
+        name:
+          type: string
+          description: Pod name
+        ready:
+          type: boolean
+          description: Whether the pod is ready
+        status:
+          type: string
+          description: Pod status
+        age:
+          type: string
+          description: Pod age (e.g. 5m, 1h)
+        ip:
+          type: string
+          description: Pod IP address
+        node:
+          type: string
+          description: Node name where pod is running
+    platformComponentDetails:
+      type: object
+      description: Platform component detail including pods
+      properties:
+        name:
+          type: string
+          description: Component name
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Description in multiple languages
+        status:
+          $ref: '#/components/schemas/platformComponentStatus'
+        version:
+          type: string
+        replicas:
+          type: integer
+          format: int64
+        pods:
+          type: array
+          items:
+            $ref: '#/components/schemas/platformComponentPod'
+          description: List of pods for this component
+      required:
+        - name
+        - status
     Broker:
       x-go-name: KafkaBroker
       type: object
