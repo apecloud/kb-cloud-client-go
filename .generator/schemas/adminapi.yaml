@@ -9532,6 +9532,109 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - engineLicense
+  /admin/v1/engineLicenseEntities:
+    get:
+      description: list all engine license entities by license ID
+      summary: List all engine license entities by license ID
+      operationId: listEngineLicenseEntities
+      parameters:
+        - description: license ID
+          in: query
+          name: licenseId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineLicenseEntityList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - engine
+  /admin/v1/engineLicenseEntitiy:
+    get:
+      description: get an engine license entity by ID
+      summary: Get an engine license entity by ID
+      operationId: getEngineLicenseEntity
+      parameters:
+        - description: entity ID
+          in: query
+          name: entityId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineLicenseEntity'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - engine
+    post:
+      description: create a new engine license entity
+      summary: Create a new engine license entity
+      operationId: createEngineLicenseEntity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/engineLicenseEntityCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/engineLicenseEntityFormData'
+        description: Engine license entity data
+        required: true
+      responses:
+        '201':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineLicenseEntity'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - engine
+    delete:
+      description: delete an engine license entity by ID
+      summary: Delete an engine license entity by ID
+      operationId: deleteEngineLicenseEntity
+      parameters:
+        - description: entity ID
+          in: query
+          name: entityId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - engine
   /admin/v1/engineTypes:
     get:
       operationId: listEngineTypes
@@ -17482,6 +17585,10 @@ components:
         key:
           type: string
           format: binary
+        keys:
+          type: object
+          additionalProperties:
+            type: string
     parameterTemplatePartition:
       enum:
         - default
@@ -25514,6 +25621,12 @@ components:
           x-nullable: false
         idString:
           type: string
+        type:
+          type: string
+        environmentName:
+          type: string
+        environmentID:
+          type: string
     engineLicenseList:
       required:
         - items
@@ -25540,9 +25653,16 @@ components:
           type: string
           format: date-time
           description: Expiration date and time of the license (optional)
+        environmentID:
+          type: string
+          description: Environment ID of the license (optional)
+        type:
+          type: string
+          description: Type of the license (optional)
       required:
         - name
         - engineName
+        - type
     engineLicenseFormData:
       description: the data of the engine license
       type: object
@@ -25551,6 +25671,68 @@ components:
           type: string
           format: binary
           description: The license file to upload
+      required:
+        - licenseFile
+    engineLicenseEntity:
+      type: object
+      required:
+        - licenseId
+        - nodeName
+      properties:
+        id:
+          type: string
+          x-nullable: false
+        licenseId:
+          type: string
+          description: ID of the engine license
+        nodeName:
+          type: string
+          description: Name of the node
+        key:
+          type: string
+          x-nullable: false
+        description:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    engineLicenseEntityList:
+      required:
+        - items
+      type: object
+      properties:
+        items:
+          type: array
+          description: Items is the list of engineLicenseEntity objects in the list
+          items:
+            $ref: '#/components/schemas/engineLicenseEntity'
+    engineLicenseEntityCreate:
+      type: object
+      properties:
+        licenseId:
+          type: string
+          description: ID of the engine license
+        nodeName:
+          type: string
+          description: Name of the node
+        key:
+          type: string
+          description: Key of the entity
+        description:
+          type: string
+          description: Description of the entity
+      required:
+        - licenseId
+        - nodeName
+        - key
+    engineLicenseEntityFormData:
+      description: the data of the engine license entity
+      type: object
+      properties:
+        licenseFile:
+          type: string
+          format: binary
+          description: The key file to upload
       required:
         - licenseFile
     engineTypeItem:

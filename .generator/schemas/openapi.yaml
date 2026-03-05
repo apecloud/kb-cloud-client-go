@@ -15271,6 +15271,10 @@ components:
         key:
           type: string
           format: binary
+        keys:
+          type: object
+          additionalProperties:
+            type: string
     parameterTemplatePartition:
       enum:
         - default
@@ -20503,6 +20507,12 @@ components:
           type: string
           x-nullable: false
         idString:
+          type: string
+        type:
+          type: string
+        environmentName:
+          type: string
+        environmentID:
           type: string
     engineLicenseList:
       required:
