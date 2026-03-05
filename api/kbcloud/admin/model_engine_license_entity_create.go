@@ -17,7 +17,7 @@ type EngineLicenseEntityCreate struct {
 	// Name of the node
 	NodeName string `json:"nodeName"`
 	// Key of the entity
-	Key string `json:"key"`
+	Key *string `json:"key,omitempty"`
 	// Description of the entity
 	Description *string `json:"description,omitempty"`
 	// The key file to upload
@@ -31,11 +31,10 @@ type EngineLicenseEntityCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineLicenseEntityCreate(licenseId string, nodeName string, key string, licenseFile _io.Reader) *EngineLicenseEntityCreate {
+func NewEngineLicenseEntityCreate(licenseId string, nodeName string, licenseFile _io.Reader) *EngineLicenseEntityCreate {
 	this := EngineLicenseEntityCreate{}
 	this.LicenseId = licenseId
 	this.NodeName = nodeName
-	this.Key = key
 	this.LicenseFile = licenseFile
 	return &this
 }
@@ -94,27 +93,32 @@ func (o *EngineLicenseEntityCreate) SetNodeName(v string) {
 	o.NodeName = v
 }
 
-// GetKey returns the Key field value.
+// GetKey returns the Key field value if set, zero value otherwise.
 func (o *EngineLicenseEntityCreate) GetKey() string {
-	if o == nil {
+	if o == nil || o.Key == nil {
 		var ret string
 		return ret
 	}
-	return o.Key
+	return *o.Key
 }
 
-// GetKeyOk returns a tuple with the Key field value
+// GetKeyOk returns a tuple with the Key field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EngineLicenseEntityCreate) GetKeyOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Key == nil {
 		return nil, false
 	}
-	return &o.Key, true
+	return o.Key, true
 }
 
-// SetKey sets field value.
+// HasKey returns a boolean if a field has been set.
+func (o *EngineLicenseEntityCreate) HasKey() bool {
+	return o != nil && o.Key != nil
+}
+
+// SetKey gets a reference to the given string and assigns it to the Key field.
 func (o *EngineLicenseEntityCreate) SetKey(v string) {
-	o.Key = v
+	o.Key = &v
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
@@ -176,7 +180,9 @@ func (o EngineLicenseEntityCreate) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["licenseId"] = o.LicenseId
 	toSerialize["nodeName"] = o.NodeName
-	toSerialize["key"] = o.Key
+	if o.Key != nil {
+		toSerialize["key"] = o.Key
+	}
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
@@ -193,7 +199,7 @@ func (o *EngineLicenseEntityCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		LicenseId   *string     `json:"licenseId"`
 		NodeName    *string     `json:"nodeName"`
-		Key         *string     `json:"key"`
+		Key         *string     `json:"key,omitempty"`
 		Description *string     `json:"description,omitempty"`
 		LicenseFile *_io.Reader `json:"licenseFile"`
 	}{}
@@ -206,9 +212,6 @@ func (o *EngineLicenseEntityCreate) UnmarshalJSON(bytes []byte) (err error) {
 	if all.NodeName == nil {
 		return fmt.Errorf("required field nodeName missing")
 	}
-	if all.Key == nil {
-		return fmt.Errorf("required field key missing")
-	}
 	if all.LicenseFile == nil {
 		return fmt.Errorf("required field licenseFile missing")
 	}
@@ -220,7 +223,7 @@ func (o *EngineLicenseEntityCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.LicenseId = *all.LicenseId
 	o.NodeName = *all.NodeName
-	o.Key = *all.Key
+	o.Key = all.Key
 	o.Description = all.Description
 	o.LicenseFile = *all.LicenseFile
 
