@@ -20,6 +20,10 @@ type EngineLicenseCreate struct {
 	Description *string `json:"description,omitempty"`
 	// Expiration date and time of the license (optional)
 	ExpiredAt *time.Time `json:"expiredAt,omitempty"`
+	// Environment ID of the license (optional)
+	EnvironmentId *string `json:"environmentID,omitempty"`
+	// Type of the license (optional)
+	Type string `json:"type"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -29,10 +33,11 @@ type EngineLicenseCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineLicenseCreate(name string, engineName string) *EngineLicenseCreate {
+func NewEngineLicenseCreate(name string, engineName string, typeVar string) *EngineLicenseCreate {
 	this := EngineLicenseCreate{}
 	this.Name = name
 	this.EngineName = engineName
+	this.Type = typeVar
 	return &this
 }
 
@@ -146,6 +151,57 @@ func (o *EngineLicenseCreate) SetExpiredAt(v time.Time) {
 	o.ExpiredAt = &v
 }
 
+// GetEnvironmentId returns the EnvironmentId field value if set, zero value otherwise.
+func (o *EngineLicenseCreate) GetEnvironmentId() string {
+	if o == nil || o.EnvironmentId == nil {
+		var ret string
+		return ret
+	}
+	return *o.EnvironmentId
+}
+
+// GetEnvironmentIdOk returns a tuple with the EnvironmentId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineLicenseCreate) GetEnvironmentIdOk() (*string, bool) {
+	if o == nil || o.EnvironmentId == nil {
+		return nil, false
+	}
+	return o.EnvironmentId, true
+}
+
+// HasEnvironmentId returns a boolean if a field has been set.
+func (o *EngineLicenseCreate) HasEnvironmentId() bool {
+	return o != nil && o.EnvironmentId != nil
+}
+
+// SetEnvironmentId gets a reference to the given string and assigns it to the EnvironmentId field.
+func (o *EngineLicenseCreate) SetEnvironmentId(v string) {
+	o.EnvironmentId = &v
+}
+
+// GetType returns the Type field value.
+func (o *EngineLicenseCreate) GetType() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.Type
+}
+
+// GetTypeOk returns a tuple with the Type field value
+// and a boolean to check if the value has been set.
+func (o *EngineLicenseCreate) GetTypeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Type, true
+}
+
+// SetType sets field value.
+func (o *EngineLicenseCreate) SetType(v string) {
+	o.Type = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineLicenseCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -164,6 +220,10 @@ func (o EngineLicenseCreate) MarshalJSON() ([]byte, error) {
 			toSerialize["expiredAt"] = o.ExpiredAt.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
+	if o.EnvironmentId != nil {
+		toSerialize["environmentID"] = o.EnvironmentId
+	}
+	toSerialize["type"] = o.Type
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -174,10 +234,12 @@ func (o EngineLicenseCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineLicenseCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string    `json:"name"`
-		EngineName  *string    `json:"engineName"`
-		Description *string    `json:"description,omitempty"`
-		ExpiredAt   *time.Time `json:"expiredAt,omitempty"`
+		Name          *string    `json:"name"`
+		EngineName    *string    `json:"engineName"`
+		Description   *string    `json:"description,omitempty"`
+		ExpiredAt     *time.Time `json:"expiredAt,omitempty"`
+		EnvironmentId *string    `json:"environmentID,omitempty"`
+		Type          *string    `json:"type"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -188,9 +250,12 @@ func (o *EngineLicenseCreate) UnmarshalJSON(bytes []byte) (err error) {
 	if all.EngineName == nil {
 		return fmt.Errorf("required field engineName missing")
 	}
+	if all.Type == nil {
+		return fmt.Errorf("required field type missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "engineName", "description", "expiredAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "engineName", "description", "expiredAt", "environmentID", "type"})
 	} else {
 		return err
 	}
@@ -198,6 +263,8 @@ func (o *EngineLicenseCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.EngineName = *all.EngineName
 	o.Description = all.Description
 	o.ExpiredAt = all.ExpiredAt
+	o.EnvironmentId = all.EnvironmentId
+	o.Type = *all.Type
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
