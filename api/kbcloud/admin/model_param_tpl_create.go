@@ -14,17 +14,11 @@ import (
 type ParamTplCreate struct {
 	// Description of parameter template
 	Description string `json:"description"`
-	// Major version of database engine, eg: 8.0
-	MajorVersion string `json:"majorVersion"`
-	// Name of database engine
-	Engine string `json:"engine"`
-	// Name of component
-	Component string `json:"component"`
 	// Name of parameter template. Name must be unique within an Org
 	Name string `json:"name"`
-	// Name of custom parameter template. When set customName, will create a copy of this custom parameter template.
-	CustomName   *string                     `json:"customName,omitempty"`
-	OriPartition *ParameterTemplatePartition `json:"oriPartition,omitempty"`
+	// Name of the original parameter template.
+	OriName      string                     `json:"oriName"`
+	OriPartition ParameterTemplatePartition `json:"oriPartition"`
 	// Determines whether the user can see this parameter template
 	IsPrivate *bool `json:"isPrivate,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -36,13 +30,12 @@ type ParamTplCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParamTplCreate(description string, majorVersion string, engine string, component string, name string) *ParamTplCreate {
+func NewParamTplCreate(description string, name string, oriName string, oriPartition ParameterTemplatePartition) *ParamTplCreate {
 	this := ParamTplCreate{}
 	this.Description = description
-	this.MajorVersion = majorVersion
-	this.Engine = engine
-	this.Component = component
 	this.Name = name
+	this.OriName = oriName
+	this.OriPartition = oriPartition
 	return &this
 }
 
@@ -77,75 +70,6 @@ func (o *ParamTplCreate) SetDescription(v string) {
 	o.Description = v
 }
 
-// GetMajorVersion returns the MajorVersion field value.
-func (o *ParamTplCreate) GetMajorVersion() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.MajorVersion
-}
-
-// GetMajorVersionOk returns a tuple with the MajorVersion field value
-// and a boolean to check if the value has been set.
-func (o *ParamTplCreate) GetMajorVersionOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.MajorVersion, true
-}
-
-// SetMajorVersion sets field value.
-func (o *ParamTplCreate) SetMajorVersion(v string) {
-	o.MajorVersion = v
-}
-
-// GetEngine returns the Engine field value.
-func (o *ParamTplCreate) GetEngine() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.Engine
-}
-
-// GetEngineOk returns a tuple with the Engine field value
-// and a boolean to check if the value has been set.
-func (o *ParamTplCreate) GetEngineOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Engine, true
-}
-
-// SetEngine sets field value.
-func (o *ParamTplCreate) SetEngine(v string) {
-	o.Engine = v
-}
-
-// GetComponent returns the Component field value.
-func (o *ParamTplCreate) GetComponent() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.Component
-}
-
-// GetComponentOk returns a tuple with the Component field value
-// and a boolean to check if the value has been set.
-func (o *ParamTplCreate) GetComponentOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Component, true
-}
-
-// SetComponent sets field value.
-func (o *ParamTplCreate) SetComponent(v string) {
-	o.Component = v
-}
-
 // GetName returns the Name field value.
 func (o *ParamTplCreate) GetName() string {
 	if o == nil {
@@ -169,60 +93,50 @@ func (o *ParamTplCreate) SetName(v string) {
 	o.Name = v
 }
 
-// GetCustomName returns the CustomName field value if set, zero value otherwise.
-func (o *ParamTplCreate) GetCustomName() string {
-	if o == nil || o.CustomName == nil {
+// GetOriName returns the OriName field value.
+func (o *ParamTplCreate) GetOriName() string {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.CustomName
+	return o.OriName
 }
 
-// GetCustomNameOk returns a tuple with the CustomName field value if set, nil otherwise
+// GetOriNameOk returns a tuple with the OriName field value
 // and a boolean to check if the value has been set.
-func (o *ParamTplCreate) GetCustomNameOk() (*string, bool) {
-	if o == nil || o.CustomName == nil {
+func (o *ParamTplCreate) GetOriNameOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.CustomName, true
+	return &o.OriName, true
 }
 
-// HasCustomName returns a boolean if a field has been set.
-func (o *ParamTplCreate) HasCustomName() bool {
-	return o != nil && o.CustomName != nil
+// SetOriName sets field value.
+func (o *ParamTplCreate) SetOriName(v string) {
+	o.OriName = v
 }
 
-// SetCustomName gets a reference to the given string and assigns it to the CustomName field.
-func (o *ParamTplCreate) SetCustomName(v string) {
-	o.CustomName = &v
-}
-
-// GetOriPartition returns the OriPartition field value if set, zero value otherwise.
+// GetOriPartition returns the OriPartition field value.
 func (o *ParamTplCreate) GetOriPartition() ParameterTemplatePartition {
-	if o == nil || o.OriPartition == nil {
+	if o == nil {
 		var ret ParameterTemplatePartition
 		return ret
 	}
-	return *o.OriPartition
+	return o.OriPartition
 }
 
-// GetOriPartitionOk returns a tuple with the OriPartition field value if set, nil otherwise
+// GetOriPartitionOk returns a tuple with the OriPartition field value
 // and a boolean to check if the value has been set.
 func (o *ParamTplCreate) GetOriPartitionOk() (*ParameterTemplatePartition, bool) {
-	if o == nil || o.OriPartition == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.OriPartition, true
+	return &o.OriPartition, true
 }
 
-// HasOriPartition returns a boolean if a field has been set.
-func (o *ParamTplCreate) HasOriPartition() bool {
-	return o != nil && o.OriPartition != nil
-}
-
-// SetOriPartition gets a reference to the given ParameterTemplatePartition and assigns it to the OriPartition field.
+// SetOriPartition sets field value.
 func (o *ParamTplCreate) SetOriPartition(v ParameterTemplatePartition) {
-	o.OriPartition = &v
+	o.OriPartition = v
 }
 
 // GetIsPrivate returns the IsPrivate field value if set, zero value otherwise.
@@ -260,16 +174,9 @@ func (o ParamTplCreate) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["description"] = o.Description
-	toSerialize["majorVersion"] = o.MajorVersion
-	toSerialize["engine"] = o.Engine
-	toSerialize["component"] = o.Component
 	toSerialize["name"] = o.Name
-	if o.CustomName != nil {
-		toSerialize["customName"] = o.CustomName
-	}
-	if o.OriPartition != nil {
-		toSerialize["oriPartition"] = o.OriPartition
-	}
+	toSerialize["oriName"] = o.OriName
+	toSerialize["oriPartition"] = o.OriPartition
 	if o.IsPrivate != nil {
 		toSerialize["isPrivate"] = o.IsPrivate
 	}
@@ -284,12 +191,9 @@ func (o ParamTplCreate) MarshalJSON() ([]byte, error) {
 func (o *ParamTplCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Description  *string                     `json:"description"`
-		MajorVersion *string                     `json:"majorVersion"`
-		Engine       *string                     `json:"engine"`
-		Component    *string                     `json:"component"`
 		Name         *string                     `json:"name"`
-		CustomName   *string                     `json:"customName,omitempty"`
-		OriPartition *ParameterTemplatePartition `json:"oriPartition,omitempty"`
+		OriName      *string                     `json:"oriName"`
+		OriPartition *ParameterTemplatePartition `json:"oriPartition"`
 		IsPrivate    *bool                       `json:"isPrivate,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -298,36 +202,30 @@ func (o *ParamTplCreate) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Description == nil {
 		return fmt.Errorf("required field description missing")
 	}
-	if all.MajorVersion == nil {
-		return fmt.Errorf("required field majorVersion missing")
-	}
-	if all.Engine == nil {
-		return fmt.Errorf("required field engine missing")
-	}
-	if all.Component == nil {
-		return fmt.Errorf("required field component missing")
-	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
 	}
+	if all.OriName == nil {
+		return fmt.Errorf("required field oriName missing")
+	}
+	if all.OriPartition == nil {
+		return fmt.Errorf("required field oriPartition missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "majorVersion", "engine", "component", "name", "customName", "oriPartition", "isPrivate"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "name", "oriName", "oriPartition", "isPrivate"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Description = *all.Description
-	o.MajorVersion = *all.MajorVersion
-	o.Engine = *all.Engine
-	o.Component = *all.Component
 	o.Name = *all.Name
-	o.CustomName = all.CustomName
-	if all.OriPartition != nil && !all.OriPartition.IsValid() {
+	o.OriName = *all.OriName
+	if !all.OriPartition.IsValid() {
 		hasInvalidField = true
 	} else {
-		o.OriPartition = all.OriPartition
+		o.OriPartition = *all.OriPartition
 	}
 	o.IsPrivate = all.IsPrivate
 
