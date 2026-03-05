@@ -389,6 +389,8 @@
 //   - [parameterTemplateApi.patchParameterTemplate]
 //   - [parameterTemplateApi.readParameterTemplate]
 //   - [parameterTemplateApi.updateClusterParameterTemplate]
+//   - [platformComponentApi.getPlatformComponent]
+//   - [platformComponentApi.listPlatformComponents]
 //   - [platformParameterApi.getPlatformParameter]
 //   - [platformParameterApi.listPlatformParameters]
 //   - [platformParameterApi.updatePlatformParameters]
