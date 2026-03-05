@@ -9558,7 +9558,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - engine
-  /admin/v1/engineLicenseEntitiy:
+  /admin/v1/engineLicenseEntity:
     get:
       description: get an engine license entity by ID
       summary: Get an engine license entity by ID
@@ -25763,7 +25763,6 @@ components:
       required:
         - licenseId
         - nodeName
-        - key
         - licenseFile
     engineTypeItem:
       type: object
