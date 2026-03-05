@@ -7,7 +7,6 @@ package admin
 import (
 	"context"
 	_context "context"
-	_io "io"
 	_nethttp "net/http"
 	_neturl "net/url"
 	"strings"
@@ -400,7 +399,7 @@ func (a *EngineApi) AvailableServiceVersion(ctx _context.Context, environmentNam
 
 // CreateEngineLicenseEntity Create a new engine license entity.
 // create a new engine license entity
-func (a *EngineApi) CreateEngineLicenseEntity(ctx _context.Context, body EngineLicenseEntityCreate, licenseFile _io.Reader) (EngineLicenseEntity, *_nethttp.Response, error) {
+func (a *EngineApi) CreateEngineLicenseEntity(ctx _context.Context, body EngineLicenseEntityCreate) (EngineLicenseEntity, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -429,24 +428,14 @@ func (a *EngineApi) CreateEngineLicenseEntity(ctx _context.Context, body EngineL
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	formFile := common.FormFile{}
-	formFile.FormFileName = "licenseFile"
-	localVarFile := licenseFile
-	if localVarFile != nil {
-		fbs, _ := _io.ReadAll(localVarFile)
-		formFile.FileBytes = fbs
-	}
-
-	localVarFormParams, err = common.BuildFormParams(body)
-	if err != nil {
-		return localVarReturnValue, nil, common.ReportError("Failed to build form params: %s", err.Error())
-	}
+	// body params
+	localVarPostBody = &body
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
 	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, &formFile)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
