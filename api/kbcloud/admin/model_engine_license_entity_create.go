@@ -6,6 +6,7 @@ package admin
 
 import (
 	"fmt"
+	_io "io"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -19,6 +20,8 @@ type EngineLicenseEntityCreate struct {
 	Key string `json:"key"`
 	// Description of the entity
 	Description *string `json:"description,omitempty"`
+	// The key file to upload
+	LicenseFile _io.Reader `json:"licenseFile"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -28,11 +31,12 @@ type EngineLicenseEntityCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineLicenseEntityCreate(licenseId string, nodeName string, key string) *EngineLicenseEntityCreate {
+func NewEngineLicenseEntityCreate(licenseId string, nodeName string, key string, licenseFile _io.Reader) *EngineLicenseEntityCreate {
 	this := EngineLicenseEntityCreate{}
 	this.LicenseId = licenseId
 	this.NodeName = nodeName
 	this.Key = key
+	this.LicenseFile = licenseFile
 	return &this
 }
 
@@ -141,6 +145,29 @@ func (o *EngineLicenseEntityCreate) SetDescription(v string) {
 	o.Description = &v
 }
 
+// GetLicenseFile returns the LicenseFile field value.
+func (o *EngineLicenseEntityCreate) GetLicenseFile() _io.Reader {
+	if o == nil {
+		var ret _io.Reader
+		return ret
+	}
+	return o.LicenseFile
+}
+
+// GetLicenseFileOk returns a tuple with the LicenseFile field value
+// and a boolean to check if the value has been set.
+func (o *EngineLicenseEntityCreate) GetLicenseFileOk() (*_io.Reader, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.LicenseFile, true
+}
+
+// SetLicenseFile sets field value.
+func (o *EngineLicenseEntityCreate) SetLicenseFile(v _io.Reader) {
+	o.LicenseFile = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineLicenseEntityCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -153,6 +180,7 @@ func (o EngineLicenseEntityCreate) MarshalJSON() ([]byte, error) {
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
+	toSerialize["licenseFile"] = o.LicenseFile
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -163,10 +191,11 @@ func (o EngineLicenseEntityCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineLicenseEntityCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		LicenseId   *string `json:"licenseId"`
-		NodeName    *string `json:"nodeName"`
-		Key         *string `json:"key"`
-		Description *string `json:"description,omitempty"`
+		LicenseId   *string     `json:"licenseId"`
+		NodeName    *string     `json:"nodeName"`
+		Key         *string     `json:"key"`
+		Description *string     `json:"description,omitempty"`
+		LicenseFile *_io.Reader `json:"licenseFile"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -180,9 +209,12 @@ func (o *EngineLicenseEntityCreate) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Key == nil {
 		return fmt.Errorf("required field key missing")
 	}
+	if all.LicenseFile == nil {
+		return fmt.Errorf("required field licenseFile missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"licenseId", "nodeName", "key", "description"})
+		common.DeleteKeys(additionalProperties, &[]string{"licenseId", "nodeName", "key", "description", "licenseFile"})
 	} else {
 		return err
 	}
@@ -190,6 +222,7 @@ func (o *EngineLicenseEntityCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.NodeName = *all.NodeName
 	o.Key = *all.Key
 	o.Description = all.Description
+	o.LicenseFile = *all.LicenseFile
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

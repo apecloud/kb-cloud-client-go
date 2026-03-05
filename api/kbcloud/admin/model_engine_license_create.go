@@ -6,6 +6,7 @@ package admin
 
 import (
 	"fmt"
+	_io "io"
 	"time"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
@@ -24,6 +25,8 @@ type EngineLicenseCreate struct {
 	EnvironmentId *string `json:"environmentID,omitempty"`
 	// Type of the license (optional)
 	Type string `json:"type"`
+	// The license file to upload
+	LicenseFile *_io.Reader `json:"licenseFile,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -202,6 +205,34 @@ func (o *EngineLicenseCreate) SetType(v string) {
 	o.Type = v
 }
 
+// GetLicenseFile returns the LicenseFile field value if set, zero value otherwise.
+func (o *EngineLicenseCreate) GetLicenseFile() _io.Reader {
+	if o == nil || o.LicenseFile == nil {
+		var ret _io.Reader
+		return ret
+	}
+	return *o.LicenseFile
+}
+
+// GetLicenseFileOk returns a tuple with the LicenseFile field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineLicenseCreate) GetLicenseFileOk() (*_io.Reader, bool) {
+	if o == nil || o.LicenseFile == nil {
+		return nil, false
+	}
+	return o.LicenseFile, true
+}
+
+// HasLicenseFile returns a boolean if a field has been set.
+func (o *EngineLicenseCreate) HasLicenseFile() bool {
+	return o != nil && o.LicenseFile != nil
+}
+
+// SetLicenseFile gets a reference to the given _io.Reader and assigns it to the LicenseFile field.
+func (o *EngineLicenseCreate) SetLicenseFile(v _io.Reader) {
+	o.LicenseFile = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineLicenseCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -224,6 +255,9 @@ func (o EngineLicenseCreate) MarshalJSON() ([]byte, error) {
 		toSerialize["environmentID"] = o.EnvironmentId
 	}
 	toSerialize["type"] = o.Type
+	if o.LicenseFile != nil {
+		toSerialize["licenseFile"] = o.LicenseFile
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -234,12 +268,13 @@ func (o EngineLicenseCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineLicenseCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name          *string    `json:"name"`
-		EngineName    *string    `json:"engineName"`
-		Description   *string    `json:"description,omitempty"`
-		ExpiredAt     *time.Time `json:"expiredAt,omitempty"`
-		EnvironmentId *string    `json:"environmentID,omitempty"`
-		Type          *string    `json:"type"`
+		Name          *string     `json:"name"`
+		EngineName    *string     `json:"engineName"`
+		Description   *string     `json:"description,omitempty"`
+		ExpiredAt     *time.Time  `json:"expiredAt,omitempty"`
+		EnvironmentId *string     `json:"environmentID,omitempty"`
+		Type          *string     `json:"type"`
+		LicenseFile   *_io.Reader `json:"licenseFile,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -255,7 +290,7 @@ func (o *EngineLicenseCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "engineName", "description", "expiredAt", "environmentID", "type"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "engineName", "description", "expiredAt", "environmentID", "type", "licenseFile"})
 	} else {
 		return err
 	}
@@ -265,6 +300,7 @@ func (o *EngineLicenseCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.ExpiredAt = all.ExpiredAt
 	o.EnvironmentId = all.EnvironmentId
 	o.Type = *all.Type
+	o.LicenseFile = all.LicenseFile
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
