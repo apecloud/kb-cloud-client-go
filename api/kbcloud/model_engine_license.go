@@ -23,6 +23,8 @@ type EngineLicense struct {
 	Type            *string    `json:"type,omitempty"`
 	EnvironmentName *string    `json:"environmentName,omitempty"`
 	EnvironmentId   *string    `json:"environmentID,omitempty"`
+	// Number of clusters that are using this license
+	ClusterCount *int32 `json:"clusterCount,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -345,6 +347,34 @@ func (o *EngineLicense) SetEnvironmentId(v string) {
 	o.EnvironmentId = &v
 }
 
+// GetClusterCount returns the ClusterCount field value if set, zero value otherwise.
+func (o *EngineLicense) GetClusterCount() int32 {
+	if o == nil || o.ClusterCount == nil {
+		var ret int32
+		return ret
+	}
+	return *o.ClusterCount
+}
+
+// GetClusterCountOk returns a tuple with the ClusterCount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineLicense) GetClusterCountOk() (*int32, bool) {
+	if o == nil || o.ClusterCount == nil {
+		return nil, false
+	}
+	return o.ClusterCount, true
+}
+
+// HasClusterCount returns a boolean if a field has been set.
+func (o *EngineLicense) HasClusterCount() bool {
+	return o != nil && o.ClusterCount != nil
+}
+
+// SetClusterCount gets a reference to the given int32 and assigns it to the ClusterCount field.
+func (o *EngineLicense) SetClusterCount(v int32) {
+	o.ClusterCount = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineLicense) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -388,6 +418,9 @@ func (o EngineLicense) MarshalJSON() ([]byte, error) {
 	if o.EnvironmentId != nil {
 		toSerialize["environmentID"] = o.EnvironmentId
 	}
+	if o.ClusterCount != nil {
+		toSerialize["clusterCount"] = o.ClusterCount
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -409,6 +442,7 @@ func (o *EngineLicense) UnmarshalJSON(bytes []byte) (err error) {
 		Type            *string    `json:"type,omitempty"`
 		EnvironmentName *string    `json:"environmentName,omitempty"`
 		EnvironmentId   *string    `json:"environmentID,omitempty"`
+		ClusterCount    *int32     `json:"clusterCount,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -421,7 +455,7 @@ func (o *EngineLicense) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "name", "key", "description", "expiredAt", "createdAt", "id", "idString", "type", "environmentName", "environmentID"})
+		common.DeleteKeys(additionalProperties, &[]string{"engineName", "name", "key", "description", "expiredAt", "createdAt", "id", "idString", "type", "environmentName", "environmentID", "clusterCount"})
 	} else {
 		return err
 	}
@@ -436,6 +470,7 @@ func (o *EngineLicense) UnmarshalJSON(bytes []byte) (err error) {
 	o.Type = all.Type
 	o.EnvironmentName = all.EnvironmentName
 	o.EnvironmentId = all.EnvironmentId
+	o.ClusterCount = all.ClusterCount
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

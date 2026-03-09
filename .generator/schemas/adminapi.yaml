@@ -25807,6 +25807,9 @@ components:
           type: string
         environmentID:
           type: string
+        clusterCount:
+          type: integer
+          description: Number of clusters that are using this license
     engineLicenseList:
       required:
         - items
