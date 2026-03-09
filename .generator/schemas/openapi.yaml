@@ -20322,6 +20322,36 @@ components:
         sinkEngineName:
           type: string
           description: Engine name for sink/target database
+    tlsComponentOption:
+      type: object
+      required:
+        - component
+      properties:
+        component:
+          type: string
+          description: component name
+        versions:
+          type: array
+          description: |
+            List of version patterns that support TLS. Supports version patterns: exact version "8.0.33", major version "8.0", version range ">=8.0.30", etc.
+            If not set, all versions of this component support TLS.
+          items:
+            type: string
+          nullable: true
+    tlsEngineOption:
+      type: object
+      required:
+        - supported
+      properties:
+        supported:
+          type: boolean
+          description: whether the engine supports TLS/SSL configuration
+        components:
+          type: array
+          description: list of components that support TLS with version constraints. If not set, all components support TLS when supported is true
+          items:
+            $ref: '#/components/schemas/tlsComponentOption'
+          nullable: true
     engineOption:
       type: object
       additionalProperties: false
@@ -20471,6 +20501,9 @@ components:
             type: string
           description: |
             List of CPU architectures supported by this engine. If not set, all architectures are supported.
+          nullable: true
+        tls:
+          $ref: '#/components/schemas/tlsEngineOption'
           nullable: true
     engineOptionList:
       required:

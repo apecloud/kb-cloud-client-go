@@ -49,6 +49,7 @@ type EngineOption struct {
 	// List of CPU architectures supported by this engine. If not set, all architectures are supported.
 	//
 	Architectures common.NullableList[string] `json:"architectures,omitempty"`
+	Tls           *TlsEngineOption            `json:"tls,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject map[string]interface{} `json:"-"`
 }
@@ -973,6 +974,34 @@ func (o *EngineOption) UnsetArchitectures() {
 	o.Architectures.Unset()
 }
 
+// GetTls returns the Tls field value if set, zero value otherwise.
+func (o *EngineOption) GetTls() TlsEngineOption {
+	if o == nil || o.Tls == nil {
+		var ret TlsEngineOption
+		return ret
+	}
+	return *o.Tls
+}
+
+// GetTlsOk returns a tuple with the Tls field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOption) GetTlsOk() (*TlsEngineOption, bool) {
+	if o == nil || o.Tls == nil {
+		return nil, false
+	}
+	return o.Tls, true
+}
+
+// HasTls returns a boolean if a field has been set.
+func (o *EngineOption) HasTls() bool {
+	return o != nil && o.Tls != nil
+}
+
+// SetTls gets a reference to the given TlsEngineOption and assigns it to the Tls field.
+func (o *EngineOption) SetTls(v TlsEngineOption) {
+	o.Tls = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -1049,6 +1078,9 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 	if o.Architectures.IsSet() {
 		toSerialize["architectures"] = o.Architectures.Get()
 	}
+	if o.Tls != nil {
+		toSerialize["tls"] = o.Tls
+	}
 	return common.Marshal(toSerialize)
 }
 
@@ -1089,6 +1121,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		DataReplication  *DataReplicationOption      `json:"dataReplication,omitempty"`
 		Import           *ImportOption               `json:"import,omitempty"`
 		Architectures    common.NullableList[string] `json:"architectures,omitempty"`
+		Tls              *TlsEngineOption            `json:"tls,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1214,6 +1247,10 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Import = all.Import
 	o.Architectures = all.Architectures
+	if all.Tls != nil && all.Tls.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Tls = all.Tls
 
 	if hasInvalidField {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
