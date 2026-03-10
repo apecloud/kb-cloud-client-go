@@ -15545,6 +15545,10 @@ components:
         key:
           type: string
           format: binary
+        keys:
+          type: object
+          additionalProperties:
+            type: string
     parameterTemplatePartition:
       enum:
         - default
@@ -15564,6 +15568,11 @@ components:
         paramTplID:
           type: string
           description: id of parameter template
+          nullable: true
+        orgName:
+          type: string
+          description: org name of the parameter template
+          nullable: true
         paramTplPartition:
           $ref: '#/components/schemas/parameterTemplatePartition'
     paramTpls:
@@ -18265,23 +18274,14 @@ components:
           maxLength: 128
           minLength: 3
           type: string
-        majorVersion:
-          description: 'Major version of database engine, eg: 8.0'
-          type: string
-        engine:
-          description: Name of database engine
-          type: string
-        component:
-          description: Name of component
-          type: string
         name:
           description: Name of parameter template. Name must be unique within an Org
           maxLength: 64
           minLength: 3
           pattern: ^[a-z]([-a-z0-9]*[a-z0-9])?$
           type: string
-        customName:
-          description: Name of custom parameter template. When set customName, will create a copy of this custom parameter template.
+        oriName:
+          description: Name of the original parameter template.
           type: string
         oriPartition:
           $ref: '#/components/schemas/parameterTemplatePartition'
@@ -18290,10 +18290,9 @@ components:
           type: boolean
       required:
         - description
-        - majorVersion
-        - engine
-        - component
         - name
+        - oriName
+        - oriPartition
       type: object
     paramTplUpdate:
       description: paramTplUpdate is the payload to update a parameter template
@@ -20817,6 +20816,15 @@ components:
           x-nullable: false
         idString:
           type: string
+        type:
+          type: string
+        environmentName:
+          type: string
+        environmentID:
+          type: string
+        clusterCount:
+          type: integer
+          description: Number of clusters that are using this license
     engineLicenseList:
       required:
         - items
@@ -25299,6 +25307,7 @@ components:
           $ref: '#/components/schemas/clusterCreate'
       required:
         - greenCluster
+        - deploymentName
       type: object
     blueGreenDeploymentSwitchStepStatus:
       description: The status of a step in a blue-green deployment switch.

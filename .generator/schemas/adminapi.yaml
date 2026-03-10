@@ -64,6 +64,8 @@ tags:
     description: Data Import APIs
   - name: SLA
     description: SLA APIs
+  - name: platformComponent
+    description: Platform Component APIs
 paths:
   /admin/v1/user:
     get:
@@ -9489,9 +9491,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/engineLicenseCreate'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/engineLicenseFormData'
       responses:
         '200':
           content:
@@ -9530,6 +9529,106 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - engineLicense
+  /admin/v1/engineLicenseEntities:
+    get:
+      description: list all engine license entities by license ID
+      summary: List all engine license entities by license ID
+      operationId: listEngineLicenseEntities
+      parameters:
+        - description: license ID
+          in: query
+          name: licenseId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineLicenseEntityList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - engine
+  /admin/v1/engineLicenseEntity:
+    get:
+      description: get an engine license entity by ID
+      summary: Get an engine license entity by ID
+      operationId: getEngineLicenseEntity
+      parameters:
+        - description: entity ID
+          in: query
+          name: entityId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineLicenseEntity'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - engine
+    post:
+      description: create a new engine license entity
+      summary: Create a new engine license entity
+      operationId: createEngineLicenseEntity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/engineLicenseEntityCreate'
+        description: Engine license entity data
+        required: true
+      responses:
+        '201':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineLicenseEntity'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - engine
+    delete:
+      description: delete an engine license entity by ID
+      summary: Delete an engine license entity by ID
+      operationId: deleteEngineLicenseEntity
+      parameters:
+        - description: entity ID
+          in: query
+          name: entityId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - engine
   /admin/v1/engineTypes:
     get:
       operationId: listEngineTypes
@@ -12587,6 +12686,51 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
+  /admin/v1/platformComponents:
+    get:
+      description: List platform components
+      summary: List platform components
+      operationId: listPlatformComponents
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/platformComponentList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - platformComponent
+  /admin/v1/platformComponents/{componentName}:
+    get:
+      description: Get platform component detail by name
+      summary: Get platform component detail
+      operationId: getPlatformComponent
+      parameters:
+        - in: path
+          name: componentName
+          required: true
+          description: Platform component name
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/platformComponentDetails'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - platformComponent
   /admin/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/brokers:
     get:
       summary: Get all brokers in cluster
@@ -17481,6 +17625,10 @@ components:
         key:
           type: string
           format: binary
+        keys:
+          type: object
+          additionalProperties:
+            type: string
     parameterTemplatePartition:
       enum:
         - default
@@ -17500,6 +17648,11 @@ components:
         paramTplID:
           type: string
           description: id of parameter template
+          nullable: true
+        orgName:
+          type: string
+          description: org name of the parameter template
+          nullable: true
         paramTplPartition:
           $ref: '#/components/schemas/parameterTemplatePartition'
     paramTpls:
@@ -19200,23 +19353,14 @@ components:
           maxLength: 128
           minLength: 3
           type: string
-        majorVersion:
-          description: 'Major version of database engine, eg: 8.0'
-          type: string
-        engine:
-          description: Name of database engine
-          type: string
-        component:
-          description: Name of component
-          type: string
         name:
           description: Name of parameter template. Name must be unique within an Org
           maxLength: 64
           minLength: 3
           pattern: ^[a-z]([-a-z0-9]*[a-z0-9])?$
           type: string
-        customName:
-          description: Name of custom parameter template. When set customName, will create a copy of this custom parameter template.
+        oriName:
+          description: Name of the original parameter template.
           type: string
         oriPartition:
           $ref: '#/components/schemas/parameterTemplatePartition'
@@ -19225,10 +19369,9 @@ components:
           type: boolean
       required:
         - description
-        - majorVersion
-        - engine
-        - component
         - name
+        - oriName
+        - oriPartition
       type: object
     paramTplUpdate:
       description: paramTplUpdate is the payload to update a parameter template
@@ -25552,6 +25695,15 @@ components:
           x-nullable: false
         idString:
           type: string
+        type:
+          type: string
+        environmentName:
+          type: string
+        environmentID:
+          type: string
+        clusterCount:
+          type: integer
+          description: Number of clusters that are using this license
     engineLicenseList:
       required:
         - items
@@ -25578,18 +25730,75 @@ components:
           type: string
           format: date-time
           description: Expiration date and time of the license (optional)
-      required:
-        - name
-        - engineName
-    engineLicenseFormData:
-      description: the data of the engine license
-      type: object
-      properties:
+        environmentID:
+          type: string
+          description: Environment ID of the license (optional)
+        type:
+          type: string
+          description: Type of the license (optional)
         licenseFile:
           type: string
           format: binary
           description: The license file to upload
       required:
+        - name
+        - engineName
+        - type
+    engineLicenseEntity:
+      type: object
+      required:
+        - licenseId
+        - nodeName
+      properties:
+        id:
+          type: string
+          x-nullable: false
+        licenseId:
+          type: string
+          description: ID of the engine license
+        nodeName:
+          type: string
+          description: Name of the node
+        key:
+          type: string
+          x-nullable: false
+        description:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    engineLicenseEntityList:
+      required:
+        - items
+      type: object
+      properties:
+        items:
+          type: array
+          description: Items is the list of engineLicenseEntity objects in the list
+          items:
+            $ref: '#/components/schemas/engineLicenseEntity'
+    engineLicenseEntityCreate:
+      type: object
+      properties:
+        licenseId:
+          type: string
+          description: ID of the engine license
+        nodeName:
+          type: string
+          description: Name of the node
+        key:
+          type: string
+          description: Key of the entity
+        description:
+          type: string
+          description: Description of the entity
+        licenseFile:
+          type: string
+          format: binary
+          description: The key file to upload
+      required:
+        - licenseId
+        - nodeName
         - licenseFile
     engineTypeItem:
       type: object
@@ -27891,6 +28100,88 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/environmentModule'
+    platformComponentStatus:
+      type: string
+      description: Platform component status
+      enum:
+        - Running
+        - Error
+      x-nullable: true
+    platformComponent:
+      type: object
+      description: Platform component summary
+      properties:
+        name:
+          type: string
+          description: Component name
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Description in multiple languages (e.g. en-US, zh-CN)
+        status:
+          $ref: '#/components/schemas/platformComponentStatus'
+          description: Status - Running (运行中) or Error (异常)
+        version:
+          type: string
+          description: Component version
+        replicas:
+          type: integer
+          format: int64
+          description: Number of ready replicas
+      required:
+        - name
+        - status
+    platformComponentList:
+      type: array
+      items:
+        $ref: '#/components/schemas/platformComponent'
+      description: List of platform components
+    platformComponentPod:
+      type: object
+      description: Pod summary for platform component detail
+      properties:
+        name:
+          type: string
+          description: Pod name
+        ready:
+          type: boolean
+          description: Whether the pod is ready
+        status:
+          type: string
+          description: Pod status
+        age:
+          type: string
+          description: Pod age (e.g. 5m, 1h)
+        ip:
+          type: string
+          description: Pod IP address
+        node:
+          type: string
+          description: Node name where pod is running
+    platformComponentDetails:
+      type: object
+      description: Platform component detail including pods
+      properties:
+        name:
+          type: string
+          description: Component name
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Description in multiple languages
+        status:
+          $ref: '#/components/schemas/platformComponentStatus'
+        version:
+          type: string
+        replicas:
+          type: integer
+          format: int64
+        pods:
+          type: array
+          items:
+            $ref: '#/components/schemas/platformComponentPod'
+          description: List of pods for this component
+      required:
+        - name
+        - status
     Broker:
       x-go-name: KafkaBroker
       type: object

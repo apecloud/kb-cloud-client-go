@@ -4,37 +4,35 @@
 
 package admin
 
-import (
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// ParamTpls Items is the list of parameter template in the list
-type ParamTpls struct {
-	Items []ParamTplsItem
+// PlatformComponentList List of platform components
+type PlatformComponentList struct {
+	Items []PlatformComponent
 
 	// UnparsedObject contains the raw value of the array if there was an error when deserializing into the struct
 	UnparsedObject []interface{} `json:"-"`
 }
 
-// NewParamTpls instantiates a new ParamTpls object.
+// NewPlatformComponentList instantiates a new PlatformComponentList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParamTpls() *ParamTpls {
-	this := ParamTpls{}
+func NewPlatformComponentList() *PlatformComponentList {
+	this := PlatformComponentList{}
 	return &this
 }
 
-// NewParamTplsWithDefaults instantiates a new ParamTpls object.
+// NewPlatformComponentListWithDefaults instantiates a new PlatformComponentList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewParamTplsWithDefaults() *ParamTpls {
-	this := ParamTpls{}
+func NewPlatformComponentListWithDefaults() *PlatformComponentList {
+	this := PlatformComponentList{}
 	return &this
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ParamTpls) MarshalJSON() ([]byte, error) {
+func (o PlatformComponentList) MarshalJSON() ([]byte, error) {
 	toSerialize := make([]interface{}, len(o.Items))
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -46,7 +44,7 @@ func (o ParamTpls) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ParamTpls) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PlatformComponentList) UnmarshalJSON(bytes []byte) (err error) {
 	if err = common.Unmarshal(bytes, &o.Items); err != nil {
 		return err
 	}

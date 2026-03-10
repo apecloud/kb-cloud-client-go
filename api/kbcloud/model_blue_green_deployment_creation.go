@@ -13,7 +13,7 @@ import (
 // BlueGreenDeploymentCreation blueGreenDeploymentCreation defines the request to create a blue-green deployment.
 type BlueGreenDeploymentCreation struct {
 	// The name of the blue-green deployment.
-	DeploymentName *string `json:"deploymentName,omitempty"`
+	DeploymentName string `json:"deploymentName"`
 	// KubeBlocks cluster information
 	GreenCluster ClusterCreate `json:"greenCluster"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -25,8 +25,9 @@ type BlueGreenDeploymentCreation struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBlueGreenDeploymentCreation(greenCluster ClusterCreate) *BlueGreenDeploymentCreation {
+func NewBlueGreenDeploymentCreation(deploymentName string, greenCluster ClusterCreate) *BlueGreenDeploymentCreation {
 	this := BlueGreenDeploymentCreation{}
+	this.DeploymentName = deploymentName
 	this.GreenCluster = greenCluster
 	return &this
 }
@@ -39,32 +40,27 @@ func NewBlueGreenDeploymentCreationWithDefaults() *BlueGreenDeploymentCreation {
 	return &this
 }
 
-// GetDeploymentName returns the DeploymentName field value if set, zero value otherwise.
+// GetDeploymentName returns the DeploymentName field value.
 func (o *BlueGreenDeploymentCreation) GetDeploymentName() string {
-	if o == nil || o.DeploymentName == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.DeploymentName
+	return o.DeploymentName
 }
 
-// GetDeploymentNameOk returns a tuple with the DeploymentName field value if set, nil otherwise
+// GetDeploymentNameOk returns a tuple with the DeploymentName field value
 // and a boolean to check if the value has been set.
 func (o *BlueGreenDeploymentCreation) GetDeploymentNameOk() (*string, bool) {
-	if o == nil || o.DeploymentName == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.DeploymentName, true
+	return &o.DeploymentName, true
 }
 
-// HasDeploymentName returns a boolean if a field has been set.
-func (o *BlueGreenDeploymentCreation) HasDeploymentName() bool {
-	return o != nil && o.DeploymentName != nil
-}
-
-// SetDeploymentName gets a reference to the given string and assigns it to the DeploymentName field.
+// SetDeploymentName sets field value.
 func (o *BlueGreenDeploymentCreation) SetDeploymentName(v string) {
-	o.DeploymentName = &v
+	o.DeploymentName = v
 }
 
 // GetGreenCluster returns the GreenCluster field value.
@@ -96,9 +92,7 @@ func (o BlueGreenDeploymentCreation) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.DeploymentName != nil {
-		toSerialize["deploymentName"] = o.DeploymentName
-	}
+	toSerialize["deploymentName"] = o.DeploymentName
 	toSerialize["greenCluster"] = o.GreenCluster
 
 	for key, value := range o.AdditionalProperties {
@@ -110,11 +104,14 @@ func (o BlueGreenDeploymentCreation) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BlueGreenDeploymentCreation) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		DeploymentName *string        `json:"deploymentName,omitempty"`
+		DeploymentName *string        `json:"deploymentName"`
 		GreenCluster   *ClusterCreate `json:"greenCluster"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
+	}
+	if all.DeploymentName == nil {
+		return fmt.Errorf("required field deploymentName missing")
 	}
 	if all.GreenCluster == nil {
 		return fmt.Errorf("required field greenCluster missing")
@@ -127,7 +124,7 @@ func (o *BlueGreenDeploymentCreation) UnmarshalJSON(bytes []byte) (err error) {
 	}
 
 	hasInvalidField := false
-	o.DeploymentName = all.DeploymentName
+	o.DeploymentName = *all.DeploymentName
 	if all.GreenCluster.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
