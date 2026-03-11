@@ -22,15 +22,15 @@ type InstanceResourceStats struct {
 	Name string `json:"name"`
 	// Type of the instance, choose cluster or system
 	Type *InstanceResourceStatsType `json:"type,omitempty"`
-	// Engine type of the instance (e.g., postgresql, mysql).
+	// Engine type of the instance.
 	Engine *string `json:"engine,omitempty"`
-	// Engine version of the instance (e.g., postgresql-18-1.0.2).
+	// Engine version of the instance.
 	EngineVersion *string `json:"engineVersion,omitempty"`
-	// Role of the instance (e.g., primary, secondary).
+	// Role of the instance.
 	Role *string `json:"role,omitempty"`
 	// Name of the cluster this instance belongs to.
 	ClusterName *string `json:"clusterName,omitempty"`
-	// Database status (e.g., running, stopped).
+	// Database status.
 	DbStatus *string `json:"dbStatus,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

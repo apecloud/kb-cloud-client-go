@@ -21906,19 +21906,19 @@ components:
         type:
           $ref: '#/components/schemas/instanceResourceStatsType'
         engine:
-          description: Engine type of the instance (e.g., postgresql, mysql).
+          description: Engine type of the instance.
           type: string
         engineVersion:
-          description: Engine version of the instance (e.g., postgresql-18-1.0.2).
+          description: Engine version of the instance.
           type: string
         role:
-          description: Role of the instance (e.g., primary, secondary).
+          description: Role of the instance.
           type: string
         clusterName:
           description: Name of the cluster this instance belongs to.
           type: string
         dbStatus:
-          description: Database status (e.g., running, stopped).
+          description: Database status.
           type: string
       required:
         - cpuStats
