@@ -92,7 +92,7 @@ func (a *BlueGreenDeploymentApi) CreateBlueGreenDeployment(ctx _context.Context,
 
 // CreateBlueGreenDeploymentPreCheck Run a precheck for blue-green deployment.
 // Trigger a precheck task to verify settings or readiness for blue-green deployment.
-func (a *BlueGreenDeploymentApi) CreateBlueGreenDeploymentPreCheck(ctx _context.Context, orgName string, parentClusterId string, body BlueGreenDeploymentPreCheckCreate) (BlueGreenDeploymentPreCheckResponse, *_nethttp.Response, error) {
+func (a *BlueGreenDeploymentApi) CreateBlueGreenDeploymentPreCheck(ctx _context.Context, orgName string, parentClusterId string, greenClusterVersion string) (BlueGreenDeploymentPreCheckResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -120,11 +120,9 @@ func (a *BlueGreenDeploymentApi) CreateBlueGreenDeploymentPreCheck(ctx _context.
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarQueryParams.Add("greenClusterVersion", common.ParameterToString(greenClusterVersion, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
-	// body params
-	localVarPostBody = &body
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,

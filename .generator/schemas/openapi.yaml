@@ -13741,12 +13741,12 @@ paths:
           required: true
           schema:
             type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/blueGreenDeploymentPreCheckCreate'
-        required: true
+        - description: The version of the green cluster
+          in: query
+          name: greenClusterVersion
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -25351,14 +25351,6 @@ components:
           type: array
       required:
         - taskId
-      type: object
-    blueGreenDeploymentPreCheckCreate:
-      description: blueGreenDeploymentPreCheckCreate defines the request to create a precheck task for a blue-green deployment.
-      properties:
-        greenCluster:
-          $ref: '#/components/schemas/clusterCreate'
-      required:
-        - greenCluster
       type: object
     blueGreenDeploymentPrecheckStatus:
       description: The status of a step in a blue-green deployment precheck.
