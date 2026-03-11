@@ -493,6 +493,67 @@ paths:
       tags:
         - user
       x-codegen-request-body-name: body
+  /admin/v1/users/{userID}/authorization:
+    get:
+      description: Get user roles in multiple organizations
+      operationId: getUserAuthorization
+      summary: Get user roles in multiple organizations
+      parameters:
+        - in: path
+          name: userID
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/userOrgRole'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - user
+    patch:
+      description: Grant user roles in multiple organizations
+      operationId: grantUserAuthorization
+      summary: Grant user roles in multiple organizations
+      parameters:
+        - in: path
+          name: userID
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userAuthorizationIncremental'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: User authorization granted successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - user
+      x-codegen-request-body-name: body
   /admin/v1/metrics/metaData/aggregate:
     get:
       description: Get aggregate meta data including total count and time series
@@ -17079,6 +17140,33 @@ components:
       required:
         - newPassword
       type: object
+    userOrgRole:
+      description: User role in an organization
+      type: object
+      properties:
+        orgName:
+          type: string
+          description: The organization name
+        roleName:
+          type: string
+          description: The role name in the organization
+      required:
+        - orgName
+        - roleName
+    userAuthorizationIncremental:
+      description: Incremental user authorization update.
+      type: object
+      properties:
+        grant:
+          type: array
+          items:
+            $ref: '#/components/schemas/userOrgRole'
+          description: Add or update user roles in the specified organizations.
+        remove:
+          type: array
+          items:
+            $ref: '#/components/schemas/userOrgRole'
+          description: Remove user roles from the specified organizations (only orgName is strictly required).
     aggregateMetaDataType:
       type: string
       description: The type of the aggregate meta data.
