@@ -20,6 +20,8 @@ type NodeResourceStats struct {
 	FilesystemStats *ResourceStats `json:"filesystemStats,omitempty"`
 	// Name of the node.
 	Name string `json:"name"`
+	// Number of database cluster instances (pods) running on this node.
+	InstanceCount *int32 `json:"instanceCount,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -142,6 +144,34 @@ func (o *NodeResourceStats) SetName(v string) {
 	o.Name = v
 }
 
+// GetInstanceCount returns the InstanceCount field value if set, zero value otherwise.
+func (o *NodeResourceStats) GetInstanceCount() int32 {
+	if o == nil || o.InstanceCount == nil {
+		var ret int32
+		return ret
+	}
+	return *o.InstanceCount
+}
+
+// GetInstanceCountOk returns a tuple with the InstanceCount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *NodeResourceStats) GetInstanceCountOk() (*int32, bool) {
+	if o == nil || o.InstanceCount == nil {
+		return nil, false
+	}
+	return o.InstanceCount, true
+}
+
+// HasInstanceCount returns a boolean if a field has been set.
+func (o *NodeResourceStats) HasInstanceCount() bool {
+	return o != nil && o.InstanceCount != nil
+}
+
+// SetInstanceCount gets a reference to the given int32 and assigns it to the InstanceCount field.
+func (o *NodeResourceStats) SetInstanceCount(v int32) {
+	o.InstanceCount = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o NodeResourceStats) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -154,6 +184,9 @@ func (o NodeResourceStats) MarshalJSON() ([]byte, error) {
 		toSerialize["filesystemStats"] = o.FilesystemStats
 	}
 	toSerialize["name"] = o.Name
+	if o.InstanceCount != nil {
+		toSerialize["instanceCount"] = o.InstanceCount
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -168,6 +201,7 @@ func (o *NodeResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 		MemoryStats     *ResourceStats `json:"memoryStats"`
 		FilesystemStats *ResourceStats `json:"filesystemStats,omitempty"`
 		Name            *string        `json:"name"`
+		InstanceCount   *int32         `json:"instanceCount,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -183,7 +217,7 @@ func (o *NodeResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cpuStats", "memoryStats", "filesystemStats", "name"})
+		common.DeleteKeys(additionalProperties, &[]string{"cpuStats", "memoryStats", "filesystemStats", "name", "instanceCount"})
 	} else {
 		return err
 	}
@@ -202,6 +236,7 @@ func (o *NodeResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.FilesystemStats = all.FilesystemStats
 	o.Name = *all.Name
+	o.InstanceCount = all.InstanceCount
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
