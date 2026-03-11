@@ -17663,9 +17663,7 @@ components:
       default: Delete
       enum:
         - DoNotTerminate
-        - Halt
         - Delete
-        - WipeOut
     ioQuantity:
       description: IO Quantity describes IOPS and BPS of a volume
       properties:
