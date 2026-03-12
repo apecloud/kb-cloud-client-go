@@ -478,6 +478,7 @@
 //   - [userApi.deleteApikey]
 //   - [userApi.deleteUser]
 //   - [userApi.getAuthenticatedUser]
+//   - [userApi.getUserAuthorization]
 //   - [userApi.listUsers]
 //   - [userApi.patchAPIkey]
 //   - [userApi.patchAuthenticatedUser]
