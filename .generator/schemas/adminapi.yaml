@@ -21853,6 +21853,10 @@ components:
         name:
           description: Name of the node.
           type: string
+        instanceCount:
+          description: Number of database cluster instances (pods) running on this node.
+          type: integer
+          format: int32
       required:
         - cpuStats
         - memoryStats
@@ -21899,6 +21903,21 @@ components:
           type: string
         type:
           $ref: '#/components/schemas/instanceResourceStatsType'
+        engine:
+          description: Engine type of the instance.
+          type: string
+        engineVersion:
+          description: Engine version of the instance.
+          type: string
+        role:
+          description: Role of the instance.
+          type: string
+        clusterName:
+          description: Name of the cluster this instance belongs to.
+          type: string
+        clusterStatus:
+          description: Cluster status.
+          type: string
       required:
         - cpuStats
         - memoryStats

@@ -22,6 +22,16 @@ type InstanceResourceStats struct {
 	Name string `json:"name"`
 	// Type of the instance, choose cluster or system
 	Type *InstanceResourceStatsType `json:"type,omitempty"`
+	// Engine type of the instance.
+	Engine *string `json:"engine,omitempty"`
+	// Engine version of the instance.
+	EngineVersion *string `json:"engineVersion,omitempty"`
+	// Role of the instance.
+	Role *string `json:"role,omitempty"`
+	// Name of the cluster this instance belongs to.
+	ClusterName *string `json:"clusterName,omitempty"`
+	// Cluster status.
+	ClusterStatus *string `json:"clusterStatus,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -172,6 +182,146 @@ func (o *InstanceResourceStats) SetType(v InstanceResourceStatsType) {
 	o.Type = &v
 }
 
+// GetEngine returns the Engine field value if set, zero value otherwise.
+func (o *InstanceResourceStats) GetEngine() string {
+	if o == nil || o.Engine == nil {
+		var ret string
+		return ret
+	}
+	return *o.Engine
+}
+
+// GetEngineOk returns a tuple with the Engine field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InstanceResourceStats) GetEngineOk() (*string, bool) {
+	if o == nil || o.Engine == nil {
+		return nil, false
+	}
+	return o.Engine, true
+}
+
+// HasEngine returns a boolean if a field has been set.
+func (o *InstanceResourceStats) HasEngine() bool {
+	return o != nil && o.Engine != nil
+}
+
+// SetEngine gets a reference to the given string and assigns it to the Engine field.
+func (o *InstanceResourceStats) SetEngine(v string) {
+	o.Engine = &v
+}
+
+// GetEngineVersion returns the EngineVersion field value if set, zero value otherwise.
+func (o *InstanceResourceStats) GetEngineVersion() string {
+	if o == nil || o.EngineVersion == nil {
+		var ret string
+		return ret
+	}
+	return *o.EngineVersion
+}
+
+// GetEngineVersionOk returns a tuple with the EngineVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InstanceResourceStats) GetEngineVersionOk() (*string, bool) {
+	if o == nil || o.EngineVersion == nil {
+		return nil, false
+	}
+	return o.EngineVersion, true
+}
+
+// HasEngineVersion returns a boolean if a field has been set.
+func (o *InstanceResourceStats) HasEngineVersion() bool {
+	return o != nil && o.EngineVersion != nil
+}
+
+// SetEngineVersion gets a reference to the given string and assigns it to the EngineVersion field.
+func (o *InstanceResourceStats) SetEngineVersion(v string) {
+	o.EngineVersion = &v
+}
+
+// GetRole returns the Role field value if set, zero value otherwise.
+func (o *InstanceResourceStats) GetRole() string {
+	if o == nil || o.Role == nil {
+		var ret string
+		return ret
+	}
+	return *o.Role
+}
+
+// GetRoleOk returns a tuple with the Role field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InstanceResourceStats) GetRoleOk() (*string, bool) {
+	if o == nil || o.Role == nil {
+		return nil, false
+	}
+	return o.Role, true
+}
+
+// HasRole returns a boolean if a field has been set.
+func (o *InstanceResourceStats) HasRole() bool {
+	return o != nil && o.Role != nil
+}
+
+// SetRole gets a reference to the given string and assigns it to the Role field.
+func (o *InstanceResourceStats) SetRole(v string) {
+	o.Role = &v
+}
+
+// GetClusterName returns the ClusterName field value if set, zero value otherwise.
+func (o *InstanceResourceStats) GetClusterName() string {
+	if o == nil || o.ClusterName == nil {
+		var ret string
+		return ret
+	}
+	return *o.ClusterName
+}
+
+// GetClusterNameOk returns a tuple with the ClusterName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InstanceResourceStats) GetClusterNameOk() (*string, bool) {
+	if o == nil || o.ClusterName == nil {
+		return nil, false
+	}
+	return o.ClusterName, true
+}
+
+// HasClusterName returns a boolean if a field has been set.
+func (o *InstanceResourceStats) HasClusterName() bool {
+	return o != nil && o.ClusterName != nil
+}
+
+// SetClusterName gets a reference to the given string and assigns it to the ClusterName field.
+func (o *InstanceResourceStats) SetClusterName(v string) {
+	o.ClusterName = &v
+}
+
+// GetClusterStatus returns the ClusterStatus field value if set, zero value otherwise.
+func (o *InstanceResourceStats) GetClusterStatus() string {
+	if o == nil || o.ClusterStatus == nil {
+		var ret string
+		return ret
+	}
+	return *o.ClusterStatus
+}
+
+// GetClusterStatusOk returns a tuple with the ClusterStatus field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InstanceResourceStats) GetClusterStatusOk() (*string, bool) {
+	if o == nil || o.ClusterStatus == nil {
+		return nil, false
+	}
+	return o.ClusterStatus, true
+}
+
+// HasClusterStatus returns a boolean if a field has been set.
+func (o *InstanceResourceStats) HasClusterStatus() bool {
+	return o != nil && o.ClusterStatus != nil
+}
+
+// SetClusterStatus gets a reference to the given string and assigns it to the ClusterStatus field.
+func (o *InstanceResourceStats) SetClusterStatus(v string) {
+	o.ClusterStatus = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o InstanceResourceStats) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -186,6 +336,21 @@ func (o InstanceResourceStats) MarshalJSON() ([]byte, error) {
 	toSerialize["name"] = o.Name
 	if o.Type != nil {
 		toSerialize["type"] = o.Type
+	}
+	if o.Engine != nil {
+		toSerialize["engine"] = o.Engine
+	}
+	if o.EngineVersion != nil {
+		toSerialize["engineVersion"] = o.EngineVersion
+	}
+	if o.Role != nil {
+		toSerialize["role"] = o.Role
+	}
+	if o.ClusterName != nil {
+		toSerialize["clusterName"] = o.ClusterName
+	}
+	if o.ClusterStatus != nil {
+		toSerialize["clusterStatus"] = o.ClusterStatus
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -202,6 +367,11 @@ func (o *InstanceResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 		EphemeralStorageStats *ResourceStats             `json:"ephemeralStorageStats,omitempty"`
 		Name                  *string                    `json:"name"`
 		Type                  *InstanceResourceStatsType `json:"type,omitempty"`
+		Engine                *string                    `json:"engine,omitempty"`
+		EngineVersion         *string                    `json:"engineVersion,omitempty"`
+		Role                  *string                    `json:"role,omitempty"`
+		ClusterName           *string                    `json:"clusterName,omitempty"`
+		ClusterStatus         *string                    `json:"clusterStatus,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -217,7 +387,7 @@ func (o *InstanceResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cpuStats", "memoryStats", "ephemeralStorageStats", "name", "type"})
+		common.DeleteKeys(additionalProperties, &[]string{"cpuStats", "memoryStats", "ephemeralStorageStats", "name", "type", "engine", "engineVersion", "role", "clusterName", "clusterStatus"})
 	} else {
 		return err
 	}
@@ -241,6 +411,11 @@ func (o *InstanceResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.Type = all.Type
 	}
+	o.Engine = all.Engine
+	o.EngineVersion = all.EngineVersion
+	o.Role = all.Role
+	o.ClusterName = all.ClusterName
+	o.ClusterStatus = all.ClusterStatus
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
