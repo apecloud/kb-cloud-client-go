@@ -18654,6 +18654,11 @@ components:
         engineName:
           type: string
           description: The engine to be used in serviceRef. This field is used to filter clusters.
+        modes:
+          type: array
+          items:
+            type: string
+          description: The mode to be used in serviceRef. This field is used to filter clusters. If not set, it means all modes are supported.
         addressStyle:
           $ref: '#/components/schemas/serviceDescriptorAddressStyle'
         helmValuePath:
