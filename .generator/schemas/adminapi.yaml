@@ -512,7 +512,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/userOrgRole'
+                  $ref: '#/components/schemas/userAuthorization'
           description: OK
         '401':
           $ref: '#/components/responses/401'
@@ -522,38 +522,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - user
-    patch:
-      description: Grant user roles in multiple organizations
-      operationId: grantUserAuthorization
-      summary: Grant user roles in multiple organizations
-      parameters:
-        - in: path
-          name: userID
-          description: ID of the user
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/userAuthorizationIncremental'
-        required: true
-      responses:
-        '204':
-          content: {}
-          description: User authorization granted successfully.
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - user
-      x-codegen-request-body-name: body
   /admin/v1/metrics/metaData/aggregate:
     get:
       description: Get aggregate meta data including total count and time series
@@ -17149,8 +17117,8 @@ components:
       required:
         - newPassword
       type: object
-    userOrgRole:
-      description: User role in an organization
+    userAuthorization:
+      description: User authorization
       type: object
       properties:
         orgName:
@@ -17162,20 +17130,6 @@ components:
       required:
         - orgName
         - roleName
-    userAuthorizationIncremental:
-      description: Incremental user authorization update.
-      type: object
-      properties:
-        grant:
-          type: array
-          items:
-            $ref: '#/components/schemas/userOrgRole'
-          description: Add or update user roles in the specified organizations.
-        remove:
-          type: array
-          items:
-            $ref: '#/components/schemas/userOrgRole'
-          description: Remove user roles from the specified organizations (only orgName is strictly required).
     aggregateMetaDataType:
       type: string
       description: The type of the aggregate meta data.
@@ -21950,6 +21904,10 @@ components:
         name:
           description: Name of the node.
           type: string
+        instanceCount:
+          description: Number of database cluster instances (pods) running on this node.
+          type: integer
+          format: int32
       required:
         - cpuStats
         - memoryStats
@@ -21996,6 +21954,21 @@ components:
           type: string
         type:
           $ref: '#/components/schemas/instanceResourceStatsType'
+        engine:
+          description: Engine type of the instance.
+          type: string
+        engineVersion:
+          description: Engine version of the instance.
+          type: string
+        role:
+          description: Role of the instance.
+          type: string
+        clusterName:
+          description: Name of the cluster this instance belongs to.
+          type: string
+        clusterStatus:
+          description: Cluster status.
+          type: string
       required:
         - cpuStats
         - memoryStats
@@ -24053,6 +24026,11 @@ components:
         engineName:
           type: string
           description: The engine to be used in serviceRef. This field is used to filter clusters.
+        modes:
+          type: array
+          items:
+            type: string
+          description: The mode to be used in serviceRef. This field is used to filter clusters. If not set, it means all modes are supported.
         addressStyle:
           $ref: '#/components/schemas/serviceDescriptorAddressStyle'
         helmValuePath:

@@ -10,8 +10,8 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// UserOrgRole User role in an organization
-type UserOrgRole struct {
+// UserAuthorization User authorization
+type UserAuthorization struct {
 	// The organization name
 	OrgName string `json:"orgName"`
 	// The role name in the organization
@@ -21,27 +21,27 @@ type UserOrgRole struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewUserOrgRole instantiates a new UserOrgRole object.
+// NewUserAuthorization instantiates a new UserAuthorization object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewUserOrgRole(orgName string, roleName string) *UserOrgRole {
-	this := UserOrgRole{}
+func NewUserAuthorization(orgName string, roleName string) *UserAuthorization {
+	this := UserAuthorization{}
 	this.OrgName = orgName
 	this.RoleName = roleName
 	return &this
 }
 
-// NewUserOrgRoleWithDefaults instantiates a new UserOrgRole object.
+// NewUserAuthorizationWithDefaults instantiates a new UserAuthorization object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewUserOrgRoleWithDefaults() *UserOrgRole {
-	this := UserOrgRole{}
+func NewUserAuthorizationWithDefaults() *UserAuthorization {
+	this := UserAuthorization{}
 	return &this
 }
 
 // GetOrgName returns the OrgName field value.
-func (o *UserOrgRole) GetOrgName() string {
+func (o *UserAuthorization) GetOrgName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -51,7 +51,7 @@ func (o *UserOrgRole) GetOrgName() string {
 
 // GetOrgNameOk returns a tuple with the OrgName field value
 // and a boolean to check if the value has been set.
-func (o *UserOrgRole) GetOrgNameOk() (*string, bool) {
+func (o *UserAuthorization) GetOrgNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -59,12 +59,12 @@ func (o *UserOrgRole) GetOrgNameOk() (*string, bool) {
 }
 
 // SetOrgName sets field value.
-func (o *UserOrgRole) SetOrgName(v string) {
+func (o *UserAuthorization) SetOrgName(v string) {
 	o.OrgName = v
 }
 
 // GetRoleName returns the RoleName field value.
-func (o *UserOrgRole) GetRoleName() string {
+func (o *UserAuthorization) GetRoleName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -74,7 +74,7 @@ func (o *UserOrgRole) GetRoleName() string {
 
 // GetRoleNameOk returns a tuple with the RoleName field value
 // and a boolean to check if the value has been set.
-func (o *UserOrgRole) GetRoleNameOk() (*string, bool) {
+func (o *UserAuthorization) GetRoleNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -82,12 +82,12 @@ func (o *UserOrgRole) GetRoleNameOk() (*string, bool) {
 }
 
 // SetRoleName sets field value.
-func (o *UserOrgRole) SetRoleName(v string) {
+func (o *UserAuthorization) SetRoleName(v string) {
 	o.RoleName = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o UserOrgRole) MarshalJSON() ([]byte, error) {
+func (o UserAuthorization) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -102,7 +102,7 @@ func (o UserOrgRole) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *UserOrgRole) UnmarshalJSON(bytes []byte) (err error) {
+func (o *UserAuthorization) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		OrgName  *string `json:"orgName"`
 		RoleName *string `json:"roleName"`

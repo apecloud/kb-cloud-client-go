@@ -397,11 +397,11 @@ func (a *UserApi) GetAuthenticatedUser(ctx _context.Context) (User, *_nethttp.Re
 
 // GetUserAuthorization Get user roles in multiple organizations.
 // Get user roles in multiple organizations
-func (a *UserApi) GetUserAuthorization(ctx _context.Context, userId string) ([]UserOrgRole, *_nethttp.Response, error) {
+func (a *UserApi) GetUserAuthorization(ctx _context.Context, userId string) ([]UserAuthorization, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []UserOrgRole
+		localVarReturnValue []UserAuthorization
 	)
 
 	// Add api info to context
@@ -472,78 +472,6 @@ func (a *UserApi) GetUserAuthorization(ctx _context.Context, userId string) ([]U
 	}
 
 	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-// GrantUserAuthorization Grant user roles in multiple organizations.
-// Grant user roles in multiple organizations
-func (a *UserApi) GrantUserAuthorization(ctx _context.Context, userId string, body UserAuthorizationIncremental) (*_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod = _nethttp.MethodPatch
-		localVarPostBody   interface{}
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "user",
-		OperationID: "grantUserAuthorization",
-		Path:        "/admin/v1/users/{userID}/authorization",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".UserApi.GrantUserAuthorization")
-	if err != nil {
-		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/users/{userID}/authorization"
-	localVarPath = strings.Replace(localVarPath, "{"+"userID"+"}", _neturl.PathEscape(common.ParameterToString(userId, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] = "application/json"
-
-	// body params
-	localVarPostBody = &body
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
 }
 
 // ListUsers List users.
