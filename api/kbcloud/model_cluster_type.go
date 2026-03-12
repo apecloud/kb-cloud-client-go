@@ -15,13 +15,15 @@ type ClusterType string
 
 // List of ClusterType.
 const (
-	ClusterTypeNormal           ClusterType = "Normal"
-	ClusterTypeDisasterRecovery ClusterType = "DisasterRecovery"
+	ClusterTypeNormal              ClusterType = "Normal"
+	ClusterTypeDisasterRecovery    ClusterType = "DisasterRecovery"
+	ClusterTypeBlueGreenDeployment ClusterType = "BlueGreenDeployment"
 )
 
 var allowedClusterTypeEnumValues = []ClusterType{
 	ClusterTypeNormal,
 	ClusterTypeDisasterRecovery,
+	ClusterTypeBlueGreenDeployment,
 }
 
 // GetAllowedValues returns the list of possible values.

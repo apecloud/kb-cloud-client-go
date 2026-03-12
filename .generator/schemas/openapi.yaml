@@ -15150,6 +15150,7 @@ components:
       enum:
         - Normal
         - DisasterRecovery
+        - BlueGreenDeployment
     clusterListItem:
       description: KubeBlocks cluster information
       properties:
