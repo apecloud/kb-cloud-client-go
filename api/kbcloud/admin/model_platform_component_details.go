@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// PlatformComponentDetails Platform component detail including pods
+// PlatformComponentDetails Platform component detail including pods and observability metadata
 type PlatformComponentDetails struct {
 	// Component name
 	Name        string                `json:"name"`
@@ -19,6 +19,10 @@ type PlatformComponentDetails struct {
 	Status   PlatformComponentStatus `json:"status"`
 	Version  *string                 `json:"version,omitempty"`
 	Replicas *int64                  `json:"replicas,omitempty"`
+	// Grafana dashboard UID for this component
+	DashboardUid *string `json:"dashboardUID,omitempty"`
+	// Log query job name for this component
+	LogJobName *string `json:"logJobName,omitempty"`
 	// List of pods for this component
 	Pods []PlatformComponentPod `json:"pods,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -175,6 +179,62 @@ func (o *PlatformComponentDetails) SetReplicas(v int64) {
 	o.Replicas = &v
 }
 
+// GetDashboardUid returns the DashboardUid field value if set, zero value otherwise.
+func (o *PlatformComponentDetails) GetDashboardUid() string {
+	if o == nil || o.DashboardUid == nil {
+		var ret string
+		return ret
+	}
+	return *o.DashboardUid
+}
+
+// GetDashboardUidOk returns a tuple with the DashboardUid field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PlatformComponentDetails) GetDashboardUidOk() (*string, bool) {
+	if o == nil || o.DashboardUid == nil {
+		return nil, false
+	}
+	return o.DashboardUid, true
+}
+
+// HasDashboardUid returns a boolean if a field has been set.
+func (o *PlatformComponentDetails) HasDashboardUid() bool {
+	return o != nil && o.DashboardUid != nil
+}
+
+// SetDashboardUid gets a reference to the given string and assigns it to the DashboardUid field.
+func (o *PlatformComponentDetails) SetDashboardUid(v string) {
+	o.DashboardUid = &v
+}
+
+// GetLogJobName returns the LogJobName field value if set, zero value otherwise.
+func (o *PlatformComponentDetails) GetLogJobName() string {
+	if o == nil || o.LogJobName == nil {
+		var ret string
+		return ret
+	}
+	return *o.LogJobName
+}
+
+// GetLogJobNameOk returns a tuple with the LogJobName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PlatformComponentDetails) GetLogJobNameOk() (*string, bool) {
+	if o == nil || o.LogJobName == nil {
+		return nil, false
+	}
+	return o.LogJobName, true
+}
+
+// HasLogJobName returns a boolean if a field has been set.
+func (o *PlatformComponentDetails) HasLogJobName() bool {
+	return o != nil && o.LogJobName != nil
+}
+
+// SetLogJobName gets a reference to the given string and assigns it to the LogJobName field.
+func (o *PlatformComponentDetails) SetLogJobName(v string) {
+	o.LogJobName = &v
+}
+
 // GetPods returns the Pods field value if set, zero value otherwise.
 func (o *PlatformComponentDetails) GetPods() []PlatformComponentPod {
 	if o == nil || o.Pods == nil {
@@ -220,6 +280,12 @@ func (o PlatformComponentDetails) MarshalJSON() ([]byte, error) {
 	if o.Replicas != nil {
 		toSerialize["replicas"] = o.Replicas
 	}
+	if o.DashboardUid != nil {
+		toSerialize["dashboardUID"] = o.DashboardUid
+	}
+	if o.LogJobName != nil {
+		toSerialize["logJobName"] = o.LogJobName
+	}
 	if o.Pods != nil {
 		toSerialize["pods"] = o.Pods
 	}
@@ -233,12 +299,14 @@ func (o PlatformComponentDetails) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PlatformComponentDetails) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string                  `json:"name"`
-		Description *LocalizedDescription    `json:"description,omitempty"`
-		Status      *PlatformComponentStatus `json:"status"`
-		Version     *string                  `json:"version,omitempty"`
-		Replicas    *int64                   `json:"replicas,omitempty"`
-		Pods        []PlatformComponentPod   `json:"pods,omitempty"`
+		Name         *string                  `json:"name"`
+		Description  *LocalizedDescription    `json:"description,omitempty"`
+		Status       *PlatformComponentStatus `json:"status"`
+		Version      *string                  `json:"version,omitempty"`
+		Replicas     *int64                   `json:"replicas,omitempty"`
+		DashboardUid *string                  `json:"dashboardUID,omitempty"`
+		LogJobName   *string                  `json:"logJobName,omitempty"`
+		Pods         []PlatformComponentPod   `json:"pods,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -251,7 +319,7 @@ func (o *PlatformComponentDetails) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "status", "version", "replicas", "pods"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "status", "version", "replicas", "dashboardUID", "logJobName", "pods"})
 	} else {
 		return err
 	}
@@ -269,6 +337,8 @@ func (o *PlatformComponentDetails) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Version = all.Version
 	o.Replicas = all.Replicas
+	o.DashboardUid = all.DashboardUid
+	o.LogJobName = all.LogJobName
 	o.Pods = all.Pods
 
 	if len(additionalProperties) > 0 {
