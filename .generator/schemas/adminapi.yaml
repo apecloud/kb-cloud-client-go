@@ -17663,9 +17663,7 @@ components:
       default: Delete
       enum:
         - DoNotTerminate
-        - Halt
         - Delete
-        - WipeOut
     ioQuantity:
       description: IO Quantity describes IOPS and BPS of a volume
       properties:
@@ -21917,8 +21915,8 @@ components:
         clusterName:
           description: Name of the cluster this instance belongs to.
           type: string
-        dbStatus:
-          description: Database status.
+        clusterStats:
+          description: Cluster status.
           type: string
       required:
         - cpuStats
