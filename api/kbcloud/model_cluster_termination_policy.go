@@ -16,16 +16,12 @@ type ClusterTerminationPolicy string
 // List of ClusterTerminationPolicy.
 const (
 	ClusterTerminationPolicyDoNotTerminate ClusterTerminationPolicy = "DoNotTerminate"
-	ClusterTerminationPolicyHalt           ClusterTerminationPolicy = "Halt"
 	ClusterTerminationPolicyDelete         ClusterTerminationPolicy = "Delete"
-	ClusterTerminationPolicyWipeOut        ClusterTerminationPolicy = "WipeOut"
 )
 
 var allowedClusterTerminationPolicyEnumValues = []ClusterTerminationPolicy{
 	ClusterTerminationPolicyDoNotTerminate,
-	ClusterTerminationPolicyHalt,
 	ClusterTerminationPolicyDelete,
-	ClusterTerminationPolicyWipeOut,
 }
 
 // GetAllowedValues returns the list of possible values.
