@@ -31,7 +31,7 @@ type InstanceResourceStats struct {
 	// Name of the cluster this instance belongs to.
 	ClusterName *string `json:"clusterName,omitempty"`
 	// Cluster status.
-	ClusterStats *string `json:"clusterStats,omitempty"`
+	ClusterStatus *string `json:"clusterStatus,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -294,32 +294,32 @@ func (o *InstanceResourceStats) SetClusterName(v string) {
 	o.ClusterName = &v
 }
 
-// GetClusterStats returns the ClusterStats field value if set, zero value otherwise.
-func (o *InstanceResourceStats) GetClusterStats() string {
-	if o == nil || o.ClusterStats == nil {
+// GetClusterStatus returns the ClusterStatus field value if set, zero value otherwise.
+func (o *InstanceResourceStats) GetClusterStatus() string {
+	if o == nil || o.ClusterStatus == nil {
 		var ret string
 		return ret
 	}
-	return *o.ClusterStats
+	return *o.ClusterStatus
 }
 
-// GetClusterStatsOk returns a tuple with the ClusterStats field value if set, nil otherwise
+// GetClusterStatusOk returns a tuple with the ClusterStatus field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InstanceResourceStats) GetClusterStatsOk() (*string, bool) {
-	if o == nil || o.ClusterStats == nil {
+func (o *InstanceResourceStats) GetClusterStatusOk() (*string, bool) {
+	if o == nil || o.ClusterStatus == nil {
 		return nil, false
 	}
-	return o.ClusterStats, true
+	return o.ClusterStatus, true
 }
 
-// HasClusterStats returns a boolean if a field has been set.
-func (o *InstanceResourceStats) HasClusterStats() bool {
-	return o != nil && o.ClusterStats != nil
+// HasClusterStatus returns a boolean if a field has been set.
+func (o *InstanceResourceStats) HasClusterStatus() bool {
+	return o != nil && o.ClusterStatus != nil
 }
 
-// SetClusterStats gets a reference to the given string and assigns it to the ClusterStats field.
-func (o *InstanceResourceStats) SetClusterStats(v string) {
-	o.ClusterStats = &v
+// SetClusterStatus gets a reference to the given string and assigns it to the ClusterStatus field.
+func (o *InstanceResourceStats) SetClusterStatus(v string) {
+	o.ClusterStatus = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -349,8 +349,8 @@ func (o InstanceResourceStats) MarshalJSON() ([]byte, error) {
 	if o.ClusterName != nil {
 		toSerialize["clusterName"] = o.ClusterName
 	}
-	if o.ClusterStats != nil {
-		toSerialize["clusterStats"] = o.ClusterStats
+	if o.ClusterStatus != nil {
+		toSerialize["clusterStatus"] = o.ClusterStatus
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -371,7 +371,7 @@ func (o *InstanceResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 		EngineVersion         *string                    `json:"engineVersion,omitempty"`
 		Role                  *string                    `json:"role,omitempty"`
 		ClusterName           *string                    `json:"clusterName,omitempty"`
-		ClusterStats          *string                    `json:"clusterStats,omitempty"`
+		ClusterStatus         *string                    `json:"clusterStatus,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -387,7 +387,7 @@ func (o *InstanceResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cpuStats", "memoryStats", "ephemeralStorageStats", "name", "type", "engine", "engineVersion", "role", "clusterName", "clusterStats"})
+		common.DeleteKeys(additionalProperties, &[]string{"cpuStats", "memoryStats", "ephemeralStorageStats", "name", "type", "engine", "engineVersion", "role", "clusterName", "clusterStatus"})
 	} else {
 		return err
 	}
@@ -415,7 +415,7 @@ func (o *InstanceResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	o.EngineVersion = all.EngineVersion
 	o.Role = all.Role
 	o.ClusterName = all.ClusterName
-	o.ClusterStats = all.ClusterStats
+	o.ClusterStatus = all.ClusterStatus
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
