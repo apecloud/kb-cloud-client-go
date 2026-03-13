@@ -60,6 +60,8 @@ type ClusterListItem struct {
 	CodeShort *string `json:"codeShort,omitempty"`
 	// Org Name
 	OrgName *string `json:"orgName,omitempty"`
+	// Defines scheduling constraints for cluster pods, including affinity, anti-affinity, and topology spread rules.
+	SchedulingPolicy *EngineSchedulingPolicy `json:"schedulingPolicy,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -773,6 +775,34 @@ func (o *ClusterListItem) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
+// GetSchedulingPolicy returns the SchedulingPolicy field value if set, zero value otherwise.
+func (o *ClusterListItem) GetSchedulingPolicy() EngineSchedulingPolicy {
+	if o == nil || o.SchedulingPolicy == nil {
+		var ret EngineSchedulingPolicy
+		return ret
+	}
+	return *o.SchedulingPolicy
+}
+
+// GetSchedulingPolicyOk returns a tuple with the SchedulingPolicy field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterListItem) GetSchedulingPolicyOk() (*EngineSchedulingPolicy, bool) {
+	if o == nil || o.SchedulingPolicy == nil {
+		return nil, false
+	}
+	return o.SchedulingPolicy, true
+}
+
+// HasSchedulingPolicy returns a boolean if a field has been set.
+func (o *ClusterListItem) HasSchedulingPolicy() bool {
+	return o != nil && o.SchedulingPolicy != nil
+}
+
+// SetSchedulingPolicy gets a reference to the given EngineSchedulingPolicy and assigns it to the SchedulingPolicy field.
+func (o *ClusterListItem) SetSchedulingPolicy(v EngineSchedulingPolicy) {
+	o.SchedulingPolicy = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterListItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -839,6 +869,9 @@ func (o ClusterListItem) MarshalJSON() ([]byte, error) {
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
 	}
+	if o.SchedulingPolicy != nil {
+		toSerialize["schedulingPolicy"] = o.SchedulingPolicy
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -849,30 +882,31 @@ func (o ClusterListItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CloudProvider          *string                `json:"cloudProvider"`
-		CloudRegion            *string                `json:"cloudRegion,omitempty"`
-		AvailabilityZones      []string               `json:"availabilityZones,omitempty"`
-		CreatedAt              *time.Time             `json:"createdAt"`
-		DisplayName            *string                `json:"displayName,omitempty"`
-		Engine                 *string                `json:"engine"`
-		Mode                   *string                `json:"mode,omitempty"`
-		EnvironmentName        *string                `json:"environmentName"`
-		EnvironmentDisplayName *string                `json:"environmentDisplayName,omitempty"`
-		Id                     *string                `json:"id"`
-		Name                   *string                `json:"name"`
-		ParentId               common.NullableString  `json:"parentId,omitempty"`
-		ParentName             common.NullableString  `json:"parentName,omitempty"`
-		ParentDisplayName      common.NullableString  `json:"parentDisplayName,omitempty"`
-		ClusterType            NullableClusterType    `json:"clusterType,omitempty"`
-		Delay                  common.NullableFloat64 `json:"delay,omitempty"`
-		Status                 *string                `json:"status"`
-		TerminationPolicy      *string                `json:"terminationPolicy"`
-		UpdatedAt              *time.Time             `json:"updatedAt"`
-		Version                *string                `json:"version"`
-		ClassCode              *string                `json:"classCode,omitempty"`
-		Storage                *string                `json:"storage,omitempty"`
-		CodeShort              *string                `json:"codeShort,omitempty"`
-		OrgName                *string                `json:"orgName,omitempty"`
+		CloudProvider          *string                 `json:"cloudProvider"`
+		CloudRegion            *string                 `json:"cloudRegion,omitempty"`
+		AvailabilityZones      []string                `json:"availabilityZones,omitempty"`
+		CreatedAt              *time.Time              `json:"createdAt"`
+		DisplayName            *string                 `json:"displayName,omitempty"`
+		Engine                 *string                 `json:"engine"`
+		Mode                   *string                 `json:"mode,omitempty"`
+		EnvironmentName        *string                 `json:"environmentName"`
+		EnvironmentDisplayName *string                 `json:"environmentDisplayName,omitempty"`
+		Id                     *string                 `json:"id"`
+		Name                   *string                 `json:"name"`
+		ParentId               common.NullableString   `json:"parentId,omitempty"`
+		ParentName             common.NullableString   `json:"parentName,omitempty"`
+		ParentDisplayName      common.NullableString   `json:"parentDisplayName,omitempty"`
+		ClusterType            NullableClusterType     `json:"clusterType,omitempty"`
+		Delay                  common.NullableFloat64  `json:"delay,omitempty"`
+		Status                 *string                 `json:"status"`
+		TerminationPolicy      *string                 `json:"terminationPolicy"`
+		UpdatedAt              *time.Time              `json:"updatedAt"`
+		Version                *string                 `json:"version"`
+		ClassCode              *string                 `json:"classCode,omitempty"`
+		Storage                *string                 `json:"storage,omitempty"`
+		CodeShort              *string                 `json:"codeShort,omitempty"`
+		OrgName                *string                 `json:"orgName,omitempty"`
+		SchedulingPolicy       *EngineSchedulingPolicy `json:"schedulingPolicy,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -909,7 +943,7 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "environmentDisplayName", "id", "name", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName"})
+		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "environmentDisplayName", "id", "name", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName", "schedulingPolicy"})
 	} else {
 		return err
 	}
@@ -943,6 +977,10 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.Storage = all.Storage
 	o.CodeShort = all.CodeShort
 	o.OrgName = all.OrgName
+	if all.SchedulingPolicy != nil && all.SchedulingPolicy.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.SchedulingPolicy = all.SchedulingPolicy
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

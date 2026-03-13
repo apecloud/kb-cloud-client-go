@@ -189,6 +189,8 @@
 //   - [engineApi.listEnginesInEnv]
 //   - [engineOptionApi.getEngineOption]
 //   - [engineOptionApi.listEngineOptions]
+//   - [engineSchedulingPolicyApi.listEngineGlobalSchedulingStrategies]
+//   - [engineSchedulingPolicyApi.listEngineSchedulingRules]
 //   - [environmentApi.getEnvironment]
 //   - [environmentApi.getEnvironmentModuleInfo]
 //   - [environmentApi.listEnvNodeZone]

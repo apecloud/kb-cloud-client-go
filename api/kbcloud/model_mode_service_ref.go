@@ -19,12 +19,16 @@ type ModeServiceRef struct {
 	Name string `json:"name"`
 	// The engine to be used in serviceRef. This field is used to filter clusters.
 	EngineName string `json:"engineName"`
+	// The mode to be used in serviceRef. This field is used to filter clusters. If not set, it means all modes are supported.
+	Modes []string `json:"modes,omitempty"`
 	// specify the style that will be used in servicedescriptor.
 	// "hostport" will ask user to provide both host and port.
 	// "endpoint" will ask user to provide an endpoint.
 	// When using a serviceSelector, this option will not be effective.
 	//
 	AddressStyle ServiceDescriptorAddressStyle `json:"addressStyle"`
+	// whether to disable manual input of the service reference. If set to true, users can only select from the serviceRefs provided by list clusters api.
+	DisableManualInput *bool `json:"disableManualInput,omitempty"`
 	// The path to be used in values. Separated with commas. ClusterCreate API will use these path to override values in the cluster chart.
 	HelmValuePath ModeServiceRefHelmValuePath `json:"helmValuePath"`
 	// ServiceSelectors will map cluster's mode to a serviceSelector. The serviceSelector
@@ -104,6 +108,34 @@ func (o *ModeServiceRef) SetEngineName(v string) {
 	o.EngineName = v
 }
 
+// GetModes returns the Modes field value if set, zero value otherwise.
+func (o *ModeServiceRef) GetModes() []string {
+	if o == nil || o.Modes == nil {
+		var ret []string
+		return ret
+	}
+	return o.Modes
+}
+
+// GetModesOk returns a tuple with the Modes field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRef) GetModesOk() (*[]string, bool) {
+	if o == nil || o.Modes == nil {
+		return nil, false
+	}
+	return &o.Modes, true
+}
+
+// HasModes returns a boolean if a field has been set.
+func (o *ModeServiceRef) HasModes() bool {
+	return o != nil && o.Modes != nil
+}
+
+// SetModes gets a reference to the given []string and assigns it to the Modes field.
+func (o *ModeServiceRef) SetModes(v []string) {
+	o.Modes = v
+}
+
 // GetAddressStyle returns the AddressStyle field value.
 func (o *ModeServiceRef) GetAddressStyle() ServiceDescriptorAddressStyle {
 	if o == nil {
@@ -125,6 +157,34 @@ func (o *ModeServiceRef) GetAddressStyleOk() (*ServiceDescriptorAddressStyle, bo
 // SetAddressStyle sets field value.
 func (o *ModeServiceRef) SetAddressStyle(v ServiceDescriptorAddressStyle) {
 	o.AddressStyle = v
+}
+
+// GetDisableManualInput returns the DisableManualInput field value if set, zero value otherwise.
+func (o *ModeServiceRef) GetDisableManualInput() bool {
+	if o == nil || o.DisableManualInput == nil {
+		var ret bool
+		return ret
+	}
+	return *o.DisableManualInput
+}
+
+// GetDisableManualInputOk returns a tuple with the DisableManualInput field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRef) GetDisableManualInputOk() (*bool, bool) {
+	if o == nil || o.DisableManualInput == nil {
+		return nil, false
+	}
+	return o.DisableManualInput, true
+}
+
+// HasDisableManualInput returns a boolean if a field has been set.
+func (o *ModeServiceRef) HasDisableManualInput() bool {
+	return o != nil && o.DisableManualInput != nil
+}
+
+// SetDisableManualInput gets a reference to the given bool and assigns it to the DisableManualInput field.
+func (o *ModeServiceRef) SetDisableManualInput(v bool) {
+	o.DisableManualInput = &v
 }
 
 // GetHelmValuePath returns the HelmValuePath field value.
@@ -186,7 +246,13 @@ func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["name"] = o.Name
 	toSerialize["engineName"] = o.EngineName
+	if o.Modes != nil {
+		toSerialize["modes"] = o.Modes
+	}
 	toSerialize["addressStyle"] = o.AddressStyle
+	if o.DisableManualInput != nil {
+		toSerialize["disableManualInput"] = o.DisableManualInput
+	}
 	toSerialize["helmValuePath"] = o.HelmValuePath
 	if o.ServiceSelectors != nil {
 		toSerialize["serviceSelectors"] = o.ServiceSelectors
@@ -201,11 +267,13 @@ func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name             *string                        `json:"name"`
-		EngineName       *string                        `json:"engineName"`
-		AddressStyle     *ServiceDescriptorAddressStyle `json:"addressStyle"`
-		HelmValuePath    *ModeServiceRefHelmValuePath   `json:"helmValuePath"`
-		ServiceSelectors []ServiceSelector              `json:"serviceSelectors,omitempty"`
+		Name               *string                        `json:"name"`
+		EngineName         *string                        `json:"engineName"`
+		Modes              []string                       `json:"modes,omitempty"`
+		AddressStyle       *ServiceDescriptorAddressStyle `json:"addressStyle"`
+		DisableManualInput *bool                          `json:"disableManualInput,omitempty"`
+		HelmValuePath      *ModeServiceRefHelmValuePath   `json:"helmValuePath"`
+		ServiceSelectors   []ServiceSelector              `json:"serviceSelectors,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -224,7 +292,7 @@ func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "engineName", "addressStyle", "helmValuePath", "serviceSelectors"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "engineName", "modes", "addressStyle", "disableManualInput", "helmValuePath", "serviceSelectors"})
 	} else {
 		return err
 	}
@@ -232,11 +300,13 @@ func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Name = *all.Name
 	o.EngineName = *all.EngineName
+	o.Modes = all.Modes
 	if !all.AddressStyle.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.AddressStyle = *all.AddressStyle
 	}
+	o.DisableManualInput = all.DisableManualInput
 	if all.HelmValuePath.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

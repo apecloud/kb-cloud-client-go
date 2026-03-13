@@ -18,6 +18,8 @@ type UserCreate struct {
 	Password string `json:"password"`
 	// The email for the user
 	Email *string `json:"email,omitempty"`
+	// The description for the user
+	Description *string `json:"description,omitempty"`
 	// The phonenumber for the user.
 	PhoneNumber *string `json:"phoneNumber,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -118,6 +120,34 @@ func (o *UserCreate) SetEmail(v string) {
 	o.Email = &v
 }
 
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *UserCreate) GetDescription() string {
+	if o == nil || o.Description == nil {
+		var ret string
+		return ret
+	}
+	return *o.Description
+}
+
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *UserCreate) GetDescriptionOk() (*string, bool) {
+	if o == nil || o.Description == nil {
+		return nil, false
+	}
+	return o.Description, true
+}
+
+// HasDescription returns a boolean if a field has been set.
+func (o *UserCreate) HasDescription() bool {
+	return o != nil && o.Description != nil
+}
+
+// SetDescription gets a reference to the given string and assigns it to the Description field.
+func (o *UserCreate) SetDescription(v string) {
+	o.Description = &v
+}
+
 // GetPhoneNumber returns the PhoneNumber field value if set, zero value otherwise.
 func (o *UserCreate) GetPhoneNumber() string {
 	if o == nil || o.PhoneNumber == nil {
@@ -157,6 +187,9 @@ func (o UserCreate) MarshalJSON() ([]byte, error) {
 	if o.Email != nil {
 		toSerialize["email"] = o.Email
 	}
+	if o.Description != nil {
+		toSerialize["description"] = o.Description
+	}
 	if o.PhoneNumber != nil {
 		toSerialize["phoneNumber"] = o.PhoneNumber
 	}
@@ -173,6 +206,7 @@ func (o *UserCreate) UnmarshalJSON(bytes []byte) (err error) {
 		UserName    *string `json:"userName"`
 		Password    *string `json:"password"`
 		Email       *string `json:"email,omitempty"`
+		Description *string `json:"description,omitempty"`
 		PhoneNumber *string `json:"phoneNumber,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -186,13 +220,14 @@ func (o *UserCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"userName", "password", "email", "phoneNumber"})
+		common.DeleteKeys(additionalProperties, &[]string{"userName", "password", "email", "description", "phoneNumber"})
 	} else {
 		return err
 	}
 	o.UserName = *all.UserName
 	o.Password = *all.Password
 	o.Email = all.Email
+	o.Description = all.Description
 	o.PhoneNumber = all.PhoneNumber
 
 	if len(additionalProperties) > 0 {

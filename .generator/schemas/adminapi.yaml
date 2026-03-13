@@ -66,6 +66,8 @@ tags:
     description: SLA APIs
   - name: platformComponent
     description: Platform Component APIs
+  - name: egineSchedulingPolicy
+    description: Engine Scheduling Policy APIs
 paths:
   /admin/v1/user:
     get:
@@ -493,6 +495,35 @@ paths:
       tags:
         - user
       x-codegen-request-body-name: body
+  /admin/v1/users/{userID}/authorization:
+    get:
+      description: Get user roles in multiple organizations
+      operationId: getUserAuthorization
+      summary: Get user roles in multiple organizations
+      parameters:
+        - in: path
+          name: userID
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/userAuthorization'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - user
   /admin/v1/metrics/metaData/aggregate:
     get:
       description: Get aggregate meta data including total count and time series
@@ -12690,7 +12721,7 @@ paths:
         - environment
   /admin/v1/platformComponents:
     get:
-      description: List platform components
+      description: List platform components with monitoring and log query metadata
       summary: List platform components
       operationId: listPlatformComponents
       responses:
@@ -12708,7 +12739,7 @@ paths:
         - platformComponent
   /admin/v1/platformComponents/{componentName}:
     get:
-      description: Get platform component detail by name
+      description: Get platform component detail by name, including monitoring and log query metadata
       summary: Get platform component detail
       operationId: getPlatformComponent
       parameters:
@@ -16873,6 +16904,200 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - vuln
+  /admin/v1/engineGlobalSchedulingStrategies:
+    get:
+      tags:
+        - engineSchedulingPolicy
+      operationId: listEngineGlobalSchedulingStrategies
+      summary: List engine global scheduling strategies
+      parameters:
+        - name: engineName
+          in: query
+          description: filter by engine name
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/engineGlobalSchedulingStrategy'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - engineSchedulingPolicy
+      operationId: createEngineGlobalSchedulingStrategy
+      summary: Create engine global scheduling strategy
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/engineGlobalSchedulingStrategy'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineGlobalSchedulingStrategy'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - engineSchedulingPolicy
+      operationId: patchEngineGlobalSchedulingStrategy
+      summary: Patch class
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/engineGlobalSchedulingStrategy'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineGlobalSchedulingStrategy'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - engineSchedulingPolicy
+      operationId: deleteEngineGlobalSchedulingStrategy
+      summary: Delete class
+      parameters:
+        - name: code
+          in: query
+          description: code
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when project is deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/engineSchedulingRules:
+    get:
+      tags:
+        - engineSchedulingPolicy
+      operationId: listEngineSchedulingRules
+      summary: List engine scheduling rules
+      parameters:
+        - name: engineName
+          in: query
+          description: filter by engine name
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/engineSchedulingRule'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - engineSchedulingPolicy
+      operationId: createEngineSchedulingRule
+      summary: Create engine scheduling rule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/engineSchedulingRule'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineSchedulingRule'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - engineSchedulingPolicy
+      operationId: patchEngineSchedulingRule
+      summary: Patch engine scheduling rule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/engineSchedulingRule'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineSchedulingRule'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - engineSchedulingPolicy
+      operationId: deleteEngineSchedulingRule
+      summary: Delete engine scheduling rule
+      parameters:
+        - name: code
+          in: query
+          description: code
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when rule is deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
 components:
   securitySchemes:
     BearerToken:
@@ -16912,6 +17137,9 @@ components:
         isDefaultPassword:
           description: return true if the default admin user need to reset password
           type: boolean
+        description:
+          description: The description for the user
+          type: string
       required:
         - id
         - userName
@@ -16940,6 +17168,9 @@ components:
           type: string
         email:
           description: The email for the user
+          type: string
+        description:
+          description: The description for the user
           type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
@@ -17062,6 +17293,9 @@ components:
           description: The email for the user
           type: string
           format: email
+        description:
+          description: The description for the user
+          type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
       required:
@@ -17079,6 +17313,19 @@ components:
       required:
         - newPassword
       type: object
+    userAuthorization:
+      description: User authorization
+      type: object
+      properties:
+        orgName:
+          type: string
+          description: The organization name
+        roleName:
+          type: string
+          description: The role name in the organization
+      required:
+        - orgName
+        - roleName
     aggregateMetaDataType:
       type: string
       description: The type of the aggregate meta data.
@@ -17494,6 +17741,117 @@ components:
       enum:
         - Normal
         - DisasterRecovery
+        - BlueGreenDeployment
+    engineSchedulingStrategy:
+      type: string
+      enum:
+        - HardAntiAffinity
+        - SoftAntiAffinity
+      nullable: true
+      description: |
+        * `HardAntiAffinity` - Strictly enforced; pods will not be scheduled if constraints cannot be met.
+        * `SoftAntiAffinity` - Best-effort; the scheduler prefers to satisfy constraints but may place pods together if necessary.
+    engineGlobalSchedulingStrategy:
+      type: object
+      description: Default scheduling strategy applied to all rules unless overridden.
+      properties:
+        globalSchedulingStrategy:
+          description: Default scheduling strategy applied to all rules unless overridden.
+          $ref: '#/components/schemas/engineSchedulingStrategy'
+        engine:
+          type: string
+          description: Database engine this global strategy applies to. Used to match strategies to clusters by engine.
+        engineMode:
+          type: string
+          description: Cluster mode this global strategy applies to. Used to match strategies to clusters by mode.
+        default:
+          description: Indicates if this global strategy is the default strategy applied when no specific rules match.
+          type: boolean
+    target:
+      type: object
+      description: Identifies which component and role the scheduling rule applies to.
+      properties:
+        component:
+          type: string
+          description: |
+            Component name to match. Use "*" to match all components.
+          default: '*'
+        role:
+          type: string
+          description: |
+            Role name to match. Use "*" to match all roles (or no role if the component has none).
+          default: '*'
+    topologyType:
+      type: string
+      description: Topology level at which pod placement constraints are evaluated.
+      enum:
+        - Zone
+        - NodeGroup
+        - Node
+      default: Node
+    topologyDomain:
+      type: object
+      description: Specifies a topology domain and the set of domain values for scheduling constraints.
+      properties:
+        type:
+          $ref: '#/components/schemas/topologyType'
+        values:
+          type: array
+          description: |
+            Domain values within the topology type. Use ["*"] to include all available domains.
+            For example, when type is Zone and values is ["*"], the rule applies across all zones.
+          items:
+            type: string
+          default:
+            - '*'
+      required:
+        - type
+        - values
+    engineSchedulingRule:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Rule name, used to reference this rule when applying scheduling policies to a cluster.
+        engine:
+          type: string
+          description: Database engine type this rule applies to. Used to match rules to clusters by engine.
+        engineMode:
+          type: string
+          description: Cluster mode this rule applies to. Used to match rules to clusters by mode.
+        targetSelector:
+          type: array
+          description: Selects the components and roles this rule applies to.
+          items:
+            $ref: '#/components/schemas/target'
+        schedulingStrategy:
+          description: Overrides the global scheduling strategy for this rule.
+          $ref: '#/components/schemas/engineSchedulingStrategy'
+        topologyDomains:
+          type: array
+          description: Topology domains across which pod placement constraints are enforced.
+          items:
+            $ref: '#/components/schemas/topologyDomain'
+        default:
+          description: Indicates if this rule is the default rule applied when no specific rules match.
+          type: boolean
+      required:
+        - name
+        - engine
+        - engineMode
+        - targetSelector
+        - topologyDomains
+    engineSchedulingPolicy:
+      type: object
+      description: Defines scheduling constraints for cluster pods, including affinity, anti-affinity, and topology spread rules.
+      properties:
+        globalSchedulingStrategy:
+          $ref: '#/components/schemas/engineGlobalSchedulingStrategy'
+        schedulingRules:
+          type: array
+          description: Scheduling rules that define pod placement constraints scoped by engine, mode, and target.
+          items:
+            $ref: '#/components/schemas/engineSchedulingRule'
     clusterListItem:
       description: KubeBlocks cluster information
       properties:
@@ -17581,6 +17939,9 @@ components:
         orgName:
           description: Org Name
           type: string
+        schedulingPolicy:
+          description: Cluster scheduling policy
+          $ref: '#/components/schemas/engineSchedulingPolicy'
       required:
         - cloudProvider
         - createdAt
@@ -17663,9 +18024,7 @@ components:
       default: Delete
       enum:
         - DoNotTerminate
-        - Halt
         - Delete
-        - WipeOut
     ioQuantity:
       description: IO Quantity describes IOPS and BPS of a volume
       properties:
@@ -21855,6 +22214,10 @@ components:
         name:
           description: Name of the node.
           type: string
+        instanceCount:
+          description: Number of database cluster instances (pods) running on this node.
+          type: integer
+          format: int32
       required:
         - cpuStats
         - memoryStats
@@ -21901,6 +22264,21 @@ components:
           type: string
         type:
           $ref: '#/components/schemas/instanceResourceStatsType'
+        engine:
+          description: Engine type of the instance.
+          type: string
+        engineVersion:
+          description: Engine version of the instance.
+          type: string
+        role:
+          description: Role of the instance.
+          type: string
+        clusterName:
+          description: Name of the cluster this instance belongs to.
+          type: string
+        clusterStatus:
+          description: Cluster status.
+          type: string
       required:
         - cpuStats
         - memoryStats
@@ -23958,8 +24336,16 @@ components:
         engineName:
           type: string
           description: The engine to be used in serviceRef. This field is used to filter clusters.
+        modes:
+          type: array
+          items:
+            type: string
+          description: The mode to be used in serviceRef. This field is used to filter clusters. If not set, it means all modes are supported.
         addressStyle:
           $ref: '#/components/schemas/serviceDescriptorAddressStyle'
+        disableManualInput:
+          type: boolean
+          description: whether to disable manual input of the service reference. If set to true, users can only select from the serviceRefs provided by list clusters api.
         helmValuePath:
           type: object
           description: The path to be used in values. Separated with commas. ClusterCreate API will use these path to override values in the cluster chart.
@@ -24052,9 +24438,10 @@ components:
           properties:
             componentAntiAffinity:
               type: array
+              deprecated: true
               minItems: 1
               description: |
-                when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules
+                DEPRECATED: when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules
                 applied to ensure they are spread across different nodes, especially when resource dispersion is enabled.
               items:
                 type: string
@@ -24169,6 +24556,10 @@ components:
         supportMultipleComponent:
           type: boolean
           default: false
+        excludeRootAccounts:
+          type: array
+          items:
+            type: string
     databaseOption:
       type: object
       required:
@@ -28076,7 +28467,7 @@ components:
       x-nullable: true
     platformComponent:
       type: object
-      description: Platform component summary
+      description: Platform component summary with monitoring and log query metadata
       properties:
         name:
           type: string
@@ -28094,6 +28485,12 @@ components:
           type: integer
           format: int64
           description: Number of ready replicas
+        dashboardUID:
+          type: string
+          description: Grafana dashboard UID for this component
+        logJobName:
+          type: string
+          description: Log query job name for this component
       required:
         - name
         - status
@@ -28126,7 +28523,7 @@ components:
           description: Node name where pod is running
     platformComponentDetails:
       type: object
-      description: Platform component detail including pods
+      description: Platform component detail including pods and observability metadata
       properties:
         name:
           type: string
@@ -28141,6 +28538,12 @@ components:
         replicas:
           type: integer
           format: int64
+        dashboardUID:
+          type: string
+          description: Grafana dashboard UID for this component
+        logJobName:
+          type: string
+          description: Log query job name for this component
         pods:
           type: array
           items:
@@ -30385,6 +30788,7 @@ x-tagGroups:
     tags:
       - engine
       - engineOption
+      - engineSchedulingPolicy
   - name: billing
     tags:
       - pricing

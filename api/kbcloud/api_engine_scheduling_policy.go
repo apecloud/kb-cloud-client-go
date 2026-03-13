@@ -2,50 +2,75 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// PlatformComponentApi service type
-type PlatformComponentApi common.Service
+// EngineSchedulingPolicyApi service type
+type EngineSchedulingPolicyApi common.Service
 
-// GetPlatformComponent Get platform component detail.
-// Get platform component detail by name, including monitoring and log query metadata
-func (a *PlatformComponentApi) GetPlatformComponent(ctx _context.Context, componentName string) (PlatformComponentDetails, *_nethttp.Response, error) {
+// ListEngineGlobalSchedulingStrategiesOptionalParameters holds optional parameters for ListEngineGlobalSchedulingStrategies.
+type ListEngineGlobalSchedulingStrategiesOptionalParameters struct {
+	EngineName *string
+}
+
+// NewListEngineGlobalSchedulingStrategiesOptionalParameters creates an empty struct for parameters.
+func NewListEngineGlobalSchedulingStrategiesOptionalParameters() *ListEngineGlobalSchedulingStrategiesOptionalParameters {
+	this := ListEngineGlobalSchedulingStrategiesOptionalParameters{}
+	return &this
+}
+
+// WithEngineName sets the corresponding parameter name and returns the struct.
+func (r *ListEngineGlobalSchedulingStrategiesOptionalParameters) WithEngineName(engineName string) *ListEngineGlobalSchedulingStrategiesOptionalParameters {
+	r.EngineName = &engineName
+	return r
+}
+
+// ListEngineGlobalSchedulingStrategies List engine global scheduling strategies.
+func (a *EngineSchedulingPolicyApi) ListEngineGlobalSchedulingStrategies(ctx _context.Context, o ...ListEngineGlobalSchedulingStrategiesOptionalParameters) ([]EngineGlobalSchedulingStrategy, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue PlatformComponentDetails
+		localVarReturnValue []EngineGlobalSchedulingStrategy
+		optionalParams      ListEngineGlobalSchedulingStrategiesOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListEngineGlobalSchedulingStrategiesOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "platformComponent",
-		OperationID: "getPlatformComponent",
-		Path:        "/admin/v1/platformComponents/{componentName}",
+		Tag:         "engineSchedulingPolicy",
+		OperationID: "listEngineGlobalSchedulingStrategies",
+		Path:        "/api/v1/engineGlobalSchedulingStrategies",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".PlatformComponentApi.GetPlatformComponent")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineSchedulingPolicyApi.ListEngineGlobalSchedulingStrategies")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/platformComponents/{componentName}"
-	localVarPath = strings.Replace(localVarPath, "{"+"componentName"+"}", _neturl.PathEscape(common.ParameterToString(componentName, "")), -1)
+	localVarPath := localBasePath + "/api/v1/engineGlobalSchedulingStrategies"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.EngineName != nil {
+		localVarQueryParams.Add("engineName", common.ParameterToString(*optionalParams.EngineName, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -96,34 +121,61 @@ func (a *PlatformComponentApi) GetPlatformComponent(ctx _context.Context, compon
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListPlatformComponents List platform components.
-// List platform components with monitoring and log query metadata
-func (a *PlatformComponentApi) ListPlatformComponents(ctx _context.Context) ([]PlatformComponent, *_nethttp.Response, error) {
+// ListEngineSchedulingRulesOptionalParameters holds optional parameters for ListEngineSchedulingRules.
+type ListEngineSchedulingRulesOptionalParameters struct {
+	EngineName *string
+}
+
+// NewListEngineSchedulingRulesOptionalParameters creates an empty struct for parameters.
+func NewListEngineSchedulingRulesOptionalParameters() *ListEngineSchedulingRulesOptionalParameters {
+	this := ListEngineSchedulingRulesOptionalParameters{}
+	return &this
+}
+
+// WithEngineName sets the corresponding parameter name and returns the struct.
+func (r *ListEngineSchedulingRulesOptionalParameters) WithEngineName(engineName string) *ListEngineSchedulingRulesOptionalParameters {
+	r.EngineName = &engineName
+	return r
+}
+
+// ListEngineSchedulingRules List engine scheduling rules.
+func (a *EngineSchedulingPolicyApi) ListEngineSchedulingRules(ctx _context.Context, o ...ListEngineSchedulingRulesOptionalParameters) ([]EngineSchedulingRule, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []PlatformComponent
+		localVarReturnValue []EngineSchedulingRule
+		optionalParams      ListEngineSchedulingRulesOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListEngineSchedulingRulesOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "platformComponent",
-		OperationID: "listPlatformComponents",
-		Path:        "/admin/v1/platformComponents",
+		Tag:         "engineSchedulingPolicy",
+		OperationID: "listEngineSchedulingRules",
+		Path:        "/api/v1/engineSchedulingRules",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".PlatformComponentApi.ListPlatformComponents")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineSchedulingPolicyApi.ListEngineSchedulingRules")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/platformComponents"
+	localVarPath := localBasePath + "/api/v1/engineSchedulingRules"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.EngineName != nil {
+		localVarQueryParams.Add("engineName", common.ParameterToString(*optionalParams.EngineName, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -151,7 +203,7 @@ func (a *PlatformComponentApi) ListPlatformComponents(ctx _context.Context) ([]P
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -174,9 +226,9 @@ func (a *PlatformComponentApi) ListPlatformComponents(ctx _context.Context) ([]P
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewPlatformComponentApi Returns NewPlatformComponentApi.
-func NewPlatformComponentApi(client *common.APIClient) *PlatformComponentApi {
-	return &PlatformComponentApi{
+// NewEngineSchedulingPolicyApi Returns NewEngineSchedulingPolicyApi.
+func NewEngineSchedulingPolicyApi(client *common.APIClient) *EngineSchedulingPolicyApi {
+	return &EngineSchedulingPolicyApi{
 		Client: client,
 	}
 }

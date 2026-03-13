@@ -7,9 +7,10 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type ModeOptionSchedulingPolicy struct {
-	// when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules
+	// DEPRECATED: when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules
 	// applied to ensure they are spread across different nodes, especially when resource dispersion is enabled.
 	//
+	// Deprecated
 	ComponentAntiAffinity []string `json:"componentAntiAffinity,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -34,6 +35,7 @@ func NewModeOptionSchedulingPolicyWithDefaults() *ModeOptionSchedulingPolicy {
 }
 
 // GetComponentAntiAffinity returns the ComponentAntiAffinity field value if set, zero value otherwise.
+// Deprecated
 func (o *ModeOptionSchedulingPolicy) GetComponentAntiAffinity() []string {
 	if o == nil || o.ComponentAntiAffinity == nil {
 		var ret []string
@@ -44,6 +46,7 @@ func (o *ModeOptionSchedulingPolicy) GetComponentAntiAffinity() []string {
 
 // GetComponentAntiAffinityOk returns a tuple with the ComponentAntiAffinity field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// Deprecated
 func (o *ModeOptionSchedulingPolicy) GetComponentAntiAffinityOk() (*[]string, bool) {
 	if o == nil || o.ComponentAntiAffinity == nil {
 		return nil, false
@@ -57,6 +60,7 @@ func (o *ModeOptionSchedulingPolicy) HasComponentAntiAffinity() bool {
 }
 
 // SetComponentAntiAffinity gets a reference to the given []string and assigns it to the ComponentAntiAffinity field.
+// Deprecated
 func (o *ModeOptionSchedulingPolicy) SetComponentAntiAffinity(v []string) {
 	o.ComponentAntiAffinity = v
 }
