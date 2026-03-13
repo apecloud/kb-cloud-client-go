@@ -14,9 +14,9 @@ type ParameterOption struct {
 	// component type
 	Component string `json:"component"`
 	// Reference another engine's parameter option to reuse its parameter configuration.
-	// When set on a parameterOption, the referenced engine's parameter option (identified by
-	// engineName + component) is used as the base configuration. Fields explicitly set in
-	// the local parameterOption will override those from the referenced one.
+	// If parameterOptionRef is set, the referenced engine's parameter option (identified by
+	// engineName + component) is used as the only source of parameter configuration. Fields explicitly set in
+	// the local parameterOption will be ignored.
 	//
 	ReferenceEngine *ParameterOptionRef `json:"referenceEngine,omitempty"`
 	// If set to true, the current parameters of the component can be exported and saved as a parameter template.
