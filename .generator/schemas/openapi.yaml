@@ -18661,6 +18661,9 @@ components:
           description: The mode to be used in serviceRef. This field is used to filter clusters. If not set, it means all modes are supported.
         addressStyle:
           $ref: '#/components/schemas/serviceDescriptorAddressStyle'
+        disableManualInput:
+          type: boolean
+          description: whether to disable manual input of the service reference. If set to true, users can only select from the serviceRefs provided by list clusters api.
         helmValuePath:
           type: object
           description: The path to be used in values. Separated with commas. ClusterCreate API will use these path to override values in the cluster chart.
@@ -18870,6 +18873,10 @@ components:
         supportMultipleComponent:
           type: boolean
           default: false
+        excludeRootAccounts:
+          type: array
+          items:
+            type: string
     databaseOption:
       type: object
       required:

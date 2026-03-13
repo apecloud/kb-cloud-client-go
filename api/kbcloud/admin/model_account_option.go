@@ -25,14 +25,15 @@ type AccountOption struct {
 	// min length of account name.
 	// If not set, use default value.
 	//
-	MinLen                   *int32 `json:"minLen,omitempty"`
-	AccountNamePattern       string `json:"accountNamePattern"`
-	Create                   bool   `json:"create"`
-	ResetPassword            bool   `json:"resetPassword"`
-	Delete                   bool   `json:"delete"`
-	DisplayRootAccount       *bool  `json:"displayRootAccount,omitempty"`
-	ResetRootPassword        *bool  `json:"resetRootPassword,omitempty"`
-	SupportMultipleComponent *bool  `json:"supportMultipleComponent,omitempty"`
+	MinLen                   *int32   `json:"minLen,omitempty"`
+	AccountNamePattern       string   `json:"accountNamePattern"`
+	Create                   bool     `json:"create"`
+	ResetPassword            bool     `json:"resetPassword"`
+	Delete                   bool     `json:"delete"`
+	DisplayRootAccount       *bool    `json:"displayRootAccount,omitempty"`
+	ResetRootPassword        *bool    `json:"resetRootPassword,omitempty"`
+	SupportMultipleComponent *bool    `json:"supportMultipleComponent,omitempty"`
+	ExcludeRootAccounts      []string `json:"excludeRootAccounts,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -398,6 +399,34 @@ func (o *AccountOption) SetSupportMultipleComponent(v bool) {
 	o.SupportMultipleComponent = &v
 }
 
+// GetExcludeRootAccounts returns the ExcludeRootAccounts field value if set, zero value otherwise.
+func (o *AccountOption) GetExcludeRootAccounts() []string {
+	if o == nil || o.ExcludeRootAccounts == nil {
+		var ret []string
+		return ret
+	}
+	return o.ExcludeRootAccounts
+}
+
+// GetExcludeRootAccountsOk returns a tuple with the ExcludeRootAccounts field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AccountOption) GetExcludeRootAccountsOk() (*[]string, bool) {
+	if o == nil || o.ExcludeRootAccounts == nil {
+		return nil, false
+	}
+	return &o.ExcludeRootAccounts, true
+}
+
+// HasExcludeRootAccounts returns a boolean if a field has been set.
+func (o *AccountOption) HasExcludeRootAccounts() bool {
+	return o != nil && o.ExcludeRootAccounts != nil
+}
+
+// SetExcludeRootAccounts gets a reference to the given []string and assigns it to the ExcludeRootAccounts field.
+func (o *AccountOption) SetExcludeRootAccounts(v []string) {
+	o.ExcludeRootAccounts = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AccountOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -430,6 +459,9 @@ func (o AccountOption) MarshalJSON() ([]byte, error) {
 	if o.SupportMultipleComponent != nil {
 		toSerialize["supportMultipleComponent"] = o.SupportMultipleComponent
 	}
+	if o.ExcludeRootAccounts != nil {
+		toSerialize["excludeRootAccounts"] = o.ExcludeRootAccounts
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -452,6 +484,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 		DisplayRootAccount       *bool                `json:"displayRootAccount,omitempty"`
 		ResetRootPassword        *bool                `json:"resetRootPassword,omitempty"`
 		SupportMultipleComponent *bool                `json:"supportMultipleComponent,omitempty"`
+		ExcludeRootAccounts      []string             `json:"excludeRootAccounts,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -473,7 +506,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"maxSuperUserAccount", "enabled", "privileges", "maxLen", "minLen", "accountNamePattern", "create", "resetPassword", "delete", "displayRootAccount", "resetRootPassword", "supportMultipleComponent"})
+		common.DeleteKeys(additionalProperties, &[]string{"maxSuperUserAccount", "enabled", "privileges", "maxLen", "minLen", "accountNamePattern", "create", "resetPassword", "delete", "displayRootAccount", "resetRootPassword", "supportMultipleComponent", "excludeRootAccounts"})
 	} else {
 		return err
 	}
@@ -489,6 +522,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.DisplayRootAccount = all.DisplayRootAccount
 	o.ResetRootPassword = all.ResetRootPassword
 	o.SupportMultipleComponent = all.SupportMultipleComponent
+	o.ExcludeRootAccounts = all.ExcludeRootAccounts
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
