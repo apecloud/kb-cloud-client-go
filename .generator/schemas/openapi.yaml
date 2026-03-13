@@ -13566,6 +13566,9 @@ components:
         isDefaultPassword:
           description: return true if the default admin user need to reset password
           type: boolean
+        description:
+          description: The description for the user
+          type: string
       required:
         - id
         - userName
@@ -13594,6 +13597,9 @@ components:
           type: string
         email:
           description: The email for the user
+          type: string
+        description:
+          description: The description for the user
           type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'

@@ -493,6 +493,35 @@ paths:
       tags:
         - user
       x-codegen-request-body-name: body
+  /admin/v1/users/{userID}/authorization:
+    get:
+      description: Get user roles in multiple organizations
+      operationId: getUserAuthorization
+      summary: Get user roles in multiple organizations
+      parameters:
+        - in: path
+          name: userID
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/userAuthorization'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - user
   /admin/v1/metrics/metaData/aggregate:
     get:
       description: Get aggregate meta data including total count and time series
@@ -12690,7 +12719,7 @@ paths:
         - environment
   /admin/v1/platformComponents:
     get:
-      description: List platform components
+      description: List platform components with monitoring and log query metadata
       summary: List platform components
       operationId: listPlatformComponents
       responses:
@@ -12708,7 +12737,7 @@ paths:
         - platformComponent
   /admin/v1/platformComponents/{componentName}:
     get:
-      description: Get platform component detail by name
+      description: Get platform component detail by name, including monitoring and log query metadata
       summary: Get platform component detail
       operationId: getPlatformComponent
       parameters:
@@ -16912,6 +16941,9 @@ components:
         isDefaultPassword:
           description: return true if the default admin user need to reset password
           type: boolean
+        description:
+          description: The description for the user
+          type: string
       required:
         - id
         - userName
@@ -16940,6 +16972,9 @@ components:
           type: string
         email:
           description: The email for the user
+          type: string
+        description:
+          description: The description for the user
           type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
@@ -17062,6 +17097,9 @@ components:
           description: The email for the user
           type: string
           format: email
+        description:
+          description: The description for the user
+          type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
       required:
@@ -17079,6 +17117,19 @@ components:
       required:
         - newPassword
       type: object
+    userAuthorization:
+      description: User authorization
+      type: object
+      properties:
+        orgName:
+          type: string
+          description: The organization name
+        roleName:
+          type: string
+          description: The role name in the organization
+      required:
+        - orgName
+        - roleName
     aggregateMetaDataType:
       type: string
       description: The type of the aggregate meta data.
@@ -28115,7 +28166,7 @@ components:
       x-nullable: true
     platformComponent:
       type: object
-      description: Platform component summary
+      description: Platform component summary with monitoring and log query metadata
       properties:
         name:
           type: string
@@ -28133,6 +28184,12 @@ components:
           type: integer
           format: int64
           description: Number of ready replicas
+        dashboardUID:
+          type: string
+          description: Grafana dashboard UID for this component
+        logJobName:
+          type: string
+          description: Log query job name for this component
       required:
         - name
         - status
@@ -28165,7 +28222,7 @@ components:
           description: Node name where pod is running
     platformComponentDetails:
       type: object
-      description: Platform component detail including pods
+      description: Platform component detail including pods and observability metadata
       properties:
         name:
           type: string
@@ -28180,6 +28237,12 @@ components:
         replicas:
           type: integer
           format: int64
+        dashboardUID:
+          type: string
+          description: Grafana dashboard UID for this component
+        logJobName:
+          type: string
+          description: Log query job name for this component
         pods:
           type: array
           items:
