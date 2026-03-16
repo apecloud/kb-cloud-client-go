@@ -19629,6 +19629,23 @@ components:
         sqlAuditSwitch:
           $ref: '#/components/schemas/sqlAuditSwitchOption'
           description: SQL audit log switch configuration. Only applicable when audit is true. If method type is parameter, control is automatically inferred as reconfigure.
+    parameterOptionRef:
+      type: object
+      description: |
+        Reference another engine's parameter option to reuse its parameter configuration.
+        If parameterOptionRef is set, the referenced engine's parameter option (identified by
+        engineName + component) is used as the only source of parameter configuration. Fields explicitly set in
+        the local parameterOption will be ignored.
+      required:
+        - engineName
+        - component
+      properties:
+        engineName:
+          type: string
+          description: The engine name to reference parameter configuration from.
+        component:
+          type: string
+          description: The component type in the referenced engine whose parameter option to inherit.
     configSpecOption:
       type: object
       required:
@@ -19694,13 +19711,12 @@ components:
       type: object
       required:
         - component
-        - exportTpl
-        - enableTemplate
-        - configSpecs
       properties:
         component:
           type: string
           description: component type
+        referenceEngine:
+          $ref: '#/components/schemas/parameterOptionRef'
         exportTpl:
           description: If set to true, the current parameters of the component can be exported and saved as a parameter template.
           type: boolean
