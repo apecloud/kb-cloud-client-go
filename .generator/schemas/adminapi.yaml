@@ -24390,6 +24390,9 @@ components:
             rootUser:
               type: string
               description: the root user for offline backup
+            supportEmptyPassword:
+              type: boolean
+              description: whether to support empty password for the root user in offline backup
             backupMethod:
               type: string
               description: the backup method for offline backup
@@ -24399,6 +24402,11 @@ components:
             status:
               type: object
               additionalProperties: true
+            modes:
+              type: array
+              items:
+                type: string
+              description: the modes that offline backup supports. if not set, it means all modes are supported.
         backupParameters:
           type: object
           additionalProperties:
