@@ -5749,6 +5749,74 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/drain:
+    post:
+      description: Drain the specified Environment node. This action will evict all pods from the node and mark it as unschedulable.
+      summary: Drain environment node
+      operationId: drainEnvironmentNode
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment node
+          in: path
+          name: nodeName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/undrain:
+    post:
+      description: Undrain the specified Environment node. This action will remove the NoExecute taint and make the node schedulable again.
+      summary: Undrain environment node
+      operationId: undrainEnvironmentNode
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment node
+          in: path
+          name: nodeName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
   /admin/v1/environments/{environmentName}/nodes/{nodeName}/maintenance/on:
     patch:
       description: Set the node to maintenance mode. This action temporarily disables the node for maintenance activities, ensuring no new workloads are scheduled on it.
@@ -20571,6 +20639,7 @@ components:
         - Warning
         - UnderMaintenance
         - Unschedulable
+        - Draining
     node:
       description: node info
       properties:

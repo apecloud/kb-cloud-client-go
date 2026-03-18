@@ -19,6 +19,7 @@ const (
 	NodeStatusWarning          NodeStatus = "Warning"
 	NodeStatusUnderMaintenance NodeStatus = "UnderMaintenance"
 	NodeStatusUnschedulable    NodeStatus = "Unschedulable"
+	NodeStatusDraining         NodeStatus = "Draining"
 )
 
 var allowedNodeStatusEnumValues = []NodeStatus{
@@ -26,6 +27,7 @@ var allowedNodeStatusEnumValues = []NodeStatus{
 	NodeStatusWarning,
 	NodeStatusUnderMaintenance,
 	NodeStatusUnschedulable,
+	NodeStatusDraining,
 }
 
 // GetAllowedValues returns the list of possible values.
