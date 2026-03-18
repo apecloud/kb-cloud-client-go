@@ -4561,12 +4561,12 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backupRepo
-  /api/v1/environments/{environmentName}/backupRepo/{backupRepoName}/files:
-    get:
+  /api/v1/environments/{environmentName}/backupRepo/{backupRepoName}/view:
+    post:
       tags:
         - backupRepo
-      operationId: listBackupRepoFolder
-      summary: list backup repo folder
+      operationId: viewBackupRepo
+      summary: view backup repo
       parameters:
         - name: environmentName
           in: path
@@ -4580,12 +4580,12 @@ paths:
           required: true
           schema:
             type: string
-        - name: path
-          in: query
-          description: path of the folder
-          required: true
-          schema:
-            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backupRepoView'
+        required: true
       responses:
         '200':
           content:
@@ -17805,6 +17805,11 @@ components:
       required:
         - items
       type: object
+    backupRepoView:
+      properties:
+        filepath:
+          description: the router to show in backup repo
+          type: string
     parameterHistory:
       description: The history of a parameter
       type: object

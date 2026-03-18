@@ -7139,44 +7139,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backupRepo
-  /admin/v1/environments/{environmentName}/backupRepo/{backupRepoName}/files:
-    get:
-      tags:
-        - backupRepo
-      operationId: listBackupRepoFolder
-      summary: list backup repo folder
-      parameters:
-        - name: environmentName
-          in: path
-          description: name of the environment
-          required: true
-          schema:
-            type: string
-        - name: backupRepoName
-          in: path
-          description: name of the environment
-          required: true
-          schema:
-            type: string
-        - name: path
-          in: query
-          description: path of the folder
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/fileEntryList'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
   /admin/v1/imageRegistries:
     get:
       operationId: listImageRegistries
