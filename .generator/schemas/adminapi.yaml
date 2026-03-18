@@ -22758,6 +22758,9 @@ components:
           description: the size of entry
           format: int64
           type: integer
+        lastModified:
+          description: the last modified time of entry
+          type: string
     fileEntryList:
       description: BackupEntryList is a list of entry
       properties:
