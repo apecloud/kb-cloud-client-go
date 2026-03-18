@@ -94,7 +94,6 @@
 //   - [backupRepoApi.createBackupRepo]
 //   - [backupRepoApi.deleteBackupRepo]
 //   - [backupRepoApi.getBackupRepo]
-//   - [backupRepoApi.listBackupRepoFolder]
 //   - [backupRepoApi.listBackupRepoStats]
 //   - [backupRepoApi.listBackupRepos]
 //   - [backupRepoApi.updateBackupRepo]

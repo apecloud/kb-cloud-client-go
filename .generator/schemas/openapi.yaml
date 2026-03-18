@@ -4561,12 +4561,12 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backupRepo
-  /api/v1/environments/{environmentName}/backupRepo/{backupRepoName}/files:
-    get:
+  /api/v1/environments/{environmentName}/backupRepo/{backupRepoName}/view:
+    post:
       tags:
         - backupRepo
-      operationId: listBackupRepoFolder
-      summary: list backup repo folder
+      operationId: viewBackupRepo
+      summary: view backup repo
       parameters:
         - name: environmentName
           in: path
@@ -4580,12 +4580,12 @@ paths:
           required: true
           schema:
             type: string
-        - name: path
-          in: query
-          description: path of the folder
-          required: true
-          schema:
-            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backupRepoView'
+        required: true
       responses:
         '200':
           content:
@@ -6103,6 +6103,19 @@ paths:
       description: list all engineOptions
       summary: List all engineOptions
       operationId: listEngineOptions
+      parameters:
+        - description: The version of the engineOption to query, `current` from potentially modified data, `original` from the json files of the apiserver
+          in: query
+          name: version
+          required: false
+          schema:
+            $ref: '#/components/schemas/engineOptionVersion'
+        - description: Whether to filter load backup from offline instance
+          in: query
+          name: filterLoadBackupFromOfflineInstance
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: A successful response.
@@ -17806,6 +17819,11 @@ components:
       required:
         - items
       type: object
+    backupRepoView:
+      properties:
+        filepath:
+          description: the router to show in backup repo
+          type: string
     parameterHistory:
       description: The history of a parameter
       type: object
@@ -18673,6 +18691,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/resourceConstraint'
+    engineOptionVersion:
+      type: string
+      default: current
+      enum:
+        - current
+        - original
     engineOptionStatus:
       type: string
       default: Release
