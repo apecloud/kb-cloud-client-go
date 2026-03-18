@@ -3372,7 +3372,7 @@ func (a *EnvironmentApi) UncordonEnvironmentNode(ctx _context.Context, environme
 }
 
 // UndrainEnvironmentNode Undrain environment node.
-// Uncordon the specified Environment node. This action will remove the NoExecute taint and make the node schedulable again.
+// Undrain the specified Environment node. This action will remove the NoExecute taint and make the node schedulable again.
 func (a *EnvironmentApi) UndrainEnvironmentNode(ctx _context.Context, environmentName string, nodeName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost

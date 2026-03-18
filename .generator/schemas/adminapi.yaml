@@ -5785,7 +5785,7 @@ paths:
         - environment
   /admin/v1/environments/{environmentName}/nodes/{nodeName}/undrain:
     post:
-      description: Uncordon the specified Environment node. This action will remove the NoExecute taint and make the node schedulable again.
+      description: Undrain the specified Environment node. This action will remove the NoExecute taint and make the node schedulable again.
       summary: Undrain environment node
       operationId: undrainEnvironmentNode
       parameters:
@@ -24459,6 +24459,9 @@ components:
             rootUser:
               type: string
               description: the root user for offline backup
+            supportEmptyPassword:
+              type: boolean
+              description: whether to support empty password for the root user in offline backup
             backupMethod:
               type: string
               description: the backup method for offline backup
@@ -24468,6 +24471,11 @@ components:
             status:
               type: object
               additionalProperties: true
+            modes:
+              type: array
+              items:
+                type: string
+              description: the modes that offline backup supports. if not set, it means all modes are supported.
         backupParameters:
           type: object
           additionalProperties:
