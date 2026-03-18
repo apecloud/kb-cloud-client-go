@@ -6103,6 +6103,19 @@ paths:
       description: list all engineOptions
       summary: List all engineOptions
       operationId: listEngineOptions
+      parameters:
+        - description: The version of the engineOption to query, `current` from potentially modified data, `original` from the json files of the apiserver
+          in: query
+          name: version
+          required: false
+          schema:
+            $ref: '#/components/schemas/engineOptionVersion'
+        - description: Whether to filter load backup from offline instance
+          in: query
+          name: filterLoadBackupFromOfflineInstance
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: A successful response.
@@ -18672,6 +18685,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/resourceConstraint'
+    engineOptionVersion:
+      type: string
+      default: current
+      enum:
+        - current
+        - original
     engineOptionStatus:
       type: string
       default: Release
