@@ -102,6 +102,8 @@ tags:
     description: Data Import APIs
   - name: SLA
     description: SLA APIs
+  - name: metering
+    description: Metering APIs
 paths:
   /api/v1/user:
     get:
@@ -12983,6 +12985,60 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - billing
+  /api/v1/metering/tracks:
+    get:
+      operationId: listMeteringTracks
+      summary: List metering tracks
+      parameters:
+        - description: The ID of the cluster
+          in: query
+          name: clusterID
+          schema:
+            type: string
+        - description: name of the organization
+          in: query
+          name: orgName
+          schema:
+            type: string
+        - description: name of the project
+          in: query
+          name: projectName
+          schema:
+            type: string
+        - description: The name of the environment
+          in: query
+          name: environmentName
+          schema:
+            type: string
+        - description: the pageNumber of the query
+          in: query
+          name: pageNumber
+          schema:
+            type: integer
+            format: int64
+        - description: the pageSize of the query
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+            format: int64
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeteringTrackList'
+          description: List metering tracks
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - metering
   /api/v1/inspectionScripts:
     get:
       tags:
@@ -24495,6 +24551,63 @@ components:
           type: array
       required:
         - items
+    MeteringTrack:
+      type: object
+      description: RTS metering track information
+      properties:
+        clusterID:
+          description: The ID of cluster
+          type: string
+          nullable: true
+          x-omitempty: true
+        orgName:
+          description: The Name of organization
+          type: string
+          nullable: true
+          x-omitempty: true
+        projectName:
+          description: The Name of project
+          type: string
+          nullable: true
+          x-omitempty: true
+        environmentID:
+          description: The ID of environment
+          type: string
+          format: uuid
+          nullable: true
+          x-omitempty: true
+        startTime:
+          description: The clipped start time of the metering track in Unix timestamp (seconds since epoch)
+          type: integer
+          format: int64
+          example: 1756656000
+        endTime:
+          description: The clipped end time of the metering track in Unix timestamp (seconds since epoch)
+          type: integer
+          format: int64
+          example: 1756663200
+        cpu:
+          description: The CPU usage tracked for the interval
+          type: string
+        memory:
+          description: The memory usage tracked for the interval
+          type: string
+        storage:
+          description: The storage usage tracked for the interval
+          type: string
+    MeteringTrackList:
+      type: object
+      description: list metering tracks in date range
+      properties:
+        items:
+          description: Items of the metering tracks
+          items:
+            $ref: '#/components/schemas/MeteringTrack'
+          type: array
+        pagination:
+          $ref: '#/components/schemas/paginationResult'
+      required:
+        - items
     inspectionScriptCategory:
       type: string
       description: Specifies the category of the inspection script.
@@ -24904,3 +25017,8 @@ x-tagGroups:
   - name: import
     tags:
       - import
+  - name: billing
+    tags:
+      - pricing
+      - billing
+      - metering
