@@ -4,7 +4,11 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // FileEntry the entry of files
 type FileEntry struct {
@@ -17,7 +21,7 @@ type FileEntry struct {
 	// the size of entry
 	Size *int64 `json:"size,omitempty"`
 	// the last modified time of entry
-	LastModified *string `json:"lastModified,omitempty"`
+	LastModified *time.Time `json:"lastModified,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -153,9 +157,9 @@ func (o *FileEntry) SetSize(v int64) {
 }
 
 // GetLastModified returns the LastModified field value if set, zero value otherwise.
-func (o *FileEntry) GetLastModified() string {
+func (o *FileEntry) GetLastModified() time.Time {
 	if o == nil || o.LastModified == nil {
-		var ret string
+		var ret time.Time
 		return ret
 	}
 	return *o.LastModified
@@ -163,7 +167,7 @@ func (o *FileEntry) GetLastModified() string {
 
 // GetLastModifiedOk returns a tuple with the LastModified field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FileEntry) GetLastModifiedOk() (*string, bool) {
+func (o *FileEntry) GetLastModifiedOk() (*time.Time, bool) {
 	if o == nil || o.LastModified == nil {
 		return nil, false
 	}
@@ -175,8 +179,8 @@ func (o *FileEntry) HasLastModified() bool {
 	return o != nil && o.LastModified != nil
 }
 
-// SetLastModified gets a reference to the given string and assigns it to the LastModified field.
-func (o *FileEntry) SetLastModified(v string) {
+// SetLastModified gets a reference to the given time.Time and assigns it to the LastModified field.
+func (o *FileEntry) SetLastModified(v time.Time) {
 	o.LastModified = &v
 }
 
@@ -199,7 +203,11 @@ func (o FileEntry) MarshalJSON() ([]byte, error) {
 		toSerialize["size"] = o.Size
 	}
 	if o.LastModified != nil {
-		toSerialize["lastModified"] = o.LastModified
+		if o.LastModified.Nanosecond() == 0 {
+			toSerialize["lastModified"] = o.LastModified.Format("2006-01-02T15:04:05Z07:00")
+		} else {
+			toSerialize["lastModified"] = o.LastModified.Format("2006-01-02T15:04:05.000Z07:00")
+		}
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -211,11 +219,11 @@ func (o FileEntry) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *FileEntry) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		IsDir        *bool   `json:"IsDir,omitempty"`
-		FullPath     *string `json:"fullPath,omitempty"`
-		Filename     *string `json:"filename,omitempty"`
-		Size         *int64  `json:"size,omitempty"`
-		LastModified *string `json:"lastModified,omitempty"`
+		IsDir        *bool      `json:"IsDir,omitempty"`
+		FullPath     *string    `json:"fullPath,omitempty"`
+		Filename     *string    `json:"filename,omitempty"`
+		Size         *int64     `json:"size,omitempty"`
+		LastModified *time.Time `json:"lastModified,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

@@ -1907,6 +1907,16 @@ paths:
           name: container
           schema:
             type: string
+        - description: A relative time in seconds before the current time from which to show logs. If this value precedes the time a pod was started, only logs since the pod start will be returned. If this value is in the future, no logs will be returned. Only one of sinceSeconds or sinceTime may be specified.
+          in: query
+          name: sinceSeconds
+          schema:
+            type: integer
+        - description: If set, the number of lines from the end of the logs to show. If not specified, logs are shown from the creation of the container or sinceSeconds or sinceTime
+          in: query
+          name: tailLines
+          schema:
+            type: integer
       responses:
         '200':
           content:
@@ -22760,6 +22770,7 @@ components:
           type: integer
         lastModified:
           description: the last modified time of entry
+          format: date-time
           type: string
     fileEntryList:
       description: BackupEntryList is a list of entry
@@ -25632,6 +25643,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/modeOption'
+        defaultMode:
+          type: string
+          description: |
+            The default mode name to be selected when creating a cluster.
+            This field is used by the frontend only.
+            The value should match one of the mode names defined in the modes array.
+          nullable: true
         account:
           $ref: '#/components/schemas/accountOption'
         database:
