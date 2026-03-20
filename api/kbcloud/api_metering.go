@@ -19,7 +19,7 @@ type MeteringApi common.Service
 // ListMeteringTracksOptionalParameters holds optional parameters for ListMeteringTracks.
 type ListMeteringTracksOptionalParameters struct {
 	ClusterId       *string
-	OrgName         *string
+	OrgNames        *string
 	ProjectName     *string
 	EnvironmentName *string
 	PageNumber      *int64
@@ -38,9 +38,9 @@ func (r *ListMeteringTracksOptionalParameters) WithClusterId(clusterId string) *
 	return r
 }
 
-// WithOrgName sets the corresponding parameter name and returns the struct.
-func (r *ListMeteringTracksOptionalParameters) WithOrgName(orgName string) *ListMeteringTracksOptionalParameters {
-	r.OrgName = &orgName
+// WithOrgNames sets the corresponding parameter name and returns the struct.
+func (r *ListMeteringTracksOptionalParameters) WithOrgNames(orgNames string) *ListMeteringTracksOptionalParameters {
+	r.OrgNames = &orgNames
 	return r
 }
 
@@ -108,8 +108,8 @@ func (a *MeteringApi) ListMeteringTracks(ctx _context.Context, start int64, end 
 	if optionalParams.ClusterId != nil {
 		localVarQueryParams.Add("clusterID", common.ParameterToString(*optionalParams.ClusterId, ""))
 	}
-	if optionalParams.OrgName != nil {
-		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	if optionalParams.OrgNames != nil {
+		localVarQueryParams.Add("orgNames", common.ParameterToString(*optionalParams.OrgNames, ""))
 	}
 	if optionalParams.ProjectName != nil {
 		localVarQueryParams.Add("projectName", common.ParameterToString(*optionalParams.ProjectName, ""))
@@ -150,7 +150,7 @@ func (a *MeteringApi) ListMeteringTracks(ctx _context.Context, start int64, end 
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
