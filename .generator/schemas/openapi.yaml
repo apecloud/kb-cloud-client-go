@@ -3357,6 +3357,81 @@ paths:
       tags:
         - cluster
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/dns/bind:
+    post:
+      operationId: bindDNS
+      summary: Bind external DNS to a cluster component
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dnsBindRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterDNSBinding'
+          description: Successfully bound
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
+        - shared
+      x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/dns/unbind:
+    delete:
+      operationId: unbindDNS
+      summary: Unbind external DNS from a cluster component
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: Component name to unbind
+          in: query
+          name: component
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successfully unbound
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
+        - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/sqlAudit:
     get:
       operationId: getSqlAudit
@@ -17034,6 +17109,78 @@ components:
           description: Items is the list of endpoint objects in the list
           items:
             $ref: '#/components/schemas/endpoint'
+    dnsBindRequest:
+      description: Request to bind external DNS to a cluster component
+      required:
+        - component
+        - serviceName
+        - targetValue
+        - domain
+      properties:
+        component:
+          type: string
+          minLength: 1
+          description: Component name to bind DNS for
+        serviceName:
+          type: string
+          description: K8s Service name (e.g. vpc, internet)
+        targetValue:
+          type: string
+          description: IP or hostname from LoadBalancer to point the DNS record to
+        domain:
+          type: string
+          description: Root domain (e.g. example.com)
+        subdomain:
+          type: string
+          description: Subdomain/RR for the record. If not set, defaults to {cluster}-{component}
+        accessKeyId:
+          type: string
+          description: Cloud provider access key (e.g. Alibaba Cloud AccessKeyId)
+        accessSecret:
+          type: string
+          description: Cloud provider access secret
+        region:
+          type: string
+          description: Cloud provider region (e.g. cn-hangzhou)
+      type: object
+    clusterDNSBinding:
+      description: Cluster DNS binding information
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Binding ID
+        clusterId:
+          type: integer
+          format: int64
+          description: Cluster ID
+        component:
+          type: string
+          description: Component name
+        serviceName:
+          type: string
+          description: K8s Service name
+        dnsHostname:
+          type: string
+          description: Bound DNS hostname
+        targetValue:
+          type: string
+          description: Target IP or hostname
+        recordType:
+          type: string
+          description: DNS record type (A, CNAME, etc.)
+        provider:
+          type: string
+          description: DNS provider (aliyun, aws, etc.)
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation time
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update time
+      type: object
     sqlAuditStatus:
       type: object
       description: SQL audit log status
