@@ -18,6 +18,8 @@ type EnvironmentPricing struct {
 	MemoryPrice common.NullableString `json:"memoryPrice,omitempty"`
 	// The price of Storage, the unit is 'GB'
 	StoragePrice common.NullableString `json:"storagePrice,omitempty"`
+	// The price of Backup, the unit is 'GB'
+	BackupPrice common.NullableString `json:"backupPrice,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -196,6 +198,45 @@ func (o *EnvironmentPricing) UnsetStoragePrice() {
 	o.StoragePrice.Unset()
 }
 
+// GetBackupPrice returns the BackupPrice field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *EnvironmentPricing) GetBackupPrice() string {
+	if o == nil || o.BackupPrice.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.BackupPrice.Get()
+}
+
+// GetBackupPriceOk returns a tuple with the BackupPrice field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *EnvironmentPricing) GetBackupPriceOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.BackupPrice.Get(), o.BackupPrice.IsSet()
+}
+
+// HasBackupPrice returns a boolean if a field has been set.
+func (o *EnvironmentPricing) HasBackupPrice() bool {
+	return o != nil && o.BackupPrice.IsSet()
+}
+
+// SetBackupPrice gets a reference to the given common.NullableString and assigns it to the BackupPrice field.
+func (o *EnvironmentPricing) SetBackupPrice(v string) {
+	o.BackupPrice.Set(&v)
+}
+
+// SetBackupPriceNil sets the value for BackupPrice to be an explicit nil.
+func (o *EnvironmentPricing) SetBackupPriceNil() {
+	o.BackupPrice.Set(nil)
+}
+
+// UnsetBackupPrice ensures that no value is present for BackupPrice, not even an explicit nil.
+func (o *EnvironmentPricing) UnsetBackupPrice() {
+	o.BackupPrice.Unset()
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentPricing) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -214,6 +255,9 @@ func (o EnvironmentPricing) MarshalJSON() ([]byte, error) {
 	if o.StoragePrice.IsSet() {
 		toSerialize["storagePrice"] = o.StoragePrice.Get()
 	}
+	if o.BackupPrice.IsSet() {
+		toSerialize["backupPrice"] = o.BackupPrice.Get()
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -228,13 +272,14 @@ func (o *EnvironmentPricing) UnmarshalJSON(bytes []byte) (err error) {
 		CpuPrice     common.NullableString `json:"cpuPrice,omitempty"`
 		MemoryPrice  common.NullableString `json:"memoryPrice,omitempty"`
 		StoragePrice common.NullableString `json:"storagePrice,omitempty"`
+		BackupPrice  common.NullableString `json:"backupPrice,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"envName", "cpuPrice", "memoryPrice", "storagePrice"})
+		common.DeleteKeys(additionalProperties, &[]string{"envName", "cpuPrice", "memoryPrice", "storagePrice", "backupPrice"})
 	} else {
 		return err
 	}
@@ -242,6 +287,7 @@ func (o *EnvironmentPricing) UnmarshalJSON(bytes []byte) (err error) {
 	o.CpuPrice = all.CpuPrice
 	o.MemoryPrice = all.MemoryPrice
 	o.StoragePrice = all.StoragePrice
+	o.BackupPrice = all.BackupPrice
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

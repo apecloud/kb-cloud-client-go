@@ -30,6 +30,8 @@ type MeteringTrack struct {
 	Memory *string `json:"memory,omitempty"`
 	// The storage usage tracked for the interval
 	Storage *string `json:"storage,omitempty"`
+	// The backup usage tracked for the interval
+	Backup *string `json:"backup,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -348,6 +350,34 @@ func (o *MeteringTrack) SetStorage(v string) {
 	o.Storage = &v
 }
 
+// GetBackup returns the Backup field value if set, zero value otherwise.
+func (o *MeteringTrack) GetBackup() string {
+	if o == nil || o.Backup == nil {
+		var ret string
+		return ret
+	}
+	return *o.Backup
+}
+
+// GetBackupOk returns a tuple with the Backup field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MeteringTrack) GetBackupOk() (*string, bool) {
+	if o == nil || o.Backup == nil {
+		return nil, false
+	}
+	return o.Backup, true
+}
+
+// HasBackup returns a boolean if a field has been set.
+func (o *MeteringTrack) HasBackup() bool {
+	return o != nil && o.Backup != nil
+}
+
+// SetBackup gets a reference to the given string and assigns it to the Backup field.
+func (o *MeteringTrack) SetBackup(v string) {
+	o.Backup = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o MeteringTrack) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -381,6 +411,9 @@ func (o MeteringTrack) MarshalJSON() ([]byte, error) {
 	if o.Storage != nil {
 		toSerialize["storage"] = o.Storage
 	}
+	if o.Backup != nil {
+		toSerialize["backup"] = o.Backup
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -400,13 +433,14 @@ func (o *MeteringTrack) UnmarshalJSON(bytes []byte) (err error) {
 		Cpu           *string               `json:"cpu,omitempty"`
 		Memory        *string               `json:"memory,omitempty"`
 		Storage       *string               `json:"storage,omitempty"`
+		Backup        *string               `json:"backup,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"clusterID", "orgName", "projectName", "environmentID", "startTime", "endTime", "cpu", "memory", "storage"})
+		common.DeleteKeys(additionalProperties, &[]string{"clusterID", "orgName", "projectName", "environmentID", "startTime", "endTime", "cpu", "memory", "storage", "backup"})
 	} else {
 		return err
 	}
@@ -419,6 +453,7 @@ func (o *MeteringTrack) UnmarshalJSON(bytes []byte) (err error) {
 	o.Cpu = all.Cpu
 	o.Memory = all.Memory
 	o.Storage = all.Storage
+	o.Backup = all.Backup
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

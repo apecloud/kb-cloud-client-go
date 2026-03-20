@@ -262,7 +262,7 @@
 //   - [memberApi.listOrgMemberPermission]
 //   - [memberApi.patchOrgMember]
 //   - [memberApi.readOrgMember]
-//   - [meteringApi.listMeteringTracks]
+//   - [meteringApi.listOrgMeteringTracks]
 //   - [mssqlApi.manageMssqlTDEDatabase]
 //   - [oceanbaseApi.getTenant]
 //   - [oceanbaseApi.listTenants]

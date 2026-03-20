@@ -28,6 +28,8 @@ type GlobalPricing struct {
 	MemoryPrice common.NullableString `json:"memoryPrice,omitempty"`
 	// The price of Storage, the unit is 'GB'
 	StoragePrice common.NullableString `json:"storagePrice,omitempty"`
+	// The price of Backup, the unit is 'GB'
+	BackupPrice common.NullableString `json:"backupPrice,omitempty"`
 	// The timezone used for billing calculations and time alignment, specified as an IANA timezone identifier.
 	//
 	// This timezone determines:
@@ -328,6 +330,45 @@ func (o *GlobalPricing) UnsetStoragePrice() {
 	o.StoragePrice.Unset()
 }
 
+// GetBackupPrice returns the BackupPrice field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *GlobalPricing) GetBackupPrice() string {
+	if o == nil || o.BackupPrice.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.BackupPrice.Get()
+}
+
+// GetBackupPriceOk returns a tuple with the BackupPrice field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *GlobalPricing) GetBackupPriceOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.BackupPrice.Get(), o.BackupPrice.IsSet()
+}
+
+// HasBackupPrice returns a boolean if a field has been set.
+func (o *GlobalPricing) HasBackupPrice() bool {
+	return o != nil && o.BackupPrice.IsSet()
+}
+
+// SetBackupPrice gets a reference to the given common.NullableString and assigns it to the BackupPrice field.
+func (o *GlobalPricing) SetBackupPrice(v string) {
+	o.BackupPrice.Set(&v)
+}
+
+// SetBackupPriceNil sets the value for BackupPrice to be an explicit nil.
+func (o *GlobalPricing) SetBackupPriceNil() {
+	o.BackupPrice.Set(nil)
+}
+
+// UnsetBackupPrice ensures that no value is present for BackupPrice, not even an explicit nil.
+func (o *GlobalPricing) UnsetBackupPrice() {
+	o.BackupPrice.Unset()
+}
+
 // GetTimezone returns the Timezone field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *GlobalPricing) GetTimezone() string {
 	if o == nil || o.Timezone.Get() == nil {
@@ -394,6 +435,9 @@ func (o GlobalPricing) MarshalJSON() ([]byte, error) {
 	if o.StoragePrice.IsSet() {
 		toSerialize["storagePrice"] = o.StoragePrice.Get()
 	}
+	if o.BackupPrice.IsSet() {
+		toSerialize["backupPrice"] = o.BackupPrice.Get()
+	}
 	if o.Timezone.IsSet() {
 		toSerialize["timezone"] = o.Timezone.Get()
 	}
@@ -414,6 +458,7 @@ func (o *GlobalPricing) UnmarshalJSON(bytes []byte) (err error) {
 		CpuPrice         common.NullableString `json:"cpuPrice,omitempty"`
 		MemoryPrice      common.NullableString `json:"memoryPrice,omitempty"`
 		StoragePrice     common.NullableString `json:"storagePrice,omitempty"`
+		BackupPrice      common.NullableString `json:"backupPrice,omitempty"`
 		Timezone         common.NullableString `json:"timezone,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -421,7 +466,7 @@ func (o *GlobalPricing) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"enabled", "currencyUnit", "billScheduleTime", "lastBillingTime", "cpuPrice", "memoryPrice", "storagePrice", "timezone"})
+		common.DeleteKeys(additionalProperties, &[]string{"enabled", "currencyUnit", "billScheduleTime", "lastBillingTime", "cpuPrice", "memoryPrice", "storagePrice", "backupPrice", "timezone"})
 	} else {
 		return err
 	}
@@ -432,6 +477,7 @@ func (o *GlobalPricing) UnmarshalJSON(bytes []byte) (err error) {
 	o.CpuPrice = all.CpuPrice
 	o.MemoryPrice = all.MemoryPrice
 	o.StoragePrice = all.StoragePrice
+	o.BackupPrice = all.BackupPrice
 	o.Timezone = all.Timezone
 
 	if len(additionalProperties) > 0 {
