@@ -13,7 +13,7 @@ type Target struct {
 	Component *string `json:"component,omitempty"`
 	// Role name to match. Use "*" to match all roles (or no role if the component has none).
 	//
-	Role *string `json:"role,omitempty"`
+	Role *Target_role `json:"role,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -27,7 +27,7 @@ func NewTarget() *Target {
 	this := Target{}
 	var component string = "*"
 	this.Component = &component
-	var role string = "*"
+	var role Target_role = Target_role
 	this.Role = &role
 	return &this
 }
@@ -39,7 +39,7 @@ func NewTargetWithDefaults() *Target {
 	this := Target{}
 	var component string = "*"
 	this.Component = &component
-	var role string = "*"
+	var role Target_role = Target_role
 	this.Role = &role
 	return &this
 }
@@ -73,9 +73,9 @@ func (o *Target) SetComponent(v string) {
 }
 
 // GetRole returns the Role field value if set, zero value otherwise.
-func (o *Target) GetRole() string {
+func (o *Target) GetRole() Target_role {
 	if o == nil || o.Role == nil {
-		var ret string
+		var ret Target_role
 		return ret
 	}
 	return *o.Role
@@ -83,7 +83,7 @@ func (o *Target) GetRole() string {
 
 // GetRoleOk returns a tuple with the Role field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Target) GetRoleOk() (*string, bool) {
+func (o *Target) GetRoleOk() (*Target_role, bool) {
 	if o == nil || o.Role == nil {
 		return nil, false
 	}
@@ -95,8 +95,8 @@ func (o *Target) HasRole() bool {
 	return o != nil && o.Role != nil
 }
 
-// SetRole gets a reference to the given string and assigns it to the Role field.
-func (o *Target) SetRole(v string) {
+// SetRole gets a reference to the given Target_role and assigns it to the Role field.
+func (o *Target) SetRole(v Target_role) {
 	o.Role = &v
 }
 
@@ -122,8 +122,8 @@ func (o Target) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Target) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component *string `json:"component,omitempty"`
-		Role      *string `json:"role,omitempty"`
+		Component *string      `json:"component,omitempty"`
+		Role      *Target_role `json:"role,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -134,11 +134,21 @@ func (o *Target) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Component = all.Component
-	o.Role = all.Role
+	if all.Role != nil && !all.Role.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Role = all.Role
+	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

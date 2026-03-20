@@ -764,7 +764,9 @@ func (a *ClusterApi) GetInstacesMetrics(ctx _context.Context, orgName string, cl
 
 // GetInstanceContainerLogOptionalParameters holds optional parameters for GetInstanceContainerLog.
 type GetInstanceContainerLogOptionalParameters struct {
-	Container *string
+	Container    *string
+	SinceSeconds *int32
+	TailLines    *int32
 }
 
 // NewGetInstanceContainerLogOptionalParameters creates an empty struct for parameters.
@@ -776,6 +778,18 @@ func NewGetInstanceContainerLogOptionalParameters() *GetInstanceContainerLogOpti
 // WithContainer sets the corresponding parameter name and returns the struct.
 func (r *GetInstanceContainerLogOptionalParameters) WithContainer(container string) *GetInstanceContainerLogOptionalParameters {
 	r.Container = &container
+	return r
+}
+
+// WithSinceSeconds sets the corresponding parameter name and returns the struct.
+func (r *GetInstanceContainerLogOptionalParameters) WithSinceSeconds(sinceSeconds int32) *GetInstanceContainerLogOptionalParameters {
+	r.SinceSeconds = &sinceSeconds
+	return r
+}
+
+// WithTailLines sets the corresponding parameter name and returns the struct.
+func (r *GetInstanceContainerLogOptionalParameters) WithTailLines(tailLines int32) *GetInstanceContainerLogOptionalParameters {
+	r.TailLines = &tailLines
 	return r
 }
 
@@ -820,6 +834,12 @@ func (a *ClusterApi) GetInstanceContainerLog(ctx _context.Context, orgName strin
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.Container != nil {
 		localVarQueryParams.Add("container", common.ParameterToString(*optionalParams.Container, ""))
+	}
+	if optionalParams.SinceSeconds != nil {
+		localVarQueryParams.Add("sinceSeconds", common.ParameterToString(*optionalParams.SinceSeconds, ""))
+	}
+	if optionalParams.TailLines != nil {
+		localVarQueryParams.Add("tailLines", common.ParameterToString(*optionalParams.TailLines, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

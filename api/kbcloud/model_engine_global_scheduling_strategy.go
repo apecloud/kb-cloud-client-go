@@ -12,12 +12,11 @@ import (
 type EngineGlobalSchedulingStrategy struct {
 	// * `HardAntiAffinity` - Strictly enforced; pods will not be scheduled if constraints cannot be met.
 	// * `SoftAntiAffinity` - Best-effort; the scheduler prefers to satisfy constraints but may place pods together if necessary.
+	// * `Disabled` - No anti-affinity constraints applied.
 	//
 	GlobalSchedulingStrategy NullableEngineSchedulingStrategy `json:"globalSchedulingStrategy,omitempty"`
 	// Database engine this global strategy applies to. Used to match strategies to clusters by engine.
 	Engine *string `json:"engine,omitempty"`
-	// Cluster mode this global strategy applies to. Used to match strategies to clusters by mode.
-	EngineMode *string `json:"engineMode,omitempty"`
 	// Indicates if this global strategy is the default strategy applied when no specific rules match.
 	Default *bool `json:"default,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -31,6 +30,8 @@ type EngineGlobalSchedulingStrategy struct {
 // will change when the set of required properties is changed.
 func NewEngineGlobalSchedulingStrategy() *EngineGlobalSchedulingStrategy {
 	this := EngineGlobalSchedulingStrategy{}
+	var globalSchedulingStrategy EngineSchedulingStrategy = EngineSchedulingStrategyDisabled
+	this.GlobalSchedulingStrategy = *NewNullableEngineSchedulingStrategy(&globalSchedulingStrategy)
 	return &this
 }
 
@@ -39,6 +40,8 @@ func NewEngineGlobalSchedulingStrategy() *EngineGlobalSchedulingStrategy {
 // but it doesn't guarantee that properties required by API are set.
 func NewEngineGlobalSchedulingStrategyWithDefaults() *EngineGlobalSchedulingStrategy {
 	this := EngineGlobalSchedulingStrategy{}
+	var globalSchedulingStrategy EngineSchedulingStrategy = EngineSchedulingStrategyDisabled
+	this.GlobalSchedulingStrategy = *NewNullableEngineSchedulingStrategy(&globalSchedulingStrategy)
 	return &this
 }
 
@@ -109,34 +112,6 @@ func (o *EngineGlobalSchedulingStrategy) SetEngine(v string) {
 	o.Engine = &v
 }
 
-// GetEngineMode returns the EngineMode field value if set, zero value otherwise.
-func (o *EngineGlobalSchedulingStrategy) GetEngineMode() string {
-	if o == nil || o.EngineMode == nil {
-		var ret string
-		return ret
-	}
-	return *o.EngineMode
-}
-
-// GetEngineModeOk returns a tuple with the EngineMode field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *EngineGlobalSchedulingStrategy) GetEngineModeOk() (*string, bool) {
-	if o == nil || o.EngineMode == nil {
-		return nil, false
-	}
-	return o.EngineMode, true
-}
-
-// HasEngineMode returns a boolean if a field has been set.
-func (o *EngineGlobalSchedulingStrategy) HasEngineMode() bool {
-	return o != nil && o.EngineMode != nil
-}
-
-// SetEngineMode gets a reference to the given string and assigns it to the EngineMode field.
-func (o *EngineGlobalSchedulingStrategy) SetEngineMode(v string) {
-	o.EngineMode = &v
-}
-
 // GetDefault returns the Default field value if set, zero value otherwise.
 func (o *EngineGlobalSchedulingStrategy) GetDefault() bool {
 	if o == nil || o.Default == nil {
@@ -177,9 +152,6 @@ func (o EngineGlobalSchedulingStrategy) MarshalJSON() ([]byte, error) {
 	if o.Engine != nil {
 		toSerialize["engine"] = o.Engine
 	}
-	if o.EngineMode != nil {
-		toSerialize["engineMode"] = o.EngineMode
-	}
 	if o.Default != nil {
 		toSerialize["default"] = o.Default
 	}
@@ -195,7 +167,6 @@ func (o *EngineGlobalSchedulingStrategy) UnmarshalJSON(bytes []byte) (err error)
 	all := struct {
 		GlobalSchedulingStrategy NullableEngineSchedulingStrategy `json:"globalSchedulingStrategy,omitempty"`
 		Engine                   *string                          `json:"engine,omitempty"`
-		EngineMode               *string                          `json:"engineMode,omitempty"`
 		Default                  *bool                            `json:"default,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -203,7 +174,7 @@ func (o *EngineGlobalSchedulingStrategy) UnmarshalJSON(bytes []byte) (err error)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"globalSchedulingStrategy", "engine", "engineMode", "default"})
+		common.DeleteKeys(additionalProperties, &[]string{"globalSchedulingStrategy", "engine", "default"})
 	} else {
 		return err
 	}
@@ -215,7 +186,6 @@ func (o *EngineGlobalSchedulingStrategy) UnmarshalJSON(bytes []byte) (err error)
 		o.GlobalSchedulingStrategy = all.GlobalSchedulingStrategy
 	}
 	o.Engine = all.Engine
-	o.EngineMode = all.EngineMode
 	o.Default = all.Default
 
 	if len(additionalProperties) > 0 {

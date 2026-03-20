@@ -96,14 +96,46 @@ func (a *EngineOptionApi) GetEngineOption(ctx _context.Context, engineName strin
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// ListEngineOptionsOptionalParameters holds optional parameters for ListEngineOptions.
+type ListEngineOptionsOptionalParameters struct {
+	Version                             *EngineOptionVersion
+	FilterLoadBackupFromOfflineInstance *bool
+}
+
+// NewListEngineOptionsOptionalParameters creates an empty struct for parameters.
+func NewListEngineOptionsOptionalParameters() *ListEngineOptionsOptionalParameters {
+	this := ListEngineOptionsOptionalParameters{}
+	return &this
+}
+
+// WithVersion sets the corresponding parameter name and returns the struct.
+func (r *ListEngineOptionsOptionalParameters) WithVersion(version EngineOptionVersion) *ListEngineOptionsOptionalParameters {
+	r.Version = &version
+	return r
+}
+
+// WithFilterLoadBackupFromOfflineInstance sets the corresponding parameter name and returns the struct.
+func (r *ListEngineOptionsOptionalParameters) WithFilterLoadBackupFromOfflineInstance(filterLoadBackupFromOfflineInstance bool) *ListEngineOptionsOptionalParameters {
+	r.FilterLoadBackupFromOfflineInstance = &filterLoadBackupFromOfflineInstance
+	return r
+}
+
 // ListEngineOptions List all engineOptions.
 // list all engineOptions
-func (a *EngineOptionApi) ListEngineOptions(ctx _context.Context) (EngineOptionList, *_nethttp.Response, error) {
+func (a *EngineOptionApi) ListEngineOptions(ctx _context.Context, o ...ListEngineOptionsOptionalParameters) (EngineOptionList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue EngineOptionList
+		optionalParams      ListEngineOptionsOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListEngineOptionsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -124,6 +156,12 @@ func (a *EngineOptionApi) ListEngineOptions(ctx _context.Context) (EngineOptionL
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Version != nil {
+		localVarQueryParams.Add("version", common.ParameterToString(*optionalParams.Version, ""))
+	}
+	if optionalParams.FilterLoadBackupFromOfflineInstance != nil {
+		localVarQueryParams.Add("filterLoadBackupFromOfflineInstance", common.ParameterToString(*optionalParams.FilterLoadBackupFromOfflineInstance, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(

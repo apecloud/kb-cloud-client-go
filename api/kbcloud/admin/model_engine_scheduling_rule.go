@@ -21,6 +21,7 @@ type EngineSchedulingRule struct {
 	TargetSelector []Target `json:"targetSelector"`
 	// * `HardAntiAffinity` - Strictly enforced; pods will not be scheduled if constraints cannot be met.
 	// * `SoftAntiAffinity` - Best-effort; the scheduler prefers to satisfy constraints but may place pods together if necessary.
+	// * `Disabled` - No anti-affinity constraints applied.
 	//
 	SchedulingStrategy NullableEngineSchedulingStrategy `json:"schedulingStrategy,omitempty"`
 	// Topology domains across which pod placement constraints are enforced.
@@ -42,6 +43,8 @@ func NewEngineSchedulingRule(name string, engine string, engineMode string, targ
 	this.Engine = engine
 	this.EngineMode = engineMode
 	this.TargetSelector = targetSelector
+	var schedulingStrategy EngineSchedulingStrategy = EngineSchedulingStrategyDisabled
+	this.SchedulingStrategy = *NewNullableEngineSchedulingStrategy(&schedulingStrategy)
 	this.TopologyDomains = topologyDomains
 	return &this
 }
@@ -51,6 +54,8 @@ func NewEngineSchedulingRule(name string, engine string, engineMode string, targ
 // but it doesn't guarantee that properties required by API are set.
 func NewEngineSchedulingRuleWithDefaults() *EngineSchedulingRule {
 	this := EngineSchedulingRule{}
+	var schedulingStrategy EngineSchedulingStrategy = EngineSchedulingStrategyDisabled
+	this.SchedulingStrategy = *NewNullableEngineSchedulingStrategy(&schedulingStrategy)
 	return &this
 }
 

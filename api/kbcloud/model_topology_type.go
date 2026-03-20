@@ -15,14 +15,12 @@ type TopologyType string
 
 // List of TopologyType.
 const (
-	TopologyTypeZone      TopologyType = "Zone"
-	TopologyTypeNodeGroup TopologyType = "NodeGroup"
-	TopologyTypeNode      TopologyType = "Node"
+	TopologyTypeZone TopologyType = "Zone"
+	TopologyTypeNode TopologyType = "Node"
 )
 
 var allowedTopologyTypeEnumValues = []TopologyType{
 	TopologyTypeZone,
-	TopologyTypeNodeGroup,
 	TopologyTypeNode,
 }
 

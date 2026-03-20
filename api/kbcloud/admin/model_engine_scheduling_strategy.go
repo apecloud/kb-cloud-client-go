@@ -12,17 +12,20 @@ import (
 
 // EngineSchedulingStrategy * `HardAntiAffinity` - Strictly enforced; pods will not be scheduled if constraints cannot be met.
 // * `SoftAntiAffinity` - Best-effort; the scheduler prefers to satisfy constraints but may place pods together if necessary.
+// * `Disabled` - No anti-affinity constraints applied.
 type EngineSchedulingStrategy string
 
 // List of EngineSchedulingStrategy.
 const (
 	EngineSchedulingStrategyHardAntiAffinity EngineSchedulingStrategy = "HardAntiAffinity"
 	EngineSchedulingStrategySoftAntiAffinity EngineSchedulingStrategy = "SoftAntiAffinity"
+	EngineSchedulingStrategyDisabled         EngineSchedulingStrategy = "Disabled"
 )
 
 var allowedEngineSchedulingStrategyEnumValues = []EngineSchedulingStrategy{
 	EngineSchedulingStrategyHardAntiAffinity,
 	EngineSchedulingStrategySoftAntiAffinity,
+	EngineSchedulingStrategyDisabled,
 }
 
 // GetAllowedValues returns the list of possible values.

@@ -60,6 +60,8 @@ tags:
     description: Organization Parameter APIs
   - name: billing
     description: Billing APIs
+  - name: metering
+    description: Metering APIs
   - name: import
     description: Data Import APIs
   - name: SLA
@@ -1909,6 +1911,16 @@ paths:
           name: container
           schema:
             type: string
+        - description: A relative time in seconds before the current time from which to show logs. If this value precedes the time a pod was started, only logs since the pod start will be returned. If this value is in the future, no logs will be returned. Only one of sinceSeconds or sinceTime may be specified.
+          in: query
+          name: sinceSeconds
+          schema:
+            type: integer
+        - description: If set, the number of lines from the end of the logs to show. If not specified, logs are shown from the creation of the container or sinceSeconds or sinceTime
+          in: query
+          name: tailLines
+          schema:
+            type: integer
       responses:
         '200':
           content:
@@ -5751,6 +5763,74 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/drain:
+    post:
+      description: Drain the specified Environment node. This action will evict all pods from the node and mark it as unschedulable.
+      summary: Drain environment node
+      operationId: drainEnvironmentNode
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment node
+          in: path
+          name: nodeName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/undrain:
+    post:
+      description: Undrain the specified Environment node. This action will remove the NoExecute taint and make the node schedulable again.
+      summary: Undrain environment node
+      operationId: undrainEnvironmentNode
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment node
+          in: path
+          name: nodeName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
   /admin/v1/environments/{environmentName}/nodes/{nodeName}/maintenance/on:
     patch:
       description: Set the node to maintenance mode. This action temporarily disables the node for maintenance activities, ensuring no new workloads are scheduled on it.
@@ -7141,44 +7221,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backupRepo
-  /admin/v1/environments/{environmentName}/backupRepo/{backupRepoName}/files:
-    get:
-      tags:
-        - backupRepo
-      operationId: listBackupRepoFolder
-      summary: list backup repo folder
-      parameters:
-        - name: environmentName
-          in: path
-          description: name of the environment
-          required: true
-          schema:
-            type: string
-        - name: backupRepoName
-          in: path
-          description: name of the environment
-          required: true
-          schema:
-            type: string
-        - name: path
-          in: query
-          description: path of the folder
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/fileEntryList'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
   /admin/v1/imageRegistries:
     get:
       operationId: listImageRegistries
@@ -7507,6 +7549,11 @@ paths:
         - name: withDeletedBackups
           in: query
           description: defined whether to search for deleted backups. if not set, only return backups that are not deleted
+          schema:
+            type: boolean
+        - name: withRestoreCluster
+          in: query
+          description: defined whether to search for restore backups.
           schema:
             type: boolean
         - name: backupType
@@ -16353,6 +16400,60 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - billing
+  /admin/v1/metering/tracks:
+    get:
+      operationId: listMeteringTracks
+      summary: List metering tracks
+      parameters:
+        - description: The ID of the cluster
+          in: query
+          name: clusterID
+          schema:
+            type: string
+        - description: name of the organization
+          in: query
+          name: orgName
+          schema:
+            type: string
+        - description: name of the project
+          in: query
+          name: projectName
+          schema:
+            type: string
+        - description: The name of the environment
+          in: query
+          name: environmentName
+          schema:
+            type: string
+        - description: the pageNumber of the query
+          in: query
+          name: pageNumber
+          schema:
+            type: integer
+            format: int64
+        - description: the pageSize of the query
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+            format: int64
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeteringTrackList'
+          description: List metering tracks
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - metering
   /admin/v1/sla:
     get:
       summary: Calculate SLA for a environment
@@ -17742,116 +17843,6 @@ components:
         - Normal
         - DisasterRecovery
         - BlueGreenDeployment
-    engineSchedulingStrategy:
-      type: string
-      enum:
-        - HardAntiAffinity
-        - SoftAntiAffinity
-      nullable: true
-      description: |
-        * `HardAntiAffinity` - Strictly enforced; pods will not be scheduled if constraints cannot be met.
-        * `SoftAntiAffinity` - Best-effort; the scheduler prefers to satisfy constraints but may place pods together if necessary.
-    engineGlobalSchedulingStrategy:
-      type: object
-      description: Default scheduling strategy applied to all rules unless overridden.
-      properties:
-        globalSchedulingStrategy:
-          description: Default scheduling strategy applied to all rules unless overridden.
-          $ref: '#/components/schemas/engineSchedulingStrategy'
-        engine:
-          type: string
-          description: Database engine this global strategy applies to. Used to match strategies to clusters by engine.
-        engineMode:
-          type: string
-          description: Cluster mode this global strategy applies to. Used to match strategies to clusters by mode.
-        default:
-          description: Indicates if this global strategy is the default strategy applied when no specific rules match.
-          type: boolean
-    target:
-      type: object
-      description: Identifies which component and role the scheduling rule applies to.
-      properties:
-        component:
-          type: string
-          description: |
-            Component name to match. Use "*" to match all components.
-          default: '*'
-        role:
-          type: string
-          description: |
-            Role name to match. Use "*" to match all roles (or no role if the component has none).
-          default: '*'
-    topologyType:
-      type: string
-      description: Topology level at which pod placement constraints are evaluated.
-      enum:
-        - Zone
-        - NodeGroup
-        - Node
-      default: Node
-    topologyDomain:
-      type: object
-      description: Specifies a topology domain and the set of domain values for scheduling constraints.
-      properties:
-        type:
-          $ref: '#/components/schemas/topologyType'
-        values:
-          type: array
-          description: |
-            Domain values within the topology type. Use ["*"] to include all available domains.
-            For example, when type is Zone and values is ["*"], the rule applies across all zones.
-          items:
-            type: string
-          default:
-            - '*'
-      required:
-        - type
-        - values
-    engineSchedulingRule:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Rule name, used to reference this rule when applying scheduling policies to a cluster.
-        engine:
-          type: string
-          description: Database engine type this rule applies to. Used to match rules to clusters by engine.
-        engineMode:
-          type: string
-          description: Cluster mode this rule applies to. Used to match rules to clusters by mode.
-        targetSelector:
-          type: array
-          description: Selects the components and roles this rule applies to.
-          items:
-            $ref: '#/components/schemas/target'
-        schedulingStrategy:
-          description: Overrides the global scheduling strategy for this rule.
-          $ref: '#/components/schemas/engineSchedulingStrategy'
-        topologyDomains:
-          type: array
-          description: Topology domains across which pod placement constraints are enforced.
-          items:
-            $ref: '#/components/schemas/topologyDomain'
-        default:
-          description: Indicates if this rule is the default rule applied when no specific rules match.
-          type: boolean
-      required:
-        - name
-        - engine
-        - engineMode
-        - targetSelector
-        - topologyDomains
-    engineSchedulingPolicy:
-      type: object
-      description: Defines scheduling constraints for cluster pods, including affinity, anti-affinity, and topology spread rules.
-      properties:
-        globalSchedulingStrategy:
-          $ref: '#/components/schemas/engineGlobalSchedulingStrategy'
-        schedulingRules:
-          type: array
-          description: Scheduling rules that define pod placement constraints scoped by engine, mode, and target.
-          items:
-            $ref: '#/components/schemas/engineSchedulingRule'
     clusterListItem:
       description: KubeBlocks cluster information
       properties:
@@ -17939,9 +17930,6 @@ components:
         orgName:
           description: Org Name
           type: string
-        schedulingPolicy:
-          description: Cluster scheduling policy
-          $ref: '#/components/schemas/engineSchedulingPolicy'
       required:
         - cloudProvider
         - createdAt
@@ -18251,6 +18239,120 @@ components:
           x-omitempty: false
           description: weekdays, comma separated values of 1-7
       description: the maintenance window for a cluster
+    engineSchedulingStrategy:
+      type: string
+      enum:
+        - HardAntiAffinity
+        - SoftAntiAffinity
+        - Disabled
+      default: Disabled
+      nullable: true
+      description: |
+        * `HardAntiAffinity` - Strictly enforced; pods will not be scheduled if constraints cannot be met.
+        * `SoftAntiAffinity` - Best-effort; the scheduler prefers to satisfy constraints but may place pods together if necessary.
+        * `Disabled` - No anti-affinity constraints applied.
+    engineGlobalSchedulingStrategy:
+      type: object
+      description: Default scheduling strategy applied to all rules unless overridden.
+      properties:
+        globalSchedulingStrategy:
+          description: Default scheduling strategy applied to all rules unless overridden.
+          $ref: '#/components/schemas/engineSchedulingStrategy'
+        engine:
+          type: string
+          description: Database engine this global strategy applies to. Used to match strategies to clusters by engine.
+        default:
+          description: Indicates if this global strategy is the default strategy applied when no specific rules match.
+          type: boolean
+    target_role:
+      type: string
+      enum:
+        - Primary
+        - '*'
+      description: |
+        Role name to match. Use "*" to match all roles (or no role if the component has none).
+      default: '*'
+    target:
+      type: object
+      description: Identifies which component and role the scheduling rule applies to.
+      properties:
+        component:
+          type: string
+          description: |
+            Component name to match. Use "*" to match all components.
+          default: '*'
+        role:
+          $ref: '#/components/schemas/target_role'
+    topologyType:
+      type: string
+      description: Topology level at which pod placement constraints are evaluated.
+      enum:
+        - Zone
+        - Node
+      default: Node
+    topologyDomain:
+      type: object
+      description: Specifies a topology domain and the set of domain values for scheduling constraints.
+      properties:
+        type:
+          $ref: '#/components/schemas/topologyType'
+        values:
+          type: array
+          description: |
+            Domain values within the topology type. Use ["*"] to include all available domains.
+            For example, when type is Zone and values is ["*"], the rule applies across all zones.
+          items:
+            type: string
+          default:
+            - '*'
+      required:
+        - type
+        - values
+    engineSchedulingRule:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Rule name, used to reference this rule when applying scheduling policies to a cluster.
+        engine:
+          type: string
+          description: Database engine type this rule applies to. Used to match rules to clusters by engine.
+        engineMode:
+          type: string
+          description: Cluster mode this rule applies to. Used to match rules to clusters by mode.
+        targetSelector:
+          type: array
+          description: Selects the components and roles this rule applies to.
+          items:
+            $ref: '#/components/schemas/target'
+        schedulingStrategy:
+          description: Overrides the global scheduling strategy for this rule.
+          $ref: '#/components/schemas/engineSchedulingStrategy'
+        topologyDomains:
+          type: array
+          description: Topology domains across which pod placement constraints are enforced.
+          items:
+            $ref: '#/components/schemas/topologyDomain'
+        default:
+          description: Indicates if this rule is the default rule applied when no specific rules match.
+          type: boolean
+      required:
+        - name
+        - engine
+        - engineMode
+        - targetSelector
+        - topologyDomains
+    engineSchedulingPolicy:
+      type: object
+      description: Defines scheduling constraints for cluster pods, including affinity, anti-affinity, and topology spread rules.
+      properties:
+        globalSchedulingStrategy:
+          $ref: '#/components/schemas/engineGlobalSchedulingStrategy'
+        schedulingRules:
+          type: array
+          description: Scheduling rules that define pod placement constraints scoped by engine, mode, and target.
+          items:
+            $ref: '#/components/schemas/engineSchedulingRule'
     clusterCreate:
       required:
         - engine
@@ -18347,6 +18449,9 @@ components:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
+        schedulingPolicy:
+          description: Cluster scheduling policy
+          $ref: '#/components/schemas/engineSchedulingPolicy'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -20880,6 +20985,7 @@ components:
         - Warning
         - UnderMaintenance
         - Unschedulable
+        - Draining
     node:
       description: node info
       properties:
@@ -23036,6 +23142,10 @@ components:
           description: the size of entry
           format: int64
           type: integer
+        lastModified:
+          description: the last modified time of entry
+          format: date-time
+          type: string
     fileEntryList:
       description: BackupEntryList is a list of entry
       properties:
@@ -24700,6 +24810,9 @@ components:
             rootUser:
               type: string
               description: the root user for offline backup
+            supportEmptyPassword:
+              type: boolean
+              description: whether to support empty password for the root user in offline backup
             backupMethod:
               type: string
               description: the backup method for offline backup
@@ -24709,6 +24822,11 @@ components:
             status:
               type: object
               additionalProperties: true
+            modes:
+              type: array
+              items:
+                type: string
+              description: the modes that offline backup supports. if not set, it means all modes are supported.
         backupParameters:
           type: object
           additionalProperties:
@@ -25126,6 +25244,23 @@ components:
         sqlAuditSwitch:
           $ref: '#/components/schemas/sqlAuditSwitchOption'
           description: SQL audit log switch configuration. Only applicable when audit is true. If method type is parameter, control is automatically inferred as reconfigure.
+    parameterOptionRef:
+      type: object
+      description: |
+        Reference another engine's parameter option to reuse its parameter configuration.
+        If parameterOptionRef is set, the referenced engine's parameter option (identified by
+        engineName + component) is used as the only source of parameter configuration. Fields explicitly set in
+        the local parameterOption will be ignored.
+      required:
+        - engineName
+        - component
+      properties:
+        engineName:
+          type: string
+          description: The engine name to reference parameter configuration from.
+        component:
+          type: string
+          description: The component type in the referenced engine whose parameter option to inherit.
     configSpecOption:
       type: object
       required:
@@ -25191,13 +25326,12 @@ components:
       type: object
       required:
         - component
-        - exportTpl
-        - enableTemplate
-        - configSpecs
       properties:
         component:
           type: string
           description: component type
+        referenceEngine:
+          $ref: '#/components/schemas/parameterOptionRef'
         exportTpl:
           description: If set to true, the current parameters of the component can be exported and saved as a parameter template.
           type: boolean
@@ -25884,6 +26018,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/modeOption'
+        defaultMode:
+          type: string
+          description: |
+            The default mode name to be selected when creating a cluster.
+            This field is used by the frontend only.
+            The value should match one of the mode names defined in the modes array.
+          nullable: true
         account:
           $ref: '#/components/schemas/accountOption'
         database:
@@ -30331,6 +30472,63 @@ components:
           type: array
       required:
         - items
+    MeteringTrack:
+      type: object
+      description: RTS metering track information
+      properties:
+        clusterID:
+          description: The ID of cluster
+          type: string
+          nullable: true
+          x-omitempty: true
+        orgName:
+          description: The Name of organization
+          type: string
+          nullable: true
+          x-omitempty: true
+        projectName:
+          description: The Name of project
+          type: string
+          nullable: true
+          x-omitempty: true
+        environmentID:
+          description: The ID of environment
+          type: string
+          format: uuid
+          nullable: true
+          x-omitempty: true
+        startTime:
+          description: The clipped start time of the metering track in Unix timestamp (seconds since epoch)
+          type: integer
+          format: int64
+          example: 1756656000
+        endTime:
+          description: The clipped end time of the metering track in Unix timestamp (seconds since epoch)
+          type: integer
+          format: int64
+          example: 1756663200
+        cpu:
+          description: The CPU usage tracked for the interval
+          type: string
+        memory:
+          description: The memory usage tracked for the interval
+          type: string
+        storage:
+          description: The storage usage tracked for the interval
+          type: string
+    MeteringTrackList:
+      type: object
+      description: list metering tracks in date range
+      properties:
+        items:
+          description: Items of the metering tracks
+          items:
+            $ref: '#/components/schemas/MeteringTrack'
+          type: array
+        pagination:
+          $ref: '#/components/schemas/paginationResult'
+      required:
+        - items
     OutageRecord:
       type: object
       description: Records the outage events of a cluster for SLA calculation. It is designed to ensure that for any given cluster, there can be at most one active outage record at any time.
@@ -30793,6 +30991,7 @@ x-tagGroups:
     tags:
       - pricing
       - billing
+      - metering
   - name: import
     tags:
       - import

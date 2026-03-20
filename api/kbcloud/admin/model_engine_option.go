@@ -20,9 +20,14 @@ type EngineOption struct {
 	Versions      []string             `json:"versions,omitempty"`
 	Components    []ComponentOption    `json:"components"`
 	Modes         []ModeOption         `json:"modes"`
-	Account       *AccountOption       `json:"account,omitempty"`
-	Database      *DatabaseOption      `json:"database,omitempty"`
-	Dms           DmsOption            `json:"dms"`
+	// The default mode name to be selected when creating a cluster.
+	// This field is used by the frontend only.
+	// The value should match one of the mode names defined in the modes array.
+	//
+	DefaultMode common.NullableString `json:"defaultMode,omitempty"`
+	Account     *AccountOption        `json:"account,omitempty"`
+	Database    *DatabaseOption       `json:"database,omitempty"`
+	Dms         DmsOption             `json:"dms"`
 	// If present, it must be set defaultMethod and fullMethod
 	Backup           *BackupOption           `json:"backup,omitempty"`
 	Bench            *BenchOption            `json:"bench,omitempty"`
@@ -287,6 +292,45 @@ func (o *EngineOption) GetModesOk() (*[]ModeOption, bool) {
 // SetModes sets field value.
 func (o *EngineOption) SetModes(v []ModeOption) {
 	o.Modes = v
+}
+
+// GetDefaultMode returns the DefaultMode field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *EngineOption) GetDefaultMode() string {
+	if o == nil || o.DefaultMode.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.DefaultMode.Get()
+}
+
+// GetDefaultModeOk returns a tuple with the DefaultMode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *EngineOption) GetDefaultModeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.DefaultMode.Get(), o.DefaultMode.IsSet()
+}
+
+// HasDefaultMode returns a boolean if a field has been set.
+func (o *EngineOption) HasDefaultMode() bool {
+	return o != nil && o.DefaultMode.IsSet()
+}
+
+// SetDefaultMode gets a reference to the given common.NullableString and assigns it to the DefaultMode field.
+func (o *EngineOption) SetDefaultMode(v string) {
+	o.DefaultMode.Set(&v)
+}
+
+// SetDefaultModeNil sets the value for DefaultMode to be an explicit nil.
+func (o *EngineOption) SetDefaultModeNil() {
+	o.DefaultMode.Set(nil)
+}
+
+// UnsetDefaultMode ensures that no value is present for DefaultMode, not even an explicit nil.
+func (o *EngineOption) UnsetDefaultMode() {
+	o.DefaultMode.Unset()
 }
 
 // GetAccount returns the Account field value if set, zero value otherwise.
@@ -993,6 +1037,9 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["components"] = o.Components
 	toSerialize["modes"] = o.Modes
+	if o.DefaultMode.IsSet() {
+		toSerialize["defaultMode"] = o.DefaultMode.Get()
+	}
 	if o.Account != nil {
 		toSerialize["account"] = o.Account
 	}
@@ -1063,6 +1110,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		Versions         []string                    `json:"versions,omitempty"`
 		Components       *[]ComponentOption          `json:"components"`
 		Modes            *[]ModeOption               `json:"modes"`
+		DefaultMode      common.NullableString       `json:"defaultMode,omitempty"`
 		Account          *AccountOption              `json:"account,omitempty"`
 		Database         *DatabaseOption             `json:"database,omitempty"`
 		Dms              *DmsOption                  `json:"dms"`
@@ -1158,6 +1206,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Versions = all.Versions
 	o.Components = *all.Components
 	o.Modes = *all.Modes
+	o.DefaultMode = all.DefaultMode
 	if all.Account != nil && all.Account.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
