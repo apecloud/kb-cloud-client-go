@@ -13150,19 +13150,20 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - billing
-  /api/v1/metering/tracks:
+  /api/v1/organizations/{orgName}/metering/tracks:
     get:
-      operationId: listMeteringTracks
-      summary: List metering tracks
+      operationId: listOrgMeteringTracks
+      summary: List metering tracks in the organization
       parameters:
+        - description: Name of organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
         - description: The ID of the cluster
           in: query
           name: clusterID
-          schema:
-            type: string
-        - description: Names of organizations, multiple values separated by ','. For public API requests, if omitted and the user belongs to one or more organizations, tracks from all accessible organizations are returned automatically.
-          in: query
-          name: orgNames
           schema:
             type: string
         - description: name of the project

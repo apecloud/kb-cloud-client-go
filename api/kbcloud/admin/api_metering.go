@@ -19,7 +19,7 @@ type MeteringApi common.Service
 // ListMeteringTracksOptionalParameters holds optional parameters for ListMeteringTracks.
 type ListMeteringTracksOptionalParameters struct {
 	ClusterId       *string
-	OrgNames        *string
+	OrgName         *string
 	ProjectName     *string
 	EnvironmentName *string
 	PageNumber      *int64
@@ -38,9 +38,9 @@ func (r *ListMeteringTracksOptionalParameters) WithClusterId(clusterId string) *
 	return r
 }
 
-// WithOrgNames sets the corresponding parameter name and returns the struct.
-func (r *ListMeteringTracksOptionalParameters) WithOrgNames(orgNames string) *ListMeteringTracksOptionalParameters {
-	r.OrgNames = &orgNames
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *ListMeteringTracksOptionalParameters) WithOrgName(orgName string) *ListMeteringTracksOptionalParameters {
+	r.OrgName = &orgName
 	return r
 }
 
@@ -108,8 +108,8 @@ func (a *MeteringApi) ListMeteringTracks(ctx _context.Context, start int64, end 
 	if optionalParams.ClusterId != nil {
 		localVarQueryParams.Add("clusterID", common.ParameterToString(*optionalParams.ClusterId, ""))
 	}
-	if optionalParams.OrgNames != nil {
-		localVarQueryParams.Add("orgNames", common.ParameterToString(*optionalParams.OrgNames, ""))
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
 	}
 	if optionalParams.ProjectName != nil {
 		localVarQueryParams.Add("projectName", common.ParameterToString(*optionalParams.ProjectName, ""))

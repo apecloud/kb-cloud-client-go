@@ -16403,9 +16403,9 @@ paths:
           name: clusterID
           schema:
             type: string
-        - description: Names of organizations, multiple values separated by ','. For public API requests, if omitted and the user belongs to one or more organizations, tracks from all accessible organizations are returned automatically.
+        - description: Name of organization
           in: query
-          name: orgNames
+          name: orgName
           schema:
             type: string
         - description: name of the project
