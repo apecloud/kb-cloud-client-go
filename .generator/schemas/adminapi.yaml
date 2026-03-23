@@ -16393,6 +16393,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/BillList'
           description: List bill details
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -16411,7 +16413,7 @@ paths:
           name: clusterID
           schema:
             type: string
-        - description: name of the organization
+        - description: Name of organization
           in: query
           name: orgName
           schema:
@@ -16447,6 +16449,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/MeteringTrackList'
           description: List metering tracks
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':

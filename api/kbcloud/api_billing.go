@@ -9,6 +9,7 @@ import (
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -16,69 +17,62 @@ import (
 // BillingApi service type
 type BillingApi common.Service
 
-// ListBillsOptionalParameters holds optional parameters for ListBills.
-type ListBillsOptionalParameters struct {
+// ListOrgBillsOptionalParameters holds optional parameters for ListOrgBills.
+type ListOrgBillsOptionalParameters struct {
 	BillId           *string
 	ClusterId        *string
-	OrgName          *string
 	ProjectName      *string
 	AggregationTime  *AggregationTimeType
-	AggregationGroup *AggregationGroupType
+	AggregationGroup *OrgAggregationGroupType
 }
 
-// NewListBillsOptionalParameters creates an empty struct for parameters.
-func NewListBillsOptionalParameters() *ListBillsOptionalParameters {
-	this := ListBillsOptionalParameters{}
+// NewListOrgBillsOptionalParameters creates an empty struct for parameters.
+func NewListOrgBillsOptionalParameters() *ListOrgBillsOptionalParameters {
+	this := ListOrgBillsOptionalParameters{}
 	return &this
 }
 
 // WithBillId sets the corresponding parameter name and returns the struct.
-func (r *ListBillsOptionalParameters) WithBillId(billId string) *ListBillsOptionalParameters {
+func (r *ListOrgBillsOptionalParameters) WithBillId(billId string) *ListOrgBillsOptionalParameters {
 	r.BillId = &billId
 	return r
 }
 
 // WithClusterId sets the corresponding parameter name and returns the struct.
-func (r *ListBillsOptionalParameters) WithClusterId(clusterId string) *ListBillsOptionalParameters {
+func (r *ListOrgBillsOptionalParameters) WithClusterId(clusterId string) *ListOrgBillsOptionalParameters {
 	r.ClusterId = &clusterId
 	return r
 }
 
-// WithOrgName sets the corresponding parameter name and returns the struct.
-func (r *ListBillsOptionalParameters) WithOrgName(orgName string) *ListBillsOptionalParameters {
-	r.OrgName = &orgName
-	return r
-}
-
 // WithProjectName sets the corresponding parameter name and returns the struct.
-func (r *ListBillsOptionalParameters) WithProjectName(projectName string) *ListBillsOptionalParameters {
+func (r *ListOrgBillsOptionalParameters) WithProjectName(projectName string) *ListOrgBillsOptionalParameters {
 	r.ProjectName = &projectName
 	return r
 }
 
 // WithAggregationTime sets the corresponding parameter name and returns the struct.
-func (r *ListBillsOptionalParameters) WithAggregationTime(aggregationTime AggregationTimeType) *ListBillsOptionalParameters {
+func (r *ListOrgBillsOptionalParameters) WithAggregationTime(aggregationTime AggregationTimeType) *ListOrgBillsOptionalParameters {
 	r.AggregationTime = &aggregationTime
 	return r
 }
 
 // WithAggregationGroup sets the corresponding parameter name and returns the struct.
-func (r *ListBillsOptionalParameters) WithAggregationGroup(aggregationGroup AggregationGroupType) *ListBillsOptionalParameters {
+func (r *ListOrgBillsOptionalParameters) WithAggregationGroup(aggregationGroup OrgAggregationGroupType) *ListOrgBillsOptionalParameters {
 	r.AggregationGroup = &aggregationGroup
 	return r
 }
 
-// ListBills List bills.
-func (a *BillingApi) ListBills(ctx _context.Context, start int64, end int64, o ...ListBillsOptionalParameters) (BillList, *_nethttp.Response, error) {
+// ListOrgBills List bills in the organization.
+func (a *BillingApi) ListOrgBills(ctx _context.Context, orgName string, start int64, end int64, o ...ListOrgBillsOptionalParameters) (BillList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue BillList
-		optionalParams      ListBillsOptionalParameters
+		optionalParams      ListOrgBillsOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListBillsOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListOrgBillsOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -87,18 +81,19 @@ func (a *BillingApi) ListBills(ctx _context.Context, start int64, end int64, o .
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "billing",
-		OperationID: "listBills",
-		Path:        "/api/v1/bills",
+		OperationID: "listOrgBills",
+		Path:        "/api/v1/organizations/{orgName}/bills",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BillingApi.ListBills")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BillingApi.ListOrgBills")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/bills"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/bills"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -110,9 +105,6 @@ func (a *BillingApi) ListBills(ctx _context.Context, start int64, end int64, o .
 	}
 	if optionalParams.ClusterId != nil {
 		localVarQueryParams.Add("clusterID", common.ParameterToString(*optionalParams.ClusterId, ""))
-	}
-	if optionalParams.OrgName != nil {
-		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
 	}
 	if optionalParams.ProjectName != nil {
 		localVarQueryParams.Add("projectName", common.ParameterToString(*optionalParams.ProjectName, ""))
@@ -150,7 +142,7 @@ func (a *BillingApi) ListBills(ctx _context.Context, start int64, end int64, o .
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
