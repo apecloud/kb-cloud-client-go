@@ -7549,6 +7549,11 @@ paths:
           description: defined whether to search for deleted backups. if not set, only return backups that are not deleted
           schema:
             type: boolean
+        - name: withRestoreCluster
+          in: query
+          description: defined whether to search for restore backups.
+          schema:
+            type: boolean
         - name: backupType
           in: query
           description: type of the backup
@@ -16385,6 +16390,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/BillList'
           description: List bill details
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
