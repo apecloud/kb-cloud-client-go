@@ -13,11 +13,15 @@ type BackupOptionOfflineBackupOption struct {
 	Supported *bool `json:"supported,omitempty"`
 	// the root user for offline backup
 	RootUser *string `json:"rootUser,omitempty"`
+	// whether to support empty password for the root user in offline backup
+	SupportEmptyPassword *bool `json:"supportEmptyPassword,omitempty"`
 	// the backup method for offline backup
 	BackupMethod *string `json:"backupMethod,omitempty"`
 	// the component name for offline backup
 	ComponentName *string                `json:"componentName,omitempty"`
 	Status        map[string]interface{} `json:"status,omitempty"`
+	// the modes that offline backup supports. if not set, it means all modes are supported.
+	Modes []string `json:"modes,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -124,6 +128,34 @@ func (o *BackupOptionOfflineBackupOption) SetRootUser(v string) {
 	o.RootUser = &v
 }
 
+// GetSupportEmptyPassword returns the SupportEmptyPassword field value if set, zero value otherwise.
+func (o *BackupOptionOfflineBackupOption) GetSupportEmptyPassword() bool {
+	if o == nil || o.SupportEmptyPassword == nil {
+		var ret bool
+		return ret
+	}
+	return *o.SupportEmptyPassword
+}
+
+// GetSupportEmptyPasswordOk returns a tuple with the SupportEmptyPassword field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupOptionOfflineBackupOption) GetSupportEmptyPasswordOk() (*bool, bool) {
+	if o == nil || o.SupportEmptyPassword == nil {
+		return nil, false
+	}
+	return o.SupportEmptyPassword, true
+}
+
+// HasSupportEmptyPassword returns a boolean if a field has been set.
+func (o *BackupOptionOfflineBackupOption) HasSupportEmptyPassword() bool {
+	return o != nil && o.SupportEmptyPassword != nil
+}
+
+// SetSupportEmptyPassword gets a reference to the given bool and assigns it to the SupportEmptyPassword field.
+func (o *BackupOptionOfflineBackupOption) SetSupportEmptyPassword(v bool) {
+	o.SupportEmptyPassword = &v
+}
+
 // GetBackupMethod returns the BackupMethod field value if set, zero value otherwise.
 func (o *BackupOptionOfflineBackupOption) GetBackupMethod() string {
 	if o == nil || o.BackupMethod == nil {
@@ -208,6 +240,34 @@ func (o *BackupOptionOfflineBackupOption) SetStatus(v map[string]interface{}) {
 	o.Status = v
 }
 
+// GetModes returns the Modes field value if set, zero value otherwise.
+func (o *BackupOptionOfflineBackupOption) GetModes() []string {
+	if o == nil || o.Modes == nil {
+		var ret []string
+		return ret
+	}
+	return o.Modes
+}
+
+// GetModesOk returns a tuple with the Modes field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupOptionOfflineBackupOption) GetModesOk() (*[]string, bool) {
+	if o == nil || o.Modes == nil {
+		return nil, false
+	}
+	return &o.Modes, true
+}
+
+// HasModes returns a boolean if a field has been set.
+func (o *BackupOptionOfflineBackupOption) HasModes() bool {
+	return o != nil && o.Modes != nil
+}
+
+// SetModes gets a reference to the given []string and assigns it to the Modes field.
+func (o *BackupOptionOfflineBackupOption) SetModes(v []string) {
+	o.Modes = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupOptionOfflineBackupOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -223,6 +283,9 @@ func (o BackupOptionOfflineBackupOption) MarshalJSON() ([]byte, error) {
 	if o.RootUser != nil {
 		toSerialize["rootUser"] = o.RootUser
 	}
+	if o.SupportEmptyPassword != nil {
+		toSerialize["supportEmptyPassword"] = o.SupportEmptyPassword
+	}
 	if o.BackupMethod != nil {
 		toSerialize["backupMethod"] = o.BackupMethod
 	}
@@ -231,6 +294,9 @@ func (o BackupOptionOfflineBackupOption) MarshalJSON() ([]byte, error) {
 	}
 	if o.Status != nil {
 		toSerialize["status"] = o.Status
+	}
+	if o.Modes != nil {
+		toSerialize["modes"] = o.Modes
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -245,25 +311,29 @@ func (o *BackupOptionOfflineBackupOption) UnmarshalJSON(bytes []byte) (err error
 		UseParentDirAsBackupPath *bool                  `json:"useParentDirAsBackupPath,omitempty"`
 		Supported                *bool                  `json:"supported,omitempty"`
 		RootUser                 *string                `json:"rootUser,omitempty"`
+		SupportEmptyPassword     *bool                  `json:"supportEmptyPassword,omitempty"`
 		BackupMethod             *string                `json:"backupMethod,omitempty"`
 		ComponentName            *string                `json:"componentName,omitempty"`
 		Status                   map[string]interface{} `json:"status,omitempty"`
+		Modes                    []string               `json:"modes,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"useParentDirAsBackupPath", "supported", "rootUser", "backupMethod", "componentName", "status"})
+		common.DeleteKeys(additionalProperties, &[]string{"useParentDirAsBackupPath", "supported", "rootUser", "supportEmptyPassword", "backupMethod", "componentName", "status", "modes"})
 	} else {
 		return err
 	}
 	o.UseParentDirAsBackupPath = all.UseParentDirAsBackupPath
 	o.Supported = all.Supported
 	o.RootUser = all.RootUser
+	o.SupportEmptyPassword = all.SupportEmptyPassword
 	o.BackupMethod = all.BackupMethod
 	o.ComponentName = all.ComponentName
 	o.Status = all.Status
+	o.Modes = all.Modes
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
