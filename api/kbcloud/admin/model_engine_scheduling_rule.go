@@ -11,13 +11,15 @@ import (
 )
 
 type EngineSchedulingRule struct {
+	// Id of engine scheduling rule.
+	Id *string `json:"id,omitempty"`
 	// Rule name, used to reference this rule when applying scheduling policies to a cluster.
 	Name string `json:"name"`
 	// Database engine type this rule applies to. Used to match rules to clusters by engine.
 	Engine string `json:"engine"`
 	// Cluster mode this rule applies to. Used to match rules to clusters by mode.
 	EngineMode string `json:"engineMode"`
-	// Selects the components and roles this rule applies to.
+	// Selects the components and roles this rule applies to. The length of the target selector array must be equal to 2, which presents mutually exclusive targets.
 	TargetSelector []Target `json:"targetSelector"`
 	// * `HardAntiAffinity` - Strictly enforced; pods will not be scheduled if constraints cannot be met.
 	// * `SoftAntiAffinity` - Best-effort; the scheduler prefers to satisfy constraints but may place pods together if necessary.
@@ -26,6 +28,8 @@ type EngineSchedulingRule struct {
 	SchedulingStrategy NullableEngineSchedulingStrategy `json:"schedulingStrategy,omitempty"`
 	// Topology domains across which pod placement constraints are enforced.
 	TopologyDomains []TopologyDomain `json:"topologyDomains"`
+	// Optional description of the scheduling rule.
+	Description *string `json:"description,omitempty"`
 	// Indicates if this rule is the default rule applied when no specific rules match.
 	Default *bool `json:"default,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -57,6 +61,34 @@ func NewEngineSchedulingRuleWithDefaults() *EngineSchedulingRule {
 	var schedulingStrategy EngineSchedulingStrategy = EngineSchedulingStrategyDisabled
 	this.SchedulingStrategy = *NewNullableEngineSchedulingStrategy(&schedulingStrategy)
 	return &this
+}
+
+// GetId returns the Id field value if set, zero value otherwise.
+func (o *EngineSchedulingRule) GetId() string {
+	if o == nil || o.Id == nil {
+		var ret string
+		return ret
+	}
+	return *o.Id
+}
+
+// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineSchedulingRule) GetIdOk() (*string, bool) {
+	if o == nil || o.Id == nil {
+		return nil, false
+	}
+	return o.Id, true
+}
+
+// HasId returns a boolean if a field has been set.
+func (o *EngineSchedulingRule) HasId() bool {
+	return o != nil && o.Id != nil
+}
+
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *EngineSchedulingRule) SetId(v string) {
+	o.Id = &v
 }
 
 // GetName returns the Name field value.
@@ -213,6 +245,34 @@ func (o *EngineSchedulingRule) SetTopologyDomains(v []TopologyDomain) {
 	o.TopologyDomains = v
 }
 
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *EngineSchedulingRule) GetDescription() string {
+	if o == nil || o.Description == nil {
+		var ret string
+		return ret
+	}
+	return *o.Description
+}
+
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineSchedulingRule) GetDescriptionOk() (*string, bool) {
+	if o == nil || o.Description == nil {
+		return nil, false
+	}
+	return o.Description, true
+}
+
+// HasDescription returns a boolean if a field has been set.
+func (o *EngineSchedulingRule) HasDescription() bool {
+	return o != nil && o.Description != nil
+}
+
+// SetDescription gets a reference to the given string and assigns it to the Description field.
+func (o *EngineSchedulingRule) SetDescription(v string) {
+	o.Description = &v
+}
+
 // GetDefault returns the Default field value if set, zero value otherwise.
 func (o *EngineSchedulingRule) GetDefault() bool {
 	if o == nil || o.Default == nil {
@@ -247,6 +307,9 @@ func (o EngineSchedulingRule) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Id != nil {
+		toSerialize["id"] = o.Id
+	}
 	toSerialize["name"] = o.Name
 	toSerialize["engine"] = o.Engine
 	toSerialize["engineMode"] = o.EngineMode
@@ -255,6 +318,9 @@ func (o EngineSchedulingRule) MarshalJSON() ([]byte, error) {
 		toSerialize["schedulingStrategy"] = o.SchedulingStrategy.Get()
 	}
 	toSerialize["topologyDomains"] = o.TopologyDomains
+	if o.Description != nil {
+		toSerialize["description"] = o.Description
+	}
 	if o.Default != nil {
 		toSerialize["default"] = o.Default
 	}
@@ -268,12 +334,14 @@ func (o EngineSchedulingRule) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineSchedulingRule) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		Id                 *string                          `json:"id,omitempty"`
 		Name               *string                          `json:"name"`
 		Engine             *string                          `json:"engine"`
 		EngineMode         *string                          `json:"engineMode"`
 		TargetSelector     *[]Target                        `json:"targetSelector"`
 		SchedulingStrategy NullableEngineSchedulingStrategy `json:"schedulingStrategy,omitempty"`
 		TopologyDomains    *[]TopologyDomain                `json:"topologyDomains"`
+		Description        *string                          `json:"description,omitempty"`
 		Default            *bool                            `json:"default,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -296,12 +364,13 @@ func (o *EngineSchedulingRule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "engine", "engineMode", "targetSelector", "schedulingStrategy", "topologyDomains", "default"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "engine", "engineMode", "targetSelector", "schedulingStrategy", "topologyDomains", "description", "default"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.Id = all.Id
 	o.Name = *all.Name
 	o.Engine = *all.Engine
 	o.EngineMode = *all.EngineMode
@@ -312,6 +381,7 @@ func (o *EngineSchedulingRule) UnmarshalJSON(bytes []byte) (err error) {
 		o.SchedulingStrategy = all.SchedulingStrategy
 	}
 	o.TopologyDomains = *all.TopologyDomains
+	o.Description = all.Description
 	o.Default = all.Default
 
 	if len(additionalProperties) > 0 {

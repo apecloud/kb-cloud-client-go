@@ -15696,12 +15696,18 @@ components:
       type: object
       description: Default scheduling strategy applied to all rules unless overridden.
       properties:
+        id:
+          type: string
+          description: Id of engine scheduling policy.
         globalSchedulingStrategy:
           description: Default scheduling strategy applied to all rules unless overridden.
           $ref: '#/components/schemas/engineSchedulingStrategy'
         engine:
           type: string
           description: Database engine this global strategy applies to. Used to match strategies to clusters by engine.
+        description:
+          type: string
+          description: Optional description of the global scheduling strategy.
         default:
           description: Indicates if this global strategy is the default strategy applied when no specific rules match.
           type: boolean
@@ -15752,6 +15758,9 @@ components:
     engineSchedulingRule:
       type: object
       properties:
+        id:
+          type: string
+          description: Id of engine scheduling rule.
         name:
           type: string
           description: Rule name, used to reference this rule when applying scheduling policies to a cluster.
@@ -15763,7 +15772,7 @@ components:
           description: Cluster mode this rule applies to. Used to match rules to clusters by mode.
         targetSelector:
           type: array
-          description: Selects the components and roles this rule applies to.
+          description: Selects the components and roles this rule applies to. The length of the target selector array must be equal to 2, which presents mutually exclusive targets.
           items:
             $ref: '#/components/schemas/target'
         schedulingStrategy:
@@ -15774,6 +15783,9 @@ components:
           description: Topology domains across which pod placement constraints are enforced.
           items:
             $ref: '#/components/schemas/topologyDomain'
+        description:
+          type: string
+          description: Optional description of the scheduling rule.
         default:
           description: Indicates if this rule is the default rule applied when no specific rules match.
           type: boolean

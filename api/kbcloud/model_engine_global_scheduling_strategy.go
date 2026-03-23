@@ -10,6 +10,8 @@ import (
 
 // EngineGlobalSchedulingStrategy Default scheduling strategy applied to all rules unless overridden.
 type EngineGlobalSchedulingStrategy struct {
+	// Id of engine scheduling policy.
+	Id *string `json:"id,omitempty"`
 	// * `HardAntiAffinity` - Strictly enforced; pods will not be scheduled if constraints cannot be met.
 	// * `SoftAntiAffinity` - Best-effort; the scheduler prefers to satisfy constraints but may place pods together if necessary.
 	// * `Disabled` - No anti-affinity constraints applied.
@@ -17,6 +19,8 @@ type EngineGlobalSchedulingStrategy struct {
 	GlobalSchedulingStrategy NullableEngineSchedulingStrategy `json:"globalSchedulingStrategy,omitempty"`
 	// Database engine this global strategy applies to. Used to match strategies to clusters by engine.
 	Engine *string `json:"engine,omitempty"`
+	// Optional description of the global scheduling strategy.
+	Description *string `json:"description,omitempty"`
 	// Indicates if this global strategy is the default strategy applied when no specific rules match.
 	Default *bool `json:"default,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -43,6 +47,34 @@ func NewEngineGlobalSchedulingStrategyWithDefaults() *EngineGlobalSchedulingStra
 	var globalSchedulingStrategy EngineSchedulingStrategy = EngineSchedulingStrategyDisabled
 	this.GlobalSchedulingStrategy = *NewNullableEngineSchedulingStrategy(&globalSchedulingStrategy)
 	return &this
+}
+
+// GetId returns the Id field value if set, zero value otherwise.
+func (o *EngineGlobalSchedulingStrategy) GetId() string {
+	if o == nil || o.Id == nil {
+		var ret string
+		return ret
+	}
+	return *o.Id
+}
+
+// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineGlobalSchedulingStrategy) GetIdOk() (*string, bool) {
+	if o == nil || o.Id == nil {
+		return nil, false
+	}
+	return o.Id, true
+}
+
+// HasId returns a boolean if a field has been set.
+func (o *EngineGlobalSchedulingStrategy) HasId() bool {
+	return o != nil && o.Id != nil
+}
+
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *EngineGlobalSchedulingStrategy) SetId(v string) {
+	o.Id = &v
 }
 
 // GetGlobalSchedulingStrategy returns the GlobalSchedulingStrategy field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -112,6 +144,34 @@ func (o *EngineGlobalSchedulingStrategy) SetEngine(v string) {
 	o.Engine = &v
 }
 
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *EngineGlobalSchedulingStrategy) GetDescription() string {
+	if o == nil || o.Description == nil {
+		var ret string
+		return ret
+	}
+	return *o.Description
+}
+
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineGlobalSchedulingStrategy) GetDescriptionOk() (*string, bool) {
+	if o == nil || o.Description == nil {
+		return nil, false
+	}
+	return o.Description, true
+}
+
+// HasDescription returns a boolean if a field has been set.
+func (o *EngineGlobalSchedulingStrategy) HasDescription() bool {
+	return o != nil && o.Description != nil
+}
+
+// SetDescription gets a reference to the given string and assigns it to the Description field.
+func (o *EngineGlobalSchedulingStrategy) SetDescription(v string) {
+	o.Description = &v
+}
+
 // GetDefault returns the Default field value if set, zero value otherwise.
 func (o *EngineGlobalSchedulingStrategy) GetDefault() bool {
 	if o == nil || o.Default == nil {
@@ -146,11 +206,17 @@ func (o EngineGlobalSchedulingStrategy) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Id != nil {
+		toSerialize["id"] = o.Id
+	}
 	if o.GlobalSchedulingStrategy.IsSet() {
 		toSerialize["globalSchedulingStrategy"] = o.GlobalSchedulingStrategy.Get()
 	}
 	if o.Engine != nil {
 		toSerialize["engine"] = o.Engine
+	}
+	if o.Description != nil {
+		toSerialize["description"] = o.Description
 	}
 	if o.Default != nil {
 		toSerialize["default"] = o.Default
@@ -165,8 +231,10 @@ func (o EngineGlobalSchedulingStrategy) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineGlobalSchedulingStrategy) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		Id                       *string                          `json:"id,omitempty"`
 		GlobalSchedulingStrategy NullableEngineSchedulingStrategy `json:"globalSchedulingStrategy,omitempty"`
 		Engine                   *string                          `json:"engine,omitempty"`
+		Description              *string                          `json:"description,omitempty"`
 		Default                  *bool                            `json:"default,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -174,18 +242,20 @@ func (o *EngineGlobalSchedulingStrategy) UnmarshalJSON(bytes []byte) (err error)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"globalSchedulingStrategy", "engine", "default"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "globalSchedulingStrategy", "engine", "description", "default"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.Id = all.Id
 	if all.GlobalSchedulingStrategy.Get() != nil && !all.GlobalSchedulingStrategy.Get().IsValid() {
 		hasInvalidField = true
 	} else {
 		o.GlobalSchedulingStrategy = all.GlobalSchedulingStrategy
 	}
 	o.Engine = all.Engine
+	o.Description = all.Description
 	o.Default = all.Default
 
 	if len(additionalProperties) > 0 {

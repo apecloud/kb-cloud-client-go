@@ -230,8 +230,8 @@ func (a *EngineSchedulingPolicyApi) CreateEngineSchedulingRule(ctx _context.Cont
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// DeleteEngineGlobalSchedulingStrategy Delete class.
-func (a *EngineSchedulingPolicyApi) DeleteEngineGlobalSchedulingStrategy(ctx _context.Context, code string) (interface{}, *_nethttp.Response, error) {
+// DeleteEngineGlobalSchedulingStrategy Delete engine global scheduling strategy.
+func (a *EngineSchedulingPolicyApi) DeleteEngineGlobalSchedulingStrategy(ctx _context.Context, id string) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
 		localVarPostBody    interface{}
@@ -257,7 +257,7 @@ func (a *EngineSchedulingPolicyApi) DeleteEngineGlobalSchedulingStrategy(ctx _co
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("code", common.ParameterToString(code, ""))
+	localVarQueryParams.Add("id", common.ParameterToString(id, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -309,7 +309,7 @@ func (a *EngineSchedulingPolicyApi) DeleteEngineGlobalSchedulingStrategy(ctx _co
 }
 
 // DeleteEngineSchedulingRule Delete engine scheduling rule.
-func (a *EngineSchedulingPolicyApi) DeleteEngineSchedulingRule(ctx _context.Context, code string) (interface{}, *_nethttp.Response, error) {
+func (a *EngineSchedulingPolicyApi) DeleteEngineSchedulingRule(ctx _context.Context, id string) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
 		localVarPostBody    interface{}
@@ -335,7 +335,7 @@ func (a *EngineSchedulingPolicyApi) DeleteEngineSchedulingRule(ctx _context.Cont
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("code", common.ParameterToString(code, ""))
+	localVarQueryParams.Add("id", common.ParameterToString(id, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
