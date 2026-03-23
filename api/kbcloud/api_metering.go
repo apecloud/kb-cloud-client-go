@@ -9,6 +9,7 @@ import (
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -16,69 +17,62 @@ import (
 // MeteringApi service type
 type MeteringApi common.Service
 
-// ListMeteringTracksOptionalParameters holds optional parameters for ListMeteringTracks.
-type ListMeteringTracksOptionalParameters struct {
+// ListOrgMeteringTracksOptionalParameters holds optional parameters for ListOrgMeteringTracks.
+type ListOrgMeteringTracksOptionalParameters struct {
 	ClusterId       *string
-	OrgName         *string
 	ProjectName     *string
 	EnvironmentName *string
 	PageNumber      *int64
 	PageSize        *int64
 }
 
-// NewListMeteringTracksOptionalParameters creates an empty struct for parameters.
-func NewListMeteringTracksOptionalParameters() *ListMeteringTracksOptionalParameters {
-	this := ListMeteringTracksOptionalParameters{}
+// NewListOrgMeteringTracksOptionalParameters creates an empty struct for parameters.
+func NewListOrgMeteringTracksOptionalParameters() *ListOrgMeteringTracksOptionalParameters {
+	this := ListOrgMeteringTracksOptionalParameters{}
 	return &this
 }
 
 // WithClusterId sets the corresponding parameter name and returns the struct.
-func (r *ListMeteringTracksOptionalParameters) WithClusterId(clusterId string) *ListMeteringTracksOptionalParameters {
+func (r *ListOrgMeteringTracksOptionalParameters) WithClusterId(clusterId string) *ListOrgMeteringTracksOptionalParameters {
 	r.ClusterId = &clusterId
 	return r
 }
 
-// WithOrgName sets the corresponding parameter name and returns the struct.
-func (r *ListMeteringTracksOptionalParameters) WithOrgName(orgName string) *ListMeteringTracksOptionalParameters {
-	r.OrgName = &orgName
-	return r
-}
-
 // WithProjectName sets the corresponding parameter name and returns the struct.
-func (r *ListMeteringTracksOptionalParameters) WithProjectName(projectName string) *ListMeteringTracksOptionalParameters {
+func (r *ListOrgMeteringTracksOptionalParameters) WithProjectName(projectName string) *ListOrgMeteringTracksOptionalParameters {
 	r.ProjectName = &projectName
 	return r
 }
 
 // WithEnvironmentName sets the corresponding parameter name and returns the struct.
-func (r *ListMeteringTracksOptionalParameters) WithEnvironmentName(environmentName string) *ListMeteringTracksOptionalParameters {
+func (r *ListOrgMeteringTracksOptionalParameters) WithEnvironmentName(environmentName string) *ListOrgMeteringTracksOptionalParameters {
 	r.EnvironmentName = &environmentName
 	return r
 }
 
 // WithPageNumber sets the corresponding parameter name and returns the struct.
-func (r *ListMeteringTracksOptionalParameters) WithPageNumber(pageNumber int64) *ListMeteringTracksOptionalParameters {
+func (r *ListOrgMeteringTracksOptionalParameters) WithPageNumber(pageNumber int64) *ListOrgMeteringTracksOptionalParameters {
 	r.PageNumber = &pageNumber
 	return r
 }
 
 // WithPageSize sets the corresponding parameter name and returns the struct.
-func (r *ListMeteringTracksOptionalParameters) WithPageSize(pageSize int64) *ListMeteringTracksOptionalParameters {
+func (r *ListOrgMeteringTracksOptionalParameters) WithPageSize(pageSize int64) *ListOrgMeteringTracksOptionalParameters {
 	r.PageSize = &pageSize
 	return r
 }
 
-// ListMeteringTracks List metering tracks.
-func (a *MeteringApi) ListMeteringTracks(ctx _context.Context, start int64, end int64, o ...ListMeteringTracksOptionalParameters) (MeteringTrackList, *_nethttp.Response, error) {
+// ListOrgMeteringTracks List metering tracks in the organization.
+func (a *MeteringApi) ListOrgMeteringTracks(ctx _context.Context, orgName string, start int64, end int64, o ...ListOrgMeteringTracksOptionalParameters) (MeteringTrackList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue MeteringTrackList
-		optionalParams      ListMeteringTracksOptionalParameters
+		optionalParams      ListOrgMeteringTracksOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListMeteringTracksOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListOrgMeteringTracksOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -87,18 +81,19 @@ func (a *MeteringApi) ListMeteringTracks(ctx _context.Context, start int64, end 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "metering",
-		OperationID: "listMeteringTracks",
-		Path:        "/api/v1/metering/tracks",
+		OperationID: "listOrgMeteringTracks",
+		Path:        "/api/v1/organizations/{orgName}/metering/tracks",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MeteringApi.ListMeteringTracks")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MeteringApi.ListOrgMeteringTracks")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/metering/tracks"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/metering/tracks"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -107,9 +102,6 @@ func (a *MeteringApi) ListMeteringTracks(ctx _context.Context, start int64, end 
 	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
 	if optionalParams.ClusterId != nil {
 		localVarQueryParams.Add("clusterID", common.ParameterToString(*optionalParams.ClusterId, ""))
-	}
-	if optionalParams.OrgName != nil {
-		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
 	}
 	if optionalParams.ProjectName != nil {
 		localVarQueryParams.Add("projectName", common.ParameterToString(*optionalParams.ProjectName, ""))
@@ -150,7 +142,7 @@ func (a *MeteringApi) ListMeteringTracks(ctx _context.Context, start int64, end 
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

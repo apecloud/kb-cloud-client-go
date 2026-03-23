@@ -13019,50 +13019,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - pricing
-    post:
-      operationId: saveEnvironmentPricing
-      summary: Save the environment pricing
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/environmentPricing'
-      responses:
-        '204':
-          description: Returned when information of pricing save successfully.
-          content:
-            application/json:
-              schema:
-                type: object
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - pricing
-    delete:
-      operationId: deleteEnvironmentPricing
-      summary: Delete the environment pricing
-      parameters:
-        - description: name of the environment
-          in: query
-          name: environmentName
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Returned when pricing deleted successfully.
-          content:
-            application/json:
-              schema:
-                type: object
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - pricing
   /api/v1/pricing/global:
     get:
       operationId: getGlobalPricing
@@ -13082,32 +13038,17 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - pricing
-    post:
-      operationId: saveGlobalPricing
-      summary: Save the global information of pricing
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/globalPricing'
-      responses:
-        '204':
-          description: Returned when global information of pricing save successfully.
-          content:
-            application/json:
-              schema:
-                type: object
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - pricing
-  /api/v1/bills:
+  /api/v1/organizations/{orgName}/bills:
     get:
-      operationId: listBills
-      summary: List bills
+      operationId: listOrgBills
+      summary: List bills in the organization
       parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
         - description: The ID of the bill
           in: query
           name: billID
@@ -13116,11 +13057,6 @@ paths:
         - description: The ID of the cluster
           in: query
           name: clusterID
-          schema:
-            type: string
-        - description: name of the organization
-          in: query
-          name: orgName
           schema:
             type: string
         - description: name of the project
@@ -13137,7 +13073,7 @@ paths:
           in: query
           name: aggregationGroup
           schema:
-            $ref: '#/components/schemas/aggregationGroupType'
+            $ref: '#/components/schemas/orgAggregationGroupType'
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
       responses:
@@ -13147,6 +13083,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/BillList'
           description: List bill details
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -13155,19 +13093,20 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - billing
-  /api/v1/metering/tracks:
+  /api/v1/organizations/{orgName}/metering/tracks:
     get:
-      operationId: listMeteringTracks
-      summary: List metering tracks
+      operationId: listOrgMeteringTracks
+      summary: List metering tracks in the organization
       parameters:
+        - description: Name of organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
         - description: The ID of the cluster
           in: query
           name: clusterID
-          schema:
-            type: string
-        - description: name of the organization
-          in: query
-          name: orgName
           schema:
             type: string
         - description: name of the project
@@ -13201,6 +13140,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/MeteringTrackList'
           description: List metering tracks
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -24752,12 +24693,10 @@ components:
         - daily
       type: string
       nullable: true
-    aggregationGroupType:
-      description: The type of aggregation group
+    orgAggregationGroupType:
+      description: The type of aggregation group for organization-scoped bills
       enum:
-        - global
         - organization
-        - project
         - cluster
       type: string
       nullable: true
