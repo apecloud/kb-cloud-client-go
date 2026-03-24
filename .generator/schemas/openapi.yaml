@@ -24520,7 +24520,6 @@ components:
         environmentID:
           description: The ID of environment
           type: string
-          format: uuid
           nullable: true
           x-omitempty: true
         startTime:
