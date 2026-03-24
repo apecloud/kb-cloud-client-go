@@ -68,10 +68,6 @@ tags:
     description: SLA APIs
   - name: platformComponent
     description: Platform Component APIs
-  - name: adminRole
-    description: Admin Role Management APIs
-  - name: adminUserRole
-    description: Admin User Role Management APIs
 paths:
   /admin/v1/user:
     get:
@@ -374,7 +370,7 @@ paths:
   /admin/v1/administrators/users/{userID}/roles:
     get:
       tags:
-        - adminUserRole
+        - administrator
       summary: List roles of an administrator user
       description: List all roles assigned to a specific administrator user
       operationId: listAdministratorsUserRoles
@@ -397,7 +393,7 @@ paths:
           $ref: '#/components/responses/404'
     post:
       tags:
-        - adminUserRole
+        - administrator
       summary: Add a role to an administrator user
       description: Assign a role to a specific administrator user
       operationId: addAdministratorsUserRole
@@ -431,7 +427,7 @@ paths:
   /admin/v1/administrators/users/{userID}/roles/{roleName}:
     delete:
       tags:
-        - adminUserRole
+        - administrator
       summary: Remove a role from an administrator user
       description: Remove a specific role from an administrator user
       operationId: removeAdministratorsUserRole
@@ -1375,7 +1371,7 @@ paths:
   /admin/v1/administrators/permissions:
     get:
       tags:
-        - adminRole
+        - administrator
       summary: List all permissions for administrators
       description: List all permissions available for administrator roles
       operationId: listAdministratorsPermissions
@@ -1391,7 +1387,7 @@ paths:
   /admin/v1/administrators/roles:
     get:
       tags:
-        - adminRole
+        - administrator
       summary: List all administrator roles
       description: List all administrator roles including built-in and custom roles
       operationId: listAdministratorsRoles
@@ -1406,7 +1402,7 @@ paths:
           $ref: '#/components/responses/401'
     post:
       tags:
-        - adminRole
+        - administrator
       summary: Create an administrator role
       description: Create a custom administrator role
       operationId: createAdministratorsRole
@@ -1430,7 +1426,7 @@ paths:
   /admin/v1/administrators/roles/{roleName}:
     get:
       tags:
-        - adminRole
+        - administrator
       summary: Get an administrator role by name
       description: Get detailed information about a specific administrator role
       operationId: getAdministratorsRoleByName
@@ -1453,7 +1449,7 @@ paths:
           $ref: '#/components/responses/404'
     patch:
       tags:
-        - adminRole
+        - administrator
       summary: Update an administrator role by name
       description: Update a custom administrator role
       operationId: updateAdministratorsRoleByName
@@ -1486,7 +1482,7 @@ paths:
           $ref: '#/components/responses/404'
     delete:
       tags:
-        - adminRole
+        - administrator
       summary: Delete an administrator role by name
       description: Delete a custom administrator role
       operationId: deleteAdministratorsRoleByName
@@ -1509,7 +1505,7 @@ paths:
   /admin/v1/administrators/roles/{roleName}/permissions:
     get:
       tags:
-        - adminRole
+        - administrator
       summary: List permissions of an administrator role
       description: List all permissions assigned to a specific administrator role
       operationId: listAdministratorsRolePermissions
@@ -1533,7 +1529,7 @@ paths:
   /admin/v1/administrators/roles/{roleName}/permissions/batch:
     post:
       tags:
-        - adminRole
+        - administrator
       summary: Batch add permissions to an administrator role
       description: Add multiple permissions to a custom administrator role
       operationId: batchAddAdministratorsRolePermissions
@@ -1565,7 +1561,7 @@ paths:
           $ref: '#/components/responses/404'
     delete:
       tags:
-        - adminRole
+        - administrator
       summary: Batch remove permissions from an administrator role
       description: Remove multiple permissions from a custom administrator role
       operationId: batchRemoveAdministratorsRolePermissions
@@ -30575,7 +30571,6 @@ components:
         environmentID:
           description: The ID of environment
           type: string
-          format: uuid
           nullable: true
           x-omitempty: true
         startTime:
