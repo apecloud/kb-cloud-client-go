@@ -16,38 +16,13 @@ import (
 // EngineSchedulingPolicyApi service type
 type EngineSchedulingPolicyApi common.Service
 
-// ListEngineGlobalSchedulingStrategiesOptionalParameters holds optional parameters for ListEngineGlobalSchedulingStrategies.
-type ListEngineGlobalSchedulingStrategiesOptionalParameters struct {
-	EngineName *string
-}
-
-// NewListEngineGlobalSchedulingStrategiesOptionalParameters creates an empty struct for parameters.
-func NewListEngineGlobalSchedulingStrategiesOptionalParameters() *ListEngineGlobalSchedulingStrategiesOptionalParameters {
-	this := ListEngineGlobalSchedulingStrategiesOptionalParameters{}
-	return &this
-}
-
-// WithEngineName sets the corresponding parameter name and returns the struct.
-func (r *ListEngineGlobalSchedulingStrategiesOptionalParameters) WithEngineName(engineName string) *ListEngineGlobalSchedulingStrategiesOptionalParameters {
-	r.EngineName = &engineName
-	return r
-}
-
 // ListEngineGlobalSchedulingStrategies List engine global scheduling strategies.
-func (a *EngineSchedulingPolicyApi) ListEngineGlobalSchedulingStrategies(ctx _context.Context, o ...ListEngineGlobalSchedulingStrategiesOptionalParameters) ([]EngineGlobalSchedulingStrategy, *_nethttp.Response, error) {
+func (a *EngineSchedulingPolicyApi) ListEngineGlobalSchedulingStrategies(ctx _context.Context, engineName string) ([]EngineGlobalSchedulingStrategy, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue []EngineGlobalSchedulingStrategy
-		optionalParams      ListEngineGlobalSchedulingStrategiesOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListEngineGlobalSchedulingStrategiesOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -68,9 +43,7 @@ func (a *EngineSchedulingPolicyApi) ListEngineGlobalSchedulingStrategies(ctx _co
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.EngineName != nil {
-		localVarQueryParams.Add("engineName", common.ParameterToString(*optionalParams.EngineName, ""))
-	}
+	localVarQueryParams.Add("engineName", common.ParameterToString(engineName, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -121,38 +94,13 @@ func (a *EngineSchedulingPolicyApi) ListEngineGlobalSchedulingStrategies(ctx _co
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListEngineSchedulingRulesOptionalParameters holds optional parameters for ListEngineSchedulingRules.
-type ListEngineSchedulingRulesOptionalParameters struct {
-	EngineName *string
-}
-
-// NewListEngineSchedulingRulesOptionalParameters creates an empty struct for parameters.
-func NewListEngineSchedulingRulesOptionalParameters() *ListEngineSchedulingRulesOptionalParameters {
-	this := ListEngineSchedulingRulesOptionalParameters{}
-	return &this
-}
-
-// WithEngineName sets the corresponding parameter name and returns the struct.
-func (r *ListEngineSchedulingRulesOptionalParameters) WithEngineName(engineName string) *ListEngineSchedulingRulesOptionalParameters {
-	r.EngineName = &engineName
-	return r
-}
-
 // ListEngineSchedulingRules List engine scheduling rules.
-func (a *EngineSchedulingPolicyApi) ListEngineSchedulingRules(ctx _context.Context, o ...ListEngineSchedulingRulesOptionalParameters) ([]EngineSchedulingRule, *_nethttp.Response, error) {
+func (a *EngineSchedulingPolicyApi) ListEngineSchedulingRules(ctx _context.Context, engineName string) ([]EngineSchedulingRule, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue []EngineSchedulingRule
-		optionalParams      ListEngineSchedulingRulesOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListEngineSchedulingRulesOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -173,9 +121,7 @@ func (a *EngineSchedulingPolicyApi) ListEngineSchedulingRules(ctx _context.Conte
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.EngineName != nil {
-		localVarQueryParams.Add("engineName", common.ParameterToString(*optionalParams.EngineName, ""))
-	}
+	localVarQueryParams.Add("engineName", common.ParameterToString(engineName, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(

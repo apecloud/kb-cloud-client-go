@@ -68,8 +68,6 @@ tags:
     description: SLA APIs
   - name: platformComponent
     description: Platform Component APIs
-  - name: egineSchedulingPolicy
-    description: Engine Scheduling Policy APIs
 paths:
   /admin/v1/user:
     get:
@@ -16392,6 +16390,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/BillList'
           description: List bill details
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -16410,7 +16410,7 @@ paths:
           name: clusterID
           schema:
             type: string
-        - description: name of the organization
+        - description: Name of organization
           in: query
           name: orgName
           schema:
@@ -16446,6 +16446,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/MeteringTrackList'
           description: List metering tracks
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -17015,7 +17017,7 @@ paths:
         - name: engineName
           in: query
           description: filter by engine name
-          required: false
+          required: true
           schema:
             type: string
       responses:
@@ -17112,7 +17114,7 @@ paths:
         - name: engineName
           in: query
           description: filter by engine name
-          required: false
+          required: true
           schema:
             type: string
       responses:
@@ -17184,7 +17186,7 @@ paths:
       parameters:
         - name: id
           in: query
-          description: id
+          description: id of the engine scheduling rule
           required: true
           schema:
             type: string
@@ -30506,7 +30508,6 @@ components:
         environmentID:
           description: The ID of environment
           type: string
-          format: uuid
           nullable: true
           x-omitempty: true
         startTime:
