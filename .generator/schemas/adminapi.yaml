@@ -27775,6 +27775,7 @@ components:
         - Stopped
         - Succeed
         - Failed
+        - RebuildCanceled
       description: Current status of the task
     taskListItem:
       type: object
