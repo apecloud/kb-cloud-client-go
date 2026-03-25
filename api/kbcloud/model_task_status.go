@@ -20,6 +20,10 @@ const (
 	TaskStatusStopped         TaskStatus = "Stopped"
 	TaskStatusSucceed         TaskStatus = "Succeed"
 	TaskStatusFailed          TaskStatus = "Failed"
+	TaskStatusDeleted         TaskStatus = "Deleted"
+	TaskStatusFinished        TaskStatus = "Finished"
+	TaskStatusCancelling      TaskStatus = "Cancelling"
+	TaskStatusCancelled       TaskStatus = "Cancelled"
 	TaskStatusRebuildCanceled TaskStatus = "RebuildCanceled"
 )
 
@@ -29,6 +33,10 @@ var allowedTaskStatusEnumValues = []TaskStatus{
 	TaskStatusStopped,
 	TaskStatusSucceed,
 	TaskStatusFailed,
+	TaskStatusDeleted,
+	TaskStatusFinished,
+	TaskStatusCancelling,
+	TaskStatusCancelled,
 	TaskStatusRebuildCanceled,
 }
 
