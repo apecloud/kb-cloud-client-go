@@ -367,7 +367,7 @@ paths:
       tags:
         - administrator
       x-codegen-request-body-name: body
-  /admin/v1/administrators/users/{userID}/roles:
+  /admin/v1/administrators/{administratorID}/roles:
     get:
       tags:
         - administrator
@@ -375,7 +375,7 @@ paths:
       description: List all roles assigned to a specific administrator user
       operationId: listAdministratorsUserRoles
       parameters:
-        - name: userID
+        - name: administratorID
           in: path
           required: true
           schema:
@@ -398,7 +398,7 @@ paths:
       description: Assign a role to a specific administrator user
       operationId: addAdministratorsUserRole
       parameters:
-        - name: userID
+        - name: administratorID
           in: path
           required: true
           schema:
@@ -424,7 +424,7 @@ paths:
           $ref: '#/components/responses/401'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/administrators/users/{userID}/roles/{roleName}:
+  /admin/v1/administrators/{administratorID}/roles/{roleName}:
     delete:
       tags:
         - administrator
@@ -432,7 +432,7 @@ paths:
       description: Remove a specific role from an administrator user
       operationId: removeAdministratorsUserRole
       parameters:
-        - name: userID
+        - name: administratorID
           in: path
           required: true
           schema:

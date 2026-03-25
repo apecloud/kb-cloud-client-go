@@ -36,7 +36,7 @@ func (r *AddAdministratorsUserRoleOptionalParameters) WithBody(body interface{})
 
 // AddAdministratorsUserRole Add a role to an administrator user.
 // Assign a role to a specific administrator user
-func (a *AdministratorApi) AddAdministratorsUserRole(ctx _context.Context, userId string, o ...AddAdministratorsUserRoleOptionalParameters) (*_nethttp.Response, error) {
+func (a *AdministratorApi) AddAdministratorsUserRole(ctx _context.Context, administratorId string, o ...AddAdministratorsUserRoleOptionalParameters) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
@@ -54,7 +54,7 @@ func (a *AdministratorApi) AddAdministratorsUserRole(ctx _context.Context, userI
 	apiInfo := common.APIInfo{
 		Tag:         "administrator",
 		OperationID: "addAdministratorsUserRole",
-		Path:        "/admin/v1/administrators/users/{userID}/roles",
+		Path:        "/admin/v1/administrators/{administratorID}/roles",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -64,8 +64,8 @@ func (a *AdministratorApi) AddAdministratorsUserRole(ctx _context.Context, userI
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/administrators/users/{userID}/roles"
-	localVarPath = strings.Replace(localVarPath, "{"+"userID"+"}", _neturl.PathEscape(common.ParameterToString(userId, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/administrators/{administratorID}/roles"
+	localVarPath = strings.Replace(localVarPath, "{"+"administratorID"+"}", _neturl.PathEscape(common.ParameterToString(administratorId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -954,7 +954,7 @@ func (a *AdministratorApi) ListAdministratorsRoles(ctx _context.Context) (AdminR
 
 // ListAdministratorsUserRoles List roles of an administrator user.
 // List all roles assigned to a specific administrator user
-func (a *AdministratorApi) ListAdministratorsUserRoles(ctx _context.Context, userId string) (AdminRoleList, *_nethttp.Response, error) {
+func (a *AdministratorApi) ListAdministratorsUserRoles(ctx _context.Context, administratorId string) (AdminRoleList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -965,7 +965,7 @@ func (a *AdministratorApi) ListAdministratorsUserRoles(ctx _context.Context, use
 	apiInfo := common.APIInfo{
 		Tag:         "administrator",
 		OperationID: "listAdministratorsUserRoles",
-		Path:        "/admin/v1/administrators/users/{userID}/roles",
+		Path:        "/admin/v1/administrators/{administratorID}/roles",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -975,8 +975,8 @@ func (a *AdministratorApi) ListAdministratorsUserRoles(ctx _context.Context, use
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/administrators/users/{userID}/roles"
-	localVarPath = strings.Replace(localVarPath, "{"+"userID"+"}", _neturl.PathEscape(common.ParameterToString(userId, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/administrators/{administratorID}/roles"
+	localVarPath = strings.Replace(localVarPath, "{"+"administratorID"+"}", _neturl.PathEscape(common.ParameterToString(administratorId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -1115,7 +1115,7 @@ func (a *AdministratorApi) PatchAdministrator(ctx _context.Context, administrato
 
 // RemoveAdministratorsUserRole Remove a role from an administrator user.
 // Remove a specific role from an administrator user
-func (a *AdministratorApi) RemoveAdministratorsUserRole(ctx _context.Context, userId string, roleName string) (*_nethttp.Response, error) {
+func (a *AdministratorApi) RemoveAdministratorsUserRole(ctx _context.Context, administratorId string, roleName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
@@ -1125,7 +1125,7 @@ func (a *AdministratorApi) RemoveAdministratorsUserRole(ctx _context.Context, us
 	apiInfo := common.APIInfo{
 		Tag:         "administrator",
 		OperationID: "removeAdministratorsUserRole",
-		Path:        "/admin/v1/administrators/users/{userID}/roles/{roleName}",
+		Path:        "/admin/v1/administrators/{administratorID}/roles/{roleName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1135,8 +1135,8 @@ func (a *AdministratorApi) RemoveAdministratorsUserRole(ctx _context.Context, us
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/administrators/users/{userID}/roles/{roleName}"
-	localVarPath = strings.Replace(localVarPath, "{"+"userID"+"}", _neturl.PathEscape(common.ParameterToString(userId, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/administrators/{administratorID}/roles/{roleName}"
+	localVarPath = strings.Replace(localVarPath, "{"+"administratorID"+"}", _neturl.PathEscape(common.ParameterToString(administratorId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"roleName"+"}", _neturl.PathEscape(common.ParameterToString(roleName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
