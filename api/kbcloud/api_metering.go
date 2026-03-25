@@ -14,65 +14,65 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// BillingApi service type
-type BillingApi common.Service
+// MeteringApi service type
+type MeteringApi common.Service
 
-// ListOrgBillsOptionalParameters holds optional parameters for ListOrgBills.
-type ListOrgBillsOptionalParameters struct {
-	BillId           *string
-	ClusterId        *string
-	ProjectName      *string
-	AggregationTime  *AggregationTimeType
-	AggregationGroup *OrgAggregationGroupType
+// ListOrgMeteringTracksOptionalParameters holds optional parameters for ListOrgMeteringTracks.
+type ListOrgMeteringTracksOptionalParameters struct {
+	ClusterId       *string
+	ProjectName     *string
+	EnvironmentName *string
+	PageNumber      *int64
+	PageSize        *int64
 }
 
-// NewListOrgBillsOptionalParameters creates an empty struct for parameters.
-func NewListOrgBillsOptionalParameters() *ListOrgBillsOptionalParameters {
-	this := ListOrgBillsOptionalParameters{}
+// NewListOrgMeteringTracksOptionalParameters creates an empty struct for parameters.
+func NewListOrgMeteringTracksOptionalParameters() *ListOrgMeteringTracksOptionalParameters {
+	this := ListOrgMeteringTracksOptionalParameters{}
 	return &this
 }
 
-// WithBillId sets the corresponding parameter name and returns the struct.
-func (r *ListOrgBillsOptionalParameters) WithBillId(billId string) *ListOrgBillsOptionalParameters {
-	r.BillId = &billId
-	return r
-}
-
 // WithClusterId sets the corresponding parameter name and returns the struct.
-func (r *ListOrgBillsOptionalParameters) WithClusterId(clusterId string) *ListOrgBillsOptionalParameters {
+func (r *ListOrgMeteringTracksOptionalParameters) WithClusterId(clusterId string) *ListOrgMeteringTracksOptionalParameters {
 	r.ClusterId = &clusterId
 	return r
 }
 
 // WithProjectName sets the corresponding parameter name and returns the struct.
-func (r *ListOrgBillsOptionalParameters) WithProjectName(projectName string) *ListOrgBillsOptionalParameters {
+func (r *ListOrgMeteringTracksOptionalParameters) WithProjectName(projectName string) *ListOrgMeteringTracksOptionalParameters {
 	r.ProjectName = &projectName
 	return r
 }
 
-// WithAggregationTime sets the corresponding parameter name and returns the struct.
-func (r *ListOrgBillsOptionalParameters) WithAggregationTime(aggregationTime AggregationTimeType) *ListOrgBillsOptionalParameters {
-	r.AggregationTime = &aggregationTime
+// WithEnvironmentName sets the corresponding parameter name and returns the struct.
+func (r *ListOrgMeteringTracksOptionalParameters) WithEnvironmentName(environmentName string) *ListOrgMeteringTracksOptionalParameters {
+	r.EnvironmentName = &environmentName
 	return r
 }
 
-// WithAggregationGroup sets the corresponding parameter name and returns the struct.
-func (r *ListOrgBillsOptionalParameters) WithAggregationGroup(aggregationGroup OrgAggregationGroupType) *ListOrgBillsOptionalParameters {
-	r.AggregationGroup = &aggregationGroup
+// WithPageNumber sets the corresponding parameter name and returns the struct.
+func (r *ListOrgMeteringTracksOptionalParameters) WithPageNumber(pageNumber int64) *ListOrgMeteringTracksOptionalParameters {
+	r.PageNumber = &pageNumber
 	return r
 }
 
-// ListOrgBills List bills in the organization.
-func (a *BillingApi) ListOrgBills(ctx _context.Context, orgName string, start int64, end int64, o ...ListOrgBillsOptionalParameters) (BillList, *_nethttp.Response, error) {
+// WithPageSize sets the corresponding parameter name and returns the struct.
+func (r *ListOrgMeteringTracksOptionalParameters) WithPageSize(pageSize int64) *ListOrgMeteringTracksOptionalParameters {
+	r.PageSize = &pageSize
+	return r
+}
+
+// ListOrgMeteringTracks List metering tracks in the organization.
+func (a *MeteringApi) ListOrgMeteringTracks(ctx _context.Context, orgName string, start int64, end int64, o ...ListOrgMeteringTracksOptionalParameters) (MeteringTrackList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue BillList
-		optionalParams      ListOrgBillsOptionalParameters
+		localVarReturnValue MeteringTrackList
+		optionalParams      ListOrgMeteringTracksOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListOrgBillsOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListOrgMeteringTracksOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -80,19 +80,19 @@ func (a *BillingApi) ListOrgBills(ctx _context.Context, orgName string, start in
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "billing",
-		OperationID: "listOrgBills",
-		Path:        "/api/v1/organizations/{orgName}/bills",
+		Tag:         "metering",
+		OperationID: "listOrgMeteringTracks",
+		Path:        "/api/v1/organizations/{orgName}/metering/tracks",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BillingApi.ListOrgBills")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MeteringApi.ListOrgMeteringTracks")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/bills"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/metering/tracks"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -100,20 +100,20 @@ func (a *BillingApi) ListOrgBills(ctx _context.Context, orgName string, start in
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
 	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
-	if optionalParams.BillId != nil {
-		localVarQueryParams.Add("billID", common.ParameterToString(*optionalParams.BillId, ""))
-	}
 	if optionalParams.ClusterId != nil {
 		localVarQueryParams.Add("clusterID", common.ParameterToString(*optionalParams.ClusterId, ""))
 	}
 	if optionalParams.ProjectName != nil {
 		localVarQueryParams.Add("projectName", common.ParameterToString(*optionalParams.ProjectName, ""))
 	}
-	if optionalParams.AggregationTime != nil {
-		localVarQueryParams.Add("aggregationTime", common.ParameterToString(*optionalParams.AggregationTime, ""))
+	if optionalParams.EnvironmentName != nil {
+		localVarQueryParams.Add("environmentName", common.ParameterToString(*optionalParams.EnvironmentName, ""))
 	}
-	if optionalParams.AggregationGroup != nil {
-		localVarQueryParams.Add("aggregationGroup", common.ParameterToString(*optionalParams.AggregationGroup, ""))
+	if optionalParams.PageNumber != nil {
+		localVarQueryParams.Add("pageNumber", common.ParameterToString(*optionalParams.PageNumber, ""))
+	}
+	if optionalParams.PageSize != nil {
+		localVarQueryParams.Add("pageSize", common.ParameterToString(*optionalParams.PageSize, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -165,9 +165,9 @@ func (a *BillingApi) ListOrgBills(ctx _context.Context, orgName string, start in
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewBillingApi Returns NewBillingApi.
-func NewBillingApi(client *common.APIClient) *BillingApi {
-	return &BillingApi{
+// NewMeteringApi Returns NewMeteringApi.
+func NewMeteringApi(client *common.APIClient) *MeteringApi {
+	return &MeteringApi{
 		Client: client,
 	}
 }

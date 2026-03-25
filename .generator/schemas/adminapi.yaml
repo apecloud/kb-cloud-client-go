@@ -60,6 +60,8 @@ tags:
     description: Organization Parameter APIs
   - name: billing
     description: Billing APIs
+  - name: metering
+    description: Metering APIs
   - name: import
     description: Data Import APIs
   - name: SLA
@@ -493,6 +495,35 @@ paths:
       tags:
         - user
       x-codegen-request-body-name: body
+  /admin/v1/users/{userID}/authorization:
+    get:
+      description: Get user roles in multiple organizations
+      operationId: getUserAuthorization
+      summary: Get user roles in multiple organizations
+      parameters:
+        - in: path
+          name: userID
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/userAuthorization'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - user
   /admin/v1/metrics/metaData/aggregate:
     get:
       description: Get aggregate meta data including total count and time series
@@ -1878,6 +1909,16 @@ paths:
           name: container
           schema:
             type: string
+        - description: A relative time in seconds before the current time from which to show logs. If this value precedes the time a pod was started, only logs since the pod start will be returned. If this value is in the future, no logs will be returned. Only one of sinceSeconds or sinceTime may be specified.
+          in: query
+          name: sinceSeconds
+          schema:
+            type: integer
+        - description: If set, the number of lines from the end of the logs to show. If not specified, logs are shown from the creation of the container or sinceSeconds or sinceTime
+          in: query
+          name: tailLines
+          schema:
+            type: integer
       responses:
         '200':
           content:
@@ -5718,6 +5759,74 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/drain:
+    post:
+      description: Drain the specified Environment node. This action will evict all pods from the node and mark it as unschedulable.
+      summary: Drain environment node
+      operationId: drainEnvironmentNode
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment node
+          in: path
+          name: nodeName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/undrain:
+    post:
+      description: Undrain the specified Environment node. This action will remove the NoExecute taint and make the node schedulable again.
+      summary: Undrain environment node
+      operationId: undrainEnvironmentNode
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment node
+          in: path
+          name: nodeName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
   /admin/v1/environments/{environmentName}/nodes/{nodeName}/maintenance/on:
     patch:
       description: Set the node to maintenance mode. This action temporarily disables the node for maintenance activities, ensuring no new workloads are scheduled on it.
@@ -7108,44 +7217,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backupRepo
-  /admin/v1/environments/{environmentName}/backupRepo/{backupRepoName}/files:
-    get:
-      tags:
-        - backupRepo
-      operationId: listBackupRepoFolder
-      summary: list backup repo folder
-      parameters:
-        - name: environmentName
-          in: path
-          description: name of the environment
-          required: true
-          schema:
-            type: string
-        - name: backupRepoName
-          in: path
-          description: name of the environment
-          required: true
-          schema:
-            type: string
-        - name: path
-          in: query
-          description: path of the folder
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/fileEntryList'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
   /admin/v1/imageRegistries:
     get:
       operationId: listImageRegistries
@@ -7474,6 +7545,11 @@ paths:
         - name: withDeletedBackups
           in: query
           description: defined whether to search for deleted backups. if not set, only return backups that are not deleted
+          schema:
+            type: boolean
+        - name: withRestoreCluster
+          in: query
+          description: defined whether to search for restore backups.
           schema:
             type: boolean
         - name: backupType
@@ -12688,7 +12764,7 @@ paths:
         - environment
   /admin/v1/platformComponents:
     get:
-      description: List platform components
+      description: List platform components with monitoring and log query metadata
       summary: List platform components
       operationId: listPlatformComponents
       responses:
@@ -12706,7 +12782,7 @@ paths:
         - platformComponent
   /admin/v1/platformComponents/{componentName}:
     get:
-      description: Get platform component detail by name
+      description: Get platform component detail by name, including monitoring and log query metadata
       summary: Get platform component detail
       operationId: getPlatformComponent
       parameters:
@@ -16312,6 +16388,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/BillList'
           description: List bill details
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -16320,6 +16398,62 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - billing
+  /admin/v1/metering/tracks:
+    get:
+      operationId: listMeteringTracks
+      summary: List metering tracks
+      parameters:
+        - description: The ID of the cluster
+          in: query
+          name: clusterID
+          schema:
+            type: string
+        - description: Name of organization
+          in: query
+          name: orgName
+          schema:
+            type: string
+        - description: name of the project
+          in: query
+          name: projectName
+          schema:
+            type: string
+        - description: The name of the environment
+          in: query
+          name: environmentName
+          schema:
+            type: string
+        - description: the pageNumber of the query
+          in: query
+          name: pageNumber
+          schema:
+            type: integer
+            format: int64
+        - description: the pageSize of the query
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+            format: int64
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeteringTrackList'
+          description: List metering tracks
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - metering
   /admin/v1/sla:
     get:
       summary: Calculate SLA for a environment
@@ -16910,6 +17044,9 @@ components:
         isDefaultPassword:
           description: return true if the default admin user need to reset password
           type: boolean
+        description:
+          description: The description for the user
+          type: string
       required:
         - id
         - userName
@@ -16938,6 +17075,9 @@ components:
           type: string
         email:
           description: The email for the user
+          type: string
+        description:
+          description: The description for the user
           type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
@@ -17060,6 +17200,9 @@ components:
           description: The email for the user
           type: string
           format: email
+        description:
+          description: The description for the user
+          type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
       required:
@@ -17077,6 +17220,19 @@ components:
       required:
         - newPassword
       type: object
+    userAuthorization:
+      description: User authorization
+      type: object
+      properties:
+        orgName:
+          type: string
+          description: The organization name
+        roleName:
+          type: string
+          description: The role name in the organization
+      required:
+        - orgName
+        - roleName
     aggregateMetaDataType:
       type: string
       description: The type of the aggregate meta data.
@@ -17667,9 +17823,7 @@ components:
       default: Delete
       enum:
         - DoNotTerminate
-        - Halt
         - Delete
-        - WipeOut
     ioQuantity:
       description: IO Quantity describes IOPS and BPS of a volume
       properties:
@@ -20529,6 +20683,7 @@ components:
         - Warning
         - UnderMaintenance
         - Unschedulable
+        - Draining
     node:
       description: node info
       properties:
@@ -21867,6 +22022,10 @@ components:
         name:
           description: Name of the node.
           type: string
+        instanceCount:
+          description: Number of database cluster instances (pods) running on this node.
+          type: integer
+          format: int32
       required:
         - cpuStats
         - memoryStats
@@ -21913,6 +22072,21 @@ components:
           type: string
         type:
           $ref: '#/components/schemas/instanceResourceStatsType'
+        engine:
+          description: Engine type of the instance.
+          type: string
+        engineVersion:
+          description: Engine version of the instance.
+          type: string
+        role:
+          description: Role of the instance.
+          type: string
+        clusterName:
+          description: Name of the cluster this instance belongs to.
+          type: string
+        clusterStatus:
+          description: Cluster status.
+          type: string
       required:
         - cpuStats
         - memoryStats
@@ -22670,6 +22844,10 @@ components:
           description: the size of entry
           format: int64
           type: integer
+        lastModified:
+          description: the last modified time of entry
+          format: date-time
+          type: string
     fileEntryList:
       description: BackupEntryList is a list of entry
       properties:
@@ -23970,8 +24148,16 @@ components:
         engineName:
           type: string
           description: The engine to be used in serviceRef. This field is used to filter clusters.
+        modes:
+          type: array
+          items:
+            type: string
+          description: The mode to be used in serviceRef. This field is used to filter clusters. If not set, it means all modes are supported.
         addressStyle:
           $ref: '#/components/schemas/serviceDescriptorAddressStyle'
+        disableManualInput:
+          type: boolean
+          description: whether to disable manual input of the service reference. If set to true, users can only select from the serviceRefs provided by list clusters api.
         helmValuePath:
           type: object
           description: The path to be used in values. Separated with commas. ClusterCreate API will use these path to override values in the cluster chart.
@@ -24181,6 +24367,10 @@ components:
         supportMultipleComponent:
           type: boolean
           default: false
+        excludeRootAccounts:
+          type: array
+          items:
+            type: string
     databaseOption:
       type: object
       required:
@@ -24321,6 +24511,9 @@ components:
             rootUser:
               type: string
               description: the root user for offline backup
+            supportEmptyPassword:
+              type: boolean
+              description: whether to support empty password for the root user in offline backup
             backupMethod:
               type: string
               description: the backup method for offline backup
@@ -24330,6 +24523,11 @@ components:
             status:
               type: object
               additionalProperties: true
+            modes:
+              type: array
+              items:
+                type: string
+              description: the modes that offline backup supports. if not set, it means all modes are supported.
         backupParameters:
           type: object
           additionalProperties:
@@ -24747,6 +24945,23 @@ components:
         sqlAuditSwitch:
           $ref: '#/components/schemas/sqlAuditSwitchOption'
           description: SQL audit log switch configuration. Only applicable when audit is true. If method type is parameter, control is automatically inferred as reconfigure.
+    parameterOptionRef:
+      type: object
+      description: |
+        Reference another engine's parameter option to reuse its parameter configuration.
+        If parameterOptionRef is set, the referenced engine's parameter option (identified by
+        engineName + component) is used as the only source of parameter configuration. Fields explicitly set in
+        the local parameterOption will be ignored.
+      required:
+        - engineName
+        - component
+      properties:
+        engineName:
+          type: string
+          description: The engine name to reference parameter configuration from.
+        component:
+          type: string
+          description: The component type in the referenced engine whose parameter option to inherit.
     configSpecOption:
       type: object
       required:
@@ -24812,13 +25027,12 @@ components:
       type: object
       required:
         - component
-        - exportTpl
-        - enableTemplate
-        - configSpecs
       properties:
         component:
           type: string
           description: component type
+        referenceEngine:
+          $ref: '#/components/schemas/parameterOptionRef'
         exportTpl:
           description: If set to true, the current parameters of the component can be exported and saved as a parameter template.
           type: boolean
@@ -25523,6 +25737,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/modeOption'
+        defaultMode:
+          type: string
+          description: |
+            The default mode name to be selected when creating a cluster.
+            This field is used by the frontend only.
+            The value should match one of the mode names defined in the modes array.
+          nullable: true
         account:
           $ref: '#/components/schemas/accountOption'
         database:
@@ -27586,6 +27807,11 @@ components:
         - Stopped
         - Succeed
         - Failed
+        - Deleted
+        - Finished
+        - Cancelling
+        - Cancelled
+        - RebuildCanceled
       description: Current status of the task
     taskListItem:
       type: object
@@ -28109,7 +28335,7 @@ components:
       x-nullable: true
     platformComponent:
       type: object
-      description: Platform component summary
+      description: Platform component summary with monitoring and log query metadata
       properties:
         name:
           type: string
@@ -28127,6 +28353,12 @@ components:
           type: integer
           format: int64
           description: Number of ready replicas
+        dashboardUID:
+          type: string
+          description: Grafana dashboard UID for this component
+        logJobName:
+          type: string
+          description: Log query job name for this component
       required:
         - name
         - status
@@ -28159,7 +28391,7 @@ components:
           description: Node name where pod is running
     platformComponentDetails:
       type: object
-      description: Platform component detail including pods
+      description: Platform component detail including pods and observability metadata
       properties:
         name:
           type: string
@@ -28174,6 +28406,12 @@ components:
         replicas:
           type: integer
           format: int64
+        dashboardUID:
+          type: string
+          description: Grafana dashboard UID for this component
+        logJobName:
+          type: string
+          description: Log query job name for this component
         pods:
           type: array
           items:
@@ -29961,6 +30199,62 @@ components:
           type: array
       required:
         - items
+    MeteringTrack:
+      type: object
+      description: RTS metering track information
+      properties:
+        clusterID:
+          description: The ID of cluster
+          type: string
+          nullable: true
+          x-omitempty: true
+        orgName:
+          description: The Name of organization
+          type: string
+          nullable: true
+          x-omitempty: true
+        projectName:
+          description: The Name of project
+          type: string
+          nullable: true
+          x-omitempty: true
+        environmentID:
+          description: The ID of environment
+          type: string
+          nullable: true
+          x-omitempty: true
+        startTime:
+          description: The clipped start time of the metering track in Unix timestamp (seconds since epoch)
+          type: integer
+          format: int64
+          example: 1756656000
+        endTime:
+          description: The clipped end time of the metering track in Unix timestamp (seconds since epoch)
+          type: integer
+          format: int64
+          example: 1756663200
+        cpu:
+          description: The CPU usage tracked for the interval
+          type: string
+        memory:
+          description: The memory usage tracked for the interval
+          type: string
+        storage:
+          description: The storage usage tracked for the interval
+          type: string
+    MeteringTrackList:
+      type: object
+      description: list metering tracks in date range
+      properties:
+        items:
+          description: Items of the metering tracks
+          items:
+            $ref: '#/components/schemas/MeteringTrack'
+          type: array
+        pagination:
+          $ref: '#/components/schemas/paginationResult'
+      required:
+        - items
     OutageRecord:
       type: object
       description: Records the outage events of a cluster for SLA calculation. It is designed to ensure that for any given cluster, there can be at most one active outage record at any time.
@@ -30422,6 +30716,7 @@ x-tagGroups:
     tags:
       - pricing
       - billing
+      - metering
   - name: import
     tags:
       - import

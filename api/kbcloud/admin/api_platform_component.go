@@ -18,7 +18,7 @@ import (
 type PlatformComponentApi common.Service
 
 // GetPlatformComponent Get platform component detail.
-// Get platform component detail by name
+// Get platform component detail by name, including monitoring and log query metadata
 func (a *PlatformComponentApi) GetPlatformComponent(ctx _context.Context, componentName string) (PlatformComponentDetails, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -97,7 +97,7 @@ func (a *PlatformComponentApi) GetPlatformComponent(ctx _context.Context, compon
 }
 
 // ListPlatformComponents List platform components.
-// List platform components
+// List platform components with monitoring and log query metadata
 func (a *PlatformComponentApi) ListPlatformComponents(ctx _context.Context) ([]PlatformComponent, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
