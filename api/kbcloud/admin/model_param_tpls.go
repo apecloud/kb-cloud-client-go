@@ -4,7 +4,9 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // ParamTpls Items is the list of parameter template in the list
 type ParamTpls struct {

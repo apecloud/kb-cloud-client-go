@@ -367,6 +367,89 @@ paths:
       tags:
         - administrator
       x-codegen-request-body-name: body
+  /admin/v1/administrators/{administratorID}/roles:
+    get:
+      tags:
+        - administrator
+      summary: List roles of an administrator user
+      description: List all roles assigned to a specific administrator user
+      operationId: listAdministratorsUserRoles
+      parameters:
+        - name: administratorID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminRoleList'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - administrator
+      summary: Add a role to an administrator user
+      description: Assign a role to a specific administrator user
+      operationId: addAdministratorsUserRole
+      parameters:
+        - name: administratorID
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                roleName:
+                  type: string
+                  description: The name of the role to assign
+              required:
+                - roleName
+      responses:
+        '204':
+          description: Returned when role is assigned successfully.
+          content: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/administrators/{administratorID}/roles/{roleName}:
+    delete:
+      tags:
+        - administrator
+      summary: Remove a role from an administrator user
+      description: Remove a specific role from an administrator user
+      operationId: removeAdministratorsUserRole
+      parameters:
+        - name: administratorID
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when role is removed successfully.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/users:
     post:
       description: Create a new user
@@ -1262,6 +1345,227 @@ paths:
           required: true
           schema:
             type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        '204':
+          description: Returned when permissions are removed successfully.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/administrators/permissions:
+    get:
+      tags:
+        - administrator
+      summary: List all permissions for administrators
+      description: List all permissions available for administrator roles
+      operationId: listAdministratorsPermissions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminPermissionList'
+        '401':
+          $ref: '#/components/responses/401'
+  /admin/v1/administrators/roles:
+    get:
+      tags:
+        - administrator
+      summary: List all administrator roles
+      description: List all administrator roles including built-in and custom roles
+      operationId: listAdministratorsRoles
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminRoleList'
+        '401':
+          $ref: '#/components/responses/401'
+    post:
+      tags:
+        - administrator
+      summary: Create an administrator role
+      description: Create a custom administrator role
+      operationId: createAdministratorsRole
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminRoleCreate'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminRole'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+  /admin/v1/administrators/roles/{roleName}:
+    get:
+      tags:
+        - administrator
+      summary: Get an administrator role by name
+      description: Get detailed information about a specific administrator role
+      operationId: getAdministratorsRoleByName
+      parameters:
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminRole'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - administrator
+      summary: Update an administrator role by name
+      description: Update a custom administrator role
+      operationId: updateAdministratorsRoleByName
+      parameters:
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminRoleUpdate'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminRole'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - administrator
+      summary: Delete an administrator role by name
+      description: Delete a custom administrator role
+      operationId: deleteAdministratorsRoleByName
+      parameters:
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when role is deleted successfully.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/administrators/roles/{roleName}/permissions:
+    get:
+      tags:
+        - administrator
+      summary: List permissions of an administrator role
+      description: List all permissions assigned to a specific administrator role
+      operationId: listAdministratorsRolePermissions
+      parameters:
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminPermissionList'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/administrators/roles/{roleName}/permissions/batch:
+    post:
+      tags:
+        - administrator
+      summary: Batch add permissions to an administrator role
+      description: Add multiple permissions to a custom administrator role
+      operationId: batchAddAdministratorsRolePermissions
+      parameters:
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        '204':
+          description: Returned when permissions are added successfully.
+          content: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - administrator
+      summary: Batch remove permissions from an administrator role
+      description: Remove multiple permissions from a custom administrator role
+      operationId: batchRemoveAdministratorsRolePermissions
+      parameters:
         - name: roleName
           in: path
           required: true
@@ -2678,7 +2982,6 @@ paths:
       operationId: listDisasterRecovery
       summary: List Disaster Recovery instances under the main cluster
       description: Retrieve a list of disaster recovery instances for a specific database cluster.
-      deprecated: true
       parameters:
         - description: The ID of the parent database cluster
           in: path
@@ -2711,7 +3014,6 @@ paths:
       operationId: createDisasterRecovery
       summary: Create a new disaster recovery instance
       description: Create a new disaster recovery instance for a database cluster.
-      deprecated: true
       parameters:
         - description: The ID of the parent database cluster
           in: path
@@ -12157,7 +12459,7 @@ paths:
         - task
       summary: List task
       description: List tasks
-      operationId: listTask
+      operationId: listTasks
       parameters:
         - name: orgName
           in: query
@@ -16390,6 +16692,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/BillList'
           description: List bill details
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -17220,6 +17524,51 @@ components:
       required:
         - newPassword
       type: object
+    localizedDescription:
+      type: object
+      properties:
+        zh-CN:
+          type: string
+          x-nullable: true
+        en-US:
+          type: string
+          x-nullable: true
+    adminRole:
+      description: Administrator Role information
+      type: object
+      properties:
+        name:
+          description: The name of the role
+          type: string
+        type:
+          description: The type of the role (built-in or customized)
+          type: string
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+        createdAt:
+          description: The time when the role was created. Read-Only
+          format: date-time
+          type: string
+        updatedAt:
+          description: The time when the role was updated. Read-Only
+          format: date-time
+          type: string
+      required:
+        - name
+        - type
+    adminRoleList:
+      description: AdminRoleList is a list of AdminRole objects
+      type: object
+      properties:
+        items:
+          description: Items is the list of AdminRole objects
+          items:
+            $ref: '#/components/schemas/adminRole'
+          type: array
+      required:
+        - items
     userAuthorization:
       description: User authorization
       type: object
@@ -17520,15 +17869,6 @@ components:
       required:
         - items
       type: object
-    localizedDescription:
-      type: object
-      properties:
-        zh-CN:
-          type: string
-          x-nullable: true
-        en-US:
-          type: string
-          x-nullable: true
     role:
       description: Role information
       type: object
@@ -17577,6 +17917,53 @@ components:
         - name
     roleUpdate:
       description: Role update
+      type: object
+      properties:
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+    adminPermission:
+      description: Administrator Permission information
+      type: object
+      properties:
+        name:
+          description: The name of the permission
+          type: string
+        group:
+          description: The group of the permission
+          type: string
+        description:
+          description: The description of the permission
+          type: string
+      required:
+        - name
+    adminPermissionList:
+      description: AdminPermissionList is a list of AdminPermission objects
+      type: object
+      properties:
+        items:
+          description: Items is the list of AdminPermission objects
+          items:
+            $ref: '#/components/schemas/adminPermission'
+          type: array
+      required:
+        - items
+    adminRoleCreate:
+      description: Create administrator role request
+      type: object
+      properties:
+        name:
+          description: The name of the role
+          type: string
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+      required:
+        - name
+    adminRoleUpdate:
+      description: Update administrator role request
       type: object
       properties:
         displayName:
@@ -17643,7 +18030,7 @@ components:
       title: ClusterType
       type: string
       nullable: true
-      description: Describes the type of cluster, [Normal] normal cluster; [DisasterRecovery] disaster recovery cluster
+      description: Describes the type of cluster
       default: Normal
       enum:
         - Normal
@@ -17804,6 +18191,11 @@ components:
         paramTplID:
           type: string
           description: id of parameter template
+          nullable: true
+        orgName:
+          type: string
+          description: org name of the parameter template
+          nullable: true
         paramTplPartition:
           $ref: '#/components/schemas/parameterTemplatePartition'
     paramTpls:
@@ -17873,6 +18265,10 @@ components:
           title: Replicas
           type: integer
           description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
+        skipResourceConstraints:
+          type: boolean
+          description: Whether to skip resource constraint validation when creating cluster
+          default: false
         classCode:
           type: string
         cpu:
@@ -20897,6 +21293,10 @@ components:
           type: integer
           nullable: true
           minimum: 0
+        force:
+          type: boolean
+          description: force the scaling operation without pre-check
+          default: false
         schedule:
           $ref: '#/components/schemas/taskSchedule'
       type: object
@@ -25662,6 +26062,24 @@ components:
         sinkEngineName:
           type: string
           description: Engine name for sink/target database
+    blueGreenDeploymentAccountOption:
+      type: object
+      properties:
+        component:
+          type: string
+        defaultAccountName:
+          type: array
+          items:
+            type: string
+    blueGreenDeploymentEngineOption:
+      description: blueGreenDeploymentEngine is the engine of a blue-green deployment.
+      properties:
+        enabled:
+          description: Whether the blue-green deployment is enabled.
+          type: boolean
+        accounts:
+          $ref: '#/components/schemas/blueGreenDeploymentAccountOption'
+      type: object
     engineOption:
       type: object
       additionalProperties: false
@@ -25818,6 +26236,9 @@ components:
             type: string
           description: |
             List of CPU architectures supported by this engine. If not set, all architectures are supported.
+          nullable: true
+        blueGreenDeployment:
+          $ref: '#/components/schemas/blueGreenDeploymentEngineOption'
           nullable: true
     engineOptionList:
       required:
@@ -27773,6 +28194,11 @@ components:
         - Stopped
         - Succeed
         - Failed
+        - Deleted
+        - Finished
+        - Cancelling
+        - Cancelled
+        - RebuildCanceled
       description: Current status of the task
     taskListItem:
       type: object
@@ -29984,6 +30410,12 @@ components:
     environmentPricing:
       type: object
       description: the information of environment pricing
+      required:
+        - envName
+        - cpuPrice
+        - memoryPrice
+        - storagePrice
+        - backupPrice
       properties:
         envName:
           description: The environment name
@@ -30019,6 +30451,12 @@ components:
     globalPricing:
       type: object
       description: the global information of pricing
+      required:
+        - billScheduleTime
+        - cpuPrice
+        - memoryPrice
+        - storagePrice
+        - backupPrice
       properties:
         enabled:
           description: Enable global pricing
@@ -30190,7 +30628,6 @@ components:
         environmentID:
           description: The ID of environment
           type: string
-          format: uuid
           nullable: true
           x-omitempty: true
         startTime:

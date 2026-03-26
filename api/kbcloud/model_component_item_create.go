@@ -17,8 +17,10 @@ type ComponentItemCreate struct {
 	// The number of components, if often used as shards number
 	CompNum *int32 `json:"compNum,omitempty"`
 	// The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
-	Replicas  *int32  `json:"replicas,omitempty"`
-	ClassCode *string `json:"classCode,omitempty"`
+	Replicas *int32 `json:"replicas,omitempty"`
+	// Whether to skip resource constraint validation when creating cluster
+	SkipResourceConstraints *bool   `json:"skipResourceConstraints,omitempty"`
+	ClassCode               *string `json:"classCode,omitempty"`
 	// CPU cores.
 	Cpu *float64 `json:"cpu,omitempty"`
 	// Memory, the unit is Gi.
@@ -40,6 +42,8 @@ type ComponentItemCreate struct {
 func NewComponentItemCreate(component string) *ComponentItemCreate {
 	this := ComponentItemCreate{}
 	this.Component = component
+	var skipResourceConstraints bool = false
+	this.SkipResourceConstraints = &skipResourceConstraints
 	return &this
 }
 
@@ -48,6 +52,8 @@ func NewComponentItemCreate(component string) *ComponentItemCreate {
 // but it doesn't guarantee that properties required by API are set.
 func NewComponentItemCreateWithDefaults() *ComponentItemCreate {
 	this := ComponentItemCreate{}
+	var skipResourceConstraints bool = false
+	this.SkipResourceConstraints = &skipResourceConstraints
 	return &this
 }
 
@@ -128,6 +134,34 @@ func (o *ComponentItemCreate) HasReplicas() bool {
 // SetReplicas gets a reference to the given int32 and assigns it to the Replicas field.
 func (o *ComponentItemCreate) SetReplicas(v int32) {
 	o.Replicas = &v
+}
+
+// GetSkipResourceConstraints returns the SkipResourceConstraints field value if set, zero value otherwise.
+func (o *ComponentItemCreate) GetSkipResourceConstraints() bool {
+	if o == nil || o.SkipResourceConstraints == nil {
+		var ret bool
+		return ret
+	}
+	return *o.SkipResourceConstraints
+}
+
+// GetSkipResourceConstraintsOk returns a tuple with the SkipResourceConstraints field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentItemCreate) GetSkipResourceConstraintsOk() (*bool, bool) {
+	if o == nil || o.SkipResourceConstraints == nil {
+		return nil, false
+	}
+	return o.SkipResourceConstraints, true
+}
+
+// HasSkipResourceConstraints returns a boolean if a field has been set.
+func (o *ComponentItemCreate) HasSkipResourceConstraints() bool {
+	return o != nil && o.SkipResourceConstraints != nil
+}
+
+// SetSkipResourceConstraints gets a reference to the given bool and assigns it to the SkipResourceConstraints field.
+func (o *ComponentItemCreate) SetSkipResourceConstraints(v bool) {
+	o.SkipResourceConstraints = &v
 }
 
 // GetClassCode returns the ClassCode field value if set, zero value otherwise.
@@ -311,6 +345,9 @@ func (o ComponentItemCreate) MarshalJSON() ([]byte, error) {
 	if o.Replicas != nil {
 		toSerialize["replicas"] = o.Replicas
 	}
+	if o.SkipResourceConstraints != nil {
+		toSerialize["skipResourceConstraints"] = o.SkipResourceConstraints
+	}
 	if o.ClassCode != nil {
 		toSerialize["classCode"] = o.ClassCode
 	}
@@ -342,6 +379,7 @@ func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 		Component               *string               `json:"component"`
 		CompNum                 *int32                `json:"compNum,omitempty"`
 		Replicas                *int32                `json:"replicas,omitempty"`
+		SkipResourceConstraints *bool                 `json:"skipResourceConstraints,omitempty"`
 		ClassCode               *string               `json:"classCode,omitempty"`
 		Cpu                     *float64              `json:"cpu,omitempty"`
 		Memory                  *float64              `json:"memory,omitempty"`
@@ -357,13 +395,14 @@ func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "compNum", "replicas", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "compNum", "replicas", "skipResourceConstraints", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName"})
 	} else {
 		return err
 	}
 	o.Component = *all.Component
 	o.CompNum = all.CompNum
 	o.Replicas = all.Replicas
+	o.SkipResourceConstraints = all.SkipResourceConstraints
 	o.ClassCode = all.ClassCode
 	o.Cpu = all.Cpu
 	o.Memory = all.Memory

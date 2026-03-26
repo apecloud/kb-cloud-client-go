@@ -5,8 +5,6 @@
 package kbcloud
 
 import (
-	"github.com/google/uuid"
-
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
@@ -172,9 +170,9 @@ func (o *MeteringTrack) UnsetProjectName() {
 }
 
 // GetEnvironmentId returns the EnvironmentId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *MeteringTrack) GetEnvironmentId() uuid.UUID {
+func (o *MeteringTrack) GetEnvironmentId() string {
 	if o == nil || o.EnvironmentId.Get() == nil {
-		var ret uuid.UUID
+		var ret string
 		return ret
 	}
 	return *o.EnvironmentId.Get()
@@ -183,7 +181,7 @@ func (o *MeteringTrack) GetEnvironmentId() uuid.UUID {
 // GetEnvironmentIdOk returns a tuple with the EnvironmentId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *MeteringTrack) GetEnvironmentIdOk() (*uuid.UUID, bool) {
+func (o *MeteringTrack) GetEnvironmentIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -196,7 +194,7 @@ func (o *MeteringTrack) HasEnvironmentId() bool {
 }
 
 // SetEnvironmentId gets a reference to the given common.NullableString and assigns it to the EnvironmentId field.
-func (o *MeteringTrack) SetEnvironmentId(v uuid.UUID) {
+func (o *MeteringTrack) SetEnvironmentId(v string) {
 	o.EnvironmentId.Set(&v)
 }
 

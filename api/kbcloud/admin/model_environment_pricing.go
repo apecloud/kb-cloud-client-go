@@ -5,21 +5,23 @@
 package admin
 
 import (
+	"fmt"
+
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // EnvironmentPricing the information of environment pricing
 type EnvironmentPricing struct {
 	// The environment name
-	EnvName common.NullableString `json:"envName,omitempty"`
+	EnvName common.NullableString `json:"envName"`
 	// The price of CPU, the unit is 'Core'
-	CpuPrice common.NullableString `json:"cpuPrice,omitempty"`
+	CpuPrice common.NullableString `json:"cpuPrice"`
 	// The price of Memory, the unit is 'GB'
-	MemoryPrice common.NullableString `json:"memoryPrice,omitempty"`
+	MemoryPrice common.NullableString `json:"memoryPrice"`
 	// The price of Storage, the unit is 'GB'
-	StoragePrice common.NullableString `json:"storagePrice,omitempty"`
+	StoragePrice common.NullableString `json:"storagePrice"`
 	// The price of Backup, the unit is 'GB'
-	BackupPrice common.NullableString `json:"backupPrice,omitempty"`
+	BackupPrice common.NullableString `json:"backupPrice"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -29,8 +31,13 @@ type EnvironmentPricing struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentPricing() *EnvironmentPricing {
+func NewEnvironmentPricing(envName common.NullableString, cpuPrice common.NullableString, memoryPrice common.NullableString, storagePrice common.NullableString, backupPrice common.NullableString) *EnvironmentPricing {
 	this := EnvironmentPricing{}
+	this.EnvName = envName
+	this.CpuPrice = cpuPrice
+	this.MemoryPrice = memoryPrice
+	this.StoragePrice = storagePrice
+	this.BackupPrice = backupPrice
 	return &this
 }
 
@@ -42,7 +49,8 @@ func NewEnvironmentPricingWithDefaults() *EnvironmentPricing {
 	return &this
 }
 
-// GetEnvName returns the EnvName field value if set, zero value otherwise (both if not set or set to explicit null).
+// GetEnvName returns the EnvName field value.
+// If the value is explicit nil, the zero value for string will be returned.
 func (o *EnvironmentPricing) GetEnvName() string {
 	if o == nil || o.EnvName.Get() == nil {
 		var ret string
@@ -51,7 +59,7 @@ func (o *EnvironmentPricing) GetEnvName() string {
 	return *o.EnvName.Get()
 }
 
-// GetEnvNameOk returns a tuple with the EnvName field value if set, nil otherwise
+// GetEnvNameOk returns a tuple with the EnvName field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EnvironmentPricing) GetEnvNameOk() (*string, bool) {
@@ -61,27 +69,13 @@ func (o *EnvironmentPricing) GetEnvNameOk() (*string, bool) {
 	return o.EnvName.Get(), o.EnvName.IsSet()
 }
 
-// HasEnvName returns a boolean if a field has been set.
-func (o *EnvironmentPricing) HasEnvName() bool {
-	return o != nil && o.EnvName.IsSet()
-}
-
-// SetEnvName gets a reference to the given common.NullableString and assigns it to the EnvName field.
+// SetEnvName sets field value.
 func (o *EnvironmentPricing) SetEnvName(v string) {
 	o.EnvName.Set(&v)
 }
 
-// SetEnvNameNil sets the value for EnvName to be an explicit nil.
-func (o *EnvironmentPricing) SetEnvNameNil() {
-	o.EnvName.Set(nil)
-}
-
-// UnsetEnvName ensures that no value is present for EnvName, not even an explicit nil.
-func (o *EnvironmentPricing) UnsetEnvName() {
-	o.EnvName.Unset()
-}
-
-// GetCpuPrice returns the CpuPrice field value if set, zero value otherwise (both if not set or set to explicit null).
+// GetCpuPrice returns the CpuPrice field value.
+// If the value is explicit nil, the zero value for string will be returned.
 func (o *EnvironmentPricing) GetCpuPrice() string {
 	if o == nil || o.CpuPrice.Get() == nil {
 		var ret string
@@ -90,7 +84,7 @@ func (o *EnvironmentPricing) GetCpuPrice() string {
 	return *o.CpuPrice.Get()
 }
 
-// GetCpuPriceOk returns a tuple with the CpuPrice field value if set, nil otherwise
+// GetCpuPriceOk returns a tuple with the CpuPrice field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EnvironmentPricing) GetCpuPriceOk() (*string, bool) {
@@ -100,27 +94,13 @@ func (o *EnvironmentPricing) GetCpuPriceOk() (*string, bool) {
 	return o.CpuPrice.Get(), o.CpuPrice.IsSet()
 }
 
-// HasCpuPrice returns a boolean if a field has been set.
-func (o *EnvironmentPricing) HasCpuPrice() bool {
-	return o != nil && o.CpuPrice.IsSet()
-}
-
-// SetCpuPrice gets a reference to the given common.NullableString and assigns it to the CpuPrice field.
+// SetCpuPrice sets field value.
 func (o *EnvironmentPricing) SetCpuPrice(v string) {
 	o.CpuPrice.Set(&v)
 }
 
-// SetCpuPriceNil sets the value for CpuPrice to be an explicit nil.
-func (o *EnvironmentPricing) SetCpuPriceNil() {
-	o.CpuPrice.Set(nil)
-}
-
-// UnsetCpuPrice ensures that no value is present for CpuPrice, not even an explicit nil.
-func (o *EnvironmentPricing) UnsetCpuPrice() {
-	o.CpuPrice.Unset()
-}
-
-// GetMemoryPrice returns the MemoryPrice field value if set, zero value otherwise (both if not set or set to explicit null).
+// GetMemoryPrice returns the MemoryPrice field value.
+// If the value is explicit nil, the zero value for string will be returned.
 func (o *EnvironmentPricing) GetMemoryPrice() string {
 	if o == nil || o.MemoryPrice.Get() == nil {
 		var ret string
@@ -129,7 +109,7 @@ func (o *EnvironmentPricing) GetMemoryPrice() string {
 	return *o.MemoryPrice.Get()
 }
 
-// GetMemoryPriceOk returns a tuple with the MemoryPrice field value if set, nil otherwise
+// GetMemoryPriceOk returns a tuple with the MemoryPrice field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EnvironmentPricing) GetMemoryPriceOk() (*string, bool) {
@@ -139,27 +119,13 @@ func (o *EnvironmentPricing) GetMemoryPriceOk() (*string, bool) {
 	return o.MemoryPrice.Get(), o.MemoryPrice.IsSet()
 }
 
-// HasMemoryPrice returns a boolean if a field has been set.
-func (o *EnvironmentPricing) HasMemoryPrice() bool {
-	return o != nil && o.MemoryPrice.IsSet()
-}
-
-// SetMemoryPrice gets a reference to the given common.NullableString and assigns it to the MemoryPrice field.
+// SetMemoryPrice sets field value.
 func (o *EnvironmentPricing) SetMemoryPrice(v string) {
 	o.MemoryPrice.Set(&v)
 }
 
-// SetMemoryPriceNil sets the value for MemoryPrice to be an explicit nil.
-func (o *EnvironmentPricing) SetMemoryPriceNil() {
-	o.MemoryPrice.Set(nil)
-}
-
-// UnsetMemoryPrice ensures that no value is present for MemoryPrice, not even an explicit nil.
-func (o *EnvironmentPricing) UnsetMemoryPrice() {
-	o.MemoryPrice.Unset()
-}
-
-// GetStoragePrice returns the StoragePrice field value if set, zero value otherwise (both if not set or set to explicit null).
+// GetStoragePrice returns the StoragePrice field value.
+// If the value is explicit nil, the zero value for string will be returned.
 func (o *EnvironmentPricing) GetStoragePrice() string {
 	if o == nil || o.StoragePrice.Get() == nil {
 		var ret string
@@ -168,7 +134,7 @@ func (o *EnvironmentPricing) GetStoragePrice() string {
 	return *o.StoragePrice.Get()
 }
 
-// GetStoragePriceOk returns a tuple with the StoragePrice field value if set, nil otherwise
+// GetStoragePriceOk returns a tuple with the StoragePrice field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EnvironmentPricing) GetStoragePriceOk() (*string, bool) {
@@ -178,27 +144,13 @@ func (o *EnvironmentPricing) GetStoragePriceOk() (*string, bool) {
 	return o.StoragePrice.Get(), o.StoragePrice.IsSet()
 }
 
-// HasStoragePrice returns a boolean if a field has been set.
-func (o *EnvironmentPricing) HasStoragePrice() bool {
-	return o != nil && o.StoragePrice.IsSet()
-}
-
-// SetStoragePrice gets a reference to the given common.NullableString and assigns it to the StoragePrice field.
+// SetStoragePrice sets field value.
 func (o *EnvironmentPricing) SetStoragePrice(v string) {
 	o.StoragePrice.Set(&v)
 }
 
-// SetStoragePriceNil sets the value for StoragePrice to be an explicit nil.
-func (o *EnvironmentPricing) SetStoragePriceNil() {
-	o.StoragePrice.Set(nil)
-}
-
-// UnsetStoragePrice ensures that no value is present for StoragePrice, not even an explicit nil.
-func (o *EnvironmentPricing) UnsetStoragePrice() {
-	o.StoragePrice.Unset()
-}
-
-// GetBackupPrice returns the BackupPrice field value if set, zero value otherwise (both if not set or set to explicit null).
+// GetBackupPrice returns the BackupPrice field value.
+// If the value is explicit nil, the zero value for string will be returned.
 func (o *EnvironmentPricing) GetBackupPrice() string {
 	if o == nil || o.BackupPrice.Get() == nil {
 		var ret string
@@ -207,7 +159,7 @@ func (o *EnvironmentPricing) GetBackupPrice() string {
 	return *o.BackupPrice.Get()
 }
 
-// GetBackupPriceOk returns a tuple with the BackupPrice field value if set, nil otherwise
+// GetBackupPriceOk returns a tuple with the BackupPrice field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EnvironmentPricing) GetBackupPriceOk() (*string, bool) {
@@ -217,24 +169,9 @@ func (o *EnvironmentPricing) GetBackupPriceOk() (*string, bool) {
 	return o.BackupPrice.Get(), o.BackupPrice.IsSet()
 }
 
-// HasBackupPrice returns a boolean if a field has been set.
-func (o *EnvironmentPricing) HasBackupPrice() bool {
-	return o != nil && o.BackupPrice.IsSet()
-}
-
-// SetBackupPrice gets a reference to the given common.NullableString and assigns it to the BackupPrice field.
+// SetBackupPrice sets field value.
 func (o *EnvironmentPricing) SetBackupPrice(v string) {
 	o.BackupPrice.Set(&v)
-}
-
-// SetBackupPriceNil sets the value for BackupPrice to be an explicit nil.
-func (o *EnvironmentPricing) SetBackupPriceNil() {
-	o.BackupPrice.Set(nil)
-}
-
-// UnsetBackupPrice ensures that no value is present for BackupPrice, not even an explicit nil.
-func (o *EnvironmentPricing) UnsetBackupPrice() {
-	o.BackupPrice.Unset()
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -243,21 +180,11 @@ func (o EnvironmentPricing) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.EnvName.IsSet() {
-		toSerialize["envName"] = o.EnvName.Get()
-	}
-	if o.CpuPrice.IsSet() {
-		toSerialize["cpuPrice"] = o.CpuPrice.Get()
-	}
-	if o.MemoryPrice.IsSet() {
-		toSerialize["memoryPrice"] = o.MemoryPrice.Get()
-	}
-	if o.StoragePrice.IsSet() {
-		toSerialize["storagePrice"] = o.StoragePrice.Get()
-	}
-	if o.BackupPrice.IsSet() {
-		toSerialize["backupPrice"] = o.BackupPrice.Get()
-	}
+	toSerialize["envName"] = o.EnvName.Get()
+	toSerialize["cpuPrice"] = o.CpuPrice.Get()
+	toSerialize["memoryPrice"] = o.MemoryPrice.Get()
+	toSerialize["storagePrice"] = o.StoragePrice.Get()
+	toSerialize["backupPrice"] = o.BackupPrice.Get()
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -268,14 +195,29 @@ func (o EnvironmentPricing) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentPricing) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EnvName      common.NullableString `json:"envName,omitempty"`
-		CpuPrice     common.NullableString `json:"cpuPrice,omitempty"`
-		MemoryPrice  common.NullableString `json:"memoryPrice,omitempty"`
-		StoragePrice common.NullableString `json:"storagePrice,omitempty"`
-		BackupPrice  common.NullableString `json:"backupPrice,omitempty"`
+		EnvName      common.NullableString `json:"envName"`
+		CpuPrice     common.NullableString `json:"cpuPrice"`
+		MemoryPrice  common.NullableString `json:"memoryPrice"`
+		StoragePrice common.NullableString `json:"storagePrice"`
+		BackupPrice  common.NullableString `json:"backupPrice"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
+	}
+	if !all.EnvName.IsSet() {
+		return fmt.Errorf("required field envName missing")
+	}
+	if !all.CpuPrice.IsSet() {
+		return fmt.Errorf("required field cpuPrice missing")
+	}
+	if !all.MemoryPrice.IsSet() {
+		return fmt.Errorf("required field memoryPrice missing")
+	}
+	if !all.StoragePrice.IsSet() {
+		return fmt.Errorf("required field storagePrice missing")
+	}
+	if !all.BackupPrice.IsSet() {
+		return fmt.Errorf("required field backupPrice missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
