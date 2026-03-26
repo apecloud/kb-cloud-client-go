@@ -26814,6 +26814,10 @@ components:
         supportARN:
           type: boolean
           description: Whether the cloud provider supports ARN.
+        dns:
+          type: object
+          additionalProperties: true
+          description: External DNS provider configuration. Admin only.
         environmentCount:
           type: integer
           description: The number of environments that the cloud provider has.
@@ -26869,6 +26873,10 @@ components:
         supportARN:
           type: boolean
           description: Whether the cloud provider supports ARN.
+        dns:
+          type: object
+          additionalProperties: true
+          description: External DNS provider configuration. Admin only.
     providerUpdate:
       description: The cloud provider that needs to be updated.
       type: object
@@ -26894,6 +26902,10 @@ components:
         supportARN:
           type: boolean
           description: Whether the cloud provider supports ARN.
+        dns:
+          type: object
+          additionalProperties: true
+          description: External DNS provider configuration. Admin only.
     AccessLevel:
       type: string
       enum:

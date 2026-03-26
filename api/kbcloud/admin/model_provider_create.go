@@ -24,6 +24,8 @@ type ProviderCreate struct {
 	NameEn string `json:"nameEN"`
 	// Whether the cloud provider supports ARN.
 	SupportArn bool `json:"supportARN"`
+	// External DNS provider configuration. Admin only.
+	Dns map[string]interface{} `json:"dns,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -190,6 +192,34 @@ func (o *ProviderCreate) SetSupportArn(v bool) {
 	o.SupportArn = v
 }
 
+// GetDns returns the Dns field value if set, zero value otherwise.
+func (o *ProviderCreate) GetDns() map[string]interface{} {
+	if o == nil || o.Dns == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.Dns
+}
+
+// GetDnsOk returns a tuple with the Dns field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ProviderCreate) GetDnsOk() (*map[string]interface{}, bool) {
+	if o == nil || o.Dns == nil {
+		return nil, false
+	}
+	return &o.Dns, true
+}
+
+// HasDns returns a boolean if a field has been set.
+func (o *ProviderCreate) HasDns() bool {
+	return o != nil && o.Dns != nil
+}
+
+// SetDns gets a reference to the given map[string]interface{} and assigns it to the Dns field.
+func (o *ProviderCreate) SetDns(v map[string]interface{}) {
+	o.Dns = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ProviderCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -202,6 +232,9 @@ func (o ProviderCreate) MarshalJSON() ([]byte, error) {
 	toSerialize["nameCN"] = o.NameCn
 	toSerialize["nameEN"] = o.NameEn
 	toSerialize["supportARN"] = o.SupportArn
+	if o.Dns != nil {
+		toSerialize["dns"] = o.Dns
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -212,12 +245,13 @@ func (o ProviderCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ProviderCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name       *string `json:"name"`
-		Logo       *string `json:"logo"`
-		Enabled    *bool   `json:"enabled"`
-		NameCn     *string `json:"nameCN"`
-		NameEn     *string `json:"nameEN"`
-		SupportArn *bool   `json:"supportARN"`
+		Name       *string                `json:"name"`
+		Logo       *string                `json:"logo"`
+		Enabled    *bool                  `json:"enabled"`
+		NameCn     *string                `json:"nameCN"`
+		NameEn     *string                `json:"nameEN"`
+		SupportArn *bool                  `json:"supportARN"`
+		Dns        map[string]interface{} `json:"dns,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -242,7 +276,7 @@ func (o *ProviderCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "logo", "enabled", "nameCN", "nameEN", "supportARN"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "logo", "enabled", "nameCN", "nameEN", "supportARN", "dns"})
 	} else {
 		return err
 	}
@@ -252,6 +286,7 @@ func (o *ProviderCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.NameCn = *all.NameCn
 	o.NameEn = *all.NameEn
 	o.SupportArn = *all.SupportArn
+	o.Dns = all.Dns
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

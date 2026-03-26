@@ -25,6 +25,8 @@ type Provider struct {
 	Enabled bool `json:"enabled"`
 	// Whether the cloud provider supports ARN.
 	SupportArn bool `json:"supportARN"`
+	// External DNS provider configuration. Admin only.
+	Dns map[string]interface{} `json:"dns,omitempty"`
 	// The number of environments that the cloud provider has.
 	EnvironmentCount int32 `json:"environmentCount"`
 	// The number of regions that the cloud provider has.
@@ -206,6 +208,34 @@ func (o *Provider) SetSupportArn(v bool) {
 	o.SupportArn = v
 }
 
+// GetDns returns the Dns field value if set, zero value otherwise.
+func (o *Provider) GetDns() map[string]interface{} {
+	if o == nil || o.Dns == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.Dns
+}
+
+// GetDnsOk returns a tuple with the Dns field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Provider) GetDnsOk() (*map[string]interface{}, bool) {
+	if o == nil || o.Dns == nil {
+		return nil, false
+	}
+	return &o.Dns, true
+}
+
+// HasDns returns a boolean if a field has been set.
+func (o *Provider) HasDns() bool {
+	return o != nil && o.Dns != nil
+}
+
+// SetDns gets a reference to the given map[string]interface{} and assigns it to the Dns field.
+func (o *Provider) SetDns(v map[string]interface{}) {
+	o.Dns = v
+}
+
 // GetEnvironmentCount returns the EnvironmentCount field value.
 func (o *Provider) GetEnvironmentCount() int32 {
 	if o == nil {
@@ -333,6 +363,9 @@ func (o Provider) MarshalJSON() ([]byte, error) {
 	toSerialize["logo"] = o.Logo
 	toSerialize["enabled"] = o.Enabled
 	toSerialize["supportARN"] = o.SupportArn
+	if o.Dns != nil {
+		toSerialize["dns"] = o.Dns
+	}
 	toSerialize["environmentCount"] = o.EnvironmentCount
 	toSerialize["regionCount"] = o.RegionCount
 	toSerialize["zoneCount"] = o.ZoneCount
@@ -356,17 +389,18 @@ func (o Provider) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Provider) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name             *string    `json:"name"`
-		NameCn           *string    `json:"nameCN"`
-		NameEn           *string    `json:"nameEN"`
-		Logo             *string    `json:"logo"`
-		Enabled          *bool      `json:"enabled"`
-		SupportArn       *bool      `json:"supportARN"`
-		EnvironmentCount *int32     `json:"environmentCount"`
-		RegionCount      *int32     `json:"regionCount"`
-		ZoneCount        *int32     `json:"zoneCount"`
-		CreatedAt        *time.Time `json:"createdAt"`
-		UpdatedAt        *time.Time `json:"updatedAt"`
+		Name             *string                `json:"name"`
+		NameCn           *string                `json:"nameCN"`
+		NameEn           *string                `json:"nameEN"`
+		Logo             *string                `json:"logo"`
+		Enabled          *bool                  `json:"enabled"`
+		SupportArn       *bool                  `json:"supportARN"`
+		Dns              map[string]interface{} `json:"dns,omitempty"`
+		EnvironmentCount *int32                 `json:"environmentCount"`
+		RegionCount      *int32                 `json:"regionCount"`
+		ZoneCount        *int32                 `json:"zoneCount"`
+		CreatedAt        *time.Time             `json:"createdAt"`
+		UpdatedAt        *time.Time             `json:"updatedAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -406,7 +440,7 @@ func (o *Provider) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "nameCN", "nameEN", "logo", "enabled", "supportARN", "environmentCount", "regionCount", "zoneCount", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "nameCN", "nameEN", "logo", "enabled", "supportARN", "dns", "environmentCount", "regionCount", "zoneCount", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}
@@ -416,6 +450,7 @@ func (o *Provider) UnmarshalJSON(bytes []byte) (err error) {
 	o.Logo = *all.Logo
 	o.Enabled = *all.Enabled
 	o.SupportArn = *all.SupportArn
+	o.Dns = all.Dns
 	o.EnvironmentCount = *all.EnvironmentCount
 	o.RegionCount = *all.RegionCount
 	o.ZoneCount = *all.ZoneCount
