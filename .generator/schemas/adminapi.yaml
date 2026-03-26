@@ -12157,7 +12157,7 @@ paths:
         - task
       summary: List task
       description: List tasks
-      operationId: listTask
+      operationId: listTasks
       parameters:
         - name: orgName
           in: query
