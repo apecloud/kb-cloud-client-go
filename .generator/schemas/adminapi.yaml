@@ -5778,6 +5778,152 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/environmentStatusHistory'
+  /admin/v1/environments/{environmentName}/credentials:
+    get:
+      operationId: listEnvironmentCredential
+      summary: List environment credentials
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      tags:
+        - environment
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentCredentialList'
+          description: A successful response.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      operationId: createEnvironmentCredential
+      summary: Create environment credential
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/environmentCredentialCreate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentCredential'
+          description: Returned when environment credential is created successfully.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - environment
+      x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/credentials/{credentialName}:
+    delete:
+      operationId: deleteEnvironmentCredential
+      summary: Delete environment credential
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment credential
+          in: path
+          name: credentialName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when environment credential is deleted successfully.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - environment
+    get:
+      operationId: getEnvironmentCredential
+      summary: Get environment credential
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment credential
+          in: path
+          name: credentialName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentCredential'
+          description: A successful response.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - environment
+    patch:
+      operationId: patchEnvironmentCredential
+      summary: Update environment credential
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment credential
+          in: path
+          name: credentialName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/environmentCredentialUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentCredential'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - environment
+      x-codegen-request-body-name: body
   /admin/v1/environments/{environmentName}/resourceStats:
     get:
       description: Returns aggregated resource statistics for the specified environment within an organization.
@@ -22348,6 +22494,113 @@ components:
         - sla
         - days
         - statusDuration
+    environmentCredentialType:
+      type: string
+      description: Type of the environment credential
+      enum:
+        - aliyunAccessKey
+    environmentCredentialSummary:
+      type: object
+      required:
+        - name
+        - provider
+        - credentialType
+        - createdAt
+        - updatedAt
+      properties:
+        name:
+          type: string
+          description: Name of the environment credential
+        provider:
+          type: string
+          description: Cloud provider of the environment credential
+        credentialType:
+          $ref: '#/components/schemas/environmentCredentialType'
+        description:
+          type: string
+          description: Description of the environment credential
+        createdAt:
+          description: CreatedAt is a timestamp representing the server time when this object was created. It is represented in RFC3339 form and is in UTC.
+          format: date-time
+          type: string
+        updatedAt:
+          description: UpdatedAt is a timestamp representing the server time when this object was updated. It is represented in RFC3339 form and is in UTC.
+          format: date-time
+          type: string
+    environmentCredentialList:
+      description: environmentCredentialList is a list of environment credentials
+      properties:
+        items:
+          description: Items is the list of environment credential objects in the list
+          items:
+            $ref: '#/components/schemas/environmentCredentialSummary'
+          type: array
+      required:
+        - items
+      type: object
+    environmentCredentialEntry:
+      type: object
+      required:
+        - key
+        - value
+        - secret
+      properties:
+        key:
+          type: string
+          description: Key of the credential entry
+        value:
+          type: string
+          description: Value of the credential entry
+        secret:
+          type: boolean
+          description: Whether the credential entry is secret
+    environmentCredentialCreate:
+      type: object
+      required:
+        - name
+        - provider
+        - credentialType
+        - entries
+      properties:
+        name:
+          type: string
+          description: Name of the environment credential
+        provider:
+          type: string
+          description: Cloud provider of the environment credential
+        credentialType:
+          $ref: '#/components/schemas/environmentCredentialType'
+        description:
+          type: string
+          description: Description of the environment credential
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/environmentCredentialEntry'
+    environmentCredential:
+      allOf:
+        - $ref: '#/components/schemas/environmentCredentialSummary'
+        - type: object
+          required:
+            - entries
+          properties:
+            entries:
+              type: array
+              description: Entries of the environment credential
+              items:
+                $ref: '#/components/schemas/environmentCredentialEntry'
+    environmentCredentialUpdate:
+      type: object
+      properties:
+        description:
+          type: string
+          description: Description of the environment credential
+          nullable: true
+        entries:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/environmentCredentialEntry'
     storageStats:
       description: StorageStats holds the resource stats of the volume, including bound PVC capacity, pod-used PVC capacity, and actual storage usage.
       properties:
