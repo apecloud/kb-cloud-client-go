@@ -26,7 +26,9 @@ type OpsHScale struct {
 	Shards common.NullableInt32 `json:"shards,omitempty"`
 	// Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
 	PreConditionDeadlineSeconds common.NullableInt32 `json:"preConditionDeadlineSeconds,omitempty"`
-	Schedule                    *TaskSchedule        `json:"schedule,omitempty"`
+	// force the scaling operation without pre-check
+	Force    *bool         `json:"force,omitempty"`
+	Schedule *TaskSchedule `json:"schedule,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -39,6 +41,8 @@ type OpsHScale struct {
 func NewOpsHScale(component string) *OpsHScale {
 	this := OpsHScale{}
 	this.Component = component
+	var force bool = false
+	this.Force = &force
 	return &this
 }
 
@@ -47,6 +51,8 @@ func NewOpsHScale(component string) *OpsHScale {
 // but it doesn't guarantee that properties required by API are set.
 func NewOpsHScaleWithDefaults() *OpsHScale {
 	this := OpsHScale{}
+	var force bool = false
+	this.Force = &force
 	return &this
 }
 
@@ -307,6 +313,34 @@ func (o *OpsHScale) UnsetPreConditionDeadlineSeconds() {
 	o.PreConditionDeadlineSeconds.Unset()
 }
 
+// GetForce returns the Force field value if set, zero value otherwise.
+func (o *OpsHScale) GetForce() bool {
+	if o == nil || o.Force == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Force
+}
+
+// GetForceOk returns a tuple with the Force field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OpsHScale) GetForceOk() (*bool, bool) {
+	if o == nil || o.Force == nil {
+		return nil, false
+	}
+	return o.Force, true
+}
+
+// HasForce returns a boolean if a field has been set.
+func (o *OpsHScale) HasForce() bool {
+	return o != nil && o.Force != nil
+}
+
+// SetForce gets a reference to the given bool and assigns it to the Force field.
+func (o *OpsHScale) SetForce(v bool) {
+	o.Force = &v
+}
+
 // GetSchedule returns the Schedule field value if set, zero value otherwise.
 func (o *OpsHScale) GetSchedule() TaskSchedule {
 	if o == nil || o.Schedule == nil {
@@ -360,6 +394,9 @@ func (o OpsHScale) MarshalJSON() ([]byte, error) {
 	if o.PreConditionDeadlineSeconds.IsSet() {
 		toSerialize["preConditionDeadlineSeconds"] = o.PreConditionDeadlineSeconds.Get()
 	}
+	if o.Force != nil {
+		toSerialize["force"] = o.Force
+	}
 	if o.Schedule != nil {
 		toSerialize["schedule"] = o.Schedule
 	}
@@ -380,6 +417,7 @@ func (o *OpsHScale) UnmarshalJSON(bytes []byte) (err error) {
 		OfflineInstancesToOnline    common.NullableList[string] `json:"OfflineInstancesToOnline,omitempty"`
 		Shards                      common.NullableInt32        `json:"shards,omitempty"`
 		PreConditionDeadlineSeconds common.NullableInt32        `json:"preConditionDeadlineSeconds,omitempty"`
+		Force                       *bool                       `json:"force,omitempty"`
 		Schedule                    *TaskSchedule               `json:"schedule,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -390,7 +428,7 @@ func (o *OpsHScale) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "backupName", "replicas", "onlineInstancesToOffline", "OfflineInstancesToOnline", "shards", "preConditionDeadlineSeconds", "schedule"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "backupName", "replicas", "onlineInstancesToOffline", "OfflineInstancesToOnline", "shards", "preConditionDeadlineSeconds", "force", "schedule"})
 	} else {
 		return err
 	}
@@ -403,6 +441,7 @@ func (o *OpsHScale) UnmarshalJSON(bytes []byte) (err error) {
 	o.OfflineInstancesToOnline = all.OfflineInstancesToOnline
 	o.Shards = all.Shards
 	o.PreConditionDeadlineSeconds = all.PreConditionDeadlineSeconds
+	o.Force = all.Force
 	if all.Schedule != nil && all.Schedule.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

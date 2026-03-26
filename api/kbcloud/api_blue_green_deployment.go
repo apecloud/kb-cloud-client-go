@@ -14,33 +14,32 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// DisasterRecoveryApi service type
-type DisasterRecoveryApi common.Service
+// BlueGreenDeploymentApi service type
+type BlueGreenDeploymentApi common.Service
 
-// CreateDisasterRecovery Create a new disaster recovery instance.
-// Create a new disaster recovery instance for a database cluster.
-func (a *DisasterRecoveryApi) CreateDisasterRecovery(ctx _context.Context, parentClusterId string, orgName string, body DisasterRecoveryCreate) (DisasterRecoveryTask, *_nethttp.Response, error) {
+// CreateBlueGreenDeployment Create a new blue-green deployment instance.
+// Create a blue-green deployment instance for the specified parent cluster.
+func (a *BlueGreenDeploymentApi) CreateBlueGreenDeployment(ctx _context.Context, parentClusterId string, orgName string, body BlueGreenDeploymentCreation) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue DisasterRecoveryTask
+		localVarHTTPMethod = _nethttp.MethodPost
+		localVarPostBody   interface{}
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "disasterRecovery",
-		OperationID: "createDisasterRecovery",
-		Path:        "/api/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery",
+		Tag:         "blueGreenDeployment",
+		OperationID: "createBlueGreenDeployment",
+		Path:        "/api/v1/organizations/{orgName}/parent/{parentClusterID}/blueGreenDeployment",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.CreateDisasterRecovery")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BlueGreenDeploymentApi.CreateBlueGreenDeployment")
 	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/parent/{parentClusterID}/blueGreenDeployment"
 	localVarPath = strings.Replace(localVarPath, "{"+"parentClusterID"+"}", _neturl.PathEscape(common.ParameterToString(parentClusterId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
@@ -52,6 +51,78 @@ func (a *DisasterRecoveryApi) CreateDisasterRecovery(ctx _context.Context, paren
 
 	// body params
 	localVarPostBody = &body
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 501 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+// CreateBlueGreenDeploymentPreCheck Run a precheck for blue-green deployment.
+// Trigger a precheck task to verify settings or readiness for blue-green deployment.
+func (a *BlueGreenDeploymentApi) CreateBlueGreenDeploymentPreCheck(ctx _context.Context, orgName string, parentClusterId string, greenClusterVersion string) (BlueGreenDeploymentPreCheckResponse, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue BlueGreenDeploymentPreCheckResponse
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "blueGreenDeployment",
+		OperationID: "createBlueGreenDeploymentPreCheck",
+		Path:        "/api/v1/organizations/{orgName}/parent/{parentClusterID}/blueGreenDeployment/precheck",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BlueGreenDeploymentApi.CreateBlueGreenDeploymentPreCheck")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/parent/{parentClusterID}/blueGreenDeployment/precheck"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"parentClusterID"+"}", _neturl.PathEscape(common.ParameterToString(parentClusterId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("greenClusterVersion", common.ParameterToString(greenClusterVersion, ""))
+	localVarHeaderParams["Accept"] = "application/json"
+
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
@@ -77,7 +148,7 @@ func (a *DisasterRecoveryApi) CreateDisasterRecovery(ctx _context.Context, paren
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 501 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -100,148 +171,31 @@ func (a *DisasterRecoveryApi) CreateDisasterRecovery(ctx _context.Context, paren
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// DeleteDisasterRecoveryOptionalParameters holds optional parameters for DeleteDisasterRecovery.
-type DeleteDisasterRecoveryOptionalParameters struct {
-	LogicalInstanceId *string
-	ClusterId         *string
-}
-
-// NewDeleteDisasterRecoveryOptionalParameters creates an empty struct for parameters.
-func NewDeleteDisasterRecoveryOptionalParameters() *DeleteDisasterRecoveryOptionalParameters {
-	this := DeleteDisasterRecoveryOptionalParameters{}
-	return &this
-}
-
-// WithLogicalInstanceId sets the corresponding parameter name and returns the struct.
-func (r *DeleteDisasterRecoveryOptionalParameters) WithLogicalInstanceId(logicalInstanceId string) *DeleteDisasterRecoveryOptionalParameters {
-	r.LogicalInstanceId = &logicalInstanceId
-	return r
-}
-
-// WithClusterId sets the corresponding parameter name and returns the struct.
-func (r *DeleteDisasterRecoveryOptionalParameters) WithClusterId(clusterId string) *DeleteDisasterRecoveryOptionalParameters {
-	r.ClusterId = &clusterId
-	return r
-}
-
-// DeleteDisasterRecovery Delete a disaster recovery instance.
-// Delete a specific disaster recovery instance
-func (a *DisasterRecoveryApi) DeleteDisasterRecovery(ctx _context.Context, orgName string, o ...DeleteDisasterRecoveryOptionalParameters) (DisasterRecoveryTask, *_nethttp.Response, error) {
+// DeleteBlueGreenDeployment Delete a blue-green deployment instance.
+// Delete a specified blue-green deployment instance.
+func (a *BlueGreenDeploymentApi) DeleteBlueGreenDeployment(ctx _context.Context, deploymentId string, orgName string) (BlueGreenDeploymentTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
 		localVarPostBody    interface{}
-		localVarReturnValue DisasterRecoveryTask
-		optionalParams      DeleteDisasterRecoveryOptionalParameters
-	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type DeleteDisasterRecoveryOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "disasterRecovery",
-		OperationID: "deleteDisasterRecovery",
-		Path:        "/api/v1/organizations/{orgName}/disasterRecovery",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.DeleteDisasterRecovery")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	if optionalParams.LogicalInstanceId != nil {
-		localVarQueryParams.Add("logicalInstanceID", common.ParameterToString(*optionalParams.LogicalInstanceId, ""))
-	}
-	if optionalParams.ClusterId != nil {
-		localVarQueryParams.Add("clusterID", common.ParameterToString(*optionalParams.ClusterId, ""))
-	}
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-// GetDisasterRecoveryHistory Get switch history of a disaster recovery instance.
-// Retrieve the history of failover and failback operations for a specific disaster recovery instance.
-func (a *DisasterRecoveryApi) GetDisasterRecoveryHistory(ctx _context.Context, clusterId string, orgName string) (DisasterRecoveryHistory, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue DisasterRecoveryHistory
+		localVarReturnValue BlueGreenDeploymentTask
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "disasterRecovery",
-		OperationID: "getDisasterRecoveryHistory",
-		Path:        "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/switchHistory",
+		Tag:         "blueGreenDeployment",
+		OperationID: "deleteBlueGreenDeployment",
+		Path:        "/api/v1/organizations/{orgName}/blueGreenDeployment/{deploymentID}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.GetDisasterRecoveryHistory")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BlueGreenDeploymentApi.DeleteBlueGreenDeployment")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/switchHistory"
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/blueGreenDeployment/{deploymentID}"
+	localVarPath = strings.Replace(localVarPath, "{"+"deploymentID"+"}", _neturl.PathEscape(common.ParameterToString(deploymentId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -274,7 +228,7 @@ func (a *DisasterRecoveryApi) GetDisasterRecoveryHistory(ctx _context.Context, c
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 501 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -297,31 +251,31 @@ func (a *DisasterRecoveryApi) GetDisasterRecoveryHistory(ctx _context.Context, c
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetDisasterRecoveryStatus Retrieve Disaster Recovery Instance Status.
-// Get detailed information about the status of a specific disaster recovery instance, including delay and current replication point.
-func (a *DisasterRecoveryApi) GetDisasterRecoveryStatus(ctx _context.Context, clusterId string, orgName string) (DisasterRecoveryStatusResponse, *_nethttp.Response, error) {
+// GetBlueGreenDeployment Get a blue-green deployment instance.
+// Retrieve details for a single blue-green deployment instance by parent cluster and organization.
+func (a *BlueGreenDeploymentApi) GetBlueGreenDeployment(ctx _context.Context, deploymentId string, orgName string) (BlueGreenDeploymentItem, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue DisasterRecoveryStatusResponse
+		localVarReturnValue BlueGreenDeploymentItem
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "disasterRecovery",
-		OperationID: "getDisasterRecoveryStatus",
-		Path:        "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/status",
+		Tag:         "blueGreenDeployment",
+		OperationID: "getBlueGreenDeployment",
+		Path:        "/api/v1/organizations/{orgName}/blueGreenDeployment/{deploymentID}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.GetDisasterRecoveryStatus")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BlueGreenDeploymentApi.GetBlueGreenDeployment")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/status"
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/blueGreenDeployment/{deploymentID}"
+	localVarPath = strings.Replace(localVarPath, "{"+"deploymentID"+"}", _neturl.PathEscape(common.ParameterToString(deploymentId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -354,7 +308,7 @@ func (a *DisasterRecoveryApi) GetDisasterRecoveryStatus(ctx _context.Context, cl
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 501 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -377,30 +331,190 @@ func (a *DisasterRecoveryApi) GetDisasterRecoveryStatus(ctx _context.Context, cl
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListDisasterRecovery List Disaster Recovery instances under the main cluster.
-// Retrieve a list of disaster recovery instances for a specific database cluster.
-func (a *DisasterRecoveryApi) ListDisasterRecovery(ctx _context.Context, parentClusterId string, orgName string) (DisasterRecoveryClusterList, *_nethttp.Response, error) {
+// GetBlueGreenDeploymentPreCheckDetail Get blue-green deployment precheck task detail.
+// Retrieve the details of a precheck task for a blue-green deployment.
+func (a *BlueGreenDeploymentApi) GetBlueGreenDeploymentPreCheckDetail(ctx _context.Context, preCheckId string, orgName string) (BlueGreenDeploymentPreCheckResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue DisasterRecoveryClusterList
+		localVarReturnValue BlueGreenDeploymentPreCheckResponse
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "disasterRecovery",
-		OperationID: "listDisasterRecovery",
-		Path:        "/api/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery",
+		Tag:         "blueGreenDeployment",
+		OperationID: "getBlueGreenDeploymentPreCheckDetail",
+		Path:        "/api/v1/organizations/{orgName}/blueGreenDeployment/precheck/{preCheckID}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.ListDisasterRecovery")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BlueGreenDeploymentApi.GetBlueGreenDeploymentPreCheckDetail")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/blueGreenDeployment/precheck/{preCheckID}"
+	localVarPath = strings.Replace(localVarPath, "{"+"preCheckID"+"}", _neturl.PathEscape(common.ParameterToString(preCheckId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 501 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetBlueGreenDeploymentSwitchDetail Get blue-green deployment switch job detail.
+// Retrieve detailed information about the switch-over operation for a blue-green deployment cluster.
+func (a *BlueGreenDeploymentApi) GetBlueGreenDeploymentSwitchDetail(ctx _context.Context, deploymentId string, orgName string) (BlueGreenDeploymentSwitchResponse, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue BlueGreenDeploymentSwitchResponse
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "blueGreenDeployment",
+		OperationID: "getBlueGreenDeploymentSwitchDetail",
+		Path:        "/api/v1/organizations/{orgName}/blueGreenDeployment/{deploymentID}/switch",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BlueGreenDeploymentApi.GetBlueGreenDeploymentSwitchDetail")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/blueGreenDeployment/{deploymentID}/switch"
+	localVarPath = strings.Replace(localVarPath, "{"+"deploymentID"+"}", _neturl.PathEscape(common.ParameterToString(deploymentId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 501 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// ListBlueGreenDeployments List blue-green deployment instances for the specified parent cluster.
+// Retrieve a list of blue-green deployment instances associated with the given parent database cluster.
+func (a *BlueGreenDeploymentApi) ListBlueGreenDeployments(ctx _context.Context, parentClusterId string, orgName string) (BlueGreenDeploymentItemList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue BlueGreenDeploymentItemList
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "blueGreenDeployment",
+		OperationID: "listBlueGreenDeployments",
+		Path:        "/api/v1/organizations/{orgName}/parent/{parentClusterID}/blueGreenDeployment",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BlueGreenDeploymentApi.ListBlueGreenDeployments")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/parent/{parentClusterID}/blueGreenDeployment"
 	localVarPath = strings.Replace(localVarPath, "{"+"parentClusterID"+"}", _neturl.PathEscape(common.ParameterToString(parentClusterId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
@@ -434,7 +548,7 @@ func (a *DisasterRecoveryApi) ListDisasterRecovery(ctx _context.Context, parentC
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 501 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -457,41 +571,38 @@ func (a *DisasterRecoveryApi) ListDisasterRecovery(ctx _context.Context, parentC
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// PromoteDisasterRecovery Promote a disaster recovery instance to the main instance.
-// Promote the disaster recovery instance to the primary database instance.
-func (a *DisasterRecoveryApi) PromoteDisasterRecovery(ctx _context.Context, clusterId string, orgName string, body DisasterRecoveryPromote) (DisasterRecoveryTask, *_nethttp.Response, error) {
+// SwitchBlueGreenDeployment Switch roles of blue-green deployment instances.
+// Switch the specified blue-green deployment cluster to act as the primary instance.
+func (a *BlueGreenDeploymentApi) SwitchBlueGreenDeployment(ctx _context.Context, deploymentId string, orgName string) (BlueGreenDeploymentSwitchResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue DisasterRecoveryTask
+		localVarReturnValue BlueGreenDeploymentSwitchResponse
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "disasterRecovery",
-		OperationID: "promoteDisasterRecovery",
-		Path:        "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/promote",
+		Tag:         "blueGreenDeployment",
+		OperationID: "switchBlueGreenDeployment",
+		Path:        "/api/v1/organizations/{orgName}/blueGreenDeployment/{deploymentID}/switch",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.PromoteDisasterRecovery")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BlueGreenDeploymentApi.SwitchBlueGreenDeployment")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/promote"
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/blueGreenDeployment/{deploymentID}/switch"
+	localVarPath = strings.Replace(localVarPath, "{"+"deploymentID"+"}", _neturl.PathEscape(common.ParameterToString(deploymentId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	// body params
-	localVarPostBody = &body
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
@@ -517,7 +628,7 @@ func (a *DisasterRecoveryApi) PromoteDisasterRecovery(ctx _context.Context, clus
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 501 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -540,9 +651,9 @@ func (a *DisasterRecoveryApi) PromoteDisasterRecovery(ctx _context.Context, clus
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewDisasterRecoveryApi Returns NewDisasterRecoveryApi.
-func NewDisasterRecoveryApi(client *common.APIClient) *DisasterRecoveryApi {
-	return &DisasterRecoveryApi{
+// NewBlueGreenDeploymentApi Returns NewBlueGreenDeploymentApi.
+func NewBlueGreenDeploymentApi(client *common.APIClient) *BlueGreenDeploymentApi {
+	return &BlueGreenDeploymentApi{
 		Client: client,
 	}
 }
