@@ -7815,6 +7815,46 @@ paths:
         - backup
         - shared
       x-codegen-request-body-name: body
+  /admin/organizations/{orgName}/clusters/{clusterName}/listObjectsForSelectiveBackup:
+    get:
+      operationId: listObjectsTreeForSelectiveBackup
+      summary: List objects tree for selective backup
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: database name
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/selectiveObjectTreeNode'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - backup
+        - shared
   /admin/v1/backups:
     get:
       operationId: listBackups
