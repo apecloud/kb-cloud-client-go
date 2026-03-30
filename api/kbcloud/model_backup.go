@@ -49,6 +49,10 @@ type Backup struct {
 	TotalSize     string  `json:"totalSize"`
 	FailureReason *string `json:"failureReason,omitempty"`
 	Extras        *string `json:"extras,omitempty"`
+	// backup parameters
+	Parameters []BackupParametersItem `json:"parameters,omitempty"`
+	// backup selected objects
+	SelectedObjects []SelectiveObjectTreeNode `json:"selectedObjects,omitempty"`
 	// backup target pods
 	TargetPods []string `json:"targetPods,omitempty"`
 	// the path of backup files
@@ -632,6 +636,62 @@ func (o *Backup) SetExtras(v string) {
 	o.Extras = &v
 }
 
+// GetParameters returns the Parameters field value if set, zero value otherwise.
+func (o *Backup) GetParameters() []BackupParametersItem {
+	if o == nil || o.Parameters == nil {
+		var ret []BackupParametersItem
+		return ret
+	}
+	return o.Parameters
+}
+
+// GetParametersOk returns a tuple with the Parameters field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Backup) GetParametersOk() (*[]BackupParametersItem, bool) {
+	if o == nil || o.Parameters == nil {
+		return nil, false
+	}
+	return &o.Parameters, true
+}
+
+// HasParameters returns a boolean if a field has been set.
+func (o *Backup) HasParameters() bool {
+	return o != nil && o.Parameters != nil
+}
+
+// SetParameters gets a reference to the given []BackupParametersItem and assigns it to the Parameters field.
+func (o *Backup) SetParameters(v []BackupParametersItem) {
+	o.Parameters = v
+}
+
+// GetSelectedObjects returns the SelectedObjects field value if set, zero value otherwise.
+func (o *Backup) GetSelectedObjects() []SelectiveObjectTreeNode {
+	if o == nil || o.SelectedObjects == nil {
+		var ret []SelectiveObjectTreeNode
+		return ret
+	}
+	return o.SelectedObjects
+}
+
+// GetSelectedObjectsOk returns a tuple with the SelectedObjects field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Backup) GetSelectedObjectsOk() (*[]SelectiveObjectTreeNode, bool) {
+	if o == nil || o.SelectedObjects == nil {
+		return nil, false
+	}
+	return &o.SelectedObjects, true
+}
+
+// HasSelectedObjects returns a boolean if a field has been set.
+func (o *Backup) HasSelectedObjects() bool {
+	return o != nil && o.SelectedObjects != nil
+}
+
+// SetSelectedObjects gets a reference to the given []SelectiveObjectTreeNode and assigns it to the SelectedObjects field.
+func (o *Backup) SetSelectedObjects(v []SelectiveObjectTreeNode) {
+	o.SelectedObjects = v
+}
+
 // GetTargetPods returns the TargetPods field value if set, zero value otherwise.
 func (o *Backup) GetTargetPods() []string {
 	if o == nil || o.TargetPods == nil {
@@ -1037,6 +1097,12 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 	if o.Extras != nil {
 		toSerialize["extras"] = o.Extras
 	}
+	if o.Parameters != nil {
+		toSerialize["parameters"] = o.Parameters
+	}
+	if o.SelectedObjects != nil {
+		toSerialize["selectedObjects"] = o.SelectedObjects
+	}
 	if o.TargetPods != nil {
 		toSerialize["targetPods"] = o.TargetPods
 	}
@@ -1080,38 +1146,40 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		AutoBackup          *bool               `json:"autoBackup"`
-		BackupMethod        *string             `json:"backupMethod"`
-		BackupPolicyName    *string             `json:"backupPolicyName"`
-		BackupRepo          *string             `json:"backupRepo,omitempty"`
-		BackupType          *BackupType         `json:"backupType"`
-		CompletionTimestamp common.NullableTime `json:"completionTimestamp,omitempty"`
-		CreationTimestamp   *time.Time          `json:"creationTimestamp"`
-		Duration            *string             `json:"duration,omitempty"`
-		Name                *string             `json:"name"`
-		OrgName             *string             `json:"orgName"`
-		SnapshotVolumes     *bool               `json:"snapshotVolumes"`
-		SourceCluster       *string             `json:"sourceCluster"`
-		StartTimestamp      common.NullableTime `json:"startTimestamp,omitempty"`
-		Status              *BackupStatus       `json:"status"`
-		TimeRangeEnd        common.NullableTime `json:"timeRangeEnd,omitempty"`
-		TimeRangeStart      common.NullableTime `json:"timeRangeStart,omitempty"`
-		TotalSize           *string             `json:"totalSize"`
-		FailureReason       *string             `json:"failureReason,omitempty"`
-		Extras              *string             `json:"extras,omitempty"`
-		TargetPods          []string            `json:"targetPods,omitempty"`
-		Path                *string             `json:"path,omitempty"`
-		RetentionPeriod     *string             `json:"retentionPeriod"`
-		Expiration          common.NullableTime `json:"expiration,omitempty"`
-		Id                  *string             `json:"id,omitempty"`
-		ClusterId           *string             `json:"clusterId,omitempty"`
-		CloudProvider       *string             `json:"cloudProvider,omitempty"`
-		CloudRegion         *string             `json:"cloudRegion,omitempty"`
-		EnvironmentName     *string             `json:"environmentName"`
-		Engine              *string             `json:"engine"`
-		ParentBackupName    *string             `json:"parentBackupName,omitempty"`
-		BaseBackupName      *string             `json:"baseBackupName,omitempty"`
-		EncryptionKeyName   *string             `json:"encryptionKeyName,omitempty"`
+		AutoBackup          *bool                     `json:"autoBackup"`
+		BackupMethod        *string                   `json:"backupMethod"`
+		BackupPolicyName    *string                   `json:"backupPolicyName"`
+		BackupRepo          *string                   `json:"backupRepo,omitempty"`
+		BackupType          *BackupType               `json:"backupType"`
+		CompletionTimestamp common.NullableTime       `json:"completionTimestamp,omitempty"`
+		CreationTimestamp   *time.Time                `json:"creationTimestamp"`
+		Duration            *string                   `json:"duration,omitempty"`
+		Name                *string                   `json:"name"`
+		OrgName             *string                   `json:"orgName"`
+		SnapshotVolumes     *bool                     `json:"snapshotVolumes"`
+		SourceCluster       *string                   `json:"sourceCluster"`
+		StartTimestamp      common.NullableTime       `json:"startTimestamp,omitempty"`
+		Status              *BackupStatus             `json:"status"`
+		TimeRangeEnd        common.NullableTime       `json:"timeRangeEnd,omitempty"`
+		TimeRangeStart      common.NullableTime       `json:"timeRangeStart,omitempty"`
+		TotalSize           *string                   `json:"totalSize"`
+		FailureReason       *string                   `json:"failureReason,omitempty"`
+		Extras              *string                   `json:"extras,omitempty"`
+		Parameters          []BackupParametersItem    `json:"parameters,omitempty"`
+		SelectedObjects     []SelectiveObjectTreeNode `json:"selectedObjects,omitempty"`
+		TargetPods          []string                  `json:"targetPods,omitempty"`
+		Path                *string                   `json:"path,omitempty"`
+		RetentionPeriod     *string                   `json:"retentionPeriod"`
+		Expiration          common.NullableTime       `json:"expiration,omitempty"`
+		Id                  *string                   `json:"id,omitempty"`
+		ClusterId           *string                   `json:"clusterId,omitempty"`
+		CloudProvider       *string                   `json:"cloudProvider,omitempty"`
+		CloudRegion         *string                   `json:"cloudRegion,omitempty"`
+		EnvironmentName     *string                   `json:"environmentName"`
+		Engine              *string                   `json:"engine"`
+		ParentBackupName    *string                   `json:"parentBackupName,omitempty"`
+		BaseBackupName      *string                   `json:"baseBackupName,omitempty"`
+		EncryptionKeyName   *string                   `json:"encryptionKeyName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1160,7 +1228,7 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "backupMethod", "backupPolicyName", "backupRepo", "backupType", "completionTimestamp", "creationTimestamp", "duration", "name", "orgName", "snapshotVolumes", "sourceCluster", "startTimestamp", "status", "timeRangeEnd", "timeRangeStart", "totalSize", "failureReason", "extras", "targetPods", "path", "retentionPeriod", "expiration", "id", "clusterId", "cloudProvider", "cloudRegion", "environmentName", "engine", "parentBackupName", "baseBackupName", "encryptionKeyName"})
+		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "backupMethod", "backupPolicyName", "backupRepo", "backupType", "completionTimestamp", "creationTimestamp", "duration", "name", "orgName", "snapshotVolumes", "sourceCluster", "startTimestamp", "status", "timeRangeEnd", "timeRangeStart", "totalSize", "failureReason", "extras", "parameters", "selectedObjects", "targetPods", "path", "retentionPeriod", "expiration", "id", "clusterId", "cloudProvider", "cloudRegion", "environmentName", "engine", "parentBackupName", "baseBackupName", "encryptionKeyName"})
 	} else {
 		return err
 	}
@@ -1193,6 +1261,8 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	o.TotalSize = *all.TotalSize
 	o.FailureReason = all.FailureReason
 	o.Extras = all.Extras
+	o.Parameters = all.Parameters
+	o.SelectedObjects = all.SelectedObjects
 	o.TargetPods = all.TargetPods
 	o.Path = all.Path
 	o.RetentionPeriod = *all.RetentionPeriod

@@ -74,6 +74,7 @@
 //   - [backupApi.getBackupStats]
 //   - [backupApi.getClusterBackupPolicy]
 //   - [backupApi.listBackups]
+//   - [backupApi.listObjectsTreeForSelectiveBackup]
 //   - [backupApi.updateBackupPolicy]
 //   - [backupApi.viewBackup]
 //   - [backupMethodApi.getBackupMethod]
