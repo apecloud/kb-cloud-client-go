@@ -21,7 +21,7 @@ type BackupSchedule struct {
 	// the backup method
 	BackupMethod *string `json:"backupMethod,omitempty"`
 	// backup parameters
-	Parameters map[string]string `json:"parameters,omitempty"`
+	Parameters []BackupScheduleParametersItem `json:"parameters,omitempty"`
 	// backup selected objects
 	SelectedObjects []SelectiveObjectTreeNode `json:"selectedObjects,omitempty"`
 	// the creation time
@@ -165,9 +165,9 @@ func (o *BackupSchedule) SetBackupMethod(v string) {
 }
 
 // GetParameters returns the Parameters field value if set, zero value otherwise.
-func (o *BackupSchedule) GetParameters() map[string]string {
+func (o *BackupSchedule) GetParameters() []BackupScheduleParametersItem {
 	if o == nil || o.Parameters == nil {
-		var ret map[string]string
+		var ret []BackupScheduleParametersItem
 		return ret
 	}
 	return o.Parameters
@@ -175,7 +175,7 @@ func (o *BackupSchedule) GetParameters() map[string]string {
 
 // GetParametersOk returns a tuple with the Parameters field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BackupSchedule) GetParametersOk() (*map[string]string, bool) {
+func (o *BackupSchedule) GetParametersOk() (*[]BackupScheduleParametersItem, bool) {
 	if o == nil || o.Parameters == nil {
 		return nil, false
 	}
@@ -187,8 +187,8 @@ func (o *BackupSchedule) HasParameters() bool {
 	return o != nil && o.Parameters != nil
 }
 
-// SetParameters gets a reference to the given map[string]string and assigns it to the Parameters field.
-func (o *BackupSchedule) SetParameters(v map[string]string) {
+// SetParameters gets a reference to the given []BackupScheduleParametersItem and assigns it to the Parameters field.
+func (o *BackupSchedule) SetParameters(v []BackupScheduleParametersItem) {
 	o.Parameters = v
 }
 
@@ -355,15 +355,15 @@ func (o BackupSchedule) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupSchedule) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id              *string                   `json:"id,omitempty"`
-		ScheduleName    *string                   `json:"scheduleName,omitempty"`
-		ClusterId       *string                   `json:"clusterId,omitempty"`
-		BackupMethod    *string                   `json:"backupMethod,omitempty"`
-		Parameters      map[string]string         `json:"parameters,omitempty"`
-		SelectedObjects []SelectiveObjectTreeNode `json:"selectedObjects,omitempty"`
-		CreatedAt       *time.Time                `json:"createdAt,omitempty"`
-		UpdatedAt       *time.Time                `json:"updatedAt,omitempty"`
-		CronExpression  *string                   `json:"cronExpression,omitempty"`
+		Id              *string                        `json:"id,omitempty"`
+		ScheduleName    *string                        `json:"scheduleName,omitempty"`
+		ClusterId       *string                        `json:"clusterId,omitempty"`
+		BackupMethod    *string                        `json:"backupMethod,omitempty"`
+		Parameters      []BackupScheduleParametersItem `json:"parameters,omitempty"`
+		SelectedObjects []SelectiveObjectTreeNode      `json:"selectedObjects,omitempty"`
+		CreatedAt       *time.Time                     `json:"createdAt,omitempty"`
+		UpdatedAt       *time.Time                     `json:"updatedAt,omitempty"`
+		CronExpression  *string                        `json:"cronExpression,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

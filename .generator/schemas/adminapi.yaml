@@ -24075,10 +24075,17 @@ components:
           description: the backup method
           type: string
         parameters:
-          type: object
+          type: array
           description: backup parameters
-          additionalProperties:
-            type: string
+          items:
+            type: object
+            properties:
+              name:
+                description: the name of parameter
+                type: string
+              value:
+                description: the value of parameter
+                type: string
         selectedObjects:
           type: array
           description: backup selected objects
