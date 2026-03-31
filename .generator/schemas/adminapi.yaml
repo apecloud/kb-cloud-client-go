@@ -24927,7 +24927,6 @@ components:
           properties:
             componentAntiAffinity:
               type: array
-              deprecated: true
               minItems: 1
               description: |
                 when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules
