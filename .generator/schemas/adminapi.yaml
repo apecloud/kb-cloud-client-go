@@ -8001,6 +8001,160 @@ paths:
       tags:
         - backup
         - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/backupSchedules:
+    get:
+      operationId: listBackupSchedules
+      summary: List backup schedules
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: backupMethod
+          in: query
+          description: filter by backup method
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupScheduleList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - backup
+        - shared
+    post:
+      operationId: createBackupSchedule
+      summary: Create backup schedule
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backupScheduleCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupSchedule'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - backup
+        - shared
+      x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/backupSchedules/{scheduleName}:
+    patch:
+      operationId: updateBackupSchedule
+      summary: Update backup schedule
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: scheduleName
+          in: path
+          description: name of the backup schedule
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backupScheduleUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupSchedule'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - backup
+        - shared
+      x-codegen-request-body-name: body
+    delete:
+      operationId: deleteBackupSchedule
+      summary: Delete backup schedule
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: scheduleName
+          in: path
+          description: name of the backup schedule
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when backup schedule is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - backup
+        - shared
   /admin/v1/backups:
     get:
       operationId: listBackups
@@ -23904,6 +24058,105 @@ components:
             description: backup parameters for different backup methods
             additionalProperties:
               type: string
+      type: object
+    backupSchedule:
+      description: backup schedule for database table backup
+      properties:
+        id:
+          description: the backup schedule id
+          type: string
+        scheduleName:
+          description: the name of backup schedule
+          type: string
+        clusterId:
+          description: the cluster id
+          type: string
+        backupMethod:
+          description: the backup method
+          type: string
+        parameters:
+          type: object
+          description: backup parameters
+          additionalProperties:
+            type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+        createdAt:
+          description: the creation time
+          format: date-time
+          type: string
+        updatedAt:
+          description: the last update time
+          format: date-time
+          type: string
+        cronExpression:
+          description: the cron expression for backup schedule
+          type: string
+      type: object
+    backupScheduleList:
+      description: list of backup schedules
+      properties:
+        items:
+          description: items is the list of backup schedule objects
+          items:
+            $ref: '#/components/schemas/backupSchedule'
+          type: array
+        totalCount:
+          description: total count of backup schedules
+          type: integer
+          format: int64
+      type: object
+    backupScheduleCreate:
+      description: payload to create a backup schedule
+      properties:
+        scheduleName:
+          description: the name of backup schedule
+          type: string
+        backupMethod:
+          description: the backup method
+          type: string
+        parameters:
+          type: object
+          description: backup parameters
+          additionalProperties:
+            type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+        cronExpression:
+          description: the cron expression for backup schedule
+          type: string
+      required:
+        - scheduleName
+        - backupMethod
+      type: object
+    backupScheduleUpdate:
+      description: payload to update a backup schedule
+      properties:
+        scheduleName:
+          description: the name of backup schedule
+          type: string
+        backupMethod:
+          description: the backup method
+          type: string
+        parameters:
+          type: object
+          description: backup parameters
+          additionalProperties:
+            type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+        cronExpression:
+          description: the cron expression for backup schedule
+          type: string
       type: object
     backupList:
       description: BackupList is a list of backups
