@@ -5,13 +5,18 @@
 package admin
 
 import (
+	"fmt"
+
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 type EnvironmentCredentialUpdate struct {
 	// Description of the environment credential
-	Description common.NullableString        `json:"description,omitempty"`
-	Entries     []EnvironmentCredentialEntry `json:"entries,omitempty"`
+	Description common.NullableString `json:"description,omitempty"`
+	// Key of the environment credential entry, such as accessKeyId for AWS
+	Key string `json:"key"`
+	// Secret of the environment credential entry, such as secretAccessKey for AWS
+	Secret string `json:"secret"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -21,8 +26,10 @@ type EnvironmentCredentialUpdate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentCredentialUpdate() *EnvironmentCredentialUpdate {
+func NewEnvironmentCredentialUpdate(key string, secret string) *EnvironmentCredentialUpdate {
 	this := EnvironmentCredentialUpdate{}
+	this.Key = key
+	this.Secret = secret
 	return &this
 }
 
@@ -73,33 +80,50 @@ func (o *EnvironmentCredentialUpdate) UnsetDescription() {
 	o.Description.Unset()
 }
 
-// GetEntries returns the Entries field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *EnvironmentCredentialUpdate) GetEntries() []EnvironmentCredentialEntry {
+// GetKey returns the Key field value.
+func (o *EnvironmentCredentialUpdate) GetKey() string {
 	if o == nil {
-		var ret []EnvironmentCredentialEntry
+		var ret string
 		return ret
 	}
-	return o.Entries
+	return o.Key
 }
 
-// GetEntriesOk returns a tuple with the Entries field value if set, nil otherwise
+// GetKeyOk returns a tuple with the Key field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *EnvironmentCredentialUpdate) GetEntriesOk() (*[]EnvironmentCredentialEntry, bool) {
-	if o == nil || o.Entries == nil {
+func (o *EnvironmentCredentialUpdate) GetKeyOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Entries, true
+	return &o.Key, true
 }
 
-// HasEntries returns a boolean if a field has been set.
-func (o *EnvironmentCredentialUpdate) HasEntries() bool {
-	return o != nil && o.Entries != nil
+// SetKey sets field value.
+func (o *EnvironmentCredentialUpdate) SetKey(v string) {
+	o.Key = v
 }
 
-// SetEntries gets a reference to the given []EnvironmentCredentialEntry and assigns it to the Entries field.
-func (o *EnvironmentCredentialUpdate) SetEntries(v []EnvironmentCredentialEntry) {
-	o.Entries = v
+// GetSecret returns the Secret field value.
+func (o *EnvironmentCredentialUpdate) GetSecret() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.Secret
+}
+
+// GetSecretOk returns a tuple with the Secret field value
+// and a boolean to check if the value has been set.
+func (o *EnvironmentCredentialUpdate) GetSecretOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Secret, true
+}
+
+// SetSecret sets field value.
+func (o *EnvironmentCredentialUpdate) SetSecret(v string) {
+	o.Secret = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -111,9 +135,8 @@ func (o EnvironmentCredentialUpdate) MarshalJSON() ([]byte, error) {
 	if o.Description.IsSet() {
 		toSerialize["description"] = o.Description.Get()
 	}
-	if o.Entries != nil {
-		toSerialize["entries"] = o.Entries
-	}
+	toSerialize["key"] = o.Key
+	toSerialize["secret"] = o.Secret
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -124,20 +147,28 @@ func (o EnvironmentCredentialUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentCredentialUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Description common.NullableString        `json:"description,omitempty"`
-		Entries     []EnvironmentCredentialEntry `json:"entries,omitempty"`
+		Description common.NullableString `json:"description,omitempty"`
+		Key         *string               `json:"key"`
+		Secret      *string               `json:"secret"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
+	if all.Key == nil {
+		return fmt.Errorf("required field key missing")
+	}
+	if all.Secret == nil {
+		return fmt.Errorf("required field secret missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "entries"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "key", "secret"})
 	} else {
 		return err
 	}
 	o.Description = all.Description
-	o.Entries = all.Entries
+	o.Key = *all.Key
+	o.Secret = *all.Secret
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

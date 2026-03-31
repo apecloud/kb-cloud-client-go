@@ -13,13 +13,12 @@ import (
 type EnvironmentCredentialCreate struct {
 	// Name of the environment credential
 	Name string `json:"name"`
-	// Cloud provider of the environment credential
-	Provider string `json:"provider"`
-	// Type of the environment credential
-	CredentialType EnvironmentCredentialType `json:"credentialType"`
 	// Description of the environment credential
-	Description *string                      `json:"description,omitempty"`
-	Entries     []EnvironmentCredentialEntry `json:"entries"`
+	Description *string `json:"description,omitempty"`
+	// Key of the environment credential entry, such as accessKeyId for AWS
+	Key string `json:"key"`
+	// Secret of the environment credential entry, such as secretAccessKey for AWS
+	Secret string `json:"secret"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -29,12 +28,11 @@ type EnvironmentCredentialCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentCredentialCreate(name string, provider string, credentialType EnvironmentCredentialType, entries []EnvironmentCredentialEntry) *EnvironmentCredentialCreate {
+func NewEnvironmentCredentialCreate(name string, key string, secret string) *EnvironmentCredentialCreate {
 	this := EnvironmentCredentialCreate{}
 	this.Name = name
-	this.Provider = provider
-	this.CredentialType = credentialType
-	this.Entries = entries
+	this.Key = key
+	this.Secret = secret
 	return &this
 }
 
@@ -69,52 +67,6 @@ func (o *EnvironmentCredentialCreate) SetName(v string) {
 	o.Name = v
 }
 
-// GetProvider returns the Provider field value.
-func (o *EnvironmentCredentialCreate) GetProvider() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.Provider
-}
-
-// GetProviderOk returns a tuple with the Provider field value
-// and a boolean to check if the value has been set.
-func (o *EnvironmentCredentialCreate) GetProviderOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Provider, true
-}
-
-// SetProvider sets field value.
-func (o *EnvironmentCredentialCreate) SetProvider(v string) {
-	o.Provider = v
-}
-
-// GetCredentialType returns the CredentialType field value.
-func (o *EnvironmentCredentialCreate) GetCredentialType() EnvironmentCredentialType {
-	if o == nil {
-		var ret EnvironmentCredentialType
-		return ret
-	}
-	return o.CredentialType
-}
-
-// GetCredentialTypeOk returns a tuple with the CredentialType field value
-// and a boolean to check if the value has been set.
-func (o *EnvironmentCredentialCreate) GetCredentialTypeOk() (*EnvironmentCredentialType, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.CredentialType, true
-}
-
-// SetCredentialType sets field value.
-func (o *EnvironmentCredentialCreate) SetCredentialType(v EnvironmentCredentialType) {
-	o.CredentialType = v
-}
-
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *EnvironmentCredentialCreate) GetDescription() string {
 	if o == nil || o.Description == nil {
@@ -143,27 +95,50 @@ func (o *EnvironmentCredentialCreate) SetDescription(v string) {
 	o.Description = &v
 }
 
-// GetEntries returns the Entries field value.
-func (o *EnvironmentCredentialCreate) GetEntries() []EnvironmentCredentialEntry {
+// GetKey returns the Key field value.
+func (o *EnvironmentCredentialCreate) GetKey() string {
 	if o == nil {
-		var ret []EnvironmentCredentialEntry
+		var ret string
 		return ret
 	}
-	return o.Entries
+	return o.Key
 }
 
-// GetEntriesOk returns a tuple with the Entries field value
+// GetKeyOk returns a tuple with the Key field value
 // and a boolean to check if the value has been set.
-func (o *EnvironmentCredentialCreate) GetEntriesOk() (*[]EnvironmentCredentialEntry, bool) {
+func (o *EnvironmentCredentialCreate) GetKeyOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Entries, true
+	return &o.Key, true
 }
 
-// SetEntries sets field value.
-func (o *EnvironmentCredentialCreate) SetEntries(v []EnvironmentCredentialEntry) {
-	o.Entries = v
+// SetKey sets field value.
+func (o *EnvironmentCredentialCreate) SetKey(v string) {
+	o.Key = v
+}
+
+// GetSecret returns the Secret field value.
+func (o *EnvironmentCredentialCreate) GetSecret() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.Secret
+}
+
+// GetSecretOk returns a tuple with the Secret field value
+// and a boolean to check if the value has been set.
+func (o *EnvironmentCredentialCreate) GetSecretOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Secret, true
+}
+
+// SetSecret sets field value.
+func (o *EnvironmentCredentialCreate) SetSecret(v string) {
+	o.Secret = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -173,12 +148,11 @@ func (o EnvironmentCredentialCreate) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["name"] = o.Name
-	toSerialize["provider"] = o.Provider
-	toSerialize["credentialType"] = o.CredentialType
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
-	toSerialize["entries"] = o.Entries
+	toSerialize["key"] = o.Key
+	toSerialize["secret"] = o.Secret
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -189,11 +163,10 @@ func (o EnvironmentCredentialCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentCredentialCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name           *string                       `json:"name"`
-		Provider       *string                       `json:"provider"`
-		CredentialType *EnvironmentCredentialType    `json:"credentialType"`
-		Description    *string                       `json:"description,omitempty"`
-		Entries        *[]EnvironmentCredentialEntry `json:"entries"`
+		Name        *string `json:"name"`
+		Description *string `json:"description,omitempty"`
+		Key         *string `json:"key"`
+		Secret      *string `json:"secret"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -201,39 +174,25 @@ func (o *EnvironmentCredentialCreate) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
 	}
-	if all.Provider == nil {
-		return fmt.Errorf("required field provider missing")
+	if all.Key == nil {
+		return fmt.Errorf("required field key missing")
 	}
-	if all.CredentialType == nil {
-		return fmt.Errorf("required field credentialType missing")
-	}
-	if all.Entries == nil {
-		return fmt.Errorf("required field entries missing")
+	if all.Secret == nil {
+		return fmt.Errorf("required field secret missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "provider", "credentialType", "description", "entries"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "key", "secret"})
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
 	o.Name = *all.Name
-	o.Provider = *all.Provider
-	if !all.CredentialType.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.CredentialType = *all.CredentialType
-	}
 	o.Description = all.Description
-	o.Entries = *all.Entries
+	o.Key = *all.Key
+	o.Secret = *all.Secret
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

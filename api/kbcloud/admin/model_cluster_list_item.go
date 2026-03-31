@@ -41,7 +41,7 @@ type ClusterListItem struct {
 	ParentName common.NullableString `json:"parentName,omitempty"`
 	// the display name of parent cluster
 	ParentDisplayName common.NullableString `json:"parentDisplayName,omitempty"`
-	// Describes the type of cluster, [Normal] normal cluster; [DisasterRecovery] disaster recovery cluster
+	// Describes the type of cluster
 	ClusterType NullableClusterType    `json:"clusterType,omitempty"`
 	Delay       common.NullableFloat64 `json:"delay,omitempty"`
 	// Cluster Status

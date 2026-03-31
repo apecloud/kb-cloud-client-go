@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
@@ -12,19 +13,17 @@ import (
 
 type EnvironmentCredential struct {
 	// Name of the environment credential
-	Name *string `json:"name,omitempty"`
-	// Cloud provider of the environment credential
-	Provider *string `json:"provider,omitempty"`
-	// Type of the environment credential
-	CredentialType *EnvironmentCredentialType `json:"credentialType,omitempty"`
+	Name string `json:"name"`
+	// Key of the environment credential entry, such as accessKeyId for AWS
+	Key string `json:"key"`
+	// Secret of the environment credential entry, such as secretAccessKey for AWS
+	Secret string `json:"secret"`
 	// Description of the environment credential
 	Description *string `json:"description,omitempty"`
 	// CreatedAt is a timestamp representing the server time when this object was created. It is represented in RFC3339 form and is in UTC.
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
+	CreatedAt time.Time `json:"createdAt"`
 	// UpdatedAt is a timestamp representing the server time when this object was updated. It is represented in RFC3339 form and is in UTC.
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-	// Entries of the environment credential
-	Entries []EnvironmentCredentialEntry `json:"entries,omitempty"`
+	UpdatedAt time.Time `json:"updatedAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -34,93 +33,91 @@ type EnvironmentCredential struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentCredential() *EnvironmentCredential {
+func NewEnvironmentCredential(name string, key string, secret string, createdAt time.Time, updatedAt time.Time) *EnvironmentCredential {
+	this := EnvironmentCredential{}
+	this.Name = name
+	this.Key = key
+	this.Secret = secret
+	this.CreatedAt = createdAt
+	this.UpdatedAt = updatedAt
+	return &this
+}
+
+// NewEnvironmentCredentialWithDefaults instantiates a new EnvironmentCredential object.
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set.
+func NewEnvironmentCredentialWithDefaults() *EnvironmentCredential {
 	this := EnvironmentCredential{}
 	return &this
 }
 
-// GetName returns the Name field value if set, zero value otherwise.
+// GetName returns the Name field value.
 func (o *EnvironmentCredential) GetName() string {
-	if o == nil || o.Name == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Name
+	return o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *EnvironmentCredential) GetNameOk() (*string, bool) {
-	if o == nil || o.Name == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Name, true
+	return &o.Name, true
 }
 
-// HasName returns a boolean if a field has been set.
-func (o *EnvironmentCredential) HasName() bool {
-	return o != nil && o.Name != nil
-}
-
-// SetName gets a reference to the given string and assigns it to the Name field.
+// SetName sets field value.
 func (o *EnvironmentCredential) SetName(v string) {
-	o.Name = &v
+	o.Name = v
 }
 
-// GetProvider returns the Provider field value if set, zero value otherwise.
-func (o *EnvironmentCredential) GetProvider() string {
-	if o == nil || o.Provider == nil {
+// GetKey returns the Key field value.
+func (o *EnvironmentCredential) GetKey() string {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Provider
+	return o.Key
 }
 
-// GetProviderOk returns a tuple with the Provider field value if set, nil otherwise
+// GetKeyOk returns a tuple with the Key field value
 // and a boolean to check if the value has been set.
-func (o *EnvironmentCredential) GetProviderOk() (*string, bool) {
-	if o == nil || o.Provider == nil {
+func (o *EnvironmentCredential) GetKeyOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Provider, true
+	return &o.Key, true
 }
 
-// HasProvider returns a boolean if a field has been set.
-func (o *EnvironmentCredential) HasProvider() bool {
-	return o != nil && o.Provider != nil
+// SetKey sets field value.
+func (o *EnvironmentCredential) SetKey(v string) {
+	o.Key = v
 }
 
-// SetProvider gets a reference to the given string and assigns it to the Provider field.
-func (o *EnvironmentCredential) SetProvider(v string) {
-	o.Provider = &v
-}
-
-// GetCredentialType returns the CredentialType field value if set, zero value otherwise.
-func (o *EnvironmentCredential) GetCredentialType() EnvironmentCredentialType {
-	if o == nil || o.CredentialType == nil {
-		var ret EnvironmentCredentialType
+// GetSecret returns the Secret field value.
+func (o *EnvironmentCredential) GetSecret() string {
+	if o == nil {
+		var ret string
 		return ret
 	}
-	return *o.CredentialType
+	return o.Secret
 }
 
-// GetCredentialTypeOk returns a tuple with the CredentialType field value if set, nil otherwise
+// GetSecretOk returns a tuple with the Secret field value
 // and a boolean to check if the value has been set.
-func (o *EnvironmentCredential) GetCredentialTypeOk() (*EnvironmentCredentialType, bool) {
-	if o == nil || o.CredentialType == nil {
+func (o *EnvironmentCredential) GetSecretOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.CredentialType, true
+	return &o.Secret, true
 }
 
-// HasCredentialType returns a boolean if a field has been set.
-func (o *EnvironmentCredential) HasCredentialType() bool {
-	return o != nil && o.CredentialType != nil
-}
-
-// SetCredentialType gets a reference to the given EnvironmentCredentialType and assigns it to the CredentialType field.
-func (o *EnvironmentCredential) SetCredentialType(v EnvironmentCredentialType) {
-	o.CredentialType = &v
+// SetSecret sets field value.
+func (o *EnvironmentCredential) SetSecret(v string) {
+	o.Secret = v
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
@@ -151,88 +148,50 @@ func (o *EnvironmentCredential) SetDescription(v string) {
 	o.Description = &v
 }
 
-// GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
+// GetCreatedAt returns the CreatedAt field value.
 func (o *EnvironmentCredential) GetCreatedAt() time.Time {
-	if o == nil || o.CreatedAt == nil {
+	if o == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.CreatedAt
+	return o.CreatedAt
 }
 
-// GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
+// GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
 func (o *EnvironmentCredential) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil || o.CreatedAt == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.CreatedAt, true
+	return &o.CreatedAt, true
 }
 
-// HasCreatedAt returns a boolean if a field has been set.
-func (o *EnvironmentCredential) HasCreatedAt() bool {
-	return o != nil && o.CreatedAt != nil
-}
-
-// SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
+// SetCreatedAt sets field value.
 func (o *EnvironmentCredential) SetCreatedAt(v time.Time) {
-	o.CreatedAt = &v
+	o.CreatedAt = v
 }
 
-// GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
+// GetUpdatedAt returns the UpdatedAt field value.
 func (o *EnvironmentCredential) GetUpdatedAt() time.Time {
-	if o == nil || o.UpdatedAt == nil {
+	if o == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.UpdatedAt
+	return o.UpdatedAt
 }
 
-// GetUpdatedAtOk returns a tuple with the UpdatedAt field value if set, nil otherwise
+// GetUpdatedAtOk returns a tuple with the UpdatedAt field value
 // and a boolean to check if the value has been set.
 func (o *EnvironmentCredential) GetUpdatedAtOk() (*time.Time, bool) {
-	if o == nil || o.UpdatedAt == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.UpdatedAt, true
+	return &o.UpdatedAt, true
 }
 
-// HasUpdatedAt returns a boolean if a field has been set.
-func (o *EnvironmentCredential) HasUpdatedAt() bool {
-	return o != nil && o.UpdatedAt != nil
-}
-
-// SetUpdatedAt gets a reference to the given time.Time and assigns it to the UpdatedAt field.
+// SetUpdatedAt sets field value.
 func (o *EnvironmentCredential) SetUpdatedAt(v time.Time) {
-	o.UpdatedAt = &v
-}
-
-// GetEntries returns the Entries field value if set, zero value otherwise.
-func (o *EnvironmentCredential) GetEntries() []EnvironmentCredentialEntry {
-	if o == nil || o.Entries == nil {
-		var ret []EnvironmentCredentialEntry
-		return ret
-	}
-	return o.Entries
-}
-
-// GetEntriesOk returns a tuple with the Entries field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *EnvironmentCredential) GetEntriesOk() (*[]EnvironmentCredentialEntry, bool) {
-	if o == nil || o.Entries == nil {
-		return nil, false
-	}
-	return &o.Entries, true
-}
-
-// HasEntries returns a boolean if a field has been set.
-func (o *EnvironmentCredential) HasEntries() bool {
-	return o != nil && o.Entries != nil
-}
-
-// SetEntries gets a reference to the given []EnvironmentCredentialEntry and assigns it to the Entries field.
-func (o *EnvironmentCredential) SetEntries(v []EnvironmentCredentialEntry) {
-	o.Entries = v
+	o.UpdatedAt = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -241,34 +200,21 @@ func (o EnvironmentCredential) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
-	}
-	if o.Provider != nil {
-		toSerialize["provider"] = o.Provider
-	}
-	if o.CredentialType != nil {
-		toSerialize["credentialType"] = o.CredentialType
-	}
+	toSerialize["name"] = o.Name
+	toSerialize["key"] = o.Key
+	toSerialize["secret"] = o.Secret
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
-	if o.CreatedAt != nil {
-		if o.CreatedAt.Nanosecond() == 0 {
-			toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05.000Z07:00")
-		}
+	if o.CreatedAt.Nanosecond() == 0 {
+		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
+	} else {
+		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 	}
-	if o.UpdatedAt != nil {
-		if o.UpdatedAt.Nanosecond() == 0 {
-			toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05.000Z07:00")
-		}
-	}
-	if o.Entries != nil {
-		toSerialize["entries"] = o.Entries
+	if o.UpdatedAt.Nanosecond() == 0 {
+		toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05Z07:00")
+	} else {
+		toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -280,40 +226,46 @@ func (o EnvironmentCredential) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentCredential) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name           *string                      `json:"name,omitempty"`
-		Provider       *string                      `json:"provider,omitempty"`
-		CredentialType *EnvironmentCredentialType   `json:"credentialType,omitempty"`
-		Description    *string                      `json:"description,omitempty"`
-		CreatedAt      *time.Time                   `json:"createdAt,omitempty"`
-		UpdatedAt      *time.Time                   `json:"updatedAt,omitempty"`
-		Entries        []EnvironmentCredentialEntry `json:"entries,omitempty"`
+		Name        *string    `json:"name"`
+		Key         *string    `json:"key"`
+		Secret      *string    `json:"secret"`
+		Description *string    `json:"description,omitempty"`
+		CreatedAt   *time.Time `json:"createdAt"`
+		UpdatedAt   *time.Time `json:"updatedAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
+	if all.Name == nil {
+		return fmt.Errorf("required field name missing")
+	}
+	if all.Key == nil {
+		return fmt.Errorf("required field key missing")
+	}
+	if all.Secret == nil {
+		return fmt.Errorf("required field secret missing")
+	}
+	if all.CreatedAt == nil {
+		return fmt.Errorf("required field createdAt missing")
+	}
+	if all.UpdatedAt == nil {
+		return fmt.Errorf("required field updatedAt missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "provider", "credentialType", "description", "createdAt", "updatedAt", "entries"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "key", "secret", "description", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}
-	hasInvalidField := false
-	o.Name = all.Name
-	o.Provider = all.Provider
-	if all.CredentialType != nil && !all.CredentialType.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.CredentialType = all.CredentialType
-	}
+	o.Name = *all.Name
+	o.Key = *all.Key
+	o.Secret = *all.Secret
 	o.Description = all.Description
-	o.CreatedAt = all.CreatedAt
-	o.UpdatedAt = all.UpdatedAt
-	o.Entries = all.Entries
+	o.CreatedAt = *all.CreatedAt
+	o.UpdatedAt = *all.UpdatedAt
+
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

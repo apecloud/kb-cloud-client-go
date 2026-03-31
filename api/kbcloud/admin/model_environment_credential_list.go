@@ -13,7 +13,7 @@ import (
 // EnvironmentCredentialList environmentCredentialList is a list of environment credentials
 type EnvironmentCredentialList struct {
 	// Items is the list of environment credential objects in the list
-	Items []EnvironmentCredentialSummary `json:"items"`
+	Items []EnvironmentCredential `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -23,7 +23,7 @@ type EnvironmentCredentialList struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentCredentialList(items []EnvironmentCredentialSummary) *EnvironmentCredentialList {
+func NewEnvironmentCredentialList(items []EnvironmentCredential) *EnvironmentCredentialList {
 	this := EnvironmentCredentialList{}
 	this.Items = items
 	return &this
@@ -38,9 +38,9 @@ func NewEnvironmentCredentialListWithDefaults() *EnvironmentCredentialList {
 }
 
 // GetItems returns the Items field value.
-func (o *EnvironmentCredentialList) GetItems() []EnvironmentCredentialSummary {
+func (o *EnvironmentCredentialList) GetItems() []EnvironmentCredential {
 	if o == nil {
-		var ret []EnvironmentCredentialSummary
+		var ret []EnvironmentCredential
 		return ret
 	}
 	return o.Items
@@ -48,7 +48,7 @@ func (o *EnvironmentCredentialList) GetItems() []EnvironmentCredentialSummary {
 
 // GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *EnvironmentCredentialList) GetItemsOk() (*[]EnvironmentCredentialSummary, bool) {
+func (o *EnvironmentCredentialList) GetItemsOk() (*[]EnvironmentCredential, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -56,7 +56,7 @@ func (o *EnvironmentCredentialList) GetItemsOk() (*[]EnvironmentCredentialSummar
 }
 
 // SetItems sets field value.
-func (o *EnvironmentCredentialList) SetItems(v []EnvironmentCredentialSummary) {
+func (o *EnvironmentCredentialList) SetItems(v []EnvironmentCredential) {
 	o.Items = v
 }
 
@@ -77,7 +77,7 @@ func (o EnvironmentCredentialList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentCredentialList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items *[]EnvironmentCredentialSummary `json:"items"`
+		Items *[]EnvironmentCredential `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

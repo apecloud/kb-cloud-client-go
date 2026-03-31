@@ -22,9 +22,12 @@ type BackupOption struct {
 	RestoreOption       *BackupOptionRestoreOption        `json:"restoreOption,omitempty"`
 	OfflineBackupOption *BackupOptionOfflineBackupOption  `json:"offlineBackupOption,omitempty"`
 	BackupParameters    map[string]map[string]interface{} `json:"backupParameters,omitempty"`
+	RestoreParameters   map[string]map[string]interface{} `json:"restoreParameters,omitempty"`
 	FullMethod          []BackupMethodOption              `json:"fullMethod"`
 	IncrementalMethod   []BackupMethodOption              `json:"incrementalMethod,omitempty"`
 	ContinuousMethod    []BackupMethodOption              `json:"continuousMethod,omitempty"`
+	// Selective backup methods that support backing up specific objects
+	SelectiveMethod []SelectiveMethodOption `json:"selectiveMethod,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -212,6 +215,34 @@ func (o *BackupOption) SetBackupParameters(v map[string]map[string]interface{}) 
 	o.BackupParameters = v
 }
 
+// GetRestoreParameters returns the RestoreParameters field value if set, zero value otherwise.
+func (o *BackupOption) GetRestoreParameters() map[string]map[string]interface{} {
+	if o == nil || o.RestoreParameters == nil {
+		var ret map[string]map[string]interface{}
+		return ret
+	}
+	return o.RestoreParameters
+}
+
+// GetRestoreParametersOk returns a tuple with the RestoreParameters field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupOption) GetRestoreParametersOk() (*map[string]map[string]interface{}, bool) {
+	if o == nil || o.RestoreParameters == nil {
+		return nil, false
+	}
+	return &o.RestoreParameters, true
+}
+
+// HasRestoreParameters returns a boolean if a field has been set.
+func (o *BackupOption) HasRestoreParameters() bool {
+	return o != nil && o.RestoreParameters != nil
+}
+
+// SetRestoreParameters gets a reference to the given map[string]map[string]interface{} and assigns it to the RestoreParameters field.
+func (o *BackupOption) SetRestoreParameters(v map[string]map[string]interface{}) {
+	o.RestoreParameters = v
+}
+
 // GetFullMethod returns the FullMethod field value.
 func (o *BackupOption) GetFullMethod() []BackupMethodOption {
 	if o == nil {
@@ -291,6 +322,34 @@ func (o *BackupOption) SetContinuousMethod(v []BackupMethodOption) {
 	o.ContinuousMethod = v
 }
 
+// GetSelectiveMethod returns the SelectiveMethod field value if set, zero value otherwise.
+func (o *BackupOption) GetSelectiveMethod() []SelectiveMethodOption {
+	if o == nil || o.SelectiveMethod == nil {
+		var ret []SelectiveMethodOption
+		return ret
+	}
+	return o.SelectiveMethod
+}
+
+// GetSelectiveMethodOk returns a tuple with the SelectiveMethod field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupOption) GetSelectiveMethodOk() (*[]SelectiveMethodOption, bool) {
+	if o == nil || o.SelectiveMethod == nil {
+		return nil, false
+	}
+	return &o.SelectiveMethod, true
+}
+
+// HasSelectiveMethod returns a boolean if a field has been set.
+func (o *BackupOption) HasSelectiveMethod() bool {
+	return o != nil && o.SelectiveMethod != nil
+}
+
+// SetSelectiveMethod gets a reference to the given []SelectiveMethodOption and assigns it to the SelectiveMethod field.
+func (o *BackupOption) SetSelectiveMethod(v []SelectiveMethodOption) {
+	o.SelectiveMethod = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -313,12 +372,18 @@ func (o BackupOption) MarshalJSON() ([]byte, error) {
 	if o.BackupParameters != nil {
 		toSerialize["backupParameters"] = o.BackupParameters
 	}
+	if o.RestoreParameters != nil {
+		toSerialize["restoreParameters"] = o.RestoreParameters
+	}
 	toSerialize["fullMethod"] = o.FullMethod
 	if o.IncrementalMethod != nil {
 		toSerialize["incrementalMethod"] = o.IncrementalMethod
 	}
 	if o.ContinuousMethod != nil {
 		toSerialize["continuousMethod"] = o.ContinuousMethod
+	}
+	if o.SelectiveMethod != nil {
+		toSerialize["selectiveMethod"] = o.SelectiveMethod
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -336,9 +401,11 @@ func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 		RestoreOption       *BackupOptionRestoreOption        `json:"restoreOption,omitempty"`
 		OfflineBackupOption *BackupOptionOfflineBackupOption  `json:"offlineBackupOption,omitempty"`
 		BackupParameters    map[string]map[string]interface{} `json:"backupParameters,omitempty"`
+		RestoreParameters   map[string]map[string]interface{} `json:"restoreParameters,omitempty"`
 		FullMethod          *[]BackupMethodOption             `json:"fullMethod"`
 		IncrementalMethod   []BackupMethodOption              `json:"incrementalMethod,omitempty"`
 		ContinuousMethod    []BackupMethodOption              `json:"continuousMethod,omitempty"`
+		SelectiveMethod     []SelectiveMethodOption           `json:"selectiveMethod,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -351,7 +418,7 @@ func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"defaultMethod", "defaultComponent", "defaultBPTSelector", "restoreOption", "offlineBackupOption", "backupParameters", "fullMethod", "incrementalMethod", "continuousMethod"})
+		common.DeleteKeys(additionalProperties, &[]string{"defaultMethod", "defaultComponent", "defaultBPTSelector", "restoreOption", "offlineBackupOption", "backupParameters", "restoreParameters", "fullMethod", "incrementalMethod", "continuousMethod", "selectiveMethod"})
 	} else {
 		return err
 	}
@@ -369,9 +436,11 @@ func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.OfflineBackupOption = all.OfflineBackupOption
 	o.BackupParameters = all.BackupParameters
+	o.RestoreParameters = all.RestoreParameters
 	o.FullMethod = *all.FullMethod
 	o.IncrementalMethod = all.IncrementalMethod
 	o.ContinuousMethod = all.ContinuousMethod
+	o.SelectiveMethod = all.SelectiveMethod
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
