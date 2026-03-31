@@ -22,6 +22,10 @@ type BackupCreate struct {
 	Component *string `json:"component,omitempty"`
 	// specify the retention period
 	RetentionPeriod *string `json:"retentionPeriod,omitempty"`
+	// parameters for the backup
+	Parameters map[string]string `json:"parameters,omitempty"`
+	// selected objects for the backup
+	SelectedObjects []SelectiveObjectTreeNode `json:"selectedObjects,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -180,6 +184,62 @@ func (o *BackupCreate) SetRetentionPeriod(v string) {
 	o.RetentionPeriod = &v
 }
 
+// GetParameters returns the Parameters field value if set, zero value otherwise.
+func (o *BackupCreate) GetParameters() map[string]string {
+	if o == nil || o.Parameters == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.Parameters
+}
+
+// GetParametersOk returns a tuple with the Parameters field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupCreate) GetParametersOk() (*map[string]string, bool) {
+	if o == nil || o.Parameters == nil {
+		return nil, false
+	}
+	return &o.Parameters, true
+}
+
+// HasParameters returns a boolean if a field has been set.
+func (o *BackupCreate) HasParameters() bool {
+	return o != nil && o.Parameters != nil
+}
+
+// SetParameters gets a reference to the given map[string]string and assigns it to the Parameters field.
+func (o *BackupCreate) SetParameters(v map[string]string) {
+	o.Parameters = v
+}
+
+// GetSelectedObjects returns the SelectedObjects field value if set, zero value otherwise.
+func (o *BackupCreate) GetSelectedObjects() []SelectiveObjectTreeNode {
+	if o == nil || o.SelectedObjects == nil {
+		var ret []SelectiveObjectTreeNode
+		return ret
+	}
+	return o.SelectedObjects
+}
+
+// GetSelectedObjectsOk returns a tuple with the SelectedObjects field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupCreate) GetSelectedObjectsOk() (*[]SelectiveObjectTreeNode, bool) {
+	if o == nil || o.SelectedObjects == nil {
+		return nil, false
+	}
+	return &o.SelectedObjects, true
+}
+
+// HasSelectedObjects returns a boolean if a field has been set.
+func (o *BackupCreate) HasSelectedObjects() bool {
+	return o != nil && o.SelectedObjects != nil
+}
+
+// SetSelectedObjects gets a reference to the given []SelectiveObjectTreeNode and assigns it to the SelectedObjects field.
+func (o *BackupCreate) SetSelectedObjects(v []SelectiveObjectTreeNode) {
+	o.SelectedObjects = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -199,6 +259,12 @@ func (o BackupCreate) MarshalJSON() ([]byte, error) {
 	if o.RetentionPeriod != nil {
 		toSerialize["retentionPeriod"] = o.RetentionPeriod
 	}
+	if o.Parameters != nil {
+		toSerialize["parameters"] = o.Parameters
+	}
+	if o.SelectedObjects != nil {
+		toSerialize["selectedObjects"] = o.SelectedObjects
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -209,11 +275,13 @@ func (o BackupCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name            *string     `json:"name,omitempty"`
-		BackupType      *BackupType `json:"backupType,omitempty"`
-		BackupMethod    *string     `json:"backupMethod"`
-		Component       *string     `json:"component,omitempty"`
-		RetentionPeriod *string     `json:"retentionPeriod,omitempty"`
+		Name            *string                   `json:"name,omitempty"`
+		BackupType      *BackupType               `json:"backupType,omitempty"`
+		BackupMethod    *string                   `json:"backupMethod"`
+		Component       *string                   `json:"component,omitempty"`
+		RetentionPeriod *string                   `json:"retentionPeriod,omitempty"`
+		Parameters      map[string]string         `json:"parameters,omitempty"`
+		SelectedObjects []SelectiveObjectTreeNode `json:"selectedObjects,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -223,7 +291,7 @@ func (o *BackupCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "backupType", "backupMethod", "component", "retentionPeriod"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "backupType", "backupMethod", "component", "retentionPeriod", "parameters", "selectedObjects"})
 	} else {
 		return err
 	}
@@ -238,6 +306,8 @@ func (o *BackupCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.BackupMethod = *all.BackupMethod
 	o.Component = all.Component
 	o.RetentionPeriod = all.RetentionPeriod
+	o.Parameters = all.Parameters
+	o.SelectedObjects = all.SelectedObjects
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

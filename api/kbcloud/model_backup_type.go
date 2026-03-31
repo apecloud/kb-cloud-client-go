@@ -19,6 +19,7 @@ const (
 	BackupTypeIncremental  BackupType = "Incremental"
 	BackupTypeDifferential BackupType = "Differential"
 	BackupTypeContinuous   BackupType = "Continuous"
+	BackupTypeSelective    BackupType = "Selective"
 )
 
 var allowedBackupTypeEnumValues = []BackupType{
@@ -26,6 +27,7 @@ var allowedBackupTypeEnumValues = []BackupType{
 	BackupTypeIncremental,
 	BackupTypeDifferential,
 	BackupTypeContinuous,
+	BackupTypeSelective,
 }
 
 // GetAllowedValues returns the list of possible values.
