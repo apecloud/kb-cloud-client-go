@@ -4,7 +4,9 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // ParamTplsItem the item of the parameter template
 type ParamTplsItem struct {
@@ -13,7 +15,9 @@ type ParamTplsItem struct {
 	// name of assigned parameter template
 	ParamTplName *string `json:"paramTplName,omitempty"`
 	// id of parameter template
-	ParamTplId        *string                     `json:"paramTplID,omitempty"`
+	ParamTplId common.NullableString `json:"paramTplID,omitempty"`
+	// org name of the parameter template
+	OrgName           common.NullableString       `json:"orgName,omitempty"`
 	ParamTplPartition *ParameterTemplatePartition `json:"paramTplPartition,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -93,32 +97,82 @@ func (o *ParamTplsItem) SetParamTplName(v string) {
 	o.ParamTplName = &v
 }
 
-// GetParamTplId returns the ParamTplId field value if set, zero value otherwise.
+// GetParamTplId returns the ParamTplId field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ParamTplsItem) GetParamTplId() string {
-	if o == nil || o.ParamTplId == nil {
+	if o == nil || o.ParamTplId.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.ParamTplId
+	return *o.ParamTplId.Get()
 }
 
 // GetParamTplIdOk returns a tuple with the ParamTplId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ParamTplsItem) GetParamTplIdOk() (*string, bool) {
-	if o == nil || o.ParamTplId == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.ParamTplId, true
+	return o.ParamTplId.Get(), o.ParamTplId.IsSet()
 }
 
 // HasParamTplId returns a boolean if a field has been set.
 func (o *ParamTplsItem) HasParamTplId() bool {
-	return o != nil && o.ParamTplId != nil
+	return o != nil && o.ParamTplId.IsSet()
 }
 
-// SetParamTplId gets a reference to the given string and assigns it to the ParamTplId field.
+// SetParamTplId gets a reference to the given common.NullableString and assigns it to the ParamTplId field.
 func (o *ParamTplsItem) SetParamTplId(v string) {
-	o.ParamTplId = &v
+	o.ParamTplId.Set(&v)
+}
+
+// SetParamTplIdNil sets the value for ParamTplId to be an explicit nil.
+func (o *ParamTplsItem) SetParamTplIdNil() {
+	o.ParamTplId.Set(nil)
+}
+
+// UnsetParamTplId ensures that no value is present for ParamTplId, not even an explicit nil.
+func (o *ParamTplsItem) UnsetParamTplId() {
+	o.ParamTplId.Unset()
+}
+
+// GetOrgName returns the OrgName field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ParamTplsItem) GetOrgName() string {
+	if o == nil || o.OrgName.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.OrgName.Get()
+}
+
+// GetOrgNameOk returns a tuple with the OrgName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ParamTplsItem) GetOrgNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.OrgName.Get(), o.OrgName.IsSet()
+}
+
+// HasOrgName returns a boolean if a field has been set.
+func (o *ParamTplsItem) HasOrgName() bool {
+	return o != nil && o.OrgName.IsSet()
+}
+
+// SetOrgName gets a reference to the given common.NullableString and assigns it to the OrgName field.
+func (o *ParamTplsItem) SetOrgName(v string) {
+	o.OrgName.Set(&v)
+}
+
+// SetOrgNameNil sets the value for OrgName to be an explicit nil.
+func (o *ParamTplsItem) SetOrgNameNil() {
+	o.OrgName.Set(nil)
+}
+
+// UnsetOrgName ensures that no value is present for OrgName, not even an explicit nil.
+func (o *ParamTplsItem) UnsetOrgName() {
+	o.OrgName.Unset()
 }
 
 // GetParamTplPartition returns the ParamTplPartition field value if set, zero value otherwise.
@@ -161,8 +215,11 @@ func (o ParamTplsItem) MarshalJSON() ([]byte, error) {
 	if o.ParamTplName != nil {
 		toSerialize["paramTplName"] = o.ParamTplName
 	}
-	if o.ParamTplId != nil {
-		toSerialize["paramTplID"] = o.ParamTplId
+	if o.ParamTplId.IsSet() {
+		toSerialize["paramTplID"] = o.ParamTplId.Get()
+	}
+	if o.OrgName.IsSet() {
+		toSerialize["orgName"] = o.OrgName.Get()
 	}
 	if o.ParamTplPartition != nil {
 		toSerialize["paramTplPartition"] = o.ParamTplPartition
@@ -179,7 +236,8 @@ func (o *ParamTplsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Component         *string                     `json:"component,omitempty"`
 		ParamTplName      *string                     `json:"paramTplName,omitempty"`
-		ParamTplId        *string                     `json:"paramTplID,omitempty"`
+		ParamTplId        common.NullableString       `json:"paramTplID,omitempty"`
+		OrgName           common.NullableString       `json:"orgName,omitempty"`
 		ParamTplPartition *ParameterTemplatePartition `json:"paramTplPartition,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -187,7 +245,7 @@ func (o *ParamTplsItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "paramTplName", "paramTplID", "paramTplPartition"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "paramTplName", "paramTplID", "orgName", "paramTplPartition"})
 	} else {
 		return err
 	}
@@ -196,6 +254,7 @@ func (o *ParamTplsItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.Component = all.Component
 	o.ParamTplName = all.ParamTplName
 	o.ParamTplId = all.ParamTplId
+	o.OrgName = all.OrgName
 	if all.ParamTplPartition != nil && !all.ParamTplPartition.IsValid() {
 		hasInvalidField = true
 	} else {

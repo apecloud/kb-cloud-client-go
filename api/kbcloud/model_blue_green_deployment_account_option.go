@@ -6,46 +6,33 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// Target Identifies which component and role the scheduling rule applies to.
-type Target struct {
-	// Component name to match. Use "*" to match all components.
-	//
-	Component *string `json:"component,omitempty"`
-	// Role name to match. Use "*" to match all roles (or no role if the component has none).
-	//
-	Role *Target_role `json:"role,omitempty"`
+type BlueGreenDeploymentAccountOption struct {
+	Component          *string  `json:"component,omitempty"`
+	DefaultAccountName []string `json:"defaultAccountName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewTarget instantiates a new Target object.
+// NewBlueGreenDeploymentAccountOption instantiates a new BlueGreenDeploymentAccountOption object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewTarget() *Target {
-	this := Target{}
-	var component string = "*"
-	this.Component = &component
-	var role Target_role = Target_role
-	this.Role = &role
+func NewBlueGreenDeploymentAccountOption() *BlueGreenDeploymentAccountOption {
+	this := BlueGreenDeploymentAccountOption{}
 	return &this
 }
 
-// NewTargetWithDefaults instantiates a new Target object.
+// NewBlueGreenDeploymentAccountOptionWithDefaults instantiates a new BlueGreenDeploymentAccountOption object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewTargetWithDefaults() *Target {
-	this := Target{}
-	var component string = "*"
-	this.Component = &component
-	var role Target_role = Target_role
-	this.Role = &role
+func NewBlueGreenDeploymentAccountOptionWithDefaults() *BlueGreenDeploymentAccountOption {
+	this := BlueGreenDeploymentAccountOption{}
 	return &this
 }
 
 // GetComponent returns the Component field value if set, zero value otherwise.
-func (o *Target) GetComponent() string {
+func (o *BlueGreenDeploymentAccountOption) GetComponent() string {
 	if o == nil || o.Component == nil {
 		var ret string
 		return ret
@@ -55,7 +42,7 @@ func (o *Target) GetComponent() string {
 
 // GetComponentOk returns a tuple with the Component field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Target) GetComponentOk() (*string, bool) {
+func (o *BlueGreenDeploymentAccountOption) GetComponentOk() (*string, bool) {
 	if o == nil || o.Component == nil {
 		return nil, false
 	}
@@ -63,45 +50,45 @@ func (o *Target) GetComponentOk() (*string, bool) {
 }
 
 // HasComponent returns a boolean if a field has been set.
-func (o *Target) HasComponent() bool {
+func (o *BlueGreenDeploymentAccountOption) HasComponent() bool {
 	return o != nil && o.Component != nil
 }
 
 // SetComponent gets a reference to the given string and assigns it to the Component field.
-func (o *Target) SetComponent(v string) {
+func (o *BlueGreenDeploymentAccountOption) SetComponent(v string) {
 	o.Component = &v
 }
 
-// GetRole returns the Role field value if set, zero value otherwise.
-func (o *Target) GetRole() Target_role {
-	if o == nil || o.Role == nil {
-		var ret Target_role
+// GetDefaultAccountName returns the DefaultAccountName field value if set, zero value otherwise.
+func (o *BlueGreenDeploymentAccountOption) GetDefaultAccountName() []string {
+	if o == nil || o.DefaultAccountName == nil {
+		var ret []string
 		return ret
 	}
-	return *o.Role
+	return o.DefaultAccountName
 }
 
-// GetRoleOk returns a tuple with the Role field value if set, nil otherwise
+// GetDefaultAccountNameOk returns a tuple with the DefaultAccountName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Target) GetRoleOk() (*Target_role, bool) {
-	if o == nil || o.Role == nil {
+func (o *BlueGreenDeploymentAccountOption) GetDefaultAccountNameOk() (*[]string, bool) {
+	if o == nil || o.DefaultAccountName == nil {
 		return nil, false
 	}
-	return o.Role, true
+	return &o.DefaultAccountName, true
 }
 
-// HasRole returns a boolean if a field has been set.
-func (o *Target) HasRole() bool {
-	return o != nil && o.Role != nil
+// HasDefaultAccountName returns a boolean if a field has been set.
+func (o *BlueGreenDeploymentAccountOption) HasDefaultAccountName() bool {
+	return o != nil && o.DefaultAccountName != nil
 }
 
-// SetRole gets a reference to the given Target_role and assigns it to the Role field.
-func (o *Target) SetRole(v Target_role) {
-	o.Role = &v
+// SetDefaultAccountName gets a reference to the given []string and assigns it to the DefaultAccountName field.
+func (o *BlueGreenDeploymentAccountOption) SetDefaultAccountName(v []string) {
+	o.DefaultAccountName = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o Target) MarshalJSON() ([]byte, error) {
+func (o BlueGreenDeploymentAccountOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -109,8 +96,8 @@ func (o Target) MarshalJSON() ([]byte, error) {
 	if o.Component != nil {
 		toSerialize["component"] = o.Component
 	}
-	if o.Role != nil {
-		toSerialize["role"] = o.Role
+	if o.DefaultAccountName != nil {
+		toSerialize["defaultAccountName"] = o.DefaultAccountName
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -120,35 +107,25 @@ func (o Target) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *Target) UnmarshalJSON(bytes []byte) (err error) {
+func (o *BlueGreenDeploymentAccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component *string      `json:"component,omitempty"`
-		Role      *Target_role `json:"role,omitempty"`
+		Component          *string  `json:"component,omitempty"`
+		DefaultAccountName []string `json:"defaultAccountName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "role"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "defaultAccountName"})
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
 	o.Component = all.Component
-	if all.Role != nil && !all.Role.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Role = all.Role
-	}
+	o.DefaultAccountName = all.DefaultAccountName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

@@ -20,7 +20,6 @@ type DataReplicationApi common.Service
 
 // CreateDataChannel Create a new data channel.
 // Create a new data channel.
-// Deprecated: This API is deprecated.
 func (a *DataReplicationApi) CreateDataChannel(ctx _context.Context, orgName string, body DataReplicationCreate) (DataChannelResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -103,7 +102,6 @@ func (a *DataReplicationApi) CreateDataChannel(ctx _context.Context, orgName str
 
 // CreateDataChannelOps Create a new data channel ops.
 // Create a new data channel ops.
-// Deprecated: This API is deprecated.
 func (a *DataReplicationApi) CreateDataChannelOps(ctx _context.Context, orgName string, channelId string, opsType DataReplicationOpsType) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
@@ -175,7 +173,6 @@ func (a *DataReplicationApi) CreateDataChannelOps(ctx _context.Context, orgName 
 
 // CreatePreCheck create pre check.
 // create pre check.
-// Deprecated: This API is deprecated.
 func (a *DataReplicationApi) CreatePreCheck(ctx _context.Context, orgName string, body PreCheckCreate) (PreCheckTaskResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -258,7 +255,6 @@ func (a *DataReplicationApi) CreatePreCheck(ctx _context.Context, orgName string
 
 // DeleteDataChannel Delete a data channel.
 // Delete a data channel.
-// Deprecated: This API is deprecated.
 func (a *DataReplicationApi) DeleteDataChannel(ctx _context.Context, orgName string, channelId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -400,7 +396,6 @@ func (a *DataReplicationApi) DeletePreCheck(ctx _context.Context, preCheckId str
 
 // GetDataChannel Get Data Channel Details.
 // Retrieve a data channel detail.
-// Deprecated: This API is deprecated.
 func (a *DataReplicationApi) GetDataChannel(ctx _context.Context, orgName string, channelId string) (DataChannelDetail, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -481,7 +476,6 @@ func (a *DataReplicationApi) GetDataChannel(ctx _context.Context, orgName string
 
 // GetPreCheck get preCheck.
 // get preCheck.
-// Deprecated: This API is deprecated.
 func (a *DataReplicationApi) GetPreCheck(ctx _context.Context, preCheckId string, orgName string) (PreCheckTaskDetail, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -562,7 +556,6 @@ func (a *DataReplicationApi) GetPreCheck(ctx _context.Context, preCheckId string
 
 // ListDataChannelEvents List Data Channel Events.
 // Retrieve a list of data channel events.
-// Deprecated: This API is deprecated.
 func (a *DataReplicationApi) ListDataChannelEvents(ctx _context.Context, orgName string, channelId string) ([]EventItem, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -688,7 +681,6 @@ func (r *ListDataChannelParametersOptionalParameters) WithModuleName(moduleName 
 
 // ListDataChannelParameters List Data Channel Parameters.
 // Retrieve a list of data channel parameters.
-// Deprecated: This API is deprecated.
 func (a *DataReplicationApi) ListDataChannelParameters(ctx _context.Context, orgName string, o ...ListDataChannelParametersOptionalParameters) (map[string][]DataReplicationParametersResponseDetail, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -815,7 +807,6 @@ func (r *ListDataChannelsOptionalParameters) WithStatus(status []string) *ListDa
 
 // ListDataChannels List Data Channels.
 // Retrieve a list of data channels.
-// Deprecated: This API is deprecated.
 func (a *DataReplicationApi) ListDataChannels(ctx _context.Context, orgName string, o ...ListDataChannelsOptionalParameters) ([]DataChannelItem, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -941,7 +932,6 @@ func (r *QueryDataChannelLogsOptionalParameters) WithLimit(limit string) *QueryD
 
 // QueryDataChannelLogs Query data channel logs.
 // Query logs of a data channel
-// Deprecated: This API is deprecated.
 func (a *DataReplicationApi) QueryDataChannelLogs(ctx _context.Context, orgName string, channelId string, o ...QueryDataChannelLogsOptionalParameters) (string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -1036,7 +1026,6 @@ func (a *DataReplicationApi) QueryDataChannelLogs(ctx _context.Context, orgName 
 
 // QueryReplicationObject query replication object.
 // query replication object.
-// Deprecated: This API is deprecated.
 func (a *DataReplicationApi) QueryReplicationObject(ctx _context.Context, orgName string, body ReplicationObjectQuery) (ReplicationObjectTree, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -1119,7 +1108,6 @@ func (a *DataReplicationApi) QueryReplicationObject(ctx _context.Context, orgNam
 
 // UpdateDataChannel Update a data channel.
 // Update a new data channel.
-// Deprecated: This API is deprecated.
 func (a *DataReplicationApi) UpdateDataChannel(ctx _context.Context, orgName string, channelId string, body DataReplicationUpdate) (DataChannelResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch

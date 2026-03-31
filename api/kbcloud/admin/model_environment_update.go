@@ -48,6 +48,11 @@ type EnvironmentUpdate struct {
 	Provider common.NullableString `json:"provider,omitempty"`
 	// whether to enable calculate the cluster SLA for the environment
 	SlaEnabled *bool `json:"slaEnabled,omitempty"`
+	// * `HardAntiAffinity` - Strictly enforced; pods will not be scheduled if constraints cannot be met.
+	// * `SoftAntiAffinity` - Best-effort; the scheduler prefers to satisfy constraints but may place pods together if necessary.
+	// * `Disabled` - No anti-affinity constraints applied.
+	//
+	EngineSchedulingStrategy *EngineSchedulingStrategy `json:"engineSchedulingStrategy,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -75,6 +80,8 @@ func NewEnvironmentUpdate() *EnvironmentUpdate {
 	this.ClusterValidationPolicy = &clusterValidationPolicy
 	var slaEnabled bool = false
 	this.SlaEnabled = &slaEnabled
+	var engineSchedulingStrategy EngineSchedulingStrategy = EngineSchedulingStrategyDisabled
+	this.EngineSchedulingStrategy = &engineSchedulingStrategy
 	return &this
 }
 
@@ -99,6 +106,8 @@ func NewEnvironmentUpdateWithDefaults() *EnvironmentUpdate {
 	this.ClusterValidationPolicy = &clusterValidationPolicy
 	var slaEnabled bool = false
 	this.SlaEnabled = &slaEnabled
+	var engineSchedulingStrategy EngineSchedulingStrategy = EngineSchedulingStrategyDisabled
+	this.EngineSchedulingStrategy = &engineSchedulingStrategy
 	return &this
 }
 
@@ -733,6 +742,34 @@ func (o *EnvironmentUpdate) SetSlaEnabled(v bool) {
 	o.SlaEnabled = &v
 }
 
+// GetEngineSchedulingStrategy returns the EngineSchedulingStrategy field value if set, zero value otherwise.
+func (o *EnvironmentUpdate) GetEngineSchedulingStrategy() EngineSchedulingStrategy {
+	if o == nil || o.EngineSchedulingStrategy == nil {
+		var ret EngineSchedulingStrategy
+		return ret
+	}
+	return *o.EngineSchedulingStrategy
+}
+
+// GetEngineSchedulingStrategyOk returns a tuple with the EngineSchedulingStrategy field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentUpdate) GetEngineSchedulingStrategyOk() (*EngineSchedulingStrategy, bool) {
+	if o == nil || o.EngineSchedulingStrategy == nil {
+		return nil, false
+	}
+	return o.EngineSchedulingStrategy, true
+}
+
+// HasEngineSchedulingStrategy returns a boolean if a field has been set.
+func (o *EnvironmentUpdate) HasEngineSchedulingStrategy() bool {
+	return o != nil && o.EngineSchedulingStrategy != nil
+}
+
+// SetEngineSchedulingStrategy gets a reference to the given EngineSchedulingStrategy and assigns it to the EngineSchedulingStrategy field.
+func (o *EnvironmentUpdate) SetEngineSchedulingStrategy(v EngineSchedulingStrategy) {
+	o.EngineSchedulingStrategy = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -796,6 +833,9 @@ func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 	if o.SlaEnabled != nil {
 		toSerialize["slaEnabled"] = o.SlaEnabled
 	}
+	if o.EngineSchedulingStrategy != nil {
+		toSerialize["engineSchedulingStrategy"] = o.EngineSchedulingStrategy
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -806,32 +846,33 @@ func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Description             common.NullableString       `json:"description,omitempty"`
-		DisplayName             common.NullableString       `json:"displayName,omitempty"`
-		Type                    *EnvironmentType            `json:"type,omitempty"`
-		Organizations           common.NullableList[string] `json:"organizations,omitempty"`
-		Namespaces              common.NullableList[string] `json:"namespaces,omitempty"`
-		CpuOverCommitRatio      common.NullableFloat64      `json:"cpuOverCommitRatio,omitempty"`
-		MemoryOverCommitRatio   common.NullableFloat64      `json:"memoryOverCommitRatio,omitempty"`
-		AutohealingConfig       *AutohealingConfig          `json:"autohealingConfig,omitempty"`
-		DefaultStorageClass     common.NullableString       `json:"defaultStorageClass,omitempty"`
-		PodAntiAffinityEnabled  *bool                       `json:"podAntiAffinityEnabled,omitempty"`
-		ImageRegistry           common.NullableString       `json:"imageRegistry,omitempty"`
-		NodePortEnabled         *bool                       `json:"nodePortEnabled,omitempty"`
-		LbEnabled               *bool                       `json:"lbEnabled,omitempty"`
-		InternetLbEnabled       *bool                       `json:"internetLBEnabled,omitempty"`
-		NetworkModes            []NetworkMode               `json:"networkModes,omitempty"`
-		DeletePolicy            *EnvironmentDeletePolicy    `json:"deletePolicy,omitempty"`
-		ClusterValidationPolicy *ClusterValidationPolicy    `json:"clusterValidationPolicy,omitempty"`
-		Provider                common.NullableString       `json:"provider,omitempty"`
-		SlaEnabled              *bool                       `json:"slaEnabled,omitempty"`
+		Description              common.NullableString       `json:"description,omitempty"`
+		DisplayName              common.NullableString       `json:"displayName,omitempty"`
+		Type                     *EnvironmentType            `json:"type,omitempty"`
+		Organizations            common.NullableList[string] `json:"organizations,omitempty"`
+		Namespaces               common.NullableList[string] `json:"namespaces,omitempty"`
+		CpuOverCommitRatio       common.NullableFloat64      `json:"cpuOverCommitRatio,omitempty"`
+		MemoryOverCommitRatio    common.NullableFloat64      `json:"memoryOverCommitRatio,omitempty"`
+		AutohealingConfig        *AutohealingConfig          `json:"autohealingConfig,omitempty"`
+		DefaultStorageClass      common.NullableString       `json:"defaultStorageClass,omitempty"`
+		PodAntiAffinityEnabled   *bool                       `json:"podAntiAffinityEnabled,omitempty"`
+		ImageRegistry            common.NullableString       `json:"imageRegistry,omitempty"`
+		NodePortEnabled          *bool                       `json:"nodePortEnabled,omitempty"`
+		LbEnabled                *bool                       `json:"lbEnabled,omitempty"`
+		InternetLbEnabled        *bool                       `json:"internetLBEnabled,omitempty"`
+		NetworkModes             []NetworkMode               `json:"networkModes,omitempty"`
+		DeletePolicy             *EnvironmentDeletePolicy    `json:"deletePolicy,omitempty"`
+		ClusterValidationPolicy  *ClusterValidationPolicy    `json:"clusterValidationPolicy,omitempty"`
+		Provider                 common.NullableString       `json:"provider,omitempty"`
+		SlaEnabled               *bool                       `json:"slaEnabled,omitempty"`
+		EngineSchedulingStrategy *EngineSchedulingStrategy   `json:"engineSchedulingStrategy,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "type", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "podAntiAffinityEnabled", "imageRegistry", "nodePortEnabled", "lbEnabled", "internetLBEnabled", "networkModes", "deletePolicy", "clusterValidationPolicy", "provider", "slaEnabled"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "type", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "podAntiAffinityEnabled", "imageRegistry", "nodePortEnabled", "lbEnabled", "internetLBEnabled", "networkModes", "deletePolicy", "clusterValidationPolicy", "provider", "slaEnabled", "engineSchedulingStrategy"})
 	} else {
 		return err
 	}
@@ -871,6 +912,11 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Provider = all.Provider
 	o.SlaEnabled = all.SlaEnabled
+	if all.EngineSchedulingStrategy != nil && !all.EngineSchedulingStrategy.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.EngineSchedulingStrategy = all.EngineSchedulingStrategy
+	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

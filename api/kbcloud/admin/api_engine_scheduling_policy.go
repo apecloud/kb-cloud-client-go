@@ -9,119 +9,13 @@ import (
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // EngineSchedulingPolicyApi service type
 type EngineSchedulingPolicyApi common.Service
-
-// CreateEngineGlobalSchedulingStrategyOptionalParameters holds optional parameters for CreateEngineGlobalSchedulingStrategy.
-type CreateEngineGlobalSchedulingStrategyOptionalParameters struct {
-	Body *EngineGlobalSchedulingStrategy
-}
-
-// NewCreateEngineGlobalSchedulingStrategyOptionalParameters creates an empty struct for parameters.
-func NewCreateEngineGlobalSchedulingStrategyOptionalParameters() *CreateEngineGlobalSchedulingStrategyOptionalParameters {
-	this := CreateEngineGlobalSchedulingStrategyOptionalParameters{}
-	return &this
-}
-
-// WithBody sets the corresponding parameter name and returns the struct.
-func (r *CreateEngineGlobalSchedulingStrategyOptionalParameters) WithBody(body EngineGlobalSchedulingStrategy) *CreateEngineGlobalSchedulingStrategyOptionalParameters {
-	r.Body = &body
-	return r
-}
-
-// CreateEngineGlobalSchedulingStrategy Create engine global scheduling strategy.
-func (a *EngineSchedulingPolicyApi) CreateEngineGlobalSchedulingStrategy(ctx _context.Context, o ...CreateEngineGlobalSchedulingStrategyOptionalParameters) (EngineGlobalSchedulingStrategy, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue EngineGlobalSchedulingStrategy
-		optionalParams      CreateEngineGlobalSchedulingStrategyOptionalParameters
-	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateEngineGlobalSchedulingStrategyOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "engineSchedulingPolicy",
-		OperationID: "createEngineGlobalSchedulingStrategy",
-		Path:        "/admin/v1/engineGlobalSchedulingStrategies",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineSchedulingPolicyApi.CreateEngineGlobalSchedulingStrategy")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/engineGlobalSchedulingStrategies"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] = "application/json"
-
-	// body params
-	if optionalParams.Body != nil {
-		localVarPostBody = &optionalParams.Body
-	}
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
 
 // CreateEngineSchedulingRuleOptionalParameters holds optional parameters for CreateEngineSchedulingRule.
 type CreateEngineSchedulingRuleOptionalParameters struct {
@@ -230,86 +124,8 @@ func (a *EngineSchedulingPolicyApi) CreateEngineSchedulingRule(ctx _context.Cont
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// DeleteEngineGlobalSchedulingStrategy Delete engine global scheduling strategy.
-func (a *EngineSchedulingPolicyApi) DeleteEngineGlobalSchedulingStrategy(ctx _context.Context, id string) (interface{}, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodDelete
-		localVarPostBody    interface{}
-		localVarReturnValue interface{}
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "engineSchedulingPolicy",
-		OperationID: "deleteEngineGlobalSchedulingStrategy",
-		Path:        "/admin/v1/engineGlobalSchedulingStrategies",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineSchedulingPolicyApi.DeleteEngineGlobalSchedulingStrategy")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/engineGlobalSchedulingStrategies"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("id", common.ParameterToString(id, ""))
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
 // DeleteEngineSchedulingRule Delete engine scheduling rule.
-func (a *EngineSchedulingPolicyApi) DeleteEngineSchedulingRule(ctx _context.Context, id string) (interface{}, *_nethttp.Response, error) {
+func (a *EngineSchedulingPolicyApi) DeleteEngineSchedulingRule(ctx _context.Context, ruleId string) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
 		localVarPostBody    interface{}
@@ -320,7 +136,7 @@ func (a *EngineSchedulingPolicyApi) DeleteEngineSchedulingRule(ctx _context.Cont
 	apiInfo := common.APIInfo{
 		Tag:         "engineSchedulingPolicy",
 		OperationID: "deleteEngineSchedulingRule",
-		Path:        "/admin/v1/engineSchedulingRules",
+		Path:        "/admin/v1/engineSchedulingRules/{ruleId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -330,12 +146,12 @@ func (a *EngineSchedulingPolicyApi) DeleteEngineSchedulingRule(ctx _context.Cont
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/engineSchedulingRules"
+	localVarPath := localBasePath + "/admin/v1/engineSchedulingRules/{ruleId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"ruleId"+"}", _neturl.PathEscape(common.ParameterToString(ruleId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("id", common.ParameterToString(id, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -386,13 +202,38 @@ func (a *EngineSchedulingPolicyApi) DeleteEngineSchedulingRule(ctx _context.Cont
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// ListEngineGlobalSchedulingStrategiesOptionalParameters holds optional parameters for ListEngineGlobalSchedulingStrategies.
+type ListEngineGlobalSchedulingStrategiesOptionalParameters struct {
+	Env *string
+}
+
+// NewListEngineGlobalSchedulingStrategiesOptionalParameters creates an empty struct for parameters.
+func NewListEngineGlobalSchedulingStrategiesOptionalParameters() *ListEngineGlobalSchedulingStrategiesOptionalParameters {
+	this := ListEngineGlobalSchedulingStrategiesOptionalParameters{}
+	return &this
+}
+
+// WithEnv sets the corresponding parameter name and returns the struct.
+func (r *ListEngineGlobalSchedulingStrategiesOptionalParameters) WithEnv(env string) *ListEngineGlobalSchedulingStrategiesOptionalParameters {
+	r.Env = &env
+	return r
+}
+
 // ListEngineGlobalSchedulingStrategies List engine global scheduling strategies.
-func (a *EngineSchedulingPolicyApi) ListEngineGlobalSchedulingStrategies(ctx _context.Context, engineName string) ([]EngineGlobalSchedulingStrategy, *_nethttp.Response, error) {
+func (a *EngineSchedulingPolicyApi) ListEngineGlobalSchedulingStrategies(ctx _context.Context, engineName string, o ...ListEngineGlobalSchedulingStrategiesOptionalParameters) ([]EngineGlobalSchedulingStrategy, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue []EngineGlobalSchedulingStrategy
+		optionalParams      ListEngineGlobalSchedulingStrategiesOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListEngineGlobalSchedulingStrategiesOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -414,6 +255,9 @@ func (a *EngineSchedulingPolicyApi) ListEngineGlobalSchedulingStrategies(ctx _co
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("engineName", common.ParameterToString(engineName, ""))
+	if optionalParams.Env != nil {
+		localVarQueryParams.Add("env", common.ParameterToString(*optionalParams.Env, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -464,13 +308,38 @@ func (a *EngineSchedulingPolicyApi) ListEngineGlobalSchedulingStrategies(ctx _co
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// ListEngineSchedulingRulesOptionalParameters holds optional parameters for ListEngineSchedulingRules.
+type ListEngineSchedulingRulesOptionalParameters struct {
+	GlobalEngineSchedulingStrategy *string
+}
+
+// NewListEngineSchedulingRulesOptionalParameters creates an empty struct for parameters.
+func NewListEngineSchedulingRulesOptionalParameters() *ListEngineSchedulingRulesOptionalParameters {
+	this := ListEngineSchedulingRulesOptionalParameters{}
+	return &this
+}
+
+// WithGlobalEngineSchedulingStrategy sets the corresponding parameter name and returns the struct.
+func (r *ListEngineSchedulingRulesOptionalParameters) WithGlobalEngineSchedulingStrategy(globalEngineSchedulingStrategy string) *ListEngineSchedulingRulesOptionalParameters {
+	r.GlobalEngineSchedulingStrategy = &globalEngineSchedulingStrategy
+	return r
+}
+
 // ListEngineSchedulingRules List engine scheduling rules.
-func (a *EngineSchedulingPolicyApi) ListEngineSchedulingRules(ctx _context.Context, engineName string) ([]EngineSchedulingRule, *_nethttp.Response, error) {
+func (a *EngineSchedulingPolicyApi) ListEngineSchedulingRules(ctx _context.Context, engineName string, o ...ListEngineSchedulingRulesOptionalParameters) ([]EngineSchedulingRule, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue []EngineSchedulingRule
+		optionalParams      ListEngineSchedulingRulesOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListEngineSchedulingRulesOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -492,6 +361,9 @@ func (a *EngineSchedulingPolicyApi) ListEngineSchedulingRules(ctx _context.Conte
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("engineName", common.ParameterToString(engineName, ""))
+	if optionalParams.GlobalEngineSchedulingStrategy != nil {
+		localVarQueryParams.Add("globalEngineSchedulingStrategy", common.ParameterToString(*optionalParams.GlobalEngineSchedulingStrategy, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -559,8 +431,8 @@ func (r *PatchEngineGlobalSchedulingStrategyOptionalParameters) WithBody(body En
 	return r
 }
 
-// PatchEngineGlobalSchedulingStrategy Patch class.
-func (a *EngineSchedulingPolicyApi) PatchEngineGlobalSchedulingStrategy(ctx _context.Context, o ...PatchEngineGlobalSchedulingStrategyOptionalParameters) (EngineGlobalSchedulingStrategy, *_nethttp.Response, error) {
+// PatchEngineGlobalSchedulingStrategy Patch engine global scheduling strategy.
+func (a *EngineSchedulingPolicyApi) PatchEngineGlobalSchedulingStrategy(ctx _context.Context, engineName string, o ...PatchEngineGlobalSchedulingStrategyOptionalParameters) (EngineGlobalSchedulingStrategy, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
@@ -594,6 +466,7 @@ func (a *EngineSchedulingPolicyApi) PatchEngineGlobalSchedulingStrategy(ctx _con
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("engineName", common.ParameterToString(engineName, ""))
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -667,7 +540,7 @@ func (r *PatchEngineSchedulingRuleOptionalParameters) WithBody(body EngineSchedu
 }
 
 // PatchEngineSchedulingRule Patch engine scheduling rule.
-func (a *EngineSchedulingPolicyApi) PatchEngineSchedulingRule(ctx _context.Context, o ...PatchEngineSchedulingRuleOptionalParameters) (EngineSchedulingRule, *_nethttp.Response, error) {
+func (a *EngineSchedulingPolicyApi) PatchEngineSchedulingRule(ctx _context.Context, ruleId string, o ...PatchEngineSchedulingRuleOptionalParameters) (EngineSchedulingRule, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
@@ -686,7 +559,7 @@ func (a *EngineSchedulingPolicyApi) PatchEngineSchedulingRule(ctx _context.Conte
 	apiInfo := common.APIInfo{
 		Tag:         "engineSchedulingPolicy",
 		OperationID: "patchEngineSchedulingRule",
-		Path:        "/admin/v1/engineSchedulingRules",
+		Path:        "/admin/v1/engineSchedulingRules/{ruleId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -696,7 +569,8 @@ func (a *EngineSchedulingPolicyApi) PatchEngineSchedulingRule(ctx _context.Conte
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/engineSchedulingRules"
+	localVarPath := localBasePath + "/admin/v1/engineSchedulingRules/{ruleId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"ruleId"+"}", _neturl.PathEscape(common.ParameterToString(ruleId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
