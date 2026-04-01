@@ -450,6 +450,7 @@
 //   - [relationApi.deleteRelation]
 //   - [relationApi.listAvailableClustersForRelation]
 //   - [relationApi.listRelatedClusters]
+//   - [resourceStatsApi.collectResourceStats]
 //   - [resourceStatsApi.getResourceStats]
 //   - [resourceStatsApi.listInstancesResourceStats]
 //   - [resourceStatsApi.listNodesResourceStats]

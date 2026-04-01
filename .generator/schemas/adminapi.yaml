@@ -5949,6 +5949,31 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - resourceStats
+  /admin/v1/environments/{environmentName}/resourceStats/collect:
+    post:
+      description: Triggers an immediate collection of resource statistics for the specified environment.
+      operationId: collectResourceStats
+      summary: Collect resource statistics of environment
+      parameters:
+        - description: The name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - resourceStats
   /admin/v1/environments/{environmentName}/nodes/resourceStats:
     get:
       description: Returns aggregated resource statistics for the specified environment within an organization.
