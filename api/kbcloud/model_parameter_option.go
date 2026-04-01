@@ -13,14 +13,20 @@ import (
 type ParameterOption struct {
 	// component type
 	Component string `json:"component"`
+	// Reference another engine's parameter option to reuse its parameter configuration.
+	// If parameterOptionRef is set, the referenced engine's parameter option (identified by
+	// engineName + component) is used as the only source of parameter configuration. Fields explicitly set in
+	// the local parameterOption will be ignored.
+	//
+	ReferenceEngine *ParameterOptionRef `json:"referenceEngine,omitempty"`
 	// If set to true, the current parameters of the component can be exported and saved as a parameter template.
-	ExportTpl bool `json:"exportTpl"`
+	ExportTpl *bool `json:"exportTpl,omitempty"`
 	// If set to true, the parameter templates of the component can be used. Mainly used by frontend.
-	EnableTemplate bool `json:"enableTemplate"`
+	EnableTemplate *bool `json:"enableTemplate,omitempty"`
 	// If set to true, the component can display the raw content of the parameter configuration file.
 	EnableRawContent *bool `json:"enableRawContent,omitempty"`
 	// all parameter configuration specs of this component
-	ConfigSpecs []ConfigSpecOption `json:"configSpecs"`
+	ConfigSpecs []ConfigSpecOption `json:"configSpecs,omitempty"`
 	DisableHa   *bool              `json:"disableHA,omitempty"`
 	// parameter templates, including default parameter templates for different major versions or default parameter templates for different purposes.
 	Templates []ParameterTemplate `json:"templates,omitempty"`
@@ -35,12 +41,9 @@ type ParameterOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParameterOption(component string, exportTpl bool, enableTemplate bool, configSpecs []ConfigSpecOption) *ParameterOption {
+func NewParameterOption(component string) *ParameterOption {
 	this := ParameterOption{}
 	this.Component = component
-	this.ExportTpl = exportTpl
-	this.EnableTemplate = enableTemplate
-	this.ConfigSpecs = configSpecs
 	var disableHa bool = false
 	this.DisableHa = &disableHa
 	return &this
@@ -79,50 +82,88 @@ func (o *ParameterOption) SetComponent(v string) {
 	o.Component = v
 }
 
-// GetExportTpl returns the ExportTpl field value.
+// GetReferenceEngine returns the ReferenceEngine field value if set, zero value otherwise.
+func (o *ParameterOption) GetReferenceEngine() ParameterOptionRef {
+	if o == nil || o.ReferenceEngine == nil {
+		var ret ParameterOptionRef
+		return ret
+	}
+	return *o.ReferenceEngine
+}
+
+// GetReferenceEngineOk returns a tuple with the ReferenceEngine field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterOption) GetReferenceEngineOk() (*ParameterOptionRef, bool) {
+	if o == nil || o.ReferenceEngine == nil {
+		return nil, false
+	}
+	return o.ReferenceEngine, true
+}
+
+// HasReferenceEngine returns a boolean if a field has been set.
+func (o *ParameterOption) HasReferenceEngine() bool {
+	return o != nil && o.ReferenceEngine != nil
+}
+
+// SetReferenceEngine gets a reference to the given ParameterOptionRef and assigns it to the ReferenceEngine field.
+func (o *ParameterOption) SetReferenceEngine(v ParameterOptionRef) {
+	o.ReferenceEngine = &v
+}
+
+// GetExportTpl returns the ExportTpl field value if set, zero value otherwise.
 func (o *ParameterOption) GetExportTpl() bool {
-	if o == nil {
+	if o == nil || o.ExportTpl == nil {
 		var ret bool
 		return ret
 	}
-	return o.ExportTpl
+	return *o.ExportTpl
 }
 
-// GetExportTplOk returns a tuple with the ExportTpl field value
+// GetExportTplOk returns a tuple with the ExportTpl field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ParameterOption) GetExportTplOk() (*bool, bool) {
-	if o == nil {
+	if o == nil || o.ExportTpl == nil {
 		return nil, false
 	}
-	return &o.ExportTpl, true
+	return o.ExportTpl, true
 }
 
-// SetExportTpl sets field value.
+// HasExportTpl returns a boolean if a field has been set.
+func (o *ParameterOption) HasExportTpl() bool {
+	return o != nil && o.ExportTpl != nil
+}
+
+// SetExportTpl gets a reference to the given bool and assigns it to the ExportTpl field.
 func (o *ParameterOption) SetExportTpl(v bool) {
-	o.ExportTpl = v
+	o.ExportTpl = &v
 }
 
-// GetEnableTemplate returns the EnableTemplate field value.
+// GetEnableTemplate returns the EnableTemplate field value if set, zero value otherwise.
 func (o *ParameterOption) GetEnableTemplate() bool {
-	if o == nil {
+	if o == nil || o.EnableTemplate == nil {
 		var ret bool
 		return ret
 	}
-	return o.EnableTemplate
+	return *o.EnableTemplate
 }
 
-// GetEnableTemplateOk returns a tuple with the EnableTemplate field value
+// GetEnableTemplateOk returns a tuple with the EnableTemplate field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ParameterOption) GetEnableTemplateOk() (*bool, bool) {
-	if o == nil {
+	if o == nil || o.EnableTemplate == nil {
 		return nil, false
 	}
-	return &o.EnableTemplate, true
+	return o.EnableTemplate, true
 }
 
-// SetEnableTemplate sets field value.
+// HasEnableTemplate returns a boolean if a field has been set.
+func (o *ParameterOption) HasEnableTemplate() bool {
+	return o != nil && o.EnableTemplate != nil
+}
+
+// SetEnableTemplate gets a reference to the given bool and assigns it to the EnableTemplate field.
 func (o *ParameterOption) SetEnableTemplate(v bool) {
-	o.EnableTemplate = v
+	o.EnableTemplate = &v
 }
 
 // GetEnableRawContent returns the EnableRawContent field value if set, zero value otherwise.
@@ -153,25 +194,30 @@ func (o *ParameterOption) SetEnableRawContent(v bool) {
 	o.EnableRawContent = &v
 }
 
-// GetConfigSpecs returns the ConfigSpecs field value.
+// GetConfigSpecs returns the ConfigSpecs field value if set, zero value otherwise.
 func (o *ParameterOption) GetConfigSpecs() []ConfigSpecOption {
-	if o == nil {
+	if o == nil || o.ConfigSpecs == nil {
 		var ret []ConfigSpecOption
 		return ret
 	}
 	return o.ConfigSpecs
 }
 
-// GetConfigSpecsOk returns a tuple with the ConfigSpecs field value
+// GetConfigSpecsOk returns a tuple with the ConfigSpecs field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ParameterOption) GetConfigSpecsOk() (*[]ConfigSpecOption, bool) {
-	if o == nil {
+	if o == nil || o.ConfigSpecs == nil {
 		return nil, false
 	}
 	return &o.ConfigSpecs, true
 }
 
-// SetConfigSpecs sets field value.
+// HasConfigSpecs returns a boolean if a field has been set.
+func (o *ParameterOption) HasConfigSpecs() bool {
+	return o != nil && o.ConfigSpecs != nil
+}
+
+// SetConfigSpecs gets a reference to the given []ConfigSpecOption and assigns it to the ConfigSpecs field.
 func (o *ParameterOption) SetConfigSpecs(v []ConfigSpecOption) {
 	o.ConfigSpecs = v
 }
@@ -267,12 +313,21 @@ func (o ParameterOption) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["component"] = o.Component
-	toSerialize["exportTpl"] = o.ExportTpl
-	toSerialize["enableTemplate"] = o.EnableTemplate
+	if o.ReferenceEngine != nil {
+		toSerialize["referenceEngine"] = o.ReferenceEngine
+	}
+	if o.ExportTpl != nil {
+		toSerialize["exportTpl"] = o.ExportTpl
+	}
+	if o.EnableTemplate != nil {
+		toSerialize["enableTemplate"] = o.EnableTemplate
+	}
 	if o.EnableRawContent != nil {
 		toSerialize["enableRawContent"] = o.EnableRawContent
 	}
-	toSerialize["configSpecs"] = o.ConfigSpecs
+	if o.ConfigSpecs != nil {
+		toSerialize["configSpecs"] = o.ConfigSpecs
+	}
 	if o.DisableHa != nil {
 		toSerialize["disableHA"] = o.DisableHa
 	}
@@ -293,10 +348,11 @@ func (o ParameterOption) MarshalJSON() ([]byte, error) {
 func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Component        *string                `json:"component"`
-		ExportTpl        *bool                  `json:"exportTpl"`
-		EnableTemplate   *bool                  `json:"enableTemplate"`
+		ReferenceEngine  *ParameterOptionRef    `json:"referenceEngine,omitempty"`
+		ExportTpl        *bool                  `json:"exportTpl,omitempty"`
+		EnableTemplate   *bool                  `json:"enableTemplate,omitempty"`
 		EnableRawContent *bool                  `json:"enableRawContent,omitempty"`
-		ConfigSpecs      *[]ConfigSpecOption    `json:"configSpecs"`
+		ConfigSpecs      []ConfigSpecOption     `json:"configSpecs,omitempty"`
 		DisableHa        *bool                  `json:"disableHA,omitempty"`
 		Templates        []ParameterTemplate    `json:"templates,omitempty"`
 		InitOptions      map[string]interface{} `json:"initOptions,omitempty"`
@@ -307,32 +363,33 @@ func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Component == nil {
 		return fmt.Errorf("required field component missing")
 	}
-	if all.ExportTpl == nil {
-		return fmt.Errorf("required field exportTpl missing")
-	}
-	if all.EnableTemplate == nil {
-		return fmt.Errorf("required field enableTemplate missing")
-	}
-	if all.ConfigSpecs == nil {
-		return fmt.Errorf("required field configSpecs missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "exportTpl", "enableTemplate", "enableRawContent", "configSpecs", "disableHA", "templates", "initOptions"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "referenceEngine", "exportTpl", "enableTemplate", "enableRawContent", "configSpecs", "disableHA", "templates", "initOptions"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Component = *all.Component
-	o.ExportTpl = *all.ExportTpl
-	o.EnableTemplate = *all.EnableTemplate
+	if all.ReferenceEngine != nil && all.ReferenceEngine.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ReferenceEngine = all.ReferenceEngine
+	o.ExportTpl = all.ExportTpl
+	o.EnableTemplate = all.EnableTemplate
 	o.EnableRawContent = all.EnableRawContent
-	o.ConfigSpecs = *all.ConfigSpecs
+	o.ConfigSpecs = all.ConfigSpecs
 	o.DisableHa = all.DisableHa
 	o.Templates = all.Templates
 	o.InitOptions = all.InitOptions
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

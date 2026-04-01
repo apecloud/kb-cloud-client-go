@@ -22,7 +22,7 @@ type Restore struct {
 	// kubeBlocks cluster name
 	ClusterName string `json:"clusterName"`
 	// component name of cluster
-	ComponentName string `json:"componentName"`
+	ComponentName *string `json:"componentName,omitempty"`
 	// target pod name
 	TargetPodName *string    `json:"targetPodName,omitempty"`
 	CreatedAt     *time.Time `json:"createdAt,omitempty"`
@@ -34,6 +34,8 @@ type Restore struct {
 	RestoreTime *string `json:"restoreTime,omitempty"`
 	// duration of restore
 	Duration *string `json:"duration,omitempty"`
+	// selected objects to restore
+	SelectedObjects []SelectiveObjectTreeNode `json:"selectedObjects,omitempty"`
 	// restore status
 	Status *RestoreStatus `json:"status,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -45,11 +47,10 @@ type Restore struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewRestore(backupName string, clusterName string, componentName string) *Restore {
+func NewRestore(backupName string, clusterName string) *Restore {
 	this := Restore{}
 	this.BackupName = backupName
 	this.ClusterName = clusterName
-	this.ComponentName = componentName
 	return &this
 }
 
@@ -163,27 +164,32 @@ func (o *Restore) SetClusterName(v string) {
 	o.ClusterName = v
 }
 
-// GetComponentName returns the ComponentName field value.
+// GetComponentName returns the ComponentName field value if set, zero value otherwise.
 func (o *Restore) GetComponentName() string {
-	if o == nil {
+	if o == nil || o.ComponentName == nil {
 		var ret string
 		return ret
 	}
-	return o.ComponentName
+	return *o.ComponentName
 }
 
-// GetComponentNameOk returns a tuple with the ComponentName field value
+// GetComponentNameOk returns a tuple with the ComponentName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Restore) GetComponentNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.ComponentName == nil {
 		return nil, false
 	}
-	return &o.ComponentName, true
+	return o.ComponentName, true
 }
 
-// SetComponentName sets field value.
+// HasComponentName returns a boolean if a field has been set.
+func (o *Restore) HasComponentName() bool {
+	return o != nil && o.ComponentName != nil
+}
+
+// SetComponentName gets a reference to the given string and assigns it to the ComponentName field.
 func (o *Restore) SetComponentName(v string) {
-	o.ComponentName = v
+	o.ComponentName = &v
 }
 
 // GetTargetPodName returns the TargetPodName field value if set, zero value otherwise.
@@ -354,6 +360,34 @@ func (o *Restore) SetDuration(v string) {
 	o.Duration = &v
 }
 
+// GetSelectedObjects returns the SelectedObjects field value if set, zero value otherwise.
+func (o *Restore) GetSelectedObjects() []SelectiveObjectTreeNode {
+	if o == nil || o.SelectedObjects == nil {
+		var ret []SelectiveObjectTreeNode
+		return ret
+	}
+	return o.SelectedObjects
+}
+
+// GetSelectedObjectsOk returns a tuple with the SelectedObjects field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Restore) GetSelectedObjectsOk() (*[]SelectiveObjectTreeNode, bool) {
+	if o == nil || o.SelectedObjects == nil {
+		return nil, false
+	}
+	return &o.SelectedObjects, true
+}
+
+// HasSelectedObjects returns a boolean if a field has been set.
+func (o *Restore) HasSelectedObjects() bool {
+	return o != nil && o.SelectedObjects != nil
+}
+
+// SetSelectedObjects gets a reference to the given []SelectiveObjectTreeNode and assigns it to the SelectedObjects field.
+func (o *Restore) SetSelectedObjects(v []SelectiveObjectTreeNode) {
+	o.SelectedObjects = v
+}
+
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *Restore) GetStatus() RestoreStatus {
 	if o == nil || o.Status == nil {
@@ -396,7 +430,9 @@ func (o Restore) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["backupName"] = o.BackupName
 	toSerialize["clusterName"] = o.ClusterName
-	toSerialize["componentName"] = o.ComponentName
+	if o.ComponentName != nil {
+		toSerialize["componentName"] = o.ComponentName
+	}
 	if o.TargetPodName != nil {
 		toSerialize["targetPodName"] = o.TargetPodName
 	}
@@ -419,6 +455,9 @@ func (o Restore) MarshalJSON() ([]byte, error) {
 	if o.Duration != nil {
 		toSerialize["duration"] = o.Duration
 	}
+	if o.SelectedObjects != nil {
+		toSerialize["selectedObjects"] = o.SelectedObjects
+	}
 	if o.Status != nil {
 		toSerialize["status"] = o.Status
 	}
@@ -432,18 +471,19 @@ func (o Restore) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Restore) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id            *string           `json:"id,omitempty"`
-		OrgName       *string           `json:"orgName,omitempty"`
-		BackupName    *string           `json:"backupName"`
-		ClusterName   *string           `json:"clusterName"`
-		ComponentName *string           `json:"componentName"`
-		TargetPodName *string           `json:"targetPodName,omitempty"`
-		CreatedAt     *time.Time        `json:"createdAt,omitempty"`
-		Name          *string           `json:"name,omitempty"`
-		Parameters    map[string]string `json:"parameters,omitempty"`
-		RestoreTime   *string           `json:"restoreTime,omitempty"`
-		Duration      *string           `json:"duration,omitempty"`
-		Status        *RestoreStatus    `json:"status,omitempty"`
+		Id              *string                   `json:"id,omitempty"`
+		OrgName         *string                   `json:"orgName,omitempty"`
+		BackupName      *string                   `json:"backupName"`
+		ClusterName     *string                   `json:"clusterName"`
+		ComponentName   *string                   `json:"componentName,omitempty"`
+		TargetPodName   *string                   `json:"targetPodName,omitempty"`
+		CreatedAt       *time.Time                `json:"createdAt,omitempty"`
+		Name            *string                   `json:"name,omitempty"`
+		Parameters      map[string]string         `json:"parameters,omitempty"`
+		RestoreTime     *string                   `json:"restoreTime,omitempty"`
+		Duration        *string                   `json:"duration,omitempty"`
+		SelectedObjects []SelectiveObjectTreeNode `json:"selectedObjects,omitempty"`
+		Status          *RestoreStatus            `json:"status,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -454,12 +494,9 @@ func (o *Restore) UnmarshalJSON(bytes []byte) (err error) {
 	if all.ClusterName == nil {
 		return fmt.Errorf("required field clusterName missing")
 	}
-	if all.ComponentName == nil {
-		return fmt.Errorf("required field componentName missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "backupName", "clusterName", "componentName", "targetPodName", "createdAt", "name", "parameters", "restoreTime", "duration", "status"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "backupName", "clusterName", "componentName", "targetPodName", "createdAt", "name", "parameters", "restoreTime", "duration", "selectedObjects", "status"})
 	} else {
 		return err
 	}
@@ -469,13 +506,14 @@ func (o *Restore) UnmarshalJSON(bytes []byte) (err error) {
 	o.OrgName = all.OrgName
 	o.BackupName = *all.BackupName
 	o.ClusterName = *all.ClusterName
-	o.ComponentName = *all.ComponentName
+	o.ComponentName = all.ComponentName
 	o.TargetPodName = all.TargetPodName
 	o.CreatedAt = all.CreatedAt
 	o.Name = all.Name
 	o.Parameters = all.Parameters
 	o.RestoreTime = all.RestoreTime
 	o.Duration = all.Duration
+	o.SelectedObjects = all.SelectedObjects
 	if all.Status != nil && all.Status.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

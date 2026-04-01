@@ -20,9 +20,14 @@ type EngineOption struct {
 	Versions      []string             `json:"versions,omitempty"`
 	Components    []ComponentOption    `json:"components"`
 	Modes         []ModeOption         `json:"modes"`
-	Account       *AccountOption       `json:"account,omitempty"`
-	Database      *DatabaseOption      `json:"database,omitempty"`
-	Dms           DmsOption            `json:"dms"`
+	// The default mode name to be selected when creating a cluster.
+	// This field is used by the frontend only.
+	// The value should match one of the mode names defined in the modes array.
+	//
+	DefaultMode common.NullableString `json:"defaultMode,omitempty"`
+	Account     *AccountOption        `json:"account,omitempty"`
+	Database    *DatabaseOption       `json:"database,omitempty"`
+	Dms         DmsOption             `json:"dms"`
 	// If present, it must be set defaultMethod and fullMethod
 	Backup           *BackupOption           `json:"backup,omitempty"`
 	Bench            *BenchOption            `json:"bench,omitempty"`
@@ -49,7 +54,9 @@ type EngineOption struct {
 	// List of CPU architectures supported by this engine. If not set, all architectures are supported.
 	//
 	Architectures common.NullableList[string] `json:"architectures,omitempty"`
-	Tls           *TlsEngineOption            `json:"tls,omitempty"`
+	// blueGreenDeploymentEngine is the engine of a blue-green deployment.
+	BlueGreenDeployment *BlueGreenDeploymentEngineOption `json:"blueGreenDeployment,omitempty"`
+	Tls                 *TlsEngineOption                 `json:"tls,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject map[string]interface{} `json:"-"`
 }
@@ -288,6 +295,45 @@ func (o *EngineOption) GetModesOk() (*[]ModeOption, bool) {
 // SetModes sets field value.
 func (o *EngineOption) SetModes(v []ModeOption) {
 	o.Modes = v
+}
+
+// GetDefaultMode returns the DefaultMode field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *EngineOption) GetDefaultMode() string {
+	if o == nil || o.DefaultMode.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.DefaultMode.Get()
+}
+
+// GetDefaultModeOk returns a tuple with the DefaultMode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *EngineOption) GetDefaultModeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.DefaultMode.Get(), o.DefaultMode.IsSet()
+}
+
+// HasDefaultMode returns a boolean if a field has been set.
+func (o *EngineOption) HasDefaultMode() bool {
+	return o != nil && o.DefaultMode.IsSet()
+}
+
+// SetDefaultMode gets a reference to the given common.NullableString and assigns it to the DefaultMode field.
+func (o *EngineOption) SetDefaultMode(v string) {
+	o.DefaultMode.Set(&v)
+}
+
+// SetDefaultModeNil sets the value for DefaultMode to be an explicit nil.
+func (o *EngineOption) SetDefaultModeNil() {
+	o.DefaultMode.Set(nil)
+}
+
+// UnsetDefaultMode ensures that no value is present for DefaultMode, not even an explicit nil.
+func (o *EngineOption) UnsetDefaultMode() {
+	o.DefaultMode.Unset()
 }
 
 // GetAccount returns the Account field value if set, zero value otherwise.
@@ -974,6 +1020,34 @@ func (o *EngineOption) UnsetArchitectures() {
 	o.Architectures.Unset()
 }
 
+// GetBlueGreenDeployment returns the BlueGreenDeployment field value if set, zero value otherwise.
+func (o *EngineOption) GetBlueGreenDeployment() BlueGreenDeploymentEngineOption {
+	if o == nil || o.BlueGreenDeployment == nil {
+		var ret BlueGreenDeploymentEngineOption
+		return ret
+	}
+	return *o.BlueGreenDeployment
+}
+
+// GetBlueGreenDeploymentOk returns a tuple with the BlueGreenDeployment field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOption) GetBlueGreenDeploymentOk() (*BlueGreenDeploymentEngineOption, bool) {
+	if o == nil || o.BlueGreenDeployment == nil {
+		return nil, false
+	}
+	return o.BlueGreenDeployment, true
+}
+
+// HasBlueGreenDeployment returns a boolean if a field has been set.
+func (o *EngineOption) HasBlueGreenDeployment() bool {
+	return o != nil && o.BlueGreenDeployment != nil
+}
+
+// SetBlueGreenDeployment gets a reference to the given BlueGreenDeploymentEngineOption and assigns it to the BlueGreenDeployment field.
+func (o *EngineOption) SetBlueGreenDeployment(v BlueGreenDeploymentEngineOption) {
+	o.BlueGreenDeployment = &v
+}
+
 // GetTls returns the Tls field value if set, zero value otherwise.
 func (o *EngineOption) GetTls() TlsEngineOption {
 	if o == nil || o.Tls == nil {
@@ -1022,6 +1096,9 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["components"] = o.Components
 	toSerialize["modes"] = o.Modes
+	if o.DefaultMode.IsSet() {
+		toSerialize["defaultMode"] = o.DefaultMode.Get()
+	}
 	if o.Account != nil {
 		toSerialize["account"] = o.Account
 	}
@@ -1078,6 +1155,9 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 	if o.Architectures.IsSet() {
 		toSerialize["architectures"] = o.Architectures.Get()
 	}
+	if o.BlueGreenDeployment != nil {
+		toSerialize["blueGreenDeployment"] = o.BlueGreenDeployment
+	}
 	if o.Tls != nil {
 		toSerialize["tls"] = o.Tls
 	}
@@ -1087,41 +1167,43 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EngineName       *string                     `json:"engineName"`
-		MaturityLevel    *string                     `json:"maturityLevel,omitempty"`
-		Title            *string                     `json:"title"`
-		Status           *EngineOptionStatus         `json:"status,omitempty"`
-		Description      *LocalizedDescription       `json:"description"`
-		Versions         []string                    `json:"versions,omitempty"`
-		Components       *[]ComponentOption          `json:"components"`
-		Modes            *[]ModeOption               `json:"modes"`
-		Account          *AccountOption              `json:"account,omitempty"`
-		Database         *DatabaseOption             `json:"database,omitempty"`
-		Dms              *DmsOption                  `json:"dms"`
-		Backup           *BackupOption               `json:"backup,omitempty"`
-		Bench            *BenchOption                `json:"bench,omitempty"`
-		Endpoints        *[]EndpointOption           `json:"endpoints"`
-		NetworkModes     []NetworkModeOptionItem     `json:"networkModes,omitempty"`
-		Promote          *[]ComponentOpsOption       `json:"promote"`
-		Stop             *[]ComponentOpsOption       `json:"stop"`
-		Start            *[]ComponentOpsOption       `json:"start"`
-		Restart          *[]ComponentOpsOption       `json:"restart"`
-		Hscale           *[]ComponentOpsOption       `json:"hscale"`
-		Vscale           *[]ComponentOpsOption       `json:"vscale"`
-		License          *EngineOptionLicense        `json:"license,omitempty"`
-		StorageExpansion []ComponentOpsOption        `json:"storageExpansion,omitempty"`
-		RebuildInstance  []ComponentOpsOption        `json:"rebuildInstance,omitempty"`
-		Upgrade          []ComponentOpsOption        `json:"upgrade,omitempty"`
-		Metrics          *MetricsOption              `json:"metrics,omitempty"`
-		Dashboards       *[]DashboardOption          `json:"dashboards"`
-		Logs             *[]LogOption                `json:"logs"`
-		Parameters       *[]ParameterOption          `json:"parameters"`
-		DisasterRecovery *DisasterRecoveryOption     `json:"disasterRecovery,omitempty"`
-		Cdc              []CdcOption                 `json:"cdc,omitempty"`
-		DataReplication  *DataReplicationOption      `json:"dataReplication,omitempty"`
-		Import           *ImportOption               `json:"import,omitempty"`
-		Architectures    common.NullableList[string] `json:"architectures,omitempty"`
-		Tls              *TlsEngineOption            `json:"tls,omitempty"`
+		EngineName          *string                          `json:"engineName"`
+		MaturityLevel       *string                          `json:"maturityLevel,omitempty"`
+		Title               *string                          `json:"title"`
+		Status              *EngineOptionStatus              `json:"status,omitempty"`
+		Description         *LocalizedDescription            `json:"description"`
+		Versions            []string                         `json:"versions,omitempty"`
+		Components          *[]ComponentOption               `json:"components"`
+		Modes               *[]ModeOption                    `json:"modes"`
+		DefaultMode         common.NullableString            `json:"defaultMode,omitempty"`
+		Account             *AccountOption                   `json:"account,omitempty"`
+		Database            *DatabaseOption                  `json:"database,omitempty"`
+		Dms                 *DmsOption                       `json:"dms"`
+		Backup              *BackupOption                    `json:"backup,omitempty"`
+		Bench               *BenchOption                     `json:"bench,omitempty"`
+		Endpoints           *[]EndpointOption                `json:"endpoints"`
+		NetworkModes        []NetworkModeOptionItem          `json:"networkModes,omitempty"`
+		Promote             *[]ComponentOpsOption            `json:"promote"`
+		Stop                *[]ComponentOpsOption            `json:"stop"`
+		Start               *[]ComponentOpsOption            `json:"start"`
+		Restart             *[]ComponentOpsOption            `json:"restart"`
+		Hscale              *[]ComponentOpsOption            `json:"hscale"`
+		Vscale              *[]ComponentOpsOption            `json:"vscale"`
+		License             *EngineOptionLicense             `json:"license,omitempty"`
+		StorageExpansion    []ComponentOpsOption             `json:"storageExpansion,omitempty"`
+		RebuildInstance     []ComponentOpsOption             `json:"rebuildInstance,omitempty"`
+		Upgrade             []ComponentOpsOption             `json:"upgrade,omitempty"`
+		Metrics             *MetricsOption                   `json:"metrics,omitempty"`
+		Dashboards          *[]DashboardOption               `json:"dashboards"`
+		Logs                *[]LogOption                     `json:"logs"`
+		Parameters          *[]ParameterOption               `json:"parameters"`
+		DisasterRecovery    *DisasterRecoveryOption          `json:"disasterRecovery,omitempty"`
+		Cdc                 []CdcOption                      `json:"cdc,omitempty"`
+		DataReplication     *DataReplicationOption           `json:"dataReplication,omitempty"`
+		Import              *ImportOption                    `json:"import,omitempty"`
+		Architectures       common.NullableList[string]      `json:"architectures,omitempty"`
+		BlueGreenDeployment *BlueGreenDeploymentEngineOption `json:"blueGreenDeployment,omitempty"`
+		Tls                 *TlsEngineOption                 `json:"tls,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1191,6 +1273,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Versions = all.Versions
 	o.Components = *all.Components
 	o.Modes = *all.Modes
+	o.DefaultMode = all.DefaultMode
 	if all.Account != nil && all.Account.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
@@ -1247,6 +1330,10 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Import = all.Import
 	o.Architectures = all.Architectures
+	if all.BlueGreenDeployment != nil && all.BlueGreenDeployment.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.BlueGreenDeployment = all.BlueGreenDeployment
 	if all.Tls != nil && all.Tls.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

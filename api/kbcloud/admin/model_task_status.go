@@ -15,11 +15,16 @@ type TaskStatus string
 
 // List of TaskStatus.
 const (
-	TaskStatusPending TaskStatus = "Pending"
-	TaskStatusRunning TaskStatus = "Running"
-	TaskStatusStopped TaskStatus = "Stopped"
-	TaskStatusSucceed TaskStatus = "Succeed"
-	TaskStatusFailed  TaskStatus = "Failed"
+	TaskStatusPending         TaskStatus = "Pending"
+	TaskStatusRunning         TaskStatus = "Running"
+	TaskStatusStopped         TaskStatus = "Stopped"
+	TaskStatusSucceed         TaskStatus = "Succeed"
+	TaskStatusFailed          TaskStatus = "Failed"
+	TaskStatusDeleted         TaskStatus = "Deleted"
+	TaskStatusFinished        TaskStatus = "Finished"
+	TaskStatusCancelling      TaskStatus = "Cancelling"
+	TaskStatusCancelled       TaskStatus = "Cancelled"
+	TaskStatusRebuildCanceled TaskStatus = "RebuildCanceled"
 )
 
 var allowedTaskStatusEnumValues = []TaskStatus{
@@ -28,6 +33,11 @@ var allowedTaskStatusEnumValues = []TaskStatus{
 	TaskStatusStopped,
 	TaskStatusSucceed,
 	TaskStatusFailed,
+	TaskStatusDeleted,
+	TaskStatusFinished,
+	TaskStatusCancelling,
+	TaskStatusCancelled,
+	TaskStatusRebuildCanceled,
 }
 
 // GetAllowedValues returns the list of possible values.
