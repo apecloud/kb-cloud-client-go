@@ -56,7 +56,7 @@ type EngineOption struct {
 	Architectures common.NullableList[string] `json:"architectures,omitempty"`
 	// blueGreenDeploymentEngine is the engine of a blue-green deployment.
 	BlueGreenDeployment *BlueGreenDeploymentEngineOption `json:"blueGreenDeployment,omitempty"`
-	Tls                 *TlsEngineOption                 `json:"tls,omitempty"`
+	Tls                 *EngineTlsOption                 `json:"tls,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject map[string]interface{} `json:"-"`
 }
@@ -1049,9 +1049,9 @@ func (o *EngineOption) SetBlueGreenDeployment(v BlueGreenDeploymentEngineOption)
 }
 
 // GetTls returns the Tls field value if set, zero value otherwise.
-func (o *EngineOption) GetTls() TlsEngineOption {
+func (o *EngineOption) GetTls() EngineTlsOption {
 	if o == nil || o.Tls == nil {
-		var ret TlsEngineOption
+		var ret EngineTlsOption
 		return ret
 	}
 	return *o.Tls
@@ -1059,7 +1059,7 @@ func (o *EngineOption) GetTls() TlsEngineOption {
 
 // GetTlsOk returns a tuple with the Tls field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EngineOption) GetTlsOk() (*TlsEngineOption, bool) {
+func (o *EngineOption) GetTlsOk() (*EngineTlsOption, bool) {
 	if o == nil || o.Tls == nil {
 		return nil, false
 	}
@@ -1071,8 +1071,8 @@ func (o *EngineOption) HasTls() bool {
 	return o != nil && o.Tls != nil
 }
 
-// SetTls gets a reference to the given TlsEngineOption and assigns it to the Tls field.
-func (o *EngineOption) SetTls(v TlsEngineOption) {
+// SetTls gets a reference to the given EngineTlsOption and assigns it to the Tls field.
+func (o *EngineOption) SetTls(v EngineTlsOption) {
 	o.Tls = &v
 }
 
@@ -1203,7 +1203,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		Import              *ImportOption                    `json:"import,omitempty"`
 		Architectures       common.NullableList[string]      `json:"architectures,omitempty"`
 		BlueGreenDeployment *BlueGreenDeploymentEngineOption `json:"blueGreenDeployment,omitempty"`
-		Tls                 *TlsEngineOption                 `json:"tls,omitempty"`
+		Tls                 *EngineTlsOption                 `json:"tls,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

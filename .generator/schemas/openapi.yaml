@@ -21139,23 +21139,7 @@ components:
         accounts:
           $ref: '#/components/schemas/blueGreenDeploymentAccountOption'
       type: object
-    tlsComponentOption:
-      type: object
-      required:
-        - component
-      properties:
-        component:
-          type: string
-          description: component name
-        versions:
-          type: array
-          description: |
-            List of version patterns that support TLS. Supports version patterns: exact version "8.0.33", major version "8.0", version range ">=8.0.30", etc.
-            If not set, all versions of this component support TLS.
-          items:
-            type: string
-          nullable: true
-    tlsEngineOption:
+    engineTlsOption:
       type: object
       required:
         - supported
@@ -21163,11 +21147,14 @@ components:
         supported:
           type: boolean
           description: whether the engine supports TLS/SSL configuration
-        components:
+        excludedVersions:
           type: array
-          description: list of components that support TLS with version constraints. If not set, all components support TLS when supported is true
+          description: |
+            Version patterns excluded from TLS when supported is true. If not set, all versions support TLS.
+            Each item is a regular expression (RE2 / Go regexp syntax) matched against the engine/service version string.
+            Example: ^8\.1\.3($|[.\-]) matches 8.1.3 and 8.1.3.* but not 8.1.30.
           items:
-            $ref: '#/components/schemas/tlsComponentOption'
+            type: string
           nullable: true
     engineOption:
       type: object
@@ -21330,7 +21317,7 @@ components:
           $ref: '#/components/schemas/blueGreenDeploymentEngineOption'
           nullable: true
         tls:
-          $ref: '#/components/schemas/tlsEngineOption'
+          $ref: '#/components/schemas/engineTlsOption'
           nullable: true
     engineOptionList:
       required:
