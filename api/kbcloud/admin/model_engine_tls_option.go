@@ -11,10 +11,12 @@ import (
 )
 
 type EngineTlsOption struct {
-	// whether the engine supports TLS/SSL configuration
+	// Explicit opt-in: true means this engine supports TLS/SSL configuration; false means it does not.
+	// If engineOption omits tls (or tls is null), TLS is not supported. Only engines with tls.supported === true advertise TLS.
+	//
 	Supported bool `json:"supported"`
-	// Version patterns excluded from TLS when supported is true. If not set, all versions support TLS.
-	// Each item is a regular expression (RE2 / Go regexp syntax) matched against the engine/service version string.
+	// Only applies when supported is true. Version patterns (regular expressions, RE2 / Go regexp) for versions
+	// that still do not support TLS. If omitted or empty while supported is true, all versions are treated as TLS-capable.
 	// Example: ^8\.1\.3($|[.\-]) matches 8.1.3 and 8.1.3.* but not 8.1.30.
 	//
 	ExcludedVersions common.NullableList[string] `json:"excludedVersions,omitempty"`
