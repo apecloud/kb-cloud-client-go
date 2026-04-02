@@ -12,8 +12,11 @@ import (
 type ParamTplsItem struct {
 	// component type, refer to componentDef and support NamePrefix
 	Component *string `json:"component,omitempty"`
-	// name of assigned parameter template
+	// Name of the master parameter template to create a cluster-specific template from.
+	// This field always holds the name of the master template.
 	ParamTplName *string `json:"paramTplName,omitempty"`
+	// Name of the parameter template instance actually applied to the cluster. This is a system-managed, read-only field.
+	AppliedParamTplName *string `json:"appliedParamTplName,omitempty"`
 	// id of parameter template
 	ParamTplId common.NullableString `json:"paramTplID,omitempty"`
 	// org name of the parameter template
@@ -95,6 +98,34 @@ func (o *ParamTplsItem) HasParamTplName() bool {
 // SetParamTplName gets a reference to the given string and assigns it to the ParamTplName field.
 func (o *ParamTplsItem) SetParamTplName(v string) {
 	o.ParamTplName = &v
+}
+
+// GetAppliedParamTplName returns the AppliedParamTplName field value if set, zero value otherwise.
+func (o *ParamTplsItem) GetAppliedParamTplName() string {
+	if o == nil || o.AppliedParamTplName == nil {
+		var ret string
+		return ret
+	}
+	return *o.AppliedParamTplName
+}
+
+// GetAppliedParamTplNameOk returns a tuple with the AppliedParamTplName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParamTplsItem) GetAppliedParamTplNameOk() (*string, bool) {
+	if o == nil || o.AppliedParamTplName == nil {
+		return nil, false
+	}
+	return o.AppliedParamTplName, true
+}
+
+// HasAppliedParamTplName returns a boolean if a field has been set.
+func (o *ParamTplsItem) HasAppliedParamTplName() bool {
+	return o != nil && o.AppliedParamTplName != nil
+}
+
+// SetAppliedParamTplName gets a reference to the given string and assigns it to the AppliedParamTplName field.
+func (o *ParamTplsItem) SetAppliedParamTplName(v string) {
+	o.AppliedParamTplName = &v
 }
 
 // GetParamTplId returns the ParamTplId field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -215,6 +246,9 @@ func (o ParamTplsItem) MarshalJSON() ([]byte, error) {
 	if o.ParamTplName != nil {
 		toSerialize["paramTplName"] = o.ParamTplName
 	}
+	if o.AppliedParamTplName != nil {
+		toSerialize["appliedParamTplName"] = o.AppliedParamTplName
+	}
 	if o.ParamTplId.IsSet() {
 		toSerialize["paramTplID"] = o.ParamTplId.Get()
 	}
@@ -234,18 +268,19 @@ func (o ParamTplsItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParamTplsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component         *string                     `json:"component,omitempty"`
-		ParamTplName      *string                     `json:"paramTplName,omitempty"`
-		ParamTplId        common.NullableString       `json:"paramTplID,omitempty"`
-		OrgName           common.NullableString       `json:"orgName,omitempty"`
-		ParamTplPartition *ParameterTemplatePartition `json:"paramTplPartition,omitempty"`
+		Component           *string                     `json:"component,omitempty"`
+		ParamTplName        *string                     `json:"paramTplName,omitempty"`
+		AppliedParamTplName *string                     `json:"appliedParamTplName,omitempty"`
+		ParamTplId          common.NullableString       `json:"paramTplID,omitempty"`
+		OrgName             common.NullableString       `json:"orgName,omitempty"`
+		ParamTplPartition   *ParameterTemplatePartition `json:"paramTplPartition,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "paramTplName", "paramTplID", "orgName", "paramTplPartition"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "paramTplName", "appliedParamTplName", "paramTplID", "orgName", "paramTplPartition"})
 	} else {
 		return err
 	}
@@ -253,6 +288,7 @@ func (o *ParamTplsItem) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Component = all.Component
 	o.ParamTplName = all.ParamTplName
+	o.AppliedParamTplName = all.AppliedParamTplName
 	o.ParamTplId = all.ParamTplId
 	o.OrgName = all.OrgName
 	if all.ParamTplPartition != nil && !all.ParamTplPartition.IsValid() {

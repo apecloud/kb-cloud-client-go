@@ -15791,9 +15791,13 @@ components:
           type: string
           description: component type, refer to componentDef and support NamePrefix
         paramTplName:
-          title: Parameter Template Name
           type: string
-          description: name of assigned parameter template
+          description: |-
+            Name of the master parameter template to create a cluster-specific template from.
+            This field always holds the name of the master template.
+        appliedParamTplName:
+          type: string
+          description: Name of the parameter template instance actually applied to the cluster. This is a system-managed, read-only field.
         paramTplID:
           type: string
           description: id of parameter template
