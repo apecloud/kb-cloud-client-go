@@ -21139,6 +21139,25 @@ components:
         accounts:
           $ref: '#/components/schemas/blueGreenDeploymentAccountOption'
       type: object
+    engineTlsOption:
+      type: object
+      required:
+        - supported
+      properties:
+        supported:
+          type: boolean
+          description: |
+            Explicit opt-in: true means this engine supports TLS/SSL configuration; false means it does not.
+            If engineOption omits tls (or tls is null), TLS is not supported. Only engines with tls.supported === true advertise TLS.
+        excludedVersions:
+          type: array
+          description: |
+            Only applies when supported is true. Version patterns (regular expressions, RE2 / Go regexp) for versions
+            that still do not support TLS. If omitted or empty while supported is true, all versions are treated as TLS-capable.
+            Example: ^8\.1\.3($|[.\-]) matches 8.1.3 and 8.1.3.* but not 8.1.30.
+          items:
+            type: string
+          nullable: true
     engineOption:
       type: object
       additionalProperties: false
@@ -21298,6 +21317,12 @@ components:
           nullable: true
         blueGreenDeployment:
           $ref: '#/components/schemas/blueGreenDeploymentEngineOption'
+          nullable: true
+        tls:
+          description: |
+            TLS/SSL capability for this engine. If this field is omitted or null, TLS is not supported (opt-in model).
+            When present, use supported to state explicitly whether TLS configuration is offered.
+          $ref: '#/components/schemas/engineTlsOption'
           nullable: true
     engineOptionList:
       required:
