@@ -5776,6 +5776,152 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/environmentStatusHistory'
+  /admin/v1/environments/{environmentName}/credentials:
+    get:
+      operationId: listEnvironmentCredential
+      summary: List environment credentials
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      tags:
+        - environment
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentCredentialList'
+          description: A successful response.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      operationId: createEnvironmentCredential
+      summary: Create environment credential
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/environmentCredentialCreate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentCredential'
+          description: Returned when environment credential is created successfully.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - environment
+      x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/credentials/{credentialName}:
+    delete:
+      operationId: deleteEnvironmentCredential
+      summary: Delete environment credential
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment credential
+          in: path
+          name: credentialName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when environment credential is deleted successfully.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - environment
+    get:
+      operationId: getEnvironmentCredential
+      summary: Get environment credential
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment credential
+          in: path
+          name: credentialName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentCredential'
+          description: A successful response.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - environment
+    patch:
+      operationId: patchEnvironmentCredential
+      summary: Update environment credential
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment credential
+          in: path
+          name: credentialName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/environmentCredentialUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentCredential'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - environment
+      x-codegen-request-body-name: body
   /admin/v1/environments/{environmentName}/resourceStats:
     get:
       description: Returns aggregated resource statistics for the specified environment within an organization.
@@ -5801,6 +5947,31 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+      tags:
+        - resourceStats
+  /admin/v1/environments/{environmentName}/resourceStats/collect:
+    post:
+      description: Triggers an immediate collection of resource statistics for the specified environment.
+      operationId: collectResourceStats
+      summary: Collect resource statistics of environment
+      parameters:
+        - description: The name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - resourceStats
   /admin/v1/environments/{environmentName}/nodes/resourceStats:
@@ -7815,6 +7986,200 @@ paths:
         - backup
         - shared
       x-codegen-request-body-name: body
+  /admin/organizations/{orgName}/clusters/{clusterName}/listObjectsForSelectiveBackup:
+    get:
+      operationId: listObjectsTreeForSelectiveBackup
+      summary: List objects tree for selective backup
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: database name
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/selectiveObjectTreeNode'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - backup
+        - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/backupSchedules:
+    get:
+      operationId: listBackupSchedules
+      summary: List backup schedules
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: backupMethod
+          in: query
+          description: filter by backup method
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupScheduleList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - backup
+        - shared
+    post:
+      operationId: createBackupSchedule
+      summary: Create backup schedule
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backupScheduleCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupSchedule'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - backup
+        - shared
+      x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/backupSchedules/{scheduleName}:
+    patch:
+      operationId: updateBackupSchedule
+      summary: Update backup schedule
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: scheduleName
+          in: path
+          description: name of the backup schedule
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backupScheduleUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupSchedule'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - backup
+        - shared
+      x-codegen-request-body-name: body
+    delete:
+      operationId: deleteBackupSchedule
+      summary: Delete backup schedule
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: scheduleName
+          in: path
+          description: name of the backup schedule
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when backup schedule is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - backup
+        - shared
   /admin/v1/backups:
     get:
       operationId: listBackups
@@ -22359,6 +22724,81 @@ components:
         - sla
         - days
         - statusDuration
+    environmentCredential:
+      type: object
+      required:
+        - name
+        - key
+        - secret
+        - createdAt
+        - updatedAt
+      properties:
+        name:
+          type: string
+          description: Name of the environment credential
+        key:
+          type: string
+          description: Key of the environment credential entry, such as accessKeyId for AWS
+        secret:
+          type: string
+          description: Secret of the environment credential entry, such as secretAccessKey for AWS
+        description:
+          type: string
+          description: Description of the environment credential
+        createdAt:
+          description: CreatedAt is a timestamp representing the server time when this object was created. It is represented in RFC3339 form and is in UTC.
+          format: date-time
+          type: string
+        updatedAt:
+          description: UpdatedAt is a timestamp representing the server time when this object was updated. It is represented in RFC3339 form and is in UTC.
+          format: date-time
+          type: string
+    environmentCredentialList:
+      description: environmentCredentialList is a list of environment credentials
+      properties:
+        items:
+          description: Items is the list of environment credential objects in the list
+          items:
+            $ref: '#/components/schemas/environmentCredential'
+          type: array
+      required:
+        - items
+      type: object
+    environmentCredentialCreate:
+      type: object
+      required:
+        - name
+        - key
+        - secret
+      properties:
+        name:
+          type: string
+          description: Name of the environment credential
+        description:
+          type: string
+          description: Description of the environment credential
+        key:
+          type: string
+          description: Key of the environment credential entry, such as accessKeyId for AWS
+        secret:
+          type: string
+          description: Secret of the environment credential entry, such as secretAccessKey for AWS
+    environmentCredentialUpdate:
+      type: object
+      required:
+        - key
+        - secret
+      properties:
+        description:
+          type: string
+          description: Description of the environment credential
+          nullable: true
+        key:
+          type: string
+          description: Key of the environment credential entry, such as accessKeyId for AWS
+        secret:
+          type: string
+          description: Secret of the environment credential entry, such as secretAccessKey for AWS
     storageStats:
       description: StorageStats holds the resource stats of the volume, including bound PVC capacity, pod-used PVC capacity, and actual storage usage.
       properties:
@@ -23379,8 +23819,30 @@ components:
         - Incremental
         - Differential
         - Continuous
+        - Selective
       type: string
       description: the type of backup
+    selectiveObjectTreeNode:
+      description: tree node for selective backup objects
+      properties:
+        type:
+          description: the type of the node
+          type: string
+        name:
+          description: the name of the node
+          type: string
+        selectedAll:
+          type: boolean
+          description: whether all children nodes are selected
+        children:
+          description: children nodes
+          type: array
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+      required:
+        - type
+        - name
+      type: object
     backupCreate:
       description: BackupCreate is the payload to create a KubeBlocks cluster backup
       properties:
@@ -23398,6 +23860,15 @@ components:
         retentionPeriod:
           description: specify the retention period
           type: string
+        parameters:
+          description: parameters for the backup
+          additionalProperties:
+            type: string
+        selectedObjects:
+          description: selected objects for the backup
+          type: array
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
       type: object
       required:
         - backupMethod
@@ -23477,6 +23948,23 @@ components:
           type: string
         extras:
           type: string
+        parameters:
+          type: array
+          description: backup parameters
+          items:
+            type: object
+            properties:
+              name:
+                description: the name of parameter
+                type: string
+              value:
+                description: the value of parameter
+                type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
         targetPods:
           type: array
           description: backup target pods
@@ -23596,6 +24084,112 @@ components:
             additionalProperties:
               type: string
       type: object
+    backupSchedule:
+      description: backup schedule for database table backup
+      properties:
+        id:
+          description: the backup schedule id
+          type: string
+        scheduleName:
+          description: the name of backup schedule
+          type: string
+        clusterId:
+          description: the cluster id
+          type: string
+        backupMethod:
+          description: the backup method
+          type: string
+        parameters:
+          type: array
+          description: backup parameters
+          items:
+            type: object
+            properties:
+              name:
+                description: the name of parameter
+                type: string
+              value:
+                description: the value of parameter
+                type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+        createdAt:
+          description: the creation time
+          format: date-time
+          type: string
+        updatedAt:
+          description: the last update time
+          format: date-time
+          type: string
+        cronExpression:
+          description: the cron expression for backup schedule
+          type: string
+      type: object
+    backupScheduleList:
+      description: list of backup schedules
+      properties:
+        items:
+          description: items is the list of backup schedule objects
+          items:
+            $ref: '#/components/schemas/backupSchedule'
+          type: array
+        totalCount:
+          description: total count of backup schedules
+          type: integer
+          format: int64
+      type: object
+    backupScheduleCreate:
+      description: payload to create a backup schedule
+      properties:
+        scheduleName:
+          description: the name of backup schedule
+          type: string
+        backupMethod:
+          description: the backup method
+          type: string
+        parameters:
+          type: object
+          description: backup parameters
+          additionalProperties:
+            type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+        cronExpression:
+          description: the cron expression for backup schedule
+          type: string
+      required:
+        - scheduleName
+        - backupMethod
+      type: object
+    backupScheduleUpdate:
+      description: payload to update a backup schedule
+      properties:
+        scheduleName:
+          description: the name of backup schedule
+          type: string
+        backupMethod:
+          description: the backup method
+          type: string
+        parameters:
+          type: object
+          description: backup parameters
+          additionalProperties:
+            type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+        cronExpression:
+          description: the cron expression for backup schedule
+          type: string
+      type: object
     backupList:
       description: BackupList is a list of backups
       properties:
@@ -23689,6 +24283,9 @@ components:
         continuous:
           description: continuous backup method
           type: string
+        selective:
+          description: selective backup method
+          type: string
       type: object
     restore:
       description: create a KubeBlocks restore API
@@ -23728,6 +24325,11 @@ components:
         duration:
           description: duration of restore
           type: string
+        selectedObjects:
+          type: array
+          description: selected objects to restore
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
         status:
           description: restore status
           properties:
@@ -23789,7 +24391,6 @@ components:
       required:
         - backupName
         - clusterName
-        - componentName
       type: object
     restoreList:
       description: restoreList is a list of restore object
@@ -24829,6 +25430,38 @@ components:
           type: array
           items:
             type: object
+    parameters:
+      type: object
+      additionalProperties:
+        type: object
+        description: backup parameters for different backup methods
+        additionalProperties:
+          type: object
+          properties:
+            options:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+            title:
+              type: object
+              additionalProperties:
+                type: string
+            description:
+              type: object
+              additionalProperties:
+                type: string
+            value:
+              type: string
+            type:
+              type: string
+              enum:
+                - enum
+                - number
+            min:
+              type: number
+            max:
+              type: number
     backupMethodOption:
       type: object
       required:
@@ -24859,6 +25492,70 @@ components:
                 If set to false, the restore will be ready after the cluster is created.
         description:
           $ref: '#/components/schemas/localizedDescription'
+    selectedObjectOption:
+      type: object
+      properties:
+        tree:
+          type: object
+          required:
+            - levelOrder
+            - sql
+          properties:
+            switchWithDatabase:
+              type: boolean
+              description: if set to true, the tree will switch when database is switched. This is used for database-level backup, and the root level of the tree is database. If not set or set to false, the tree will not switch when database is switched, and the root level of the tree is instance.
+            sql:
+              type: string
+              description: The SQL query to retrieve the object tree
+            levelOrder:
+              type: array
+              description: The order of object types in the hierarchy
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    description: The object type, e.g., "database", "schema", "table"
+                  columnName:
+                    type: string
+                    description: The column name of the object type which is defined in the sql, e.g., "database_name", "schema_name", "table_name"
+                  typeFromColumn:
+                    type: string
+                    description: The object type which is defined in the sql, mutually exclusive with `type`
+        convertToParameters:
+          type: array
+          description: Parameters for specifying which objects to include in the selective backup
+          items:
+            type: object
+            required:
+              - parameterName
+              - valueTemplate
+            properties:
+              parameterName:
+                type: string
+                description: The name of the parameter for selective backup, e.g., "tables"
+              valueTemplate:
+                type: string
+                description: The format of the value with the tree level index, e.g., "{0}", "{0}.{1}"
+              skipWhenParentLevelsSelectedAll:
+                type: boolean
+                description: Whether to skip the current level when all of the parent level is selected all
+              levelIndex:
+                type: integer
+                description: The index of the current level in the tree level order
+    selectiveMethodOption:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+        restoreTargetRole:
+          type: string
+        selectedObjectOption:
+          $ref: '#/components/schemas/selectedObjectOption'
     backupOption:
       description: If present, it must be set defaultMethod and fullMethod
       type: object
@@ -24916,38 +25613,9 @@ components:
                 type: string
               description: the modes that offline backup supports. if not set, it means all modes are supported.
         backupParameters:
-          type: object
-          additionalProperties:
-            type: object
-            description: backup parameters for different backup methods
-            additionalProperties:
-              type: object
-              properties:
-                options:
-                  type: array
-                  items:
-                    type: object
-                    additionalProperties:
-                      type: string
-                title:
-                  type: object
-                  additionalProperties:
-                    type: string
-                description:
-                  type: object
-                  additionalProperties:
-                    type: string
-                value:
-                  type: string
-                type:
-                  type: string
-                  enum:
-                    - enum
-                    - number
-                min:
-                  type: number
-                max:
-                  type: number
+          $ref: '#/components/schemas/parameters'
+        restoreParameters:
+          $ref: '#/components/schemas/parameters'
         fullMethod:
           type: array
           items:
@@ -24960,6 +25628,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/backupMethodOption'
+        selectiveMethod:
+          type: array
+          description: Selective backup methods that support backing up specific objects
+          items:
+            $ref: '#/components/schemas/selectiveMethodOption'
     benchOption:
       type: object
       required:
@@ -26080,6 +26753,25 @@ components:
         accounts:
           $ref: '#/components/schemas/blueGreenDeploymentAccountOption'
       type: object
+    engineTlsOption:
+      type: object
+      required:
+        - supported
+      properties:
+        supported:
+          type: boolean
+          description: |
+            Explicit opt-in: true means this engine supports TLS/SSL configuration; false means it does not.
+            If engineOption omits tls (or tls is null), TLS is not supported. Only engines with tls.supported === true advertise TLS.
+        excludedVersions:
+          type: array
+          description: |
+            Only applies when supported is true. Version patterns (regular expressions, RE2 / Go regexp) for versions
+            that still do not support TLS. If omitted or empty while supported is true, all versions are treated as TLS-capable.
+            Example: ^8\.1\.3($|[.\-]) matches 8.1.3 and 8.1.3.* but not 8.1.30.
+          items:
+            type: string
+          nullable: true
     engineOption:
       type: object
       additionalProperties: false
@@ -26239,6 +26931,12 @@ components:
           nullable: true
         blueGreenDeployment:
           $ref: '#/components/schemas/blueGreenDeploymentEngineOption'
+          nullable: true
+        tls:
+          description: |
+            TLS/SSL capability for this engine. If this field is omitted or null, TLS is not supported (opt-in model).
+            When present, use supported to state explicitly whether TLS configuration is offered.
+          $ref: '#/components/schemas/engineTlsOption'
           nullable: true
     engineOptionList:
       required:

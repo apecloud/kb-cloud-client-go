@@ -56,6 +56,7 @@ type EngineOption struct {
 	Architectures common.NullableList[string] `json:"architectures,omitempty"`
 	// blueGreenDeploymentEngine is the engine of a blue-green deployment.
 	BlueGreenDeployment *BlueGreenDeploymentEngineOption `json:"blueGreenDeployment,omitempty"`
+	Tls                 *EngineTlsOption                 `json:"tls,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject map[string]interface{} `json:"-"`
 }
@@ -1047,6 +1048,34 @@ func (o *EngineOption) SetBlueGreenDeployment(v BlueGreenDeploymentEngineOption)
 	o.BlueGreenDeployment = &v
 }
 
+// GetTls returns the Tls field value if set, zero value otherwise.
+func (o *EngineOption) GetTls() EngineTlsOption {
+	if o == nil || o.Tls == nil {
+		var ret EngineTlsOption
+		return ret
+	}
+	return *o.Tls
+}
+
+// GetTlsOk returns a tuple with the Tls field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOption) GetTlsOk() (*EngineTlsOption, bool) {
+	if o == nil || o.Tls == nil {
+		return nil, false
+	}
+	return o.Tls, true
+}
+
+// HasTls returns a boolean if a field has been set.
+func (o *EngineOption) HasTls() bool {
+	return o != nil && o.Tls != nil
+}
+
+// SetTls gets a reference to the given EngineTlsOption and assigns it to the Tls field.
+func (o *EngineOption) SetTls(v EngineTlsOption) {
+	o.Tls = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -1129,6 +1158,9 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 	if o.BlueGreenDeployment != nil {
 		toSerialize["blueGreenDeployment"] = o.BlueGreenDeployment
 	}
+	if o.Tls != nil {
+		toSerialize["tls"] = o.Tls
+	}
 	return common.Marshal(toSerialize)
 }
 
@@ -1171,6 +1203,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		Import              *ImportOption                    `json:"import,omitempty"`
 		Architectures       common.NullableList[string]      `json:"architectures,omitempty"`
 		BlueGreenDeployment *BlueGreenDeploymentEngineOption `json:"blueGreenDeployment,omitempty"`
+		Tls                 *EngineTlsOption                 `json:"tls,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1301,6 +1334,10 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.BlueGreenDeployment = all.BlueGreenDeployment
+	if all.Tls != nil && all.Tls.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Tls = all.Tls
 
 	if hasInvalidField {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
