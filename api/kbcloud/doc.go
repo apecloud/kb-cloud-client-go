@@ -198,6 +198,7 @@
 //   - [engineApi.ListUpgradeableServiceVersion]
 //   - [engineApi.listEngineLicenses]
 //   - [engineApi.listEngineResourceConstraints]
+//   - [engineApi.listEngineSchedulingPolicies]
 //   - [engineApi.listEngineTypes]
 //   - [engineApi.listEnginesInEnv]
 //   - [engineOptionApi.getEngineOption]

@@ -17674,6 +17674,218 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - vuln
+  /admin/v1/engines/{engineName}/schedulingPolicies:
+    get:
+      tags:
+        - engine
+      operationId: listEngineSchedulingPolicies
+      summary: List engine scheduling policies
+      parameters:
+        - name: engineName
+          in: path
+          description: engine name
+          required: true
+          schema:
+            type: string
+        - name: engineMode
+          in: query
+          description: filter by engine mode
+          required: false
+          schema:
+            type: string
+        - name: env
+          in: query
+          description: environment name
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/engineSchedulingPolicy'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - engine
+      operationId: patchEngineSchedulingPolicy
+      summary: Patch engine scheduling policy
+      parameters:
+        - name: engineName
+          in: path
+          description: engine name
+          required: true
+          schema:
+            type: string
+        - name: engineMode
+          in: query
+          description: filter by engine mode
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/engineSchedulingPolicy'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineSchedulingPolicy'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/engines/{engineName}/schedulingRules:
+    get:
+      tags:
+        - engine
+      operationId: listEngineSchedulingRules
+      summary: List engine scheduling rules
+      parameters:
+        - name: engineName
+          in: path
+          description: engine name
+          required: true
+          schema:
+            type: string
+        - name: engineMode
+          in: query
+          description: filter by engine mode
+          required: false
+          schema:
+            type: string
+        - name: schedulingPolicyType
+          in: query
+          description: filter by scheduling policy type
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/engineSchedulingRule'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - engine
+      operationId: createEngineSchedulingRule
+      summary: Create engine scheduling rule
+      parameters:
+        - name: engineName
+          in: path
+          description: engine name
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/engineSchedulingRule'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineSchedulingRule'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/engines/{engineName}/schedulingRules/{ruleId}:
+    patch:
+      tags:
+        - engine
+      operationId: patchEngineSchedulingRule
+      summary: Patch engine scheduling rule
+      parameters:
+        - name: engineName
+          in: path
+          description: engine name
+          required: true
+          schema:
+            type: string
+        - name: ruleId
+          in: path
+          description: id of the engine scheduling rule
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/engineSchedulingRule'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineSchedulingRule'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - engine
+      operationId: deleteEngineSchedulingRule
+      summary: Delete engine scheduling rule
+      parameters:
+        - name: engineName
+          in: path
+          description: engine name
+          required: true
+          schema:
+            type: string
+        - name: ruleId
+          in: path
+          description: id of the engine scheduling rule
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when engine scheduling rule is deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
 components:
   securitySchemes:
     BearerToken:
@@ -18806,6 +19018,17 @@ components:
           x-omitempty: false
           description: weekdays, comma separated values of 1-7
       description: the maintenance window for a cluster
+    schedulingPolicyType:
+      type: string
+      enum:
+        - HardAntiAffinity
+        - SoftAntiAffinity
+        - Disabled
+      default: Disabled
+      description: |
+        * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
+        * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
+        * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
     clusterCreate:
       required:
         - engine
@@ -18902,6 +19125,9 @@ components:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
+        schedulingPolicy:
+          description: Scheduling policy for this cluster.
+          $ref: '#/components/schemas/schedulingPolicyType'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -21964,6 +22190,19 @@ components:
       required:
         - serviceName
         - serviceNamespace
+    clusterSchedulingPolicy:
+      type: string
+      enum:
+        - HardAntiAffinity
+        - SoftAntiAffinity
+        - Disabled
+        - None
+      default: None
+      description: |
+        * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
+        * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
+        * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
+        * `None` - Inherit the engine-level default scheduling policy.
     tolerateDefaultTaints:
       title: TolerateDefaultTaints
       description: When creating a cluster, add the default tolerations from the bootstrap node to the pods
@@ -21985,6 +22224,8 @@ components:
           description: Enable pod antiaffinity for cluster
           type: boolean
           default: true
+        clusterSchedulingPolicy:
+          $ref: '#/components/schemas/clusterSchedulingPolicy'
         tolerateDefaultTaints:
           $ref: '#/components/schemas/tolerateDefaultTaints'
     networkConfig:
@@ -22646,6 +22887,8 @@ components:
           description: whether to enable calculate the cluster SLA for the environment
           type: boolean
           default: false
+        clusterSchedulingPolicy:
+          $ref: '#/components/schemas/clusterSchedulingPolicy'
     environmentStateEvent:
       description: EventEnvironmentState contains details for the current and previous state of the environment.
       type: object
@@ -31653,6 +31896,83 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/vulnItem'
+    engineSchedulingPolicy:
+      type: object
+      description: Engine-level default scheduling policy for a specific engine and engine mode.
+      properties:
+        id:
+          type: string
+          description: Id of engine scheduling policy.
+        schedulingPolicyType:
+          description: Scheduling policy type applied by default to matching clusters unless overridden by a environment-level or cluster-level setting.
+          $ref: '#/components/schemas/schedulingPolicyType'
+        engine:
+          type: string
+          description: Database engine that this policy applies to. Used together with `engineMode`.
+        engineMode:
+          type: string
+          description: Engine mode that this policy applies to, such as `standalone` or `replication`.
+        description:
+          type: string
+          description: Human-readable description of the engine scheduling policy.
+      required:
+        - engine
+        - engineMode
+        - schedulingPolicyType
+    target_role:
+      type: string
+      enum:
+        - Primary
+        - '*'
+      description: |
+        Role name to match. Use `*` to match all roles, including components without an explicit role.
+      default: '*'
+    target:
+      type: object
+      description: Identifies one side of a scheduling rule match, including component and role.
+      properties:
+        component:
+          type: string
+          description: |
+            Component name to match. Use `*` to match all components for the selected engine mode.
+          default: '*'
+        role:
+          $ref: '#/components/schemas/target_role'
+    engineSchedulingRule:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of engine scheduling rule.
+        name:
+          type: string
+          description: Rule name, used to reference this rule when applying scheduling policies to a cluster.
+        engine:
+          type: string
+          description: Database engine type this rule applies to. Used to match rules to clusters by engine.
+        engineMode:
+          type: string
+          description: Cluster mode this rule applies to. Used to match rules to clusters by mode.
+        targetSelector:
+          type: array
+          description: Selects the two mutually exclusive targets that this rule applies to. The array length must be exactly 2.
+          items:
+            $ref: '#/components/schemas/target'
+        schedulingPolicyType:
+          description: Scheduling policy type to apply when this rule matches.
+          $ref: '#/components/schemas/schedulingPolicyType'
+        description:
+          type: string
+          description: Optional description of the scheduling rule.
+        default:
+          description: Indicates whether this rule is used as the fallback when no other rule matches.
+          type: boolean
+      required:
+        - name
+        - engine
+        - engineMode
+        - targetSelector
+        - schedulingPolicyType
   responses:
     '204':
       description: No Content

@@ -48,6 +48,12 @@ type EnvironmentUpdate struct {
 	Provider common.NullableString `json:"provider,omitempty"`
 	// whether to enable calculate the cluster SLA for the environment
 	SlaEnabled *bool `json:"slaEnabled,omitempty"`
+	// * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
+	// * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
+	// * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
+	// * `None` - Inherit the engine-level default scheduling policy.
+	//
+	ClusterSchedulingPolicy *ClusterSchedulingPolicy `json:"clusterSchedulingPolicy,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -75,6 +81,8 @@ func NewEnvironmentUpdate() *EnvironmentUpdate {
 	this.ClusterValidationPolicy = &clusterValidationPolicy
 	var slaEnabled bool = false
 	this.SlaEnabled = &slaEnabled
+	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicyNone
+	this.ClusterSchedulingPolicy = &clusterSchedulingPolicy
 	return &this
 }
 
@@ -99,6 +107,8 @@ func NewEnvironmentUpdateWithDefaults() *EnvironmentUpdate {
 	this.ClusterValidationPolicy = &clusterValidationPolicy
 	var slaEnabled bool = false
 	this.SlaEnabled = &slaEnabled
+	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicyNone
+	this.ClusterSchedulingPolicy = &clusterSchedulingPolicy
 	return &this
 }
 
@@ -733,6 +743,34 @@ func (o *EnvironmentUpdate) SetSlaEnabled(v bool) {
 	o.SlaEnabled = &v
 }
 
+// GetClusterSchedulingPolicy returns the ClusterSchedulingPolicy field value if set, zero value otherwise.
+func (o *EnvironmentUpdate) GetClusterSchedulingPolicy() ClusterSchedulingPolicy {
+	if o == nil || o.ClusterSchedulingPolicy == nil {
+		var ret ClusterSchedulingPolicy
+		return ret
+	}
+	return *o.ClusterSchedulingPolicy
+}
+
+// GetClusterSchedulingPolicyOk returns a tuple with the ClusterSchedulingPolicy field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentUpdate) GetClusterSchedulingPolicyOk() (*ClusterSchedulingPolicy, bool) {
+	if o == nil || o.ClusterSchedulingPolicy == nil {
+		return nil, false
+	}
+	return o.ClusterSchedulingPolicy, true
+}
+
+// HasClusterSchedulingPolicy returns a boolean if a field has been set.
+func (o *EnvironmentUpdate) HasClusterSchedulingPolicy() bool {
+	return o != nil && o.ClusterSchedulingPolicy != nil
+}
+
+// SetClusterSchedulingPolicy gets a reference to the given ClusterSchedulingPolicy and assigns it to the ClusterSchedulingPolicy field.
+func (o *EnvironmentUpdate) SetClusterSchedulingPolicy(v ClusterSchedulingPolicy) {
+	o.ClusterSchedulingPolicy = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -796,6 +834,9 @@ func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 	if o.SlaEnabled != nil {
 		toSerialize["slaEnabled"] = o.SlaEnabled
 	}
+	if o.ClusterSchedulingPolicy != nil {
+		toSerialize["clusterSchedulingPolicy"] = o.ClusterSchedulingPolicy
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -825,13 +866,14 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		ClusterValidationPolicy *ClusterValidationPolicy    `json:"clusterValidationPolicy,omitempty"`
 		Provider                common.NullableString       `json:"provider,omitempty"`
 		SlaEnabled              *bool                       `json:"slaEnabled,omitempty"`
+		ClusterSchedulingPolicy *ClusterSchedulingPolicy    `json:"clusterSchedulingPolicy,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "type", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "podAntiAffinityEnabled", "imageRegistry", "nodePortEnabled", "lbEnabled", "internetLBEnabled", "networkModes", "deletePolicy", "clusterValidationPolicy", "provider", "slaEnabled"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "type", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "podAntiAffinityEnabled", "imageRegistry", "nodePortEnabled", "lbEnabled", "internetLBEnabled", "networkModes", "deletePolicy", "clusterValidationPolicy", "provider", "slaEnabled", "clusterSchedulingPolicy"})
 	} else {
 		return err
 	}
@@ -871,6 +913,11 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Provider = all.Provider
 	o.SlaEnabled = all.SlaEnabled
+	if all.ClusterSchedulingPolicy != nil && !all.ClusterSchedulingPolicy.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.ClusterSchedulingPolicy = all.ClusterSchedulingPolicy
+	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
