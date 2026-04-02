@@ -483,7 +483,7 @@ func (a *EngineApi) ListEngineSchedulingPolicies(ctx _context.Context, engineNam
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
 		OperationID: "listEngineSchedulingPolicies",
-		Path:        "/api/v1/engineGlobalSchedulingStrategies",
+		Path:        "/api/v1/engines/{engineName}/schedulingPolicies",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -493,12 +493,12 @@ func (a *EngineApi) ListEngineSchedulingPolicies(ctx _context.Context, engineNam
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/engineGlobalSchedulingStrategies"
+	localVarPath := localBasePath + "/api/v1/engines/{engineName}/schedulingPolicies"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("engineName", common.ParameterToString(engineName, ""))
 	if optionalParams.EngineMode != nil {
 		localVarQueryParams.Add("engineMode", common.ParameterToString(*optionalParams.EngineMode, ""))
 	}

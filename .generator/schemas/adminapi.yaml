@@ -17674,7 +17674,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - vuln
-  /admin/v1/engineGlobalSchedulingStrategies:
+  /admin/v1/engines/{engineName}/schedulingPolicies:
     get:
       tags:
         - engine
@@ -17682,8 +17682,8 @@ paths:
       summary: List engine scheduling policies
       parameters:
         - name: engineName
-          in: query
-          description: filter by engine name
+          in: path
+          description: engine name
           required: true
           schema:
             type: string
@@ -17721,8 +17721,8 @@ paths:
       summary: Patch engine scheduling policy
       parameters:
         - name: engineName
-          in: query
-          description: filter by engine name
+          in: path
+          description: engine name
           required: true
           schema:
             type: string
@@ -17750,7 +17750,7 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/engineSchedulingRules:
+  /admin/v1/engines/{engineName}/schedulingRules:
     get:
       tags:
         - engine
@@ -17758,9 +17758,15 @@ paths:
       summary: List engine scheduling rules
       parameters:
         - name: engineName
-          in: query
-          description: filter by engine name
+          in: path
+          description: engine name
           required: true
+          schema:
+            type: string
+        - name: engineMode
+          in: query
+          description: filter by engine mode
+          required: false
           schema:
             type: string
         - name: schedulingPolicyType
@@ -17789,6 +17795,13 @@ paths:
         - engine
       operationId: createEngineSchedulingRule
       summary: Create engine scheduling rule
+      parameters:
+        - name: engineName
+          in: path
+          description: engine name
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -17807,13 +17820,19 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/engineSchedulingRules/{ruleId}:
+  /admin/v1/engines/{engineName}/schedulingRules/{ruleId}:
     patch:
       tags:
         - engine
       operationId: patchEngineSchedulingRule
       summary: Patch engine scheduling rule
       parameters:
+        - name: engineName
+          in: path
+          description: engine name
+          required: true
+          schema:
+            type: string
         - name: ruleId
           in: path
           description: id of the engine scheduling rule
@@ -17844,6 +17863,12 @@ paths:
       operationId: deleteEngineSchedulingRule
       summary: Delete engine scheduling rule
       parameters:
+        - name: engineName
+          in: path
+          description: engine name
+          required: true
+          schema:
+            type: string
         - name: ruleId
           in: path
           description: id of the engine scheduling rule
@@ -19100,7 +19125,7 @@ components:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
-        clusterSchedulingPolicy:
+        schedulingPolicy:
           description: Scheduling policy for this cluster.
           $ref: '#/components/schemas/schedulingPolicyType'
       description: KubeBlocks cluster information

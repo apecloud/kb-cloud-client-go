@@ -13730,7 +13730,7 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/engineGlobalSchedulingStrategies:
+  /api/v1/engines/{engineName}/schedulingPolicies:
     get:
       tags:
         - engine
@@ -13738,7 +13738,7 @@ paths:
       summary: List engine scheduling policies
       parameters:
         - name: engineName
-          in: query
+          in: path
           description: engine name
           required: true
           schema:
@@ -16186,7 +16186,7 @@ components:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
-        clusterSchedulingPolicy:
+        schedulingPolicy:
           description: Scheduling policy for this cluster.
           $ref: '#/components/schemas/schedulingPolicyType'
       description: KubeBlocks cluster information

@@ -576,7 +576,7 @@ func (r *CreateEngineSchedulingRuleOptionalParameters) WithBody(body EngineSched
 }
 
 // CreateEngineSchedulingRule Create engine scheduling rule.
-func (a *EngineApi) CreateEngineSchedulingRule(ctx _context.Context, o ...CreateEngineSchedulingRuleOptionalParameters) (EngineSchedulingRule, *_nethttp.Response, error) {
+func (a *EngineApi) CreateEngineSchedulingRule(ctx _context.Context, engineName string, o ...CreateEngineSchedulingRuleOptionalParameters) (EngineSchedulingRule, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -595,7 +595,7 @@ func (a *EngineApi) CreateEngineSchedulingRule(ctx _context.Context, o ...Create
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
 		OperationID: "createEngineSchedulingRule",
-		Path:        "/admin/v1/engineSchedulingRules",
+		Path:        "/admin/v1/engines/{engineName}/schedulingRules",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -605,7 +605,8 @@ func (a *EngineApi) CreateEngineSchedulingRule(ctx _context.Context, o ...Create
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/engineSchedulingRules"
+	localVarPath := localBasePath + "/admin/v1/engines/{engineName}/schedulingRules"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -884,7 +885,7 @@ func (a *EngineApi) DeleteEngineResourceConstraint(ctx _context.Context, id stri
 }
 
 // DeleteEngineSchedulingRule Delete engine scheduling rule.
-func (a *EngineApi) DeleteEngineSchedulingRule(ctx _context.Context, ruleId string) (interface{}, *_nethttp.Response, error) {
+func (a *EngineApi) DeleteEngineSchedulingRule(ctx _context.Context, engineName string, ruleId string) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
 		localVarPostBody    interface{}
@@ -895,7 +896,7 @@ func (a *EngineApi) DeleteEngineSchedulingRule(ctx _context.Context, ruleId stri
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
 		OperationID: "deleteEngineSchedulingRule",
-		Path:        "/admin/v1/engineSchedulingRules/{ruleId}",
+		Path:        "/admin/v1/engines/{engineName}/schedulingRules/{ruleId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -905,7 +906,8 @@ func (a *EngineApi) DeleteEngineSchedulingRule(ctx _context.Context, ruleId stri
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/engineSchedulingRules/{ruleId}"
+	localVarPath := localBasePath + "/admin/v1/engines/{engineName}/schedulingRules/{ruleId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"ruleId"+"}", _neturl.PathEscape(common.ParameterToString(ruleId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -1692,7 +1694,7 @@ func (a *EngineApi) ListEngineSchedulingPolicies(ctx _context.Context, engineNam
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
 		OperationID: "listEngineSchedulingPolicies",
-		Path:        "/admin/v1/engineGlobalSchedulingStrategies",
+		Path:        "/admin/v1/engines/{engineName}/schedulingPolicies",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1702,12 +1704,12 @@ func (a *EngineApi) ListEngineSchedulingPolicies(ctx _context.Context, engineNam
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/engineGlobalSchedulingStrategies"
+	localVarPath := localBasePath + "/admin/v1/engines/{engineName}/schedulingPolicies"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("engineName", common.ParameterToString(engineName, ""))
 	if optionalParams.EngineMode != nil {
 		localVarQueryParams.Add("engineMode", common.ParameterToString(*optionalParams.EngineMode, ""))
 	}
@@ -1766,6 +1768,7 @@ func (a *EngineApi) ListEngineSchedulingPolicies(ctx _context.Context, engineNam
 
 // ListEngineSchedulingRulesOptionalParameters holds optional parameters for ListEngineSchedulingRules.
 type ListEngineSchedulingRulesOptionalParameters struct {
+	EngineMode           *string
 	SchedulingPolicyType *string
 }
 
@@ -1773,6 +1776,12 @@ type ListEngineSchedulingRulesOptionalParameters struct {
 func NewListEngineSchedulingRulesOptionalParameters() *ListEngineSchedulingRulesOptionalParameters {
 	this := ListEngineSchedulingRulesOptionalParameters{}
 	return &this
+}
+
+// WithEngineMode sets the corresponding parameter name and returns the struct.
+func (r *ListEngineSchedulingRulesOptionalParameters) WithEngineMode(engineMode string) *ListEngineSchedulingRulesOptionalParameters {
+	r.EngineMode = &engineMode
+	return r
 }
 
 // WithSchedulingPolicyType sets the corresponding parameter name and returns the struct.
@@ -1801,7 +1810,7 @@ func (a *EngineApi) ListEngineSchedulingRules(ctx _context.Context, engineName s
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
 		OperationID: "listEngineSchedulingRules",
-		Path:        "/admin/v1/engineSchedulingRules",
+		Path:        "/admin/v1/engines/{engineName}/schedulingRules",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1811,12 +1820,15 @@ func (a *EngineApi) ListEngineSchedulingRules(ctx _context.Context, engineName s
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/engineSchedulingRules"
+	localVarPath := localBasePath + "/admin/v1/engines/{engineName}/schedulingRules"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("engineName", common.ParameterToString(engineName, ""))
+	if optionalParams.EngineMode != nil {
+		localVarQueryParams.Add("engineMode", common.ParameterToString(*optionalParams.EngineMode, ""))
+	}
 	if optionalParams.SchedulingPolicyType != nil {
 		localVarQueryParams.Add("schedulingPolicyType", common.ParameterToString(*optionalParams.SchedulingPolicyType, ""))
 	}
@@ -2209,7 +2221,7 @@ func (a *EngineApi) PatchEngineSchedulingPolicy(ctx _context.Context, engineName
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
 		OperationID: "patchEngineSchedulingPolicy",
-		Path:        "/admin/v1/engineGlobalSchedulingStrategies",
+		Path:        "/admin/v1/engines/{engineName}/schedulingPolicies",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -2219,12 +2231,12 @@ func (a *EngineApi) PatchEngineSchedulingPolicy(ctx _context.Context, engineName
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/engineGlobalSchedulingStrategies"
+	localVarPath := localBasePath + "/admin/v1/engines/{engineName}/schedulingPolicies"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("engineName", common.ParameterToString(engineName, ""))
 	localVarQueryParams.Add("engineMode", common.ParameterToString(engineMode, ""))
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
@@ -2299,7 +2311,7 @@ func (r *PatchEngineSchedulingRuleOptionalParameters) WithBody(body EngineSchedu
 }
 
 // PatchEngineSchedulingRule Patch engine scheduling rule.
-func (a *EngineApi) PatchEngineSchedulingRule(ctx _context.Context, ruleId string, o ...PatchEngineSchedulingRuleOptionalParameters) (EngineSchedulingRule, *_nethttp.Response, error) {
+func (a *EngineApi) PatchEngineSchedulingRule(ctx _context.Context, engineName string, ruleId string, o ...PatchEngineSchedulingRuleOptionalParameters) (EngineSchedulingRule, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
@@ -2318,7 +2330,7 @@ func (a *EngineApi) PatchEngineSchedulingRule(ctx _context.Context, ruleId strin
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
 		OperationID: "patchEngineSchedulingRule",
-		Path:        "/admin/v1/engineSchedulingRules/{ruleId}",
+		Path:        "/admin/v1/engines/{engineName}/schedulingRules/{ruleId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -2328,7 +2340,8 @@ func (a *EngineApi) PatchEngineSchedulingRule(ctx _context.Context, ruleId strin
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/engineSchedulingRules/{ruleId}"
+	localVarPath := localBasePath + "/admin/v1/engines/{engineName}/schedulingRules/{ruleId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"ruleId"+"}", _neturl.PathEscape(common.ParameterToString(ruleId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
