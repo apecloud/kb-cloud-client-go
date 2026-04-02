@@ -19,21 +19,16 @@ type EngineSchedulingRule struct {
 	Engine string `json:"engine"`
 	// Cluster mode this rule applies to. Used to match rules to clusters by mode.
 	EngineMode string `json:"engineMode"`
-	// Selects the components and roles this rule applies to. The length of the target selector array must be equal to 2, which presents mutually exclusive targets.
+	// Selects the two mutually exclusive targets that this rule applies to. The array length must be exactly 2.
 	TargetSelector []Target `json:"targetSelector"`
-	// * `HardAntiAffinity` - Strictly enforced; pods will not be scheduled if constraints cannot be met.
-	// * `SoftAntiAffinity` - Best-effort; the scheduler prefers to satisfy constraints but may place pods together if necessary.
-	// * `Disabled` - No anti-affinity constraints applied.
+	// * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
+	// * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
+	// * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
 	//
-	SchedulingStrategy *EngineSchedulingStrategy `json:"schedulingStrategy,omitempty"`
+	SchedulingPolicyType SchedulingPolicyType `json:"schedulingPolicyType"`
 	// Optional description of the scheduling rule.
 	Description *string `json:"description,omitempty"`
-	// * `HardAntiAffinity` - Strictly enforced; pods will not be scheduled if constraints cannot be met.
-	// * `SoftAntiAffinity` - Best-effort; the scheduler prefers to satisfy constraints but may place pods together if necessary.
-	// * `Disabled` - No anti-affinity constraints applied.
-	//
-	GlobalSchedulingStrategy EngineSchedulingStrategy `json:"globalSchedulingStrategy"`
-	// Indicates if this rule is the default rule applied when no specific rules match.
+	// Indicates whether this rule is used as the fallback when no other rule matches.
 	Default *bool `json:"default,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -44,15 +39,13 @@ type EngineSchedulingRule struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineSchedulingRule(name string, engine string, engineMode string, targetSelector []Target, globalSchedulingStrategy EngineSchedulingStrategy) *EngineSchedulingRule {
+func NewEngineSchedulingRule(name string, engine string, engineMode string, targetSelector []Target, schedulingPolicyType SchedulingPolicyType) *EngineSchedulingRule {
 	this := EngineSchedulingRule{}
 	this.Name = name
 	this.Engine = engine
 	this.EngineMode = engineMode
 	this.TargetSelector = targetSelector
-	var schedulingStrategy EngineSchedulingStrategy = EngineSchedulingStrategyDisabled
-	this.SchedulingStrategy = &schedulingStrategy
-	this.GlobalSchedulingStrategy = globalSchedulingStrategy
+	this.SchedulingPolicyType = schedulingPolicyType
 	return &this
 }
 
@@ -61,10 +54,8 @@ func NewEngineSchedulingRule(name string, engine string, engineMode string, targ
 // but it doesn't guarantee that properties required by API are set.
 func NewEngineSchedulingRuleWithDefaults() *EngineSchedulingRule {
 	this := EngineSchedulingRule{}
-	var schedulingStrategy EngineSchedulingStrategy = EngineSchedulingStrategyDisabled
-	this.SchedulingStrategy = &schedulingStrategy
-	var globalSchedulingStrategy EngineSchedulingStrategy = EngineSchedulingStrategyDisabled
-	this.GlobalSchedulingStrategy = globalSchedulingStrategy
+	var schedulingPolicyType SchedulingPolicyType = SchedulingPolicyTypeDisabled
+	this.SchedulingPolicyType = schedulingPolicyType
 	return &this
 }
 
@@ -188,32 +179,27 @@ func (o *EngineSchedulingRule) SetTargetSelector(v []Target) {
 	o.TargetSelector = v
 }
 
-// GetSchedulingStrategy returns the SchedulingStrategy field value if set, zero value otherwise.
-func (o *EngineSchedulingRule) GetSchedulingStrategy() EngineSchedulingStrategy {
-	if o == nil || o.SchedulingStrategy == nil {
-		var ret EngineSchedulingStrategy
+// GetSchedulingPolicyType returns the SchedulingPolicyType field value.
+func (o *EngineSchedulingRule) GetSchedulingPolicyType() SchedulingPolicyType {
+	if o == nil {
+		var ret SchedulingPolicyType
 		return ret
 	}
-	return *o.SchedulingStrategy
+	return o.SchedulingPolicyType
 }
 
-// GetSchedulingStrategyOk returns a tuple with the SchedulingStrategy field value if set, nil otherwise
+// GetSchedulingPolicyTypeOk returns a tuple with the SchedulingPolicyType field value
 // and a boolean to check if the value has been set.
-func (o *EngineSchedulingRule) GetSchedulingStrategyOk() (*EngineSchedulingStrategy, bool) {
-	if o == nil || o.SchedulingStrategy == nil {
+func (o *EngineSchedulingRule) GetSchedulingPolicyTypeOk() (*SchedulingPolicyType, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.SchedulingStrategy, true
+	return &o.SchedulingPolicyType, true
 }
 
-// HasSchedulingStrategy returns a boolean if a field has been set.
-func (o *EngineSchedulingRule) HasSchedulingStrategy() bool {
-	return o != nil && o.SchedulingStrategy != nil
-}
-
-// SetSchedulingStrategy gets a reference to the given EngineSchedulingStrategy and assigns it to the SchedulingStrategy field.
-func (o *EngineSchedulingRule) SetSchedulingStrategy(v EngineSchedulingStrategy) {
-	o.SchedulingStrategy = &v
+// SetSchedulingPolicyType sets field value.
+func (o *EngineSchedulingRule) SetSchedulingPolicyType(v SchedulingPolicyType) {
+	o.SchedulingPolicyType = v
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
@@ -242,29 +228,6 @@ func (o *EngineSchedulingRule) HasDescription() bool {
 // SetDescription gets a reference to the given string and assigns it to the Description field.
 func (o *EngineSchedulingRule) SetDescription(v string) {
 	o.Description = &v
-}
-
-// GetGlobalSchedulingStrategy returns the GlobalSchedulingStrategy field value.
-func (o *EngineSchedulingRule) GetGlobalSchedulingStrategy() EngineSchedulingStrategy {
-	if o == nil {
-		var ret EngineSchedulingStrategy
-		return ret
-	}
-	return o.GlobalSchedulingStrategy
-}
-
-// GetGlobalSchedulingStrategyOk returns a tuple with the GlobalSchedulingStrategy field value
-// and a boolean to check if the value has been set.
-func (o *EngineSchedulingRule) GetGlobalSchedulingStrategyOk() (*EngineSchedulingStrategy, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.GlobalSchedulingStrategy, true
-}
-
-// SetGlobalSchedulingStrategy sets field value.
-func (o *EngineSchedulingRule) SetGlobalSchedulingStrategy(v EngineSchedulingStrategy) {
-	o.GlobalSchedulingStrategy = v
 }
 
 // GetDefault returns the Default field value if set, zero value otherwise.
@@ -308,13 +271,10 @@ func (o EngineSchedulingRule) MarshalJSON() ([]byte, error) {
 	toSerialize["engine"] = o.Engine
 	toSerialize["engineMode"] = o.EngineMode
 	toSerialize["targetSelector"] = o.TargetSelector
-	if o.SchedulingStrategy != nil {
-		toSerialize["schedulingStrategy"] = o.SchedulingStrategy
-	}
+	toSerialize["schedulingPolicyType"] = o.SchedulingPolicyType
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
-	toSerialize["globalSchedulingStrategy"] = o.GlobalSchedulingStrategy
 	if o.Default != nil {
 		toSerialize["default"] = o.Default
 	}
@@ -328,15 +288,14 @@ func (o EngineSchedulingRule) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineSchedulingRule) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id                       *string                   `json:"id,omitempty"`
-		Name                     *string                   `json:"name"`
-		Engine                   *string                   `json:"engine"`
-		EngineMode               *string                   `json:"engineMode"`
-		TargetSelector           *[]Target                 `json:"targetSelector"`
-		SchedulingStrategy       *EngineSchedulingStrategy `json:"schedulingStrategy,omitempty"`
-		Description              *string                   `json:"description,omitempty"`
-		GlobalSchedulingStrategy *EngineSchedulingStrategy `json:"globalSchedulingStrategy"`
-		Default                  *bool                     `json:"default,omitempty"`
+		Id                   *string               `json:"id,omitempty"`
+		Name                 *string               `json:"name"`
+		Engine               *string               `json:"engine"`
+		EngineMode           *string               `json:"engineMode"`
+		TargetSelector       *[]Target             `json:"targetSelector"`
+		SchedulingPolicyType *SchedulingPolicyType `json:"schedulingPolicyType"`
+		Description          *string               `json:"description,omitempty"`
+		Default              *bool                 `json:"default,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -353,12 +312,12 @@ func (o *EngineSchedulingRule) UnmarshalJSON(bytes []byte) (err error) {
 	if all.TargetSelector == nil {
 		return fmt.Errorf("required field targetSelector missing")
 	}
-	if all.GlobalSchedulingStrategy == nil {
-		return fmt.Errorf("required field globalSchedulingStrategy missing")
+	if all.SchedulingPolicyType == nil {
+		return fmt.Errorf("required field schedulingPolicyType missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "engine", "engineMode", "targetSelector", "schedulingStrategy", "description", "globalSchedulingStrategy", "default"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "engine", "engineMode", "targetSelector", "schedulingPolicyType", "description", "default"})
 	} else {
 		return err
 	}
@@ -369,17 +328,12 @@ func (o *EngineSchedulingRule) UnmarshalJSON(bytes []byte) (err error) {
 	o.Engine = *all.Engine
 	o.EngineMode = *all.EngineMode
 	o.TargetSelector = *all.TargetSelector
-	if all.SchedulingStrategy != nil && !all.SchedulingStrategy.IsValid() {
+	if !all.SchedulingPolicyType.IsValid() {
 		hasInvalidField = true
 	} else {
-		o.SchedulingStrategy = all.SchedulingStrategy
+		o.SchedulingPolicyType = *all.SchedulingPolicyType
 	}
 	o.Description = all.Description
-	if !all.GlobalSchedulingStrategy.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.GlobalSchedulingStrategy = *all.GlobalSchedulingStrategy
-	}
 	o.Default = all.Default
 
 	if len(additionalProperties) > 0 {

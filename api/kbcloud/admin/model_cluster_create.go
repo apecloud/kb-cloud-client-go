@@ -59,11 +59,11 @@ type ClusterCreate struct {
 	ObjectStorageConfig *ClusterObjectStorageConfig `json:"objectStorageConfig,omitempty"`
 	// the maintenance window for a cluster
 	MaintainceWindow *ClusterMaintainceWindow `json:"maintainceWindow,omitempty"`
-	// * `HardAntiAffinity` - Strictly enforced; pods will not be scheduled if constraints cannot be met.
-	// * `SoftAntiAffinity` - Best-effort; the scheduler prefers to satisfy constraints but may place pods together if necessary.
-	// * `Disabled` - No anti-affinity constraints applied.
+	// * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
+	// * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
+	// * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
 	//
-	SchedulingStrategy *EngineSchedulingStrategy `json:"schedulingStrategy,omitempty"`
+	ClusterSchedulingPolicy *SchedulingPolicyType `json:"clusterSchedulingPolicy,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -86,8 +86,8 @@ func NewClusterCreate(environmentName string, name string, engine string) *Clust
 	this.TerminationPolicy = &terminationPolicy
 	var singleZone bool = false
 	this.SingleZone = &singleZone
-	var schedulingStrategy EngineSchedulingStrategy = EngineSchedulingStrategyDisabled
-	this.SchedulingStrategy = &schedulingStrategy
+	var clusterSchedulingPolicy SchedulingPolicyType = SchedulingPolicyTypeDisabled
+	this.ClusterSchedulingPolicy = &clusterSchedulingPolicy
 	return &this
 }
 
@@ -104,8 +104,8 @@ func NewClusterCreateWithDefaults() *ClusterCreate {
 	this.TerminationPolicy = &terminationPolicy
 	var singleZone bool = false
 	this.SingleZone = &singleZone
-	var schedulingStrategy EngineSchedulingStrategy = EngineSchedulingStrategyDisabled
-	this.SchedulingStrategy = &schedulingStrategy
+	var clusterSchedulingPolicy SchedulingPolicyType = SchedulingPolicyTypeDisabled
+	this.ClusterSchedulingPolicy = &clusterSchedulingPolicy
 	return &this
 }
 
@@ -827,32 +827,32 @@ func (o *ClusterCreate) SetMaintainceWindow(v ClusterMaintainceWindow) {
 	o.MaintainceWindow = &v
 }
 
-// GetSchedulingStrategy returns the SchedulingStrategy field value if set, zero value otherwise.
-func (o *ClusterCreate) GetSchedulingStrategy() EngineSchedulingStrategy {
-	if o == nil || o.SchedulingStrategy == nil {
-		var ret EngineSchedulingStrategy
+// GetClusterSchedulingPolicy returns the ClusterSchedulingPolicy field value if set, zero value otherwise.
+func (o *ClusterCreate) GetClusterSchedulingPolicy() SchedulingPolicyType {
+	if o == nil || o.ClusterSchedulingPolicy == nil {
+		var ret SchedulingPolicyType
 		return ret
 	}
-	return *o.SchedulingStrategy
+	return *o.ClusterSchedulingPolicy
 }
 
-// GetSchedulingStrategyOk returns a tuple with the SchedulingStrategy field value if set, nil otherwise
+// GetClusterSchedulingPolicyOk returns a tuple with the ClusterSchedulingPolicy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterCreate) GetSchedulingStrategyOk() (*EngineSchedulingStrategy, bool) {
-	if o == nil || o.SchedulingStrategy == nil {
+func (o *ClusterCreate) GetClusterSchedulingPolicyOk() (*SchedulingPolicyType, bool) {
+	if o == nil || o.ClusterSchedulingPolicy == nil {
 		return nil, false
 	}
-	return o.SchedulingStrategy, true
+	return o.ClusterSchedulingPolicy, true
 }
 
-// HasSchedulingStrategy returns a boolean if a field has been set.
-func (o *ClusterCreate) HasSchedulingStrategy() bool {
-	return o != nil && o.SchedulingStrategy != nil
+// HasClusterSchedulingPolicy returns a boolean if a field has been set.
+func (o *ClusterCreate) HasClusterSchedulingPolicy() bool {
+	return o != nil && o.ClusterSchedulingPolicy != nil
 }
 
-// SetSchedulingStrategy gets a reference to the given EngineSchedulingStrategy and assigns it to the SchedulingStrategy field.
-func (o *ClusterCreate) SetSchedulingStrategy(v EngineSchedulingStrategy) {
-	o.SchedulingStrategy = &v
+// SetClusterSchedulingPolicy gets a reference to the given SchedulingPolicyType and assigns it to the ClusterSchedulingPolicy field.
+func (o *ClusterCreate) SetClusterSchedulingPolicy(v SchedulingPolicyType) {
+	o.ClusterSchedulingPolicy = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -930,8 +930,8 @@ func (o ClusterCreate) MarshalJSON() ([]byte, error) {
 	if o.MaintainceWindow != nil {
 		toSerialize["maintainceWindow"] = o.MaintainceWindow
 	}
-	if o.SchedulingStrategy != nil {
-		toSerialize["schedulingStrategy"] = o.SchedulingStrategy
+	if o.ClusterSchedulingPolicy != nil {
+		toSerialize["clusterSchedulingPolicy"] = o.ClusterSchedulingPolicy
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -943,32 +943,32 @@ func (o ClusterCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ParentId            common.NullableString       `json:"parentId,omitempty"`
-		ClusterType         NullableClusterType         `json:"clusterType,omitempty"`
-		OrgName             *string                     `json:"orgName,omitempty"`
-		EnvironmentName     *string                     `json:"environmentName"`
-		Project             *string                     `json:"project,omitempty"`
-		Name                *string                     `json:"name"`
-		Engine              *string                     `json:"engine"`
-		License             *ClusterLicense             `json:"license,omitempty"`
-		ParamTpls           []ParamTplsItem             `json:"paramTpls,omitempty"`
-		Version             *string                     `json:"version,omitempty"`
-		TerminationPolicy   *ClusterTerminationPolicy   `json:"terminationPolicy,omitempty"`
-		Mode                *string                     `json:"mode,omitempty"`
-		Components          []ComponentItemCreate       `json:"components,omitempty"`
-		Extra               map[string]interface{}      `json:"extra,omitempty"`
-		InitOptions         []InitOptionItem            `json:"initOptions,omitempty"`
-		SingleZone          *bool                       `json:"singleZone,omitempty"`
-		AvailabilityZones   []string                    `json:"availabilityZones,omitempty"`
-		Backup              *ClusterBackup              `json:"backup,omitempty"`
-		NodeGroup           common.NullableString       `json:"nodeGroup,omitempty"`
-		DisplayName         *string                     `json:"displayName,omitempty"`
-		Static              *bool                       `json:"static,omitempty"`
-		NetworkMode         *NetworkMode                `json:"networkMode,omitempty"`
-		ServiceRefs         []ServiceRef                `json:"serviceRefs,omitempty"`
-		ObjectStorageConfig *ClusterObjectStorageConfig `json:"objectStorageConfig,omitempty"`
-		MaintainceWindow    *ClusterMaintainceWindow    `json:"maintainceWindow,omitempty"`
-		SchedulingStrategy  *EngineSchedulingStrategy   `json:"schedulingStrategy,omitempty"`
+		ParentId                common.NullableString       `json:"parentId,omitempty"`
+		ClusterType             NullableClusterType         `json:"clusterType,omitempty"`
+		OrgName                 *string                     `json:"orgName,omitempty"`
+		EnvironmentName         *string                     `json:"environmentName"`
+		Project                 *string                     `json:"project,omitempty"`
+		Name                    *string                     `json:"name"`
+		Engine                  *string                     `json:"engine"`
+		License                 *ClusterLicense             `json:"license,omitempty"`
+		ParamTpls               []ParamTplsItem             `json:"paramTpls,omitempty"`
+		Version                 *string                     `json:"version,omitempty"`
+		TerminationPolicy       *ClusterTerminationPolicy   `json:"terminationPolicy,omitempty"`
+		Mode                    *string                     `json:"mode,omitempty"`
+		Components              []ComponentItemCreate       `json:"components,omitempty"`
+		Extra                   map[string]interface{}      `json:"extra,omitempty"`
+		InitOptions             []InitOptionItem            `json:"initOptions,omitempty"`
+		SingleZone              *bool                       `json:"singleZone,omitempty"`
+		AvailabilityZones       []string                    `json:"availabilityZones,omitempty"`
+		Backup                  *ClusterBackup              `json:"backup,omitempty"`
+		NodeGroup               common.NullableString       `json:"nodeGroup,omitempty"`
+		DisplayName             *string                     `json:"displayName,omitempty"`
+		Static                  *bool                       `json:"static,omitempty"`
+		NetworkMode             *NetworkMode                `json:"networkMode,omitempty"`
+		ServiceRefs             []ServiceRef                `json:"serviceRefs,omitempty"`
+		ObjectStorageConfig     *ClusterObjectStorageConfig `json:"objectStorageConfig,omitempty"`
+		MaintainceWindow        *ClusterMaintainceWindow    `json:"maintainceWindow,omitempty"`
+		ClusterSchedulingPolicy *SchedulingPolicyType       `json:"clusterSchedulingPolicy,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -984,7 +984,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"parentId", "clusterType", "orgName", "environmentName", "project", "name", "engine", "license", "paramTpls", "version", "terminationPolicy", "mode", "components", "extra", "initOptions", "singleZone", "availabilityZones", "backup", "nodeGroup", "displayName", "static", "networkMode", "serviceRefs", "objectStorageConfig", "maintainceWindow", "schedulingStrategy"})
+		common.DeleteKeys(additionalProperties, &[]string{"parentId", "clusterType", "orgName", "environmentName", "project", "name", "engine", "license", "paramTpls", "version", "terminationPolicy", "mode", "components", "extra", "initOptions", "singleZone", "availabilityZones", "backup", "nodeGroup", "displayName", "static", "networkMode", "serviceRefs", "objectStorageConfig", "maintainceWindow", "clusterSchedulingPolicy"})
 	} else {
 		return err
 	}
@@ -1039,10 +1039,10 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.MaintainceWindow = all.MaintainceWindow
-	if all.SchedulingStrategy != nil && !all.SchedulingStrategy.IsValid() {
+	if all.ClusterSchedulingPolicy != nil && !all.ClusterSchedulingPolicy.IsValid() {
 		hasInvalidField = true
 	} else {
-		o.SchedulingStrategy = all.SchedulingStrategy
+		o.ClusterSchedulingPolicy = all.ClusterSchedulingPolicy
 	}
 
 	if len(additionalProperties) > 0 {

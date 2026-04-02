@@ -5776,6 +5776,152 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/environmentStatusHistory'
+  /admin/v1/environments/{environmentName}/credentials:
+    get:
+      operationId: listEnvironmentCredential
+      summary: List environment credentials
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      tags:
+        - environment
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentCredentialList'
+          description: A successful response.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      operationId: createEnvironmentCredential
+      summary: Create environment credential
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/environmentCredentialCreate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentCredential'
+          description: Returned when environment credential is created successfully.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - environment
+      x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/credentials/{credentialName}:
+    delete:
+      operationId: deleteEnvironmentCredential
+      summary: Delete environment credential
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment credential
+          in: path
+          name: credentialName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when environment credential is deleted successfully.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - environment
+    get:
+      operationId: getEnvironmentCredential
+      summary: Get environment credential
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment credential
+          in: path
+          name: credentialName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentCredential'
+          description: A successful response.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - environment
+    patch:
+      operationId: patchEnvironmentCredential
+      summary: Update environment credential
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment credential
+          in: path
+          name: credentialName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/environmentCredentialUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentCredential'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - environment
+      x-codegen-request-body-name: body
   /admin/v1/environments/{environmentName}/resourceStats:
     get:
       description: Returns aggregated resource statistics for the specified environment within an organization.
@@ -5801,6 +5947,31 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+      tags:
+        - resourceStats
+  /admin/v1/environments/{environmentName}/resourceStats/collect:
+    post:
+      description: Triggers an immediate collection of resource statistics for the specified environment.
+      operationId: collectResourceStats
+      summary: Collect resource statistics of environment
+      parameters:
+        - description: The name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - resourceStats
   /admin/v1/environments/{environmentName}/nodes/resourceStats:
@@ -7846,6 +8017,160 @@ paths:
                 items:
                   $ref: '#/components/schemas/selectiveObjectTreeNode'
           description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - backup
+        - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/backupSchedules:
+    get:
+      operationId: listBackupSchedules
+      summary: List backup schedules
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: backupMethod
+          in: query
+          description: filter by backup method
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupScheduleList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - backup
+        - shared
+    post:
+      operationId: createBackupSchedule
+      summary: Create backup schedule
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backupScheduleCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupSchedule'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - backup
+        - shared
+      x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/backupSchedules/{scheduleName}:
+    patch:
+      operationId: updateBackupSchedule
+      summary: Update backup schedule
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: scheduleName
+          in: path
+          description: name of the backup schedule
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backupScheduleUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupSchedule'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - backup
+        - shared
+      x-codegen-request-body-name: body
+    delete:
+      operationId: deleteBackupSchedule
+      summary: Delete backup schedule
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: scheduleName
+          in: path
+          description: name of the backup schedule
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when backup schedule is deleted successfully.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -17352,14 +17677,20 @@ paths:
   /admin/v1/engineGlobalSchedulingStrategies:
     get:
       tags:
-        - engineSchedulingPolicy
-      operationId: listEngineGlobalSchedulingStrategies
-      summary: List engine global scheduling strategies
+        - engine
+      operationId: listEngineSchedulingPolicies
+      summary: List engine scheduling policies
       parameters:
         - name: engineName
           in: query
           description: filter by engine name
           required: true
+          schema:
+            type: string
+        - name: engineMode
+          in: query
+          description: filter by engine mode
+          required: false
           schema:
             type: string
         - name: env
@@ -17376,7 +17707,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/engineGlobalSchedulingStrategy'
+                  $ref: '#/components/schemas/engineSchedulingPolicy'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -17385,9 +17716,9 @@ paths:
           $ref: '#/components/responses/404'
     patch:
       tags:
-        - engineSchedulingPolicy
-      operationId: patchEngineGlobalSchedulingStrategy
-      summary: Patch engine global scheduling strategy
+        - engine
+      operationId: patchEngineSchedulingPolicy
+      summary: Patch engine scheduling policy
       parameters:
         - name: engineName
           in: query
@@ -17395,18 +17726,24 @@ paths:
           required: true
           schema:
             type: string
+        - name: engineMode
+          in: query
+          description: filter by engine mode
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/engineGlobalSchedulingStrategy'
+              $ref: '#/components/schemas/engineSchedulingPolicy'
       responses:
         '200':
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/engineGlobalSchedulingStrategy'
+                $ref: '#/components/schemas/engineSchedulingPolicy'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -17416,7 +17753,7 @@ paths:
   /admin/v1/engineSchedulingRules:
     get:
       tags:
-        - engineSchedulingPolicy
+        - engine
       operationId: listEngineSchedulingRules
       summary: List engine scheduling rules
       parameters:
@@ -17426,9 +17763,9 @@ paths:
           required: true
           schema:
             type: string
-        - name: globalEngineSchedulingStrategy
+        - name: schedulingPolicyType
           in: query
-          description: filter by global engine scheduling strategy
+          description: filter by scheduling policy type
           required: false
           schema:
             type: string
@@ -17449,7 +17786,7 @@ paths:
           $ref: '#/components/responses/404'
     post:
       tags:
-        - engineSchedulingPolicy
+        - engine
       operationId: createEngineSchedulingRule
       summary: Create engine scheduling rule
       requestBody:
@@ -17473,7 +17810,7 @@ paths:
   /admin/v1/engineSchedulingRules/{ruleId}:
     patch:
       tags:
-        - engineSchedulingPolicy
+        - engine
       operationId: patchEngineSchedulingRule
       summary: Patch engine scheduling rule
       parameters:
@@ -17503,7 +17840,7 @@ paths:
           $ref: '#/components/responses/404'
     delete:
       tags:
-        - engineSchedulingPolicy
+        - engine
       operationId: deleteEngineSchedulingRule
       summary: Delete engine scheduling rule
       parameters:
@@ -18656,7 +18993,7 @@ components:
           x-omitempty: false
           description: weekdays, comma separated values of 1-7
       description: the maintenance window for a cluster
-    engineSchedulingStrategy:
+    schedulingPolicyType:
       type: string
       enum:
         - HardAntiAffinity
@@ -18664,9 +19001,9 @@ components:
         - Disabled
       default: Disabled
       description: |
-        * `HardAntiAffinity` - Strictly enforced; pods will not be scheduled if constraints cannot be met.
-        * `SoftAntiAffinity` - Best-effort; the scheduler prefers to satisfy constraints but may place pods together if necessary.
-        * `Disabled` - No anti-affinity constraints applied.
+        * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
+        * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
+        * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
     clusterCreate:
       required:
         - engine
@@ -18763,9 +19100,9 @@ components:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
-        schedulingStrategy:
-          description: Cluster scheduling strategy
-          $ref: '#/components/schemas/engineSchedulingStrategy'
+        clusterSchedulingPolicy:
+          description: Scheduling policy for this cluster.
+          $ref: '#/components/schemas/schedulingPolicyType'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -21828,6 +22165,19 @@ components:
       required:
         - serviceName
         - serviceNamespace
+    clusterSchedulingPolicy:
+      type: string
+      enum:
+        - HardAntiAffinity
+        - SoftAntiAffinity
+        - Disabled
+        - None
+      default: None
+      description: |
+        * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
+        * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
+        * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
+        * `None` - Inherit the engine-level default scheduling policy.
     tolerateDefaultTaints:
       title: TolerateDefaultTaints
       description: When creating a cluster, add the default tolerations from the bootstrap node to the pods
@@ -21849,9 +22199,8 @@ components:
           description: Enable pod antiaffinity for cluster
           type: boolean
           default: true
-        engineSchedulingStrategy:
-          description: Default scheduling strategy applied to all clusters can override engines' default scheduling strategy.
-          $ref: '#/components/schemas/engineSchedulingStrategy'
+        clusterSchedulingPolicy:
+          $ref: '#/components/schemas/clusterSchedulingPolicy'
         tolerateDefaultTaints:
           $ref: '#/components/schemas/tolerateDefaultTaints'
     networkConfig:
@@ -22513,9 +22862,8 @@ components:
           description: whether to enable calculate the cluster SLA for the environment
           type: boolean
           default: false
-        engineSchedulingStrategy:
-          description: Default scheduling strategy applied to all clusters can override engines' default scheduling strategy.
-          $ref: '#/components/schemas/engineSchedulingStrategy'
+        clusterSchedulingPolicy:
+          $ref: '#/components/schemas/clusterSchedulingPolicy'
     environmentStateEvent:
       description: EventEnvironmentState contains details for the current and previous state of the environment.
       type: object
@@ -22594,6 +22942,81 @@ components:
         - sla
         - days
         - statusDuration
+    environmentCredential:
+      type: object
+      required:
+        - name
+        - key
+        - secret
+        - createdAt
+        - updatedAt
+      properties:
+        name:
+          type: string
+          description: Name of the environment credential
+        key:
+          type: string
+          description: Key of the environment credential entry, such as accessKeyId for AWS
+        secret:
+          type: string
+          description: Secret of the environment credential entry, such as secretAccessKey for AWS
+        description:
+          type: string
+          description: Description of the environment credential
+        createdAt:
+          description: CreatedAt is a timestamp representing the server time when this object was created. It is represented in RFC3339 form and is in UTC.
+          format: date-time
+          type: string
+        updatedAt:
+          description: UpdatedAt is a timestamp representing the server time when this object was updated. It is represented in RFC3339 form and is in UTC.
+          format: date-time
+          type: string
+    environmentCredentialList:
+      description: environmentCredentialList is a list of environment credentials
+      properties:
+        items:
+          description: Items is the list of environment credential objects in the list
+          items:
+            $ref: '#/components/schemas/environmentCredential'
+          type: array
+      required:
+        - items
+      type: object
+    environmentCredentialCreate:
+      type: object
+      required:
+        - name
+        - key
+        - secret
+      properties:
+        name:
+          type: string
+          description: Name of the environment credential
+        description:
+          type: string
+          description: Description of the environment credential
+        key:
+          type: string
+          description: Key of the environment credential entry, such as accessKeyId for AWS
+        secret:
+          type: string
+          description: Secret of the environment credential entry, such as secretAccessKey for AWS
+    environmentCredentialUpdate:
+      type: object
+      required:
+        - key
+        - secret
+      properties:
+        description:
+          type: string
+          description: Description of the environment credential
+          nullable: true
+        key:
+          type: string
+          description: Key of the environment credential entry, such as accessKeyId for AWS
+        secret:
+          type: string
+          description: Secret of the environment credential entry, such as secretAccessKey for AWS
     storageStats:
       description: StorageStats holds the resource stats of the volume, including bound PVC capacity, pod-used PVC capacity, and actual storage usage.
       properties:
@@ -23878,6 +24301,112 @@ components:
             description: backup parameters for different backup methods
             additionalProperties:
               type: string
+      type: object
+    backupSchedule:
+      description: backup schedule for database table backup
+      properties:
+        id:
+          description: the backup schedule id
+          type: string
+        scheduleName:
+          description: the name of backup schedule
+          type: string
+        clusterId:
+          description: the cluster id
+          type: string
+        backupMethod:
+          description: the backup method
+          type: string
+        parameters:
+          type: array
+          description: backup parameters
+          items:
+            type: object
+            properties:
+              name:
+                description: the name of parameter
+                type: string
+              value:
+                description: the value of parameter
+                type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+        createdAt:
+          description: the creation time
+          format: date-time
+          type: string
+        updatedAt:
+          description: the last update time
+          format: date-time
+          type: string
+        cronExpression:
+          description: the cron expression for backup schedule
+          type: string
+      type: object
+    backupScheduleList:
+      description: list of backup schedules
+      properties:
+        items:
+          description: items is the list of backup schedule objects
+          items:
+            $ref: '#/components/schemas/backupSchedule'
+          type: array
+        totalCount:
+          description: total count of backup schedules
+          type: integer
+          format: int64
+      type: object
+    backupScheduleCreate:
+      description: payload to create a backup schedule
+      properties:
+        scheduleName:
+          description: the name of backup schedule
+          type: string
+        backupMethod:
+          description: the backup method
+          type: string
+        parameters:
+          type: object
+          description: backup parameters
+          additionalProperties:
+            type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+        cronExpression:
+          description: the cron expression for backup schedule
+          type: string
+      required:
+        - scheduleName
+        - backupMethod
+      type: object
+    backupScheduleUpdate:
+      description: payload to update a backup schedule
+      properties:
+        scheduleName:
+          description: the name of backup schedule
+          type: string
+        backupMethod:
+          description: the backup method
+          type: string
+        parameters:
+          type: object
+          description: backup parameters
+          additionalProperties:
+            type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+        cronExpression:
+          description: the cron expression for backup schedule
+          type: string
       type: object
     backupList:
       description: BackupList is a list of backups
@@ -31317,38 +31846,45 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/vulnItem'
-    engineGlobalSchedulingStrategy:
+    engineSchedulingPolicy:
       type: object
-      description: Default scheduling strategy applied to all rules unless overridden.
+      description: Engine-level default scheduling policy for a specific engine and engine mode.
       properties:
         id:
           type: string
           description: Id of engine scheduling policy.
-        globalSchedulingStrategy:
-          description: Default scheduling strategy applied to all rules unless overridden.
-          $ref: '#/components/schemas/engineSchedulingStrategy'
+        schedulingPolicyType:
+          description: Scheduling policy type applied by default to matching clusters unless overridden by a environment-level or cluster-level setting.
+          $ref: '#/components/schemas/schedulingPolicyType'
         engine:
           type: string
-          description: Database engine this global strategy applies to. Used to match strategies to clusters by engine.
+          description: Database engine that this policy applies to. Used together with `engineMode`.
+        engineMode:
+          type: string
+          description: Engine mode that this policy applies to, such as `standalone` or `replication`.
         description:
           type: string
-          description: Optional description of the global scheduling strategy.
+          description: Human-readable description of the engine scheduling policy.
+      required:
+        - engine
+        - engineMode
+        - schedulingPolicyType
     target_role:
       type: string
       enum:
         - Primary
         - '*'
       description: |
-        Role name to match. Use "*" to match all roles (or no role if the component has none).
+        Role name to match. Use `*` to match all roles, including components without an explicit role.
       default: '*'
     target:
       type: object
-      description: Identifies which component and role the scheduling rule applies to.
+      description: Identifies one side of a scheduling rule match, including component and role.
       properties:
         component:
           type: string
           description: |
-            Component name to match. Use "*" to match all components.
+            Component name to match. Use `*` to match all components for the selected engine mode.
           default: '*'
         role:
           $ref: '#/components/schemas/target_role'
@@ -31369,27 +31905,24 @@ components:
           description: Cluster mode this rule applies to. Used to match rules to clusters by mode.
         targetSelector:
           type: array
-          description: Selects the components and roles this rule applies to. The length of the target selector array must be equal to 2, which presents mutually exclusive targets.
+          description: Selects the two mutually exclusive targets that this rule applies to. The array length must be exactly 2.
           items:
             $ref: '#/components/schemas/target'
-        schedulingStrategy:
-          description: Overrides the global scheduling strategy for this rule.
-          $ref: '#/components/schemas/engineSchedulingStrategy'
+        schedulingPolicyType:
+          description: Scheduling policy type to apply when this rule matches.
+          $ref: '#/components/schemas/schedulingPolicyType'
         description:
           type: string
           description: Optional description of the scheduling rule.
-        globalSchedulingStrategy:
-          description: Default scheduling strategy applied to all rules unless overridden.
-          $ref: '#/components/schemas/engineSchedulingStrategy'
         default:
-          description: Indicates if this rule is the default rule applied when no specific rules match.
+          description: Indicates whether this rule is used as the fallback when no other rule matches.
           type: boolean
       required:
         - name
         - engine
         - engineMode
         - targetSelector
-        - globalSchedulingStrategy
+        - schedulingPolicyType
   responses:
     '204':
       description: No Content
@@ -31534,7 +32067,6 @@ x-tagGroups:
     tags:
       - engine
       - engineOption
-      - engineSchedulingPolicy
   - name: billing
     tags:
       - pricing

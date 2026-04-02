@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// Target_role Role name to match. Use "*" to match all roles (or no role if the component has none).
+// Target_role Role name to match. Use `*` to match all roles, including components without an explicit role.
 type Target_role string
 
 // List of Target_role.

@@ -3880,6 +3880,160 @@ paths:
       tags:
         - backup
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/backupSchedules:
+    get:
+      operationId: listBackupSchedules
+      summary: List backup schedules
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: backupMethod
+          in: query
+          description: filter by backup method
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupScheduleList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - backup
+        - shared
+    post:
+      operationId: createBackupSchedule
+      summary: Create backup schedule
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backupScheduleCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupSchedule'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - backup
+        - shared
+      x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/backupSchedules/{scheduleName}:
+    patch:
+      operationId: updateBackupSchedule
+      summary: Update backup schedule
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: scheduleName
+          in: path
+          description: name of the backup schedule
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backupScheduleUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupSchedule'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - backup
+        - shared
+      x-codegen-request-body-name: body
+    delete:
+      operationId: deleteBackupSchedule
+      summary: Delete backup schedule
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: scheduleName
+          in: path
+          description: name of the backup schedule
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when backup schedule is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - backup
+        - shared
   /api/v1/organizations/{orgName}/backups:
     get:
       operationId: listBackups
@@ -13579,14 +13733,20 @@ paths:
   /api/v1/engineGlobalSchedulingStrategies:
     get:
       tags:
-        - engineSchedulingPolicy
-      operationId: listEngineGlobalSchedulingStrategies
-      summary: List engine global scheduling strategies
+        - engine
+      operationId: listEngineSchedulingPolicies
+      summary: List engine scheduling policies
       parameters:
         - name: engineName
           in: query
           description: engine name
           required: true
+          schema:
+            type: string
+        - name: engineMode
+          in: query
+          description: engine mode
+          required: false
           schema:
             type: string
         - name: env
@@ -13603,7 +13763,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/engineGlobalSchedulingStrategy'
+                  $ref: '#/components/schemas/engineSchedulingPolicy'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -15919,7 +16079,7 @@ components:
           x-omitempty: false
           description: weekdays, comma separated values of 1-7
       description: the maintenance window for a cluster
-    engineSchedulingStrategy:
+    schedulingPolicyType:
       type: string
       enum:
         - HardAntiAffinity
@@ -15927,9 +16087,9 @@ components:
         - Disabled
       default: Disabled
       description: |
-        * `HardAntiAffinity` - Strictly enforced; pods will not be scheduled if constraints cannot be met.
-        * `SoftAntiAffinity` - Best-effort; the scheduler prefers to satisfy constraints but may place pods together if necessary.
-        * `Disabled` - No anti-affinity constraints applied.
+        * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
+        * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
+        * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
     clusterCreate:
       required:
         - engine
@@ -16026,9 +16186,9 @@ components:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
-        schedulingStrategy:
-          description: Cluster scheduling strategy
-          $ref: '#/components/schemas/engineSchedulingStrategy'
+        clusterSchedulingPolicy:
+          description: Scheduling policy for this cluster.
+          $ref: '#/components/schemas/schedulingPolicyType'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -17853,6 +18013,112 @@ components:
             description: backup parameters for different backup methods
             additionalProperties:
               type: string
+      type: object
+    backupSchedule:
+      description: backup schedule for database table backup
+      properties:
+        id:
+          description: the backup schedule id
+          type: string
+        scheduleName:
+          description: the name of backup schedule
+          type: string
+        clusterId:
+          description: the cluster id
+          type: string
+        backupMethod:
+          description: the backup method
+          type: string
+        parameters:
+          type: array
+          description: backup parameters
+          items:
+            type: object
+            properties:
+              name:
+                description: the name of parameter
+                type: string
+              value:
+                description: the value of parameter
+                type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+        createdAt:
+          description: the creation time
+          format: date-time
+          type: string
+        updatedAt:
+          description: the last update time
+          format: date-time
+          type: string
+        cronExpression:
+          description: the cron expression for backup schedule
+          type: string
+      type: object
+    backupScheduleList:
+      description: list of backup schedules
+      properties:
+        items:
+          description: items is the list of backup schedule objects
+          items:
+            $ref: '#/components/schemas/backupSchedule'
+          type: array
+        totalCount:
+          description: total count of backup schedules
+          type: integer
+          format: int64
+      type: object
+    backupScheduleCreate:
+      description: payload to create a backup schedule
+      properties:
+        scheduleName:
+          description: the name of backup schedule
+          type: string
+        backupMethod:
+          description: the backup method
+          type: string
+        parameters:
+          type: object
+          description: backup parameters
+          additionalProperties:
+            type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+        cronExpression:
+          description: the cron expression for backup schedule
+          type: string
+      required:
+        - scheduleName
+        - backupMethod
+      type: object
+    backupScheduleUpdate:
+      description: payload to update a backup schedule
+      properties:
+        scheduleName:
+          description: the name of backup schedule
+          type: string
+        backupMethod:
+          description: the backup method
+          type: string
+        parameters:
+          type: object
+          description: backup parameters
+          additionalProperties:
+            type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+        cronExpression:
+          description: the cron expression for backup schedule
+          type: string
       type: object
     backupList:
       description: BackupList is a list of backups
@@ -25601,22 +25867,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/aggregateTaskResult'
-    engineGlobalSchedulingStrategy:
+    engineSchedulingPolicy:
       type: object
-      description: Default scheduling strategy applied to all rules unless overridden.
+      description: Engine-level default scheduling policy for a specific engine and engine mode.
       properties:
         id:
           type: string
           description: Id of engine scheduling policy.
-        globalSchedulingStrategy:
-          description: Default scheduling strategy applied to all rules unless overridden.
-          $ref: '#/components/schemas/engineSchedulingStrategy'
+        schedulingPolicyType:
+          description: Scheduling policy type applied by default to matching clusters unless overridden by a environment-level or cluster-level setting.
+          $ref: '#/components/schemas/schedulingPolicyType'
         engine:
           type: string
-          description: Database engine this global strategy applies to. Used to match strategies to clusters by engine.
+          description: Database engine that this policy applies to. Used together with `engineMode`.
+        engineMode:
+          type: string
+          description: Engine mode that this policy applies to, such as `standalone` or `replication`.
         description:
           type: string
-          description: Optional description of the global scheduling strategy.
+          description: Human-readable description of the engine scheduling policy.
+      required:
+        - engine
+        - engineMode
+        - schedulingPolicyType
     blueGreenDeploymentStatus:
       description: The status of a blue-green deployment.
       enum:
@@ -25920,7 +26193,6 @@ x-tagGroups:
       - engine
       - engineOption
       - class
-      - engineSchedulingPolicy
   - name: Benchmark
     tags:
       - benchmark

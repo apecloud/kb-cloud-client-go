@@ -6,12 +6,12 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// Target Identifies which component and role the scheduling rule applies to.
+// Target Identifies one side of a scheduling rule match, including component and role.
 type Target struct {
-	// Component name to match. Use "*" to match all components.
+	// Component name to match. Use `*` to match all components for the selected engine mode.
 	//
 	Component *string `json:"component,omitempty"`
-	// Role name to match. Use "*" to match all roles (or no role if the component has none).
+	// Role name to match. Use `*` to match all roles, including components without an explicit role.
 	//
 	Role *Target_role `json:"role,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct

@@ -10,11 +10,12 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 type SchedulingConfig struct {
 	// Enable pod antiaffinity for cluster
 	PodAntiAffinityEnabled *bool `json:"podAntiAffinityEnabled,omitempty"`
-	// * `HardAntiAffinity` - Strictly enforced; pods will not be scheduled if constraints cannot be met.
-	// * `SoftAntiAffinity` - Best-effort; the scheduler prefers to satisfy constraints but may place pods together if necessary.
-	// * `Disabled` - No anti-affinity constraints applied.
+	// * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
+	// * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
+	// * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
+	// * `None` - Inherit the engine-level default scheduling policy.
 	//
-	EngineSchedulingStrategy *EngineSchedulingStrategy `json:"engineSchedulingStrategy,omitempty"`
+	ClusterSchedulingPolicy *ClusterSchedulingPolicy `json:"clusterSchedulingPolicy,omitempty"`
 	// When creating a cluster, add the default tolerations from the bootstrap node to the pods
 	TolerateDefaultTaints *TolerateDefaultTaints `json:"tolerateDefaultTaints,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -30,8 +31,8 @@ func NewSchedulingConfig() *SchedulingConfig {
 	this := SchedulingConfig{}
 	var podAntiAffinityEnabled bool = true
 	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
-	var engineSchedulingStrategy EngineSchedulingStrategy = EngineSchedulingStrategyDisabled
-	this.EngineSchedulingStrategy = &engineSchedulingStrategy
+	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicyNone
+	this.ClusterSchedulingPolicy = &clusterSchedulingPolicy
 	return &this
 }
 
@@ -42,8 +43,8 @@ func NewSchedulingConfigWithDefaults() *SchedulingConfig {
 	this := SchedulingConfig{}
 	var podAntiAffinityEnabled bool = true
 	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
-	var engineSchedulingStrategy EngineSchedulingStrategy = EngineSchedulingStrategyDisabled
-	this.EngineSchedulingStrategy = &engineSchedulingStrategy
+	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicyNone
+	this.ClusterSchedulingPolicy = &clusterSchedulingPolicy
 	return &this
 }
 
@@ -75,32 +76,32 @@ func (o *SchedulingConfig) SetPodAntiAffinityEnabled(v bool) {
 	o.PodAntiAffinityEnabled = &v
 }
 
-// GetEngineSchedulingStrategy returns the EngineSchedulingStrategy field value if set, zero value otherwise.
-func (o *SchedulingConfig) GetEngineSchedulingStrategy() EngineSchedulingStrategy {
-	if o == nil || o.EngineSchedulingStrategy == nil {
-		var ret EngineSchedulingStrategy
+// GetClusterSchedulingPolicy returns the ClusterSchedulingPolicy field value if set, zero value otherwise.
+func (o *SchedulingConfig) GetClusterSchedulingPolicy() ClusterSchedulingPolicy {
+	if o == nil || o.ClusterSchedulingPolicy == nil {
+		var ret ClusterSchedulingPolicy
 		return ret
 	}
-	return *o.EngineSchedulingStrategy
+	return *o.ClusterSchedulingPolicy
 }
 
-// GetEngineSchedulingStrategyOk returns a tuple with the EngineSchedulingStrategy field value if set, nil otherwise
+// GetClusterSchedulingPolicyOk returns a tuple with the ClusterSchedulingPolicy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SchedulingConfig) GetEngineSchedulingStrategyOk() (*EngineSchedulingStrategy, bool) {
-	if o == nil || o.EngineSchedulingStrategy == nil {
+func (o *SchedulingConfig) GetClusterSchedulingPolicyOk() (*ClusterSchedulingPolicy, bool) {
+	if o == nil || o.ClusterSchedulingPolicy == nil {
 		return nil, false
 	}
-	return o.EngineSchedulingStrategy, true
+	return o.ClusterSchedulingPolicy, true
 }
 
-// HasEngineSchedulingStrategy returns a boolean if a field has been set.
-func (o *SchedulingConfig) HasEngineSchedulingStrategy() bool {
-	return o != nil && o.EngineSchedulingStrategy != nil
+// HasClusterSchedulingPolicy returns a boolean if a field has been set.
+func (o *SchedulingConfig) HasClusterSchedulingPolicy() bool {
+	return o != nil && o.ClusterSchedulingPolicy != nil
 }
 
-// SetEngineSchedulingStrategy gets a reference to the given EngineSchedulingStrategy and assigns it to the EngineSchedulingStrategy field.
-func (o *SchedulingConfig) SetEngineSchedulingStrategy(v EngineSchedulingStrategy) {
-	o.EngineSchedulingStrategy = &v
+// SetClusterSchedulingPolicy gets a reference to the given ClusterSchedulingPolicy and assigns it to the ClusterSchedulingPolicy field.
+func (o *SchedulingConfig) SetClusterSchedulingPolicy(v ClusterSchedulingPolicy) {
+	o.ClusterSchedulingPolicy = &v
 }
 
 // GetTolerateDefaultTaints returns the TolerateDefaultTaints field value if set, zero value otherwise.
@@ -140,8 +141,8 @@ func (o SchedulingConfig) MarshalJSON() ([]byte, error) {
 	if o.PodAntiAffinityEnabled != nil {
 		toSerialize["podAntiAffinityEnabled"] = o.PodAntiAffinityEnabled
 	}
-	if o.EngineSchedulingStrategy != nil {
-		toSerialize["engineSchedulingStrategy"] = o.EngineSchedulingStrategy
+	if o.ClusterSchedulingPolicy != nil {
+		toSerialize["clusterSchedulingPolicy"] = o.ClusterSchedulingPolicy
 	}
 	if o.TolerateDefaultTaints != nil {
 		toSerialize["tolerateDefaultTaints"] = o.TolerateDefaultTaints
@@ -156,26 +157,26 @@ func (o SchedulingConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *SchedulingConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		PodAntiAffinityEnabled   *bool                     `json:"podAntiAffinityEnabled,omitempty"`
-		EngineSchedulingStrategy *EngineSchedulingStrategy `json:"engineSchedulingStrategy,omitempty"`
-		TolerateDefaultTaints    *TolerateDefaultTaints    `json:"tolerateDefaultTaints,omitempty"`
+		PodAntiAffinityEnabled  *bool                    `json:"podAntiAffinityEnabled,omitempty"`
+		ClusterSchedulingPolicy *ClusterSchedulingPolicy `json:"clusterSchedulingPolicy,omitempty"`
+		TolerateDefaultTaints   *TolerateDefaultTaints   `json:"tolerateDefaultTaints,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"podAntiAffinityEnabled", "engineSchedulingStrategy", "tolerateDefaultTaints"})
+		common.DeleteKeys(additionalProperties, &[]string{"podAntiAffinityEnabled", "clusterSchedulingPolicy", "tolerateDefaultTaints"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.PodAntiAffinityEnabled = all.PodAntiAffinityEnabled
-	if all.EngineSchedulingStrategy != nil && !all.EngineSchedulingStrategy.IsValid() {
+	if all.ClusterSchedulingPolicy != nil && !all.ClusterSchedulingPolicy.IsValid() {
 		hasInvalidField = true
 	} else {
-		o.EngineSchedulingStrategy = all.EngineSchedulingStrategy
+		o.ClusterSchedulingPolicy = all.ClusterSchedulingPolicy
 	}
 	if all.TolerateDefaultTaints != nil && all.TolerateDefaultTaints.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
