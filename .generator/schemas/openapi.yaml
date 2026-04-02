@@ -15798,9 +15798,9 @@ components:
         appliedParamTplName:
           type: string
           description: Name of the parameter template instance actually applied to the cluster. This is a system-managed, read-only field.
-        paramTplID:
+        appliedParamTplID:
           type: string
-          description: id of parameter template
+          description: id of the parameter template instance actually applied to the cluster. This is a system-managed, read-only field.
           nullable: true
         orgName:
           type: string
