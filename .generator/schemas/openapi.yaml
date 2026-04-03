@@ -13730,6 +13730,46 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/engines/{engineName}/schedulingPolicies:
+    get:
+      tags:
+        - engine
+      operationId: listEngineSchedulingPolicies
+      summary: List engine scheduling policies
+      parameters:
+        - name: engineName
+          in: path
+          description: engine name
+          required: true
+          schema:
+            type: string
+        - name: engineMode
+          in: query
+          description: engine mode
+          required: false
+          schema:
+            type: string
+        - name: env
+          in: query
+          description: environment name
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/engineSchedulingPolicy'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/blueGreenDeployment/{deploymentID}:
     get:
       operationId: getBlueGreenDeployment
@@ -16039,6 +16079,17 @@ components:
           x-omitempty: false
           description: weekdays, comma separated values of 1-7
       description: the maintenance window for a cluster
+    schedulingPolicyType:
+      type: string
+      enum:
+        - HardAntiAffinity
+        - SoftAntiAffinity
+        - Disabled
+      default: Disabled
+      description: |
+        * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
+        * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
+        * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
     clusterCreate:
       required:
         - engine
@@ -16135,6 +16186,9 @@ components:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
+        schedulingPolicy:
+          description: Scheduling policy for this cluster.
+          $ref: '#/components/schemas/schedulingPolicyType'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -25861,6 +25915,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/aggregateTaskResult'
+    engineSchedulingPolicy:
+      type: object
+      description: Engine-level default scheduling policy for a specific engine and engine mode.
+      properties:
+        id:
+          type: string
+          description: Id of engine scheduling policy.
+        schedulingPolicyType:
+          description: Scheduling policy type applied by default to matching clusters unless overridden by a environment-level or cluster-level setting.
+          $ref: '#/components/schemas/schedulingPolicyType'
+        engine:
+          type: string
+          description: Database engine that this policy applies to. Used together with `engineMode`.
+        engineMode:
+          type: string
+          description: Engine mode that this policy applies to, such as `standalone` or `replication`.
+        description:
+          type: string
+          description: Human-readable description of the engine scheduling policy.
+      required:
+        - engine
+        - engineMode
+        - schedulingPolicyType
     blueGreenDeploymentStatus:
       description: The status of a blue-green deployment.
       enum:
