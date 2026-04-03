@@ -16445,8 +16445,13 @@ components:
     clusterUpdate:
       type: object
       properties:
+        components:
+          $ref: '#/components/schemas/componentsCreate'
+          description: Components to be updated
+          nullable: true
         terminationPolicy:
           $ref: '#/components/schemas/clusterTerminationPolicy'
+          description: Termination policy to be updated
         displayName:
           description: Display name of cluster.
           type: string

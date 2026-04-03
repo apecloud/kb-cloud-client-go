@@ -10,6 +10,8 @@ import (
 
 // ClusterUpdate ClusterUpdate is the payload to update a KubeBlocks cluster
 type ClusterUpdate struct {
+	// Components is the list of components
+	Components []ComponentItemCreate `json:"components,omitempty"`
 	// The termination policy of cluster.
 	TerminationPolicy *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
 	// Display name of cluster.
@@ -40,6 +42,34 @@ func NewClusterUpdateWithDefaults() *ClusterUpdate {
 	var terminationPolicy ClusterTerminationPolicy = ClusterTerminationPolicyDelete
 	this.TerminationPolicy = &terminationPolicy
 	return &this
+}
+
+// GetComponents returns the Components field value if set, zero value otherwise.
+func (o *ClusterUpdate) GetComponents() []ComponentItemCreate {
+	if o == nil || o.Components == nil {
+		var ret []ComponentItemCreate
+		return ret
+	}
+	return o.Components
+}
+
+// GetComponentsOk returns a tuple with the Components field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterUpdate) GetComponentsOk() (*[]ComponentItemCreate, bool) {
+	if o == nil || o.Components == nil {
+		return nil, false
+	}
+	return &o.Components, true
+}
+
+// HasComponents returns a boolean if a field has been set.
+func (o *ClusterUpdate) HasComponents() bool {
+	return o != nil && o.Components != nil
+}
+
+// SetComponents gets a reference to the given []ComponentItemCreate and assigns it to the Components field.
+func (o *ClusterUpdate) SetComponents(v []ComponentItemCreate) {
+	o.Components = v
 }
 
 // GetTerminationPolicy returns the TerminationPolicy field value if set, zero value otherwise.
@@ -143,6 +173,9 @@ func (o ClusterUpdate) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Components != nil {
+		toSerialize["components"] = o.Components
+	}
 	if o.TerminationPolicy != nil {
 		toSerialize["terminationPolicy"] = o.TerminationPolicy
 	}
@@ -162,6 +195,7 @@ func (o ClusterUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		Components        []ComponentItemCreate     `json:"components,omitempty"`
 		TerminationPolicy *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
 		DisplayName       common.NullableString     `json:"displayName,omitempty"`
 		MaintainceWindow  *ClusterMaintainceWindow  `json:"maintainceWindow,omitempty"`
@@ -171,12 +205,13 @@ func (o *ClusterUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"terminationPolicy", "displayName", "maintainceWindow"})
+		common.DeleteKeys(additionalProperties, &[]string{"components", "terminationPolicy", "displayName", "maintainceWindow"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.Components = all.Components
 	if all.TerminationPolicy != nil && !all.TerminationPolicy.IsValid() {
 		hasInvalidField = true
 	} else {
