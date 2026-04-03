@@ -22344,6 +22344,9 @@ components:
           description: Mark the node as a data plane, which will always be true when markControlPlane is not specified
           type: boolean
           default: true
+        nodeGroup:
+          description: The node group to assign this node to
+          type: string
     nodePool:
       title: NodePool
       description: Create your node plan, and the selected nodes will be used for pod scheduling
