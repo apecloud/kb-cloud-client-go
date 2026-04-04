@@ -17,6 +17,8 @@ type NodePoolNode struct {
 	MarkControlPlane *bool  `json:"markControlPlane,omitempty"`
 	// Mark the node as a data plane, which will always be true when markControlPlane is not specified
 	MarkDataPlane *bool `json:"markDataPlane,omitempty"`
+	// The node group to assign this node to
+	NodeGroup *string `json:"nodeGroup,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -151,6 +153,34 @@ func (o *NodePoolNode) SetMarkDataPlane(v bool) {
 	o.MarkDataPlane = &v
 }
 
+// GetNodeGroup returns the NodeGroup field value if set, zero value otherwise.
+func (o *NodePoolNode) GetNodeGroup() string {
+	if o == nil || o.NodeGroup == nil {
+		var ret string
+		return ret
+	}
+	return *o.NodeGroup
+}
+
+// GetNodeGroupOk returns a tuple with the NodeGroup field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *NodePoolNode) GetNodeGroupOk() (*string, bool) {
+	if o == nil || o.NodeGroup == nil {
+		return nil, false
+	}
+	return o.NodeGroup, true
+}
+
+// HasNodeGroup returns a boolean if a field has been set.
+func (o *NodePoolNode) HasNodeGroup() bool {
+	return o != nil && o.NodeGroup != nil
+}
+
+// SetNodeGroup gets a reference to the given string and assigns it to the NodeGroup field.
+func (o *NodePoolNode) SetNodeGroup(v string) {
+	o.NodeGroup = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o NodePoolNode) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -164,6 +194,9 @@ func (o NodePoolNode) MarshalJSON() ([]byte, error) {
 	}
 	if o.MarkDataPlane != nil {
 		toSerialize["markDataPlane"] = o.MarkDataPlane
+	}
+	if o.NodeGroup != nil {
+		toSerialize["nodeGroup"] = o.NodeGroup
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -179,6 +212,7 @@ func (o *NodePoolNode) UnmarshalJSON(bytes []byte) (err error) {
 		AvailabilityZone *string `json:"availabilityZone"`
 		MarkControlPlane *bool   `json:"markControlPlane,omitempty"`
 		MarkDataPlane    *bool   `json:"markDataPlane,omitempty"`
+		NodeGroup        *string `json:"nodeGroup,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -191,7 +225,7 @@ func (o *NodePoolNode) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "availabilityZone", "markControlPlane", "markDataPlane"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "availabilityZone", "markControlPlane", "markDataPlane", "nodeGroup"})
 	} else {
 		return err
 	}
@@ -199,6 +233,7 @@ func (o *NodePoolNode) UnmarshalJSON(bytes []byte) (err error) {
 	o.AvailabilityZone = *all.AvailabilityZone
 	o.MarkControlPlane = all.MarkControlPlane
 	o.MarkDataPlane = all.MarkDataPlane
+	o.NodeGroup = all.NodeGroup
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
