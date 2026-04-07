@@ -21485,7 +21485,6 @@ components:
         - Finished
         - Cancelling
         - Cancelled
-        - RebuildCanceled
       description: Current status of the task
     taskListItem:
       type: object
