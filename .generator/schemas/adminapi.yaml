@@ -22978,10 +22978,16 @@ components:
         - sla
         - days
         - statusDuration
+    environmentCredentialUsage:
+      type: string
+      enum:
+        - dns
+      description: The intended usage of the environment credential.
     environmentCredential:
       type: object
       required:
         - name
+        - usage
         - key
         - secret
         - createdAt
@@ -22990,6 +22996,8 @@ components:
         name:
           type: string
           description: Name of the environment credential
+        usage:
+          $ref: '#/components/schemas/environmentCredentialUsage'
         key:
           type: string
           description: Key of the environment credential entry, such as accessKeyId for AWS
@@ -23022,12 +23030,15 @@ components:
       type: object
       required:
         - name
+        - usage
         - key
         - secret
       properties:
         name:
           type: string
           description: Name of the environment credential
+        usage:
+          $ref: '#/components/schemas/environmentCredentialUsage'
         description:
           type: string
           description: Description of the environment credential
