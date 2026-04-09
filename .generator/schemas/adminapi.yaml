@@ -29888,6 +29888,12 @@ components:
     environmentPricing:
       type: object
       description: the information of environment pricing
+      required:
+        - envName
+        - cpuPrice
+        - memoryPrice
+        - storagePrice
+        - backupPrice
       properties:
         envName:
           description: The environment name
@@ -29905,6 +29911,10 @@ components:
           description: The price of Storage, the unit is 'GB'
           type: string
           nullable: true
+        backupPrice:
+          description: The price of Backup, the unit is 'GB'
+          type: string
+          nullable: true
     environmentPricingList:
       type: object
       description: list of information with environment pricing
@@ -29919,6 +29929,12 @@ components:
     globalPricing:
       type: object
       description: the global information of pricing
+      required:
+        - billScheduleTime
+        - cpuPrice
+        - memoryPrice
+        - storagePrice
+        - backupPrice
       properties:
         enabled:
           description: Enable global pricing
@@ -29951,6 +29967,10 @@ components:
           nullable: true
         storagePrice:
           description: The price of Storage, the unit is 'GB'
+          type: string
+          nullable: true
+        backupPrice:
+          description: The price of Backup, the unit is 'GB'
           type: string
           nullable: true
         timezone:
@@ -30106,6 +30126,9 @@ components:
           type: string
         storage:
           description: The storage usage tracked for the interval
+          type: string
+        backup:
+          description: The backup usage tracked for the interval
           type: string
     MeteringTrackList:
       type: object
