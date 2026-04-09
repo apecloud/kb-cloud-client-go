@@ -14700,6 +14700,10 @@ components:
           description: Enable load balancer service for this environment
           type: boolean
           default: true
+        domainEnabled:
+          description: Enable domain service for this environment
+          type: boolean
+          default: false
         internetLBEnabled:
           description: Enable the Internet load balancer service for this environment
           type: boolean
