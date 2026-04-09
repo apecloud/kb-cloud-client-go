@@ -26061,9 +26061,10 @@ components:
                 go template conditional judgment expression, such as $.root.inPlace == true
                 available built-in objects that can be referenced in the expression include:
                 - cluster: cluster record
-                - params: ops input parameters
+                - ops: opsrequest object
                 - component: current component
                 - root: current object
+                In rebuildinstance ops, only `ops` object is available.
             params:
               description: custom ops parameters
               items:
@@ -26077,9 +26078,10 @@ components:
                       parameter value, you can define a go template expression to refer the variable of the current ops.
                       available built-in objects that can be referenced in the expression include:
                       - cluster: cluster record
-                      - params: ops input parameters
+                      - ops: opsrequest object
                       - component: current component
                       - root: current object
+                      In rebuildinstance ops, only `ops` object is available.
                 type: object
               type: array
     licenseOption:

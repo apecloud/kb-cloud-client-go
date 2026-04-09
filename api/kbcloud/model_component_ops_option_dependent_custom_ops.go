@@ -14,9 +14,10 @@ type ComponentOpsOptionDependentCustomOps struct {
 	// go template conditional judgment expression, such as $.root.inPlace == true
 	// available built-in objects that can be referenced in the expression include:
 	// - cluster: cluster record
-	// - params: ops input parameters
+	// - ops: opsrequest object
 	// - component: current component
 	// - root: current object
+	// In rebuildinstance ops, only `ops` object is available.
 	//
 	When *string `json:"when,omitempty"`
 	// custom ops parameters
