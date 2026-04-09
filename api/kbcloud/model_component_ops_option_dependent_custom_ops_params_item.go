@@ -12,9 +12,10 @@ type ComponentOpsOptionDependentCustomOpsParamsItem struct {
 	// parameter value, you can define a go template expression to refer the variable of the current ops.
 	// available built-in objects that can be referenced in the expression include:
 	// - cluster: cluster record
-	// - params: ops input parameters
+	// - ops: opsrequest object
 	// - component: current component
 	// - root: current object
+	// In rebuildinstance ops, only `ops` object is available.
 	//
 	Value *string `json:"value,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
