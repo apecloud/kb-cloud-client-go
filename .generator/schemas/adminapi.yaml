@@ -21708,6 +21708,9 @@ components:
         dataPlane:
           description: node is in data plane
           type: boolean
+        managed:
+          description: Whether the node is managed (has data-plane or control-plane label)
+          type: boolean
         status:
           $ref: '#/components/schemas/nodeStatus'
           description: Node status
