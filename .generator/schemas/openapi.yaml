@@ -20570,6 +20570,10 @@ components:
           type: array
           items:
             type: string
+        supportedVersions:
+          type: array
+          items:
+            type: string
         promotionTargetModes:
           type: object
           additionalProperties:
