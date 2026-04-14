@@ -19352,6 +19352,9 @@ components:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
+        schedulingPolicy:
+          description: Scheduling policy for this cluster.
+          $ref: '#/components/schemas/schedulingPolicyType'
       description: KubeBlocks cluster details
     clusterBatchUpdateData:
       type: object
@@ -31995,6 +31998,7 @@ components:
         default:
           description: Indicates whether this rule is used as the fallback when no other rule matches.
           type: boolean
+          nullable: true
       required:
         - name
         - engine
