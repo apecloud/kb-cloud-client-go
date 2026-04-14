@@ -21486,8 +21486,6 @@ components:
         - Stopped
         - Succeed
         - Failed
-        - Deleted
-        - Finished
         - Cancelling
         - Cancelled
       description: Current status of the task
