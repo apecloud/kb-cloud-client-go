@@ -2935,6 +2935,46 @@ paths:
         - opsrequest
         - shared
       x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/architecture-change:
+    post:
+      operationId: changeClusterArchitecture
+      summary: Change cluster architecture from standalone to HA mode
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/opsArchitectureChange'
+        required: true
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opsRequestName'
+          description: Accepted
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - opsrequest
+        - shared
+      x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/clusters/{clusterName}/promote:
     post:
       operationId: promoteCluster
@@ -17176,6 +17216,23 @@ components:
           type: boolean
           description: force the scaling operation without pre-check
           default: false
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
+      type: object
+    opsArchitectureChange:
+      description: OpsArchitectureChange is the payload to upgrade a standalone cluster to primary-replica/HA mode in-place.
+      required:
+        - targetMode
+        - replicas
+      properties:
+        targetMode:
+          description: Target engine mode (e.g. "replication")
+          type: string
+          minLength: 1
+        replicas:
+          description: Number of replicas in target mode (minimum 2)
+          type: integer
+          minimum: 2
         schedule:
           $ref: '#/components/schemas/taskSchedule'
       type: object

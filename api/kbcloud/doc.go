@@ -280,6 +280,7 @@
 //   - [mssqlApi.manageMssqlTDEDatabase]
 //   - [oceanbaseApi.getTenant]
 //   - [oceanbaseApi.listTenants]
+//   - [opsrequestApi.changeClusterArchitecture]
 //   - [opsrequestApi.clusterVolumeExpand]
 //   - [opsrequestApi.customOps]
 //   - [opsrequestApi.exposeCluster]
