@@ -1264,7 +1264,7 @@ func (a *BackupApi) ListObjectsTreeForSelectiveBackup(ctx _context.Context, orgN
 	apiInfo := common.APIInfo{
 		Tag:         "backup",
 		OperationID: "listObjectsTreeForSelectiveBackup",
-		Path:        "/admin/organizations/{orgName}/clusters/{clusterName}/listObjectsForSelectiveBackup",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/listObjectsForSelectiveBackup",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1274,7 +1274,7 @@ func (a *BackupApi) ListObjectsTreeForSelectiveBackup(ctx _context.Context, orgN
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/organizations/{orgName}/clusters/{clusterName}/listObjectsForSelectiveBackup"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/listObjectsForSelectiveBackup"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
