@@ -2100,6 +2100,37 @@ paths:
       tags:
         - cluster
         - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/offlineInstances:
+    get:
+      operationId: listOfflineInstance
+      summary: List offline cluster instances
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offlineInstanceList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - cluster
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/restart:
     post:
       operationId: restartInstance
@@ -7986,7 +8017,7 @@ paths:
         - backup
         - shared
       x-codegen-request-body-name: body
-  /admin/organizations/{orgName}/clusters/{clusterName}/listObjectsForSelectiveBackup:
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/listObjectsForSelectiveBackup:
     get:
       operationId: listObjectsTreeForSelectiveBackup
       summary: List objects tree for selective backup
@@ -19384,6 +19415,32 @@ components:
           $ref: '#/components/schemas/clusterBatchUpdateData'
           description: Update information to be applied to all clusters
       description: ClusterBatchUpdate is the payload for batch updating multiple clusters with the same update information
+    engineModeComponentReplicas:
+      type: object
+      description: Target replicas for a component during mode change.
+      required:
+        - component
+        - replicas
+      properties:
+        component:
+          type: string
+          description: Component name.
+        replicas:
+          type: integer
+          format: int64
+          description: Target number of replicas.
+    engineModeTransition:
+      type: object
+      description: Parameters for switching the engine mode of a cluster.
+      required:
+        - mode
+        - components
+      properties:
+        mode:
+          type: string
+          description: Target engine mode.
+        components:
+          $ref: '#/components/schemas/engineModeComponentReplicas'
     clusterUpdate:
       type: object
       properties:
@@ -19395,6 +19452,8 @@ components:
           nullable: true
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
+        engineModeTransition:
+          $ref: '#/components/schemas/engineModeTransition'
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
     instanceStorageItem:
       description: Instance storage information
@@ -19508,6 +19567,37 @@ components:
           description: Items is the list of KubeBlocks cluster objects in the list
           items:
             $ref: '#/components/schemas/instance'
+          type: array
+      required:
+        - items
+      type: object
+    offlineInstance:
+      description: Offline instance is the information of KubeBlocks cluster instances
+      properties:
+        cluster:
+          description: Cluster name
+          type: string
+        componentName:
+          description: Component name
+          type: string
+        component:
+          description: component type, refer to componentDef and support NamePrefix
+          type: string
+        name:
+          description: Instance name
+          type: string
+      required:
+        - cluster
+        - component
+        - name
+      type: object
+    offlineInstanceList:
+      description: OfflineInstanceList is a list of offline KubeBlocks cluster instances
+      properties:
+        items:
+          description: Items is the list of offline KubeBlocks cluster instance objects in the list
+          items:
+            $ref: '#/components/schemas/offlineInstance'
           type: array
       required:
         - items
@@ -25471,6 +25561,18 @@ components:
               type: string
               description: |
                 Region to use. If not set, it means the engine does not need this option.
+    modeTransition:
+      type: object
+      required:
+        - mode
+        - enabled
+      properties:
+        mode:
+          type: string
+          description: Target mode name.
+        enabled:
+          type: boolean
+          description: Whether this transition is enabled.
     modeOption:
       type: object
       required:
@@ -25551,6 +25653,11 @@ components:
           type: boolean
           description: whether the mode is hidden for creation
           nullable: true
+        transition:
+          type: array
+          description: Valid mode transitions from this mode.
+          items:
+            $ref: '#/components/schemas/modeTransition'
     accountOption:
       type: object
       required:
