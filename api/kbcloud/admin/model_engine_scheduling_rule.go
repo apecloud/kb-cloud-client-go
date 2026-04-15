@@ -29,7 +29,7 @@ type EngineSchedulingRule struct {
 	// Optional description of the scheduling rule.
 	Description *string `json:"description,omitempty"`
 	// Indicates whether this rule is used as the fallback when no other rule matches.
-	Default *bool `json:"default,omitempty"`
+	Default common.NullableBool `json:"default,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -230,32 +230,43 @@ func (o *EngineSchedulingRule) SetDescription(v string) {
 	o.Description = &v
 }
 
-// GetDefault returns the Default field value if set, zero value otherwise.
+// GetDefault returns the Default field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EngineSchedulingRule) GetDefault() bool {
-	if o == nil || o.Default == nil {
+	if o == nil || o.Default.Get() == nil {
 		var ret bool
 		return ret
 	}
-	return *o.Default
+	return *o.Default.Get()
 }
 
 // GetDefaultOk returns a tuple with the Default field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EngineSchedulingRule) GetDefaultOk() (*bool, bool) {
-	if o == nil || o.Default == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Default, true
+	return o.Default.Get(), o.Default.IsSet()
 }
 
 // HasDefault returns a boolean if a field has been set.
 func (o *EngineSchedulingRule) HasDefault() bool {
-	return o != nil && o.Default != nil
+	return o != nil && o.Default.IsSet()
 }
 
-// SetDefault gets a reference to the given bool and assigns it to the Default field.
+// SetDefault gets a reference to the given common.NullableBool and assigns it to the Default field.
 func (o *EngineSchedulingRule) SetDefault(v bool) {
-	o.Default = &v
+	o.Default.Set(&v)
+}
+
+// SetDefaultNil sets the value for Default to be an explicit nil.
+func (o *EngineSchedulingRule) SetDefaultNil() {
+	o.Default.Set(nil)
+}
+
+// UnsetDefault ensures that no value is present for Default, not even an explicit nil.
+func (o *EngineSchedulingRule) UnsetDefault() {
+	o.Default.Unset()
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -275,8 +286,8 @@ func (o EngineSchedulingRule) MarshalJSON() ([]byte, error) {
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
-	if o.Default != nil {
-		toSerialize["default"] = o.Default
+	if o.Default.IsSet() {
+		toSerialize["default"] = o.Default.Get()
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -295,7 +306,7 @@ func (o *EngineSchedulingRule) UnmarshalJSON(bytes []byte) (err error) {
 		TargetSelector       *[]Target             `json:"targetSelector"`
 		SchedulingPolicyType *SchedulingPolicyType `json:"schedulingPolicyType"`
 		Description          *string               `json:"description,omitempty"`
-		Default              *bool                 `json:"default,omitempty"`
+		Default              common.NullableBool   `json:"default,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

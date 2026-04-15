@@ -41,6 +41,8 @@ type Node struct {
 	ControlPlane *bool `json:"controlPlane,omitempty"`
 	// node is in data plane
 	DataPlane *bool `json:"dataPlane,omitempty"`
+	// Whether the node is managed (has data-plane or control-plane label)
+	Managed *bool `json:"managed,omitempty"`
 	// Status of the node
 	Status NodeStatus `json:"status"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -418,6 +420,34 @@ func (o *Node) SetDataPlane(v bool) {
 	o.DataPlane = &v
 }
 
+// GetManaged returns the Managed field value if set, zero value otherwise.
+func (o *Node) GetManaged() bool {
+	if o == nil || o.Managed == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Managed
+}
+
+// GetManagedOk returns a tuple with the Managed field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Node) GetManagedOk() (*bool, bool) {
+	if o == nil || o.Managed == nil {
+		return nil, false
+	}
+	return o.Managed, true
+}
+
+// HasManaged returns a boolean if a field has been set.
+func (o *Node) HasManaged() bool {
+	return o != nil && o.Managed != nil
+}
+
+// SetManaged gets a reference to the given bool and assigns it to the Managed field.
+func (o *Node) SetManaged(v bool) {
+	o.Managed = &v
+}
+
 // GetStatus returns the Status field value.
 func (o *Node) GetStatus() NodeStatus {
 	if o == nil {
@@ -484,6 +514,9 @@ func (o Node) MarshalJSON() ([]byte, error) {
 	if o.DataPlane != nil {
 		toSerialize["dataPlane"] = o.DataPlane
 	}
+	if o.Managed != nil {
+		toSerialize["managed"] = o.Managed
+	}
 	toSerialize["status"] = o.Status
 
 	for key, value := range o.AdditionalProperties {
@@ -508,6 +541,7 @@ func (o *Node) UnmarshalJSON(bytes []byte) (err error) {
 		NodeGroup    *string        `json:"nodeGroup,omitempty"`
 		ControlPlane *bool          `json:"controlPlane,omitempty"`
 		DataPlane    *bool          `json:"dataPlane,omitempty"`
+		Managed      *bool          `json:"managed,omitempty"`
 		Status       *NodeStatus    `json:"status"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -527,7 +561,7 @@ func (o *Node) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cpu", "cpuStats", "createdAt", "hostName", "instanceType", "ip", "memory", "memoryStats", "zone", "region", "nodeGroup", "controlPlane", "dataPlane", "status"})
+		common.DeleteKeys(additionalProperties, &[]string{"cpu", "cpuStats", "createdAt", "hostName", "instanceType", "ip", "memory", "memoryStats", "zone", "region", "nodeGroup", "controlPlane", "dataPlane", "managed", "status"})
 	} else {
 		return err
 	}
@@ -552,6 +586,7 @@ func (o *Node) UnmarshalJSON(bytes []byte) (err error) {
 	o.NodeGroup = all.NodeGroup
 	o.ControlPlane = all.ControlPlane
 	o.DataPlane = all.DataPlane
+	o.Managed = all.Managed
 	if !all.Status.IsValid() {
 		hasInvalidField = true
 	} else {

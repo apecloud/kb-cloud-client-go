@@ -118,6 +118,7 @@
 //   - [clusterApi.listEndpoints]
 //   - [clusterApi.listInstance]
 //   - [clusterApi.listInstanceEvents]
+//   - [clusterApi.listOfflineInstance]
 //   - [clusterApi.patchCluster]
 //   - [clusterApi.queryClusterMetrics]
 //   - [clusterApi.restartInstance]

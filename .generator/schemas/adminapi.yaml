@@ -2100,6 +2100,37 @@ paths:
       tags:
         - cluster
         - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/offlineInstances:
+    get:
+      operationId: listOfflineInstance
+      summary: List offline cluster instances
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offlineInstanceList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - cluster
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/restart:
     post:
       operationId: restartInstance
@@ -19352,6 +19383,9 @@ components:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
+        schedulingPolicy:
+          description: Scheduling policy for this cluster.
+          $ref: '#/components/schemas/schedulingPolicyType'
       description: KubeBlocks cluster details
     clusterBatchUpdateData:
       type: object
@@ -19505,6 +19539,37 @@ components:
           description: Items is the list of KubeBlocks cluster objects in the list
           items:
             $ref: '#/components/schemas/instance'
+          type: array
+      required:
+        - items
+      type: object
+    offlineInstance:
+      description: Offline instance is the information of KubeBlocks cluster instances
+      properties:
+        cluster:
+          description: Cluster name
+          type: string
+        componentName:
+          description: Component name
+          type: string
+        component:
+          description: component type, refer to componentDef and support NamePrefix
+          type: string
+        name:
+          description: Instance name
+          type: string
+      required:
+        - cluster
+        - component
+        - name
+      type: object
+    offlineInstanceList:
+      description: OfflineInstanceList is a list of offline KubeBlocks cluster instances
+      properties:
+        items:
+          description: Items is the list of offline KubeBlocks cluster instance objects in the list
+          items:
+            $ref: '#/components/schemas/offlineInstance'
           type: array
       required:
         - items
@@ -21707,6 +21772,9 @@ components:
           type: boolean
         dataPlane:
           description: node is in data plane
+          type: boolean
+        managed:
+          description: Whether the node is managed (has data-plane or control-plane label)
           type: boolean
         status:
           $ref: '#/components/schemas/nodeStatus'
@@ -29159,8 +29227,6 @@ components:
         - Stopped
         - Succeed
         - Failed
-        - Deleted
-        - Finished
         - Cancelling
         - Cancelled
       description: Current status of the task
@@ -32013,6 +32079,7 @@ components:
         default:
           description: Indicates whether this rule is used as the fallback when no other rule matches.
           type: boolean
+          nullable: true
       required:
         - name
         - engine
