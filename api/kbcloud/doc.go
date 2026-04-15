@@ -320,6 +320,7 @@
 //   - [parameterTemplateApi.updateClusterParameterTemplate]
 //   - [platformParameterApi.getPlatformParameter]
 //   - [platformParameterApi.listPlatformParameters]
+//   - [platformParameterApi.updatePlatformParameter]
 //   - [postgresqlApi.createPGExtension]
 //   - [postgresqlApi.dropPGExtension]
 //   - [postgresqlApi.listPGExtensions]

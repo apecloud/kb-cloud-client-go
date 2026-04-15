@@ -12323,6 +12323,42 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - platformParameter
+      operationId: updatePlatformParameter
+      summary: update single platformParameter
+      parameters:
+        - description: name of the platformParameter
+          in: path
+          name: platformParameterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - value
+              properties:
+                value:
+                  type: string
+                  description: platformParameter value
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/platformParameter'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /api/v1/environments/{environmentName}/storages:
     get:
       operationId: listStorages
