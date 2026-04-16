@@ -16619,7 +16619,7 @@ components:
       description: Parameters for switching the engine mode of a cluster.
       required:
         - mode
-        - hscale
+        - hScale
       properties:
         mode:
           type: string
