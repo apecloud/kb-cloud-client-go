@@ -129,6 +129,7 @@
 //   - [clusterLogApi.aggregateSlowLogs]
 //   - [clusterLogApi.queryAuditLogs]
 //   - [clusterLogApi.queryErrorLogs]
+//   - [clusterLogApi.queryLogHits]
 //   - [clusterLogApi.queryPodLogs]
 //   - [clusterLogApi.queryRunningLogs]
 //   - [clusterLogApi.querySlowLogs]
