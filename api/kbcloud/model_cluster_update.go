@@ -17,7 +17,7 @@ type ClusterUpdate struct {
 	// the maintenance window for a cluster
 	MaintainceWindow *ClusterMaintainceWindow `json:"maintainceWindow,omitempty"`
 	// Parameters for switching the engine mode of a cluster.
-	EngineModeTransition *EngineModeTransition `json:"engineModeTransition,omitempty"`
+	ModeTransition *ClusterModeTransition `json:"modeTransition,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -139,32 +139,32 @@ func (o *ClusterUpdate) SetMaintainceWindow(v ClusterMaintainceWindow) {
 	o.MaintainceWindow = &v
 }
 
-// GetEngineModeTransition returns the EngineModeTransition field value if set, zero value otherwise.
-func (o *ClusterUpdate) GetEngineModeTransition() EngineModeTransition {
-	if o == nil || o.EngineModeTransition == nil {
-		var ret EngineModeTransition
+// GetModeTransition returns the ModeTransition field value if set, zero value otherwise.
+func (o *ClusterUpdate) GetModeTransition() ClusterModeTransition {
+	if o == nil || o.ModeTransition == nil {
+		var ret ClusterModeTransition
 		return ret
 	}
-	return *o.EngineModeTransition
+	return *o.ModeTransition
 }
 
-// GetEngineModeTransitionOk returns a tuple with the EngineModeTransition field value if set, nil otherwise
+// GetModeTransitionOk returns a tuple with the ModeTransition field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterUpdate) GetEngineModeTransitionOk() (*EngineModeTransition, bool) {
-	if o == nil || o.EngineModeTransition == nil {
+func (o *ClusterUpdate) GetModeTransitionOk() (*ClusterModeTransition, bool) {
+	if o == nil || o.ModeTransition == nil {
 		return nil, false
 	}
-	return o.EngineModeTransition, true
+	return o.ModeTransition, true
 }
 
-// HasEngineModeTransition returns a boolean if a field has been set.
-func (o *ClusterUpdate) HasEngineModeTransition() bool {
-	return o != nil && o.EngineModeTransition != nil
+// HasModeTransition returns a boolean if a field has been set.
+func (o *ClusterUpdate) HasModeTransition() bool {
+	return o != nil && o.ModeTransition != nil
 }
 
-// SetEngineModeTransition gets a reference to the given EngineModeTransition and assigns it to the EngineModeTransition field.
-func (o *ClusterUpdate) SetEngineModeTransition(v EngineModeTransition) {
-	o.EngineModeTransition = &v
+// SetModeTransition gets a reference to the given ClusterModeTransition and assigns it to the ModeTransition field.
+func (o *ClusterUpdate) SetModeTransition(v ClusterModeTransition) {
+	o.ModeTransition = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -182,8 +182,8 @@ func (o ClusterUpdate) MarshalJSON() ([]byte, error) {
 	if o.MaintainceWindow != nil {
 		toSerialize["maintainceWindow"] = o.MaintainceWindow
 	}
-	if o.EngineModeTransition != nil {
-		toSerialize["engineModeTransition"] = o.EngineModeTransition
+	if o.ModeTransition != nil {
+		toSerialize["modeTransition"] = o.ModeTransition
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -195,17 +195,17 @@ func (o ClusterUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		TerminationPolicy    *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
-		DisplayName          common.NullableString     `json:"displayName,omitempty"`
-		MaintainceWindow     *ClusterMaintainceWindow  `json:"maintainceWindow,omitempty"`
-		EngineModeTransition *EngineModeTransition     `json:"engineModeTransition,omitempty"`
+		TerminationPolicy *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
+		DisplayName       common.NullableString     `json:"displayName,omitempty"`
+		MaintainceWindow  *ClusterMaintainceWindow  `json:"maintainceWindow,omitempty"`
+		ModeTransition    *ClusterModeTransition    `json:"modeTransition,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"terminationPolicy", "displayName", "maintainceWindow", "engineModeTransition"})
+		common.DeleteKeys(additionalProperties, &[]string{"terminationPolicy", "displayName", "maintainceWindow", "modeTransition"})
 	} else {
 		return err
 	}
@@ -221,10 +221,10 @@ func (o *ClusterUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.MaintainceWindow = all.MaintainceWindow
-	if all.EngineModeTransition != nil && all.EngineModeTransition.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.ModeTransition != nil && all.ModeTransition.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.EngineModeTransition = all.EngineModeTransition
+	o.ModeTransition = all.ModeTransition
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

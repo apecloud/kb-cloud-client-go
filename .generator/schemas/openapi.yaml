@@ -2404,6 +2404,75 @@ paths:
       tags:
         - clusterLog
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/hits:
+    get:
+      description: Query log hits histogram for time-bucketed log counts (VictoriaLogs only)
+      summary: Query log hits histogram
+      operationId: queryLogHits
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: step
+          required: true
+          description: Time bucket size, e.g. 5s, 30s, 1m, 5m, 30m, 1h
+          schema:
+            type: string
+            default: 1m
+        - in: query
+          name: logType
+          required: true
+          description: 'Log type: runninglog, errorlog, slow, auditlog'
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: query
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterLogHitsResponse'
+          description: Successful operation
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/error:
     get:
       description: Query error logs of a cluster
@@ -16476,32 +16545,87 @@ components:
           $ref: '#/components/schemas/clusterBatchUpdateData'
           description: Update information to be applied to all clusters
       description: ClusterBatchUpdate is the payload for batch updating multiple clusters with the same update information
-    engineModeComponentReplicas:
+    taskScheduleType:
+      type: string
+      enum:
+        - immediate
+        - scheduled
+        - maintenanceWindow
+      description: Schedule type for task execution
+    taskSchedule:
       type: object
-      description: Target replicas for a component during mode change.
+      properties:
+        type:
+          $ref: '#/components/schemas/taskScheduleType'
+        startTime:
+          type: string
+          format: date-time
+          description: Start time of the execution window (required for scheduled type)
+          x-nullable: true
+        endTime:
+          type: string
+          format: date-time
+          description: End time of the execution window (required for scheduled type)
+          x-nullable: true
+      required:
+        - type
+    opsHScale:
+      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
       required:
         - component
-        - replicas
       properties:
         component:
+          description: component type
           type: string
-          description: Component name.
+          minLength: 1
+        backupName:
+          description: name of the backup to restore from
+          type: string
+          nullable: true
         replicas:
+          description: number of replicas
           type: integer
-          format: int64
-          description: Target number of replicas.
-    engineModeTransition:
+          nullable: true
+        onlineInstancesToOffline:
+          type: array
+          items:
+            type: string
+          description: List of online instance names to be switched to offline during scaling in.
+          nullable: true
+        OfflineInstancesToOnline:
+          type: array
+          items:
+            type: string
+          description: List of offline instance names to be switched to online during scaling out.
+          nullable: true
+        shards:
+          description: number of shards, mutually exclusive with replicas.
+          type: integer
+          nullable: true
+        preConditionDeadlineSeconds:
+          description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
+          type: integer
+          nullable: true
+          minimum: 0
+        force:
+          type: boolean
+          description: force the scaling operation without pre-check
+          default: false
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
+      type: object
+    clusterModeTransition:
       type: object
       description: Parameters for switching the engine mode of a cluster.
       required:
         - mode
-        - components
+        - hscale
       properties:
         mode:
           type: string
           description: Target engine mode.
-        components:
-          $ref: '#/components/schemas/engineModeComponentReplicas'
+        hScale:
+          $ref: '#/components/schemas/opsHScale'
     clusterUpdate:
       type: object
       properties:
@@ -16513,8 +16637,8 @@ components:
           nullable: true
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
-        engineModeTransition:
-          $ref: '#/components/schemas/engineModeTransition'
+        modeTransition:
+          $ref: '#/components/schemas/clusterModeTransition'
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
     instanceStorageItem:
       description: Instance storage information
@@ -16897,30 +17021,30 @@ components:
             $ref: '#/components/schemas/clusterExecutionLogAggregateItem'
         summary:
           $ref: '#/components/schemas/clusterExecutionLogAggregateSummary'
-    taskScheduleType:
-      type: string
-      enum:
-        - immediate
-        - scheduled
-        - maintenanceWindow
-      description: Schedule type for task execution
-    taskSchedule:
+    clusterLogHitsItem:
       type: object
+      description: A single time bucket in the log hits histogram
       properties:
-        type:
-          $ref: '#/components/schemas/taskScheduleType'
-        startTime:
-          type: string
-          format: date-time
-          description: Start time of the execution window (required for scheduled type)
-          x-nullable: true
-        endTime:
-          type: string
-          format: date-time
-          description: End time of the execution window (required for scheduled type)
-          x-nullable: true
-      required:
-        - type
+        timestamp:
+          type: integer
+          format: int64
+          x-omitempty: false
+        count:
+          type: integer
+          format: int64
+          x-omitempty: false
+    clusterLogHitsResponse:
+      type: object
+      description: Log hits histogram response with time-bucketed counts
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterLogHitsItem'
+        total:
+          type: integer
+          format: int64
+          x-omitempty: false
     reconfigureCreate:
       description: ReconfigureCreate is the payload to reconfigure a KubeBlocks cluster
       properties:
@@ -17221,51 +17345,6 @@ components:
         classCode:
           description: class code of the cluster
           type: string
-        schedule:
-          $ref: '#/components/schemas/taskSchedule'
-      type: object
-    opsHScale:
-      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
-      required:
-        - component
-      properties:
-        component:
-          description: component type
-          type: string
-          minLength: 1
-        backupName:
-          description: name of the backup to restore from
-          type: string
-          nullable: true
-        replicas:
-          description: number of replicas
-          type: integer
-          nullable: true
-        onlineInstancesToOffline:
-          type: array
-          items:
-            type: string
-          description: List of online instance names to be switched to offline during scaling in.
-          nullable: true
-        OfflineInstancesToOnline:
-          type: array
-          items:
-            type: string
-          description: List of offline instance names to be switched to online during scaling out.
-          nullable: true
-        shards:
-          description: number of shards, mutually exclusive with replicas.
-          type: integer
-          nullable: true
-        preConditionDeadlineSeconds:
-          description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
-          type: integer
-          nullable: true
-          minimum: 0
-        force:
-          type: boolean
-          description: force the scaling operation without pre-check
-          default: false
         schedule:
           $ref: '#/components/schemas/taskSchedule'
       type: object
@@ -19755,18 +19834,14 @@ components:
               type: string
               description: |
                 Region to use. If not set, it means the engine does not need this option.
-    modeTransition:
+    engineModeTransition:
       type: object
       required:
         - mode
-        - enabled
       properties:
         mode:
           type: string
           description: Target mode name.
-        enabled:
-          type: boolean
-          description: Whether this transition is enabled.
     modeOption:
       type: object
       required:
@@ -19851,7 +19926,7 @@ components:
           type: array
           description: Valid mode transitions from this mode.
           items:
-            $ref: '#/components/schemas/modeTransition'
+            $ref: '#/components/schemas/engineModeTransition'
     accountOption:
       type: object
       required:

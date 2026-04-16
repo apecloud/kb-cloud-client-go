@@ -30,7 +30,7 @@ type ModeOption struct {
 	// whether the mode is hidden for creation
 	HideOnCreate common.NullableBool `json:"hideOnCreate,omitempty"`
 	// Valid mode transitions from this mode.
-	Transition []ModeTransition `json:"transition,omitempty"`
+	Transition []EngineModeTransition `json:"transition,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -413,9 +413,9 @@ func (o *ModeOption) UnsetHideOnCreate() {
 }
 
 // GetTransition returns the Transition field value if set, zero value otherwise.
-func (o *ModeOption) GetTransition() []ModeTransition {
+func (o *ModeOption) GetTransition() []EngineModeTransition {
 	if o == nil || o.Transition == nil {
-		var ret []ModeTransition
+		var ret []EngineModeTransition
 		return ret
 	}
 	return o.Transition
@@ -423,7 +423,7 @@ func (o *ModeOption) GetTransition() []ModeTransition {
 
 // GetTransitionOk returns a tuple with the Transition field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModeOption) GetTransitionOk() (*[]ModeTransition, bool) {
+func (o *ModeOption) GetTransitionOk() (*[]EngineModeTransition, bool) {
 	if o == nil || o.Transition == nil {
 		return nil, false
 	}
@@ -435,8 +435,8 @@ func (o *ModeOption) HasTransition() bool {
 	return o != nil && o.Transition != nil
 }
 
-// SetTransition gets a reference to the given []ModeTransition and assigns it to the Transition field.
-func (o *ModeOption) SetTransition(v []ModeTransition) {
+// SetTransition gets a reference to the given []EngineModeTransition and assigns it to the Transition field.
+func (o *ModeOption) SetTransition(v []EngineModeTransition) {
 	o.Transition = v
 }
 
@@ -503,7 +503,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 		ObjectStorage               *ModeObjectStorage               `json:"objectStorage,omitempty"`
 		ValuesMappings              *ModeOptionValuesMappings        `json:"valuesMappings,omitempty"`
 		HideOnCreate                common.NullableBool              `json:"hideOnCreate,omitempty"`
-		Transition                  []ModeTransition                 `json:"transition,omitempty"`
+		Transition                  []EngineModeTransition           `json:"transition,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

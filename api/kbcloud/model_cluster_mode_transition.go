@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"fmt"
@@ -10,37 +10,37 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type ModeTransition struct {
-	// Target mode name.
+// ClusterModeTransition Parameters for switching the engine mode of a cluster.
+type ClusterModeTransition struct {
+	// Target engine mode.
 	Mode string `json:"mode"`
-	// Whether this transition is enabled.
-	Enabled bool `json:"enabled"`
+	// OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
+	HScale *OpsHScale `json:"hScale,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewModeTransition instantiates a new ModeTransition object.
+// NewClusterModeTransition instantiates a new ClusterModeTransition object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewModeTransition(mode string, enabled bool) *ModeTransition {
-	this := ModeTransition{}
+func NewClusterModeTransition(mode string) *ClusterModeTransition {
+	this := ClusterModeTransition{}
 	this.Mode = mode
-	this.Enabled = enabled
 	return &this
 }
 
-// NewModeTransitionWithDefaults instantiates a new ModeTransition object.
+// NewClusterModeTransitionWithDefaults instantiates a new ClusterModeTransition object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewModeTransitionWithDefaults() *ModeTransition {
-	this := ModeTransition{}
+func NewClusterModeTransitionWithDefaults() *ClusterModeTransition {
+	this := ClusterModeTransition{}
 	return &this
 }
 
 // GetMode returns the Mode field value.
-func (o *ModeTransition) GetMode() string {
+func (o *ClusterModeTransition) GetMode() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -50,7 +50,7 @@ func (o *ModeTransition) GetMode() string {
 
 // GetModeOk returns a tuple with the Mode field value
 // and a boolean to check if the value has been set.
-func (o *ModeTransition) GetModeOk() (*string, bool) {
+func (o *ClusterModeTransition) GetModeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -58,41 +58,48 @@ func (o *ModeTransition) GetModeOk() (*string, bool) {
 }
 
 // SetMode sets field value.
-func (o *ModeTransition) SetMode(v string) {
+func (o *ClusterModeTransition) SetMode(v string) {
 	o.Mode = v
 }
 
-// GetEnabled returns the Enabled field value.
-func (o *ModeTransition) GetEnabled() bool {
-	if o == nil {
-		var ret bool
+// GetHScale returns the HScale field value if set, zero value otherwise.
+func (o *ClusterModeTransition) GetHScale() OpsHScale {
+	if o == nil || o.HScale == nil {
+		var ret OpsHScale
 		return ret
 	}
-	return o.Enabled
+	return *o.HScale
 }
 
-// GetEnabledOk returns a tuple with the Enabled field value
+// GetHScaleOk returns a tuple with the HScale field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModeTransition) GetEnabledOk() (*bool, bool) {
-	if o == nil {
+func (o *ClusterModeTransition) GetHScaleOk() (*OpsHScale, bool) {
+	if o == nil || o.HScale == nil {
 		return nil, false
 	}
-	return &o.Enabled, true
+	return o.HScale, true
 }
 
-// SetEnabled sets field value.
-func (o *ModeTransition) SetEnabled(v bool) {
-	o.Enabled = v
+// HasHScale returns a boolean if a field has been set.
+func (o *ClusterModeTransition) HasHScale() bool {
+	return o != nil && o.HScale != nil
+}
+
+// SetHScale gets a reference to the given OpsHScale and assigns it to the HScale field.
+func (o *ClusterModeTransition) SetHScale(v OpsHScale) {
+	o.HScale = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ModeTransition) MarshalJSON() ([]byte, error) {
+func (o ClusterModeTransition) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["mode"] = o.Mode
-	toSerialize["enabled"] = o.Enabled
+	if o.HScale != nil {
+		toSerialize["hScale"] = o.HScale
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -101,10 +108,10 @@ func (o ModeTransition) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ModeTransition) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ClusterModeTransition) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Mode    *string `json:"mode"`
-		Enabled *bool   `json:"enabled"`
+		Mode   *string    `json:"mode"`
+		HScale *OpsHScale `json:"hScale,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -112,20 +119,26 @@ func (o *ModeTransition) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Mode == nil {
 		return fmt.Errorf("required field mode missing")
 	}
-	if all.Enabled == nil {
-		return fmt.Errorf("required field enabled missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"mode", "enabled"})
+		common.DeleteKeys(additionalProperties, &[]string{"mode", "hScale"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Mode = *all.Mode
-	o.Enabled = *all.Enabled
+	if all.HScale != nil && all.HScale.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.HScale = all.HScale
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
