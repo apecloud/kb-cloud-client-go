@@ -2404,6 +2404,75 @@ paths:
       tags:
         - clusterLog
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/hits:
+    get:
+      description: Query log hits histogram for time-bucketed log counts (VictoriaLogs only)
+      summary: Query log hits histogram
+      operationId: queryLogHits
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: step
+          required: true
+          description: Time bucket size, e.g. 5s, 30s, 1m, 5m, 30m, 1h
+          schema:
+            type: string
+            default: 1m
+        - in: query
+          name: logType
+          required: true
+          description: 'Log type: runninglog, errorlog, slow, auditlog'
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: query
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterLogHitsResponse'
+          description: Successful operation
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/error:
     get:
       description: Query error logs of a cluster
@@ -16869,6 +16938,30 @@ components:
             $ref: '#/components/schemas/clusterExecutionLogAggregateItem'
         summary:
           $ref: '#/components/schemas/clusterExecutionLogAggregateSummary'
+    clusterLogHitsItem:
+      type: object
+      description: A single time bucket in the log hits histogram
+      properties:
+        timestamp:
+          type: integer
+          format: int64
+          x-omitempty: false
+        count:
+          type: integer
+          format: int64
+          x-omitempty: false
+    clusterLogHitsResponse:
+      type: object
+      description: Log hits histogram response with time-bucketed counts
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterLogHitsItem'
+        total:
+          type: integer
+          format: int64
+          x-omitempty: false
     taskScheduleType:
       type: string
       enum:
@@ -20896,13 +20989,19 @@ components:
     configType:
       enum:
         - string
+        - text
         - integer
         - float
+        - boolean
       type: string
-      description: the type of config
+      description: the type of config. The difference between 'text' and 'string' is that 'text' refers to a longer string, which may need to be displayed using a textarea on the frontend rather than an input field.
     connectionCfgType:
       enum:
         - database
+        - tlsEnable
+        - tlsCACert
+        - tlsCert
+        - tlsPrivateKey
       type: string
     extraConfig:
       type: object
@@ -20913,10 +21012,21 @@ components:
           $ref: '#/components/schemas/internationalDesc'
         type:
           $ref: '#/components/schemas/configType'
+        defaultValue:
+          type: string
+          nullable: true
         isRequired:
           type: boolean
         connectionCfgType:
           $ref: '#/components/schemas/connectionCfgType'
+        isDisplayOnlyCustomEndpoint:
+          type: boolean
+          nullable: true
+          description: Whether to display this config only when the endpoint type is custom. If true, it will not be displayed when the endpoint type is kubeblocks.
+        displayWith:
+          type: string
+          nullable: true
+          description: The display condition of this config. If empty, it will always be displayed; otherwise, it will be displayed only when the config corresponding to displayWith (of boolean type) is true.
     engineDefinitionDetail:
       type: object
       properties:
