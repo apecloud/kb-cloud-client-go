@@ -21,8 +21,8 @@ type ParamTplListItem struct {
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	// Description of parameter template
 	Description string `json:"description"`
-	// Major version of database engine, eg: 8.0
-	MajorVersion string `json:"majorVersion"`
+	// Major versions of database engine, eg: 8.0, 8.1, 8.2
+	MajorVersions []string `json:"majorVersions"`
 	// Name of database engine
 	Engine string `json:"engine"`
 	// Name of component
@@ -46,10 +46,10 @@ type ParamTplListItem struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParamTplListItem(description string, majorVersion string, engine string, component string, name string, partition string, paramTplId string) *ParamTplListItem {
+func NewParamTplListItem(description string, majorVersions []string, engine string, component string, name string, partition string, paramTplId string) *ParamTplListItem {
 	this := ParamTplListItem{}
 	this.Description = description
-	this.MajorVersion = majorVersion
+	this.MajorVersions = majorVersions
 	this.Engine = engine
 	this.Component = component
 	this.Name = name
@@ -145,27 +145,27 @@ func (o *ParamTplListItem) SetDescription(v string) {
 	o.Description = v
 }
 
-// GetMajorVersion returns the MajorVersion field value.
-func (o *ParamTplListItem) GetMajorVersion() string {
+// GetMajorVersions returns the MajorVersions field value.
+func (o *ParamTplListItem) GetMajorVersions() []string {
 	if o == nil {
-		var ret string
+		var ret []string
 		return ret
 	}
-	return o.MajorVersion
+	return o.MajorVersions
 }
 
-// GetMajorVersionOk returns a tuple with the MajorVersion field value
+// GetMajorVersionsOk returns a tuple with the MajorVersions field value
 // and a boolean to check if the value has been set.
-func (o *ParamTplListItem) GetMajorVersionOk() (*string, bool) {
+func (o *ParamTplListItem) GetMajorVersionsOk() (*[]string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.MajorVersion, true
+	return &o.MajorVersions, true
 }
 
-// SetMajorVersion sets field value.
-func (o *ParamTplListItem) SetMajorVersion(v string) {
-	o.MajorVersion = v
+// SetMajorVersions sets field value.
+func (o *ParamTplListItem) SetMajorVersions(v []string) {
+	o.MajorVersions = v
 }
 
 // GetEngine returns the Engine field value.
@@ -328,7 +328,7 @@ func (o ParamTplListItem) MarshalJSON() ([]byte, error) {
 		}
 	}
 	toSerialize["description"] = o.Description
-	toSerialize["majorVersion"] = o.MajorVersion
+	toSerialize["majorVersions"] = o.MajorVersions
 	toSerialize["engine"] = o.Engine
 	toSerialize["component"] = o.Component
 	toSerialize["name"] = o.Name
@@ -351,16 +351,16 @@ func (o ParamTplListItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParamTplListItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		OrgName      *string    `json:"orgName,omitempty"`
-		CreatedAt    *time.Time `json:"createdAt,omitempty"`
-		Description  *string    `json:"description"`
-		MajorVersion *string    `json:"majorVersion"`
-		Engine       *string    `json:"engine"`
-		Component    *string    `json:"component"`
-		Name         *string    `json:"name"`
-		Partition    *string    `json:"partition"`
-		ParamTplId   *string    `json:"paramTplID"`
-		UpdatedAt    *time.Time `json:"updatedAt,omitempty"`
+		OrgName       *string    `json:"orgName,omitempty"`
+		CreatedAt     *time.Time `json:"createdAt,omitempty"`
+		Description   *string    `json:"description"`
+		MajorVersions *[]string  `json:"majorVersions"`
+		Engine        *string    `json:"engine"`
+		Component     *string    `json:"component"`
+		Name          *string    `json:"name"`
+		Partition     *string    `json:"partition"`
+		ParamTplId    *string    `json:"paramTplID"`
+		UpdatedAt     *time.Time `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -368,8 +368,8 @@ func (o *ParamTplListItem) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Description == nil {
 		return fmt.Errorf("required field description missing")
 	}
-	if all.MajorVersion == nil {
-		return fmt.Errorf("required field majorVersion missing")
+	if all.MajorVersions == nil {
+		return fmt.Errorf("required field majorVersions missing")
 	}
 	if all.Engine == nil {
 		return fmt.Errorf("required field engine missing")
@@ -388,14 +388,14 @@ func (o *ParamTplListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"orgName", "createdAt", "description", "majorVersion", "engine", "component", "name", "partition", "paramTplID", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"orgName", "createdAt", "description", "majorVersions", "engine", "component", "name", "partition", "paramTplID", "updatedAt"})
 	} else {
 		return err
 	}
 	o.OrgName = all.OrgName
 	o.CreatedAt = all.CreatedAt
 	o.Description = *all.Description
-	o.MajorVersion = *all.MajorVersion
+	o.MajorVersions = *all.MajorVersions
 	o.Engine = *all.Engine
 	o.Component = *all.Component
 	o.Name = *all.Name

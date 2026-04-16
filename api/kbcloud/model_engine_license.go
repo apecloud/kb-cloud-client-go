@@ -12,14 +12,19 @@ import (
 )
 
 type EngineLicense struct {
-	EngineName  string     `json:"engineName"`
-	Name        string     `json:"name"`
-	Key         *string    `json:"key,omitempty"`
-	Description *string    `json:"description,omitempty"`
-	ExpiredAt   *time.Time `json:"expiredAt,omitempty"`
-	CreatedAt   *time.Time `json:"createdAt,omitempty"`
-	Id          *string    `json:"id,omitempty"`
-	IdString    *string    `json:"idString,omitempty"`
+	EngineName      string     `json:"engineName"`
+	Name            string     `json:"name"`
+	Key             *string    `json:"key,omitempty"`
+	Description     *string    `json:"description,omitempty"`
+	ExpiredAt       *time.Time `json:"expiredAt,omitempty"`
+	CreatedAt       *time.Time `json:"createdAt,omitempty"`
+	Id              *string    `json:"id,omitempty"`
+	IdString        *string    `json:"idString,omitempty"`
+	Type            *string    `json:"type,omitempty"`
+	EnvironmentName *string    `json:"environmentName,omitempty"`
+	EnvironmentId   *string    `json:"environmentID,omitempty"`
+	// Number of clusters that are using this license
+	ClusterCount *int32 `json:"clusterCount,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -258,6 +263,118 @@ func (o *EngineLicense) SetIdString(v string) {
 	o.IdString = &v
 }
 
+// GetType returns the Type field value if set, zero value otherwise.
+func (o *EngineLicense) GetType() string {
+	if o == nil || o.Type == nil {
+		var ret string
+		return ret
+	}
+	return *o.Type
+}
+
+// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineLicense) GetTypeOk() (*string, bool) {
+	if o == nil || o.Type == nil {
+		return nil, false
+	}
+	return o.Type, true
+}
+
+// HasType returns a boolean if a field has been set.
+func (o *EngineLicense) HasType() bool {
+	return o != nil && o.Type != nil
+}
+
+// SetType gets a reference to the given string and assigns it to the Type field.
+func (o *EngineLicense) SetType(v string) {
+	o.Type = &v
+}
+
+// GetEnvironmentName returns the EnvironmentName field value if set, zero value otherwise.
+func (o *EngineLicense) GetEnvironmentName() string {
+	if o == nil || o.EnvironmentName == nil {
+		var ret string
+		return ret
+	}
+	return *o.EnvironmentName
+}
+
+// GetEnvironmentNameOk returns a tuple with the EnvironmentName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineLicense) GetEnvironmentNameOk() (*string, bool) {
+	if o == nil || o.EnvironmentName == nil {
+		return nil, false
+	}
+	return o.EnvironmentName, true
+}
+
+// HasEnvironmentName returns a boolean if a field has been set.
+func (o *EngineLicense) HasEnvironmentName() bool {
+	return o != nil && o.EnvironmentName != nil
+}
+
+// SetEnvironmentName gets a reference to the given string and assigns it to the EnvironmentName field.
+func (o *EngineLicense) SetEnvironmentName(v string) {
+	o.EnvironmentName = &v
+}
+
+// GetEnvironmentId returns the EnvironmentId field value if set, zero value otherwise.
+func (o *EngineLicense) GetEnvironmentId() string {
+	if o == nil || o.EnvironmentId == nil {
+		var ret string
+		return ret
+	}
+	return *o.EnvironmentId
+}
+
+// GetEnvironmentIdOk returns a tuple with the EnvironmentId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineLicense) GetEnvironmentIdOk() (*string, bool) {
+	if o == nil || o.EnvironmentId == nil {
+		return nil, false
+	}
+	return o.EnvironmentId, true
+}
+
+// HasEnvironmentId returns a boolean if a field has been set.
+func (o *EngineLicense) HasEnvironmentId() bool {
+	return o != nil && o.EnvironmentId != nil
+}
+
+// SetEnvironmentId gets a reference to the given string and assigns it to the EnvironmentId field.
+func (o *EngineLicense) SetEnvironmentId(v string) {
+	o.EnvironmentId = &v
+}
+
+// GetClusterCount returns the ClusterCount field value if set, zero value otherwise.
+func (o *EngineLicense) GetClusterCount() int32 {
+	if o == nil || o.ClusterCount == nil {
+		var ret int32
+		return ret
+	}
+	return *o.ClusterCount
+}
+
+// GetClusterCountOk returns a tuple with the ClusterCount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineLicense) GetClusterCountOk() (*int32, bool) {
+	if o == nil || o.ClusterCount == nil {
+		return nil, false
+	}
+	return o.ClusterCount, true
+}
+
+// HasClusterCount returns a boolean if a field has been set.
+func (o *EngineLicense) HasClusterCount() bool {
+	return o != nil && o.ClusterCount != nil
+}
+
+// SetClusterCount gets a reference to the given int32 and assigns it to the ClusterCount field.
+func (o *EngineLicense) SetClusterCount(v int32) {
+	o.ClusterCount = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineLicense) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -292,6 +409,18 @@ func (o EngineLicense) MarshalJSON() ([]byte, error) {
 	if o.IdString != nil {
 		toSerialize["idString"] = o.IdString
 	}
+	if o.Type != nil {
+		toSerialize["type"] = o.Type
+	}
+	if o.EnvironmentName != nil {
+		toSerialize["environmentName"] = o.EnvironmentName
+	}
+	if o.EnvironmentId != nil {
+		toSerialize["environmentID"] = o.EnvironmentId
+	}
+	if o.ClusterCount != nil {
+		toSerialize["clusterCount"] = o.ClusterCount
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -302,14 +431,18 @@ func (o EngineLicense) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineLicense) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EngineName  *string    `json:"engineName"`
-		Name        *string    `json:"name"`
-		Key         *string    `json:"key,omitempty"`
-		Description *string    `json:"description,omitempty"`
-		ExpiredAt   *time.Time `json:"expiredAt,omitempty"`
-		CreatedAt   *time.Time `json:"createdAt,omitempty"`
-		Id          *string    `json:"id,omitempty"`
-		IdString    *string    `json:"idString,omitempty"`
+		EngineName      *string    `json:"engineName"`
+		Name            *string    `json:"name"`
+		Key             *string    `json:"key,omitempty"`
+		Description     *string    `json:"description,omitempty"`
+		ExpiredAt       *time.Time `json:"expiredAt,omitempty"`
+		CreatedAt       *time.Time `json:"createdAt,omitempty"`
+		Id              *string    `json:"id,omitempty"`
+		IdString        *string    `json:"idString,omitempty"`
+		Type            *string    `json:"type,omitempty"`
+		EnvironmentName *string    `json:"environmentName,omitempty"`
+		EnvironmentId   *string    `json:"environmentID,omitempty"`
+		ClusterCount    *int32     `json:"clusterCount,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -322,7 +455,7 @@ func (o *EngineLicense) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "name", "key", "description", "expiredAt", "createdAt", "id", "idString"})
+		common.DeleteKeys(additionalProperties, &[]string{"engineName", "name", "key", "description", "expiredAt", "createdAt", "id", "idString", "type", "environmentName", "environmentID", "clusterCount"})
 	} else {
 		return err
 	}
@@ -334,6 +467,10 @@ func (o *EngineLicense) UnmarshalJSON(bytes []byte) (err error) {
 	o.CreatedAt = all.CreatedAt
 	o.Id = all.Id
 	o.IdString = all.IdString
+	o.Type = all.Type
+	o.EnvironmentName = all.EnvironmentName
+	o.EnvironmentId = all.EnvironmentId
+	o.ClusterCount = all.ClusterCount
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

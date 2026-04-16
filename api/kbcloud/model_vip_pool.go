@@ -15,7 +15,7 @@ type VipPool struct {
 	// IP Addresses
 	Addresses string `json:"addresses"`
 	// ID of VIP Pool
-	Id interface{} `json:"id,omitempty"`
+	Id *string `json:"id,omitempty"`
 	// Total number of IP addresses
 	Total int64 `json:"total"`
 	// Used number of IP addresses
@@ -73,21 +73,21 @@ func (o *VipPool) SetAddresses(v string) {
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *VipPool) GetId() interface{} {
+func (o *VipPool) GetId() string {
 	if o == nil || o.Id == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
-	return o.Id
+	return *o.Id
 }
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *VipPool) GetIdOk() (*interface{}, bool) {
+func (o *VipPool) GetIdOk() (*string, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
-	return &o.Id, true
+	return o.Id, true
 }
 
 // HasId returns a boolean if a field has been set.
@@ -95,9 +95,9 @@ func (o *VipPool) HasId() bool {
 	return o != nil && o.Id != nil
 }
 
-// SetId gets a reference to the given interface{} and assigns it to the Id field.
-func (o *VipPool) SetId(v interface{}) {
-	o.Id = v
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *VipPool) SetId(v string) {
+	o.Id = &v
 }
 
 // GetTotal returns the Total field value.
@@ -230,12 +230,12 @@ func (o VipPool) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *VipPool) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Addresses    *string     `json:"addresses"`
-		Id           interface{} `json:"id,omitempty"`
-		Total        *int64      `json:"total"`
-		Used         *int64      `json:"used"`
-		UsedIPs      []string    `json:"usedIPs,omitempty"`
-		AvailableIPs []string    `json:"availableIPs,omitempty"`
+		Addresses    *string  `json:"addresses"`
+		Id           *string  `json:"id,omitempty"`
+		Total        *int64   `json:"total"`
+		Used         *int64   `json:"used"`
+		UsedIPs      []string `json:"usedIPs,omitempty"`
+		AvailableIPs []string `json:"availableIPs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

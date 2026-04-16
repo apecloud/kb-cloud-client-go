@@ -60,10 +60,14 @@ tags:
     description: Organization Parameter APIs
   - name: billing
     description: Billing APIs
+  - name: metering
+    description: Metering APIs
   - name: import
     description: Data Import APIs
   - name: SLA
     description: SLA APIs
+  - name: platformComponent
+    description: Platform Component APIs
 paths:
   /admin/v1/user:
     get:
@@ -363,6 +367,89 @@ paths:
       tags:
         - administrator
       x-codegen-request-body-name: body
+  /admin/v1/administrators/{administratorID}/roles:
+    get:
+      tags:
+        - administrator
+      summary: List roles of an administrator user
+      description: List all roles assigned to a specific administrator user
+      operationId: listAdministratorsUserRoles
+      parameters:
+        - name: administratorID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminRoleList'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - administrator
+      summary: Add a role to an administrator user
+      description: Assign a role to a specific administrator user
+      operationId: addAdministratorsUserRole
+      parameters:
+        - name: administratorID
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                roleName:
+                  type: string
+                  description: The name of the role to assign
+              required:
+                - roleName
+      responses:
+        '204':
+          description: Returned when role is assigned successfully.
+          content: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/administrators/{administratorID}/roles/{roleName}:
+    delete:
+      tags:
+        - administrator
+      summary: Remove a role from an administrator user
+      description: Remove a specific role from an administrator user
+      operationId: removeAdministratorsUserRole
+      parameters:
+        - name: administratorID
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when role is removed successfully.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/users:
     post:
       description: Create a new user
@@ -491,6 +578,35 @@ paths:
       tags:
         - user
       x-codegen-request-body-name: body
+  /admin/v1/users/{userID}/authorization:
+    get:
+      description: Get user roles in multiple organizations
+      operationId: getUserAuthorization
+      summary: Get user roles in multiple organizations
+      parameters:
+        - in: path
+          name: userID
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/userAuthorization'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - user
   /admin/v1/metrics/metaData/aggregate:
     get:
       description: Get aggregate meta data including total count and time series
@@ -1252,6 +1368,227 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/administrators/permissions:
+    get:
+      tags:
+        - administrator
+      summary: List all permissions for administrators
+      description: List all permissions available for administrator roles
+      operationId: listAdministratorsPermissions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminPermissionList'
+        '401':
+          $ref: '#/components/responses/401'
+  /admin/v1/administrators/roles:
+    get:
+      tags:
+        - administrator
+      summary: List all administrator roles
+      description: List all administrator roles including built-in and custom roles
+      operationId: listAdministratorsRoles
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminRoleList'
+        '401':
+          $ref: '#/components/responses/401'
+    post:
+      tags:
+        - administrator
+      summary: Create an administrator role
+      description: Create a custom administrator role
+      operationId: createAdministratorsRole
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminRoleCreate'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminRole'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+  /admin/v1/administrators/roles/{roleName}:
+    get:
+      tags:
+        - administrator
+      summary: Get an administrator role by name
+      description: Get detailed information about a specific administrator role
+      operationId: getAdministratorsRoleByName
+      parameters:
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminRole'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - administrator
+      summary: Update an administrator role by name
+      description: Update a custom administrator role
+      operationId: updateAdministratorsRoleByName
+      parameters:
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminRoleUpdate'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminRole'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - administrator
+      summary: Delete an administrator role by name
+      description: Delete a custom administrator role
+      operationId: deleteAdministratorsRoleByName
+      parameters:
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when role is deleted successfully.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/administrators/roles/{roleName}/permissions:
+    get:
+      tags:
+        - administrator
+      summary: List permissions of an administrator role
+      description: List all permissions assigned to a specific administrator role
+      operationId: listAdministratorsRolePermissions
+      parameters:
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminPermissionList'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/administrators/roles/{roleName}/permissions/batch:
+    post:
+      tags:
+        - administrator
+      summary: Batch add permissions to an administrator role
+      description: Add multiple permissions to a custom administrator role
+      operationId: batchAddAdministratorsRolePermissions
+      parameters:
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        '204':
+          description: Returned when permissions are added successfully.
+          content: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - administrator
+      summary: Batch remove permissions from an administrator role
+      description: Remove multiple permissions from a custom administrator role
+      operationId: batchRemoveAdministratorsRolePermissions
+      parameters:
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        '204':
+          description: Returned when permissions are removed successfully.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/organizations/{orgName}/parameters:
     get:
       operationId: listOrgParameters
@@ -1763,6 +2100,37 @@ paths:
       tags:
         - cluster
         - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/offlineInstances:
+    get:
+      operationId: listOfflineInstance
+      summary: List offline cluster instances
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offlineInstanceList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - cluster
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/restart:
     post:
       operationId: restartInstance
@@ -1876,6 +2244,16 @@ paths:
           name: container
           schema:
             type: string
+        - description: A relative time in seconds before the current time from which to show logs. If this value precedes the time a pod was started, only logs since the pod start will be returned. If this value is in the future, no logs will be returned. Only one of sinceSeconds or sinceTime may be specified.
+          in: query
+          name: sinceSeconds
+          schema:
+            type: integer
+        - description: If set, the number of lines from the end of the logs to show. If not specified, logs are shown from the creation of the container or sinceSeconds or sinceTime
+          in: query
+          name: tailLines
+          schema:
+            type: integer
       responses:
         '200':
           content:
@@ -2635,7 +3013,6 @@ paths:
       operationId: listDisasterRecovery
       summary: List Disaster Recovery instances under the main cluster
       description: Retrieve a list of disaster recovery instances for a specific database cluster.
-      deprecated: true
       parameters:
         - description: The ID of the parent database cluster
           in: path
@@ -2668,7 +3045,6 @@ paths:
       operationId: createDisasterRecovery
       summary: Create a new disaster recovery instance
       description: Create a new disaster recovery instance for a database cluster.
-      deprecated: true
       parameters:
         - description: The ID of the parent database cluster
           in: path
@@ -5411,14 +5787,14 @@ paths:
         - description: start time of the query range (nano seconds)
           in: query
           name: startTime
-          required: false
+          required: true
           schema:
             type: string
             format: date-time
         - description: end time of the query range(nano seconds)
           in: query
           name: endTime
-          required: false
+          required: true
           schema:
             type: string
             format: date-time
@@ -5430,9 +5806,153 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/environmentStatusHistory'
+                $ref: '#/components/schemas/environmentStatusHistory'
+  /admin/v1/environments/{environmentName}/credentials:
+    get:
+      operationId: listEnvironmentCredential
+      summary: List environment credentials
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      tags:
+        - environment
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentCredentialList'
+          description: A successful response.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      operationId: createEnvironmentCredential
+      summary: Create environment credential
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/environmentCredentialCreate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentCredential'
+          description: Returned when environment credential is created successfully.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - environment
+      x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/credentials/{credentialName}:
+    delete:
+      operationId: deleteEnvironmentCredential
+      summary: Delete environment credential
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment credential
+          in: path
+          name: credentialName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when environment credential is deleted successfully.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - environment
+    get:
+      operationId: getEnvironmentCredential
+      summary: Get environment credential
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment credential
+          in: path
+          name: credentialName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentCredential'
+          description: A successful response.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - environment
+    patch:
+      operationId: patchEnvironmentCredential
+      summary: Update environment credential
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment credential
+          in: path
+          name: credentialName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/environmentCredentialUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentCredential'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - environment
+      x-codegen-request-body-name: body
   /admin/v1/environments/{environmentName}/resourceStats:
     get:
       description: Returns aggregated resource statistics for the specified environment within an organization.
@@ -5458,6 +5978,31 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+      tags:
+        - resourceStats
+  /admin/v1/environments/{environmentName}/resourceStats/collect:
+    post:
+      description: Triggers an immediate collection of resource statistics for the specified environment.
+      operationId: collectResourceStats
+      summary: Collect resource statistics of environment
+      parameters:
+        - description: The name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - resourceStats
   /admin/v1/environments/{environmentName}/nodes/resourceStats:
@@ -5720,6 +6265,74 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/drain:
+    post:
+      description: Drain the specified Environment node. This action will evict all pods from the node and mark it as unschedulable.
+      summary: Drain environment node
+      operationId: drainEnvironmentNode
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment node
+          in: path
+          name: nodeName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/undrain:
+    post:
+      description: Undrain the specified Environment node. This action will remove the NoExecute taint and make the node schedulable again.
+      summary: Undrain environment node
+      operationId: undrainEnvironmentNode
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment node
+          in: path
+          name: nodeName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
   /admin/v1/environments/{environmentName}/nodes/{nodeName}/maintenance/on:
     patch:
       description: Set the node to maintenance mode. This action temporarily disables the node for maintenance activities, ensuring no new workloads are scheduled on it.
@@ -5914,7 +6527,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/kubeConfig'
+              $ref: '#/components/schemas/kubeconfig'
       responses:
         '200':
           content:
@@ -6000,174 +6613,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-      tags:
-        - environment
-  /admin/v1/environments/{environmentName}/workflow:
-    get:
-      tags:
-        - environment
-      operationId: getWorkflowList
-      summary: Get component management workflow list
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/workflowList'
-          description: A successful response.
-    post:
-      tags:
-        - environment
-      operationId: createWorkflow
-      summary: create component management workflow, used to upgrade kubeblocks/gemini
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/workflowCreate'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/workflow'
-          description: A successful response.
-  /admin/v1/environments/{environmentName}/workflow/{workflowName}:
-    get:
-      tags:
-        - environment
-      operationId: getWorkflow
-      summary: Get component management workflows
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-        - description: workflow name
-          in: path
-          name: workflowName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/workflow'
-          description: A successful response.
-  /admin/v1/environments/{environmentName}/workflow/{workflowName}/log:
-    get:
-      tags:
-        - environment
-      operationId: getWorkflowLog
-      summary: Get component management workflow log
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-        - description: workflow name
-          in: path
-          name: workflowName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            text/plain:
-              schema:
-                type: string
-          description: A successful response.
-  /admin/v1/environments/{environmentName}/workflow/{workflowName}/resubmit:
-    post:
-      operationId: resubmitWorkflow
-      summary: retry workflow from failed
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-        - description: workflow name
-          in: path
-          name: workflowName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/workflow'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-      tags:
-        - environment
-  /admin/v1/environments/{environmentName}/workflow/{workflowName}/retry:
-    post:
-      operationId: retryWorkflow
-      summary: retry workflow
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-        - description: workflow name
-          in: path
-          name: workflowName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/workflow'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
       tags:
         - environment
   /admin/v1/latestEnvModuleVersion:
@@ -6434,11 +6879,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: defined whether to search for volume statistics by node. If not set, returns without the stats.
-          in: query
-          name: withStatsByNode
-          schema:
-            type: boolean
       responses:
         '200':
           content:
@@ -6815,7 +7255,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/kubeConfig'
+              $ref: '#/components/schemas/kubeconfig'
       responses:
         '200':
           content:
@@ -6837,7 +7277,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/kubeConfig'
+              $ref: '#/components/schemas/kubeconfig'
       responses:
         '200':
           content:
@@ -6859,7 +7299,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/kubeConfig'
+              $ref: '#/components/schemas/kubeconfig'
       responses:
         '200':
           content:
@@ -7283,44 +7723,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backupRepo
-  /admin/v1/environments/{environmentName}/backupRepo/{backupRepoName}/files:
-    get:
-      tags:
-        - backupRepo
-      operationId: listBackupRepoFolder
-      summary: list backup repo folder
-      parameters:
-        - name: environmentName
-          in: path
-          description: name of the environment
-          required: true
-          schema:
-            type: string
-        - name: backupRepoName
-          in: path
-          description: name of the environment
-          required: true
-          schema:
-            type: string
-        - name: path
-          in: query
-          description: path of the folder
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/fileEntryList'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
   /admin/v1/imageRegistries:
     get:
       operationId: listImageRegistries
@@ -7615,6 +8017,200 @@ paths:
         - backup
         - shared
       x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/listObjectsForSelectiveBackup:
+    get:
+      operationId: listObjectsTreeForSelectiveBackup
+      summary: List objects tree for selective backup
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: database name
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/selectiveObjectTreeNode'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - backup
+        - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/backupSchedules:
+    get:
+      operationId: listBackupSchedules
+      summary: List backup schedules
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: backupMethod
+          in: query
+          description: filter by backup method
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupScheduleList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - backup
+        - shared
+    post:
+      operationId: createBackupSchedule
+      summary: Create backup schedule
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backupScheduleCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupSchedule'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - backup
+        - shared
+      x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/backupSchedules/{scheduleName}:
+    patch:
+      operationId: updateBackupSchedule
+      summary: Update backup schedule
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: scheduleName
+          in: path
+          description: name of the backup schedule
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backupScheduleUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupSchedule'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - backup
+        - shared
+      x-codegen-request-body-name: body
+    delete:
+      operationId: deleteBackupSchedule
+      summary: Delete backup schedule
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: scheduleName
+          in: path
+          description: name of the backup schedule
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when backup schedule is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - backup
+        - shared
   /admin/v1/backups:
     get:
       operationId: listBackups
@@ -7649,6 +8245,11 @@ paths:
         - name: withDeletedBackups
           in: query
           description: defined whether to search for deleted backups. if not set, only return backups that are not deleted
+          schema:
+            type: boolean
+        - name: withRestoreCluster
+          in: query
+          description: defined whether to search for restore backups.
           schema:
             type: boolean
         - name: backupType
@@ -9641,9 +10242,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/engineLicenseCreate'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/engineLicenseFormData'
       responses:
         '200':
           content:
@@ -9682,6 +10280,106 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - engineLicense
+  /admin/v1/engineLicenseEntities:
+    get:
+      description: list all engine license entities by license ID
+      summary: List all engine license entities by license ID
+      operationId: listEngineLicenseEntities
+      parameters:
+        - description: license ID
+          in: query
+          name: licenseId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineLicenseEntityList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - engine
+  /admin/v1/engineLicenseEntity:
+    get:
+      description: get an engine license entity by ID
+      summary: Get an engine license entity by ID
+      operationId: getEngineLicenseEntity
+      parameters:
+        - description: entity ID
+          in: query
+          name: entityId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineLicenseEntity'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - engine
+    post:
+      description: create a new engine license entity
+      summary: Create a new engine license entity
+      operationId: createEngineLicenseEntity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/engineLicenseEntityCreate'
+        description: Engine license entity data
+        required: true
+      responses:
+        '201':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineLicenseEntity'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - engine
+    delete:
+      description: delete an engine license entity by ID
+      summary: Delete an engine license entity by ID
+      operationId: deleteEngineLicenseEntity
+      parameters:
+        - description: entity ID
+          in: query
+          name: entityId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - engine
   /admin/v1/engineTypes:
     get:
       operationId: listEngineTypes
@@ -10953,7 +11651,7 @@ paths:
           name: scriptId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         content:
           application/json:
@@ -10984,7 +11682,7 @@ paths:
           name: scriptId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: No content.
@@ -11059,7 +11757,7 @@ paths:
           name: id
           required: false
           schema:
-            type: integer
+            type: string
         - description: name of the Org
           in: query
           name: orgName
@@ -11097,7 +11795,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         content:
           application/json:
@@ -11128,7 +11826,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: No content.
@@ -12132,7 +12830,7 @@ paths:
         - task
       summary: List task
       description: List tasks
-      operationId: listTask
+      operationId: listTasks
       parameters:
         - name: orgName
           in: query
@@ -12151,7 +12849,7 @@ paths:
             type: string
         - name: taskType
           in: query
-          description: Filter by task type
+          description: Filter by task type (supports multiple task types separated by commas, e.g., "cluster-scale,cluster-upgrade")
           schema:
             type: string
         - name: status
@@ -12327,6 +13025,55 @@ paths:
           required: true
           schema:
             type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/tasks/{taskId}/steps/{stepId}/log:
+    get:
+      tags:
+        - task
+      consumes:
+        - '*/*'
+      produces:
+        - text/plain
+      schemes:
+        - https
+        - http
+      operationId: getTaskStepLog
+      summary: Get task step log
+      description: Get logs for a specific task step (supports job type steps)
+      parameters:
+        - description: ID of the task
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+        - description: ID of the step
+          in: path
+          name: stepId
+          required: true
+          schema:
+            type: string
+        - description: Follow log stream (streaming mode for running steps)
+          in: query
+          name: follow
+          required: false
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: OK
@@ -12535,7 +13282,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/workflow'
+                type: object
+                properties:
+                  taskId:
+                    type: string
+                    description: the task id
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -12686,6 +13437,51 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
+  /admin/v1/platformComponents:
+    get:
+      description: List platform components with monitoring and log query metadata
+      summary: List platform components
+      operationId: listPlatformComponents
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/platformComponentList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - platformComponent
+  /admin/v1/platformComponents/{componentName}:
+    get:
+      description: Get platform component detail by name, including monitoring and log query metadata
+      summary: Get platform component detail
+      operationId: getPlatformComponent
+      parameters:
+        - in: path
+          name: componentName
+          required: true
+          description: Platform component name
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/platformComponentDetails'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - platformComponent
   /admin/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/brokers:
     get:
       summary: Get all brokers in cluster
@@ -16267,6 +17063,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/BillList'
           description: List bill details
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -16275,6 +17073,62 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - billing
+  /admin/v1/metering/tracks:
+    get:
+      operationId: listMeteringTracks
+      summary: List metering tracks
+      parameters:
+        - description: The ID of the cluster
+          in: query
+          name: clusterID
+          schema:
+            type: string
+        - description: Name of organization
+          in: query
+          name: orgName
+          schema:
+            type: string
+        - description: name of the project
+          in: query
+          name: projectName
+          schema:
+            type: string
+        - description: The name of the environment
+          in: query
+          name: environmentName
+          schema:
+            type: string
+        - description: the pageNumber of the query
+          in: query
+          name: pageNumber
+          schema:
+            type: integer
+            format: int64
+        - description: the pageSize of the query
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+            format: int64
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeteringTrackList'
+          description: List metering tracks
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - metering
   /admin/v1/sla:
     get:
       summary: Calculate SLA for a environment
@@ -16413,12 +17267,20 @@ paths:
             type: array
             items:
               type: string
-        - name: range
+        - name: startTime
           in: query
-          description: Time range to calculate SLA, unit is day, available values are "30", "90", "365".
+          description: SLA calculation start time Unix timestamp, unit is second.
           required: true
           schema:
             type: integer
+            format: int64
+        - name: endTime
+          in: query
+          description: SLA calculation end time Unix timestamp, unit is second.
+          required: true
+          schema:
+            type: integer
+            format: int64
         - name: limit
           in: query
           description: Number of items per page.
@@ -16460,12 +17322,20 @@ paths:
             type: array
             items:
               type: string
-        - name: range
+        - name: startTime
           in: query
-          description: Time range to calculate SLA, unit is day, available values are "30", "90", "365".
+          description: SLA calculation start time Unix timestamp, unit is second.
           required: true
           schema:
             type: integer
+            format: int64
+        - name: endTime
+          in: query
+          description: SLA calculation end time Unix timestamp, unit is second.
+          required: true
+          schema:
+            type: integer
+            format: int64
         - name: clusterID
           in: query
           description: id of the cluster
@@ -16686,18 +17556,20 @@ paths:
             type: array
             items:
               type: string
-        - name: range
+        - name: startTime
           in: query
-          description: Time range to calculate SLA, unit is day, available values are "30", "90", "365".
+          description: SLA calculation start time Unix timestamp, unit is second.
           required: true
           schema:
             type: integer
-        - name: threshold
+            format: int64
+        - name: endTime
           in: query
-          description: SLA threshold, unit is percent, available values are "99.0", "99.5", "99.9", default is "99.5".
-          required: false
+          description: SLA calculation end time Unix timestamp, unit is second.
+          required: true
           schema:
-            type: number
+            type: integer
+            format: int64
       responses:
         '200':
           description: Uncompliant clusters retrieved successfully
@@ -16808,6 +17680,218 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - vuln
+  /admin/v1/engines/{engineName}/schedulingPolicies:
+    get:
+      tags:
+        - engine
+      operationId: listEngineSchedulingPolicies
+      summary: List engine scheduling policies
+      parameters:
+        - name: engineName
+          in: path
+          description: engine name
+          required: true
+          schema:
+            type: string
+        - name: engineMode
+          in: query
+          description: filter by engine mode
+          required: false
+          schema:
+            type: string
+        - name: env
+          in: query
+          description: environment name
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/engineSchedulingPolicy'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - engine
+      operationId: patchEngineSchedulingPolicy
+      summary: Patch engine scheduling policy
+      parameters:
+        - name: engineName
+          in: path
+          description: engine name
+          required: true
+          schema:
+            type: string
+        - name: engineMode
+          in: query
+          description: filter by engine mode
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/engineSchedulingPolicy'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineSchedulingPolicy'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/engines/{engineName}/schedulingRules:
+    get:
+      tags:
+        - engine
+      operationId: listEngineSchedulingRules
+      summary: List engine scheduling rules
+      parameters:
+        - name: engineName
+          in: path
+          description: engine name
+          required: true
+          schema:
+            type: string
+        - name: engineMode
+          in: query
+          description: filter by engine mode
+          required: false
+          schema:
+            type: string
+        - name: schedulingPolicyType
+          in: query
+          description: filter by scheduling policy type
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/engineSchedulingRule'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - engine
+      operationId: createEngineSchedulingRule
+      summary: Create engine scheduling rule
+      parameters:
+        - name: engineName
+          in: path
+          description: engine name
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/engineSchedulingRule'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineSchedulingRule'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/engines/{engineName}/schedulingRules/{ruleId}:
+    patch:
+      tags:
+        - engine
+      operationId: patchEngineSchedulingRule
+      summary: Patch engine scheduling rule
+      parameters:
+        - name: engineName
+          in: path
+          description: engine name
+          required: true
+          schema:
+            type: string
+        - name: ruleId
+          in: path
+          description: id of the engine scheduling rule
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/engineSchedulingRule'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineSchedulingRule'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - engine
+      operationId: deleteEngineSchedulingRule
+      summary: Delete engine scheduling rule
+      parameters:
+        - name: engineName
+          in: path
+          description: engine name
+          required: true
+          schema:
+            type: string
+        - name: ruleId
+          in: path
+          description: id of the engine scheduling rule
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when engine scheduling rule is deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
 components:
   securitySchemes:
     BearerToken:
@@ -16847,6 +17931,9 @@ components:
         isDefaultPassword:
           description: return true if the default admin user need to reset password
           type: boolean
+        description:
+          description: The description for the user
+          type: string
       required:
         - id
         - userName
@@ -16875,6 +17962,9 @@ components:
           type: string
         email:
           description: The email for the user
+          type: string
+        description:
+          description: The description for the user
           type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
@@ -16997,6 +18087,9 @@ components:
           description: The email for the user
           type: string
           format: email
+        description:
+          description: The description for the user
+          type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
       required:
@@ -17014,6 +18107,64 @@ components:
       required:
         - newPassword
       type: object
+    localizedDescription:
+      type: object
+      properties:
+        zh-CN:
+          type: string
+          x-nullable: true
+        en-US:
+          type: string
+          x-nullable: true
+    adminRole:
+      description: Administrator Role information
+      type: object
+      properties:
+        name:
+          description: The name of the role
+          type: string
+        type:
+          description: The type of the role (built-in or customized)
+          type: string
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+        createdAt:
+          description: The time when the role was created. Read-Only
+          format: date-time
+          type: string
+        updatedAt:
+          description: The time when the role was updated. Read-Only
+          format: date-time
+          type: string
+      required:
+        - name
+        - type
+    adminRoleList:
+      description: AdminRoleList is a list of AdminRole objects
+      type: object
+      properties:
+        items:
+          description: Items is the list of AdminRole objects
+          items:
+            $ref: '#/components/schemas/adminRole'
+          type: array
+      required:
+        - items
+    userAuthorization:
+      description: User authorization
+      type: object
+      properties:
+        orgName:
+          type: string
+          description: The organization name
+        roleName:
+          type: string
+          description: The role name in the organization
+      required:
+        - orgName
+        - roleName
     aggregateMetaDataType:
       type: string
       description: The type of the aggregate meta data.
@@ -17301,15 +18452,6 @@ components:
       required:
         - items
       type: object
-    localizedDescription:
-      type: object
-      properties:
-        zh-CN:
-          type: string
-          x-nullable: true
-        en-US:
-          type: string
-          x-nullable: true
     role:
       description: Role information
       type: object
@@ -17358,6 +18500,53 @@ components:
         - name
     roleUpdate:
       description: Role update
+      type: object
+      properties:
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+    adminPermission:
+      description: Administrator Permission information
+      type: object
+      properties:
+        name:
+          description: The name of the permission
+          type: string
+        group:
+          description: The group of the permission
+          type: string
+        description:
+          description: The description of the permission
+          type: string
+      required:
+        - name
+    adminPermissionList:
+      description: AdminPermissionList is a list of AdminPermission objects
+      type: object
+      properties:
+        items:
+          description: Items is the list of AdminPermission objects
+          items:
+            $ref: '#/components/schemas/adminPermission'
+          type: array
+      required:
+        - items
+    adminRoleCreate:
+      description: Create administrator role request
+      type: object
+      properties:
+        name:
+          description: The name of the role
+          type: string
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+      required:
+        - name
+    adminRoleUpdate:
+      description: Update administrator role request
       type: object
       properties:
         displayName:
@@ -17424,11 +18613,12 @@ components:
       title: ClusterType
       type: string
       nullable: true
-      description: Describes the type of cluster, [Normal] normal cluster; [DisasterRecovery] disaster recovery cluster
+      description: Describes the type of cluster
       default: Normal
       enum:
         - Normal
         - DisasterRecovery
+        - BlueGreenDeployment
     clusterListItem:
       description: KubeBlocks cluster information
       properties:
@@ -17561,6 +18751,10 @@ components:
         key:
           type: string
           format: binary
+        keys:
+          type: object
+          additionalProperties:
+            type: string
     parameterTemplatePartition:
       enum:
         - default
@@ -17580,6 +18774,11 @@ components:
         paramTplID:
           type: string
           description: id of parameter template
+          nullable: true
+        orgName:
+          type: string
+          description: org name of the parameter template
+          nullable: true
         paramTplPartition:
           $ref: '#/components/schemas/parameterTemplatePartition'
     paramTpls:
@@ -17594,9 +18793,7 @@ components:
       default: Delete
       enum:
         - DoNotTerminate
-        - Halt
         - Delete
-        - WipeOut
     ioQuantity:
       description: IO Quantity describes IOPS and BPS of a volume
       properties:
@@ -17651,6 +18848,10 @@ components:
           title: Replicas
           type: integer
           description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
+        skipResourceConstraints:
+          type: boolean
+          description: Whether to skip resource constraint validation when creating cluster
+          default: false
         classCode:
           type: string
         cpu:
@@ -17823,6 +19024,17 @@ components:
           x-omitempty: false
           description: weekdays, comma separated values of 1-7
       description: the maintenance window for a cluster
+    schedulingPolicyType:
+      type: string
+      enum:
+        - HardAntiAffinity
+        - SoftAntiAffinity
+        - Disabled
+      default: Disabled
+      description: |
+        * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
+        * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
+        * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
     clusterCreate:
       required:
         - engine
@@ -17919,6 +19131,9 @@ components:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
+        schedulingPolicy:
+          description: Scheduling policy for this cluster.
+          $ref: '#/components/schemas/schedulingPolicyType'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -18143,6 +19358,9 @@ components:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
+        schedulingPolicy:
+          description: Scheduling policy for this cluster.
+          $ref: '#/components/schemas/schedulingPolicyType'
       description: KubeBlocks cluster details
     clusterBatchUpdateData:
       type: object
@@ -18296,6 +19514,37 @@ components:
           description: Items is the list of KubeBlocks cluster objects in the list
           items:
             $ref: '#/components/schemas/instance'
+          type: array
+      required:
+        - items
+      type: object
+    offlineInstance:
+      description: Offline instance is the information of KubeBlocks cluster instances
+      properties:
+        cluster:
+          description: Cluster name
+          type: string
+        componentName:
+          description: Component name
+          type: string
+        component:
+          description: component type, refer to componentDef and support NamePrefix
+          type: string
+        name:
+          description: Instance name
+          type: string
+      required:
+        - cluster
+        - component
+        - name
+      type: object
+    offlineInstanceList:
+      description: OfflineInstanceList is a list of offline KubeBlocks cluster instances
+      properties:
+        items:
+          description: Items is the list of offline KubeBlocks cluster instance objects in the list
+          items:
+            $ref: '#/components/schemas/offlineInstance'
           type: array
       required:
         - items
@@ -18472,7 +19721,6 @@ components:
       description: Response after updating SQL audit log status
       required:
         - enabled
-        - taskId
       properties:
         enabled:
           type: boolean
@@ -19151,13 +20399,9 @@ components:
     parameterList:
       description: A list of cluster parameter
       required:
-        - majorVersion
         - engine
         - component
       properties:
-        majorVersion:
-          description: 'Major version of database engine, eg: 8.0'
-          type: string
         engine:
           description: Name of database engine
           type: string
@@ -19224,9 +20468,11 @@ components:
         description:
           description: Description of parameter template
           type: string
-        majorVersion:
-          description: 'Major version of database engine, eg: 8.0'
-          type: string
+        majorVersions:
+          description: 'Major versions of database engine, eg: 8.0, 8.1, 8.2'
+          type: array
+          items:
+            type: string
         engine:
           description: Name of database engine
           type: string
@@ -19252,7 +20498,7 @@ components:
       required:
         - description
         - paramTplID
-        - majorVersion
+        - majorVersions
         - engine
         - component
         - name
@@ -19279,23 +20525,14 @@ components:
           maxLength: 128
           minLength: 3
           type: string
-        majorVersion:
-          description: 'Major version of database engine, eg: 8.0'
-          type: string
-        engine:
-          description: Name of database engine
-          type: string
-        component:
-          description: Name of component
-          type: string
         name:
           description: Name of parameter template. Name must be unique within an Org
           maxLength: 64
           minLength: 3
           pattern: ^[a-z]([-a-z0-9]*[a-z0-9])?$
           type: string
-        customName:
-          description: Name of custom parameter template. When set customName, will create a copy of this custom parameter template.
+        oriName:
+          description: Name of the original parameter template.
           type: string
         oriPartition:
           $ref: '#/components/schemas/parameterTemplatePartition'
@@ -19304,10 +20541,9 @@ components:
           type: boolean
       required:
         - description
-        - majorVersion
-        - engine
-        - component
         - name
+        - oriName
+        - oriPartition
       type: object
     paramTplUpdate:
       description: paramTplUpdate is the payload to update a parameter template
@@ -20386,6 +21622,9 @@ components:
           description: component type
           type: string
           minLength: 1
+        force:
+          type: boolean
+          description: whether to force restart the component
         preConditionDeadlineSeconds:
           description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
           type: integer
@@ -20462,6 +21701,7 @@ components:
         - Warning
         - UnderMaintenance
         - Unschedulable
+        - Draining
     node:
       description: node info
       properties:
@@ -20507,6 +21747,9 @@ components:
           type: boolean
         dataPlane:
           description: node is in data plane
+          type: boolean
+        managed:
+          description: Whether the node is managed (has data-plane or control-plane label)
           type: boolean
         status:
           $ref: '#/components/schemas/nodeStatus'
@@ -20663,6 +21906,18 @@ components:
           description: number of replicas
           type: integer
           nullable: true
+        onlineInstancesToOffline:
+          type: array
+          items:
+            type: string
+          description: List of online instance names to be switched to offline during scaling in.
+          nullable: true
+        OfflineInstancesToOnline:
+          type: array
+          items:
+            type: string
+          description: List of offline instance names to be switched to online during scaling out.
+          nullable: true
         shards:
           description: number of shards, mutually exclusive with replicas.
           type: integer
@@ -20672,6 +21927,10 @@ components:
           type: integer
           nullable: true
           minimum: 0
+        force:
+          type: boolean
+          description: force the scaling operation without pre-check
+          default: false
         schedule:
           $ref: '#/components/schemas/taskSchedule'
       type: object
@@ -20974,6 +22233,19 @@ components:
       required:
         - serviceName
         - serviceNamespace
+    clusterSchedulingPolicy:
+      type: string
+      enum:
+        - HardAntiAffinity
+        - SoftAntiAffinity
+        - Disabled
+        - None
+      default: None
+      description: |
+        * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
+        * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
+        * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
+        * `None` - Inherit the engine-level default scheduling policy.
     tolerateDefaultTaints:
       title: TolerateDefaultTaints
       description: When creating a cluster, add the default tolerations from the bootstrap node to the pods
@@ -20995,6 +22267,8 @@ components:
           description: Enable pod antiaffinity for cluster
           type: boolean
           default: true
+        clusterSchedulingPolicy:
+          $ref: '#/components/schemas/clusterSchedulingPolicy'
         tolerateDefaultTaints:
           $ref: '#/components/schemas/tolerateDefaultTaints'
     networkConfig:
@@ -21113,6 +22387,9 @@ components:
           description: Mark the node as a data plane, which will always be true when markControlPlane is not specified
           type: boolean
           default: true
+        nodeGroup:
+          description: The node group to assign this node to
+          type: string
     nodePool:
       title: NodePool
       description: Create your node plan, and the selected nodes will be used for pod scheduling
@@ -21656,28 +22933,161 @@ components:
           description: whether to enable calculate the cluster SLA for the environment
           type: boolean
           default: false
-    environmentStatusHistory:
+        clusterSchedulingPolicy:
+          $ref: '#/components/schemas/clusterSchedulingPolicy'
+    environmentStateEvent:
       description: EventEnvironmentState contains details for the current and previous state of the environment.
       type: object
       properties:
-        CurrentState:
+        currentState:
           description: The current state of the environment.
           type: string
-        PrevState:
+        prevState:
           description: The previous state of the environment.
           type: string
-        Reason:
+        reason:
           description: The reason for the state transition.
           type: string
-        Timestamp:
+        timestamp:
           description: The timestamp of the state transition.
           type: string
           format: date-time
+        duration:
+          description: The duration of the state in seconds.
+          type: integer
+          format: int64
       required:
-        - CurrentState
-        - PrevState
-        - Reason
-        - Timestamp
+        - currentState
+        - prevState
+        - reason
+        - timestamp
+    environmentStatusHistoryDay:
+      description: Daily status history for the environment.
+      type: object
+      properties:
+        date:
+          description: The date of this day's status history.
+          type: string
+        status:
+          description: The primary status for this day based on priority.
+          type: string
+        statusDuration:
+          description: Duration in seconds for each status on this day.
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+        statusHistory:
+          description: List of state transition events that occurred on this day.
+          type: array
+          items:
+            $ref: '#/components/schemas/environmentStateEvent'
+        inherited:
+          description: Indicates if the status was inherited from the previous day.
+          type: boolean
+      required:
+        - date
+        - status
+        - statusDuration
+        - statusHistory
+        - inherited
+    environmentStatusHistory:
+      description: Environment status history with SLA calculation.
+      type: object
+      properties:
+        sla:
+          description: The SLA percentage (availability) for the environment.
+          type: string
+        days:
+          description: Daily status history data.
+          type: array
+          items:
+            $ref: '#/components/schemas/environmentStatusHistoryDay'
+        statusDuration:
+          description: Total duration in seconds for each status across all days.
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+      required:
+        - sla
+        - days
+        - statusDuration
+    environmentCredential:
+      type: object
+      required:
+        - name
+        - key
+        - secret
+        - createdAt
+        - updatedAt
+      properties:
+        name:
+          type: string
+          description: Name of the environment credential
+        key:
+          type: string
+          description: Key of the environment credential entry, such as accessKeyId for AWS
+        secret:
+          type: string
+          description: Secret of the environment credential entry, such as secretAccessKey for AWS
+        description:
+          type: string
+          description: Description of the environment credential
+        createdAt:
+          description: CreatedAt is a timestamp representing the server time when this object was created. It is represented in RFC3339 form and is in UTC.
+          format: date-time
+          type: string
+        updatedAt:
+          description: UpdatedAt is a timestamp representing the server time when this object was updated. It is represented in RFC3339 form and is in UTC.
+          format: date-time
+          type: string
+    environmentCredentialList:
+      description: environmentCredentialList is a list of environment credentials
+      properties:
+        items:
+          description: Items is the list of environment credential objects in the list
+          items:
+            $ref: '#/components/schemas/environmentCredential'
+          type: array
+      required:
+        - items
+      type: object
+    environmentCredentialCreate:
+      type: object
+      required:
+        - name
+        - key
+        - secret
+      properties:
+        name:
+          type: string
+          description: Name of the environment credential
+        description:
+          type: string
+          description: Description of the environment credential
+        key:
+          type: string
+          description: Key of the environment credential entry, such as accessKeyId for AWS
+        secret:
+          type: string
+          description: Secret of the environment credential entry, such as secretAccessKey for AWS
+    environmentCredentialUpdate:
+      type: object
+      required:
+        - key
+        - secret
+      properties:
+        description:
+          type: string
+          description: Description of the environment credential
+          nullable: true
+        key:
+          type: string
+          description: Key of the environment credential entry, such as accessKeyId for AWS
+        secret:
+          type: string
+          description: Secret of the environment credential entry, such as secretAccessKey for AWS
     storageStats:
       description: StorageStats holds the resource stats of the volume, including bound PVC capacity, pod-used PVC capacity, and actual storage usage.
       properties:
@@ -21728,6 +23138,10 @@ components:
         name:
           description: Name of the node.
           type: string
+        instanceCount:
+          description: Number of database cluster instances (pods) running on this node.
+          type: integer
+          format: int32
       required:
         - cpuStats
         - memoryStats
@@ -21774,6 +23188,21 @@ components:
           type: string
         type:
           $ref: '#/components/schemas/instanceResourceStatsType'
+        engine:
+          description: Engine type of the instance.
+          type: string
+        engineVersion:
+          description: Engine version of the instance.
+          type: string
+        role:
+          description: Role of the instance.
+          type: string
+        clusterName:
+          description: Name of the cluster this instance belongs to.
+          type: string
+        clusterStatus:
+          description: Cluster status.
+          type: string
       required:
         - cpuStats
         - memoryStats
@@ -21808,11 +23237,6 @@ components:
           type: string
       title: ''
       type: object
-    kubeConfig:
-      pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-      type: string
-      description: The kubeconfig body as raw binary.
-      format: byte
     environmentConditionStatus:
       description: Status is the status of the condition. Can be True, False, Unknown.
       enum:
@@ -21847,132 +23271,6 @@ components:
             $ref: '#/components/schemas/environmentCondition'
           type: array
       type: object
-    workflowStep:
-      type: object
-      description: workflow step
-      properties:
-        name:
-          title: step name
-          type: string
-        phase:
-          title: status
-          type: string
-        message:
-          title: message
-          type: string
-        startedAt:
-          title: start time
-          type: string
-          nullable: true
-          format: date-time
-        finishedAt:
-          title: finish time
-          type: string
-          nullable: true
-          format: date-time
-    workflow:
-      description: component management workflow
-      type: object
-      properties:
-        name:
-          title: workflow name
-          type: string
-        phase:
-          title: status
-          type: string
-        message:
-          title: message
-          type: string
-        startedAt:
-          title: start time
-          type: string
-          nullable: true
-          format: date-time
-        finishedAt:
-          title: finish time
-          type: string
-          nullable: true
-          format: date-time
-        steps:
-          type: array
-          description: ordered by time asc
-          items:
-            $ref: '#/components/schemas/workflowStep'
-    workflowList:
-      description: component management workflow list
-      type: object
-      properties:
-        install:
-          $ref: '#/components/schemas/workflow'
-        uninstall:
-          $ref: '#/components/schemas/workflow'
-        upgradeKubeblocks:
-          $ref: '#/components/schemas/workflow'
-        upgradeGemini:
-          $ref: '#/components/schemas/workflow'
-        upgradeVictoriaMetrics:
-          $ref: '#/components/schemas/workflow'
-        upgradeLoki:
-          $ref: '#/components/schemas/workflow'
-      example:
-        install:
-          finishedAt: '2024-04-08T08:09:02.000Z'
-          message: child 'full-managed-installer-2x8cc-4255949067' failed
-          name: full-managed-installer-2x8cc
-          phase: Failed
-          startedAt: '2024-04-08T07:58:43.000Z'
-          steps:
-            - finishedAt: '2024-04-08T08:04:13.000Z'
-              name: terraform
-              phase: Succeeded
-              startedAt: '2024-04-08T07:58:43.000Z'
-            - finishedAt: '2024-04-08T08:05:52.000Z'
-              name: wait-k8s-ready
-              phase: Succeeded
-              startedAt: '2024-04-08T08:04:23.000Z'
-            - finishedAt: '2024-04-08T08:07:31.000Z'
-              name: kubeblocks-installer
-              phase: Succeeded
-              startedAt: '2024-04-08T08:06:02.000Z'
-            - finishedAt: '2024-04-08T08:08:52.000Z'
-              message: Error (exit code 1)
-              name: gemini-installer
-              phase: Failed
-              startedAt: '2024-04-08T08:07:40.000Z'
-        upgradeKubeblocks:
-          finishedAt: '2024-04-08T08:19:36.000Z'
-          message: child 'upgrade-kubeblocks-lxjj2-4244434436' failed
-          name: upgrade-kubeblocks-lxjj2
-          phase: Failed
-          startedAt: '2024-04-08T08:19:26.000Z'
-          steps:
-            - finishedAt: '2024-04-08T08:19:31.000Z'
-              message: Error (exit code 1)
-              name: kubeblocks-installer
-              phase: Failed
-              startedAt: '2024-04-08T08:19:26.000Z'
-    workflowType:
-      description: workflow type
-      type: string
-      enum:
-        - install
-        - upgradeKubeblocks
-        - upgradeGemini
-        - uninstall
-        - upgradeVictoriaMetrics
-        - upgradeLoki
-        - update
-    workflowCreate:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/workflowType'
-        version:
-          title: component version
-          type: string
-        oteldVersion:
-          type: string
-          title: oteld version, only valid in upgradeGemini workflow
     envModuleVersion:
       description: environment module version
       type: object
@@ -22040,7 +23338,7 @@ components:
         id:
           description: ID of VIP Pool
           title: ID
-          type: object
+          type: string
         total:
           description: Total number of IP addresses
           format: int64
@@ -22662,6 +23960,10 @@ components:
           description: the size of entry
           format: int64
           type: integer
+        lastModified:
+          description: the last modified time of entry
+          format: date-time
+          type: string
     fileEntryList:
       description: BackupEntryList is a list of entry
       properties:
@@ -22806,8 +24108,30 @@ components:
         - Incremental
         - Differential
         - Continuous
+        - Selective
       type: string
       description: the type of backup
+    selectiveObjectTreeNode:
+      description: tree node for selective backup objects
+      properties:
+        type:
+          description: the type of the node
+          type: string
+        name:
+          description: the name of the node
+          type: string
+        selectedAll:
+          type: boolean
+          description: whether all children nodes are selected
+        children:
+          description: children nodes
+          type: array
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+      required:
+        - type
+        - name
+      type: object
     backupCreate:
       description: BackupCreate is the payload to create a KubeBlocks cluster backup
       properties:
@@ -22825,6 +24149,15 @@ components:
         retentionPeriod:
           description: specify the retention period
           type: string
+        parameters:
+          description: parameters for the backup
+          additionalProperties:
+            type: string
+        selectedObjects:
+          description: selected objects for the backup
+          type: array
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
       type: object
       required:
         - backupMethod
@@ -22904,6 +24237,23 @@ components:
           type: string
         extras:
           type: string
+        parameters:
+          type: array
+          description: backup parameters
+          items:
+            type: object
+            properties:
+              name:
+                description: the name of parameter
+                type: string
+              value:
+                description: the value of parameter
+                type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
         targetPods:
           type: array
           description: backup target pods
@@ -23023,6 +24373,112 @@ components:
             additionalProperties:
               type: string
       type: object
+    backupSchedule:
+      description: backup schedule for database table backup
+      properties:
+        id:
+          description: the backup schedule id
+          type: string
+        scheduleName:
+          description: the name of backup schedule
+          type: string
+        clusterId:
+          description: the cluster id
+          type: string
+        backupMethod:
+          description: the backup method
+          type: string
+        parameters:
+          type: array
+          description: backup parameters
+          items:
+            type: object
+            properties:
+              name:
+                description: the name of parameter
+                type: string
+              value:
+                description: the value of parameter
+                type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+        createdAt:
+          description: the creation time
+          format: date-time
+          type: string
+        updatedAt:
+          description: the last update time
+          format: date-time
+          type: string
+        cronExpression:
+          description: the cron expression for backup schedule
+          type: string
+      type: object
+    backupScheduleList:
+      description: list of backup schedules
+      properties:
+        items:
+          description: items is the list of backup schedule objects
+          items:
+            $ref: '#/components/schemas/backupSchedule'
+          type: array
+        totalCount:
+          description: total count of backup schedules
+          type: integer
+          format: int64
+      type: object
+    backupScheduleCreate:
+      description: payload to create a backup schedule
+      properties:
+        scheduleName:
+          description: the name of backup schedule
+          type: string
+        backupMethod:
+          description: the backup method
+          type: string
+        parameters:
+          type: object
+          description: backup parameters
+          additionalProperties:
+            type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+        cronExpression:
+          description: the cron expression for backup schedule
+          type: string
+      required:
+        - scheduleName
+        - backupMethod
+      type: object
+    backupScheduleUpdate:
+      description: payload to update a backup schedule
+      properties:
+        scheduleName:
+          description: the name of backup schedule
+          type: string
+        backupMethod:
+          description: the backup method
+          type: string
+        parameters:
+          type: object
+          description: backup parameters
+          additionalProperties:
+            type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+        cronExpression:
+          description: the cron expression for backup schedule
+          type: string
+      type: object
     backupList:
       description: BackupList is a list of backups
       properties:
@@ -23116,6 +24572,9 @@ components:
         continuous:
           description: continuous backup method
           type: string
+        selective:
+          description: selective backup method
+          type: string
       type: object
     restore:
       description: create a KubeBlocks restore API
@@ -23155,6 +24614,11 @@ components:
         duration:
           description: duration of restore
           type: string
+        selectedObjects:
+          type: array
+          description: selected objects to restore
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
         status:
           description: restore status
           properties:
@@ -23216,7 +24680,6 @@ components:
       required:
         - backupName
         - clusterName
-        - componentName
       type: object
     restoreList:
       description: restoreList is a list of restore object
@@ -23932,8 +25395,16 @@ components:
         engineName:
           type: string
           description: The engine to be used in serviceRef. This field is used to filter clusters.
+        modes:
+          type: array
+          items:
+            type: string
+          description: The mode to be used in serviceRef. This field is used to filter clusters. If not set, it means all modes are supported.
         addressStyle:
           $ref: '#/components/schemas/serviceDescriptorAddressStyle'
+        disableManualInput:
+          type: boolean
+          description: whether to disable manual input of the service reference. If set to true, users can only select from the serviceRefs provided by list clusters api.
         helmValuePath:
           type: object
           description: The path to be used in values. Separated with commas. ClusterCreate API will use these path to override values in the cluster chart.
@@ -24143,6 +25614,10 @@ components:
         supportMultipleComponent:
           type: boolean
           default: false
+        excludeRootAccounts:
+          type: array
+          items:
+            type: string
     databaseOption:
       type: object
       required:
@@ -24214,6 +25689,38 @@ components:
           type: array
           items:
             type: object
+    parameters:
+      type: object
+      additionalProperties:
+        type: object
+        description: backup parameters for different backup methods
+        additionalProperties:
+          type: object
+          properties:
+            options:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+            title:
+              type: object
+              additionalProperties:
+                type: string
+            description:
+              type: object
+              additionalProperties:
+                type: string
+            value:
+              type: string
+            type:
+              type: string
+              enum:
+                - enum
+                - number
+            min:
+              type: number
+            max:
+              type: number
     backupMethodOption:
       type: object
       required:
@@ -24244,6 +25751,70 @@ components:
                 If set to false, the restore will be ready after the cluster is created.
         description:
           $ref: '#/components/schemas/localizedDescription'
+    selectedObjectOption:
+      type: object
+      properties:
+        tree:
+          type: object
+          required:
+            - levelOrder
+            - sql
+          properties:
+            switchWithDatabase:
+              type: boolean
+              description: if set to true, the tree will switch when database is switched. This is used for database-level backup, and the root level of the tree is database. If not set or set to false, the tree will not switch when database is switched, and the root level of the tree is instance.
+            sql:
+              type: string
+              description: The SQL query to retrieve the object tree
+            levelOrder:
+              type: array
+              description: The order of object types in the hierarchy
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    description: The object type, e.g., "database", "schema", "table"
+                  columnName:
+                    type: string
+                    description: The column name of the object type which is defined in the sql, e.g., "database_name", "schema_name", "table_name"
+                  typeFromColumn:
+                    type: string
+                    description: The object type which is defined in the sql, mutually exclusive with `type`
+        convertToParameters:
+          type: array
+          description: Parameters for specifying which objects to include in the selective backup
+          items:
+            type: object
+            required:
+              - parameterName
+              - valueTemplate
+            properties:
+              parameterName:
+                type: string
+                description: The name of the parameter for selective backup, e.g., "tables"
+              valueTemplate:
+                type: string
+                description: The format of the value with the tree level index, e.g., "{0}", "{0}.{1}"
+              skipWhenParentLevelsSelectedAll:
+                type: boolean
+                description: Whether to skip the current level when all of the parent level is selected all
+              levelIndex:
+                type: integer
+                description: The index of the current level in the tree level order
+    selectiveMethodOption:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+        restoreTargetRole:
+          type: string
+        selectedObjectOption:
+          $ref: '#/components/schemas/selectedObjectOption'
     backupOption:
       description: If present, it must be set defaultMethod and fullMethod
       type: object
@@ -24283,6 +25854,9 @@ components:
             rootUser:
               type: string
               description: the root user for offline backup
+            supportEmptyPassword:
+              type: boolean
+              description: whether to support empty password for the root user in offline backup
             backupMethod:
               type: string
               description: the backup method for offline backup
@@ -24292,39 +25866,15 @@ components:
             status:
               type: object
               additionalProperties: true
+            modes:
+              type: array
+              items:
+                type: string
+              description: the modes that offline backup supports. if not set, it means all modes are supported.
         backupParameters:
-          type: object
-          additionalProperties:
-            type: object
-            description: backup parameters for different backup methods
-            additionalProperties:
-              type: object
-              properties:
-                options:
-                  type: array
-                  items:
-                    type: object
-                    additionalProperties:
-                      type: string
-                title:
-                  type: object
-                  additionalProperties:
-                    type: string
-                description:
-                  type: object
-                  additionalProperties:
-                    type: string
-                value:
-                  type: string
-                type:
-                  type: string
-                  enum:
-                    - enum
-                    - number
-                min:
-                  type: number
-                max:
-                  type: number
+          $ref: '#/components/schemas/parameters'
+        restoreParameters:
+          $ref: '#/components/schemas/parameters'
         fullMethod:
           type: array
           items:
@@ -24337,6 +25887,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/backupMethodOption'
+        selectiveMethod:
+          type: array
+          description: Selective backup methods that support backing up specific objects
+          items:
+            $ref: '#/components/schemas/selectiveMethodOption'
     benchOption:
       type: object
       required:
@@ -24519,9 +26074,10 @@ components:
                 go template conditional judgment expression, such as $.root.inPlace == true
                 available built-in objects that can be referenced in the expression include:
                 - cluster: cluster record
-                - params: ops input parameters
+                - ops: opsrequest object
                 - component: current component
                 - root: current object
+                In rebuildinstance ops, only `ops` object is available.
             params:
               description: custom ops parameters
               items:
@@ -24535,9 +26091,10 @@ components:
                       parameter value, you can define a go template expression to refer the variable of the current ops.
                       available built-in objects that can be referenced in the expression include:
                       - cluster: cluster record
-                      - params: ops input parameters
+                      - ops: opsrequest object
                       - component: current component
                       - root: current object
+                      In rebuildinstance ops, only `ops` object is available.
                 type: object
               type: array
     licenseOption:
@@ -24709,12 +26266,46 @@ components:
         sqlAuditSwitch:
           $ref: '#/components/schemas/sqlAuditSwitchOption'
           description: SQL audit log switch configuration. Only applicable when audit is true. If method type is parameter, control is automatically inferred as reconfigure.
-    parameterConfig:
+    parameterOptionRef:
+      type: object
+      description: |
+        Reference another engine's parameter option to reuse its parameter configuration.
+        If parameterOptionRef is set, the referenced engine's parameter option (identified by
+        engineName + component) is used as the only source of parameter configuration. Fields explicitly set in
+        the local parameterOption will be ignored.
+      required:
+        - engineName
+        - component
+      properties:
+        engineName:
+          type: string
+          description: The engine name to reference parameter configuration from.
+        component:
+          type: string
+          description: The component type in the referenced engine whose parameter option to inherit.
+    configSpecOption:
+      type: object
+      required:
+        - configSpecName
+        - format
+        - configFileName
+      properties:
+        configSpecName:
+          type: string
+          description: name of config spec
+        format:
+          type: string
+          description: format of the configuration file, such as ini, yaml, conf
+        configFileName:
+          type: string
+          description: name of the configuration file, such as my.cnf, postgresql.conf
+        section:
+          type: string
+          description: section of the configuration file, such as mysqld
+    ref:
       required:
         - configSpecName
         - templateRef
-        - configFileName
-        - format
       type: object
       properties:
         configSpecName:
@@ -24723,22 +26314,12 @@ components:
         templateRef:
           type: string
           description: name of the referenced configuration template file name, all files in parameter template fold under stores
-        configFileName:
-          type: string
-          description: name of the configuration file, such as my.cnf, postgresql.conf
-        format:
-          type: string
-          description: format of the configuration file, such as ini, yaml, conf
-        section:
-          type: string
-          description: section of the configuration file, such as mysqld
     parameterTemplate:
       type: object
       required:
         - name
         - description
-        - majorVersion
-        - configs
+        - refs
         - defaultUse
       properties:
         name:
@@ -24749,11 +26330,17 @@ components:
         majorVersion:
           type: string
           description: match the major version set in the component
-        configs:
+          deprecated: true
+        majorVersions:
           type: array
-          description: parameterConfig contains specific configuration templates for each configuration file, primarily consisting of parameter templates and parameter constraints, mainly used by initializing the default template from addon.
           items:
-            $ref: '#/components/schemas/parameterConfig'
+            type: string
+          description: match the major versions set in the component, such as 8.0, 8.1, 8.2
+        refs:
+          type: array
+          description: refs contains the references to the configuration templates
+          items:
+            $ref: '#/components/schemas/ref'
         defaultUse:
           type: boolean
           description: whether the default parameter template is used by default, set in componentDefinition.configs, only one default parameter template can be set in certain family.
@@ -24761,13 +26348,12 @@ components:
       type: object
       required:
         - component
-        - exportTpl
-        - enableTemplate
-        - configSpecs
       properties:
         component:
           type: string
           description: component type
+        referenceEngine:
+          $ref: '#/components/schemas/parameterOptionRef'
         exportTpl:
           description: If set to true, the current parameters of the component can be exported and saved as a parameter template.
           type: boolean
@@ -24781,7 +26367,7 @@ components:
           type: array
           description: all parameter configuration specs of this component
           items:
-            type: string
+            $ref: '#/components/schemas/configSpecOption'
         disableHA:
           type: boolean
           default: false
@@ -25410,6 +26996,43 @@ components:
         sinkEngineName:
           type: string
           description: Engine name for sink/target database
+    blueGreenDeploymentAccountOption:
+      type: object
+      properties:
+        component:
+          type: string
+        defaultAccountName:
+          type: array
+          items:
+            type: string
+    blueGreenDeploymentEngineOption:
+      description: blueGreenDeploymentEngine is the engine of a blue-green deployment.
+      properties:
+        enabled:
+          description: Whether the blue-green deployment is enabled.
+          type: boolean
+        accounts:
+          $ref: '#/components/schemas/blueGreenDeploymentAccountOption'
+      type: object
+    engineTlsOption:
+      type: object
+      required:
+        - supported
+      properties:
+        supported:
+          type: boolean
+          description: |
+            Explicit opt-in: true means this engine supports TLS/SSL configuration; false means it does not.
+            If engineOption omits tls (or tls is null), TLS is not supported. Only engines with tls.supported === true advertise TLS.
+        excludedVersions:
+          type: array
+          description: |
+            Only applies when supported is true. Version patterns (regular expressions, RE2 / Go regexp) for versions
+            that still do not support TLS. If omitted or empty while supported is true, all versions are treated as TLS-capable.
+            Example: ^8\.1\.3($|[.\-]) matches 8.1.3 and 8.1.3.* but not 8.1.30.
+          items:
+            type: string
+          nullable: true
     engineOption:
       type: object
       additionalProperties: false
@@ -25454,6 +27077,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/modeOption'
+        defaultMode:
+          type: string
+          description: |
+            The default mode name to be selected when creating a cluster.
+            This field is used by the frontend only.
+            The value should match one of the mode names defined in the modes array.
+          nullable: true
         account:
           $ref: '#/components/schemas/accountOption'
         database:
@@ -25560,6 +27190,15 @@ components:
           description: |
             List of CPU architectures supported by this engine. If not set, all architectures are supported.
           nullable: true
+        blueGreenDeployment:
+          $ref: '#/components/schemas/blueGreenDeploymentEngineOption'
+          nullable: true
+        tls:
+          description: |
+            TLS/SSL capability for this engine. If this field is omitted or null, TLS is not supported (opt-in model).
+            When present, use supported to state explicitly whether TLS configuration is offered.
+          $ref: '#/components/schemas/engineTlsOption'
+          nullable: true
     engineOptionList:
       required:
         - items
@@ -25623,6 +27262,15 @@ components:
           x-nullable: false
         idString:
           type: string
+        type:
+          type: string
+        environmentName:
+          type: string
+        environmentID:
+          type: string
+        clusterCount:
+          type: integer
+          description: Number of clusters that are using this license
     engineLicenseList:
       required:
         - items
@@ -25649,18 +27297,75 @@ components:
           type: string
           format: date-time
           description: Expiration date and time of the license (optional)
-      required:
-        - name
-        - engineName
-    engineLicenseFormData:
-      description: the data of the engine license
-      type: object
-      properties:
+        environmentID:
+          type: string
+          description: Environment ID of the license (optional)
+        type:
+          type: string
+          description: Type of the license (optional)
         licenseFile:
           type: string
           format: binary
           description: The license file to upload
       required:
+        - name
+        - engineName
+        - type
+    engineLicenseEntity:
+      type: object
+      required:
+        - licenseId
+        - nodeName
+      properties:
+        id:
+          type: string
+          x-nullable: false
+        licenseId:
+          type: string
+          description: ID of the engine license
+        nodeName:
+          type: string
+          description: Name of the node
+        key:
+          type: string
+          x-nullable: false
+        description:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    engineLicenseEntityList:
+      required:
+        - items
+      type: object
+      properties:
+        items:
+          type: array
+          description: Items is the list of engineLicenseEntity objects in the list
+          items:
+            $ref: '#/components/schemas/engineLicenseEntity'
+    engineLicenseEntityCreate:
+      type: object
+      properties:
+        licenseId:
+          type: string
+          description: ID of the engine license
+        nodeName:
+          type: string
+          description: Name of the node
+        key:
+          type: string
+          description: Key of the entity
+        description:
+          type: string
+          description: Description of the entity
+        licenseFile:
+          type: string
+          format: binary
+          description: The key file to upload
+      required:
+        - licenseId
+        - nodeName
         - licenseFile
     engineTypeItem:
       type: object
@@ -26736,6 +28441,7 @@ components:
         envID:
           type: string
         nodeName:
+          description: Node name(s) for inspection. Multiple nodes can be specified as a comma-separated string (e.g. "node1,node2,node3").
           type: string
         isAuto:
           type: boolean
@@ -27447,6 +29153,8 @@ components:
         - Stopped
         - Succeed
         - Failed
+        - Cancelling
+        - Cancelled
       description: Current status of the task
     taskListItem:
       type: object
@@ -27961,6 +29669,100 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/environmentModule'
+    platformComponentStatus:
+      type: string
+      description: Platform component status
+      enum:
+        - Running
+        - Error
+      x-nullable: true
+    platformComponent:
+      type: object
+      description: Platform component summary with monitoring and log query metadata
+      properties:
+        name:
+          type: string
+          description: Component name
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Description in multiple languages (e.g. en-US, zh-CN)
+        status:
+          $ref: '#/components/schemas/platformComponentStatus'
+          description: Status - Running (运行中) or Error (异常)
+        version:
+          type: string
+          description: Component version
+        replicas:
+          type: integer
+          format: int64
+          description: Number of ready replicas
+        dashboardUID:
+          type: string
+          description: Grafana dashboard UID for this component
+        logJobName:
+          type: string
+          description: Log query job name for this component
+      required:
+        - name
+        - status
+    platformComponentList:
+      type: array
+      items:
+        $ref: '#/components/schemas/platformComponent'
+      description: List of platform components
+    platformComponentPod:
+      type: object
+      description: Pod summary for platform component detail
+      properties:
+        name:
+          type: string
+          description: Pod name
+        ready:
+          type: boolean
+          description: Whether the pod is ready
+        status:
+          type: string
+          description: Pod status
+        age:
+          type: string
+          description: Pod age (e.g. 5m, 1h)
+        ip:
+          type: string
+          description: Pod IP address
+        node:
+          type: string
+          description: Node name where pod is running
+    platformComponentDetails:
+      type: object
+      description: Platform component detail including pods and observability metadata
+      properties:
+        name:
+          type: string
+          description: Component name
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Description in multiple languages
+        status:
+          $ref: '#/components/schemas/platformComponentStatus'
+        version:
+          type: string
+        replicas:
+          type: integer
+          format: int64
+        dashboardUID:
+          type: string
+          description: Grafana dashboard UID for this component
+        logJobName:
+          type: string
+          description: Log query job name for this component
+        pods:
+          type: array
+          items:
+            $ref: '#/components/schemas/platformComponentPod'
+          description: List of pods for this component
+      required:
+        - name
+        - status
     Broker:
       x-go-name: KafkaBroker
       type: object
@@ -29564,6 +31366,12 @@ components:
     environmentPricing:
       type: object
       description: the information of environment pricing
+      required:
+        - envName
+        - cpuPrice
+        - memoryPrice
+        - storagePrice
+        - backupPrice
       properties:
         envName:
           description: The environment name
@@ -29581,6 +31389,10 @@ components:
           description: The price of Storage, the unit is 'GB'
           type: string
           nullable: true
+        backupPrice:
+          description: The price of Backup, the unit is 'GB'
+          type: string
+          nullable: true
     environmentPricingList:
       type: object
       description: list of information with environment pricing
@@ -29595,6 +31407,12 @@ components:
     globalPricing:
       type: object
       description: the global information of pricing
+      required:
+        - billScheduleTime
+        - cpuPrice
+        - memoryPrice
+        - storagePrice
+        - backupPrice
       properties:
         enabled:
           description: Enable global pricing
@@ -29627,6 +31445,10 @@ components:
           nullable: true
         storagePrice:
           description: The price of Storage, the unit is 'GB'
+          type: string
+          nullable: true
+        backupPrice:
+          description: The price of Backup, the unit is 'GB'
           type: string
           nullable: true
         timezone:
@@ -29740,6 +31562,65 @@ components:
           type: array
       required:
         - items
+    MeteringTrack:
+      type: object
+      description: RTS metering track information
+      properties:
+        clusterID:
+          description: The ID of cluster
+          type: string
+          nullable: true
+          x-omitempty: true
+        orgName:
+          description: The Name of organization
+          type: string
+          nullable: true
+          x-omitempty: true
+        projectName:
+          description: The Name of project
+          type: string
+          nullable: true
+          x-omitempty: true
+        environmentID:
+          description: The ID of environment
+          type: string
+          nullable: true
+          x-omitempty: true
+        startTime:
+          description: The clipped start time of the metering track in Unix timestamp (seconds since epoch)
+          type: integer
+          format: int64
+          example: 1756656000
+        endTime:
+          description: The clipped end time of the metering track in Unix timestamp (seconds since epoch)
+          type: integer
+          format: int64
+          example: 1756663200
+        cpu:
+          description: The CPU usage tracked for the interval
+          type: string
+        memory:
+          description: The memory usage tracked for the interval
+          type: string
+        storage:
+          description: The storage usage tracked for the interval
+          type: string
+        backup:
+          description: The backup usage tracked for the interval
+          type: string
+    MeteringTrackList:
+      type: object
+      description: list metering tracks in date range
+      properties:
+        items:
+          description: Items of the metering tracks
+          items:
+            $ref: '#/components/schemas/MeteringTrack'
+          type: array
+        pagination:
+          $ref: '#/components/schemas/paginationResult'
+      required:
+        - items
     OutageRecord:
       type: object
       description: Records the outage events of a cluster for SLA calculation. It is designed to ensure that for any given cluster, there can be at most one active outage record at any time.
@@ -29799,6 +31680,9 @@ components:
         sla:
           type: number
           description: The SLA value for the cluster.
+        targetThreshold:
+          type: number
+          description: The target SLA threshold value for the cluster.
         totalDuration:
           type: integer
           format: int64
@@ -29855,8 +31739,10 @@ components:
           format: duration
         enableProbeRetry:
           type: boolean
+          x-omitempty: false
         probeRetryCount:
           type: integer
+          x-omitempty: false
         probeRetryInterval:
           type: string
           format: duration
@@ -29866,6 +31752,7 @@ components:
             type: string
         probePoolSize:
           type: integer
+          x-omitempty: false
         collectorBatchSize:
           type: integer
         collectorMaxWaitTime:
@@ -29921,6 +31808,11 @@ components:
           type: string
         versions:
           description: the versions of the product which are affected by the vulnerability
+          type: array
+          items:
+            type: string
+        fixedVersions:
+          description: the fixed versions of the product which fixed the vulnerability
           type: array
           items:
             type: string
@@ -30042,6 +31934,84 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/vulnItem'
+    engineSchedulingPolicy:
+      type: object
+      description: Engine-level default scheduling policy for a specific engine and engine mode.
+      properties:
+        id:
+          type: string
+          description: Id of engine scheduling policy.
+        schedulingPolicyType:
+          description: Scheduling policy type applied by default to matching clusters unless overridden by a environment-level or cluster-level setting.
+          $ref: '#/components/schemas/schedulingPolicyType'
+        engine:
+          type: string
+          description: Database engine that this policy applies to. Used together with `engineMode`.
+        engineMode:
+          type: string
+          description: Engine mode that this policy applies to, such as `standalone` or `replication`.
+        description:
+          type: string
+          description: Human-readable description of the engine scheduling policy.
+      required:
+        - engine
+        - engineMode
+        - schedulingPolicyType
+    target_role:
+      type: string
+      enum:
+        - Primary
+        - '*'
+      description: |
+        Role name to match. Use `*` to match all roles, including components without an explicit role.
+      default: '*'
+    target:
+      type: object
+      description: Identifies one side of a scheduling rule match, including component and role.
+      properties:
+        component:
+          type: string
+          description: |
+            Component name to match. Use `*` to match all components for the selected engine mode.
+          default: '*'
+        role:
+          $ref: '#/components/schemas/target_role'
+    engineSchedulingRule:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of engine scheduling rule.
+        name:
+          type: string
+          description: Rule name, used to reference this rule when applying scheduling policies to a cluster.
+        engine:
+          type: string
+          description: Database engine type this rule applies to. Used to match rules to clusters by engine.
+        engineMode:
+          type: string
+          description: Cluster mode this rule applies to. Used to match rules to clusters by mode.
+        targetSelector:
+          type: array
+          description: Selects the two mutually exclusive targets that this rule applies to. The array length must be exactly 2.
+          items:
+            $ref: '#/components/schemas/target'
+        schedulingPolicyType:
+          description: Scheduling policy type to apply when this rule matches.
+          $ref: '#/components/schemas/schedulingPolicyType'
+        description:
+          type: string
+          description: Optional description of the scheduling rule.
+        default:
+          description: Indicates whether this rule is used as the fallback when no other rule matches.
+          type: boolean
+          nullable: true
+      required:
+        - name
+        - engine
+        - engineMode
+        - targetSelector
+        - schedulingPolicyType
   responses:
     '204':
       description: No Content
@@ -30190,6 +32160,7 @@ x-tagGroups:
     tags:
       - pricing
       - billing
+      - metering
   - name: import
     tags:
       - import

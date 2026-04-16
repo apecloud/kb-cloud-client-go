@@ -31,7 +31,7 @@ type Ycsb struct {
 	// Username for database
 	Username string `json:"username"`
 	// Password for database
-	Password string `json:"password"`
+	Password *string `json:"password,omitempty"`
 	// Address for database
 	Address string `json:"address"`
 	// Number of records to load into database
@@ -69,7 +69,7 @@ type Ycsb struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewYcsb(cluster string, username string, password string, address string) *Ycsb {
+func NewYcsb(cluster string, username string, address string) *Ycsb {
 	this := Ycsb{}
 	var step YcsbStep = YcsbStepAll
 	this.Step = &step
@@ -85,7 +85,6 @@ func NewYcsb(cluster string, username string, password string, address string) *
 	this.Database = &database
 	this.Cluster = cluster
 	this.Username = username
-	this.Password = password
 	this.Address = address
 	return &this
 }
@@ -352,27 +351,32 @@ func (o *Ycsb) SetUsername(v string) {
 	o.Username = v
 }
 
-// GetPassword returns the Password field value.
+// GetPassword returns the Password field value if set, zero value otherwise.
 func (o *Ycsb) GetPassword() string {
-	if o == nil {
+	if o == nil || o.Password == nil {
 		var ret string
 		return ret
 	}
-	return o.Password
+	return *o.Password
 }
 
-// GetPasswordOk returns a tuple with the Password field value
+// GetPasswordOk returns a tuple with the Password field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Ycsb) GetPasswordOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Password == nil {
 		return nil, false
 	}
-	return &o.Password, true
+	return o.Password, true
 }
 
-// SetPassword sets field value.
+// HasPassword returns a boolean if a field has been set.
+func (o *Ycsb) HasPassword() bool {
+	return o != nil && o.Password != nil
+}
+
+// SetPassword gets a reference to the given string and assigns it to the Password field.
 func (o *Ycsb) SetPassword(v string) {
-	o.Password = v
+	o.Password = &v
 }
 
 // GetAddress returns the Address field value.
@@ -846,7 +850,9 @@ func (o Ycsb) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["cluster"] = o.Cluster
 	toSerialize["username"] = o.Username
-	toSerialize["password"] = o.Password
+	if o.Password != nil {
+		toSerialize["password"] = o.Password
+	}
 	toSerialize["address"] = o.Address
 	if o.RecordCount.IsSet() {
 		toSerialize["recordCount"] = o.RecordCount.Get()
@@ -906,7 +912,7 @@ func (o *Ycsb) UnmarshalJSON(bytes []byte) (err error) {
 		Database                  *string              `json:"database,omitempty"`
 		Cluster                   *string              `json:"cluster"`
 		Username                  *string              `json:"username"`
-		Password                  *string              `json:"password"`
+		Password                  *string              `json:"password,omitempty"`
 		Address                   *string              `json:"address"`
 		RecordCount               common.NullableInt32 `json:"recordCount,omitempty"`
 		OperationCount            common.NullableInt32 `json:"operationCount,omitempty"`
@@ -930,9 +936,6 @@ func (o *Ycsb) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.Username == nil {
 		return fmt.Errorf("required field username missing")
-	}
-	if all.Password == nil {
-		return fmt.Errorf("required field password missing")
 	}
 	if all.Address == nil {
 		return fmt.Errorf("required field address missing")
@@ -958,7 +961,7 @@ func (o *Ycsb) UnmarshalJSON(bytes []byte) (err error) {
 	o.Database = all.Database
 	o.Cluster = *all.Cluster
 	o.Username = *all.Username
-	o.Password = *all.Password
+	o.Password = all.Password
 	o.Address = *all.Address
 	o.RecordCount = all.RecordCount
 	o.OperationCount = all.OperationCount

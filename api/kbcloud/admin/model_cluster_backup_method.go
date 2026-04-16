@@ -14,6 +14,8 @@ type ClusterBackupMethod struct {
 	Incremental *string `json:"incremental,omitempty"`
 	// continuous backup method
 	Continuous *string `json:"continuous,omitempty"`
+	// selective backup method
+	Selective *string `json:"selective,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -120,6 +122,34 @@ func (o *ClusterBackupMethod) SetContinuous(v string) {
 	o.Continuous = &v
 }
 
+// GetSelective returns the Selective field value if set, zero value otherwise.
+func (o *ClusterBackupMethod) GetSelective() string {
+	if o == nil || o.Selective == nil {
+		var ret string
+		return ret
+	}
+	return *o.Selective
+}
+
+// GetSelectiveOk returns a tuple with the Selective field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterBackupMethod) GetSelectiveOk() (*string, bool) {
+	if o == nil || o.Selective == nil {
+		return nil, false
+	}
+	return o.Selective, true
+}
+
+// HasSelective returns a boolean if a field has been set.
+func (o *ClusterBackupMethod) HasSelective() bool {
+	return o != nil && o.Selective != nil
+}
+
+// SetSelective gets a reference to the given string and assigns it to the Selective field.
+func (o *ClusterBackupMethod) SetSelective(v string) {
+	o.Selective = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterBackupMethod) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -135,6 +165,9 @@ func (o ClusterBackupMethod) MarshalJSON() ([]byte, error) {
 	if o.Continuous != nil {
 		toSerialize["continuous"] = o.Continuous
 	}
+	if o.Selective != nil {
+		toSerialize["selective"] = o.Selective
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -148,19 +181,21 @@ func (o *ClusterBackupMethod) UnmarshalJSON(bytes []byte) (err error) {
 		Full        *string `json:"full,omitempty"`
 		Incremental *string `json:"incremental,omitempty"`
 		Continuous  *string `json:"continuous,omitempty"`
+		Selective   *string `json:"selective,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"full", "incremental", "continuous"})
+		common.DeleteKeys(additionalProperties, &[]string{"full", "incremental", "continuous", "selective"})
 	} else {
 		return err
 	}
 	o.Full = all.Full
 	o.Incremental = all.Incremental
 	o.Continuous = all.Continuous
+	o.Selective = all.Selective
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

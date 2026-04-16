@@ -10,6 +10,12 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 type SchedulingConfig struct {
 	// Enable pod antiaffinity for cluster
 	PodAntiAffinityEnabled *bool `json:"podAntiAffinityEnabled,omitempty"`
+	// * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
+	// * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
+	// * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
+	// * `None` - Inherit the engine-level default scheduling policy.
+	//
+	ClusterSchedulingPolicy *ClusterSchedulingPolicy `json:"clusterSchedulingPolicy,omitempty"`
 	// When creating a cluster, add the default tolerations from the bootstrap node to the pods
 	TolerateDefaultTaints *TolerateDefaultTaints `json:"tolerateDefaultTaints,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -25,6 +31,8 @@ func NewSchedulingConfig() *SchedulingConfig {
 	this := SchedulingConfig{}
 	var podAntiAffinityEnabled bool = true
 	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
+	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicyNone
+	this.ClusterSchedulingPolicy = &clusterSchedulingPolicy
 	return &this
 }
 
@@ -35,6 +43,8 @@ func NewSchedulingConfigWithDefaults() *SchedulingConfig {
 	this := SchedulingConfig{}
 	var podAntiAffinityEnabled bool = true
 	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
+	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicyNone
+	this.ClusterSchedulingPolicy = &clusterSchedulingPolicy
 	return &this
 }
 
@@ -64,6 +74,34 @@ func (o *SchedulingConfig) HasPodAntiAffinityEnabled() bool {
 // SetPodAntiAffinityEnabled gets a reference to the given bool and assigns it to the PodAntiAffinityEnabled field.
 func (o *SchedulingConfig) SetPodAntiAffinityEnabled(v bool) {
 	o.PodAntiAffinityEnabled = &v
+}
+
+// GetClusterSchedulingPolicy returns the ClusterSchedulingPolicy field value if set, zero value otherwise.
+func (o *SchedulingConfig) GetClusterSchedulingPolicy() ClusterSchedulingPolicy {
+	if o == nil || o.ClusterSchedulingPolicy == nil {
+		var ret ClusterSchedulingPolicy
+		return ret
+	}
+	return *o.ClusterSchedulingPolicy
+}
+
+// GetClusterSchedulingPolicyOk returns a tuple with the ClusterSchedulingPolicy field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SchedulingConfig) GetClusterSchedulingPolicyOk() (*ClusterSchedulingPolicy, bool) {
+	if o == nil || o.ClusterSchedulingPolicy == nil {
+		return nil, false
+	}
+	return o.ClusterSchedulingPolicy, true
+}
+
+// HasClusterSchedulingPolicy returns a boolean if a field has been set.
+func (o *SchedulingConfig) HasClusterSchedulingPolicy() bool {
+	return o != nil && o.ClusterSchedulingPolicy != nil
+}
+
+// SetClusterSchedulingPolicy gets a reference to the given ClusterSchedulingPolicy and assigns it to the ClusterSchedulingPolicy field.
+func (o *SchedulingConfig) SetClusterSchedulingPolicy(v ClusterSchedulingPolicy) {
+	o.ClusterSchedulingPolicy = &v
 }
 
 // GetTolerateDefaultTaints returns the TolerateDefaultTaints field value if set, zero value otherwise.
@@ -103,6 +141,9 @@ func (o SchedulingConfig) MarshalJSON() ([]byte, error) {
 	if o.PodAntiAffinityEnabled != nil {
 		toSerialize["podAntiAffinityEnabled"] = o.PodAntiAffinityEnabled
 	}
+	if o.ClusterSchedulingPolicy != nil {
+		toSerialize["clusterSchedulingPolicy"] = o.ClusterSchedulingPolicy
+	}
 	if o.TolerateDefaultTaints != nil {
 		toSerialize["tolerateDefaultTaints"] = o.TolerateDefaultTaints
 	}
@@ -116,21 +157,27 @@ func (o SchedulingConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *SchedulingConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		PodAntiAffinityEnabled *bool                  `json:"podAntiAffinityEnabled,omitempty"`
-		TolerateDefaultTaints  *TolerateDefaultTaints `json:"tolerateDefaultTaints,omitempty"`
+		PodAntiAffinityEnabled  *bool                    `json:"podAntiAffinityEnabled,omitempty"`
+		ClusterSchedulingPolicy *ClusterSchedulingPolicy `json:"clusterSchedulingPolicy,omitempty"`
+		TolerateDefaultTaints   *TolerateDefaultTaints   `json:"tolerateDefaultTaints,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"podAntiAffinityEnabled", "tolerateDefaultTaints"})
+		common.DeleteKeys(additionalProperties, &[]string{"podAntiAffinityEnabled", "clusterSchedulingPolicy", "tolerateDefaultTaints"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.PodAntiAffinityEnabled = all.PodAntiAffinityEnabled
+	if all.ClusterSchedulingPolicy != nil && !all.ClusterSchedulingPolicy.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.ClusterSchedulingPolicy = all.ClusterSchedulingPolicy
+	}
 	if all.TolerateDefaultTaints != nil && all.TolerateDefaultTaints.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

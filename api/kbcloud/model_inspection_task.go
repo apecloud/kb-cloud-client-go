@@ -15,21 +15,22 @@ type InspectionTask struct {
 	Creator *string `json:"creator,omitempty"`
 	Status  *string `json:"status,omitempty"`
 	// Specifies the supported engines for the inspection task.
-	Engine         *InspectionSupportedEngines `json:"engine,omitempty"`
-	OrgName        *string                     `json:"orgName,omitempty"`
-	ClusterId      *string                     `json:"clusterID,omitempty"`
-	ClusterName    *string                     `json:"clusterName,omitempty"`
-	EnvName        *string                     `json:"envName,omitempty"`
-	EnvId          *string                     `json:"envID,omitempty"`
-	NodeName       *string                     `json:"nodeName,omitempty"`
-	IsAuto         *bool                       `json:"isAuto,omitempty"`
-	Score          *int32                      `json:"score,omitempty"`
-	Result         *string                     `json:"result,omitempty"`
-	Items          []InspectionTaskItem        `json:"items,omitempty"`
-	CreatedAt      *time.Time                  `json:"createdAt,omitempty"`
-	UpdatedAt      *time.Time                  `json:"updatedAt,omitempty"`
-	TimeRangeStart *time.Time                  `json:"timeRangeStart,omitempty"`
-	TimeRangeEnd   *time.Time                  `json:"timeRangeEnd,omitempty"`
+	Engine      *InspectionSupportedEngines `json:"engine,omitempty"`
+	OrgName     *string                     `json:"orgName,omitempty"`
+	ClusterId   *string                     `json:"clusterID,omitempty"`
+	ClusterName *string                     `json:"clusterName,omitempty"`
+	EnvName     *string                     `json:"envName,omitempty"`
+	EnvId       *string                     `json:"envID,omitempty"`
+	// Node name(s) for inspection. Multiple nodes can be specified as a comma-separated string (e.g. "node1,node2,node3").
+	NodeName       *string              `json:"nodeName,omitempty"`
+	IsAuto         *bool                `json:"isAuto,omitempty"`
+	Score          *int32               `json:"score,omitempty"`
+	Result         *string              `json:"result,omitempty"`
+	Items          []InspectionTaskItem `json:"items,omitempty"`
+	CreatedAt      *time.Time           `json:"createdAt,omitempty"`
+	UpdatedAt      *time.Time           `json:"updatedAt,omitempty"`
+	TimeRangeStart *time.Time           `json:"timeRangeStart,omitempty"`
+	TimeRangeEnd   *time.Time           `json:"timeRangeEnd,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

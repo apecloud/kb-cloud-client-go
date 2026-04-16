@@ -6,68 +6,67 @@ package admin
 
 import (
 	"fmt"
-	_io "io"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// EngineLicenseFormData the data of the engine license
-type EngineLicenseFormData struct {
-	// The license file to upload
-	LicenseFile _io.Reader `json:"licenseFile"`
+// EnvironmentCredentialList environmentCredentialList is a list of environment credentials
+type EnvironmentCredentialList struct {
+	// Items is the list of environment credential objects in the list
+	Items []EnvironmentCredential `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewEngineLicenseFormData instantiates a new EngineLicenseFormData object.
+// NewEnvironmentCredentialList instantiates a new EnvironmentCredentialList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineLicenseFormData(licenseFile _io.Reader) *EngineLicenseFormData {
-	this := EngineLicenseFormData{}
-	this.LicenseFile = licenseFile
+func NewEnvironmentCredentialList(items []EnvironmentCredential) *EnvironmentCredentialList {
+	this := EnvironmentCredentialList{}
+	this.Items = items
 	return &this
 }
 
-// NewEngineLicenseFormDataWithDefaults instantiates a new EngineLicenseFormData object.
+// NewEnvironmentCredentialListWithDefaults instantiates a new EnvironmentCredentialList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewEngineLicenseFormDataWithDefaults() *EngineLicenseFormData {
-	this := EngineLicenseFormData{}
+func NewEnvironmentCredentialListWithDefaults() *EnvironmentCredentialList {
+	this := EnvironmentCredentialList{}
 	return &this
 }
 
-// GetLicenseFile returns the LicenseFile field value.
-func (o *EngineLicenseFormData) GetLicenseFile() _io.Reader {
+// GetItems returns the Items field value.
+func (o *EnvironmentCredentialList) GetItems() []EnvironmentCredential {
 	if o == nil {
-		var ret _io.Reader
+		var ret []EnvironmentCredential
 		return ret
 	}
-	return o.LicenseFile
+	return o.Items
 }
 
-// GetLicenseFileOk returns a tuple with the LicenseFile field value
+// GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *EngineLicenseFormData) GetLicenseFileOk() (*_io.Reader, bool) {
+func (o *EnvironmentCredentialList) GetItemsOk() (*[]EnvironmentCredential, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.LicenseFile, true
+	return &o.Items, true
 }
 
-// SetLicenseFile sets field value.
-func (o *EngineLicenseFormData) SetLicenseFile(v _io.Reader) {
-	o.LicenseFile = v
+// SetItems sets field value.
+func (o *EnvironmentCredentialList) SetItems(v []EnvironmentCredential) {
+	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o EngineLicenseFormData) MarshalJSON() ([]byte, error) {
+func (o EnvironmentCredentialList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["licenseFile"] = o.LicenseFile
+	toSerialize["items"] = o.Items
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -76,23 +75,23 @@ func (o EngineLicenseFormData) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *EngineLicenseFormData) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EnvironmentCredentialList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		LicenseFile *_io.Reader `json:"licenseFile"`
+		Items *[]EnvironmentCredential `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.LicenseFile == nil {
-		return fmt.Errorf("required field licenseFile missing")
+	if all.Items == nil {
+		return fmt.Errorf("required field items missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"licenseFile"})
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}
-	o.LicenseFile = *all.LicenseFile
+	o.Items = *all.Items
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

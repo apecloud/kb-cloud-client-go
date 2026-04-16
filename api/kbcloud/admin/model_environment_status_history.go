@@ -6,21 +6,18 @@ package admin
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// EnvironmentStatusHistory EventEnvironmentState contains details for the current and previous state of the environment.
+// EnvironmentStatusHistory Environment status history with SLA calculation.
 type EnvironmentStatusHistory struct {
-	// The current state of the environment.
-	CurrentState string `json:"CurrentState"`
-	// The previous state of the environment.
-	PrevState string `json:"PrevState"`
-	// The reason for the state transition.
-	Reason string `json:"Reason"`
-	// The timestamp of the state transition.
-	Timestamp time.Time `json:"Timestamp"`
+	// The SLA percentage (availability) for the environment.
+	Sla string `json:"sla"`
+	// Daily status history data.
+	Days []EnvironmentStatusHistoryDay `json:"days"`
+	// Total duration in seconds for each status across all days.
+	StatusDuration map[string]float64 `json:"statusDuration"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -30,12 +27,11 @@ type EnvironmentStatusHistory struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentStatusHistory(currentState string, prevState string, reason string, timestamp time.Time) *EnvironmentStatusHistory {
+func NewEnvironmentStatusHistory(sla string, days []EnvironmentStatusHistoryDay, statusDuration map[string]float64) *EnvironmentStatusHistory {
 	this := EnvironmentStatusHistory{}
-	this.CurrentState = currentState
-	this.PrevState = prevState
-	this.Reason = reason
-	this.Timestamp = timestamp
+	this.Sla = sla
+	this.Days = days
+	this.StatusDuration = statusDuration
 	return &this
 }
 
@@ -47,96 +43,73 @@ func NewEnvironmentStatusHistoryWithDefaults() *EnvironmentStatusHistory {
 	return &this
 }
 
-// GetCurrentState returns the CurrentState field value.
-func (o *EnvironmentStatusHistory) GetCurrentState() string {
+// GetSla returns the Sla field value.
+func (o *EnvironmentStatusHistory) GetSla() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
-	return o.CurrentState
+	return o.Sla
 }
 
-// GetCurrentStateOk returns a tuple with the CurrentState field value
+// GetSlaOk returns a tuple with the Sla field value
 // and a boolean to check if the value has been set.
-func (o *EnvironmentStatusHistory) GetCurrentStateOk() (*string, bool) {
+func (o *EnvironmentStatusHistory) GetSlaOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.CurrentState, true
+	return &o.Sla, true
 }
 
-// SetCurrentState sets field value.
-func (o *EnvironmentStatusHistory) SetCurrentState(v string) {
-	o.CurrentState = v
+// SetSla sets field value.
+func (o *EnvironmentStatusHistory) SetSla(v string) {
+	o.Sla = v
 }
 
-// GetPrevState returns the PrevState field value.
-func (o *EnvironmentStatusHistory) GetPrevState() string {
+// GetDays returns the Days field value.
+func (o *EnvironmentStatusHistory) GetDays() []EnvironmentStatusHistoryDay {
 	if o == nil {
-		var ret string
+		var ret []EnvironmentStatusHistoryDay
 		return ret
 	}
-	return o.PrevState
+	return o.Days
 }
 
-// GetPrevStateOk returns a tuple with the PrevState field value
+// GetDaysOk returns a tuple with the Days field value
 // and a boolean to check if the value has been set.
-func (o *EnvironmentStatusHistory) GetPrevStateOk() (*string, bool) {
+func (o *EnvironmentStatusHistory) GetDaysOk() (*[]EnvironmentStatusHistoryDay, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.PrevState, true
+	return &o.Days, true
 }
 
-// SetPrevState sets field value.
-func (o *EnvironmentStatusHistory) SetPrevState(v string) {
-	o.PrevState = v
+// SetDays sets field value.
+func (o *EnvironmentStatusHistory) SetDays(v []EnvironmentStatusHistoryDay) {
+	o.Days = v
 }
 
-// GetReason returns the Reason field value.
-func (o *EnvironmentStatusHistory) GetReason() string {
+// GetStatusDuration returns the StatusDuration field value.
+func (o *EnvironmentStatusHistory) GetStatusDuration() map[string]float64 {
 	if o == nil {
-		var ret string
+		var ret map[string]float64
 		return ret
 	}
-	return o.Reason
+	return o.StatusDuration
 }
 
-// GetReasonOk returns a tuple with the Reason field value
+// GetStatusDurationOk returns a tuple with the StatusDuration field value
 // and a boolean to check if the value has been set.
-func (o *EnvironmentStatusHistory) GetReasonOk() (*string, bool) {
+func (o *EnvironmentStatusHistory) GetStatusDurationOk() (*map[string]float64, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Reason, true
+	return &o.StatusDuration, true
 }
 
-// SetReason sets field value.
-func (o *EnvironmentStatusHistory) SetReason(v string) {
-	o.Reason = v
-}
-
-// GetTimestamp returns the Timestamp field value.
-func (o *EnvironmentStatusHistory) GetTimestamp() time.Time {
-	if o == nil {
-		var ret time.Time
-		return ret
-	}
-	return o.Timestamp
-}
-
-// GetTimestampOk returns a tuple with the Timestamp field value
-// and a boolean to check if the value has been set.
-func (o *EnvironmentStatusHistory) GetTimestampOk() (*time.Time, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Timestamp, true
-}
-
-// SetTimestamp sets field value.
-func (o *EnvironmentStatusHistory) SetTimestamp(v time.Time) {
-	o.Timestamp = v
+// SetStatusDuration sets field value.
+func (o *EnvironmentStatusHistory) SetStatusDuration(v map[string]float64) {
+	o.StatusDuration = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -145,14 +118,9 @@ func (o EnvironmentStatusHistory) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["CurrentState"] = o.CurrentState
-	toSerialize["PrevState"] = o.PrevState
-	toSerialize["Reason"] = o.Reason
-	if o.Timestamp.Nanosecond() == 0 {
-		toSerialize["Timestamp"] = o.Timestamp.Format("2006-01-02T15:04:05Z07:00")
-	} else {
-		toSerialize["Timestamp"] = o.Timestamp.Format("2006-01-02T15:04:05.000Z07:00")
-	}
+	toSerialize["sla"] = o.Sla
+	toSerialize["days"] = o.Days
+	toSerialize["statusDuration"] = o.StatusDuration
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -163,36 +131,31 @@ func (o EnvironmentStatusHistory) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentStatusHistory) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CurrentState *string    `json:"CurrentState"`
-		PrevState    *string    `json:"PrevState"`
-		Reason       *string    `json:"Reason"`
-		Timestamp    *time.Time `json:"Timestamp"`
+		Sla            *string                        `json:"sla"`
+		Days           *[]EnvironmentStatusHistoryDay `json:"days"`
+		StatusDuration *map[string]float64            `json:"statusDuration"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.CurrentState == nil {
-		return fmt.Errorf("required field CurrentState missing")
+	if all.Sla == nil {
+		return fmt.Errorf("required field sla missing")
 	}
-	if all.PrevState == nil {
-		return fmt.Errorf("required field PrevState missing")
+	if all.Days == nil {
+		return fmt.Errorf("required field days missing")
 	}
-	if all.Reason == nil {
-		return fmt.Errorf("required field Reason missing")
-	}
-	if all.Timestamp == nil {
-		return fmt.Errorf("required field Timestamp missing")
+	if all.StatusDuration == nil {
+		return fmt.Errorf("required field statusDuration missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"CurrentState", "PrevState", "Reason", "Timestamp"})
+		common.DeleteKeys(additionalProperties, &[]string{"sla", "days", "statusDuration"})
 	} else {
 		return err
 	}
-	o.CurrentState = *all.CurrentState
-	o.PrevState = *all.PrevState
-	o.Reason = *all.Reason
-	o.Timestamp = *all.Timestamp
+	o.Sla = *all.Sla
+	o.Days = *all.Days
+	o.StatusDuration = *all.StatusDuration
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

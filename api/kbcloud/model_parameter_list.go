@@ -12,8 +12,6 @@ import (
 
 // ParameterList A list of cluster parameter
 type ParameterList struct {
-	// Major version of database engine, eg: 8.0
-	MajorVersion string `json:"majorVersion"`
 	// Name of database engine
 	Engine string `json:"engine"`
 	// Name of component
@@ -28,9 +26,8 @@ type ParameterList struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParameterList(majorVersion string, engine string, component string) *ParameterList {
+func NewParameterList(engine string, component string) *ParameterList {
 	this := ParameterList{}
-	this.MajorVersion = majorVersion
 	this.Engine = engine
 	this.Component = component
 	return &this
@@ -42,29 +39,6 @@ func NewParameterList(majorVersion string, engine string, component string) *Par
 func NewParameterListWithDefaults() *ParameterList {
 	this := ParameterList{}
 	return &this
-}
-
-// GetMajorVersion returns the MajorVersion field value.
-func (o *ParameterList) GetMajorVersion() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.MajorVersion
-}
-
-// GetMajorVersionOk returns a tuple with the MajorVersion field value
-// and a boolean to check if the value has been set.
-func (o *ParameterList) GetMajorVersionOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.MajorVersion, true
-}
-
-// SetMajorVersion sets field value.
-func (o *ParameterList) SetMajorVersion(v string) {
-	o.MajorVersion = v
 }
 
 // GetEngine returns the Engine field value.
@@ -147,7 +121,6 @@ func (o ParameterList) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["majorVersion"] = o.MajorVersion
 	toSerialize["engine"] = o.Engine
 	toSerialize["component"] = o.Component
 	if o.Items != nil {
@@ -163,16 +136,12 @@ func (o ParameterList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		MajorVersion *string         `json:"majorVersion"`
-		Engine       *string         `json:"engine"`
-		Component    *string         `json:"component"`
-		Items        []ParameterItem `json:"items,omitempty"`
+		Engine    *string         `json:"engine"`
+		Component *string         `json:"component"`
+		Items     []ParameterItem `json:"items,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
-	}
-	if all.MajorVersion == nil {
-		return fmt.Errorf("required field majorVersion missing")
 	}
 	if all.Engine == nil {
 		return fmt.Errorf("required field engine missing")
@@ -182,11 +151,10 @@ func (o *ParameterList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"majorVersion", "engine", "component", "items"})
+		common.DeleteKeys(additionalProperties, &[]string{"engine", "component", "items"})
 	} else {
 		return err
 	}
-	o.MajorVersion = *all.MajorVersion
 	o.Engine = *all.Engine
 	o.Component = *all.Component
 	o.Items = all.Items

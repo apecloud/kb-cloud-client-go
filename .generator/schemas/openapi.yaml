@@ -102,6 +102,10 @@ tags:
     description: Data Import APIs
   - name: SLA
     description: SLA APIs
+  - name: metering
+    description: Metering APIs
+  - name: blueGreenDeployment
+    description: Blue Green Deployment APIs
 paths:
   /api/v1/user:
     get:
@@ -1805,6 +1809,37 @@ paths:
       tags:
         - cluster
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/offlineInstances:
+    get:
+      operationId: listOfflineInstance
+      summary: List offline cluster instances
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offlineInstanceList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - cluster
+        - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/restart:
     post:
       operationId: restartInstance
@@ -1918,6 +1953,16 @@ paths:
           name: container
           schema:
             type: string
+        - description: A relative time in seconds before the current time from which to show logs. If this value precedes the time a pod was started, only logs since the pod start will be returned. If this value is in the future, no logs will be returned. Only one of sinceSeconds or sinceTime may be specified.
+          in: query
+          name: sinceSeconds
+          schema:
+            type: integer
+        - description: If set, the number of lines from the end of the logs to show. If not specified, logs are shown from the creation of the container or sinceSeconds or sinceTime
+          in: query
+          name: tailLines
+          schema:
+            type: integer
       responses:
         '200':
           content:
@@ -2159,6 +2204,77 @@ paths:
       tags:
         - clusterLog
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/aggregate:
+    get:
+      description: Aggregate slow logs of a cluster (Victoria Logs backend only)
+      summary: Aggregate cluster slow logs
+      operationId: aggregateSlowLogs
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: query
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: string
+        - in: query
+          name: sortType
+          schema:
+            $ref: '#/components/schemas/sortType'
+        - in: query
+          name: groupBy
+          schema:
+            type: string
+        - in: query
+          name: topN
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterExecutionLogAggregateResponse'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/audit:
     get:
       description: Query audit logs of a cluster
@@ -2207,6 +2323,77 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/clusterExecutionLog'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/audit/aggregate:
+    get:
+      description: Aggregate audit logs of a cluster (Victoria Logs backend only)
+      summary: Aggregate cluster audit logs
+      operationId: aggregateAuditLogs
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: query
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: string
+        - in: query
+          name: sortType
+          schema:
+            $ref: '#/components/schemas/sortType'
+        - in: query
+          name: groupBy
+          schema:
+            type: string
+        - in: query
+          name: topN
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterExecutionLogAggregateResponse'
           description: Successful operation
         '401':
           $ref: '#/components/responses/401'
@@ -3684,6 +3871,200 @@ paths:
         - backup
         - shared
       x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/listObjectsForSelectiveBackup:
+    get:
+      operationId: listObjectsTreeForSelectiveBackup
+      summary: List objects tree for selective backup
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: database name
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/selectiveObjectTreeNode'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - backup
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/backupSchedules:
+    get:
+      operationId: listBackupSchedules
+      summary: List backup schedules
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: backupMethod
+          in: query
+          description: filter by backup method
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupScheduleList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - backup
+        - shared
+    post:
+      operationId: createBackupSchedule
+      summary: Create backup schedule
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backupScheduleCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupSchedule'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - backup
+        - shared
+      x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/backupSchedules/{scheduleName}:
+    patch:
+      operationId: updateBackupSchedule
+      summary: Update backup schedule
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: scheduleName
+          in: path
+          description: name of the backup schedule
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backupScheduleUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupSchedule'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - backup
+        - shared
+      x-codegen-request-body-name: body
+    delete:
+      operationId: deleteBackupSchedule
+      summary: Delete backup schedule
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: scheduleName
+          in: path
+          description: name of the backup schedule
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when backup schedule is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - backup
+        - shared
   /api/v1/organizations/{orgName}/backups:
     get:
       operationId: listBackups
@@ -3718,6 +4099,11 @@ paths:
         - name: withDeletedBackups
           in: query
           description: defined whether to search for deleted backups. if not set, only return backups that are not deleted
+          schema:
+            type: boolean
+        - name: withRestoreCluster
+          in: query
+          description: defined whether to search for restore backups.
           schema:
             type: boolean
         - name: backupType
@@ -4419,12 +4805,12 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backupRepo
-  /api/v1/environments/{environmentName}/backupRepo/{backupRepoName}/files:
-    get:
+  /api/v1/environments/{environmentName}/backupRepo/{backupRepoName}/view:
+    post:
       tags:
         - backupRepo
-      operationId: listBackupRepoFolder
-      summary: list backup repo folder
+      operationId: viewBackupRepo
+      summary: view backup repo
       parameters:
         - name: environmentName
           in: path
@@ -4438,12 +4824,12 @@ paths:
           required: true
           schema:
             type: string
-        - name: path
-          in: query
-          description: path of the folder
-          required: true
-          schema:
-            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backupRepoView'
+        required: true
       responses:
         '200':
           content:
@@ -5930,6 +6316,19 @@ paths:
       description: list all engineOptions
       summary: List all engineOptions
       operationId: listEngineOptions
+      parameters:
+        - description: The version of the engineOption to query, `current` from potentially modified data, `original` from the json files of the apiserver
+          in: query
+          name: version
+          required: false
+          schema:
+            $ref: '#/components/schemas/engineOptionVersion'
+        - description: Whether to filter load backup from offline instance
+          in: query
+          name: filterLoadBackupFromOfflineInstance
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: A successful response.
@@ -6046,7 +6445,7 @@ paths:
             type: string
         - name: taskType
           in: query
-          description: Filter by task type
+          description: Filter by task type (supports multiple task types separated by commas, e.g., "cluster-scale,cluster-upgrade")
           schema:
             type: string
         - name: status
@@ -7941,7 +8340,6 @@ paths:
       operationId: deleteDisasterRecovery
       summary: Delete a disaster recovery instance
       description: Delete a specific disaster recovery instance
-      deprecated: true
       parameters:
         - description: name of the org
           in: path
@@ -7979,7 +8377,6 @@ paths:
       operationId: listDisasterRecovery
       summary: List Disaster Recovery instances under the main cluster
       description: Retrieve a list of disaster recovery instances for a specific database cluster.
-      deprecated: true
       parameters:
         - description: The ID of the parent database cluster
           in: path
@@ -8012,7 +8409,6 @@ paths:
       operationId: createDisasterRecovery
       summary: Create a new disaster recovery instance
       description: Create a new disaster recovery instance for a database cluster.
-      deprecated: true
       parameters:
         - description: The ID of the parent database cluster
           in: path
@@ -8053,7 +8449,6 @@ paths:
       operationId: promoteDisasterRecovery
       summary: Promote a disaster recovery instance to the main instance
       description: Promote the disaster recovery instance to the primary database instance.
-      deprecated: true
       parameters:
         - description: The ID of the disaster recovery instance
           in: path
@@ -8094,7 +8489,6 @@ paths:
       operationId: getDisasterRecoveryHistory
       summary: Get switch history of a disaster recovery instance
       description: Retrieve the history of failover and failback operations for a specific disaster recovery instance.
-      deprecated: true
       parameters:
         - description: The ID of the disaster recovery instance
           in: path
@@ -8128,7 +8522,6 @@ paths:
       operationId: getDisasterRecoveryStatus
       summary: Retrieve Disaster Recovery Instance Status
       description: Get detailed information about the status of a specific disaster recovery instance, including delay and current replication point.
-      deprecated: true
       parameters:
         - description: Unique identifier of the disaster recovery instance
           in: path
@@ -11970,7 +12363,6 @@ paths:
         - storage
   /api/v1/organizations/{orgName}/replication/channel:
     get:
-      deprecated: true
       operationId: listDataChannels
       summary: List Data Channels
       description: Retrieve a list of data channels.
@@ -12011,7 +12403,6 @@ paths:
       tags:
         - dataReplication
     post:
-      deprecated: true
       operationId: createDataChannel
       summary: Create a new data channel
       description: Create a new data channel.
@@ -12046,7 +12437,6 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/replication/channel/{channelID}:
     get:
-      deprecated: true
       operationId: getDataChannel
       summary: Get Data Channel Details
       description: Retrieve a data channel detail.
@@ -12079,7 +12469,6 @@ paths:
       tags:
         - dataReplication
     delete:
-      deprecated: true
       operationId: deleteDataChannel
       summary: Delete a data channel
       description: Delete a data channel.
@@ -12109,7 +12498,6 @@ paths:
       tags:
         - dataReplication
     patch:
-      deprecated: true
       operationId: updateDataChannel
       summary: Update a data channel
       description: Update a new data channel.
@@ -12150,7 +12538,6 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/replication/channel/{channelID}/ops/{opsType}:
     post:
-      deprecated: true
       operationId: createDataChannelOps
       summary: Create a new data channel ops
       description: Create a new data channel ops.
@@ -12187,7 +12574,6 @@ paths:
         - dataReplication
   /api/v1/organizations/{orgName}/replication/channel/{channelID}/events:
     get:
-      deprecated: true
       operationId: listDataChannelEvents
       summary: List Data Channel Events
       description: Retrieve a list of data channel events.
@@ -12221,7 +12607,6 @@ paths:
         - dataReplication
   /api/v1/organizations/{orgName}/replication/channel/objects:
     post:
-      deprecated: true
       operationId: queryReplicationObject
       summary: query replication object
       description: query replication object.
@@ -12258,7 +12643,6 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/replication/channel/precheck:
     post:
-      deprecated: true
       operationId: createPreCheck
       summary: create pre check
       description: create pre check.
@@ -12293,7 +12677,6 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/replication/channel/precheck/{preCheckID}:
     get:
-      deprecated: true
       operationId: getPreCheck
       summary: get preCheck
       description: get preCheck.
@@ -12357,7 +12740,6 @@ paths:
         - dataReplication
   /api/v1/organizations/{orgName}/replication/channel/{channelID}/logs:
     get:
-      deprecated: true
       description: Query logs of a data channel
       summary: Query data channel logs
       operationId: queryDataChannelLogs
@@ -12398,7 +12780,6 @@ paths:
         - dataReplication
   /api/v1/organizations/{orgName}/replication/channel/parameters:
     get:
-      deprecated: true
       operationId: listDataChannelParameters
       summary: List Data Channel Parameters
       description: Retrieve a list of data channel parameters.
@@ -12816,50 +13197,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - pricing
-    post:
-      operationId: saveEnvironmentPricing
-      summary: Save the environment pricing
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/environmentPricing'
-      responses:
-        '204':
-          description: Returned when information of pricing save successfully.
-          content:
-            application/json:
-              schema:
-                type: object
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - pricing
-    delete:
-      operationId: deleteEnvironmentPricing
-      summary: Delete the environment pricing
-      parameters:
-        - description: name of the environment
-          in: query
-          name: environmentName
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Returned when pricing deleted successfully.
-          content:
-            application/json:
-              schema:
-                type: object
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - pricing
   /api/v1/pricing/global:
     get:
       operationId: getGlobalPricing
@@ -12879,32 +13216,17 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - pricing
-    post:
-      operationId: saveGlobalPricing
-      summary: Save the global information of pricing
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/globalPricing'
-      responses:
-        '204':
-          description: Returned when global information of pricing save successfully.
-          content:
-            application/json:
-              schema:
-                type: object
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - pricing
-  /api/v1/bills:
+  /api/v1/organizations/{orgName}/bills:
     get:
-      operationId: listBills
-      summary: List bills
+      operationId: listOrgBills
+      summary: List bills in the organization
       parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
         - description: The ID of the bill
           in: query
           name: billID
@@ -12913,11 +13235,6 @@ paths:
         - description: The ID of the cluster
           in: query
           name: clusterID
-          schema:
-            type: string
-        - description: name of the organization
-          in: query
-          name: orgName
           schema:
             type: string
         - description: name of the project
@@ -12934,7 +13251,7 @@ paths:
           in: query
           name: aggregationGroup
           schema:
-            $ref: '#/components/schemas/aggregationGroupType'
+            $ref: '#/components/schemas/orgAggregationGroupType'
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
       responses:
@@ -12944,6 +13261,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/BillList'
           description: List bill details
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -12952,6 +13271,63 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - billing
+  /api/v1/organizations/{orgName}/metering/tracks:
+    get:
+      operationId: listOrgMeteringTracks
+      summary: List metering tracks in the organization
+      parameters:
+        - description: Name of organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the cluster
+          in: query
+          name: clusterID
+          schema:
+            type: string
+        - description: name of the project
+          in: query
+          name: projectName
+          schema:
+            type: string
+        - description: The name of the environment
+          in: query
+          name: environmentName
+          schema:
+            type: string
+        - description: the pageNumber of the query
+          in: query
+          name: pageNumber
+          schema:
+            type: integer
+            format: int64
+        - description: the pageSize of the query
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+            format: int64
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeteringTrackList'
+          description: List metering tracks
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - metering
   /api/v1/inspectionScripts:
     get:
       tags:
@@ -13021,7 +13397,7 @@ paths:
           name: scriptId
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         content:
           application/json:
@@ -13052,7 +13428,7 @@ paths:
           name: scriptId
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: No content.
@@ -13127,7 +13503,7 @@ paths:
           name: id
           required: false
           schema:
-            type: integer
+            type: string
         - description: name of the Org
           in: query
           name: orgName
@@ -13165,7 +13541,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         content:
           application/json:
@@ -13196,7 +13572,7 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: No content.
@@ -13354,6 +13730,335 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/engines/{engineName}/schedulingPolicies:
+    get:
+      tags:
+        - engine
+      operationId: listEngineSchedulingPolicies
+      summary: List engine scheduling policies
+      parameters:
+        - name: engineName
+          in: path
+          description: engine name
+          required: true
+          schema:
+            type: string
+        - name: engineMode
+          in: query
+          description: engine mode
+          required: false
+          schema:
+            type: string
+        - name: env
+          in: query
+          description: environment name
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/engineSchedulingPolicy'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/blueGreenDeployment/{deploymentID}:
+    get:
+      operationId: getBlueGreenDeployment
+      summary: Get a blue-green deployment instance
+      description: Retrieve details for a single blue-green deployment instance by parent cluster and organization.
+      parameters:
+        - description: The unique identifier of the blue-green deployment instance
+          in: path
+          name: deploymentID
+          required: true
+          schema:
+            type: string
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/blueGreenDeploymentItem'
+          description: Details of the blue-green deployment instance.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - blueGreenDeployment
+    delete:
+      operationId: deleteBlueGreenDeployment
+      summary: Delete a blue-green deployment instance
+      description: Delete a specified blue-green deployment instance.
+      parameters:
+        - description: The unique identifier of the blue-green deployment instance
+          in: path
+          name: deploymentID
+          required: true
+          schema:
+            type: string
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/blueGreenDeploymentTask'
+          description: Async job task information for blue-green deployment instance deletion.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - blueGreenDeployment
+  /api/v1/organizations/{orgName}/parent/{parentClusterID}/blueGreenDeployment:
+    get:
+      operationId: listBlueGreenDeployments
+      summary: List blue-green deployment instances for the specified parent cluster
+      description: Retrieve a list of blue-green deployment instances associated with the given parent database cluster.
+      parameters:
+        - description: The unique identifier of the parent database cluster
+          in: path
+          name: parentClusterID
+          required: true
+          schema:
+            type: string
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/blueGreenDeploymentItemList'
+          description: A list of blue-green deployment instances.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - blueGreenDeployment
+    post:
+      operationId: createBlueGreenDeployment
+      summary: Create a new blue-green deployment instance
+      description: Create a blue-green deployment instance for the specified parent cluster.
+      parameters:
+        - description: The unique identifier of the parent database cluster
+          in: path
+          name: parentClusterID
+          required: true
+          schema:
+            type: string
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/blueGreenDeploymentCreation'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Returned when blue-green deployment instance is created successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - blueGreenDeployment
+      x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/blueGreenDeployment/{deploymentID}/switch:
+    post:
+      operationId: switchBlueGreenDeployment
+      summary: Switch roles of blue-green deployment instances
+      description: Switch the specified blue-green deployment cluster to act as the primary instance.
+      parameters:
+        - description: The unique identifier of the blue-green deployment cluster
+          in: path
+          name: deploymentID
+          required: true
+          schema:
+            type: string
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/blueGreenDeploymentSwitchResponse'
+          description: Async job task information for the blue-green deployment switch operation.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - blueGreenDeployment
+      x-codegen-request-body-name: body
+    get:
+      operationId: getBlueGreenDeploymentSwitchDetail
+      summary: Get blue-green deployment switch job detail
+      description: Retrieve detailed information about the switch-over operation for a blue-green deployment cluster.
+      parameters:
+        - description: The unique identifier of the blue-green deployment instance
+          in: path
+          name: deploymentID
+          required: true
+          schema:
+            type: string
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/blueGreenDeploymentSwitchResponse'
+          description: Details of the blue-green deployment switch job/task.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - blueGreenDeployment
+  /api/v1/organizations/{orgName}/parent/{parentClusterID}/blueGreenDeployment/precheck:
+    post:
+      operationId: createBlueGreenDeploymentPreCheck
+      summary: Run a precheck for blue-green deployment
+      description: Trigger a precheck task to verify settings or readiness for blue-green deployment.
+      parameters:
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The unique identifier of the parent database cluster
+          in: path
+          name: parentClusterID
+          required: true
+          schema:
+            type: string
+        - description: The version of the green cluster
+          in: query
+          name: greenClusterVersion
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/blueGreenDeploymentPreCheckResponse'
+          description: Precheck task creation response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - blueGreenDeployment
+      x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/blueGreenDeployment/precheck/{preCheckID}:
+    get:
+      operationId: getBlueGreenDeploymentPreCheckDetail
+      summary: Get blue-green deployment precheck task detail
+      description: Retrieve the details of a precheck task for a blue-green deployment.
+      parameters:
+        - description: The unique identifier of the precheck task
+          in: path
+          name: preCheckID
+          required: true
+          schema:
+            type: string
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/blueGreenDeploymentPreCheckResponse'
+          description: Details of the precheck task.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - blueGreenDeployment
 components:
   securitySchemes:
     BearerToken:
@@ -13393,6 +14098,9 @@ components:
         isDefaultPassword:
           description: return true if the default admin user need to reset password
           type: boolean
+        description:
+          description: The description for the user
+          type: string
       required:
         - id
         - userName
@@ -13421,6 +14129,9 @@ components:
           type: string
         email:
           description: The email for the user
+          type: string
+        description:
+          description: The description for the user
           type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
@@ -14310,7 +15021,7 @@ components:
         id:
           description: ID of VIP Pool
           title: ID
-          type: object
+          type: string
         total:
           description: Total number of IP addresses
           format: int64
@@ -14406,6 +15117,10 @@ components:
         name:
           description: Name of the node.
           type: string
+        instanceCount:
+          description: Number of database cluster instances (pods) running on this node.
+          type: integer
+          format: int32
       required:
         - cpuStats
         - memoryStats
@@ -14567,6 +15282,9 @@ components:
           format: date-time
           type: string
           description: the create timestamp of benchmark
+        extra:
+          type: string
+          description: extra args for benchmark
         status:
           $ref: '#/components/schemas/benchmarkStatus'
     benchmarkList:
@@ -14878,7 +15596,6 @@ components:
       required:
         - address
         - cluster
-        - password
         - username
       type: object
       properties:
@@ -14966,11 +15683,12 @@ components:
       title: ClusterType
       type: string
       nullable: true
-      description: Describes the type of cluster, [Normal] normal cluster; [DisasterRecovery] disaster recovery cluster
+      description: Describes the type of cluster
       default: Normal
       enum:
         - Normal
         - DisasterRecovery
+        - BlueGreenDeployment
     clusterListItem:
       description: KubeBlocks cluster information
       properties:
@@ -15096,6 +15814,10 @@ components:
         key:
           type: string
           format: binary
+        keys:
+          type: object
+          additionalProperties:
+            type: string
     parameterTemplatePartition:
       enum:
         - default
@@ -15115,6 +15837,11 @@ components:
         paramTplID:
           type: string
           description: id of parameter template
+          nullable: true
+        orgName:
+          type: string
+          description: org name of the parameter template
+          nullable: true
         paramTplPartition:
           $ref: '#/components/schemas/parameterTemplatePartition'
     paramTpls:
@@ -15129,9 +15856,7 @@ components:
       default: Delete
       enum:
         - DoNotTerminate
-        - Halt
         - Delete
-        - WipeOut
     ioQuantity:
       description: IO Quantity describes IOPS and BPS of a volume
       properties:
@@ -15186,6 +15911,10 @@ components:
           title: Replicas
           type: integer
           description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
+        skipResourceConstraints:
+          type: boolean
+          description: Whether to skip resource constraint validation when creating cluster
+          default: false
         classCode:
           type: string
         cpu:
@@ -15350,6 +16079,17 @@ components:
           x-omitempty: false
           description: weekdays, comma separated values of 1-7
       description: the maintenance window for a cluster
+    schedulingPolicyType:
+      type: string
+      enum:
+        - HardAntiAffinity
+        - SoftAntiAffinity
+        - Disabled
+      default: Disabled
+      description: |
+        * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
+        * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
+        * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
     clusterCreate:
       required:
         - engine
@@ -15446,6 +16186,9 @@ components:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
+        schedulingPolicy:
+          description: Scheduling policy for this cluster.
+          $ref: '#/components/schemas/schedulingPolicyType'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -15670,6 +16413,9 @@ components:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
+        schedulingPolicy:
+          description: Scheduling policy for this cluster.
+          $ref: '#/components/schemas/schedulingPolicyType'
       description: KubeBlocks cluster details
     clusterBatchUpdateData:
       type: object
@@ -15823,6 +16569,37 @@ components:
           description: Items is the list of KubeBlocks cluster objects in the list
           items:
             $ref: '#/components/schemas/instance'
+          type: array
+      required:
+        - items
+      type: object
+    offlineInstance:
+      description: Offline instance is the information of KubeBlocks cluster instances
+      properties:
+        cluster:
+          description: Cluster name
+          type: string
+        componentName:
+          description: Component name
+          type: string
+        component:
+          description: component type, refer to componentDef and support NamePrefix
+          type: string
+        name:
+          description: Instance name
+          type: string
+      required:
+        - cluster
+        - component
+        - name
+      type: object
+    offlineInstanceList:
+      description: OfflineInstanceList is a list of offline KubeBlocks cluster instances
+      properties:
+        items:
+          description: Items is the list of offline KubeBlocks cluster instance objects in the list
+          items:
+            $ref: '#/components/schemas/offlineInstance'
           type: array
       required:
         - items
@@ -16026,6 +16803,41 @@ components:
           type: array
         pagination:
           $ref: '#/components/schemas/clusterLogPagination'
+    clusterExecutionLogAggregateItem:
+      type: object
+      description: Aggregate item for grouped execution logs
+      properties:
+        groupKey:
+          type: string
+        count:
+          type: integer
+          format: int64
+        avgExecutionTime:
+          type: number
+          format: double
+        maxExecutionTime:
+          type: number
+          format: double
+    clusterExecutionLogAggregateSummary:
+      type: object
+      description: Aggregate summary for execution logs
+      properties:
+        totalCount:
+          type: integer
+          format: int64
+        groupCount:
+          type: integer
+          format: int64
+    clusterExecutionLogAggregateResponse:
+      type: object
+      description: Aggregate response for cluster execution logs
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterExecutionLogAggregateItem'
+        summary:
+          $ref: '#/components/schemas/clusterExecutionLogAggregateSummary'
     taskScheduleType:
       type: string
       enum:
@@ -16112,6 +16924,9 @@ components:
           description: component type
           type: string
           minLength: 1
+        force:
+          type: boolean
+          description: whether to force restart the component
         preConditionDeadlineSeconds:
           description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
           type: integer
@@ -16162,6 +16977,7 @@ components:
         - Warning
         - UnderMaintenance
         - Unschedulable
+        - Draining
     node:
       description: node info
       properties:
@@ -16207,6 +17023,9 @@ components:
           type: boolean
         dataPlane:
           description: node is in data plane
+          type: boolean
+        managed:
+          description: Whether the node is managed (has data-plane or control-plane label)
           type: boolean
         status:
           $ref: '#/components/schemas/nodeStatus'
@@ -16363,6 +17182,18 @@ components:
           description: number of replicas
           type: integer
           nullable: true
+        onlineInstancesToOffline:
+          type: array
+          items:
+            type: string
+          description: List of online instance names to be switched to offline during scaling in.
+          nullable: true
+        OfflineInstancesToOnline:
+          type: array
+          items:
+            type: string
+          description: List of offline instance names to be switched to online during scaling out.
+          nullable: true
         shards:
           description: number of shards, mutually exclusive with replicas.
           type: integer
@@ -16372,6 +17203,10 @@ components:
           type: integer
           nullable: true
           minimum: 0
+        force:
+          type: boolean
+          description: force the scaling operation without pre-check
+          default: false
         schedule:
           $ref: '#/components/schemas/taskSchedule'
       type: object
@@ -16747,7 +17582,6 @@ components:
       description: Response after updating SQL audit log status
       required:
         - enabled
-        - taskId
       properties:
         enabled:
           type: boolean
@@ -16942,6 +17776,9 @@ components:
         continuous:
           description: continuous backup method
           type: string
+        selective:
+          description: selective backup method
+          type: string
       type: object
     backupType:
       enum:
@@ -16949,8 +17786,30 @@ components:
         - Incremental
         - Differential
         - Continuous
+        - Selective
       type: string
       description: the type of backup
+    selectiveObjectTreeNode:
+      description: tree node for selective backup objects
+      properties:
+        type:
+          description: the type of the node
+          type: string
+        name:
+          description: the name of the node
+          type: string
+        selectedAll:
+          type: boolean
+          description: whether all children nodes are selected
+        children:
+          description: children nodes
+          type: array
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+      required:
+        - type
+        - name
+      type: object
     backupCreate:
       description: BackupCreate is the payload to create a KubeBlocks cluster backup
       properties:
@@ -16968,6 +17827,15 @@ components:
         retentionPeriod:
           description: specify the retention period
           type: string
+        parameters:
+          description: parameters for the backup
+          additionalProperties:
+            type: string
+        selectedObjects:
+          description: selected objects for the backup
+          type: array
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
       type: object
       required:
         - backupMethod
@@ -17047,6 +17915,23 @@ components:
           type: string
         extras:
           type: string
+        parameters:
+          type: array
+          description: backup parameters
+          items:
+            type: object
+            properties:
+              name:
+                description: the name of parameter
+                type: string
+              value:
+                description: the value of parameter
+                type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
         targetPods:
           type: array
           description: backup target pods
@@ -17165,6 +18050,112 @@ components:
             description: backup parameters for different backup methods
             additionalProperties:
               type: string
+      type: object
+    backupSchedule:
+      description: backup schedule for database table backup
+      properties:
+        id:
+          description: the backup schedule id
+          type: string
+        scheduleName:
+          description: the name of backup schedule
+          type: string
+        clusterId:
+          description: the cluster id
+          type: string
+        backupMethod:
+          description: the backup method
+          type: string
+        parameters:
+          type: array
+          description: backup parameters
+          items:
+            type: object
+            properties:
+              name:
+                description: the name of parameter
+                type: string
+              value:
+                description: the value of parameter
+                type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+        createdAt:
+          description: the creation time
+          format: date-time
+          type: string
+        updatedAt:
+          description: the last update time
+          format: date-time
+          type: string
+        cronExpression:
+          description: the cron expression for backup schedule
+          type: string
+      type: object
+    backupScheduleList:
+      description: list of backup schedules
+      properties:
+        items:
+          description: items is the list of backup schedule objects
+          items:
+            $ref: '#/components/schemas/backupSchedule'
+          type: array
+        totalCount:
+          description: total count of backup schedules
+          type: integer
+          format: int64
+      type: object
+    backupScheduleCreate:
+      description: payload to create a backup schedule
+      properties:
+        scheduleName:
+          description: the name of backup schedule
+          type: string
+        backupMethod:
+          description: the backup method
+          type: string
+        parameters:
+          type: object
+          description: backup parameters
+          additionalProperties:
+            type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+        cronExpression:
+          description: the cron expression for backup schedule
+          type: string
+      required:
+        - scheduleName
+        - backupMethod
+      type: object
+    backupScheduleUpdate:
+      description: payload to update a backup schedule
+      properties:
+        scheduleName:
+          description: the name of backup schedule
+          type: string
+        backupMethod:
+          description: the backup method
+          type: string
+        parameters:
+          type: object
+          description: backup parameters
+          additionalProperties:
+            type: string
+        selectedObjects:
+          type: array
+          description: backup selected objects
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
+        cronExpression:
+          description: the cron expression for backup schedule
+          type: string
       type: object
     backupList:
       description: BackupList is a list of backups
@@ -17295,6 +18286,10 @@ components:
           description: the size of entry
           format: int64
           type: integer
+        lastModified:
+          description: the last modified time of entry
+          format: date-time
+          type: string
     fileEntryList:
       description: BackupEntryList is a list of entry
       properties:
@@ -17351,6 +18346,11 @@ components:
         duration:
           description: duration of restore
           type: string
+        selectedObjects:
+          type: array
+          description: selected objects to restore
+          items:
+            $ref: '#/components/schemas/selectiveObjectTreeNode'
         status:
           description: restore status
           properties:
@@ -17412,7 +18412,6 @@ components:
       required:
         - backupName
         - clusterName
-        - componentName
       type: object
     restoreList:
       description: restoreList is a list of restore object
@@ -17568,6 +18567,11 @@ components:
       required:
         - items
       type: object
+    backupRepoView:
+      properties:
+        filepath:
+          description: the router to show in backup repo
+          type: string
     parameterHistory:
       description: The history of a parameter
       type: object
@@ -17673,13 +18677,9 @@ components:
     parameterList:
       description: A list of cluster parameter
       required:
-        - majorVersion
         - engine
         - component
       properties:
-        majorVersion:
-          description: 'Major version of database engine, eg: 8.0'
-          type: string
         engine:
           description: Name of database engine
           type: string
@@ -17706,9 +18706,11 @@ components:
         description:
           description: Description of parameter template
           type: string
-        majorVersion:
-          description: 'Major version of database engine, eg: 8.0'
-          type: string
+        majorVersions:
+          description: 'Major versions of database engine, eg: 8.0, 8.1, 8.2'
+          type: array
+          items:
+            type: string
         engine:
           description: Name of database engine
           type: string
@@ -17734,7 +18736,7 @@ components:
       required:
         - description
         - paramTplID
-        - majorVersion
+        - majorVersions
         - engine
         - component
         - name
@@ -17761,23 +18763,14 @@ components:
           maxLength: 128
           minLength: 3
           type: string
-        majorVersion:
-          description: 'Major version of database engine, eg: 8.0'
-          type: string
-        engine:
-          description: Name of database engine
-          type: string
-        component:
-          description: Name of component
-          type: string
         name:
           description: Name of parameter template. Name must be unique within an Org
           maxLength: 64
           minLength: 3
           pattern: ^[a-z]([-a-z0-9]*[a-z0-9])?$
           type: string
-        customName:
-          description: Name of custom parameter template. When set customName, will create a copy of this custom parameter template.
+        oriName:
+          description: Name of the original parameter template.
           type: string
         oriPartition:
           $ref: '#/components/schemas/parameterTemplatePartition'
@@ -17786,10 +18779,9 @@ components:
           type: boolean
       required:
         - description
-        - majorVersion
-        - engine
-        - component
         - name
+        - oriName
+        - oriPartition
       type: object
     paramTplUpdate:
       description: paramTplUpdate is the payload to update a parameter template
@@ -18417,6 +19409,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/resourceConstraint'
+    engineOptionVersion:
+      type: string
+      default: current
+      enum:
+        - current
+        - original
     engineOptionStatus:
       type: string
       default: Release
@@ -18585,8 +19583,16 @@ components:
         engineName:
           type: string
           description: The engine to be used in serviceRef. This field is used to filter clusters.
+        modes:
+          type: array
+          items:
+            type: string
+          description: The mode to be used in serviceRef. This field is used to filter clusters. If not set, it means all modes are supported.
         addressStyle:
           $ref: '#/components/schemas/serviceDescriptorAddressStyle'
+        disableManualInput:
+          type: boolean
+          description: whether to disable manual input of the service reference. If set to true, users can only select from the serviceRefs provided by list clusters api.
         helmValuePath:
           type: object
           description: The path to be used in values. Separated with commas. ClusterCreate API will use these path to override values in the cluster chart.
@@ -18796,6 +19802,10 @@ components:
         supportMultipleComponent:
           type: boolean
           default: false
+        excludeRootAccounts:
+          type: array
+          items:
+            type: string
     databaseOption:
       type: object
       required:
@@ -18867,6 +19877,38 @@ components:
           type: array
           items:
             type: object
+    parameters:
+      type: object
+      additionalProperties:
+        type: object
+        description: backup parameters for different backup methods
+        additionalProperties:
+          type: object
+          properties:
+            options:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+            title:
+              type: object
+              additionalProperties:
+                type: string
+            description:
+              type: object
+              additionalProperties:
+                type: string
+            value:
+              type: string
+            type:
+              type: string
+              enum:
+                - enum
+                - number
+            min:
+              type: number
+            max:
+              type: number
     backupMethodOption:
       type: object
       required:
@@ -18897,6 +19939,70 @@ components:
                 If set to false, the restore will be ready after the cluster is created.
         description:
           $ref: '#/components/schemas/localizedDescription'
+    selectedObjectOption:
+      type: object
+      properties:
+        tree:
+          type: object
+          required:
+            - levelOrder
+            - sql
+          properties:
+            switchWithDatabase:
+              type: boolean
+              description: if set to true, the tree will switch when database is switched. This is used for database-level backup, and the root level of the tree is database. If not set or set to false, the tree will not switch when database is switched, and the root level of the tree is instance.
+            sql:
+              type: string
+              description: The SQL query to retrieve the object tree
+            levelOrder:
+              type: array
+              description: The order of object types in the hierarchy
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    description: The object type, e.g., "database", "schema", "table"
+                  columnName:
+                    type: string
+                    description: The column name of the object type which is defined in the sql, e.g., "database_name", "schema_name", "table_name"
+                  typeFromColumn:
+                    type: string
+                    description: The object type which is defined in the sql, mutually exclusive with `type`
+        convertToParameters:
+          type: array
+          description: Parameters for specifying which objects to include in the selective backup
+          items:
+            type: object
+            required:
+              - parameterName
+              - valueTemplate
+            properties:
+              parameterName:
+                type: string
+                description: The name of the parameter for selective backup, e.g., "tables"
+              valueTemplate:
+                type: string
+                description: The format of the value with the tree level index, e.g., "{0}", "{0}.{1}"
+              skipWhenParentLevelsSelectedAll:
+                type: boolean
+                description: Whether to skip the current level when all of the parent level is selected all
+              levelIndex:
+                type: integer
+                description: The index of the current level in the tree level order
+    selectiveMethodOption:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+        restoreTargetRole:
+          type: string
+        selectedObjectOption:
+          $ref: '#/components/schemas/selectedObjectOption'
     backupOption:
       description: If present, it must be set defaultMethod and fullMethod
       type: object
@@ -18936,6 +20042,9 @@ components:
             rootUser:
               type: string
               description: the root user for offline backup
+            supportEmptyPassword:
+              type: boolean
+              description: whether to support empty password for the root user in offline backup
             backupMethod:
               type: string
               description: the backup method for offline backup
@@ -18945,39 +20054,15 @@ components:
             status:
               type: object
               additionalProperties: true
+            modes:
+              type: array
+              items:
+                type: string
+              description: the modes that offline backup supports. if not set, it means all modes are supported.
         backupParameters:
-          type: object
-          additionalProperties:
-            type: object
-            description: backup parameters for different backup methods
-            additionalProperties:
-              type: object
-              properties:
-                options:
-                  type: array
-                  items:
-                    type: object
-                    additionalProperties:
-                      type: string
-                title:
-                  type: object
-                  additionalProperties:
-                    type: string
-                description:
-                  type: object
-                  additionalProperties:
-                    type: string
-                value:
-                  type: string
-                type:
-                  type: string
-                  enum:
-                    - enum
-                    - number
-                min:
-                  type: number
-                max:
-                  type: number
+          $ref: '#/components/schemas/parameters'
+        restoreParameters:
+          $ref: '#/components/schemas/parameters'
         fullMethod:
           type: array
           items:
@@ -18990,6 +20075,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/backupMethodOption'
+        selectiveMethod:
+          type: array
+          description: Selective backup methods that support backing up specific objects
+          items:
+            $ref: '#/components/schemas/selectiveMethodOption'
     benchOption:
       type: object
       required:
@@ -19172,9 +20262,10 @@ components:
                 go template conditional judgment expression, such as $.root.inPlace == true
                 available built-in objects that can be referenced in the expression include:
                 - cluster: cluster record
-                - params: ops input parameters
+                - ops: opsrequest object
                 - component: current component
                 - root: current object
+                In rebuildinstance ops, only `ops` object is available.
             params:
               description: custom ops parameters
               items:
@@ -19188,9 +20279,10 @@ components:
                       parameter value, you can define a go template expression to refer the variable of the current ops.
                       available built-in objects that can be referenced in the expression include:
                       - cluster: cluster record
-                      - params: ops input parameters
+                      - ops: opsrequest object
                       - component: current component
                       - root: current object
+                      In rebuildinstance ops, only `ops` object is available.
                 type: object
               type: array
     licenseOption:
@@ -19362,12 +20454,46 @@ components:
         sqlAuditSwitch:
           $ref: '#/components/schemas/sqlAuditSwitchOption'
           description: SQL audit log switch configuration. Only applicable when audit is true. If method type is parameter, control is automatically inferred as reconfigure.
-    parameterConfig:
+    parameterOptionRef:
+      type: object
+      description: |
+        Reference another engine's parameter option to reuse its parameter configuration.
+        If parameterOptionRef is set, the referenced engine's parameter option (identified by
+        engineName + component) is used as the only source of parameter configuration. Fields explicitly set in
+        the local parameterOption will be ignored.
+      required:
+        - engineName
+        - component
+      properties:
+        engineName:
+          type: string
+          description: The engine name to reference parameter configuration from.
+        component:
+          type: string
+          description: The component type in the referenced engine whose parameter option to inherit.
+    configSpecOption:
+      type: object
+      required:
+        - configSpecName
+        - format
+        - configFileName
+      properties:
+        configSpecName:
+          type: string
+          description: name of config spec
+        format:
+          type: string
+          description: format of the configuration file, such as ini, yaml, conf
+        configFileName:
+          type: string
+          description: name of the configuration file, such as my.cnf, postgresql.conf
+        section:
+          type: string
+          description: section of the configuration file, such as mysqld
+    ref:
       required:
         - configSpecName
         - templateRef
-        - configFileName
-        - format
       type: object
       properties:
         configSpecName:
@@ -19376,22 +20502,12 @@ components:
         templateRef:
           type: string
           description: name of the referenced configuration template file name, all files in parameter template fold under stores
-        configFileName:
-          type: string
-          description: name of the configuration file, such as my.cnf, postgresql.conf
-        format:
-          type: string
-          description: format of the configuration file, such as ini, yaml, conf
-        section:
-          type: string
-          description: section of the configuration file, such as mysqld
     parameterTemplate:
       type: object
       required:
         - name
         - description
-        - majorVersion
-        - configs
+        - refs
         - defaultUse
       properties:
         name:
@@ -19402,11 +20518,17 @@ components:
         majorVersion:
           type: string
           description: match the major version set in the component
-        configs:
+          deprecated: true
+        majorVersions:
           type: array
-          description: parameterConfig contains specific configuration templates for each configuration file, primarily consisting of parameter templates and parameter constraints, mainly used by initializing the default template from addon.
           items:
-            $ref: '#/components/schemas/parameterConfig'
+            type: string
+          description: match the major versions set in the component, such as 8.0, 8.1, 8.2
+        refs:
+          type: array
+          description: refs contains the references to the configuration templates
+          items:
+            $ref: '#/components/schemas/ref'
         defaultUse:
           type: boolean
           description: whether the default parameter template is used by default, set in componentDefinition.configs, only one default parameter template can be set in certain family.
@@ -19414,13 +20536,12 @@ components:
       type: object
       required:
         - component
-        - exportTpl
-        - enableTemplate
-        - configSpecs
       properties:
         component:
           type: string
           description: component type
+        referenceEngine:
+          $ref: '#/components/schemas/parameterOptionRef'
         exportTpl:
           description: If set to true, the current parameters of the component can be exported and saved as a parameter template.
           type: boolean
@@ -19434,7 +20555,7 @@ components:
           type: array
           description: all parameter configuration specs of this component
           items:
-            type: string
+            $ref: '#/components/schemas/configSpecOption'
         disableHA:
           type: boolean
           default: false
@@ -20063,6 +21184,43 @@ components:
         sinkEngineName:
           type: string
           description: Engine name for sink/target database
+    blueGreenDeploymentAccountOption:
+      type: object
+      properties:
+        component:
+          type: string
+        defaultAccountName:
+          type: array
+          items:
+            type: string
+    blueGreenDeploymentEngineOption:
+      description: blueGreenDeploymentEngine is the engine of a blue-green deployment.
+      properties:
+        enabled:
+          description: Whether the blue-green deployment is enabled.
+          type: boolean
+        accounts:
+          $ref: '#/components/schemas/blueGreenDeploymentAccountOption'
+      type: object
+    engineTlsOption:
+      type: object
+      required:
+        - supported
+      properties:
+        supported:
+          type: boolean
+          description: |
+            Explicit opt-in: true means this engine supports TLS/SSL configuration; false means it does not.
+            If engineOption omits tls (or tls is null), TLS is not supported. Only engines with tls.supported === true advertise TLS.
+        excludedVersions:
+          type: array
+          description: |
+            Only applies when supported is true. Version patterns (regular expressions, RE2 / Go regexp) for versions
+            that still do not support TLS. If omitted or empty while supported is true, all versions are treated as TLS-capable.
+            Example: ^8\.1\.3($|[.\-]) matches 8.1.3 and 8.1.3.* but not 8.1.30.
+          items:
+            type: string
+          nullable: true
     engineOption:
       type: object
       additionalProperties: false
@@ -20107,6 +21265,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/modeOption'
+        defaultMode:
+          type: string
+          description: |
+            The default mode name to be selected when creating a cluster.
+            This field is used by the frontend only.
+            The value should match one of the mode names defined in the modes array.
+          nullable: true
         account:
           $ref: '#/components/schemas/accountOption'
         database:
@@ -20213,6 +21378,15 @@ components:
           description: |
             List of CPU architectures supported by this engine. If not set, all architectures are supported.
           nullable: true
+        blueGreenDeployment:
+          $ref: '#/components/schemas/blueGreenDeploymentEngineOption'
+          nullable: true
+        tls:
+          description: |
+            TLS/SSL capability for this engine. If this field is omitted or null, TLS is not supported (opt-in model).
+            When present, use supported to state explicitly whether TLS configuration is offered.
+          $ref: '#/components/schemas/engineTlsOption'
+          nullable: true
     engineOptionList:
       required:
         - items
@@ -20249,6 +21423,15 @@ components:
           x-nullable: false
         idString:
           type: string
+        type:
+          type: string
+        environmentName:
+          type: string
+        environmentID:
+          type: string
+        clusterCount:
+          type: integer
+          description: Number of clusters that are using this license
     engineLicenseList:
       required:
         - items
@@ -20307,6 +21490,8 @@ components:
         - Stopped
         - Succeed
         - Failed
+        - Cancelling
+        - Cancelled
       description: Current status of the task
     taskListItem:
       type: object
@@ -24239,6 +25424,12 @@ components:
     environmentPricing:
       type: object
       description: the information of environment pricing
+      required:
+        - envName
+        - cpuPrice
+        - memoryPrice
+        - storagePrice
+        - backupPrice
       properties:
         envName:
           description: The environment name
@@ -24256,6 +25447,10 @@ components:
           description: The price of Storage, the unit is 'GB'
           type: string
           nullable: true
+        backupPrice:
+          description: The price of Backup, the unit is 'GB'
+          type: string
+          nullable: true
     environmentPricingList:
       type: object
       description: list of information with environment pricing
@@ -24270,6 +25465,12 @@ components:
     globalPricing:
       type: object
       description: the global information of pricing
+      required:
+        - billScheduleTime
+        - cpuPrice
+        - memoryPrice
+        - storagePrice
+        - backupPrice
       properties:
         enabled:
           description: Enable global pricing
@@ -24304,6 +25505,10 @@ components:
           description: The price of Storage, the unit is 'GB'
           type: string
           nullable: true
+        backupPrice:
+          description: The price of Backup, the unit is 'GB'
+          type: string
+          nullable: true
         timezone:
           description: |
             The timezone used for billing calculations and time alignment, specified as an IANA timezone identifier.
@@ -24332,12 +25537,10 @@ components:
         - daily
       type: string
       nullable: true
-    aggregationGroupType:
-      description: The type of aggregation group
+    orgAggregationGroupType:
+      description: The type of aggregation group for organization-scoped bills
       enum:
-        - global
         - organization
-        - project
         - cluster
       type: string
       nullable: true
@@ -24403,6 +25606,65 @@ components:
           items:
             $ref: '#/components/schemas/Bill'
           type: array
+      required:
+        - items
+    MeteringTrack:
+      type: object
+      description: RTS metering track information
+      properties:
+        clusterID:
+          description: The ID of cluster
+          type: string
+          nullable: true
+          x-omitempty: true
+        orgName:
+          description: The Name of organization
+          type: string
+          nullable: true
+          x-omitempty: true
+        projectName:
+          description: The Name of project
+          type: string
+          nullable: true
+          x-omitempty: true
+        environmentID:
+          description: The ID of environment
+          type: string
+          nullable: true
+          x-omitempty: true
+        startTime:
+          description: The clipped start time of the metering track in Unix timestamp (seconds since epoch)
+          type: integer
+          format: int64
+          example: 1756656000
+        endTime:
+          description: The clipped end time of the metering track in Unix timestamp (seconds since epoch)
+          type: integer
+          format: int64
+          example: 1756663200
+        cpu:
+          description: The CPU usage tracked for the interval
+          type: string
+        memory:
+          description: The memory usage tracked for the interval
+          type: string
+        storage:
+          description: The storage usage tracked for the interval
+          type: string
+        backup:
+          description: The backup usage tracked for the interval
+          type: string
+    MeteringTrackList:
+      type: object
+      description: list metering tracks in date range
+      properties:
+        items:
+          description: Items of the metering tracks
+          items:
+            $ref: '#/components/schemas/MeteringTrack'
+          type: array
+        pagination:
+          $ref: '#/components/schemas/paginationResult'
       required:
         - items
     inspectionScriptCategory:
@@ -24587,6 +25849,7 @@ components:
         envID:
           type: string
         nodeName:
+          description: Node name(s) for inspection. Multiple nodes can be specified as a comma-separated string (e.g. "node1,node2,node3").
           type: string
         isAuto:
           type: boolean
@@ -24658,6 +25921,187 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/aggregateTaskResult'
+    engineSchedulingPolicy:
+      type: object
+      description: Engine-level default scheduling policy for a specific engine and engine mode.
+      properties:
+        id:
+          type: string
+          description: Id of engine scheduling policy.
+        schedulingPolicyType:
+          description: Scheduling policy type applied by default to matching clusters unless overridden by a environment-level or cluster-level setting.
+          $ref: '#/components/schemas/schedulingPolicyType'
+        engine:
+          type: string
+          description: Database engine that this policy applies to. Used together with `engineMode`.
+        engineMode:
+          type: string
+          description: Engine mode that this policy applies to, such as `standalone` or `replication`.
+        description:
+          type: string
+          description: Human-readable description of the engine scheduling policy.
+      required:
+        - engine
+        - engineMode
+        - schedulingPolicyType
+    blueGreenDeploymentStatus:
+      description: The status of a blue-green deployment.
+      enum:
+        - Maintenance
+        - Synchronizing
+        - Synced
+        - Interrupted
+        - Switched
+        - Failed
+        - Deleting
+      type: string
+    blueGreenDeploymentItem:
+      description: blueGreenDeploymentItem is the response to a blue-green deployment creation request.
+      properties:
+        deploymentID:
+          description: The ID of the blue-green deployment.
+          type: string
+        deploymentName:
+          description: The name of the blue-green deployment.
+          type: string
+        blueCluster:
+          $ref: '#/components/schemas/clusterListItem'
+        greenCluster:
+          $ref: '#/components/schemas/clusterListItem'
+        deploymentStatus:
+          description: The status of the blue-green deployment. This is different from the cluster status.
+          $ref: '#/components/schemas/blueGreenDeploymentStatus'
+        replicationLag:
+          description: The lag of the replication.
+          type: string
+          nullable: true
+        createdAt:
+          description: The creation time of the blue-green deployment.
+          type: string
+          format: date-time
+        updatedAt:
+          description: The update time of the blue-green deployment.
+          type: string
+          format: date-time
+      required:
+        - deploymentID
+      type: object
+    blueGreenDeploymentTask:
+      description: Task information of a blue-green deployment job.
+      properties:
+        taskId:
+          description: Task ID.
+          type: string
+      required:
+        - taskId
+      type: object
+    blueGreenDeploymentItemList:
+      description: blueGreenDeploymentItemList is the response type for listing blue-green deployment instances.
+      properties:
+        items:
+          description: The list of blue-green deployment instances.
+          items:
+            $ref: '#/components/schemas/blueGreenDeploymentItem'
+          type: array
+      required:
+        - items
+      type: object
+    blueGreenDeploymentCreation:
+      description: blueGreenDeploymentCreation defines the request to create a blue-green deployment.
+      properties:
+        deploymentName:
+          description: The name of the blue-green deployment.
+          type: string
+        greenCluster:
+          $ref: '#/components/schemas/clusterCreate'
+      required:
+        - greenCluster
+        - deploymentName
+      type: object
+    blueGreenDeploymentSwitchStepStatus:
+      description: The status of a step in a blue-green deployment switch.
+      enum:
+        - Pending
+        - Running
+        - Succeed
+        - Failed
+      type: string
+    blueGreenDeploymentSwitchStep:
+      description: blueGreenDeploymentSwitchStep details a step in the blue-green deployment switch process.
+      type: object
+      properties:
+        stepName:
+          description: The name of the step.
+          type: string
+        stepStatus:
+          description: The status of the step.
+          $ref: '#/components/schemas/blueGreenDeploymentSwitchStepStatus'
+        stepMessage:
+          description: The message of the step.
+          type: string
+        stepDetail:
+          description: Additional details of the step.
+          type: object
+    blueGreenDeploymentSwitchResponse:
+      description: blueGreenDeploymentSwitchResponse represents the response when switching a blue-green deployment.
+      properties:
+        deploymentID:
+          description: The ID of the blue-green deployment.
+          type: string
+        taskId:
+          description: Task ID.
+          type: string
+        taskStatus:
+          $ref: '#/components/schemas/taskStatus'
+        steps:
+          description: The steps involved in the blue-green deployment switch.
+          items:
+            $ref: '#/components/schemas/blueGreenDeploymentSwitchStep'
+          type: array
+      required:
+        - taskId
+      type: object
+    blueGreenDeploymentPrecheckStatus:
+      description: The status of a step in a blue-green deployment precheck.
+      enum:
+        - Pending
+        - Running
+        - Succeed
+        - Warning
+        - Failed
+      type: string
+    blueGreenDeploymentPrecheckItem:
+      description: blueGreenDeploymentPrecheckItem is a precheck item in the blue-green deployment precheck result.
+      type: object
+      properties:
+        checkerName:
+          description: The name of the checker.
+          type: string
+        checkerDesc:
+          description: The description of the checker.
+          type: string
+        status:
+          $ref: '#/components/schemas/blueGreenDeploymentPrecheckStatus'
+        message:
+          description: The message from the checker.
+          type: string
+          nullable: true
+    blueGreenDeploymentPreCheckResponse:
+      description: blueGreenDeploymentPreCheckResponse is the response for retrieving the precheck task of a blue-green deployment.
+      properties:
+        taskId:
+          description: Task ID.
+          type: string
+        taskStatus:
+          $ref: '#/components/schemas/taskStatus'
+        checkers:
+          description: The checkers of the precheck task.
+          items:
+            $ref: '#/components/schemas/blueGreenDeploymentPrecheckItem'
+          type: array
+      required:
+        - taskId
+      type: object
   responses:
     '400':
       content:
@@ -24815,3 +26259,11 @@ x-tagGroups:
   - name: import
     tags:
       - import
+  - name: billing
+    tags:
+      - pricing
+      - billing
+      - metering
+  - name: blueGreenDeployment
+    tags:
+      - blueGreenDeployment
