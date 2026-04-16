@@ -2404,6 +2404,75 @@ paths:
       tags:
         - clusterLog
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/hits:
+    get:
+      description: Query log hits histogram for time-bucketed log counts (VictoriaLogs only)
+      summary: Query log hits histogram
+      operationId: queryLogHits
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: step
+          required: true
+          description: Time bucket size, e.g. 5s, 30s, 1m, 5m, 30m, 1h
+          schema:
+            type: string
+            default: 1m
+        - in: query
+          name: logType
+          required: true
+          description: 'Log type: runninglog, errorlog, slow, auditlog'
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: query
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterLogHitsResponse'
+          description: Successful operation
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/error:
     get:
       description: Query error logs of a cluster
@@ -2523,6 +2592,91 @@ paths:
               schema:
                 $ref: '#/components/schemas/clusterRawLogResponse'
           description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/export:
+    get:
+      description: Export cluster logs and return as a file download
+      summary: Export cluster logs
+      operationId: exportClusterLogs
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: logType
+          required: true
+          schema:
+            type: string
+          description: 'Log type: runninglog, errorlog, slow, auditlog'
+        - in: query
+          name: startTime
+          schema:
+            type: integer
+            format: int64
+          description: Start time in epoch nanoseconds. If omitted, exports from the earliest available log
+        - in: query
+          name: endTime
+          schema:
+            type: integer
+            format: int64
+          description: End time in epoch nanoseconds. If omitted, exports up to the latest available log
+        - in: query
+          name: format
+          schema:
+            type: string
+            default: csv
+          description: 'Export format: csv, raw, jsonl'
+        - in: query
+          name: query
+          schema:
+            type: string
+          description: Optional search query
+        - in: query
+          name: filename
+          schema:
+            type: string
+          description: Optional log filename filter
+        - in: query
+          name: componentName
+          schema:
+            type: string
+          description: Optional component name filter
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+          description: Optional instance name filter
+        - in: query
+          name: maxLines
+          schema:
+            type: integer
+            format: int64
+          description: Maximum number of lines to export. Defaults to 100000 if omitted
+      responses:
+        '200':
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+          description: File download
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -16869,6 +17023,30 @@ components:
             $ref: '#/components/schemas/clusterExecutionLogAggregateItem'
         summary:
           $ref: '#/components/schemas/clusterExecutionLogAggregateSummary'
+    clusterLogHitsItem:
+      type: object
+      description: A single time bucket in the log hits histogram
+      properties:
+        timestamp:
+          type: integer
+          format: int64
+          x-omitempty: false
+        count:
+          type: integer
+          format: int64
+          x-omitempty: false
+    clusterLogHitsResponse:
+      type: object
+      description: Log hits histogram response with time-bucketed counts
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterLogHitsItem'
+        total:
+          type: integer
+          format: int64
+          x-omitempty: false
     taskScheduleType:
       type: string
       enum:
