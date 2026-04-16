@@ -2100,6 +2100,37 @@ paths:
       tags:
         - cluster
         - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/offlineInstances:
+    get:
+      operationId: listOfflineInstance
+      summary: List offline cluster instances
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offlineInstanceList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - cluster
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/restart:
     post:
       operationId: restartInstance
@@ -4831,6 +4862,75 @@ paths:
               schema:
                 $ref: '#/components/schemas/clusterRawLogResponse'
           description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/hits:
+    get:
+      description: Query log hits histogram for time-bucketed log counts (VictoriaLogs only)
+      summary: Query log hits histogram
+      operationId: queryLogHits
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: step
+          required: true
+          description: Time bucket size, e.g. 5s, 30s, 1m, 5m, 30m, 1h
+          schema:
+            type: string
+            default: 1m
+        - in: query
+          name: logType
+          required: true
+          description: 'Log type: runninglog, errorlog, slow, auditlog'
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: query
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterLogHitsResponse'
+          description: Successful operation
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -7986,7 +8086,7 @@ paths:
         - backup
         - shared
       x-codegen-request-body-name: body
-  /admin/organizations/{orgName}/clusters/{clusterName}/listObjectsForSelectiveBackup:
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/listObjectsForSelectiveBackup:
     get:
       operationId: listObjectsTreeForSelectiveBackup
       summary: List objects tree for selective backup
@@ -19352,6 +19452,9 @@ components:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
+        schedulingPolicy:
+          description: Scheduling policy for this cluster.
+          $ref: '#/components/schemas/schedulingPolicyType'
       description: KubeBlocks cluster details
     clusterBatchUpdateData:
       type: object
@@ -19505,6 +19608,37 @@ components:
           description: Items is the list of KubeBlocks cluster objects in the list
           items:
             $ref: '#/components/schemas/instance'
+          type: array
+      required:
+        - items
+      type: object
+    offlineInstance:
+      description: Offline instance is the information of KubeBlocks cluster instances
+      properties:
+        cluster:
+          description: Cluster name
+          type: string
+        componentName:
+          description: Component name
+          type: string
+        component:
+          description: component type, refer to componentDef and support NamePrefix
+          type: string
+        name:
+          description: Instance name
+          type: string
+      required:
+        - cluster
+        - component
+        - name
+      type: object
+    offlineInstanceList:
+      description: OfflineInstanceList is a list of offline KubeBlocks cluster instances
+      properties:
+        items:
+          description: Items is the list of offline KubeBlocks cluster instance objects in the list
+          items:
+            $ref: '#/components/schemas/offlineInstance'
           type: array
       required:
         - items
@@ -21514,6 +21648,30 @@ components:
           type: array
         pagination:
           $ref: '#/components/schemas/clusterLogPagination'
+    clusterLogHitsItem:
+      type: object
+      description: A single time bucket in the log hits histogram
+      properties:
+        timestamp:
+          type: integer
+          format: int64
+          x-omitempty: false
+        count:
+          type: integer
+          format: int64
+          x-omitempty: false
+    clusterLogHitsResponse:
+      type: object
+      description: Log hits histogram response with time-bucketed counts
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterLogHitsItem'
+        total:
+          type: integer
+          format: int64
+          x-omitempty: false
     taskScheduleType:
       type: string
       enum:
@@ -21707,6 +21865,9 @@ components:
           type: boolean
         dataPlane:
           description: node is in data plane
+          type: boolean
+        managed:
+          description: Whether the node is managed (has data-plane or control-plane label)
           type: boolean
         status:
           $ref: '#/components/schemas/nodeStatus'
@@ -29144,8 +29305,6 @@ components:
         - Stopped
         - Succeed
         - Failed
-        - Deleted
-        - Finished
         - Cancelling
         - Cancelled
       description: Current status of the task
@@ -31998,6 +32157,7 @@ components:
         default:
           description: Indicates whether this rule is used as the fallback when no other rule matches.
           type: boolean
+          nullable: true
       required:
         - name
         - engine
