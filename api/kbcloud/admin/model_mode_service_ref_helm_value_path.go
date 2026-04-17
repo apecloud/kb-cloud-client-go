@@ -28,6 +28,8 @@ type ModeServiceRefHelmValuePath struct {
 	CredentialName *string `json:"credentialName,omitempty"`
 	// the name of the referenced serviceDescriptor
 	ServiceDescriptor string `json:"serviceDescriptor"`
+	// hints for addon to determine if we are using an integrated component or a serviceRef. Will be set to `serviceRef` or `component`.
+	Mode *string `json:"mode,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -262,6 +264,34 @@ func (o *ModeServiceRefHelmValuePath) SetServiceDescriptor(v string) {
 	o.ServiceDescriptor = v
 }
 
+// GetMode returns the Mode field value if set, zero value otherwise.
+func (o *ModeServiceRefHelmValuePath) GetMode() string {
+	if o == nil || o.Mode == nil {
+		var ret string
+		return ret
+	}
+	return *o.Mode
+}
+
+// GetModeOk returns a tuple with the Mode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRefHelmValuePath) GetModeOk() (*string, bool) {
+	if o == nil || o.Mode == nil {
+		return nil, false
+	}
+	return o.Mode, true
+}
+
+// HasMode returns a boolean if a field has been set.
+func (o *ModeServiceRefHelmValuePath) HasMode() bool {
+	return o != nil && o.Mode != nil
+}
+
+// SetMode gets a reference to the given string and assigns it to the Mode field.
+func (o *ModeServiceRefHelmValuePath) SetMode(v string) {
+	o.Mode = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeServiceRefHelmValuePath) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -286,6 +316,9 @@ func (o ModeServiceRefHelmValuePath) MarshalJSON() ([]byte, error) {
 		toSerialize["credentialName"] = o.CredentialName
 	}
 	toSerialize["serviceDescriptor"] = o.ServiceDescriptor
+	if o.Mode != nil {
+		toSerialize["mode"] = o.Mode
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -304,6 +337,7 @@ func (o *ModeServiceRefHelmValuePath) UnmarshalJSON(bytes []byte) (err error) {
 		CredentialComponent *string `json:"credentialComponent,omitempty"`
 		CredentialName      *string `json:"credentialName,omitempty"`
 		ServiceDescriptor   *string `json:"serviceDescriptor"`
+		Mode                *string `json:"mode,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -319,7 +353,7 @@ func (o *ModeServiceRefHelmValuePath) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"namespace", "cluster", "component", "service", "port", "credentialComponent", "credentialName", "serviceDescriptor"})
+		common.DeleteKeys(additionalProperties, &[]string{"namespace", "cluster", "component", "service", "port", "credentialComponent", "credentialName", "serviceDescriptor", "mode"})
 	} else {
 		return err
 	}
@@ -331,6 +365,7 @@ func (o *ModeServiceRefHelmValuePath) UnmarshalJSON(bytes []byte) (err error) {
 	o.CredentialComponent = all.CredentialComponent
 	o.CredentialName = all.CredentialName
 	o.ServiceDescriptor = *all.ServiceDescriptor
+	o.Mode = all.Mode
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
