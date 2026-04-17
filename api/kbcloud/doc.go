@@ -127,6 +127,7 @@
 //   - [clusterAlertSwitchApi.setClusterAlertDisabled]
 //   - [clusterLogApi.aggregateAuditLogs]
 //   - [clusterLogApi.aggregateSlowLogs]
+//   - [clusterLogApi.exportClusterLogs]
 //   - [clusterLogApi.queryAuditLogs]
 //   - [clusterLogApi.queryErrorLogs]
 //   - [clusterLogApi.queryLogHits]

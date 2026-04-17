@@ -14,6 +14,8 @@ import (
 type EnvironmentCredential struct {
 	// Name of the environment credential
 	Name string `json:"name"`
+	// The intended usage of the environment credential.
+	Usage EnvironmentCredentialUsage `json:"usage"`
 	// Key of the environment credential entry, such as accessKeyId for AWS
 	Key string `json:"key"`
 	// Secret of the environment credential entry, such as secretAccessKey for AWS
@@ -33,9 +35,10 @@ type EnvironmentCredential struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentCredential(name string, key string, secret string, createdAt time.Time, updatedAt time.Time) *EnvironmentCredential {
+func NewEnvironmentCredential(name string, usage EnvironmentCredentialUsage, key string, secret string, createdAt time.Time, updatedAt time.Time) *EnvironmentCredential {
 	this := EnvironmentCredential{}
 	this.Name = name
+	this.Usage = usage
 	this.Key = key
 	this.Secret = secret
 	this.CreatedAt = createdAt
@@ -72,6 +75,29 @@ func (o *EnvironmentCredential) GetNameOk() (*string, bool) {
 // SetName sets field value.
 func (o *EnvironmentCredential) SetName(v string) {
 	o.Name = v
+}
+
+// GetUsage returns the Usage field value.
+func (o *EnvironmentCredential) GetUsage() EnvironmentCredentialUsage {
+	if o == nil {
+		var ret EnvironmentCredentialUsage
+		return ret
+	}
+	return o.Usage
+}
+
+// GetUsageOk returns a tuple with the Usage field value
+// and a boolean to check if the value has been set.
+func (o *EnvironmentCredential) GetUsageOk() (*EnvironmentCredentialUsage, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Usage, true
+}
+
+// SetUsage sets field value.
+func (o *EnvironmentCredential) SetUsage(v EnvironmentCredentialUsage) {
+	o.Usage = v
 }
 
 // GetKey returns the Key field value.
@@ -201,6 +227,7 @@ func (o EnvironmentCredential) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["name"] = o.Name
+	toSerialize["usage"] = o.Usage
 	toSerialize["key"] = o.Key
 	toSerialize["secret"] = o.Secret
 	if o.Description != nil {
@@ -226,18 +253,22 @@ func (o EnvironmentCredential) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentCredential) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string    `json:"name"`
-		Key         *string    `json:"key"`
-		Secret      *string    `json:"secret"`
-		Description *string    `json:"description,omitempty"`
-		CreatedAt   *time.Time `json:"createdAt"`
-		UpdatedAt   *time.Time `json:"updatedAt"`
+		Name        *string                     `json:"name"`
+		Usage       *EnvironmentCredentialUsage `json:"usage"`
+		Key         *string                     `json:"key"`
+		Secret      *string                     `json:"secret"`
+		Description *string                     `json:"description,omitempty"`
+		CreatedAt   *time.Time                  `json:"createdAt"`
+		UpdatedAt   *time.Time                  `json:"updatedAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
+	}
+	if all.Usage == nil {
+		return fmt.Errorf("required field usage missing")
 	}
 	if all.Key == nil {
 		return fmt.Errorf("required field key missing")
@@ -253,11 +284,18 @@ func (o *EnvironmentCredential) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "key", "secret", "description", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "usage", "key", "secret", "description", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Name = *all.Name
+	if !all.Usage.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Usage = *all.Usage
+	}
 	o.Key = *all.Key
 	o.Secret = *all.Secret
 	o.Description = all.Description
@@ -266,6 +304,10 @@ func (o *EnvironmentCredential) UnmarshalJSON(bytes []byte) (err error) {
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
