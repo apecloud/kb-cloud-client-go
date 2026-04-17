@@ -12,6 +12,8 @@ type NetworkConfig struct {
 	NodePortEnabled *bool `json:"nodePortEnabled,omitempty"`
 	// Enable load balancer service for this environment
 	LbEnabled *bool `json:"lbEnabled,omitempty"`
+	// Enable domain service for this environment
+	DomainEnabled *bool `json:"domainEnabled,omitempty"`
 	// Enable the Internet load balancer service for this environment
 	InternetLbEnabled *bool `json:"internetLBEnabled,omitempty"`
 	// Network modes of the environment
@@ -31,6 +33,8 @@ func NewNetworkConfig() *NetworkConfig {
 	this.NodePortEnabled = &nodePortEnabled
 	var lbEnabled bool = true
 	this.LbEnabled = &lbEnabled
+	var domainEnabled bool = false
+	this.DomainEnabled = &domainEnabled
 	var internetLbEnabled bool = true
 	this.InternetLbEnabled = &internetLbEnabled
 	return &this
@@ -45,6 +49,8 @@ func NewNetworkConfigWithDefaults() *NetworkConfig {
 	this.NodePortEnabled = &nodePortEnabled
 	var lbEnabled bool = true
 	this.LbEnabled = &lbEnabled
+	var domainEnabled bool = false
+	this.DomainEnabled = &domainEnabled
 	var internetLbEnabled bool = true
 	this.InternetLbEnabled = &internetLbEnabled
 	return &this
@@ -104,6 +110,34 @@ func (o *NetworkConfig) HasLbEnabled() bool {
 // SetLbEnabled gets a reference to the given bool and assigns it to the LbEnabled field.
 func (o *NetworkConfig) SetLbEnabled(v bool) {
 	o.LbEnabled = &v
+}
+
+// GetDomainEnabled returns the DomainEnabled field value if set, zero value otherwise.
+func (o *NetworkConfig) GetDomainEnabled() bool {
+	if o == nil || o.DomainEnabled == nil {
+		var ret bool
+		return ret
+	}
+	return *o.DomainEnabled
+}
+
+// GetDomainEnabledOk returns a tuple with the DomainEnabled field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *NetworkConfig) GetDomainEnabledOk() (*bool, bool) {
+	if o == nil || o.DomainEnabled == nil {
+		return nil, false
+	}
+	return o.DomainEnabled, true
+}
+
+// HasDomainEnabled returns a boolean if a field has been set.
+func (o *NetworkConfig) HasDomainEnabled() bool {
+	return o != nil && o.DomainEnabled != nil
+}
+
+// SetDomainEnabled gets a reference to the given bool and assigns it to the DomainEnabled field.
+func (o *NetworkConfig) SetDomainEnabled(v bool) {
+	o.DomainEnabled = &v
 }
 
 // GetInternetLbEnabled returns the InternetLbEnabled field value if set, zero value otherwise.
@@ -174,6 +208,9 @@ func (o NetworkConfig) MarshalJSON() ([]byte, error) {
 	if o.LbEnabled != nil {
 		toSerialize["lbEnabled"] = o.LbEnabled
 	}
+	if o.DomainEnabled != nil {
+		toSerialize["domainEnabled"] = o.DomainEnabled
+	}
 	if o.InternetLbEnabled != nil {
 		toSerialize["internetLBEnabled"] = o.InternetLbEnabled
 	}
@@ -192,6 +229,7 @@ func (o *NetworkConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		NodePortEnabled   *bool         `json:"nodePortEnabled,omitempty"`
 		LbEnabled         *bool         `json:"lbEnabled,omitempty"`
+		DomainEnabled     *bool         `json:"domainEnabled,omitempty"`
 		InternetLbEnabled *bool         `json:"internetLBEnabled,omitempty"`
 		NetworkModes      []NetworkMode `json:"networkModes,omitempty"`
 	}{}
@@ -200,12 +238,13 @@ func (o *NetworkConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"nodePortEnabled", "lbEnabled", "internetLBEnabled", "networkModes"})
+		common.DeleteKeys(additionalProperties, &[]string{"nodePortEnabled", "lbEnabled", "domainEnabled", "internetLBEnabled", "networkModes"})
 	} else {
 		return err
 	}
 	o.NodePortEnabled = all.NodePortEnabled
 	o.LbEnabled = all.LbEnabled
+	o.DomainEnabled = all.DomainEnabled
 	o.InternetLbEnabled = all.InternetLbEnabled
 	o.NetworkModes = all.NetworkModes
 
