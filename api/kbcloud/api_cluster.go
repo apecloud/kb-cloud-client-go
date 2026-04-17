@@ -1798,7 +1798,7 @@ func (a *ClusterApi) TransitionClusterMode(ctx _context.Context, orgName string,
 	apiInfo := common.APIInfo{
 		Tag:         "cluster",
 		OperationID: "transitionClusterMode",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/mode-transition",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/modeTransition",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1808,7 +1808,7 @@ func (a *ClusterApi) TransitionClusterMode(ctx _context.Context, orgName string,
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/mode-transition"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/modeTransition"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 

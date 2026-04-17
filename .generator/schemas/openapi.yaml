@@ -2076,7 +2076,7 @@ paths:
         - cluster
         - shared
       x-codegen-request-body-name: body
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/mode-transition:
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/modeTransition:
     post:
       operationId: transitionClusterMode
       summary: Transition cluster engine mode
