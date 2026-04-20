@@ -24909,10 +24909,8 @@ components:
         - items
       type: object
     platformParameterCategory:
-      enum:
-        - recycle-bin
       type: string
-      description: platformParameter category, representing the platformParameter group, such as 'recycle bin'
+      description: platformParameter category, representing the platformParameter group
     platformParameter:
       description: platformParameter item
       type: object

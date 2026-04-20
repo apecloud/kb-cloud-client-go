@@ -25330,14 +25330,17 @@ components:
           type: string
         endpoint:
           type: string
-        templateCode:
+        alertTemplateCode:
           type: string
+          x-omitempty: false
+        verifyTemplateCode:
+          type: string
+          x-omitempty: false
         signName:
           type: string
       required:
         - accessKeyID
         - accessKeySecret
-        - templateCode
       type: object
     engineOptionVersion:
       type: string
@@ -28957,10 +28960,8 @@ components:
           type: boolean
           description: whether the param is tenant variable or param
     platformParameterCategory:
-      enum:
-        - recycle-bin
       type: string
-      description: platformParameter category, representing the platformParameter group, such as 'recycle bin'
+      description: platformParameter category, representing the platformParameter group
     platformParameter:
       description: platformParameter item
       type: object
