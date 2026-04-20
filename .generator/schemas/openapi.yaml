@@ -16677,87 +16677,6 @@ components:
           $ref: '#/components/schemas/clusterBatchUpdateData'
           description: Update information to be applied to all clusters
       description: ClusterBatchUpdate is the payload for batch updating multiple clusters with the same update information
-    taskScheduleType:
-      type: string
-      enum:
-        - immediate
-        - scheduled
-        - maintenanceWindow
-      description: Schedule type for task execution
-    taskSchedule:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/taskScheduleType'
-        startTime:
-          type: string
-          format: date-time
-          description: Start time of the execution window (required for scheduled type)
-          x-nullable: true
-        endTime:
-          type: string
-          format: date-time
-          description: End time of the execution window (required for scheduled type)
-          x-nullable: true
-      required:
-        - type
-    opsHScale:
-      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
-      required:
-        - component
-      properties:
-        component:
-          description: component type
-          type: string
-          minLength: 1
-        backupName:
-          description: name of the backup to restore from
-          type: string
-          nullable: true
-        replicas:
-          description: number of replicas
-          type: integer
-          nullable: true
-        onlineInstancesToOffline:
-          type: array
-          items:
-            type: string
-          description: List of online instance names to be switched to offline during scaling in.
-          nullable: true
-        OfflineInstancesToOnline:
-          type: array
-          items:
-            type: string
-          description: List of offline instance names to be switched to online during scaling out.
-          nullable: true
-        shards:
-          description: number of shards, mutually exclusive with replicas.
-          type: integer
-          nullable: true
-        preConditionDeadlineSeconds:
-          description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
-          type: integer
-          nullable: true
-          minimum: 0
-        force:
-          type: boolean
-          description: force the scaling operation without pre-check
-          default: false
-        schedule:
-          $ref: '#/components/schemas/taskSchedule'
-      type: object
-    clusterModeTransition:
-      type: object
-      description: Parameters for switching the engine mode of a cluster.
-      required:
-        - mode
-        - hScale
-      properties:
-        mode:
-          type: string
-          description: Target engine mode.
-        hScale:
-          $ref: '#/components/schemas/opsHScale'
     clusterUpdate:
       type: object
       properties:
@@ -16769,8 +16688,6 @@ components:
           nullable: true
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
-        modeTransition:
-          $ref: '#/components/schemas/clusterModeTransition'
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
     instanceStorageItem:
       description: Instance storage information
@@ -17037,6 +16954,86 @@ components:
             $ref: '#/components/schemas/haHistory'
       required:
         - items
+    taskScheduleType:
+      type: string
+      enum:
+        - immediate
+        - scheduled
+        - maintenanceWindow
+      description: Schedule type for task execution
+    taskSchedule:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/taskScheduleType'
+        startTime:
+          type: string
+          format: date-time
+          description: Start time of the execution window (required for scheduled type)
+          x-nullable: true
+        endTime:
+          type: string
+          format: date-time
+          description: End time of the execution window (required for scheduled type)
+          x-nullable: true
+      required:
+        - type
+    opsHScale:
+      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
+      required:
+        - component
+      properties:
+        component:
+          description: component type
+          type: string
+          minLength: 1
+        backupName:
+          description: name of the backup to restore from
+          type: string
+          nullable: true
+        replicas:
+          description: number of replicas
+          type: integer
+          nullable: true
+        onlineInstancesToOffline:
+          type: array
+          items:
+            type: string
+          description: List of online instance names to be switched to offline during scaling in.
+          nullable: true
+        OfflineInstancesToOnline:
+          type: array
+          items:
+            type: string
+          description: List of offline instance names to be switched to online during scaling out.
+          nullable: true
+        shards:
+          description: number of shards, mutually exclusive with replicas.
+          type: integer
+          nullable: true
+        preConditionDeadlineSeconds:
+          description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
+          type: integer
+          nullable: true
+          minimum: 0
+        force:
+          type: boolean
+          description: force the scaling operation without pre-check
+          default: false
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
+      type: object
+    clusterModeTransition:
+      type: object
+      description: Parameters for switching the engine mode of a cluster.
+      required:
+        - mode
+      properties:
+        mode:
+          type: string
+          description: Target engine mode.
+        hScale:
+          $ref: '#/components/schemas/opsHScale'
     opsRequestName:
       description: OpsRequestName is the name of a KubeBlocks OpsRequest response
       properties:
@@ -25040,10 +25037,8 @@ components:
         - items
       type: object
     platformParameterCategory:
-      enum:
-        - recycle-bin
       type: string
-      description: platformParameter category, representing the platformParameter group, such as 'recycle bin'
+      description: platformParameter category, representing the platformParameter group
     platformParameter:
       description: platformParameter item
       type: object

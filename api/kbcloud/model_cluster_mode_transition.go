@@ -15,7 +15,7 @@ type ClusterModeTransition struct {
 	// Target engine mode.
 	Mode string `json:"mode"`
 	// OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
-	HScale OpsHScale `json:"hScale"`
+	HScale *OpsHScale `json:"hScale,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -25,10 +25,9 @@ type ClusterModeTransition struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewClusterModeTransition(mode string, hScale OpsHScale) *ClusterModeTransition {
+func NewClusterModeTransition(mode string) *ClusterModeTransition {
 	this := ClusterModeTransition{}
 	this.Mode = mode
-	this.HScale = hScale
 	return &this
 }
 
@@ -63,27 +62,32 @@ func (o *ClusterModeTransition) SetMode(v string) {
 	o.Mode = v
 }
 
-// GetHScale returns the HScale field value.
+// GetHScale returns the HScale field value if set, zero value otherwise.
 func (o *ClusterModeTransition) GetHScale() OpsHScale {
-	if o == nil {
+	if o == nil || o.HScale == nil {
 		var ret OpsHScale
 		return ret
 	}
-	return o.HScale
+	return *o.HScale
 }
 
-// GetHScaleOk returns a tuple with the HScale field value
+// GetHScaleOk returns a tuple with the HScale field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ClusterModeTransition) GetHScaleOk() (*OpsHScale, bool) {
-	if o == nil {
+	if o == nil || o.HScale == nil {
 		return nil, false
 	}
-	return &o.HScale, true
+	return o.HScale, true
 }
 
-// SetHScale sets field value.
+// HasHScale returns a boolean if a field has been set.
+func (o *ClusterModeTransition) HasHScale() bool {
+	return o != nil && o.HScale != nil
+}
+
+// SetHScale gets a reference to the given OpsHScale and assigns it to the HScale field.
 func (o *ClusterModeTransition) SetHScale(v OpsHScale) {
-	o.HScale = v
+	o.HScale = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -93,7 +97,9 @@ func (o ClusterModeTransition) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["mode"] = o.Mode
-	toSerialize["hScale"] = o.HScale
+	if o.HScale != nil {
+		toSerialize["hScale"] = o.HScale
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -105,16 +111,13 @@ func (o ClusterModeTransition) MarshalJSON() ([]byte, error) {
 func (o *ClusterModeTransition) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Mode   *string    `json:"mode"`
-		HScale *OpsHScale `json:"hScale"`
+		HScale *OpsHScale `json:"hScale,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	if all.Mode == nil {
 		return fmt.Errorf("required field mode missing")
-	}
-	if all.HScale == nil {
-		return fmt.Errorf("required field hScale missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -125,10 +128,10 @@ func (o *ClusterModeTransition) UnmarshalJSON(bytes []byte) (err error) {
 
 	hasInvalidField := false
 	o.Mode = *all.Mode
-	if all.HScale.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.HScale != nil && all.HScale.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.HScale = *all.HScale
+	o.HScale = all.HScale
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
