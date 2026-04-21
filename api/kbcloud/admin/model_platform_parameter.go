@@ -16,8 +16,8 @@ type PlatformParameter struct {
 	Id string `json:"id"`
 	// platformParameter name
 	Name string `json:"name"`
-	// platformParameter category, representing the platformParameter group, such as 'recycle bin'
-	Category PlatformParameterCategory `json:"category"`
+	// platformParameter category, representing the platformParameter group
+	Category string `json:"category"`
 	// type of platformParameter value
 	Type string `json:"type"`
 	// platformParameter constraints including min, max, enum, default value
@@ -34,7 +34,7 @@ type PlatformParameter struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPlatformParameter(id string, name string, category PlatformParameterCategory, typeVar string, constraints PlatformParameterConstraints, description LocalizedDescription) *PlatformParameter {
+func NewPlatformParameter(id string, name string, category string, typeVar string, constraints PlatformParameterConstraints, description LocalizedDescription) *PlatformParameter {
 	this := PlatformParameter{}
 	this.Id = id
 	this.Name = name
@@ -100,9 +100,9 @@ func (o *PlatformParameter) SetName(v string) {
 }
 
 // GetCategory returns the Category field value.
-func (o *PlatformParameter) GetCategory() PlatformParameterCategory {
+func (o *PlatformParameter) GetCategory() string {
 	if o == nil {
-		var ret PlatformParameterCategory
+		var ret string
 		return ret
 	}
 	return o.Category
@@ -110,7 +110,7 @@ func (o *PlatformParameter) GetCategory() PlatformParameterCategory {
 
 // GetCategoryOk returns a tuple with the Category field value
 // and a boolean to check if the value has been set.
-func (o *PlatformParameter) GetCategoryOk() (*PlatformParameterCategory, bool) {
+func (o *PlatformParameter) GetCategoryOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -118,7 +118,7 @@ func (o *PlatformParameter) GetCategoryOk() (*PlatformParameterCategory, bool) {
 }
 
 // SetCategory sets field value.
-func (o *PlatformParameter) SetCategory(v PlatformParameterCategory) {
+func (o *PlatformParameter) SetCategory(v string) {
 	o.Category = v
 }
 
@@ -246,7 +246,7 @@ func (o *PlatformParameter) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Id          *string                       `json:"id"`
 		Name        *string                       `json:"name"`
-		Category    *PlatformParameterCategory    `json:"category"`
+		Category    *string                       `json:"category"`
 		Type        *string                       `json:"type"`
 		Constraints *PlatformParameterConstraints `json:"constraints"`
 		Value       *string                       `json:"value,omitempty"`
@@ -283,11 +283,7 @@ func (o *PlatformParameter) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Id = *all.Id
 	o.Name = *all.Name
-	if !all.Category.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Category = *all.Category
-	}
+	o.Category = *all.Category
 	o.Type = *all.Type
 	if all.Constraints.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true

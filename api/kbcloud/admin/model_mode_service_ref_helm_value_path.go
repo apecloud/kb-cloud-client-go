@@ -29,6 +29,8 @@ type ModeServiceRefHelmValuePath struct {
 	// the name of the referenced serviceDescriptor
 	ServiceDescriptor string `json:"serviceDescriptor"`
 	// hints for addon to determine if we are using an integrated component or a serviceRef. Will be set to `serviceRef` or `component`.
+	// This field is required when a serviceRef can be replaced by a component.
+	//
 	Mode *string `json:"mode,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

@@ -22,6 +22,8 @@ type EnvironmentCredential struct {
 	Secret string `json:"secret"`
 	// Description of the environment credential
 	Description *string `json:"description,omitempty"`
+	// Text hints describing the permissions this credential should have for its usage.
+	PermissionTips []string `json:"permissionTips,omitempty"`
 	// CreatedAt is a timestamp representing the server time when this object was created. It is represented in RFC3339 form and is in UTC.
 	CreatedAt time.Time `json:"createdAt"`
 	// UpdatedAt is a timestamp representing the server time when this object was updated. It is represented in RFC3339 form and is in UTC.
@@ -174,6 +176,34 @@ func (o *EnvironmentCredential) SetDescription(v string) {
 	o.Description = &v
 }
 
+// GetPermissionTips returns the PermissionTips field value if set, zero value otherwise.
+func (o *EnvironmentCredential) GetPermissionTips() []string {
+	if o == nil || o.PermissionTips == nil {
+		var ret []string
+		return ret
+	}
+	return o.PermissionTips
+}
+
+// GetPermissionTipsOk returns a tuple with the PermissionTips field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentCredential) GetPermissionTipsOk() (*[]string, bool) {
+	if o == nil || o.PermissionTips == nil {
+		return nil, false
+	}
+	return &o.PermissionTips, true
+}
+
+// HasPermissionTips returns a boolean if a field has been set.
+func (o *EnvironmentCredential) HasPermissionTips() bool {
+	return o != nil && o.PermissionTips != nil
+}
+
+// SetPermissionTips gets a reference to the given []string and assigns it to the PermissionTips field.
+func (o *EnvironmentCredential) SetPermissionTips(v []string) {
+	o.PermissionTips = v
+}
+
 // GetCreatedAt returns the CreatedAt field value.
 func (o *EnvironmentCredential) GetCreatedAt() time.Time {
 	if o == nil {
@@ -233,6 +263,9 @@ func (o EnvironmentCredential) MarshalJSON() ([]byte, error) {
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
+	if o.PermissionTips != nil {
+		toSerialize["permissionTips"] = o.PermissionTips
+	}
 	if o.CreatedAt.Nanosecond() == 0 {
 		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
 	} else {
@@ -253,13 +286,14 @@ func (o EnvironmentCredential) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentCredential) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string                     `json:"name"`
-		Usage       *EnvironmentCredentialUsage `json:"usage"`
-		Key         *string                     `json:"key"`
-		Secret      *string                     `json:"secret"`
-		Description *string                     `json:"description,omitempty"`
-		CreatedAt   *time.Time                  `json:"createdAt"`
-		UpdatedAt   *time.Time                  `json:"updatedAt"`
+		Name           *string                     `json:"name"`
+		Usage          *EnvironmentCredentialUsage `json:"usage"`
+		Key            *string                     `json:"key"`
+		Secret         *string                     `json:"secret"`
+		Description    *string                     `json:"description,omitempty"`
+		PermissionTips []string                    `json:"permissionTips,omitempty"`
+		CreatedAt      *time.Time                  `json:"createdAt"`
+		UpdatedAt      *time.Time                  `json:"updatedAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -284,7 +318,7 @@ func (o *EnvironmentCredential) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "usage", "key", "secret", "description", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "usage", "key", "secret", "description", "permissionTips", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}
@@ -299,6 +333,7 @@ func (o *EnvironmentCredential) UnmarshalJSON(bytes []byte) (err error) {
 	o.Key = *all.Key
 	o.Secret = *all.Secret
 	o.Description = all.Description
+	o.PermissionTips = all.PermissionTips
 	o.CreatedAt = *all.CreatedAt
 	o.UpdatedAt = *all.UpdatedAt
 
