@@ -19596,7 +19596,7 @@ components:
         node:
           description: node name
           type: string
-        ip:
+        podIP:
           description: Pod IP address
           type: string
         region:

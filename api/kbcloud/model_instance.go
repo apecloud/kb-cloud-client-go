@@ -37,7 +37,7 @@ type Instance struct {
 	// node name
 	Node string `json:"node"`
 	// Pod IP address
-	Ip *string `json:"ip,omitempty"`
+	PodIp *string `json:"podIP,omitempty"`
 	// Region for instance
 	Region string `json:"region"`
 	// Role for instance
@@ -374,32 +374,32 @@ func (o *Instance) SetNode(v string) {
 	o.Node = v
 }
 
-// GetIp returns the Ip field value if set, zero value otherwise.
-func (o *Instance) GetIp() string {
-	if o == nil || o.Ip == nil {
+// GetPodIp returns the PodIp field value if set, zero value otherwise.
+func (o *Instance) GetPodIp() string {
+	if o == nil || o.PodIp == nil {
 		var ret string
 		return ret
 	}
-	return *o.Ip
+	return *o.PodIp
 }
 
-// GetIpOk returns a tuple with the Ip field value if set, nil otherwise
+// GetPodIpOk returns a tuple with the PodIp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Instance) GetIpOk() (*string, bool) {
-	if o == nil || o.Ip == nil {
+func (o *Instance) GetPodIpOk() (*string, bool) {
+	if o == nil || o.PodIp == nil {
 		return nil, false
 	}
-	return o.Ip, true
+	return o.PodIp, true
 }
 
-// HasIp returns a boolean if a field has been set.
-func (o *Instance) HasIp() bool {
-	return o != nil && o.Ip != nil
+// HasPodIp returns a boolean if a field has been set.
+func (o *Instance) HasPodIp() bool {
+	return o != nil && o.PodIp != nil
 }
 
-// SetIp gets a reference to the given string and assigns it to the Ip field.
-func (o *Instance) SetIp(v string) {
-	o.Ip = &v
+// SetPodIp gets a reference to the given string and assigns it to the PodIp field.
+func (o *Instance) SetPodIp(v string) {
+	o.PodIp = &v
 }
 
 // GetRegion returns the Region field value.
@@ -546,8 +546,8 @@ func (o Instance) MarshalJSON() ([]byte, error) {
 	toSerialize["memory"] = o.Memory
 	toSerialize["name"] = o.Name
 	toSerialize["node"] = o.Node
-	if o.Ip != nil {
-		toSerialize["ip"] = o.Ip
+	if o.PodIp != nil {
+		toSerialize["podIP"] = o.PodIp
 	}
 	toSerialize["region"] = o.Region
 	toSerialize["role"] = o.Role
@@ -578,7 +578,7 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 		Memory        *string               `json:"memory"`
 		Name          *string               `json:"name"`
 		Node          *string               `json:"node"`
-		Ip            *string               `json:"ip,omitempty"`
+		PodIp         *string               `json:"podIP,omitempty"`
 		Region        *string               `json:"region"`
 		Role          *string               `json:"role"`
 		Status        *InstanceStatus       `json:"status"`
@@ -629,7 +629,7 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"accessMode", "orgName", "cloud", "cluster", "componentName", "componentDef", "component", "cpu", "createdAt", "memory", "name", "node", "ip", "region", "role", "status", "storage", "zone"})
+		common.DeleteKeys(additionalProperties, &[]string{"accessMode", "orgName", "cloud", "cluster", "componentName", "componentDef", "component", "cpu", "createdAt", "memory", "name", "node", "podIP", "region", "role", "status", "storage", "zone"})
 	} else {
 		return err
 	}
@@ -647,7 +647,7 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	o.Memory = *all.Memory
 	o.Name = *all.Name
 	o.Node = *all.Node
-	o.Ip = all.Ip
+	o.PodIp = all.PodIp
 	o.Region = *all.Region
 	o.Role = *all.Role
 	if all.Status.UnparsedObject != nil && o.UnparsedObject == nil {
