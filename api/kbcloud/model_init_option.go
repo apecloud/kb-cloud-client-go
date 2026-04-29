@@ -6,32 +6,32 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// PlatformParameterCategory platformParameter category, representing the platformParameter group
-type PlatformParameterCategory struct {
+// InitOption Parameters to be initialized when cluster is created
+type InitOption struct {
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
-	AdditionalProperties map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{}      `json:"-"`
+	AdditionalProperties map[string]InitOptionObject `json:"-"`
 }
 
-// NewPlatformParameterCategory instantiates a new PlatformParameterCategory object.
+// NewInitOption instantiates a new InitOption object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPlatformParameterCategory() *PlatformParameterCategory {
-	this := PlatformParameterCategory{}
+func NewInitOption() *InitOption {
+	this := InitOption{}
 	return &this
 }
 
-// NewPlatformParameterCategoryWithDefaults instantiates a new PlatformParameterCategory object.
+// NewInitOptionWithDefaults instantiates a new InitOption object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewPlatformParameterCategoryWithDefaults() *PlatformParameterCategory {
-	this := PlatformParameterCategory{}
+func NewInitOptionWithDefaults() *InitOption {
+	this := InitOption{}
 	return &this
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o PlatformParameterCategory) MarshalJSON() ([]byte, error) {
+func (o InitOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -44,13 +44,13 @@ func (o PlatformParameterCategory) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *PlatformParameterCategory) UnmarshalJSON(bytes []byte) (err error) {
+func (o *InitOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	additionalProperties := make(map[string]interface{})
+	additionalProperties := make(map[string]InitOptionObject)
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{})
 	} else {

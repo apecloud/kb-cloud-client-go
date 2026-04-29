@@ -36,6 +36,8 @@ type Instance struct {
 	Name string `json:"name"`
 	// node name
 	Node string `json:"node"`
+	// Pod IP address
+	Ip *string `json:"ip,omitempty"`
 	// Region for instance
 	Region string `json:"region"`
 	// Role for instance
@@ -372,6 +374,34 @@ func (o *Instance) SetNode(v string) {
 	o.Node = v
 }
 
+// GetIp returns the Ip field value if set, zero value otherwise.
+func (o *Instance) GetIp() string {
+	if o == nil || o.Ip == nil {
+		var ret string
+		return ret
+	}
+	return *o.Ip
+}
+
+// GetIpOk returns a tuple with the Ip field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Instance) GetIpOk() (*string, bool) {
+	if o == nil || o.Ip == nil {
+		return nil, false
+	}
+	return o.Ip, true
+}
+
+// HasIp returns a boolean if a field has been set.
+func (o *Instance) HasIp() bool {
+	return o != nil && o.Ip != nil
+}
+
+// SetIp gets a reference to the given string and assigns it to the Ip field.
+func (o *Instance) SetIp(v string) {
+	o.Ip = &v
+}
+
 // GetRegion returns the Region field value.
 func (o *Instance) GetRegion() string {
 	if o == nil {
@@ -516,6 +546,9 @@ func (o Instance) MarshalJSON() ([]byte, error) {
 	toSerialize["memory"] = o.Memory
 	toSerialize["name"] = o.Name
 	toSerialize["node"] = o.Node
+	if o.Ip != nil {
+		toSerialize["ip"] = o.Ip
+	}
 	toSerialize["region"] = o.Region
 	toSerialize["role"] = o.Role
 	toSerialize["status"] = o.Status
@@ -545,6 +578,7 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 		Memory        *string               `json:"memory"`
 		Name          *string               `json:"name"`
 		Node          *string               `json:"node"`
+		Ip            *string               `json:"ip,omitempty"`
 		Region        *string               `json:"region"`
 		Role          *string               `json:"role"`
 		Status        *InstanceStatus       `json:"status"`
@@ -595,7 +629,7 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"accessMode", "orgName", "cloud", "cluster", "componentName", "componentDef", "component", "cpu", "createdAt", "memory", "name", "node", "region", "role", "status", "storage", "zone"})
+		common.DeleteKeys(additionalProperties, &[]string{"accessMode", "orgName", "cloud", "cluster", "componentName", "componentDef", "component", "cpu", "createdAt", "memory", "name", "node", "ip", "region", "role", "status", "storage", "zone"})
 	} else {
 		return err
 	}
@@ -613,6 +647,7 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	o.Memory = *all.Memory
 	o.Name = *all.Name
 	o.Node = *all.Node
+	o.Ip = all.Ip
 	o.Region = *all.Region
 	o.Role = *all.Role
 	if all.Status.UnparsedObject != nil && o.UnparsedObject == nil {
