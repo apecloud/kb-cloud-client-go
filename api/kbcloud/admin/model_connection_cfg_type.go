@@ -14,11 +14,19 @@ type ConnectionCfgType string
 
 // List of ConnectionCfgType.
 const (
-	ConnectionCfgTypeDatabase ConnectionCfgType = "database"
+	ConnectionCfgTypeDatabase      ConnectionCfgType = "database"
+	ConnectionCfgTypeTlsEnable     ConnectionCfgType = "tlsEnable"
+	ConnectionCfgTypeTlsCaCert     ConnectionCfgType = "tlsCACert"
+	ConnectionCfgTypeTlsCert       ConnectionCfgType = "tlsCert"
+	ConnectionCfgTypeTlsPrivateKey ConnectionCfgType = "tlsPrivateKey"
 )
 
 var allowedConnectionCfgTypeEnumValues = []ConnectionCfgType{
 	ConnectionCfgTypeDatabase,
+	ConnectionCfgTypeTlsEnable,
+	ConnectionCfgTypeTlsCaCert,
+	ConnectionCfgTypeTlsCert,
+	ConnectionCfgTypeTlsPrivateKey,
 }
 
 // GetAllowedValues returns the list of possible values.

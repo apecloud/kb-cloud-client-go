@@ -915,6 +915,256 @@ func (a *BackupApi) GetClusterBackupPolicy(ctx _context.Context, orgName string,
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// ListAggregateBackupPoliciesOptionalParameters holds optional parameters for ListAggregateBackupPolicies.
+type ListAggregateBackupPoliciesOptionalParameters struct {
+	OrgName     *string
+	ClusterName *string
+	ClusterId   *string
+}
+
+// NewListAggregateBackupPoliciesOptionalParameters creates an empty struct for parameters.
+func NewListAggregateBackupPoliciesOptionalParameters() *ListAggregateBackupPoliciesOptionalParameters {
+	this := ListAggregateBackupPoliciesOptionalParameters{}
+	return &this
+}
+
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *ListAggregateBackupPoliciesOptionalParameters) WithOrgName(orgName string) *ListAggregateBackupPoliciesOptionalParameters {
+	r.OrgName = &orgName
+	return r
+}
+
+// WithClusterName sets the corresponding parameter name and returns the struct.
+func (r *ListAggregateBackupPoliciesOptionalParameters) WithClusterName(clusterName string) *ListAggregateBackupPoliciesOptionalParameters {
+	r.ClusterName = &clusterName
+	return r
+}
+
+// WithClusterId sets the corresponding parameter name and returns the struct.
+func (r *ListAggregateBackupPoliciesOptionalParameters) WithClusterId(clusterId string) *ListAggregateBackupPoliciesOptionalParameters {
+	r.ClusterId = &clusterId
+	return r
+}
+
+// ListAggregateBackupPolicies List aggregate backup policies.
+func (a *BackupApi) ListAggregateBackupPolicies(ctx _context.Context, o ...ListAggregateBackupPoliciesOptionalParameters) ([]BackupPolicyWithCluster, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []BackupPolicyWithCluster
+		optionalParams      ListAggregateBackupPoliciesOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListAggregateBackupPoliciesOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "backup",
+		OperationID: "listAggregateBackupPolicies",
+		Path:        "/admin/v1/backupPolicies",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.ListAggregateBackupPolicies")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/backupPolicies"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
+	if optionalParams.ClusterName != nil {
+		localVarQueryParams.Add("clusterName", common.ParameterToString(*optionalParams.ClusterName, ""))
+	}
+	if optionalParams.ClusterId != nil {
+		localVarQueryParams.Add("clusterID", common.ParameterToString(*optionalParams.ClusterId, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// ListAggregateBackupSchedulesOptionalParameters holds optional parameters for ListAggregateBackupSchedules.
+type ListAggregateBackupSchedulesOptionalParameters struct {
+	OrgName     *string
+	ClusterName *string
+	ClusterId   *string
+}
+
+// NewListAggregateBackupSchedulesOptionalParameters creates an empty struct for parameters.
+func NewListAggregateBackupSchedulesOptionalParameters() *ListAggregateBackupSchedulesOptionalParameters {
+	this := ListAggregateBackupSchedulesOptionalParameters{}
+	return &this
+}
+
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *ListAggregateBackupSchedulesOptionalParameters) WithOrgName(orgName string) *ListAggregateBackupSchedulesOptionalParameters {
+	r.OrgName = &orgName
+	return r
+}
+
+// WithClusterName sets the corresponding parameter name and returns the struct.
+func (r *ListAggregateBackupSchedulesOptionalParameters) WithClusterName(clusterName string) *ListAggregateBackupSchedulesOptionalParameters {
+	r.ClusterName = &clusterName
+	return r
+}
+
+// WithClusterId sets the corresponding parameter name and returns the struct.
+func (r *ListAggregateBackupSchedulesOptionalParameters) WithClusterId(clusterId string) *ListAggregateBackupSchedulesOptionalParameters {
+	r.ClusterId = &clusterId
+	return r
+}
+
+// ListAggregateBackupSchedules List aggregate backup schedules.
+func (a *BackupApi) ListAggregateBackupSchedules(ctx _context.Context, o ...ListAggregateBackupSchedulesOptionalParameters) ([]BackupSchedule, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []BackupSchedule
+		optionalParams      ListAggregateBackupSchedulesOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListAggregateBackupSchedulesOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "backup",
+		OperationID: "listAggregateBackupSchedules",
+		Path:        "/admin/v1/backupSchedules",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.ListAggregateBackupSchedules")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/backupSchedules"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
+	if optionalParams.ClusterName != nil {
+		localVarQueryParams.Add("clusterName", common.ParameterToString(*optionalParams.ClusterName, ""))
+	}
+	if optionalParams.ClusterId != nil {
+		localVarQueryParams.Add("clusterID", common.ParameterToString(*optionalParams.ClusterId, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // ListBackupSchedulesOptionalParameters holds optional parameters for ListBackupSchedules.
 type ListBackupSchedulesOptionalParameters struct {
 	BackupMethod *string
@@ -1264,7 +1514,7 @@ func (a *BackupApi) ListObjectsTreeForSelectiveBackup(ctx _context.Context, orgN
 	apiInfo := common.APIInfo{
 		Tag:         "backup",
 		OperationID: "listObjectsTreeForSelectiveBackup",
-		Path:        "/admin/organizations/{orgName}/clusters/{clusterName}/listObjectsForSelectiveBackup",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/listObjectsForSelectiveBackup",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1274,7 +1524,7 @@ func (a *BackupApi) ListObjectsTreeForSelectiveBackup(ctx _context.Context, orgN
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/organizations/{orgName}/clusters/{clusterName}/listObjectsForSelectiveBackup"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/listObjectsForSelectiveBackup"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
