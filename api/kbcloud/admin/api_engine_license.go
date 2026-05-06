@@ -7,6 +7,7 @@ package admin
 import (
 	"context"
 	_context "context"
+	_io "io"
 	_nethttp "net/http"
 	_neturl "net/url"
 
@@ -16,14 +17,39 @@ import (
 // EngineLicenseApi service type
 type EngineLicenseApi common.Service
 
+// CreateEngineLicenseOptionalParameters holds optional parameters for CreateEngineLicense.
+type CreateEngineLicenseOptionalParameters struct {
+	LicenseFile *_io.Reader
+}
+
+// NewCreateEngineLicenseOptionalParameters creates an empty struct for parameters.
+func NewCreateEngineLicenseOptionalParameters() *CreateEngineLicenseOptionalParameters {
+	this := CreateEngineLicenseOptionalParameters{}
+	return &this
+}
+
+// WithLicenseFile sets the corresponding parameter name and returns the struct.
+func (r *CreateEngineLicenseOptionalParameters) WithLicenseFile(licenseFile _io.Reader) *CreateEngineLicenseOptionalParameters {
+	r.LicenseFile = &licenseFile
+	return r
+}
+
 // CreateEngineLicense Create engineLicense.
 // Create a new engineLicense
-func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, body EngineLicenseCreate) (EngineLicense, *_nethttp.Response, error) {
+func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, body EngineLicenseCreate, o ...CreateEngineLicenseOptionalParameters) (EngineLicense, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue EngineLicense
+		optionalParams      CreateEngineLicenseOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateEngineLicenseOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -47,14 +73,27 @@ func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, body Engine
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	// body params
-	localVarPostBody = &body
+	formFile := common.FormFile{}
+	formFile.FormFileName = "licenseFile"
+	var localVarFile _io.Reader
+	if optionalParams.LicenseFile != nil {
+		localVarFile = *optionalParams.LicenseFile
+	}
+	if localVarFile != nil {
+		fbs, _ := _io.ReadAll(localVarFile)
+		formFile.FileBytes = fbs
+	}
+
+	localVarFormParams, err = common.BuildFormParams(body)
+	if err != nil {
+		return localVarReturnValue, nil, common.ReportError("Failed to build form params: %s", err.Error())
+	}
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
 	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, &formFile)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
