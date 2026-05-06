@@ -261,10 +261,26 @@ localVarQueryParams.Add("{{ parameter.name }}", {{ common_package_name }}.Parame
 	}
 	{%- endif %}
     {% if needBodyParameter %}
+	{%- if formParameter.required %}
     localVarFormParams, err = {{ common_package_name }}.BuildFormParams({{ operation.get("x-codegen-request-body-name", "body")|variable_name }})
 	if err != nil {
 		return {% if returnType %}localVarReturnValue, {% endif %}nil, {{ common_package_name }}.ReportError("Failed to build form params: %s", err.Error())
 	}
+	{%- else %}
+	{#- Mixed JSON+multipart with optional binary: when caller did not provide
+	   the file, send the body as JSON (localVarPostBody). When the file is
+	   provided, build multipart form params from the body so they ride
+	   alongside the file. The two paths are mutually exclusive — client.go
+	   PrepareRequest rejects setting both postBody and multipart form. #}
+	if localVarFormFile == nil {
+		localVarPostBody = &{{ operation.get("x-codegen-request-body-name", "body")|variable_name }}
+	} else {
+		localVarFormParams, err = {{ common_package_name }}.BuildFormParams({{ operation.get("x-codegen-request-body-name", "body")|variable_name }})
+		if err != nil {
+			return {% if returnType %}localVarReturnValue, {% endif %}nil, {{ common_package_name }}.ReportError("Failed to build form params: %s", err.Error())
+		}
+	}
+	{%- endif %}
 	{%- endif %}
 	{%- endif %}
 
