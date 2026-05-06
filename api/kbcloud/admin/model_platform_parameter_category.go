@@ -4,61 +4,62 @@
 
 package admin
 
-import (
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
-
-// PlatformParameterCategory platformParameter category, representing the platformParameter group, such as 'recycle bin'
-type PlatformParameterCategory string
-
-// List of PlatformParameterCategory.
-const (
-	PlatformParameterCategoryRecycleBin PlatformParameterCategory = "recycle-bin"
-)
-
-var allowedPlatformParameterCategoryEnumValues = []PlatformParameterCategory{
-	PlatformParameterCategoryRecycleBin,
+// PlatformParameterCategory platformParameter category, representing the platformParameter group
+type PlatformParameterCategory struct {
+	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
+	UnparsedObject       map[string]interface{} `json:"-"`
+	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// GetAllowedValues returns the list of possible values.
-func (v *PlatformParameterCategory) GetAllowedValues() []PlatformParameterCategory {
-	return allowedPlatformParameterCategoryEnumValues
+// NewPlatformParameterCategory instantiates a new PlatformParameterCategory object.
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed.
+func NewPlatformParameterCategory() *PlatformParameterCategory {
+	this := PlatformParameterCategory{}
+	return &this
+}
+
+// NewPlatformParameterCategoryWithDefaults instantiates a new PlatformParameterCategory object.
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set.
+func NewPlatformParameterCategoryWithDefaults() *PlatformParameterCategory {
+	this := PlatformParameterCategory{}
+	return &this
+}
+
+// MarshalJSON serializes the struct using spec logic.
+func (o PlatformParameterCategory) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.UnparsedObject != nil {
+		return common.Marshal(o.UnparsedObject)
+	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+	return common.Marshal(toSerialize)
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (v *PlatformParameterCategory) UnmarshalJSON(src []byte) error {
-	var value string
-	err := common.Unmarshal(src, &value)
-	if err != nil {
+func (o *PlatformParameterCategory) UnmarshalJSON(bytes []byte) (err error) {
+	all := struct {
+	}{}
+	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	*v = PlatformParameterCategory(value)
+	additionalProperties := make(map[string]interface{})
+	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
+		common.DeleteKeys(additionalProperties, &[]string{})
+	} else {
+		return err
+	}
+
+	if len(additionalProperties) > 0 {
+		o.AdditionalProperties = additionalProperties
+	}
+
 	return nil
-}
-
-// NewPlatformParameterCategoryFromValue returns a pointer to a valid PlatformParameterCategory
-// for the value passed as argument, or an error if the value passed is not allowed by the enum.
-func NewPlatformParameterCategoryFromValue(v string) (*PlatformParameterCategory, error) {
-	ev := PlatformParameterCategory(v)
-	if ev.IsValid() {
-		return &ev, nil
-	}
-	return nil, fmt.Errorf("invalid value '%v' for PlatformParameterCategory: valid values are %v", v, allowedPlatformParameterCategoryEnumValues)
-}
-
-// IsValid return true if the value is valid for the enum, false otherwise.
-func (v PlatformParameterCategory) IsValid() bool {
-	for _, existing := range allowedPlatformParameterCategoryEnumValues {
-		if existing == v {
-			return true
-		}
-	}
-	return false
-}
-
-// Ptr returns reference to PlatformParameterCategory value.
-func (v PlatformParameterCategory) Ptr() *PlatformParameterCategory {
-	return &v
 }

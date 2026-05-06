@@ -13,6 +13,8 @@ import (
 type EnvironmentCredentialCreate struct {
 	// Name of the environment credential
 	Name string `json:"name"`
+	// The intended usage of the environment credential.
+	Usage EnvironmentCredentialUsage `json:"usage"`
 	// Description of the environment credential
 	Description *string `json:"description,omitempty"`
 	// Key of the environment credential entry, such as accessKeyId for AWS
@@ -28,9 +30,10 @@ type EnvironmentCredentialCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentCredentialCreate(name string, key string, secret string) *EnvironmentCredentialCreate {
+func NewEnvironmentCredentialCreate(name string, usage EnvironmentCredentialUsage, key string, secret string) *EnvironmentCredentialCreate {
 	this := EnvironmentCredentialCreate{}
 	this.Name = name
+	this.Usage = usage
 	this.Key = key
 	this.Secret = secret
 	return &this
@@ -65,6 +68,29 @@ func (o *EnvironmentCredentialCreate) GetNameOk() (*string, bool) {
 // SetName sets field value.
 func (o *EnvironmentCredentialCreate) SetName(v string) {
 	o.Name = v
+}
+
+// GetUsage returns the Usage field value.
+func (o *EnvironmentCredentialCreate) GetUsage() EnvironmentCredentialUsage {
+	if o == nil {
+		var ret EnvironmentCredentialUsage
+		return ret
+	}
+	return o.Usage
+}
+
+// GetUsageOk returns a tuple with the Usage field value
+// and a boolean to check if the value has been set.
+func (o *EnvironmentCredentialCreate) GetUsageOk() (*EnvironmentCredentialUsage, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Usage, true
+}
+
+// SetUsage sets field value.
+func (o *EnvironmentCredentialCreate) SetUsage(v EnvironmentCredentialUsage) {
+	o.Usage = v
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
@@ -148,6 +174,7 @@ func (o EnvironmentCredentialCreate) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["name"] = o.Name
+	toSerialize["usage"] = o.Usage
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
@@ -163,16 +190,20 @@ func (o EnvironmentCredentialCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentCredentialCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string `json:"name"`
-		Description *string `json:"description,omitempty"`
-		Key         *string `json:"key"`
-		Secret      *string `json:"secret"`
+		Name        *string                     `json:"name"`
+		Usage       *EnvironmentCredentialUsage `json:"usage"`
+		Description *string                     `json:"description,omitempty"`
+		Key         *string                     `json:"key"`
+		Secret      *string                     `json:"secret"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
+	}
+	if all.Usage == nil {
+		return fmt.Errorf("required field usage missing")
 	}
 	if all.Key == nil {
 		return fmt.Errorf("required field key missing")
@@ -182,17 +213,28 @@ func (o *EnvironmentCredentialCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "key", "secret"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "usage", "description", "key", "secret"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Name = *all.Name
+	if !all.Usage.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Usage = *all.Usage
+	}
 	o.Description = all.Description
 	o.Key = *all.Key
 	o.Secret = *all.Secret
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
