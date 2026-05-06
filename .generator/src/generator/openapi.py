@@ -336,15 +336,44 @@ def parameters(operation):
 
 
 def form_parameter(operation):
+    """Return the single binary file part of a multipart/form-data request body, if any.
+
+    Multi-field multipart bodies are supported: this function returns only the
+    binary (file upload) field, while non-binary text fields are emitted by
+    ``parameters()`` as ``in: "form"`` entries and rendered into
+    ``localVarFormParams`` by the api.j2 template.
+
+    Design constraint: at most one binary field is supported per operation
+    (single file upload). If a schema declares multiple binary fields, raise
+    ValueError to avoid silently dropping uploads. Lift this restriction only
+    when the runtime client wrapper grows multi-file support.
+    """
     if "requestBody" in operation and "multipart/form-data" in operation["requestBody"]["content"]:
         parent = operation["requestBody"]["content"]["multipart/form-data"]["schema"]
-        [(name, schema)] = list(parent["properties"].items())
+        binary_fields = [
+            (name, schema)
+            for name, schema in parent.get("properties", {}).items()
+            if schema.get("format") == "binary"
+        ]
+        if len(binary_fields) > 1:
+            op_id = operation.get("operationId", "<unknown>")
+            field_names = ", ".join(name for name, _ in binary_fields)
+            raise ValueError(
+                f"Operation {op_id}: multipart schema declares multiple binary "
+                f"fields ({field_names}); only single-file upload is currently "
+                f"supported. Update the runtime client wrapper before adding "
+                f"multi-file operations."
+            )
+        if not binary_fields:
+            return None
+        name, schema = binary_fields[0]
         return {
             "schema": schema,
             "name": name,
             "description": schema.get("description"),
             "required": name in parent.get("required", []),
         }
+    return None
 
 
 def need_body_parameter(operation):

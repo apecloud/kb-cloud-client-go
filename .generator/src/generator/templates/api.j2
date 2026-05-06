@@ -222,21 +222,44 @@ localVarQueryParams.Add("{{ parameter.name }}", {{ common_package_name }}.Parame
 	{%- endif %}
 	{%- endfor %}
 
-	{%- if formParameter %}
-    formFile := {{ common_package_name }}.FormFile{}
-	formFile.FormFileName = "{{ formParameter.name }}"
-	{%- if formParameter.required %}
-	localVarFile := {{ formParameter.name|variable_name}}
+	{#- Multi-field multipart: emit non-binary form fields into localVarFormParams.
+	   The single binary field (if any) is handled by the formParameter block below.
+	   Single-file multipart bodies have no non-binary fields, so this loop is a
+	   no-op in that case (preserves DmsImport / vulnUpload behavior). #}
+	{%- for name, parameter in operation|parameters if parameter.in == "form" and (parameter.schema.format is not defined or parameter.schema.format != "binary") %}
+	{%- if parameter.required %}
+	localVarFormParams.Set("{{ parameter.name }}", {{ common_package_name }}.ParameterToString({{ name|variable_name }}, ""))
 	{%- else %}
-	var localVarFile {{ get_type_for_parameter(formParameter) }}
-	if optionalParams.{{ formParameter.name|attribute_name }} != nil {
-		localVarFile = *optionalParams.{{ formParameter.name|attribute_name }}
+	if optionalParams.{{ name|attribute_name }} != nil {
+		localVarFormParams.Set("{{ parameter.name }}", {{ common_package_name }}.ParameterToString(*optionalParams.{{ name|attribute_name }}, ""))
 	}
 	{%- endif %}
+	{%- endfor %}
+
+	{%- if formParameter %}
+	{#- Required binary: always pass FormFile pointer (preserves original behavior).
+	   Optional binary: only construct and pass FormFile when caller provided a
+	   reader — passing &formFile with empty bytes would cause PrepareRequest to
+	   emit an empty multipart file part. #}
+	var localVarFormFile *{{ common_package_name }}.FormFile
+	{%- if formParameter.required %}
+	formFile := {{ common_package_name }}.FormFile{}
+	formFile.FormFileName = "{{ formParameter.name }}"
+	localVarFile := {{ formParameter.name|variable_name}}
 	if localVarFile != nil {
 		fbs, _ := _io.ReadAll(localVarFile)
 		formFile.FileBytes = fbs
 	}
+	localVarFormFile = &formFile
+	{%- else %}
+	if optionalParams.{{ formParameter.name|attribute_name }} != nil {
+		formFile := {{ common_package_name }}.FormFile{}
+		formFile.FormFileName = "{{ formParameter.name }}"
+		fbs, _ := _io.ReadAll(*optionalParams.{{ formParameter.name|attribute_name }})
+		formFile.FileBytes = fbs
+		localVarFormFile = &formFile
+	}
+	{%- endif %}
     {% if needBodyParameter %}
     localVarFormParams, err = {{ common_package_name }}.BuildFormParams({{ operation.get("x-codegen-request-body-name", "body")|variable_name }})
 	if err != nil {
@@ -273,7 +296,7 @@ localVarQueryParams.Add("{{ parameter.name }}", {{ common_package_name }}.Parame
 	{%- endfor %}
 	)
 	{%- endif %}
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, {% if formParameter %}&formFile{% else %}nil{% endif %})
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, {% if formParameter %}localVarFormFile{% else %}nil{% endif %})
 	if err != nil {
 		return {% if returnType %}localVarReturnValue, {% endif %}nil, err
 	}
