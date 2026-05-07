@@ -300,6 +300,7 @@ func (a *VulnApi) UploadVulns(ctx _context.Context, file _io.Reader) (*_nethttp.
 	localVarHeaderParams["Content-Type"] = "multipart/form-data"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	var localVarFormFile *common.FormFile
 	formFile := common.FormFile{}
 	formFile.FormFileName = "file"
 	localVarFile := file
@@ -307,13 +308,14 @@ func (a *VulnApi) UploadVulns(ctx _context.Context, file _io.Reader) (*_nethttp.
 		fbs, _ := _io.ReadAll(localVarFile)
 		formFile.FileBytes = fbs
 	}
+	localVarFormFile = &formFile
 
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
 	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, &formFile)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFile)
 	if err != nil {
 		return nil, err
 	}

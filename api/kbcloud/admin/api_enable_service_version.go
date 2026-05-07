@@ -76,27 +76,29 @@ func (a *EnableServiceVersionApi) EnableServiceVersion(ctx _context.Context, env
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	formFile := common.FormFile{}
-	formFile.FormFileName = "image"
-	var localVarFile _io.Reader
+	var localVarFormFile *common.FormFile
 	if optionalParams.Image != nil {
-		localVarFile = *optionalParams.Image
-	}
-	if localVarFile != nil {
-		fbs, _ := _io.ReadAll(localVarFile)
+		formFile := common.FormFile{}
+		formFile.FormFileName = "image"
+		fbs, _ := _io.ReadAll(*optionalParams.Image)
 		formFile.FileBytes = fbs
+		localVarFormFile = &formFile
 	}
 
-	localVarFormParams, err = common.BuildFormParams(body)
-	if err != nil {
-		return localVarReturnValue, nil, common.ReportError("Failed to build form params: %s", err.Error())
+	if localVarFormFile == nil {
+		localVarPostBody = &body
+	} else {
+		localVarFormParams, err = common.BuildFormParams(body)
+		if err != nil {
+			return localVarReturnValue, nil, common.ReportError("Failed to build form params: %s", err.Error())
+		}
 	}
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
 	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, &formFile)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFile)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
