@@ -22571,7 +22571,7 @@ components:
           description: Oteld version of the environment
         imageRegistry:
           type: string
-          description: Image registry used by the environment
+          description: Image registry URL used by the environment. Must match image_registries.url, not image_registries.name.
         defaultStorageClass:
           description: Default storage class that used by KubeBlocks to create cluster
           type: string
@@ -23126,7 +23126,7 @@ components:
           type: boolean
           default: true
         imageRegistry:
-          description: the image registry used to pull image
+          description: Image registry URL used to pull images. Must match image_registries.url, not image_registries.name.
           type: string
           nullable: true
         nodePortEnabled:

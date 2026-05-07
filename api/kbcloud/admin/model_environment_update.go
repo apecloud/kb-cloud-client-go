@@ -30,7 +30,7 @@ type EnvironmentUpdate struct {
 	DefaultStorageClass common.NullableString `json:"defaultStorageClass,omitempty"`
 	// Enable pod antiaffinity for cluster
 	PodAntiAffinityEnabled *bool `json:"podAntiAffinityEnabled,omitempty"`
-	// the image registry used to pull image
+	// Image registry URL used to pull images. Must match image_registries.url, not image_registries.name.
 	ImageRegistry common.NullableString `json:"imageRegistry,omitempty"`
 	// Enable node port service for this environment
 	NodePortEnabled *bool `json:"nodePortEnabled,omitempty"`

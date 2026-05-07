@@ -15066,7 +15066,7 @@ components:
           type: string
         imageRegistry:
           type: string
-          description: Image registry used by the environment
+          description: Image registry URL used by the environment. Must match image_registries.url, not image_registries.name.
         extraInfo:
           type: string
           description: extra info for environment
