@@ -10,6 +10,7 @@ import (
 	_io "io"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"time"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -19,13 +20,34 @@ type EngineLicenseApi common.Service
 
 // CreateEngineLicenseOptionalParameters holds optional parameters for CreateEngineLicense.
 type CreateEngineLicenseOptionalParameters struct {
-	LicenseFile *_io.Reader
+	Description   *string
+	ExpiredAt     *time.Time
+	EnvironmentId *string
+	LicenseFile   *_io.Reader
 }
 
 // NewCreateEngineLicenseOptionalParameters creates an empty struct for parameters.
 func NewCreateEngineLicenseOptionalParameters() *CreateEngineLicenseOptionalParameters {
 	this := CreateEngineLicenseOptionalParameters{}
 	return &this
+}
+
+// WithDescription sets the corresponding parameter name and returns the struct.
+func (r *CreateEngineLicenseOptionalParameters) WithDescription(description string) *CreateEngineLicenseOptionalParameters {
+	r.Description = &description
+	return r
+}
+
+// WithExpiredAt sets the corresponding parameter name and returns the struct.
+func (r *CreateEngineLicenseOptionalParameters) WithExpiredAt(expiredAt time.Time) *CreateEngineLicenseOptionalParameters {
+	r.ExpiredAt = &expiredAt
+	return r
+}
+
+// WithEnvironmentId sets the corresponding parameter name and returns the struct.
+func (r *CreateEngineLicenseOptionalParameters) WithEnvironmentId(environmentId string) *CreateEngineLicenseOptionalParameters {
+	r.EnvironmentId = &environmentId
+	return r
 }
 
 // WithLicenseFile sets the corresponding parameter name and returns the struct.
@@ -36,7 +58,7 @@ func (r *CreateEngineLicenseOptionalParameters) WithLicenseFile(licenseFile _io.
 
 // CreateEngineLicense Create engineLicense.
 // Create a new engineLicense
-func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, body EngineLicenseCreate, o ...CreateEngineLicenseOptionalParameters) (EngineLicense, *_nethttp.Response, error) {
+func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, name string, engineName string, typeVar string, o ...CreateEngineLicenseOptionalParameters) (EngineLicense, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -70,9 +92,21 @@ func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, body Engine
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Content-Type"] = "multipart/form-data"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	localVarFormParams.Set("name", common.ParameterToString(name, ""))
+	localVarFormParams.Set("engineName", common.ParameterToString(engineName, ""))
+	if optionalParams.Description != nil {
+		localVarFormParams.Set("description", common.ParameterToString(*optionalParams.Description, ""))
+	}
+	if optionalParams.ExpiredAt != nil {
+		localVarFormParams.Set("expiredAt", common.ParameterToString(*optionalParams.ExpiredAt, ""))
+	}
+	if optionalParams.EnvironmentId != nil {
+		localVarFormParams.Set("environmentID", common.ParameterToString(*optionalParams.EnvironmentId, ""))
+	}
+	localVarFormParams.Set("type", common.ParameterToString(typeVar, ""))
 	var localVarFormFile *common.FormFile
 	if optionalParams.LicenseFile != nil {
 		formFile := common.FormFile{}
@@ -82,14 +116,6 @@ func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, body Engine
 		localVarFormFile = &formFile
 	}
 
-	if localVarFormFile == nil {
-		localVarPostBody = &body
-	} else {
-		localVarFormParams, err = common.BuildFormParams(body)
-		if err != nil {
-			return localVarReturnValue, nil, common.ReportError("Failed to build form params: %s", err.Error())
-		}
-	}
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,

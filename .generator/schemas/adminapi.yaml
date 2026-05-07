@@ -10372,17 +10372,9 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/engineLicenseCreate'
           multipart/form-data:
             schema:
-              type: object
-              properties:
-                licenseFile:
-                  type: string
-                  format: binary
-                  description: The license file to upload
+              $ref: '#/components/schemas/engineLicenseCreate'
       responses:
         '200':
           content:
@@ -27635,11 +27627,11 @@ components:
           description: Environment ID of the license (optional)
         type:
           type: string
-          description: Type of the license (optional)
+          description: Type of the license. Determines whether licenseFile is required.
         licenseFile:
           type: string
           format: binary
-          description: The license file to upload
+          description: The license file to upload. Required when type is not NodeScope; optional when type is NodeScope.
       required:
         - name
         - engineName
