@@ -8,6 +8,7 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type DisasterRecoverySettings struct {
 	SupportedSourceModes []string            `json:"supportedSourceModes,omitempty"`
+	SupportedVersions    []string            `json:"supportedVersions,omitempty"`
 	PromotionTargetModes map[string][]string `json:"promotionTargetModes,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -59,6 +60,34 @@ func (o *DisasterRecoverySettings) SetSupportedSourceModes(v []string) {
 	o.SupportedSourceModes = v
 }
 
+// GetSupportedVersions returns the SupportedVersions field value if set, zero value otherwise.
+func (o *DisasterRecoverySettings) GetSupportedVersions() []string {
+	if o == nil || o.SupportedVersions == nil {
+		var ret []string
+		return ret
+	}
+	return o.SupportedVersions
+}
+
+// GetSupportedVersionsOk returns a tuple with the SupportedVersions field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DisasterRecoverySettings) GetSupportedVersionsOk() (*[]string, bool) {
+	if o == nil || o.SupportedVersions == nil {
+		return nil, false
+	}
+	return &o.SupportedVersions, true
+}
+
+// HasSupportedVersions returns a boolean if a field has been set.
+func (o *DisasterRecoverySettings) HasSupportedVersions() bool {
+	return o != nil && o.SupportedVersions != nil
+}
+
+// SetSupportedVersions gets a reference to the given []string and assigns it to the SupportedVersions field.
+func (o *DisasterRecoverySettings) SetSupportedVersions(v []string) {
+	o.SupportedVersions = v
+}
+
 // GetPromotionTargetModes returns the PromotionTargetModes field value if set, zero value otherwise.
 func (o *DisasterRecoverySettings) GetPromotionTargetModes() map[string][]string {
 	if o == nil || o.PromotionTargetModes == nil {
@@ -96,6 +125,9 @@ func (o DisasterRecoverySettings) MarshalJSON() ([]byte, error) {
 	if o.SupportedSourceModes != nil {
 		toSerialize["supportedSourceModes"] = o.SupportedSourceModes
 	}
+	if o.SupportedVersions != nil {
+		toSerialize["supportedVersions"] = o.SupportedVersions
+	}
 	if o.PromotionTargetModes != nil {
 		toSerialize["promotionTargetModes"] = o.PromotionTargetModes
 	}
@@ -110,6 +142,7 @@ func (o DisasterRecoverySettings) MarshalJSON() ([]byte, error) {
 func (o *DisasterRecoverySettings) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		SupportedSourceModes []string            `json:"supportedSourceModes,omitempty"`
+		SupportedVersions    []string            `json:"supportedVersions,omitempty"`
 		PromotionTargetModes map[string][]string `json:"promotionTargetModes,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -117,11 +150,12 @@ func (o *DisasterRecoverySettings) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"supportedSourceModes", "promotionTargetModes"})
+		common.DeleteKeys(additionalProperties, &[]string{"supportedSourceModes", "supportedVersions", "promotionTargetModes"})
 	} else {
 		return err
 	}
 	o.SupportedSourceModes = all.SupportedSourceModes
+	o.SupportedVersions = all.SupportedVersions
 	o.PromotionTargetModes = all.PromotionTargetModes
 
 	if len(additionalProperties) > 0 {
