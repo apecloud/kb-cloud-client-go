@@ -151,6 +151,7 @@ func (a *DmsApi) DataImport(ctx _context.Context, orgName string, clusterName st
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	var localVarFormFile *common.FormFile
 	formFile := common.FormFile{}
 	formFile.FormFileName = "file"
 	localVarFile := file
@@ -158,6 +159,7 @@ func (a *DmsApi) DataImport(ctx _context.Context, orgName string, clusterName st
 		fbs, _ := _io.ReadAll(localVarFile)
 		formFile.FileBytes = fbs
 	}
+	localVarFormFile = &formFile
 
 	localVarFormParams, err = common.BuildFormParams(body)
 	if err != nil {
@@ -168,7 +170,7 @@ func (a *DmsApi) DataImport(ctx _context.Context, orgName string, clusterName st
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
 	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, &formFile)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFile)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
