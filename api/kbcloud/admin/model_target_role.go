@@ -15,13 +15,13 @@ type Target_role string
 
 // List of Target_role.
 const (
-	Target_rolePrimary Target_role = "Primary"
-	Target_role        Target_role = "*"
+	Target_rolePrimary  Target_role = "Primary"
+	Target_roleWildcard Target_role = "*"
 )
 
 var allowedTarget_roleEnumValues = []Target_role{
 	Target_rolePrimary,
-	Target_role,
+	Target_roleWildcard,
 }
 
 // GetAllowedValues returns the list of possible values.

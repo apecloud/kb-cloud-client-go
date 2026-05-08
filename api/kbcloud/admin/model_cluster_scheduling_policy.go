@@ -21,14 +21,14 @@ const (
 	ClusterSchedulingPolicyHardAntiAffinity ClusterSchedulingPolicy = "HardAntiAffinity"
 	ClusterSchedulingPolicySoftAntiAffinity ClusterSchedulingPolicy = "SoftAntiAffinity"
 	ClusterSchedulingPolicyDisabled         ClusterSchedulingPolicy = "Disabled"
-	ClusterSchedulingPolicy                 ClusterSchedulingPolicy = "None"
+	ClusterSchedulingPolicyNone             ClusterSchedulingPolicy = "None"
 )
 
 var allowedClusterSchedulingPolicyEnumValues = []ClusterSchedulingPolicy{
 	ClusterSchedulingPolicyHardAntiAffinity,
 	ClusterSchedulingPolicySoftAntiAffinity,
 	ClusterSchedulingPolicyDisabled,
-	ClusterSchedulingPolicy,
+	ClusterSchedulingPolicyNone,
 }
 
 // GetAllowedValues returns the list of possible values.

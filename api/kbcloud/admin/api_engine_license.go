@@ -7,8 +7,10 @@ package admin
 import (
 	"context"
 	_context "context"
+	_io "io"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"time"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -16,14 +18,60 @@ import (
 // EngineLicenseApi service type
 type EngineLicenseApi common.Service
 
+// CreateEngineLicenseOptionalParameters holds optional parameters for CreateEngineLicense.
+type CreateEngineLicenseOptionalParameters struct {
+	Description   *string
+	ExpiredAt     *time.Time
+	EnvironmentId *string
+	LicenseFile   *_io.Reader
+}
+
+// NewCreateEngineLicenseOptionalParameters creates an empty struct for parameters.
+func NewCreateEngineLicenseOptionalParameters() *CreateEngineLicenseOptionalParameters {
+	this := CreateEngineLicenseOptionalParameters{}
+	return &this
+}
+
+// WithDescription sets the corresponding parameter name and returns the struct.
+func (r *CreateEngineLicenseOptionalParameters) WithDescription(description string) *CreateEngineLicenseOptionalParameters {
+	r.Description = &description
+	return r
+}
+
+// WithExpiredAt sets the corresponding parameter name and returns the struct.
+func (r *CreateEngineLicenseOptionalParameters) WithExpiredAt(expiredAt time.Time) *CreateEngineLicenseOptionalParameters {
+	r.ExpiredAt = &expiredAt
+	return r
+}
+
+// WithEnvironmentId sets the corresponding parameter name and returns the struct.
+func (r *CreateEngineLicenseOptionalParameters) WithEnvironmentId(environmentId string) *CreateEngineLicenseOptionalParameters {
+	r.EnvironmentId = &environmentId
+	return r
+}
+
+// WithLicenseFile sets the corresponding parameter name and returns the struct.
+func (r *CreateEngineLicenseOptionalParameters) WithLicenseFile(licenseFile _io.Reader) *CreateEngineLicenseOptionalParameters {
+	r.LicenseFile = &licenseFile
+	return r
+}
+
 // CreateEngineLicense Create engineLicense.
 // Create a new engineLicense
-func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, body EngineLicenseCreate) (EngineLicense, *_nethttp.Response, error) {
+func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, name string, engineName string, typeVar string, o ...CreateEngineLicenseOptionalParameters) (EngineLicense, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue EngineLicense
+		optionalParams      CreateEngineLicenseOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateEngineLicenseOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -44,17 +92,36 @@ func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, body Engine
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Content-Type"] = "multipart/form-data"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	// body params
-	localVarPostBody = &body
+	localVarFormParams.Set("name", common.ParameterToString(name, ""))
+	localVarFormParams.Set("engineName", common.ParameterToString(engineName, ""))
+	if optionalParams.Description != nil {
+		localVarFormParams.Set("description", common.ParameterToString(*optionalParams.Description, ""))
+	}
+	if optionalParams.ExpiredAt != nil {
+		localVarFormParams.Set("expiredAt", common.ParameterToString(*optionalParams.ExpiredAt, ""))
+	}
+	if optionalParams.EnvironmentId != nil {
+		localVarFormParams.Set("environmentID", common.ParameterToString(*optionalParams.EnvironmentId, ""))
+	}
+	localVarFormParams.Set("type", common.ParameterToString(typeVar, ""))
+	var localVarFormFile *common.FormFile
+	if optionalParams.LicenseFile != nil {
+		formFile := common.FormFile{}
+		formFile.FormFileName = "licenseFile"
+		fbs, _ := _io.ReadAll(*optionalParams.LicenseFile)
+		formFile.FileBytes = fbs
+		localVarFormFile = &formFile
+	}
+
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
 	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFile)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
