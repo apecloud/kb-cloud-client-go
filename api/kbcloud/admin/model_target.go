@@ -27,7 +27,7 @@ func NewTarget() *Target {
 	this := Target{}
 	var component string = "*"
 	this.Component = &component
-	var role Target_role = Target_role
+	var role Target_role = Target_roleAll
 	this.Role = &role
 	return &this
 }
@@ -39,7 +39,7 @@ func NewTargetWithDefaults() *Target {
 	this := Target{}
 	var component string = "*"
 	this.Component = &component
-	var role Target_role = Target_role
+	var role Target_role = Target_roleAll
 	this.Role = &role
 	return &this
 }

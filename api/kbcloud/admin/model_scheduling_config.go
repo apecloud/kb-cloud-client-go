@@ -31,7 +31,7 @@ func NewSchedulingConfig() *SchedulingConfig {
 	this := SchedulingConfig{}
 	var podAntiAffinityEnabled bool = true
 	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
-	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicyNone
+	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicyNon
 	this.ClusterSchedulingPolicy = &clusterSchedulingPolicy
 	return &this
 }
@@ -43,7 +43,7 @@ func NewSchedulingConfigWithDefaults() *SchedulingConfig {
 	this := SchedulingConfig{}
 	var podAntiAffinityEnabled bool = true
 	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
-	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicyNone
+	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicyNon
 	this.ClusterSchedulingPolicy = &clusterSchedulingPolicy
 	return &this
 }
