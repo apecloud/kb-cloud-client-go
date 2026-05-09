@@ -40,7 +40,7 @@ type Environment struct {
 	Type EnvironmentType `json:"type"`
 	// UpdatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC. Populated by the system. Read-only. Null for lists
 	UpdatedAt time.Time `json:"updatedAt"`
-	// Image registry used by the environment
+	// Image registry URL used by the environment. Must match image_registries.url, not image_registries.name.
 	ImageRegistry *string `json:"imageRegistry,omitempty"`
 	// extra info for environment
 	ExtraInfo *string `json:"extraInfo,omitempty"`

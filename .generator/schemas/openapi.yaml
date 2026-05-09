@@ -2076,6 +2076,49 @@ paths:
         - cluster
         - shared
       x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/modeTransition:
+    post:
+      operationId: transitionClusterMode
+      summary: Transition cluster engine mode
+      description: Validates the mode transition, updates the cluster spec, and creates an hscale task when required. Returns the resulting OpsRequest name and task ID.
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/clusterModeTransition'
+      responses:
+        '202':
+          description: Mode transition accepted. Returns the OpsRequest name and task ID when an hscale operation is created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opsRequestName'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
+        - shared
+      x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/running:
     get:
       description: Query running logs of a cluster
@@ -2106,11 +2149,13 @@ paths:
             type: string
         - in: query
           name: startTime
+          description: Start time in epoch nanoseconds.
           required: true
           schema:
             type: string
         - in: query
           name: endTime
+          description: End time in epoch nanoseconds.
           required: true
           schema:
             type: string
@@ -2160,11 +2205,13 @@ paths:
             type: string
         - in: query
           name: startTime
+          description: Start time in epoch nanoseconds.
           required: true
           schema:
             type: string
         - in: query
           name: endTime
+          description: End time in epoch nanoseconds.
           required: true
           schema:
             type: string
@@ -2222,11 +2269,13 @@ paths:
             type: string
         - in: query
           name: startTime
+          description: Start time in epoch nanoseconds.
           required: true
           schema:
             type: string
         - in: query
           name: endTime
+          description: End time in epoch nanoseconds.
           required: true
           schema:
             type: string
@@ -2275,6 +2324,58 @@ paths:
       tags:
         - clusterLog
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/stats:
+    get:
+      description: Get statistics summary for slow logs of a cluster
+      summary: Get cluster slow log statistics
+      operationId: getSlowLogStats
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          description: Start time in epoch nanoseconds.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          description: End time in epoch nanoseconds.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterSlowLogStats'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/audit:
     get:
       description: Query audit logs of a cluster
@@ -2293,11 +2394,13 @@ paths:
             type: string
         - in: query
           name: startTime
+          description: Start time in epoch nanoseconds.
           required: true
           schema:
             type: string
         - in: query
           name: endTime
+          description: End time in epoch nanoseconds.
           required: true
           schema:
             type: string
@@ -2351,11 +2454,13 @@ paths:
             type: string
         - in: query
           name: startTime
+          description: Start time in epoch nanoseconds.
           required: true
           schema:
             type: string
         - in: query
           name: endTime
+          description: End time in epoch nanoseconds.
           required: true
           schema:
             type: string
@@ -2404,6 +2509,77 @@ paths:
       tags:
         - clusterLog
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/hits:
+    get:
+      description: Query log hits histogram for time-bucketed log counts (VictoriaLogs only)
+      summary: Query log hits histogram
+      operationId: queryLogHits
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          description: Start time in epoch nanoseconds.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          description: End time in epoch nanoseconds.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: step
+          required: true
+          description: Time bucket size, e.g. 5s, 30s, 1m, 5m, 30m, 1h
+          schema:
+            type: string
+            default: 1m
+        - in: query
+          name: logType
+          required: true
+          description: 'Log type: runninglog, errorlog, slow, auditlog'
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: query
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterLogHitsResponse'
+          description: Successful operation
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/error:
     get:
       description: Query error logs of a cluster
@@ -2434,11 +2610,13 @@ paths:
             type: string
         - in: query
           name: startTime
+          description: Start time in epoch nanoseconds.
           required: true
           schema:
             type: string
         - in: query
           name: endTime
+          description: End time in epoch nanoseconds.
           required: true
           schema:
             type: string
@@ -2500,11 +2678,13 @@ paths:
             type: string
         - in: query
           name: startTime
+          description: Start time in epoch nanoseconds.
           required: true
           schema:
             type: string
         - in: query
           name: endTime
+          description: End time in epoch nanoseconds.
           required: true
           schema:
             type: string
@@ -2523,6 +2703,91 @@ paths:
               schema:
                 $ref: '#/components/schemas/clusterRawLogResponse'
           description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/export:
+    get:
+      description: Export cluster logs and return as a file download
+      summary: Export cluster logs
+      operationId: exportClusterLogs
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: logType
+          required: true
+          schema:
+            type: string
+          description: 'Log type: runninglog, errorlog, slow, auditlog'
+        - in: query
+          name: startTime
+          schema:
+            type: integer
+            format: int64
+          description: Start time in epoch nanoseconds. If omitted, exports from the earliest available log
+        - in: query
+          name: endTime
+          schema:
+            type: integer
+            format: int64
+          description: End time in epoch nanoseconds. If omitted, exports up to the latest available log
+        - in: query
+          name: format
+          schema:
+            type: string
+            default: csv
+          description: 'Export format: csv, raw, jsonl'
+        - in: query
+          name: query
+          schema:
+            type: string
+          description: Optional search query
+        - in: query
+          name: filename
+          schema:
+            type: string
+          description: Optional log filename filter
+        - in: query
+          name: componentName
+          schema:
+            type: string
+          description: Optional component name filter
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+          description: Optional instance name filter
+        - in: query
+          name: maxLines
+          schema:
+            type: integer
+            format: int64
+          description: Maximum number of lines to export. Defaults to 100000 if omitted
+      responses:
+        '200':
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+          description: File download
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -5779,37 +6044,6 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
-  /api/v1/organizations/{orgName}/alerts/metrics:
-    get:
-      tags:
-        - alertMetrics
-        - shared
-      operationId: listAlertMetrics
-      summary: List alert metric types
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: category
-          in: query
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/alertMetricList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/alerts/objects:
     get:
       tags:
@@ -12626,7 +12860,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/dataReplication_eventList'
+                $ref: '#/components/schemas/dataReplicationEventList'
           description: A list of data channel events.
         '401':
           $ref: '#/components/responses/401'
@@ -14731,6 +14965,10 @@ components:
           description: Enable load balancer service for this environment
           type: boolean
           default: true
+        domainEnabled:
+          description: Enable domain service for this environment
+          type: boolean
+          default: false
         internetLBEnabled:
           description: Enable the Internet load balancer service for this environment
           type: boolean
@@ -14828,7 +15066,7 @@ components:
           type: string
         imageRegistry:
           type: string
-          description: Image registry used by the environment
+          description: Image registry URL used by the environment. Must match image_registries.url, not image_registries.name.
         extraInfo:
           type: string
           description: extra info for environment
@@ -16549,6 +16787,9 @@ components:
         node:
           description: node name
           type: string
+        podIP:
+          description: Pod IP address
+          type: string
         region:
           description: Region for instance
           type: string
@@ -16753,6 +16994,98 @@ components:
             $ref: '#/components/schemas/haHistory'
       required:
         - items
+    taskScheduleType:
+      type: string
+      enum:
+        - immediate
+        - scheduled
+        - maintenanceWindow
+      description: Schedule type for task execution
+    taskSchedule:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/taskScheduleType'
+        startTime:
+          type: string
+          format: date-time
+          description: Start time of the execution window (required for scheduled type)
+          x-nullable: true
+        endTime:
+          type: string
+          format: date-time
+          description: End time of the execution window (required for scheduled type)
+          x-nullable: true
+      required:
+        - type
+    opsHScale:
+      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
+      required:
+        - component
+      properties:
+        component:
+          description: component type
+          type: string
+          minLength: 1
+        backupName:
+          description: name of the backup to restore from
+          type: string
+          nullable: true
+        replicas:
+          description: number of replicas
+          type: integer
+          nullable: true
+        onlineInstancesToOffline:
+          type: array
+          items:
+            type: string
+          description: List of online instance names to be switched to offline during scaling in.
+          nullable: true
+        OfflineInstancesToOnline:
+          type: array
+          items:
+            type: string
+          description: List of offline instance names to be switched to online during scaling out.
+          nullable: true
+        shards:
+          description: number of shards, mutually exclusive with replicas.
+          type: integer
+          nullable: true
+        preConditionDeadlineSeconds:
+          description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
+          type: integer
+          nullable: true
+          minimum: 0
+        force:
+          type: boolean
+          description: force the scaling operation without pre-check
+          default: false
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
+      type: object
+    clusterModeTransition:
+      type: object
+      description: Parameters for switching the engine mode of a cluster.
+      required:
+        - mode
+      properties:
+        mode:
+          type: string
+          description: Target engine mode.
+        hScale:
+          $ref: '#/components/schemas/opsHScale'
+    opsRequestName:
+      description: OpsRequestName is the name of a KubeBlocks OpsRequest response
+      properties:
+        opsRequestName:
+          type: string
+        clusterTaskId:
+          type: string
+        taskId:
+          type: string
+      required:
+        - taskId
+      type: object
     sortType:
       description: Represents the type of sorting.
       enum:
@@ -16869,30 +17202,50 @@ components:
             $ref: '#/components/schemas/clusterExecutionLogAggregateItem'
         summary:
           $ref: '#/components/schemas/clusterExecutionLogAggregateSummary'
-    taskScheduleType:
-      type: string
-      enum:
-        - immediate
-        - scheduled
-        - maintenanceWindow
-      description: Schedule type for task execution
-    taskSchedule:
+    clusterSlowLogStats:
       type: object
+      description: Summary statistics for slow logs
       properties:
-        type:
-          $ref: '#/components/schemas/taskScheduleType'
-        startTime:
-          type: string
-          format: date-time
-          description: Start time of the execution window (required for scheduled type)
+        totalSlowLogs:
+          type: integer
+          format: int64
+          x-omitempty: false
+        avgExecutionTime:
+          type: number
+          format: double
+          x-omitempty: false
+        p95Latency:
+          type: number
+          format: double
+          x-omitempty: false
+        activeDBs:
+          type: integer
+          format: int64
           x-nullable: true
-        endTime:
-          type: string
-          format: date-time
-          description: End time of the execution window (required for scheduled type)
-          x-nullable: true
-      required:
-        - type
+    clusterLogHitsItem:
+      type: object
+      description: A single time bucket in the log hits histogram
+      properties:
+        timestamp:
+          type: integer
+          format: int64
+          x-omitempty: false
+        count:
+          type: integer
+          format: int64
+          x-omitempty: false
+    clusterLogHitsResponse:
+      type: object
+      description: Log hits histogram response with time-bucketed counts
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterLogHitsItem'
+        total:
+          type: integer
+          format: int64
+          x-omitempty: false
     reconfigureCreate:
       description: ReconfigureCreate is the payload to reconfigure a KubeBlocks cluster
       properties:
@@ -16915,18 +17268,6 @@ components:
           $ref: '#/components/schemas/taskSchedule'
       required:
         - component
-      type: object
-    opsRequestName:
-      description: OpsRequestName is the name of a KubeBlocks OpsRequest response
-      properties:
-        opsRequestName:
-          type: string
-        clusterTaskId:
-          type: string
-        taskId:
-          type: string
-      required:
-        - taskId
       type: object
     opsStop:
       description: OpsStop is the payload to stop a KubeBlocks cluster
@@ -17196,51 +17537,6 @@ components:
         schedule:
           $ref: '#/components/schemas/taskSchedule'
       type: object
-    opsHScale:
-      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
-      required:
-        - component
-      properties:
-        component:
-          description: component type
-          type: string
-          minLength: 1
-        backupName:
-          description: name of the backup to restore from
-          type: string
-          nullable: true
-        replicas:
-          description: number of replicas
-          type: integer
-          nullable: true
-        onlineInstancesToOffline:
-          type: array
-          items:
-            type: string
-          description: List of online instance names to be switched to offline during scaling in.
-          nullable: true
-        OfflineInstancesToOnline:
-          type: array
-          items:
-            type: string
-          description: List of offline instance names to be switched to online during scaling out.
-          nullable: true
-        shards:
-          description: number of shards, mutually exclusive with replicas.
-          type: integer
-          nullable: true
-        preConditionDeadlineSeconds:
-          description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
-          type: integer
-          nullable: true
-          minimum: 0
-        force:
-          type: boolean
-          description: force the scaling operation without pre-check
-          default: false
-        schedule:
-          $ref: '#/components/schemas/taskSchedule'
-      type: object
     opsPromote:
       description: OpsPromote is the payload to promote a KubeBlocks cluster
       required:
@@ -17300,6 +17596,12 @@ components:
           type: string
           description: The IP pool ID of the LoadBalancer service. If not set, the IP pool will be assigned by the system. Only available when vpcServiceType is LoadBalancer.
           nullable: true
+        domain:
+          type: string
+          description: The custom domain for accessing the cluster. If not set, the default domain will be used. Max 253 characters in total (1-63 characters per segment), allowing only lowercase letters, numbers, and hyphens (-); each segment must start and end with a letter or number.
+          nullable: true
+          maxLength: 253
+          pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
       required:
         - enable
         - type
@@ -18412,6 +18714,7 @@ components:
               description: completion time
               type: string
               format: date-time
+              nullable: true
             conditions:
               items:
                 properties:
@@ -18439,6 +18742,7 @@ components:
               description: start time
               type: string
               format: date-time
+              nullable: true
           type: object
       required:
         - backupName
@@ -19089,20 +19393,6 @@ components:
         - warning
         - info
       type: string
-    alertMetric:
-      required:
-        - key
-      type: object
-      properties:
-        key:
-          type: string
-        threshold:
-          type: integer
-        notation:
-          type: string
-        category:
-          type: string
-      description: Alert metric information
     alertRule:
       required:
         - alertName
@@ -19135,9 +19425,6 @@ components:
         updatedAt:
           type: string
           format: date-time
-        metric:
-          $ref: '#/components/schemas/alertMetric'
-          description: Metric configuration. If provided, expr will be ignored.
         orgName:
           type: string
       description: Alert rule information. Either provide 'expr' for custom expressions, or 'metric' for predefined metrics.
@@ -19163,19 +19450,6 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertRuleList is a list of alert rules
-    alertMetricList:
-      required:
-        - items
-      type: object
-      properties:
-        items:
-          type: array
-          description: Items is the list of alert metric objects in the list
-          items:
-            $ref: '#/components/schemas/alertMetric'
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      description: AlertMetricList is a list of alert metric
     alertStatus:
       enum:
         - resolved
@@ -19591,6 +19865,11 @@ components:
           type: boolean
         hideOnCreate:
           type: boolean
+        serviceRef:
+          type: string
+          description: |
+            the name of the serviceRef defined in mode's serviceRefs.
+            If set, it means a serviceRef can be used to replace this component.
     serviceDescriptorAddressStyle:
       type: string
       description: |
@@ -19686,6 +19965,11 @@ components:
             serviceDescriptor:
               type: string
               description: the name of the referenced serviceDescriptor
+            mode:
+              type: string
+              description: |
+                hints for addon to determine if we are using an integrated component or a serviceRef. Will be set to `serviceRef` or `component`.
+                This field is required when a serviceRef can be replaced by a component.
         serviceSelectors:
           type: array
           description: |
@@ -19727,6 +20011,14 @@ components:
               type: string
               description: |
                 Region to use. If not set, it means the engine does not need this option.
+    engineModeTransition:
+      type: object
+      required:
+        - mode
+      properties:
+        mode:
+          type: string
+          description: Target mode name.
     modeOption:
       type: object
       required:
@@ -19807,6 +20099,11 @@ components:
           type: boolean
           description: whether the mode is hidden for creation
           nullable: true
+        transition:
+          type: array
+          description: Valid mode transitions from this mode.
+          items:
+            $ref: '#/components/schemas/engineModeTransition'
     accountOption:
       type: object
       required:
@@ -19894,6 +20191,16 @@ components:
             If not set, use default value.
         databaseNamePattern:
           type: string
+        patternDescription:
+          type: object
+          x-nullable: true
+          properties:
+            zh-CN:
+              type: string
+              x-nullable: true
+            en-US:
+              type: string
+              x-nullable: true
         listOption:
           type: array
           description: |
@@ -20593,6 +20900,47 @@ components:
         defaultUse:
           type: boolean
           description: whether the default parameter template is used by default, set in componentDefinition.configs, only one default parameter template can be set in certain family.
+    initOptionType:
+      type: string
+      enum:
+        - timezone
+        - enum
+        - string
+    engineInitOptionItem:
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          type: string
+        label:
+          $ref: '#/components/schemas/localizedDescription'
+    initOptionObject:
+      type: object
+      required:
+        - configSpecName
+        - label
+        - type
+      properties:
+        configSpecName:
+          type: string
+        label:
+          $ref: '#/components/schemas/localizedDescription'
+        type:
+          $ref: '#/components/schemas/initOptionType'
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/engineInitOptionItem'
+        value:
+          type: string
+    initOption:
+      type: object
+      description: Parameters to be initialized when cluster is created
+      additionalProperties:
+        $ref: '#/components/schemas/initOptionObject'
     parameterOption:
       type: object
       required:
@@ -20626,15 +20974,15 @@ components:
           items:
             $ref: '#/components/schemas/parameterTemplate'
         initOptions:
-          type: object
-          description: Parameters to be initialized when cluster is created
-          additionalProperties:
-            type: object
-            properties: {}
+          $ref: '#/components/schemas/initOption'
     disasterRecoverySettings:
       type: object
       properties:
         supportedSourceModes:
+          type: array
+          items:
+            type: string
+        supportedVersions:
           type: array
           items:
             type: string
@@ -20896,13 +21244,19 @@ components:
     configType:
       enum:
         - string
+        - text
         - integer
         - float
+        - boolean
       type: string
-      description: the type of config
+      description: the type of config. The difference between 'text' and 'string' is that 'text' refers to a longer string, which may need to be displayed using a textarea on the frontend rather than an input field.
     connectionCfgType:
       enum:
         - database
+        - tlsEnable
+        - tlsCACert
+        - tlsCert
+        - tlsPrivateKey
       type: string
     extraConfig:
       type: object
@@ -20913,10 +21267,21 @@ components:
           $ref: '#/components/schemas/internationalDesc'
         type:
           $ref: '#/components/schemas/configType'
+        defaultValue:
+          type: string
+          nullable: true
         isRequired:
           type: boolean
         connectionCfgType:
           $ref: '#/components/schemas/connectionCfgType'
+        isDisplayOnlyCustomEndpoint:
+          type: boolean
+          nullable: true
+          description: Whether to display this config only when the endpoint type is custom. If true, it will not be displayed when the endpoint type is kubeblocks.
+        displayWith:
+          type: string
+          nullable: true
+          description: The display condition of this config. If empty, it will always be displayed; otherwise, it will be displayed only when the config corresponding to displayWith (of boolean type) is true.
     engineDefinitionDetail:
       type: object
       properties:
@@ -21268,6 +21633,12 @@ components:
       required:
         - supported
       properties:
+        clusterScope:
+          type: boolean
+          description: |
+            When true, all components in the cluster share the same TLS certificate.
+            The secret name is cluster-scoped instead of per-component.
+            Example: set to true for Redis sentinel where sentinel and redis must use the same TLS.
         supported:
           type: boolean
           description: |
@@ -21573,6 +21944,9 @@ components:
         taskType:
           type: string
           description: Type of task operation
+        subTaskType:
+          type: string
+          description: Subtype of task operation.
         status:
           $ref: '#/components/schemas/taskStatus'
         resourceType:
@@ -21721,6 +22095,9 @@ components:
         taskType:
           type: string
           description: Type of task operation
+        subTaskType:
+          type: string
+          description: Subtype of task operation
         status:
           $ref: '#/components/schemas/taskStatus'
         createdAt:
@@ -24761,10 +25138,8 @@ components:
         - items
       type: object
     platformParameterCategory:
-      enum:
-        - recycle-bin
       type: string
-      description: platformParameter category, representing the platformParameter group, such as 'recycle bin'
+      description: platformParameter category, representing the platformParameter group
     platformParameter:
       description: platformParameter item
       type: object
@@ -24881,7 +25256,7 @@ components:
         - Paused
         - Deleting
       type: string
-    dataReplication_endpointType:
+    dataReplicationEndpointType:
       enum:
         - custom
         - kubeblocks
@@ -24932,7 +25307,7 @@ components:
         engineName:
           type: string
         endpointType:
-          $ref: '#/components/schemas/dataReplication_endpointType'
+          $ref: '#/components/schemas/dataReplicationEndpointType'
         custom:
           $ref: '#/components/schemas/customEndpoint'
           nullable: true
@@ -25018,7 +25393,7 @@ components:
         definitionName:
           type: string
         endpointType:
-          $ref: '#/components/schemas/dataReplication_endpointType'
+          $ref: '#/components/schemas/dataReplicationEndpointType'
         custom:
           $ref: '#/components/schemas/customEndpointCreate'
           nullable: true
@@ -25151,7 +25526,7 @@ components:
         operatorID:
           type: string
           nullable: true
-    dataReplication_eventList:
+    dataReplicationEventList:
       type: array
       items:
         $ref: '#/components/schemas/eventItem'
