@@ -24,6 +24,10 @@ type ComponentOpsOption struct {
 	// indicate the backup method when inplace is true
 	BackupMethod *ComponentOpsOptionBackupMethod    `json:"backupMethod,omitempty"`
 	RestoreEnv   []ComponentOpsOptionRestoreEnvItem `json:"restoreEnv,omitempty"`
+	// indicate whether the component supports online instance to offlines
+	DisableOfflineInstance common.NullableBool `json:"disableOfflineInstance,omitempty"`
+	// list of instance roles that are not allowed to be taken offline
+	DisableOfflineInstanceRoles []string `json:"disableOfflineInstanceRoles,omitempty"`
 	// indicate whether rollback is supported for this ops
 	RollbackSupported  *bool                                 `json:"rollbackSupported,omitempty"`
 	DependentCustomOps *ComponentOpsOptionDependentCustomOps `json:"dependentCustomOps,omitempty"`
@@ -290,6 +294,73 @@ func (o *ComponentOpsOption) SetRestoreEnv(v []ComponentOpsOptionRestoreEnvItem)
 	o.RestoreEnv = v
 }
 
+// GetDisableOfflineInstance returns the DisableOfflineInstance field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ComponentOpsOption) GetDisableOfflineInstance() bool {
+	if o == nil || o.DisableOfflineInstance.Get() == nil {
+		var ret bool
+		return ret
+	}
+	return *o.DisableOfflineInstance.Get()
+}
+
+// GetDisableOfflineInstanceOk returns a tuple with the DisableOfflineInstance field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ComponentOpsOption) GetDisableOfflineInstanceOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.DisableOfflineInstance.Get(), o.DisableOfflineInstance.IsSet()
+}
+
+// HasDisableOfflineInstance returns a boolean if a field has been set.
+func (o *ComponentOpsOption) HasDisableOfflineInstance() bool {
+	return o != nil && o.DisableOfflineInstance.IsSet()
+}
+
+// SetDisableOfflineInstance gets a reference to the given common.NullableBool and assigns it to the DisableOfflineInstance field.
+func (o *ComponentOpsOption) SetDisableOfflineInstance(v bool) {
+	o.DisableOfflineInstance.Set(&v)
+}
+
+// SetDisableOfflineInstanceNil sets the value for DisableOfflineInstance to be an explicit nil.
+func (o *ComponentOpsOption) SetDisableOfflineInstanceNil() {
+	o.DisableOfflineInstance.Set(nil)
+}
+
+// UnsetDisableOfflineInstance ensures that no value is present for DisableOfflineInstance, not even an explicit nil.
+func (o *ComponentOpsOption) UnsetDisableOfflineInstance() {
+	o.DisableOfflineInstance.Unset()
+}
+
+// GetDisableOfflineInstanceRoles returns the DisableOfflineInstanceRoles field value if set, zero value otherwise.
+func (o *ComponentOpsOption) GetDisableOfflineInstanceRoles() []string {
+	if o == nil || o.DisableOfflineInstanceRoles == nil {
+		var ret []string
+		return ret
+	}
+	return o.DisableOfflineInstanceRoles
+}
+
+// GetDisableOfflineInstanceRolesOk returns a tuple with the DisableOfflineInstanceRoles field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentOpsOption) GetDisableOfflineInstanceRolesOk() (*[]string, bool) {
+	if o == nil || o.DisableOfflineInstanceRoles == nil {
+		return nil, false
+	}
+	return &o.DisableOfflineInstanceRoles, true
+}
+
+// HasDisableOfflineInstanceRoles returns a boolean if a field has been set.
+func (o *ComponentOpsOption) HasDisableOfflineInstanceRoles() bool {
+	return o != nil && o.DisableOfflineInstanceRoles != nil
+}
+
+// SetDisableOfflineInstanceRoles gets a reference to the given []string and assigns it to the DisableOfflineInstanceRoles field.
+func (o *ComponentOpsOption) SetDisableOfflineInstanceRoles(v []string) {
+	o.DisableOfflineInstanceRoles = v
+}
+
 // GetRollbackSupported returns the RollbackSupported field value if set, zero value otherwise.
 func (o *ComponentOpsOption) GetRollbackSupported() bool {
 	if o == nil || o.RollbackSupported == nil {
@@ -374,6 +445,12 @@ func (o ComponentOpsOption) MarshalJSON() ([]byte, error) {
 	if o.RestoreEnv != nil {
 		toSerialize["restoreEnv"] = o.RestoreEnv
 	}
+	if o.DisableOfflineInstance.IsSet() {
+		toSerialize["disableOfflineInstance"] = o.DisableOfflineInstance.Get()
+	}
+	if o.DisableOfflineInstanceRoles != nil {
+		toSerialize["disableOfflineInstanceRoles"] = o.DisableOfflineInstanceRoles
+	}
 	if o.RollbackSupported != nil {
 		toSerialize["rollbackSupported"] = o.RollbackSupported
 	}
@@ -390,16 +467,18 @@ func (o ComponentOpsOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentOpsOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Modes                 []string                              `json:"modes,omitempty"`
-		Component             *string                               `json:"component"`
-		DisableHa             *bool                                 `json:"disableHA,omitempty"`
-		InPlace               *bool                                 `json:"inPlace,omitempty"`
-		NeedBackupWhenInPlace *bool                                 `json:"needBackupWhenInPlace,omitempty"`
-		BackupRequired        *bool                                 `json:"backupRequired,omitempty"`
-		BackupMethod          *ComponentOpsOptionBackupMethod       `json:"backupMethod,omitempty"`
-		RestoreEnv            []ComponentOpsOptionRestoreEnvItem    `json:"restoreEnv,omitempty"`
-		RollbackSupported     *bool                                 `json:"rollbackSupported,omitempty"`
-		DependentCustomOps    *ComponentOpsOptionDependentCustomOps `json:"dependentCustomOps,omitempty"`
+		Modes                       []string                              `json:"modes,omitempty"`
+		Component                   *string                               `json:"component"`
+		DisableHa                   *bool                                 `json:"disableHA,omitempty"`
+		InPlace                     *bool                                 `json:"inPlace,omitempty"`
+		NeedBackupWhenInPlace       *bool                                 `json:"needBackupWhenInPlace,omitempty"`
+		BackupRequired              *bool                                 `json:"backupRequired,omitempty"`
+		BackupMethod                *ComponentOpsOptionBackupMethod       `json:"backupMethod,omitempty"`
+		RestoreEnv                  []ComponentOpsOptionRestoreEnvItem    `json:"restoreEnv,omitempty"`
+		DisableOfflineInstance      common.NullableBool                   `json:"disableOfflineInstance,omitempty"`
+		DisableOfflineInstanceRoles []string                              `json:"disableOfflineInstanceRoles,omitempty"`
+		RollbackSupported           *bool                                 `json:"rollbackSupported,omitempty"`
+		DependentCustomOps          *ComponentOpsOptionDependentCustomOps `json:"dependentCustomOps,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -409,7 +488,7 @@ func (o *ComponentOpsOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"modes", "component", "disableHA", "inPlace", "needBackupWhenInPlace", "backupRequired", "backupMethod", "restoreEnv", "rollbackSupported", "dependentCustomOps"})
+		common.DeleteKeys(additionalProperties, &[]string{"modes", "component", "disableHA", "inPlace", "needBackupWhenInPlace", "backupRequired", "backupMethod", "restoreEnv", "disableOfflineInstance", "disableOfflineInstanceRoles", "rollbackSupported", "dependentCustomOps"})
 	} else {
 		return err
 	}
@@ -426,6 +505,8 @@ func (o *ComponentOpsOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.BackupMethod = all.BackupMethod
 	o.RestoreEnv = all.RestoreEnv
+	o.DisableOfflineInstance = all.DisableOfflineInstance
+	o.DisableOfflineInstanceRoles = all.DisableOfflineInstanceRoles
 	o.RollbackSupported = all.RollbackSupported
 	if all.DependentCustomOps != nil && all.DependentCustomOps.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true

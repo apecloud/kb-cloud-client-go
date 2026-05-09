@@ -26323,6 +26323,15 @@ components:
               value:
                 type: string
                 description: env value
+        disableOfflineInstance:
+          type: boolean
+          description: indicate whether the component supports online instance to offlines
+          nullable: true
+        disableOfflineInstanceRoles:
+          type: array
+          description: list of instance roles that are not allowed to be taken offline
+          items:
+            type: string
         rollbackSupported:
           type: boolean
           description: indicate whether rollback is supported for this ops
