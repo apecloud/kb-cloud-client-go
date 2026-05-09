@@ -320,6 +320,7 @@
 //   - [parameterTemplateApi.listParameterTemplates]
 //   - [parameterTemplateApi.patchParameterTemplate]
 //   - [parameterTemplateApi.readParameterTemplate]
+//   - [parameterTemplateApi.readParameterTemplateDiff]
 //   - [parameterTemplateApi.updateClusterParameterTemplate]
 //   - [platformParameterApi.getPlatformParameter]
 //   - [platformParameterApi.listPlatformParameters]

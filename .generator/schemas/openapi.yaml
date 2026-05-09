@@ -5388,6 +5388,52 @@ paths:
       tags:
         - parameterTemplate
       x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/parameterTemplate/{parameterTemplateName}/diff:
+    get:
+      operationId: readParameterTemplateDiff
+      summary: Get parameter template diff against default template
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the parameter template
+          in: path
+          name: parameterTemplateName
+          required: true
+          schema:
+            type: string
+        - description: the template partition in diff parameter template request
+          in: query
+          name: partition
+          schema:
+            $ref: '#/components/schemas/parameterTemplatePartition'
+        - description: whether to compare raw template content
+          in: query
+          name: rawContent
+          schema:
+            type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/parameterTemplateDiff'
+          description: get parameter template diff successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+      tags:
+        - parameterTemplate
   /api/v1/organizations/{orgName}/clusters/{clusterName}/parameterTemplate:
     get:
       operationId: getClusterParameterTemplate
@@ -19172,6 +19218,35 @@ components:
         rawContent:
           description: The raw content of the configuration file
           type: string
+      type: object
+    parameterTemplateDiffItem:
+      description: A parameter or raw file difference in a parameter template
+      properties:
+        fileName:
+          description: The name of the configuration file
+          type: string
+        parameterName:
+          description: The name of the changed parameter. Empty when rawContent is true and the whole file differs.
+          type: string
+        oldValue:
+          description: The value from the matching default template
+          type: string
+        newValue:
+          description: The value from the custom parameter template
+          type: string
+      required:
+        - fileName
+      type: object
+    parameterTemplateDiff:
+      description: A list of parameter template differences against the matching default template
+      properties:
+        items:
+          description: Items is the list of parameter template differences
+          type: array
+          items:
+            $ref: '#/components/schemas/parameterTemplateDiffItem'
+      required:
+        - items
       type: object
     paramTplApplyToClusterListItem:
       description: parameter template applicable to the cluster information
