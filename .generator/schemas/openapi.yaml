@@ -19230,10 +19230,10 @@ components:
           type: string
         oldValue:
           description: The value from the matching default template
-          type: object
+          type: string
         newValue:
           description: The value from the custom parameter template
-          type: object
+          type: string
       required:
         - fileName
       type: object

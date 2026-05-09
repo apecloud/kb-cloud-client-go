@@ -17,9 +17,9 @@ type ParameterTemplateDiffItem struct {
 	// The name of the changed parameter. Empty when rawContent is true and the whole file differs.
 	ParameterName *string `json:"parameterName,omitempty"`
 	// The value from the matching default template
-	OldValue interface{} `json:"oldValue,omitempty"`
+	OldValue *string `json:"oldValue,omitempty"`
 	// The value from the custom parameter template
-	NewValue interface{} `json:"newValue,omitempty"`
+	NewValue *string `json:"newValue,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -95,21 +95,21 @@ func (o *ParameterTemplateDiffItem) SetParameterName(v string) {
 }
 
 // GetOldValue returns the OldValue field value if set, zero value otherwise.
-func (o *ParameterTemplateDiffItem) GetOldValue() interface{} {
+func (o *ParameterTemplateDiffItem) GetOldValue() string {
 	if o == nil || o.OldValue == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
-	return o.OldValue
+	return *o.OldValue
 }
 
 // GetOldValueOk returns a tuple with the OldValue field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ParameterTemplateDiffItem) GetOldValueOk() (*interface{}, bool) {
+func (o *ParameterTemplateDiffItem) GetOldValueOk() (*string, bool) {
 	if o == nil || o.OldValue == nil {
 		return nil, false
 	}
-	return &o.OldValue, true
+	return o.OldValue, true
 }
 
 // HasOldValue returns a boolean if a field has been set.
@@ -117,27 +117,27 @@ func (o *ParameterTemplateDiffItem) HasOldValue() bool {
 	return o != nil && o.OldValue != nil
 }
 
-// SetOldValue gets a reference to the given interface{} and assigns it to the OldValue field.
-func (o *ParameterTemplateDiffItem) SetOldValue(v interface{}) {
-	o.OldValue = v
+// SetOldValue gets a reference to the given string and assigns it to the OldValue field.
+func (o *ParameterTemplateDiffItem) SetOldValue(v string) {
+	o.OldValue = &v
 }
 
 // GetNewValue returns the NewValue field value if set, zero value otherwise.
-func (o *ParameterTemplateDiffItem) GetNewValue() interface{} {
+func (o *ParameterTemplateDiffItem) GetNewValue() string {
 	if o == nil || o.NewValue == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
-	return o.NewValue
+	return *o.NewValue
 }
 
 // GetNewValueOk returns a tuple with the NewValue field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ParameterTemplateDiffItem) GetNewValueOk() (*interface{}, bool) {
+func (o *ParameterTemplateDiffItem) GetNewValueOk() (*string, bool) {
 	if o == nil || o.NewValue == nil {
 		return nil, false
 	}
-	return &o.NewValue, true
+	return o.NewValue, true
 }
 
 // HasNewValue returns a boolean if a field has been set.
@@ -145,9 +145,9 @@ func (o *ParameterTemplateDiffItem) HasNewValue() bool {
 	return o != nil && o.NewValue != nil
 }
 
-// SetNewValue gets a reference to the given interface{} and assigns it to the NewValue field.
-func (o *ParameterTemplateDiffItem) SetNewValue(v interface{}) {
-	o.NewValue = v
+// SetNewValue gets a reference to the given string and assigns it to the NewValue field.
+func (o *ParameterTemplateDiffItem) SetNewValue(v string) {
+	o.NewValue = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -176,10 +176,10 @@ func (o ParameterTemplateDiffItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterTemplateDiffItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		FileName      *string     `json:"fileName"`
-		ParameterName *string     `json:"parameterName,omitempty"`
-		OldValue      interface{} `json:"oldValue,omitempty"`
-		NewValue      interface{} `json:"newValue,omitempty"`
+		FileName      *string `json:"fileName"`
+		ParameterName *string `json:"parameterName,omitempty"`
+		OldValue      *string `json:"oldValue,omitempty"`
+		NewValue      *string `json:"newValue,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
