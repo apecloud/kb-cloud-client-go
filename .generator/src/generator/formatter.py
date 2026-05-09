@@ -130,6 +130,10 @@ def get_enum_varname(schema, index):
     # if varname is "", it will be converted to "Empty"
     if varname == "":
         varname = "Empty"
+    if varname == "*":
+        varname = "All"
+    if varname == "None":
+        varname = "Non"
     return camel_case(varname.replace("-", "_"))
 
 def simple_type(schema, render_nullable=False, render_new=False):
