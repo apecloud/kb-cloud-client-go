@@ -11,6 +11,11 @@ import (
 )
 
 type EngineTlsOption struct {
+	// When true, all components in the cluster share the same TLS certificate.
+	// The secret name is cluster-scoped instead of per-component.
+	// Example: set to true for Redis sentinel where sentinel and redis must use the same TLS.
+	//
+	ClusterScope *bool `json:"clusterScope,omitempty"`
 	// Explicit opt-in: true means this engine supports TLS/SSL configuration; false means it does not.
 	// If engineOption omits tls (or tls is null), TLS is not supported. Only engines with tls.supported === true advertise TLS.
 	//
@@ -41,6 +46,34 @@ func NewEngineTlsOption(supported bool) *EngineTlsOption {
 func NewEngineTlsOptionWithDefaults() *EngineTlsOption {
 	this := EngineTlsOption{}
 	return &this
+}
+
+// GetClusterScope returns the ClusterScope field value if set, zero value otherwise.
+func (o *EngineTlsOption) GetClusterScope() bool {
+	if o == nil || o.ClusterScope == nil {
+		var ret bool
+		return ret
+	}
+	return *o.ClusterScope
+}
+
+// GetClusterScopeOk returns a tuple with the ClusterScope field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineTlsOption) GetClusterScopeOk() (*bool, bool) {
+	if o == nil || o.ClusterScope == nil {
+		return nil, false
+	}
+	return o.ClusterScope, true
+}
+
+// HasClusterScope returns a boolean if a field has been set.
+func (o *EngineTlsOption) HasClusterScope() bool {
+	return o != nil && o.ClusterScope != nil
+}
+
+// SetClusterScope gets a reference to the given bool and assigns it to the ClusterScope field.
+func (o *EngineTlsOption) SetClusterScope(v bool) {
+	o.ClusterScope = &v
 }
 
 // GetSupported returns the Supported field value.
@@ -111,6 +144,9 @@ func (o EngineTlsOption) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.ClusterScope != nil {
+		toSerialize["clusterScope"] = o.ClusterScope
+	}
 	toSerialize["supported"] = o.Supported
 	if o.ExcludedVersions.IsSet() {
 		toSerialize["excludedVersions"] = o.ExcludedVersions.Get()
@@ -125,6 +161,7 @@ func (o EngineTlsOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineTlsOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		ClusterScope     *bool                       `json:"clusterScope,omitempty"`
 		Supported        *bool                       `json:"supported"`
 		ExcludedVersions common.NullableList[string] `json:"excludedVersions,omitempty"`
 	}{}
@@ -136,10 +173,11 @@ func (o *EngineTlsOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"supported", "excludedVersions"})
+		common.DeleteKeys(additionalProperties, &[]string{"clusterScope", "supported", "excludedVersions"})
 	} else {
 		return err
 	}
+	o.ClusterScope = all.ClusterScope
 	o.Supported = *all.Supported
 	o.ExcludedVersions = all.ExcludedVersions
 

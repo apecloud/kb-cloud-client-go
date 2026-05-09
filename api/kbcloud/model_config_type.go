@@ -10,20 +10,24 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ConfigType the type of config
+// ConfigType the type of config. The difference between 'text' and 'string' is that 'text' refers to a longer string, which may need to be displayed using a textarea on the frontend rather than an input field.
 type ConfigType string
 
 // List of ConfigType.
 const (
 	ConfigTypeString  ConfigType = "string"
+	ConfigTypeText    ConfigType = "text"
 	ConfigTypeInteger ConfigType = "integer"
 	ConfigTypeFloat   ConfigType = "float"
+	ConfigTypeBoolean ConfigType = "boolean"
 )
 
 var allowedConfigTypeEnumValues = []ConfigType{
 	ConfigTypeString,
+	ConfigTypeText,
 	ConfigTypeInteger,
 	ConfigTypeFloat,
+	ConfigTypeBoolean,
 }
 
 // GetAllowedValues returns the list of possible values.
