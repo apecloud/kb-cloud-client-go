@@ -23435,10 +23435,11 @@ components:
       additionalProperties: true
       type: object
     instanceResourceStatsType:
-      description: Type of the instance, choose cluster or system
+      description: Type of the instance, choose cluster, system, or other
       enum:
         - cluster
         - system
+        - other
       type: string
     instanceResourceStats:
       description: InstanceResourceStats holds the requests, limits, and available stats for an instance.

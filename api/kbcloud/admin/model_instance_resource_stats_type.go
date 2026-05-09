@@ -10,18 +10,20 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// InstanceResourceStatsType Type of the instance, choose cluster or system
+// InstanceResourceStatsType Type of the instance, choose cluster, system, or other
 type InstanceResourceStatsType string
 
 // List of InstanceResourceStatsType.
 const (
 	InstanceResourceStatsTypeCluster InstanceResourceStatsType = "cluster"
 	InstanceResourceStatsTypeSystem  InstanceResourceStatsType = "system"
+	InstanceResourceStatsTypeOther   InstanceResourceStatsType = "other"
 )
 
 var allowedInstanceResourceStatsTypeEnumValues = []InstanceResourceStatsType{
 	InstanceResourceStatsTypeCluster,
 	InstanceResourceStatsTypeSystem,
+	InstanceResourceStatsTypeOther,
 }
 
 // GetAllowedValues returns the list of possible values.
