@@ -5,6 +5,7 @@ PATTERN_DOUBLE_UNDERSCORE = re.compile(r"__+")
 PATTERN_LEADING_ALPHA = re.compile(r"(.)([A-Z][a-z]+)")
 PATTERN_FOLLOWING_ALPHA = re.compile(r"([a-z0-9])([A-Z])")
 PATTERN_WHITESPACE = re.compile(r"\W")
+PATTERN_GO_IDENTIFIER = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 # Other client generators have more edge cases defined but adding them here could cause backwards-incompatible breaking changes.
 EDGE_CASES = {"APIs": "Apis"}
 
@@ -31,6 +32,21 @@ def upperfirst(value):
     return value[0].upper() + value[1:]
 
 
+def go_type_name(value):
+    """Return a Go type identifier for an OpenAPI schema name."""
+    if value is None:
+        return None
+    if PATTERN_GO_IDENTIFIER.match(value):
+        return upperfirst(value)
+
+    name = camel_case(value)
+    if not name:
+        return name
+    if name[0].isdigit():
+        name = "Model" + name
+    return name
+
+
 def camel_case(value):
     return "".join(upperfirst(x) for x in snake_case(value).split("_"))
 
@@ -44,7 +60,7 @@ def schema_name(schema):
         return None
 
     if hasattr(schema, "__reference__"):
-        return schema.__reference__["$ref"].split("/")[-1]
+        return go_type_name(schema.__reference__["$ref"].split("/")[-1])
 
 
 def given_variables(context):

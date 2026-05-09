@@ -26,7 +26,7 @@ def get_name(schema):
     name = None
     if hasattr(schema, "__reference__"):
         name = schema.__reference__["$ref"].split("/")[-1]
-        name = utils.upperfirst(name)
+        name = utils.go_type_name(name)
 
     return name
 
@@ -279,9 +279,11 @@ def models(spec):
     if "components" in spec and "schemas" in spec["components"]:
         for schema_name, schema_def in spec["components"]["schemas"].items():
             # Add the schema itself
-            name_to_schema[schema_name] = schema_def
+            name_to_schema[get_name(schema_def) or utils.go_type_name(schema_name)] = schema_def
             # Also collect any child models from this schema
-            name_to_schema.update(dict(child_models(schema_def, alternative_name=schema_name)))
+            name_to_schema.update(
+                dict(child_models(schema_def, alternative_name=get_name(schema_def) or utils.go_type_name(schema_name)))
+            )
 
     return name_to_schema
 
