@@ -19219,24 +19219,6 @@ components:
           description: The raw content of the configuration file
           type: string
       type: object
-    parameterTemplateDiffTemplateRef:
-      description: A parameter template reference used by the diff response
-      properties:
-        name:
-          type: string
-        orgName:
-          type: string
-        partition:
-          $ref: '#/components/schemas/parameterTemplatePartition'
-        engineName:
-          type: string
-        component:
-          type: string
-        majorVersions:
-          type: array
-          items:
-            type: string
-      type: object
     parameterTemplateDiffItem:
       description: A parameter or raw file difference in a parameter template
       properties:
@@ -19258,18 +19240,12 @@ components:
     parameterTemplateDiff:
       description: A list of parameter template differences against the matching default template
       properties:
-        sourceTemplate:
-          $ref: '#/components/schemas/parameterTemplateDiffTemplateRef'
-        defaultTemplate:
-          $ref: '#/components/schemas/parameterTemplateDiffTemplateRef'
         items:
           description: Items is the list of parameter template differences
           type: array
           items:
             $ref: '#/components/schemas/parameterTemplateDiffItem'
       required:
-        - sourceTemplate
-        - defaultTemplate
         - items
       type: object
     paramTplApplyToClusterListItem:
