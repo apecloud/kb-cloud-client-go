@@ -11,12 +11,12 @@ import (
 )
 
 type InitOptionObject struct {
-	ConfigSpecName string                        `json:"configSpecName"`
-	Label          LocalizedDescription          `json:"label"`
-	Type           InitOptionType                `json:"type"`
-	Description    *LocalizedDescription         `json:"description,omitempty"`
-	Options        []EngineOption_initOptionItem `json:"options,omitempty"`
-	Value          *string                       `json:"value,omitempty"`
+	ConfigSpecName string                 `json:"configSpecName"`
+	Label          LocalizedDescription   `json:"label"`
+	Type           InitOptionType         `json:"type"`
+	Description    *LocalizedDescription  `json:"description,omitempty"`
+	Options        []EngineInitOptionItem `json:"options,omitempty"`
+	Value          *string                `json:"value,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -140,9 +140,9 @@ func (o *InitOptionObject) SetDescription(v LocalizedDescription) {
 }
 
 // GetOptions returns the Options field value if set, zero value otherwise.
-func (o *InitOptionObject) GetOptions() []EngineOption_initOptionItem {
+func (o *InitOptionObject) GetOptions() []EngineInitOptionItem {
 	if o == nil || o.Options == nil {
-		var ret []EngineOption_initOptionItem
+		var ret []EngineInitOptionItem
 		return ret
 	}
 	return o.Options
@@ -150,7 +150,7 @@ func (o *InitOptionObject) GetOptions() []EngineOption_initOptionItem {
 
 // GetOptionsOk returns a tuple with the Options field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InitOptionObject) GetOptionsOk() (*[]EngineOption_initOptionItem, bool) {
+func (o *InitOptionObject) GetOptionsOk() (*[]EngineInitOptionItem, bool) {
 	if o == nil || o.Options == nil {
 		return nil, false
 	}
@@ -162,8 +162,8 @@ func (o *InitOptionObject) HasOptions() bool {
 	return o != nil && o.Options != nil
 }
 
-// SetOptions gets a reference to the given []EngineOption_initOptionItem and assigns it to the Options field.
-func (o *InitOptionObject) SetOptions(v []EngineOption_initOptionItem) {
+// SetOptions gets a reference to the given []EngineInitOptionItem and assigns it to the Options field.
+func (o *InitOptionObject) SetOptions(v []EngineInitOptionItem) {
 	o.Options = v
 }
 
@@ -223,12 +223,12 @@ func (o InitOptionObject) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InitOptionObject) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ConfigSpecName *string                       `json:"configSpecName"`
-		Label          *LocalizedDescription         `json:"label"`
-		Type           *InitOptionType               `json:"type"`
-		Description    *LocalizedDescription         `json:"description,omitempty"`
-		Options        []EngineOption_initOptionItem `json:"options,omitempty"`
-		Value          *string                       `json:"value,omitempty"`
+		ConfigSpecName *string                `json:"configSpecName"`
+		Label          *LocalizedDescription  `json:"label"`
+		Type           *InitOptionType        `json:"type"`
+		Description    *LocalizedDescription  `json:"description,omitempty"`
+		Options        []EngineInitOptionItem `json:"options,omitempty"`
+		Value          *string                `json:"value,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

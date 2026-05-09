@@ -26729,7 +26729,7 @@ components:
         - timezone
         - enum
         - string
-    engineOption_initOptionItem:
+    engineInitOptionItem:
       type: object
       required:
         - value
@@ -26756,7 +26756,7 @@ components:
         options:
           type: array
           items:
-            $ref: '#/components/schemas/engineOption_initOptionItem'
+            $ref: '#/components/schemas/engineInitOptionItem'
         value:
           type: string
     initOption:

@@ -12906,7 +12906,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/dataReplication_eventList'
+                $ref: '#/components/schemas/dataReplicationEventList'
           description: A list of data channel events.
         '401':
           $ref: '#/components/responses/401'
@@ -21018,7 +21018,7 @@ components:
         - timezone
         - enum
         - string
-    engineOption_initOptionItem:
+    engineInitOptionItem:
       type: object
       required:
         - value
@@ -21045,7 +21045,7 @@ components:
         options:
           type: array
           items:
-            $ref: '#/components/schemas/engineOption_initOptionItem'
+            $ref: '#/components/schemas/engineInitOptionItem'
         value:
           type: string
     initOption:
@@ -25368,7 +25368,7 @@ components:
         - Paused
         - Deleting
       type: string
-    dataReplication_endpointType:
+    dataReplicationEndpointType:
       enum:
         - custom
         - kubeblocks
@@ -25419,7 +25419,7 @@ components:
         engineName:
           type: string
         endpointType:
-          $ref: '#/components/schemas/dataReplication_endpointType'
+          $ref: '#/components/schemas/dataReplicationEndpointType'
         custom:
           $ref: '#/components/schemas/customEndpoint'
           nullable: true
@@ -25505,7 +25505,7 @@ components:
         definitionName:
           type: string
         endpointType:
-          $ref: '#/components/schemas/dataReplication_endpointType'
+          $ref: '#/components/schemas/dataReplicationEndpointType'
         custom:
           $ref: '#/components/schemas/customEndpointCreate'
           nullable: true
@@ -25638,7 +25638,7 @@ components:
         operatorID:
           type: string
           nullable: true
-    dataReplication_eventList:
+    dataReplicationEventList:
       type: array
       items:
         $ref: '#/components/schemas/eventItem'
