@@ -10,48 +10,48 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type DataReplication_endpointType string
+type DataReplicationEndpointType string
 
-// List of DataReplication_endpointType.
+// List of DataReplicationEndpointType.
 const (
-	DataReplication_endpointTypeCustom     DataReplication_endpointType = "custom"
-	DataReplication_endpointTypeKubeblocks DataReplication_endpointType = "kubeblocks"
+	DataReplicationEndpointTypeCustom     DataReplicationEndpointType = "custom"
+	DataReplicationEndpointTypeKubeblocks DataReplicationEndpointType = "kubeblocks"
 )
 
-var allowedDataReplication_endpointTypeEnumValues = []DataReplication_endpointType{
-	DataReplication_endpointTypeCustom,
-	DataReplication_endpointTypeKubeblocks,
+var allowedDataReplicationEndpointTypeEnumValues = []DataReplicationEndpointType{
+	DataReplicationEndpointTypeCustom,
+	DataReplicationEndpointTypeKubeblocks,
 }
 
 // GetAllowedValues returns the list of possible values.
-func (v *DataReplication_endpointType) GetAllowedValues() []DataReplication_endpointType {
-	return allowedDataReplication_endpointTypeEnumValues
+func (v *DataReplicationEndpointType) GetAllowedValues() []DataReplicationEndpointType {
+	return allowedDataReplicationEndpointTypeEnumValues
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (v *DataReplication_endpointType) UnmarshalJSON(src []byte) error {
+func (v *DataReplicationEndpointType) UnmarshalJSON(src []byte) error {
 	var value string
 	err := common.Unmarshal(src, &value)
 	if err != nil {
 		return err
 	}
-	*v = DataReplication_endpointType(value)
+	*v = DataReplicationEndpointType(value)
 	return nil
 }
 
-// NewDataReplication_endpointTypeFromValue returns a pointer to a valid DataReplication_endpointType
+// NewDataReplicationEndpointTypeFromValue returns a pointer to a valid DataReplicationEndpointType
 // for the value passed as argument, or an error if the value passed is not allowed by the enum.
-func NewDataReplication_endpointTypeFromValue(v string) (*DataReplication_endpointType, error) {
-	ev := DataReplication_endpointType(v)
+func NewDataReplicationEndpointTypeFromValue(v string) (*DataReplicationEndpointType, error) {
+	ev := DataReplicationEndpointType(v)
 	if ev.IsValid() {
 		return &ev, nil
 	}
-	return nil, fmt.Errorf("invalid value '%v' for DataReplication_endpointType: valid values are %v", v, allowedDataReplication_endpointTypeEnumValues)
+	return nil, fmt.Errorf("invalid value '%v' for DataReplicationEndpointType: valid values are %v", v, allowedDataReplicationEndpointTypeEnumValues)
 }
 
 // IsValid return true if the value is valid for the enum, false otherwise.
-func (v DataReplication_endpointType) IsValid() bool {
-	for _, existing := range allowedDataReplication_endpointTypeEnumValues {
+func (v DataReplicationEndpointType) IsValid() bool {
+	for _, existing := range allowedDataReplicationEndpointTypeEnumValues {
 		if existing == v {
 			return true
 		}
@@ -59,7 +59,7 @@ func (v DataReplication_endpointType) IsValid() bool {
 	return false
 }
 
-// Ptr returns reference to DataReplication_endpointType value.
-func (v DataReplication_endpointType) Ptr() *DataReplication_endpointType {
+// Ptr returns reference to DataReplicationEndpointType value.
+func (v DataReplicationEndpointType) Ptr() *DataReplicationEndpointType {
 	return &v
 }
