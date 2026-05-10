@@ -17,7 +17,7 @@ type StorageCreate struct {
 	// Name of the storage provider
 	StorageProvider string `json:"storageProvider"`
 	// the parameters to create the storage
-	Params map[string]string `json:"params"`
+	Params map[string]string `json:"params,omitempty"`
 	// the id of cluster that storage used
 	ClusterId *string `json:"clusterID,omitempty"`
 	// the tags for the storage
@@ -32,10 +32,9 @@ type StorageCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewStorageCreate(storageProvider string, params map[string]string) *StorageCreate {
+func NewStorageCreate(storageProvider string) *StorageCreate {
 	this := StorageCreate{}
 	this.StorageProvider = storageProvider
-	this.Params = params
 	return &this
 }
 
@@ -98,25 +97,30 @@ func (o *StorageCreate) SetStorageProvider(v string) {
 	o.StorageProvider = v
 }
 
-// GetParams returns the Params field value.
+// GetParams returns the Params field value if set, zero value otherwise.
 func (o *StorageCreate) GetParams() map[string]string {
-	if o == nil {
+	if o == nil || o.Params == nil {
 		var ret map[string]string
 		return ret
 	}
 	return o.Params
 }
 
-// GetParamsOk returns a tuple with the Params field value
+// GetParamsOk returns a tuple with the Params field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *StorageCreate) GetParamsOk() (*map[string]string, bool) {
-	if o == nil {
+	if o == nil || o.Params == nil {
 		return nil, false
 	}
 	return &o.Params, true
 }
 
-// SetParams sets field value.
+// HasParams returns a boolean if a field has been set.
+func (o *StorageCreate) HasParams() bool {
+	return o != nil && o.Params != nil
+}
+
+// SetParams gets a reference to the given map[string]string and assigns it to the Params field.
 func (o *StorageCreate) SetParams(v map[string]string) {
 	o.Params = v
 }
@@ -215,7 +219,9 @@ func (o StorageCreate) MarshalJSON() ([]byte, error) {
 		toSerialize["name"] = o.Name
 	}
 	toSerialize["storageProvider"] = o.StorageProvider
-	toSerialize["params"] = o.Params
+	if o.Params != nil {
+		toSerialize["params"] = o.Params
+	}
 	if o.ClusterId != nil {
 		toSerialize["clusterID"] = o.ClusterId
 	}
@@ -235,21 +241,18 @@ func (o StorageCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name            *string            `json:"name,omitempty"`
-		StorageProvider *string            `json:"storageProvider"`
-		Params          *map[string]string `json:"params"`
-		ClusterId       *string            `json:"clusterID,omitempty"`
-		Tags            map[string]string  `json:"tags,omitempty"`
-		Engines         []string           `json:"engines,omitempty"`
+		Name            *string           `json:"name,omitempty"`
+		StorageProvider *string           `json:"storageProvider"`
+		Params          map[string]string `json:"params,omitempty"`
+		ClusterId       *string           `json:"clusterID,omitempty"`
+		Tags            map[string]string `json:"tags,omitempty"`
+		Engines         []string          `json:"engines,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	if all.StorageProvider == nil {
 		return fmt.Errorf("required field storageProvider missing")
-	}
-	if all.Params == nil {
-		return fmt.Errorf("required field params missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -259,7 +262,7 @@ func (o *StorageCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Name = all.Name
 	o.StorageProvider = *all.StorageProvider
-	o.Params = *all.Params
+	o.Params = all.Params
 	o.ClusterId = all.ClusterId
 	o.Tags = all.Tags
 	o.Engines = all.Engines

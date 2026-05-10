@@ -22710,7 +22710,6 @@ components:
       type: object
       required:
         - storageProvider
-        - params
       properties:
         name:
           type: string
