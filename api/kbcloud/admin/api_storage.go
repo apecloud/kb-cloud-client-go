@@ -98,7 +98,7 @@ func (a *StorageApi) CheckStorage(ctx _context.Context, body StorageCreate) (Sto
 }
 
 // CreateStorage Create a storage.
-func (a *StorageApi) CreateStorage(ctx _context.Context, environmentName string, body StorageCreate) (Storage, *_nethttp.Response, error) {
+func (a *StorageApi) CreateStorage(ctx _context.Context, environmentName string, body StorageCheck) (Storage, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}

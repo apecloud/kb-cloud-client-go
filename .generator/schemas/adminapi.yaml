@@ -12336,7 +12336,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/storageCreate'
+              $ref: '#/components/schemas/storageCheck'
         required: true
       responses:
         '200':
@@ -29078,6 +29078,22 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/storage'
+    storageCheck:
+      description: storageCheck is the schema for the storage connectivity check request
+      type: object
+      required:
+        - storageProvider
+        - params
+      properties:
+        storageProvider:
+          type: string
+          minLength: 1
+          description: Name of the storage provider
+        params:
+          type: object
+          description: the parameters to check the storage
+          additionalProperties:
+            type: string
     storageUpdate:
       description: storageUpdate is the schema for storage update request
       type: object
