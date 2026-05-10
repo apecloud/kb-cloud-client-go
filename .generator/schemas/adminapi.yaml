@@ -22708,12 +22708,16 @@ components:
     storageCreate:
       description: storageCreate is the schema for the storage create request
       type: object
+      required:
+        - storageProvider
       properties:
         name:
           type: string
           description: Name of the storage
         storageProvider:
           type: string
+          minLength: 1
+          x-nullable: false
           description: Name of the storage provider
         params:
           type: object

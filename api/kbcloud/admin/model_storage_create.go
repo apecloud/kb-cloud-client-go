@@ -4,14 +4,18 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // StorageCreate storageCreate is the schema for the storage create request
 type StorageCreate struct {
 	// Name of the storage
 	Name *string `json:"name,omitempty"`
 	// Name of the storage provider
-	StorageProvider *string `json:"storageProvider,omitempty"`
+	StorageProvider string `json:"storageProvider"`
 	// the parameters to create the storage
 	Params map[string]string `json:"params,omitempty"`
 	// the id of cluster that storage used
@@ -28,8 +32,9 @@ type StorageCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewStorageCreate() *StorageCreate {
+func NewStorageCreate(storageProvider string) *StorageCreate {
 	this := StorageCreate{}
+	this.StorageProvider = storageProvider
 	return &this
 }
 
@@ -69,32 +74,27 @@ func (o *StorageCreate) SetName(v string) {
 	o.Name = &v
 }
 
-// GetStorageProvider returns the StorageProvider field value if set, zero value otherwise.
+// GetStorageProvider returns the StorageProvider field value.
 func (o *StorageCreate) GetStorageProvider() string {
-	if o == nil || o.StorageProvider == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.StorageProvider
+	return o.StorageProvider
 }
 
-// GetStorageProviderOk returns a tuple with the StorageProvider field value if set, nil otherwise
+// GetStorageProviderOk returns a tuple with the StorageProvider field value
 // and a boolean to check if the value has been set.
 func (o *StorageCreate) GetStorageProviderOk() (*string, bool) {
-	if o == nil || o.StorageProvider == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.StorageProvider, true
+	return &o.StorageProvider, true
 }
 
-// HasStorageProvider returns a boolean if a field has been set.
-func (o *StorageCreate) HasStorageProvider() bool {
-	return o != nil && o.StorageProvider != nil
-}
-
-// SetStorageProvider gets a reference to the given string and assigns it to the StorageProvider field.
+// SetStorageProvider sets field value.
 func (o *StorageCreate) SetStorageProvider(v string) {
-	o.StorageProvider = &v
+	o.StorageProvider = v
 }
 
 // GetParams returns the Params field value if set, zero value otherwise.
@@ -218,9 +218,7 @@ func (o StorageCreate) MarshalJSON() ([]byte, error) {
 	if o.Name != nil {
 		toSerialize["name"] = o.Name
 	}
-	if o.StorageProvider != nil {
-		toSerialize["storageProvider"] = o.StorageProvider
-	}
+	toSerialize["storageProvider"] = o.StorageProvider
 	if o.Params != nil {
 		toSerialize["params"] = o.Params
 	}
@@ -244,7 +242,7 @@ func (o StorageCreate) MarshalJSON() ([]byte, error) {
 func (o *StorageCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name            *string           `json:"name,omitempty"`
-		StorageProvider *string           `json:"storageProvider,omitempty"`
+		StorageProvider *string           `json:"storageProvider"`
 		Params          map[string]string `json:"params,omitempty"`
 		ClusterId       *string           `json:"clusterID,omitempty"`
 		Tags            map[string]string `json:"tags,omitempty"`
@@ -253,6 +251,9 @@ func (o *StorageCreate) UnmarshalJSON(bytes []byte) (err error) {
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
+	if all.StorageProvider == nil {
+		return fmt.Errorf("required field storageProvider missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"name", "storageProvider", "params", "clusterID", "tags", "engines"})
@@ -260,7 +261,7 @@ func (o *StorageCreate) UnmarshalJSON(bytes []byte) (err error) {
 		return err
 	}
 	o.Name = all.Name
-	o.StorageProvider = all.StorageProvider
+	o.StorageProvider = *all.StorageProvider
 	o.Params = all.Params
 	o.ClusterId = all.ClusterId
 	o.Tags = all.Tags
