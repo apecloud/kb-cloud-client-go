@@ -22717,6 +22717,7 @@ components:
         storageProvider:
           type: string
           minLength: 1
+          x-nullable: false
           description: Name of the storage provider
         params:
           type: object
