@@ -18,7 +18,7 @@ import (
 type StorageApi common.Service
 
 // CheckStorage Check if storage can be accessed.
-func (a *StorageApi) CheckStorage(ctx _context.Context, body StorageCheck) (StorageCheckResult, *_nethttp.Response, error) {
+func (a *StorageApi) CheckStorage(ctx _context.Context, body StorageCreate) (StorageCheckResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
