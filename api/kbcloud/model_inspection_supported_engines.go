@@ -23,6 +23,7 @@ const (
 	InspectionSupportedEnginesKafka      InspectionSupportedEngines = "kafka"
 	InspectionSupportedEnginesKingbase   InspectionSupportedEngines = "kingbase"
 	InspectionSupportedEnginesPostgresql InspectionSupportedEngines = "postgresql"
+	InspectionSupportedEnginesOracle     InspectionSupportedEngines = "oracle"
 )
 
 var allowedInspectionSupportedEnginesEnumValues = []InspectionSupportedEngines{
@@ -34,6 +35,7 @@ var allowedInspectionSupportedEnginesEnumValues = []InspectionSupportedEngines{
 	InspectionSupportedEnginesKafka,
 	InspectionSupportedEnginesKingbase,
 	InspectionSupportedEnginesPostgresql,
+	InspectionSupportedEnginesOracle,
 }
 
 // GetAllowedValues returns the list of possible values.
