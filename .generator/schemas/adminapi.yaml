@@ -31482,23 +31482,20 @@ components:
       required:
         - data
         - type
-        - messageID
-        - parentID
+        - done
         - sessionId
       description: Chat message response
       properties:
         data:
-          type: object
-          additionalProperties: true
-          description: Arbitrary data
+          description: Arbitrary event payload
+        done:
+          type: boolean
+          description: Whether the SSE stream is complete
         type:
           $ref: '#/components/schemas/chatResponseType'
         messageID:
           type: string
           description: Message ID
-        parentID:
-          type: string
-          description: Parent message ID
         sessionId:
           type: string
           description: Session ID
