@@ -28843,6 +28843,7 @@ components:
         - kafka
         - kingbase
         - postgresql
+        - oracle
     inspectionTaskItem:
       properties:
         id:
