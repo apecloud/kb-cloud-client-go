@@ -15,7 +15,7 @@ type UserCreate struct {
 	// The name of the user, is unique
 	UserName string `json:"userName"`
 	// The password of the admin user
-	Password string `json:"password"`
+	Password *string `json:"password,omitempty"`
 	// The email for the user
 	Email *string `json:"email,omitempty"`
 	// The description for the user
@@ -31,10 +31,9 @@ type UserCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewUserCreate(userName string, password string) *UserCreate {
+func NewUserCreate(userName string) *UserCreate {
 	this := UserCreate{}
 	this.UserName = userName
-	this.Password = password
 	return &this
 }
 
@@ -69,27 +68,32 @@ func (o *UserCreate) SetUserName(v string) {
 	o.UserName = v
 }
 
-// GetPassword returns the Password field value.
+// GetPassword returns the Password field value if set, zero value otherwise.
 func (o *UserCreate) GetPassword() string {
-	if o == nil {
+	if o == nil || o.Password == nil {
 		var ret string
 		return ret
 	}
-	return o.Password
+	return *o.Password
 }
 
-// GetPasswordOk returns a tuple with the Password field value
+// GetPasswordOk returns a tuple with the Password field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *UserCreate) GetPasswordOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Password == nil {
 		return nil, false
 	}
-	return &o.Password, true
+	return o.Password, true
 }
 
-// SetPassword sets field value.
+// HasPassword returns a boolean if a field has been set.
+func (o *UserCreate) HasPassword() bool {
+	return o != nil && o.Password != nil
+}
+
+// SetPassword gets a reference to the given string and assigns it to the Password field.
 func (o *UserCreate) SetPassword(v string) {
-	o.Password = v
+	o.Password = &v
 }
 
 // GetEmail returns the Email field value if set, zero value otherwise.
@@ -183,7 +187,9 @@ func (o UserCreate) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["userName"] = o.UserName
-	toSerialize["password"] = o.Password
+	if o.Password != nil {
+		toSerialize["password"] = o.Password
+	}
 	if o.Email != nil {
 		toSerialize["email"] = o.Email
 	}
@@ -204,7 +210,7 @@ func (o UserCreate) MarshalJSON() ([]byte, error) {
 func (o *UserCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		UserName    *string `json:"userName"`
-		Password    *string `json:"password"`
+		Password    *string `json:"password,omitempty"`
 		Email       *string `json:"email,omitempty"`
 		Description *string `json:"description,omitempty"`
 		PhoneNumber *string `json:"phoneNumber,omitempty"`
@@ -215,9 +221,6 @@ func (o *UserCreate) UnmarshalJSON(bytes []byte) (err error) {
 	if all.UserName == nil {
 		return fmt.Errorf("required field userName missing")
 	}
-	if all.Password == nil {
-		return fmt.Errorf("required field password missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"userName", "password", "email", "description", "phoneNumber"})
@@ -225,7 +228,7 @@ func (o *UserCreate) UnmarshalJSON(bytes []byte) (err error) {
 		return err
 	}
 	o.UserName = *all.UserName
-	o.Password = *all.Password
+	o.Password = all.Password
 	o.Email = all.Email
 	o.Description = all.Description
 	o.PhoneNumber = all.PhoneNumber
