@@ -18227,7 +18227,6 @@ components:
           $ref: '#/components/schemas/phoneNumber'
       required:
         - userName
-        - password
       type: object
     password:
       description: Admin user password
