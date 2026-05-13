@@ -29247,56 +29247,6 @@ components:
           type: string
         enabled:
           type: boolean
-    inspectionSupportedEngines:
-      type: string
-      description: Specifies the engine type for the inspection task. Supports all database engines.
-      enum:
-        - node
-        - common
-        - camellia-redis-proxy
-        - clickhouse
-        - cubetran
-        - damengdb
-        - doris
-        - elasticsearch
-        - etcd
-        - foundationdb
-        - gaussdb
-        - goldendb
-        - greatdb
-        - hadoop
-        - hive
-        - influxdb
-        - kafka
-        - kingbase
-        - loki
-        - milvus
-        - minio
-        - mogdb
-        - mongodb
-        - mssql
-        - mysql
-        - nacos
-        - nebula
-        - oceanbase
-        - oceanbase-proxy
-        - oracle
-        - postgresql
-        - pulsar
-        - qdrant
-        - rabbitmq
-        - redis
-        - rocketmq
-        - selectdb
-        - starrocks
-        - tdengine
-        - tdsql
-        - tidb
-        - vastbase
-        - vault
-        - victoria-logs
-        - victoriametrics
-        - zookeeper
     inspectionTaskItem:
       properties:
         id:
@@ -29340,7 +29290,7 @@ components:
         status:
           type: string
         engine:
-          $ref: '#/components/schemas/inspectionSupportedEngines'
+          type: string
         orgName:
           type: string
         clusterID:

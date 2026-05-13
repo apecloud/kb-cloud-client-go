@@ -11,16 +11,15 @@ import (
 )
 
 type InspectionTask struct {
-	Id      *string `json:"id,omitempty"`
-	Creator *string `json:"creator,omitempty"`
-	Status  *string `json:"status,omitempty"`
-	// Specifies the engine type for the inspection task. Supports all database engines.
-	Engine      *InspectionSupportedEngines `json:"engine,omitempty"`
-	OrgName     *string                     `json:"orgName,omitempty"`
-	ClusterId   *string                     `json:"clusterID,omitempty"`
-	ClusterName *string                     `json:"clusterName,omitempty"`
-	EnvName     *string                     `json:"envName,omitempty"`
-	EnvId       *string                     `json:"envID,omitempty"`
+	Id          *string `json:"id,omitempty"`
+	Creator     *string `json:"creator,omitempty"`
+	Status      *string `json:"status,omitempty"`
+	Engine      *string `json:"engine,omitempty"`
+	OrgName     *string `json:"orgName,omitempty"`
+	ClusterId   *string `json:"clusterID,omitempty"`
+	ClusterName *string `json:"clusterName,omitempty"`
+	EnvName     *string `json:"envName,omitempty"`
+	EnvId       *string `json:"envID,omitempty"`
 	// Node name(s) for inspection. Multiple nodes can be specified as a comma-separated string (e.g. "node1,node2,node3").
 	NodeName       *string              `json:"nodeName,omitempty"`
 	IsAuto         *bool                `json:"isAuto,omitempty"`
@@ -138,9 +137,9 @@ func (o *InspectionTask) SetStatus(v string) {
 }
 
 // GetEngine returns the Engine field value if set, zero value otherwise.
-func (o *InspectionTask) GetEngine() InspectionSupportedEngines {
+func (o *InspectionTask) GetEngine() string {
 	if o == nil || o.Engine == nil {
-		var ret InspectionSupportedEngines
+		var ret string
 		return ret
 	}
 	return *o.Engine
@@ -148,7 +147,7 @@ func (o *InspectionTask) GetEngine() InspectionSupportedEngines {
 
 // GetEngineOk returns a tuple with the Engine field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTask) GetEngineOk() (*InspectionSupportedEngines, bool) {
+func (o *InspectionTask) GetEngineOk() (*string, bool) {
 	if o == nil || o.Engine == nil {
 		return nil, false
 	}
@@ -160,8 +159,8 @@ func (o *InspectionTask) HasEngine() bool {
 	return o != nil && o.Engine != nil
 }
 
-// SetEngine gets a reference to the given InspectionSupportedEngines and assigns it to the Engine field.
-func (o *InspectionTask) SetEngine(v InspectionSupportedEngines) {
+// SetEngine gets a reference to the given string and assigns it to the Engine field.
+func (o *InspectionTask) SetEngine(v string) {
 	o.Engine = &v
 }
 
@@ -643,24 +642,24 @@ func (o InspectionTask) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InspectionTask) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id             *string                     `json:"id,omitempty"`
-		Creator        *string                     `json:"creator,omitempty"`
-		Status         *string                     `json:"status,omitempty"`
-		Engine         *InspectionSupportedEngines `json:"engine,omitempty"`
-		OrgName        *string                     `json:"orgName,omitempty"`
-		ClusterId      *string                     `json:"clusterID,omitempty"`
-		ClusterName    *string                     `json:"clusterName,omitempty"`
-		EnvName        *string                     `json:"envName,omitempty"`
-		EnvId          *string                     `json:"envID,omitempty"`
-		NodeName       *string                     `json:"nodeName,omitempty"`
-		IsAuto         *bool                       `json:"isAuto,omitempty"`
-		Score          *int32                      `json:"score,omitempty"`
-		Result         *string                     `json:"result,omitempty"`
-		Items          []InspectionTaskItem        `json:"items,omitempty"`
-		CreatedAt      *time.Time                  `json:"createdAt,omitempty"`
-		UpdatedAt      *time.Time                  `json:"updatedAt,omitempty"`
-		TimeRangeStart *time.Time                  `json:"timeRangeStart,omitempty"`
-		TimeRangeEnd   *time.Time                  `json:"timeRangeEnd,omitempty"`
+		Id             *string              `json:"id,omitempty"`
+		Creator        *string              `json:"creator,omitempty"`
+		Status         *string              `json:"status,omitempty"`
+		Engine         *string              `json:"engine,omitempty"`
+		OrgName        *string              `json:"orgName,omitempty"`
+		ClusterId      *string              `json:"clusterID,omitempty"`
+		ClusterName    *string              `json:"clusterName,omitempty"`
+		EnvName        *string              `json:"envName,omitempty"`
+		EnvId          *string              `json:"envID,omitempty"`
+		NodeName       *string              `json:"nodeName,omitempty"`
+		IsAuto         *bool                `json:"isAuto,omitempty"`
+		Score          *int32               `json:"score,omitempty"`
+		Result         *string              `json:"result,omitempty"`
+		Items          []InspectionTaskItem `json:"items,omitempty"`
+		CreatedAt      *time.Time           `json:"createdAt,omitempty"`
+		UpdatedAt      *time.Time           `json:"updatedAt,omitempty"`
+		TimeRangeStart *time.Time           `json:"timeRangeStart,omitempty"`
+		TimeRangeEnd   *time.Time           `json:"timeRangeEnd,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -671,16 +670,10 @@ func (o *InspectionTask) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
 	o.Id = all.Id
 	o.Creator = all.Creator
 	o.Status = all.Status
-	if all.Engine != nil && !all.Engine.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Engine = all.Engine
-	}
+	o.Engine = all.Engine
 	o.OrgName = all.OrgName
 	o.ClusterId = all.ClusterId
 	o.ClusterName = all.ClusterName
@@ -698,10 +691,6 @@ func (o *InspectionTask) UnmarshalJSON(bytes []byte) (err error) {
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

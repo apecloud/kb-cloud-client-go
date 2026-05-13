@@ -94,6 +94,8 @@ tags:
     description: Cluster Disaster Recovery APIs
   - name: llm
     description: LLM APIs
+  - name: AI Agent
+    description: Chat With AI Agent APIs
   - name: organizationParameter
     description: Organization Parameter APIs
   - name: dataReplication
@@ -12865,6 +12867,1018 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-agent/conversations:
+    get:
+      tags:
+        - AI Agent
+      operationId: listAIAgentConversations
+      summary: List AI Agent conversations
+      description: Lists organization-scoped Chat With AI Agent conversations.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 30
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI Agent conversations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentConversationList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - AI Agent
+      operationId: createAIAgentConversation
+      summary: Create an AI Agent conversation
+      description: Creates a single-cluster Chat With AI Agent conversation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiAgentCreateConversationRequest'
+      responses:
+        '200':
+          description: AI Agent conversation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentConversation'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}:
+    get:
+      tags:
+        - AI Agent
+      operationId: getAIAgentConversation
+      summary: Get AI Agent conversation detail
+      description: Returns the conversation read model, including restorable message and run summaries when available.
+      responses:
+        '200':
+          description: AI Agent conversation detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentConversation'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/messages:
+    get:
+      tags:
+        - AI Agent
+      operationId: listAIAgentMessages
+      summary: List AI Agent conversation messages
+      description: Lists structured message parts for restoring the workbench history.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 30
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI Agent messages
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentMessageList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-agent/artifacts:batchGet:
+    post:
+      tags:
+        - AI Agent
+      operationId: batchGetAIAgentArtifacts
+      summary: Batch get AI Agent artifacts
+      description: Fetches frontend-safe report, evidence, action plan, run summary, and metric series artifacts referenced by message parts and report visualizations.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiAgentArtifactBatchGetRequest'
+      responses:
+        '200':
+          description: AI Agent artifact batch
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentArtifactBatch'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/context:
+    get:
+      tags:
+        - AI Agent
+      operationId: getAIAgentContext
+      summary: Get AI Agent context and capabilities
+      description: Returns the current single-cluster scope, cluster display context, playbooks, suggestions, and frontend-safe capability switches.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: namespace
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: component
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: pod
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI Agent context
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentContextResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/runs:
+    post:
+      tags:
+        - AI Agent
+      operationId: startAIAgentRun
+      summary: Start an AI Agent run
+      description: Starts a new observable Agent workflow instance inside a conversation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiAgentStartRunRequest'
+      responses:
+        '200':
+          description: AI Agent run started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentStartRunResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/runs/{runId}:
+    get:
+      tags:
+        - AI Agent
+      operationId: getAIAgentRun
+      summary: Get AI Agent run
+      description: Returns the current run state and branch summaries.
+      responses:
+        '200':
+          description: AI Agent run
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentRun'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/runs/{runId}/cancel:
+    post:
+      tags:
+        - AI Agent
+      operationId: cancelAIAgentRun
+      summary: Cancel an AI Agent run
+      description: Cancels a pending or running Agent workflow.
+      responses:
+        '200':
+          description: AI Agent run cancelled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentRunControlResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/runs/{runId}/messages:
+    post:
+      tags:
+        - AI Agent
+      operationId: continueAIAgentRun
+      summary: Continue an AI Agent run
+      description: Adds a user message and continues, narrows, clarifies, or answers from the current Agent run.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiAgentContinueRunRequest'
+      responses:
+        '200':
+          description: AI Agent run continuation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentContinueRunResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/runs/{runId}/events:
+    get:
+      tags:
+        - AI Agent
+      operationId: subscribeAIAgentRunEvents
+      summary: Subscribe to AI Agent run events
+      description: Streams frontend-safe Agent events as SSE blocks with event name `agent_event`.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: Last-Event-ID
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: after
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI Agent run event stream
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/aiAgentEvent'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-agent/runs/{runId}/report:
+    get:
+      tags:
+        - AI Agent
+      operationId: getAIAgentReport
+      summary: Get AI Agent run report
+      description: Returns the Result Builder report read model for a run.
+      responses:
+        '200':
+          description: AI Agent report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentReport'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/reports:
+    get:
+      tags:
+        - AI Agent
+      operationId: listAIAgentConversationReports
+      summary: List AI Agent reports for a conversation
+      description: Lists reports created in a conversation.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 30
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI Agent reports
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentReportList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-agent/runs/{runId}/evidence:
+    get:
+      tags:
+        - AI Agent
+      operationId: listAIAgentRunEvidence
+      summary: List AI Agent run evidence
+      description: Lists normalized evidence summaries for a run.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 30
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI Agent evidence summaries
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentEvidenceList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-agent/evidence/{evidenceId}:
+    get:
+      tags:
+        - AI Agent
+      operationId: getAIAgentEvidence
+      summary: Get AI Agent evidence detail
+      description: Returns a frontend-safe normalized evidence detail. Raw K8s/API payloads are not exposed.
+      responses:
+        '200':
+          description: AI Agent evidence detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentEvidenceDetail'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: evidenceId
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/action-plans/{actionPlanId}:
+    get:
+      tags:
+        - AI Agent
+      operationId: getAIAgentActionPlan
+      summary: Get AI Agent action plan
+      description: Returns a frontend-safe action plan read model without approval tokens or execution credentials.
+      responses:
+        '200':
+          description: AI Agent action plan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentActionPlan'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: actionPlanId
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/action-plans/{actionPlanId}/confirm:
+    post:
+      tags:
+        - AI Agent
+      operationId: confirmAIAgentActionPlan
+      summary: Confirm an AI Agent action plan
+      description: Confirms a pending action plan through the public confirmation read model. Approval tokens and execution credentials are internal.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiAgentConfirmActionPlanRequest'
+      responses:
+        '200':
+          description: AI Agent action plan confirmed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentConfirmActionPlanResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: actionPlanId
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/action-plans/{actionPlanId}/cancel:
+    post:
+      tags:
+        - AI Agent
+      operationId: cancelAIAgentActionPlan
+      summary: Cancel an AI Agent action plan
+      description: Cancels a pending or approved action plan before execution completes.
+      responses:
+        '200':
+          description: AI Agent action plan cancelled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentCancelActionPlanResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: actionPlanId
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/action-plans/{actionPlanId}/execution:
+    get:
+      tags:
+        - AI Agent
+      operationId: getAIAgentActionExecution
+      summary: Get AI Agent action execution status
+      description: Returns frontend-safe execution status for a confirmed action plan.
+      responses:
+        '200':
+          description: AI Agent action execution status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentExecutionStatusResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: actionPlanId
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/playbooks:
+    get:
+      tags:
+        - AI Agent
+      operationId: listAIAgentPlaybooks
+      summary: List AI Agent playbooks
+      description: Lists frontend-safe playbook metadata for disabled states and scenario selection.
+      responses:
+        '200':
+          description: AI Agent playbooks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentPlaybookList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/tool-capabilities:
+    get:
+      tags:
+        - AI Agent
+      operationId: listAIAgentToolCapabilities
+      summary: List AI Agent tool capability summaries
+      description: Lists frontend-safe capability metadata without raw source APIs, credentials, or internal tool arguments.
+      responses:
+        '200':
+          description: AI Agent tool capabilities
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentToolCapabilityList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/runs/{runId}/retry:
+    post:
+      tags:
+        - AI Agent
+      operationId: retryAIAgentRun
+      summary: Retry an AI Agent run
+      description: Creates a new run retrying the failed or degraded Agent workflow.
+      responses:
+        '200':
+          description: Retried AI Agent run
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentRun'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/runs/{runId}/reports/regenerate:
+    post:
+      tags:
+        - AI Agent
+      operationId: regenerateAIAgentReport
+      summary: Regenerate an AI Agent report
+      description: Regenerates a report from existing evidence without recollecting source data.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiAgentRegenerateReportRequest'
+      responses:
+        '200':
+          description: Regenerated AI Agent report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentReport'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/runs/{runId}/pause:
+    post:
+      tags:
+        - AI Agent
+      operationId: pauseAIAgentRun
+      summary: Pause an AI Agent run
+      description: Pauses a running Agent workflow.
+      responses:
+        '200':
+          description: AI Agent run paused
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentRunControlResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/runs/{runId}/resume:
+    post:
+      tags:
+        - AI Agent
+      operationId: resumeAIAgentRun
+      summary: Resume an AI Agent run
+      description: Resumes a paused Agent workflow.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                resumeFromEventId:
+                  type: string
+                  x-nullable: true
+      responses:
+        '200':
+          description: AI Agent run resumed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentRunControlResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/reports/{reportId}/continue:
+    post:
+      tags:
+        - AI Agent
+      operationId: continueAIAgentReport
+      summary: Continue from an AI Agent report
+      description: Continues investigation, regenerates explanation, or creates an action plan from an existing report.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiAgentContinueReportRequest'
+      responses:
+        '200':
+          description: AI Agent report continuation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentContinueRunResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: reportId
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/runs/{runId}/feedback:
+    post:
+      tags:
+        - AI Agent
+      operationId: submitAIAgentFeedback
+      summary: Submit AI Agent run feedback
+      description: Records user feedback for Agent evaluation and result improvement.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiAgentFeedbackRequest'
+      responses:
+        '200':
+          description: AI Agent feedback accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentFeedbackResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
   /api/v1/keys:
     get:
       tags:
@@ -25612,6 +26626,1787 @@ components:
         sessionId:
           type: string
           description: Session ID
+    aiAgentPagination:
+      type: object
+      required:
+        - hasMore
+      properties:
+        nextCursor:
+          type: string
+          x-nullable: true
+        hasMore:
+          type: boolean
+    aiAgentTimeRange:
+      type: object
+      properties:
+        from:
+          type: string
+          format: date-time
+          x-nullable: true
+        to:
+          type: string
+          format: date-time
+          x-nullable: true
+        preset:
+          type: string
+          x-nullable: true
+    aiAgentResourceScope:
+      type: object
+      description: Organization-scoped single-cluster Agent execution scope.
+      required:
+        - clusterName
+      properties:
+        orgName:
+          type: string
+          x-nullable: true
+        projectId:
+          type: string
+          x-nullable: true
+        clusterName:
+          type: string
+        namespace:
+          type: string
+          x-nullable: true
+        engine:
+          type: string
+          x-nullable: true
+        component:
+          type: string
+          x-nullable: true
+        pod:
+          type: string
+          x-nullable: true
+        timeRange:
+          $ref: '#/components/schemas/aiAgentTimeRange'
+    aiAgentConversationStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - active
+        - completed
+        - failed
+        - cancelled
+        - archived
+    aiAgentConversationSummary:
+      type: object
+      required:
+        - conversationId
+        - title
+        - status
+        - updatedAt
+        - createdAt
+      properties:
+        conversationId:
+          type: string
+        title:
+          type: string
+        scope:
+          $ref: '#/components/schemas/aiAgentResourceScope'
+        status:
+          $ref: '#/components/schemas/aiAgentConversationStatus'
+        lastSummary:
+          type: string
+          x-nullable: true
+        lastRunId:
+          type: string
+          x-nullable: true
+        updatedAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+    aiAgentConversationList:
+      allOf:
+        - $ref: '#/components/schemas/aiAgentPagination'
+        - type: object
+          required:
+            - items
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/aiAgentConversationSummary'
+    aiAgentCreateConversationRequest:
+      type: object
+      required:
+        - scope
+      properties:
+        title:
+          type: string
+          x-nullable: true
+        scope:
+          $ref: '#/components/schemas/aiAgentResourceScope'
+    aiAgentMessageRole:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - user
+        - assistant
+        - system
+    aiAgentMessagePartType:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - text
+        - report_ref
+        - evidence_ref
+        - action_plan_ref
+        - run_summary_ref
+        - error_ref
+        - user_input_request
+    aiAgentSuggestedReply:
+      type: object
+      required:
+        - label
+      properties:
+        label:
+          type: string
+        scopePatch:
+          $ref: '#/components/schemas/aiAgentResourceScope'
+    aiAgentMessagePart:
+      type: object
+      required:
+        - partId
+        - type
+      properties:
+        partId:
+          type: string
+        type:
+          $ref: '#/components/schemas/aiAgentMessagePartType'
+        text:
+          type: string
+          x-nullable: true
+        reportId:
+          type: string
+          x-nullable: true
+        evidenceId:
+          type: string
+          x-nullable: true
+        actionPlanId:
+          type: string
+          x-nullable: true
+        runId:
+          type: string
+          x-nullable: true
+        errorCode:
+          type: string
+          x-nullable: true
+        displayTitle:
+          type: string
+          x-nullable: true
+        question:
+          type: string
+          x-nullable: true
+        requiredContextFields:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        suggestedReplies:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentSuggestedReply'
+          x-nullable: true
+    aiAgentMessage:
+      type: object
+      required:
+        - messageId
+        - role
+        - createdAt
+      properties:
+        messageId:
+          type: string
+        role:
+          $ref: '#/components/schemas/aiAgentMessageRole'
+        runId:
+          type: string
+          x-nullable: true
+        summary:
+          type: string
+          x-nullable: true
+        content:
+          type: string
+          description: Deprecated for assistant UI replay; use parts instead.
+          x-nullable: true
+        parts:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentMessagePart'
+          x-nullable: true
+        createdAt:
+          type: string
+          format: date-time
+    aiAgentRunStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - planning
+        - collecting_evidence
+        - analyzing
+        - awaiting_approval
+        - executing
+        - summarizing
+        - waiting_for_user
+        - paused
+        - completed
+        - failed
+        - cancelled
+    aiAgentStatusDisplay:
+      type: object
+      description: Stable status code plus default user-facing copy. Frontend uses code for logic/tests and may override display text for i18n.
+      required:
+        - code
+        - displayLabel
+      properties:
+        code:
+          type: string
+          description: Stable machine-readable status code
+        displayLabel:
+          type: string
+          description: Default display label
+        displayDescription:
+          type: string
+          description: Default display description
+          x-nullable: true
+    aiAgentFinalStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - completed
+        - insufficient_evidence
+        - blocked_by_approval
+        - failed
+        - cancelled
+    aiAgentStage:
+      type: object
+      properties:
+        stageId:
+          type: string
+          x-nullable: true
+        label:
+          type: string
+          x-nullable: true
+        description:
+          type: string
+          x-nullable: true
+        state:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+    aiAgentDiagnosisBranchStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - building
+        - ready
+        - failed
+        - insufficient_evidence
+        - permission_blocked
+    aiAgentEvidenceCompleteness:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - complete
+        - partial_degraded
+        - insufficient
+        - permission_blocked
+    aiAgentDiagnosisBranch:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/aiAgentDiagnosisBranchStatus'
+        statusDisplay:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+        reportId:
+          type: string
+          x-nullable: true
+        evidenceCompleteness:
+          $ref: '#/components/schemas/aiAgentEvidenceCompleteness'
+    aiAgentActionBranchStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - none
+        - pending_confirmation
+        - approved
+        - executing
+        - completed
+        - failed
+        - cancelled
+        - expired
+    aiAgentActionBranch:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/aiAgentActionBranchStatus'
+        statusDisplay:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+        actionPlanId:
+          type: string
+          x-nullable: true
+        executionId:
+          type: string
+          x-nullable: true
+    aiAgentRunMetadata:
+      type: object
+      properties:
+        playbookVersion:
+          type: string
+          x-nullable: true
+        toolsetVersion:
+          type: string
+          x-nullable: true
+        promptOrSkillVersion:
+          type: string
+          x-nullable: true
+        modelConfig:
+          type: object
+          additionalProperties: true
+          x-nullable: true
+        builderVersions:
+          type: object
+          additionalProperties:
+            type: string
+          x-nullable: true
+    aiAgentRun:
+      type: object
+      required:
+        - runId
+        - conversationId
+        - status
+        - createdAt
+      properties:
+        runId:
+          type: string
+        conversationId:
+          type: string
+        status:
+          $ref: '#/components/schemas/aiAgentRunStatus'
+        statusDisplay:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+        finalStatus:
+          $ref: '#/components/schemas/aiAgentFinalStatus'
+        scope:
+          $ref: '#/components/schemas/aiAgentResourceScope'
+        playbookId:
+          type: string
+          x-nullable: true
+        currentStage:
+          $ref: '#/components/schemas/aiAgentStage'
+        diagnosisBranch:
+          $ref: '#/components/schemas/aiAgentDiagnosisBranch'
+        actionBranch:
+          $ref: '#/components/schemas/aiAgentActionBranch'
+        retryOfRunId:
+          type: string
+          x-nullable: true
+        forkedFromRunId:
+          type: string
+          x-nullable: true
+        eventsUrl:
+          type: string
+          x-nullable: true
+        metadata:
+          $ref: '#/components/schemas/aiAgentRunMetadata'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+          x-nullable: true
+    aiAgentConversation:
+      type: object
+      required:
+        - conversationId
+        - title
+        - createdAt
+      properties:
+        conversationId:
+          type: string
+        title:
+          type: string
+        scope:
+          $ref: '#/components/schemas/aiAgentResourceScope'
+        conversationSummary:
+          type: string
+          x-nullable: true
+        lastCompactedAt:
+          type: string
+          format: date-time
+          x-nullable: true
+        summaryVersion:
+          type: string
+          x-nullable: true
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentMessage'
+          x-nullable: true
+        runs:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentRun'
+          x-nullable: true
+        createdAt:
+          type: string
+          format: date-time
+    aiAgentConfidence:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - high
+        - medium
+        - low
+        - none
+    aiAgentRootCauseType:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - confirmed
+        - candidate
+        - none
+    aiAgentRootCause:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/aiAgentRootCauseType'
+        text:
+          type: string
+          x-nullable: true
+        confidence:
+          $ref: '#/components/schemas/aiAgentConfidence'
+    aiAgentCheckedScopeItem:
+      type: object
+      required:
+        - label
+        - status
+      properties:
+        label:
+          type: string
+        status:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+    aiAgentObjectRef:
+      type: object
+      properties:
+        kind:
+          type: string
+          x-nullable: true
+        namespace:
+          type: string
+          x-nullable: true
+        name:
+          type: string
+          x-nullable: true
+        component:
+          type: string
+          x-nullable: true
+        container:
+          type: string
+          x-nullable: true
+    aiAgentEvidenceStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - valid
+        - partial
+        - missing
+        - permission_blocked
+        - failed
+    aiAgentEvidenceVisibility:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - user
+        - internal
+        - debug
+    aiAgentMissingReason:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - not_found
+        - permission_denied
+        - tool_failed
+        - timeout
+        - not_configured
+        - out_of_scope
+        - budget_exceeded
+    aiAgentPartialReason:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - some_requirements_missing
+        - some_sources_failed
+        - truncated_by_limit
+        - permission_partially_blocked
+        - timeout_partial
+    aiAgentEvidenceSummary:
+      type: object
+      required:
+        - evidenceId
+        - requirementId
+        - status
+        - summary
+      properties:
+        evidenceId:
+          type: string
+        requirementId:
+          type: string
+        type:
+          type: string
+          x-nullable: true
+        title:
+          type: string
+          x-nullable: true
+        source:
+          type: string
+          x-nullable: true
+        objectRef:
+          $ref: '#/components/schemas/aiAgentObjectRef'
+        status:
+          $ref: '#/components/schemas/aiAgentEvidenceStatus'
+        statusDisplay:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+        visibility:
+          $ref: '#/components/schemas/aiAgentEvidenceVisibility'
+        missingReason:
+          $ref: '#/components/schemas/aiAgentMissingReason'
+        partialReason:
+          $ref: '#/components/schemas/aiAgentPartialReason'
+        summary:
+          type: string
+        timeRange:
+          $ref: '#/components/schemas/aiAgentTimeRange'
+    aiAgentUncertainty:
+      type: object
+      properties:
+        requirementId:
+          type: string
+          x-nullable: true
+        reason:
+          type: string
+          x-nullable: true
+        displayText:
+          type: string
+          x-nullable: true
+    aiAgentScopeValidationStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - accepted
+        - rejected
+    aiAgentApprovalStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - not_required
+        - pending
+        - approved
+        - rejected
+        - expired
+        - cancelled
+    aiAgentRecommendationType:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - read_only
+        - action_plan_available
+    aiAgentRecommendation:
+      type: object
+      required:
+        - recommendationId
+        - type
+        - title
+      properties:
+        recommendationId:
+          type: string
+        type:
+          $ref: '#/components/schemas/aiAgentRecommendationType'
+        title:
+          type: string
+        description:
+          type: string
+          x-nullable: true
+        actionPlanId:
+          type: string
+          x-nullable: true
+        riskLevel:
+          type: string
+          x-nullable: true
+    aiAgentVisualizationType:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - line
+        - bar
+        - table
+        - stat
+    aiAgentVisualization:
+      type: object
+      required:
+        - visualizationId
+        - title
+        - type
+      properties:
+        visualizationId:
+          type: string
+        title:
+          type: string
+        type:
+          $ref: '#/components/schemas/aiAgentVisualizationType'
+        metricSeriesRef:
+          type: string
+          description: References aiAgentMetricSeries.metricSeriesId. Clients hydrate it through aiAgentArtifactBatch.metricSeries.
+          x-nullable: true
+        xKey:
+          type: string
+          x-nullable: true
+        yKeys:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        displayUnit:
+          type: string
+          x-nullable: true
+    aiAgentReport:
+      type: object
+      required:
+        - reportId
+        - runId
+        - conversationId
+        - status
+        - finalStatus
+        - evidenceCompleteness
+        - createdAt
+      properties:
+        reportId:
+          type: string
+        runId:
+          type: string
+        conversationId:
+          type: string
+        status:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+        finalStatus:
+          $ref: '#/components/schemas/aiAgentFinalStatus'
+        evidenceCompleteness:
+          $ref: '#/components/schemas/aiAgentEvidenceCompleteness'
+        confidence:
+          $ref: '#/components/schemas/aiAgentConfidence'
+        title:
+          type: string
+          x-nullable: true
+        summary:
+          type: string
+          x-nullable: true
+        rootCause:
+          $ref: '#/components/schemas/aiAgentRootCause'
+        checkedScope:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentCheckedScopeItem'
+          x-nullable: true
+        evidenceSummary:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentEvidenceSummary'
+          x-nullable: true
+        uncertainty:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentUncertainty'
+          x-nullable: true
+        blockingRequirementIds:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        degradedRequirementIds:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        permissionBlockedRequirementIds:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        missingReasonByRequirement:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/aiAgentMissingReason'
+          x-nullable: true
+        partialReason:
+          $ref: '#/components/schemas/aiAgentPartialReason'
+        budgetStatus:
+          type: string
+          x-nullable: true
+        scopeValidationStatus:
+          $ref: '#/components/schemas/aiAgentScopeValidationStatus'
+        approvalRequired:
+          type: boolean
+          x-nullable: true
+        approvalStatus:
+          $ref: '#/components/schemas/aiAgentApprovalStatus'
+        recommendations:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentRecommendation'
+          x-nullable: true
+        visualizations:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentVisualization'
+          x-nullable: true
+        metricSeriesRefs:
+          type: array
+          description: References aiAgentMetricSeries.metricSeriesId values for batch hydration.
+          items:
+            type: string
+          x-nullable: true
+        sourceEventIds:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        createdAt:
+          type: string
+          format: date-time
+    aiAgentEvidenceRedactionStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - not_required
+        - redacted
+        - failed
+    aiAgentEvidenceSnippet:
+      type: object
+      required:
+        - snippetId
+        - text
+      properties:
+        snippetId:
+          type: string
+        time:
+          type: string
+          format: date-time
+          x-nullable: true
+        text:
+          type: string
+        source:
+          type: string
+          x-nullable: true
+    aiAgentEvidenceDetail:
+      type: object
+      required:
+        - evidenceId
+        - runId
+        - requirementId
+        - status
+        - visibility
+      properties:
+        evidenceId:
+          type: string
+        runId:
+          type: string
+        requirementId:
+          type: string
+        type:
+          type: string
+          x-nullable: true
+        status:
+          $ref: '#/components/schemas/aiAgentEvidenceStatus'
+        statusDisplay:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+        visibility:
+          $ref: '#/components/schemas/aiAgentEvidenceVisibility'
+        missingReason:
+          $ref: '#/components/schemas/aiAgentMissingReason'
+        partialReason:
+          $ref: '#/components/schemas/aiAgentPartialReason'
+        minimumFields:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        redactionStatus:
+          $ref: '#/components/schemas/aiAgentEvidenceRedactionStatus'
+          x-nullable: true
+        truncated:
+          type: boolean
+          x-nullable: true
+        sensitiveTypes:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        objectRef:
+          $ref: '#/components/schemas/aiAgentObjectRef'
+        timeRange:
+          $ref: '#/components/schemas/aiAgentTimeRange'
+        summary:
+          type: string
+          x-nullable: true
+        snippets:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentEvidenceSnippet'
+          x-nullable: true
+        payload:
+          type: object
+          additionalProperties: true
+          x-nullable: true
+        sourceEventIds:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        rawAvailable:
+          type: boolean
+          default: false
+    aiAgentActionPlanStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - pending_confirmation
+        - approved
+        - executing
+        - completed
+        - failed
+        - cancelled
+        - expired
+    aiAgentConfirmationMode:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - button
+        - type_text
+    aiAgentActionPlan:
+      type: object
+      required:
+        - actionPlanId
+        - runId
+        - conversationId
+        - status
+        - operationCategory
+        - title
+      properties:
+        actionPlanId:
+          type: string
+        runId:
+          type: string
+        conversationId:
+          type: string
+        status:
+          $ref: '#/components/schemas/aiAgentActionPlanStatus'
+        statusDisplay:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+        operationCategory:
+          type: string
+        title:
+          type: string
+        target:
+          $ref: '#/components/schemas/aiAgentResourceScope'
+        argsSummary:
+          type: object
+          additionalProperties: true
+          x-nullable: true
+        impact:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        riskLevel:
+          type: string
+          x-nullable: true
+        riskExplanation:
+          type: string
+          x-nullable: true
+        permissionRequired:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        verification:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        rollback:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        confirmLabel:
+          type: string
+          x-nullable: true
+        cancelLabel:
+          type: string
+          x-nullable: true
+        confirmationMode:
+          $ref: '#/components/schemas/aiAgentConfirmationMode'
+        confirmationRequiredText:
+          type: string
+          x-nullable: true
+        disabledReason:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+        disabledReasonCode:
+          type: string
+          x-nullable: true
+        expiresAt:
+          type: string
+          format: date-time
+          x-nullable: true
+        expiresInSeconds:
+          type: integer
+          format: int64
+          x-nullable: true
+        sourceEvidenceIds:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        createdAt:
+          type: string
+          format: date-time
+          x-nullable: true
+    aiAgentMetricSeriesPoint:
+      type: object
+      description: Chart-ready point. x/y are the stable frontend plotting fields; timestamp/value may mirror them for time-series and numeric readers.
+      required:
+        - x
+        - 'y'
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          x-nullable: true
+        x:
+          type: string
+        value:
+          type: number
+          format: double
+          x-nullable: true
+        'y':
+          type: number
+          format: double
+        series:
+          type: string
+          x-nullable: true
+        category:
+          type: string
+          x-nullable: true
+    aiAgentMetricSeries:
+      type: object
+      required:
+        - metricSeriesId
+        - title
+        - points
+        - sourceEvidenceIds
+      properties:
+        metricSeriesId:
+          type: string
+        title:
+          type: string
+        unit:
+          type: string
+          x-nullable: true
+        timeRange:
+          $ref: '#/components/schemas/aiAgentTimeRange'
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentMetricSeriesPoint'
+        sourceEvidenceIds:
+          type: array
+          items:
+            type: string
+    aiAgentArtifactBatch:
+      type: object
+      properties:
+        reports:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/aiAgentReport'
+          x-nullable: true
+        evidence:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/aiAgentEvidenceDetail'
+          x-nullable: true
+        actionPlans:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/aiAgentActionPlan'
+          x-nullable: true
+        runSummaries:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/aiAgentRun'
+          x-nullable: true
+        metricSeries:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/aiAgentMetricSeries'
+          x-nullable: true
+    aiAgentMessageList:
+      allOf:
+        - $ref: '#/components/schemas/aiAgentPagination'
+        - type: object
+          required:
+            - items
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/aiAgentMessage'
+            included:
+              $ref: '#/components/schemas/aiAgentArtifactBatch'
+    aiAgentArtifactBatchGetRequest:
+      type: object
+      properties:
+        reports:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        evidence:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        actionPlans:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        runSummaries:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        metricSeries:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+    aiAgentClusterContext:
+      type: object
+      properties:
+        displayName:
+          type: string
+          x-nullable: true
+        engine:
+          type: string
+          x-nullable: true
+        version:
+          type: string
+          x-nullable: true
+        status:
+          type: string
+          x-nullable: true
+    aiAgentPlaybookSummary:
+      type: object
+      required:
+        - playbookId
+        - title
+        - enabled
+      properties:
+        playbookId:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+          x-nullable: true
+        enabled:
+          type: boolean
+        requiredCapabilities:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        disabledReason:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+        disabledReasonCode:
+          type: string
+          x-nullable: true
+    aiAgentSuggestion:
+      type: object
+      required:
+        - suggestionId
+        - label
+        - prompt
+      properties:
+        suggestionId:
+          type: string
+        label:
+          type: string
+        prompt:
+          type: string
+        playbookId:
+          type: string
+          x-nullable: true
+        scopePatch:
+          $ref: '#/components/schemas/aiAgentResourceScope'
+        disabledReason:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+        disabledReasonCode:
+          type: string
+          x-nullable: true
+    aiAgentContextResponse:
+      type: object
+      required:
+        - scope
+        - capabilities
+      properties:
+        scope:
+          $ref: '#/components/schemas/aiAgentResourceScope'
+        cluster:
+          $ref: '#/components/schemas/aiAgentClusterContext'
+        defaultTimeRanges:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentTimeRange'
+          x-nullable: true
+        playbooks:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentPlaybookSummary'
+          x-nullable: true
+        capabilities:
+          type: object
+          additionalProperties:
+            type: boolean
+        suggestions:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentSuggestion'
+          x-nullable: true
+    aiAgentStartRunRequest:
+      type: object
+      required:
+        - userMessage
+        - scope
+      properties:
+        userMessage:
+          type: string
+        scope:
+          $ref: '#/components/schemas/aiAgentResourceScope'
+        playbookId:
+          type: string
+          x-nullable: true
+        stream:
+          type: boolean
+          default: true
+    aiAgentStartRunResponse:
+      type: object
+      required:
+        - runId
+        - conversationId
+        - status
+        - eventsUrl
+        - createdAt
+      properties:
+        runId:
+          type: string
+        conversationId:
+          type: string
+        status:
+          $ref: '#/components/schemas/aiAgentRunStatus'
+        statusDisplay:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+        eventsUrl:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    aiAgentRunControlResponse:
+      type: object
+      required:
+        - runId
+        - status
+      properties:
+        runId:
+          type: string
+        status:
+          $ref: '#/components/schemas/aiAgentRunStatus'
+        statusDisplay:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+        cancelledAt:
+          type: string
+          format: date-time
+          x-nullable: true
+    aiAgentMessageInput:
+      type: object
+      required:
+        - role
+        - content
+      properties:
+        role:
+          $ref: '#/components/schemas/aiAgentMessageRole'
+        content:
+          type: string
+    aiAgentContinueMode:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - continue_investigation
+        - answer_followup
+        - narrow_scope
+        - clarify_context
+    aiAgentContinueRunRequest:
+      type: object
+      required:
+        - message
+        - continueMode
+      properties:
+        message:
+          $ref: '#/components/schemas/aiAgentMessageInput'
+        continueMode:
+          $ref: '#/components/schemas/aiAgentContinueMode'
+        scopePatch:
+          $ref: '#/components/schemas/aiAgentResourceScope'
+        resumeFromEventId:
+          type: string
+          x-nullable: true
+    aiAgentContinueRunResponse:
+      type: object
+      required:
+        - runId
+        - messageId
+        - newRunCreated
+        - status
+      properties:
+        runId:
+          type: string
+        messageId:
+          type: string
+        newRunCreated:
+          type: boolean
+        continuedRunId:
+          type: string
+          x-nullable: true
+        newRunId:
+          type: string
+          x-nullable: true
+        retryOfRunId:
+          type: string
+          x-nullable: true
+        forkedFromRunId:
+          type: string
+          x-nullable: true
+        status:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+        eventsUrl:
+          type: string
+          x-nullable: true
+    aiAgentEventType:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - run_started
+        - thinking
+        - assistant_delta
+        - stage_update
+        - evidence_update
+        - report_ready
+        - approval_required
+        - run_completed
+        - run_failed
+        - run_cancelled
+        - plan_created
+        - plan_updated
+        - tool_request_started
+        - tool_request_completed
+        - tool_request_failed
+        - tool_request_rejected
+        - needs_user_input
+        - budget_update
+        - run_paused
+        - run_resumed
+    aiAgentEventStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - pending
+        - active
+        - completed
+        - failed
+        - skipped
+        - permission_blocked
+        - not_applicable
+    aiAgentEventSource:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - runtime
+        - llm
+        - tool_gateway
+        - evidence_builder
+        - result_builder
+        - approval_service
+    aiAgentDeltaKind:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - summary
+        - progress
+        - question
+        - final_text
+    aiAgentUIVisibility:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - hidden
+        - inline
+        - work_log
+        - debug
+    aiAgentMissingRequirement:
+      type: object
+      required:
+        - requirementId
+        - missingReason
+      properties:
+        requirementId:
+          type: string
+        missingReason:
+          $ref: '#/components/schemas/aiAgentMissingReason'
+        display:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+    aiAgentToolResponseStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - completed
+        - partial
+        - failed
+        - permission_blocked
+    aiAgentRecoverActionType:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - retry
+        - narrow_scope
+        - request_permission
+        - ask_user
+        - view_report
+        - regenerate_report
+        - continue_investigation
+        - none
+    aiAgentRecoverAction:
+      type: object
+      required:
+        - actionType
+        - label
+      properties:
+        actionType:
+          $ref: '#/components/schemas/aiAgentRecoverActionType'
+        label:
+          type: string
+        status:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+        continueMode:
+          $ref: '#/components/schemas/aiAgentContinueMode'
+        scopePatch:
+          $ref: '#/components/schemas/aiAgentResourceScope'
+    aiAgentCostClass:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - low
+        - medium
+        - high
+    aiAgentEventPayload:
+      type: object
+      description: Frontend-safe union payload for typed Agent events. For eventType=assistant_delta, messageId, partId, deltaKind, sequence, delta, and isFinal are required by contract; sequence is monotonically increasing per partId from 1 and is used by clients to order and deduplicate streamed deltas. Debug or hidden projections must not be sent on the ordinary user SSE stream.
+      properties:
+        messageId:
+          type: string
+          x-nullable: true
+        partId:
+          type: string
+          x-nullable: true
+        deltaKind:
+          $ref: '#/components/schemas/aiAgentDeltaKind'
+        sequence:
+          type: integer
+          format: int64
+          description: Monotonic sequence number per message part, starting at 1 for each partId.
+          x-nullable: true
+        delta:
+          type: string
+          x-nullable: true
+        isFinal:
+          type: boolean
+          x-nullable: true
+        stageId:
+          type: string
+          x-nullable: true
+        state:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+        displayLabel:
+          type: string
+          x-nullable: true
+        displayDescription:
+          type: string
+          x-nullable: true
+        uiVisibility:
+          $ref: '#/components/schemas/aiAgentUIVisibility'
+          description: Public user SSE normally uses inline or work_log. hidden/debug are reserved for privileged replay/debug projections and must not appear on the ordinary user event stream.
+        toolCallId:
+          type: string
+          x-nullable: true
+        agentToolId:
+          type: string
+          x-nullable: true
+        requirementIds:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        evidenceIds:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        missingRequirements:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentMissingRequirement'
+          x-nullable: true
+        toolResponseStatus:
+          $ref: '#/components/schemas/aiAgentToolResponseStatus'
+        missingReason:
+          $ref: '#/components/schemas/aiAgentMissingReason'
+        partialReason:
+          $ref: '#/components/schemas/aiAgentPartialReason'
+        statusReason:
+          type: string
+          x-nullable: true
+        primaryMissingReason:
+          type: string
+          x-nullable: true
+        evidenceCompleteness:
+          $ref: '#/components/schemas/aiAgentEvidenceCompleteness'
+        summary:
+          type: string
+          x-nullable: true
+        reportId:
+          type: string
+          x-nullable: true
+        reportUrl:
+          type: string
+          x-nullable: true
+        actionPlanId:
+          type: string
+          x-nullable: true
+        title:
+          type: string
+          x-nullable: true
+        riskLevel:
+          type: string
+          x-nullable: true
+        impactSummary:
+          type: string
+          x-nullable: true
+        question:
+          type: string
+          x-nullable: true
+        requiredContextFields:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        suggestedReplies:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentSuggestedReply'
+          x-nullable: true
+        recoverActions:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentRecoverAction'
+          x-nullable: true
+        costClass:
+          $ref: '#/components/schemas/aiAgentCostClass'
+        budgetStatus:
+          type: string
+          x-nullable: true
+        remainingBudgetClass:
+          $ref: '#/components/schemas/aiAgentCostClass'
+        reason:
+          type: string
+          x-nullable: true
+        planTitle:
+          type: string
+          x-nullable: true
+        planSteps:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+    aiAgentEvent:
+      type: object
+      required:
+        - eventId
+        - runId
+        - conversationId
+        - eventType
+        - timestamp
+        - schemaVersion
+      properties:
+        eventId:
+          type: string
+        runId:
+          type: string
+        conversationId:
+          type: string
+        eventType:
+          $ref: '#/components/schemas/aiAgentEventType'
+        status:
+          $ref: '#/components/schemas/aiAgentEventStatus'
+        timestamp:
+          type: string
+          format: date-time
+        source:
+          $ref: '#/components/schemas/aiAgentEventSource'
+        schemaVersion:
+          type: string
+        payload:
+          $ref: '#/components/schemas/aiAgentEventPayload'
+    aiAgentReportList:
+      allOf:
+        - $ref: '#/components/schemas/aiAgentPagination'
+        - type: object
+          required:
+            - items
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/aiAgentReport'
+    aiAgentEvidenceList:
+      allOf:
+        - $ref: '#/components/schemas/aiAgentPagination'
+        - type: object
+          required:
+            - items
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/aiAgentEvidenceSummary'
+    aiAgentConfirmActionPlanRequest:
+      type: object
+      properties:
+        confirmationText:
+          type: string
+          x-nullable: true
+        clientNonce:
+          type: string
+          x-nullable: true
+    aiAgentActionPlanApprovalStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - approved
+        - rejected
+        - expired
+        - cancelled
+    aiAgentExecutionStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - queued
+        - running
+        - completed
+        - failed
+        - cancelled
+        - expired
+    aiAgentConfirmActionPlanResponse:
+      type: object
+      required:
+        - actionPlanId
+        - approvalStatus
+        - executionStatus
+      properties:
+        actionPlanId:
+          type: string
+        approvalStatus:
+          $ref: '#/components/schemas/aiAgentActionPlanApprovalStatus'
+        executionId:
+          type: string
+          x-nullable: true
+        executionStatus:
+          $ref: '#/components/schemas/aiAgentExecutionStatus'
+    aiAgentActionPlanCancelStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - cancelled
+    aiAgentCancelActionPlanResponse:
+      type: object
+      required:
+        - actionPlanId
+        - approvalStatus
+        - executionStatus
+      properties:
+        actionPlanId:
+          type: string
+        approvalStatus:
+          $ref: '#/components/schemas/aiAgentActionPlanCancelStatus'
+        executionStatus:
+          $ref: '#/components/schemas/aiAgentExecutionStatus'
+    aiAgentExecutionStep:
+      type: object
+      required:
+        - label
+        - status
+      properties:
+        label:
+          type: string
+        status:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+    aiAgentExecutionStatusResponse:
+      type: object
+      required:
+        - actionPlanId
+        - status
+      properties:
+        executionId:
+          type: string
+          x-nullable: true
+        actionPlanId:
+          type: string
+        status:
+          $ref: '#/components/schemas/aiAgentExecutionStatus'
+        statusDisplay:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+        startedAt:
+          type: string
+          format: date-time
+          x-nullable: true
+        completedAt:
+          type: string
+          format: date-time
+          x-nullable: true
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentExecutionStep'
+          x-nullable: true
+        userMessage:
+          type: string
+          x-nullable: true
+    aiAgentPlaybookList:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentPlaybookSummary'
+    aiAgentToolCapabilitySummary:
+      type: object
+      required:
+        - agentToolId
+        - title
+        - enabled
+      properties:
+        agentToolId:
+          type: string
+        title:
+          type: string
+        enabled:
+          type: boolean
+        visibility:
+          type: string
+          x-nullable: true
+        costClass:
+          $ref: '#/components/schemas/aiAgentCostClass'
+        unavailableReason:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+    aiAgentToolCapabilityList:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentToolCapabilitySummary'
+    aiAgentRegenerateReportRequest:
+      type: object
+      properties:
+        style:
+          type: string
+          x-nullable: true
+        includeSections:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+    aiAgentReportContinueMode:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - regenerate_from_existing_evidence
+        - continue_with_more_evidence
+        - create_action_plan_from_recommendation
+    aiAgentContinueReportRequest:
+      type: object
+      required:
+        - message
+        - mode
+      properties:
+        message:
+          type: string
+        mode:
+          $ref: '#/components/schemas/aiAgentReportContinueMode'
+    aiAgentFeedbackRating:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - helpful
+        - not_helpful
+    aiAgentFeedbackReason:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - helpful
+        - not_helpful
+        - wrong_root_cause
+        - missing_evidence
+        - unsafe_action
+        - unclear_explanation
+    aiAgentFeedbackRequest:
+      type: object
+      required:
+        - rating
+      properties:
+        rating:
+          $ref: '#/components/schemas/aiAgentFeedbackRating'
+        reasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentFeedbackReason'
+          x-nullable: true
+        comment:
+          type: string
+          x-nullable: true
+    aiAgentFeedbackResponse:
+      type: object
+      required:
+        - feedbackId
+      properties:
+        feedbackId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+          x-nullable: true
     encryptionAlgorithm:
       description: the encryption algorithm
       type: string
@@ -26753,56 +29548,6 @@ components:
           type: string
         enabled:
           type: boolean
-    inspectionSupportedEngines:
-      type: string
-      description: Specifies the engine type for the inspection task. Supports all database engines.
-      enum:
-        - node
-        - common
-        - camellia-redis-proxy
-        - clickhouse
-        - cubetran
-        - damengdb
-        - doris
-        - elasticsearch
-        - etcd
-        - foundationdb
-        - gaussdb
-        - goldendb
-        - greatdb
-        - hadoop
-        - hive
-        - influxdb
-        - kafka
-        - kingbase
-        - loki
-        - milvus
-        - minio
-        - mogdb
-        - mongodb
-        - mssql
-        - mysql
-        - nacos
-        - nebula
-        - oceanbase
-        - oceanbase-proxy
-        - oracle
-        - postgresql
-        - pulsar
-        - qdrant
-        - rabbitmq
-        - redis
-        - rocketmq
-        - selectdb
-        - starrocks
-        - tdengine
-        - tdsql
-        - tidb
-        - vastbase
-        - vault
-        - victoria-logs
-        - victoriametrics
-        - zookeeper
     inspectionTaskItem:
       properties:
         id:
@@ -26846,7 +29591,7 @@ components:
         status:
           type: string
         engine:
-          $ref: '#/components/schemas/inspectionSupportedEngines'
+          type: string
         orgName:
           type: string
         clusterID:
@@ -27268,6 +30013,11 @@ x-tagGroups:
   - name: import
     tags:
       - import
+  - name: AI
+    tags:
+      - AI
+      - AI Agent
+      - llm
   - name: billing
     tags:
       - pricing
