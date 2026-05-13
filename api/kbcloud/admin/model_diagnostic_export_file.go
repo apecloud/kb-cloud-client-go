@@ -22,7 +22,7 @@ type DiagnosticExportFile struct {
 	// Whether the file has passed redaction.
 	Redacted bool `json:"redacted"`
 	// Redacted file size in bytes.
-	SizeBytes *int64 `json:"sizeBytes,omitempty"`
+	SizeBytes int64 `json:"sizeBytes"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -32,12 +32,13 @@ type DiagnosticExportFile struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewDiagnosticExportFile(path string, typeVar string, collectedAt time.Time, redacted bool) *DiagnosticExportFile {
+func NewDiagnosticExportFile(path string, typeVar string, collectedAt time.Time, redacted bool, sizeBytes int64) *DiagnosticExportFile {
 	this := DiagnosticExportFile{}
 	this.Path = path
 	this.Type = typeVar
 	this.CollectedAt = collectedAt
 	this.Redacted = redacted
+	this.SizeBytes = sizeBytes
 	return &this
 }
 
@@ -141,32 +142,27 @@ func (o *DiagnosticExportFile) SetRedacted(v bool) {
 	o.Redacted = v
 }
 
-// GetSizeBytes returns the SizeBytes field value if set, zero value otherwise.
+// GetSizeBytes returns the SizeBytes field value.
 func (o *DiagnosticExportFile) GetSizeBytes() int64 {
-	if o == nil || o.SizeBytes == nil {
+	if o == nil {
 		var ret int64
 		return ret
 	}
-	return *o.SizeBytes
+	return o.SizeBytes
 }
 
-// GetSizeBytesOk returns a tuple with the SizeBytes field value if set, nil otherwise
+// GetSizeBytesOk returns a tuple with the SizeBytes field value
 // and a boolean to check if the value has been set.
 func (o *DiagnosticExportFile) GetSizeBytesOk() (*int64, bool) {
-	if o == nil || o.SizeBytes == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.SizeBytes, true
+	return &o.SizeBytes, true
 }
 
-// HasSizeBytes returns a boolean if a field has been set.
-func (o *DiagnosticExportFile) HasSizeBytes() bool {
-	return o != nil && o.SizeBytes != nil
-}
-
-// SetSizeBytes gets a reference to the given int64 and assigns it to the SizeBytes field.
+// SetSizeBytes sets field value.
 func (o *DiagnosticExportFile) SetSizeBytes(v int64) {
-	o.SizeBytes = &v
+	o.SizeBytes = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -183,9 +179,7 @@ func (o DiagnosticExportFile) MarshalJSON() ([]byte, error) {
 		toSerialize["collectedAt"] = o.CollectedAt.Format("2006-01-02T15:04:05.000Z07:00")
 	}
 	toSerialize["redacted"] = o.Redacted
-	if o.SizeBytes != nil {
-		toSerialize["sizeBytes"] = o.SizeBytes
-	}
+	toSerialize["sizeBytes"] = o.SizeBytes
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -200,7 +194,7 @@ func (o *DiagnosticExportFile) UnmarshalJSON(bytes []byte) (err error) {
 		Type        *string    `json:"type"`
 		CollectedAt *time.Time `json:"collectedAt"`
 		Redacted    *bool      `json:"redacted"`
-		SizeBytes   *int64     `json:"sizeBytes,omitempty"`
+		SizeBytes   *int64     `json:"sizeBytes"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -217,6 +211,9 @@ func (o *DiagnosticExportFile) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Redacted == nil {
 		return fmt.Errorf("required field redacted missing")
 	}
+	if all.SizeBytes == nil {
+		return fmt.Errorf("required field sizeBytes missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"path", "type", "collectedAt", "redacted", "sizeBytes"})
@@ -227,7 +224,7 @@ func (o *DiagnosticExportFile) UnmarshalJSON(bytes []byte) (err error) {
 	o.Type = *all.Type
 	o.CollectedAt = *all.CollectedAt
 	o.Redacted = *all.Redacted
-	o.SizeBytes = all.SizeBytes
+	o.SizeBytes = *all.SizeBytes
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

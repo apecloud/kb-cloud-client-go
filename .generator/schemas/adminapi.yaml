@@ -20998,6 +20998,7 @@ components:
         - type
         - collectedAt
         - redacted
+        - sizeBytes
     diagnosticExportManifest:
       type: object
       description: Manifest for a redacted diagnostic package.
