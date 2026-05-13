@@ -14,8 +14,8 @@ import (
 type OrgMember struct {
 	// The display name of User. Read-Only
 	DisplayName *string `json:"displayName,omitempty"`
-	// The email of User. Required when create. Read-Only after create
-	Email string `json:"email"`
+	// The email of User. Read-Only after create
+	Email *string `json:"email,omitempty"`
 	// The role of the User in the Org.
 	Role string `json:"role"`
 	// The ID of User. Read-Only
@@ -31,9 +31,8 @@ type OrgMember struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOrgMember(email string, role string, userId string) *OrgMember {
+func NewOrgMember(role string, userId string) *OrgMember {
 	this := OrgMember{}
-	this.Email = email
 	this.Role = role
 	this.UserId = userId
 	return &this
@@ -75,27 +74,32 @@ func (o *OrgMember) SetDisplayName(v string) {
 	o.DisplayName = &v
 }
 
-// GetEmail returns the Email field value.
+// GetEmail returns the Email field value if set, zero value otherwise.
 func (o *OrgMember) GetEmail() string {
-	if o == nil {
+	if o == nil || o.Email == nil {
 		var ret string
 		return ret
 	}
-	return o.Email
+	return *o.Email
 }
 
-// GetEmailOk returns a tuple with the Email field value
+// GetEmailOk returns a tuple with the Email field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *OrgMember) GetEmailOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Email == nil {
 		return nil, false
 	}
-	return &o.Email, true
+	return o.Email, true
 }
 
-// SetEmail sets field value.
+// HasEmail returns a boolean if a field has been set.
+func (o *OrgMember) HasEmail() bool {
+	return o != nil && o.Email != nil
+}
+
+// SetEmail gets a reference to the given string and assigns it to the Email field.
 func (o *OrgMember) SetEmail(v string) {
-	o.Email = v
+	o.Email = &v
 }
 
 // GetRole returns the Role field value.
@@ -181,7 +185,9 @@ func (o OrgMember) MarshalJSON() ([]byte, error) {
 	if o.DisplayName != nil {
 		toSerialize["displayName"] = o.DisplayName
 	}
-	toSerialize["email"] = o.Email
+	if o.Email != nil {
+		toSerialize["email"] = o.Email
+	}
 	toSerialize["role"] = o.Role
 	toSerialize["userId"] = o.UserId
 	if o.Freezed != nil {
@@ -198,16 +204,13 @@ func (o OrgMember) MarshalJSON() ([]byte, error) {
 func (o *OrgMember) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		DisplayName *string `json:"displayName,omitempty"`
-		Email       *string `json:"email"`
+		Email       *string `json:"email,omitempty"`
 		Role        *string `json:"role"`
 		UserId      *string `json:"userId"`
 		Freezed     *bool   `json:"freezed,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
-	}
-	if all.Email == nil {
-		return fmt.Errorf("required field email missing")
 	}
 	if all.Role == nil {
 		return fmt.Errorf("required field role missing")
@@ -222,7 +225,7 @@ func (o *OrgMember) UnmarshalJSON(bytes []byte) (err error) {
 		return err
 	}
 	o.DisplayName = all.DisplayName
-	o.Email = *all.Email
+	o.Email = all.Email
 	o.Role = *all.Role
 	o.UserId = *all.UserId
 	o.Freezed = all.Freezed

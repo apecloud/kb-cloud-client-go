@@ -18820,7 +18820,7 @@ components:
           description: The display name of User. Read-Only
           type: string
         email:
-          description: The email of User. Required when create. Read-Only after create
+          description: The email of User. Read-Only after create
           type: string
         role:
           description: The role of the User in the Org.
@@ -18832,7 +18832,6 @@ components:
           description: Return true if the member is freezed in the organization
           type: boolean
       required:
-        - email
         - role
         - userId
       type: object
@@ -28085,7 +28084,6 @@ components:
     engineOptionHistory:
       required:
         - modifierId
-        - modifierEmail
         - option
         - createdAt
       type: object
