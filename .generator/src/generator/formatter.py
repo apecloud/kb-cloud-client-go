@@ -132,7 +132,7 @@ def get_enum_varname(schema, index):
         varname = "Empty"
     if varname == "*":
         varname = "All"
-    if varname == "None":
+    if varname.lower() == "none":
         varname = "Non"
     return camel_case(varname.replace("-", "_"))
 
