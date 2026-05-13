@@ -14,7 +14,7 @@ type InspectionTask struct {
 	Id      *string `json:"id,omitempty"`
 	Creator *string `json:"creator,omitempty"`
 	Status  *string `json:"status,omitempty"`
-	// Specifies the supported engines for the inspection task.
+	// Specifies the engine type for the inspection task. Supports all database engines.
 	Engine      *InspectionSupportedEngines `json:"engine,omitempty"`
 	OrgName     *string                     `json:"orgName,omitempty"`
 	ClusterId   *string                     `json:"clusterID,omitempty"`

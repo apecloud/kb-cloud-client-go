@@ -2235,6 +2235,74 @@ paths:
           name: sortType
           schema:
             $ref: '#/components/schemas/sortType'
+        - in: query
+          name: minExecutionTime
+          description: Minimum execution time in seconds. Decimal values are supported, for example 0.5.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxExecutionTime
+          description: Maximum execution time in seconds. Decimal values are supported, for example 0.5.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minLockTime
+          description: Minimum lock time in seconds. Decimal values are supported, for example 0.001.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxLockTime
+          description: Maximum lock time in seconds. Decimal values are supported, for example 0.001.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: minRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: dbName
+          schema:
+            type: string
+        - in: query
+          name: userName
+          schema:
+            type: string
+        - in: query
+          name: clientIp
+          schema:
+            type: string
+        - in: query
+          name: appName
+          schema:
+            type: string
+        - in: query
+          name: templateId
+          schema:
+            type: string
+        - in: query
+          name: unclassifiedOnly
+          schema:
+            type: boolean
       responses:
         '200':
           content:
@@ -2242,6 +2310,263 @@ paths:
               schema:
                 $ref: '#/components/schemas/clusterExecutionLog'
           description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/templates:
+    get:
+      description: Query slow log templates of a cluster (VictoriaLogs backend only)
+      summary: Query cluster slow log templates
+      operationId: querySlowLogTemplates
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          description: Start time in epoch nanoseconds.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          description: End time in epoch nanoseconds.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: query
+          schema:
+            type: string
+        - in: query
+          name: topN
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: minExecutionTime
+          description: Minimum execution time in seconds. Decimal values are supported, for example 0.5.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxExecutionTime
+          description: Maximum execution time in seconds. Decimal values are supported, for example 0.5.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minLockTime
+          description: Minimum lock time in seconds. Decimal values are supported, for example 0.001.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxLockTime
+          description: Maximum lock time in seconds. Decimal values are supported, for example 0.001.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: minRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: dbName
+          schema:
+            type: string
+        - in: query
+          name: userName
+          schema:
+            type: string
+        - in: query
+          name: clientIp
+          schema:
+            type: string
+        - in: query
+          name: appName
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterSlowLogTemplateList'
+          description: Successful operation
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/templates/{templateId}:
+    get:
+      description: Get a slow log template of a cluster (VictoriaLogs backend only)
+      summary: Get cluster slow log template
+      operationId: getSlowLogTemplate
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: templateId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          description: Start time in epoch nanoseconds.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          description: End time in epoch nanoseconds.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: query
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterSlowLogTemplate'
+          description: Successful operation
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/templates/{templateId}/samples:
+    get:
+      description: Query slow log samples for a template
+      summary: Query cluster slow log template samples
+      operationId: querySlowLogTemplateSamples
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: templateId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          description: Start time in epoch nanoseconds.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          description: End time in epoch nanoseconds.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: query
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: string
+        - in: query
+          name: sortType
+          schema:
+            $ref: '#/components/schemas/sortType'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterExecutionLog'
+          description: Successful operation
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -16833,6 +17158,11 @@ components:
         node:
           description: node name
           type: string
+        containers:
+          description: Container names in the pod
+          type: array
+          items:
+            type: string
         podIP:
           description: Pod IP address
           type: string
@@ -17250,6 +17580,93 @@ components:
           type: array
         pagination:
           $ref: '#/components/schemas/clusterLogPagination'
+    clusterSlowLogTemplate:
+      type: object
+      description: Aggregated slow log query template
+      properties:
+        templateId:
+          type: string
+          description: Query template identifier
+          x-omitempty: false
+        normalizedQuery:
+          type: string
+          description: Normalized SQL or command template
+          x-omitempty: false
+        sampleSQL:
+          type: string
+          description: Representative SQL sample for the template
+          x-omitempty: false
+        totalCount:
+          type: integer
+          format: int64
+          x-omitempty: false
+        avgExecutionTime:
+          type: number
+          format: double
+          description: Average execution time in seconds
+          x-omitempty: false
+        maxExecutionTime:
+          type: number
+          format: double
+          description: Maximum execution time in seconds
+          x-omitempty: false
+        p95ExecutionTime:
+          type: number
+          format: double
+          description: P95 execution time in seconds
+          x-omitempty: false
+        dbCount:
+          type: integer
+          format: int64
+          description: Number of unique database names in the time range
+          x-omitempty: false
+        userCount:
+          type: integer
+          format: int64
+          description: Number of unique users in the time range
+          x-omitempty: false
+        clientIPCount:
+          type: integer
+          format: int64
+          description: Number of unique client IPs in the time range
+          x-omitempty: false
+        appCount:
+          type: integer
+          format: int64
+          description: Number of unique application names in the time range
+          x-omitempty: false
+        dbNames:
+          type: array
+          description: Sampled database names for the template
+          items:
+            type: string
+          x-omitempty: true
+        users:
+          type: array
+          description: Sampled users for the template
+          items:
+            type: string
+          x-omitempty: true
+        clientIPs:
+          type: array
+          description: Sampled client IPs for the template
+          items:
+            type: string
+          x-omitempty: true
+        apps:
+          type: array
+          description: Sampled application names for the template
+          items:
+            type: string
+          x-omitempty: true
+    clusterSlowLogTemplateList:
+      type: object
+      description: Query template list for slow logs
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterSlowLogTemplate'
     clusterExecutionLogAggregateItem:
       type: object
       description: Aggregate item for grouped execution logs
@@ -26338,17 +26755,54 @@ components:
           type: boolean
     inspectionSupportedEngines:
       type: string
-      description: Specifies the supported engines for the inspection task.
+      description: Specifies the engine type for the inspection task. Supports all database engines.
       enum:
         - node
         - common
-        - mysql
-        - redis
+        - camellia-redis-proxy
+        - clickhouse
+        - cubetran
         - damengdb
+        - doris
+        - elasticsearch
+        - etcd
+        - foundationdb
+        - gaussdb
+        - goldendb
+        - greatdb
+        - hadoop
+        - hive
+        - influxdb
         - kafka
         - kingbase
-        - postgresql
+        - loki
+        - milvus
+        - minio
+        - mogdb
+        - mongodb
+        - mssql
+        - mysql
+        - nacos
+        - nebula
+        - oceanbase
+        - oceanbase-proxy
         - oracle
+        - postgresql
+        - pulsar
+        - qdrant
+        - rabbitmq
+        - redis
+        - rocketmq
+        - selectdb
+        - starrocks
+        - tdengine
+        - tdsql
+        - tidb
+        - vastbase
+        - vault
+        - victoria-logs
+        - victoriametrics
+        - zookeeper
     inspectionTaskItem:
       properties:
         id:

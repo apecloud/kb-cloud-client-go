@@ -10,32 +10,106 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// InspectionSupportedEngines Specifies the supported engines for the inspection task.
+// InspectionSupportedEngines Specifies the engine type for the inspection task. Supports all database engines.
 type InspectionSupportedEngines string
 
 // List of InspectionSupportedEngines.
 const (
-	InspectionSupportedEnginesNode       InspectionSupportedEngines = "node"
-	InspectionSupportedEnginesCommon     InspectionSupportedEngines = "common"
-	InspectionSupportedEnginesMysql      InspectionSupportedEngines = "mysql"
-	InspectionSupportedEnginesRedis      InspectionSupportedEngines = "redis"
-	InspectionSupportedEnginesDamengdb   InspectionSupportedEngines = "damengdb"
-	InspectionSupportedEnginesKafka      InspectionSupportedEngines = "kafka"
-	InspectionSupportedEnginesKingbase   InspectionSupportedEngines = "kingbase"
-	InspectionSupportedEnginesPostgresql InspectionSupportedEngines = "postgresql"
-	InspectionSupportedEnginesOracle     InspectionSupportedEngines = "oracle"
+	InspectionSupportedEnginesNode               InspectionSupportedEngines = "node"
+	InspectionSupportedEnginesCommon             InspectionSupportedEngines = "common"
+	InspectionSupportedEnginesCamelliaRedisProxy InspectionSupportedEngines = "camellia-redis-proxy"
+	InspectionSupportedEnginesClickhouse         InspectionSupportedEngines = "clickhouse"
+	InspectionSupportedEnginesCubetran           InspectionSupportedEngines = "cubetran"
+	InspectionSupportedEnginesDamengdb           InspectionSupportedEngines = "damengdb"
+	InspectionSupportedEnginesDoris              InspectionSupportedEngines = "doris"
+	InspectionSupportedEnginesElasticsearch      InspectionSupportedEngines = "elasticsearch"
+	InspectionSupportedEnginesEtcd               InspectionSupportedEngines = "etcd"
+	InspectionSupportedEnginesFoundationdb       InspectionSupportedEngines = "foundationdb"
+	InspectionSupportedEnginesGaussdb            InspectionSupportedEngines = "gaussdb"
+	InspectionSupportedEnginesGoldendb           InspectionSupportedEngines = "goldendb"
+	InspectionSupportedEnginesGreatdb            InspectionSupportedEngines = "greatdb"
+	InspectionSupportedEnginesHadoop             InspectionSupportedEngines = "hadoop"
+	InspectionSupportedEnginesHive               InspectionSupportedEngines = "hive"
+	InspectionSupportedEnginesInfluxdb           InspectionSupportedEngines = "influxdb"
+	InspectionSupportedEnginesKafka              InspectionSupportedEngines = "kafka"
+	InspectionSupportedEnginesKingbase           InspectionSupportedEngines = "kingbase"
+	InspectionSupportedEnginesLoki               InspectionSupportedEngines = "loki"
+	InspectionSupportedEnginesMilvus             InspectionSupportedEngines = "milvus"
+	InspectionSupportedEnginesMinio              InspectionSupportedEngines = "minio"
+	InspectionSupportedEnginesMogdb              InspectionSupportedEngines = "mogdb"
+	InspectionSupportedEnginesMongodb            InspectionSupportedEngines = "mongodb"
+	InspectionSupportedEnginesMssql              InspectionSupportedEngines = "mssql"
+	InspectionSupportedEnginesMysql              InspectionSupportedEngines = "mysql"
+	InspectionSupportedEnginesNacos              InspectionSupportedEngines = "nacos"
+	InspectionSupportedEnginesNebula             InspectionSupportedEngines = "nebula"
+	InspectionSupportedEnginesOceanbase          InspectionSupportedEngines = "oceanbase"
+	InspectionSupportedEnginesOceanbaseProxy     InspectionSupportedEngines = "oceanbase-proxy"
+	InspectionSupportedEnginesOracle             InspectionSupportedEngines = "oracle"
+	InspectionSupportedEnginesPostgresql         InspectionSupportedEngines = "postgresql"
+	InspectionSupportedEnginesPulsar             InspectionSupportedEngines = "pulsar"
+	InspectionSupportedEnginesQdrant             InspectionSupportedEngines = "qdrant"
+	InspectionSupportedEnginesRabbitmq           InspectionSupportedEngines = "rabbitmq"
+	InspectionSupportedEnginesRedis              InspectionSupportedEngines = "redis"
+	InspectionSupportedEnginesRocketmq           InspectionSupportedEngines = "rocketmq"
+	InspectionSupportedEnginesSelectdb           InspectionSupportedEngines = "selectdb"
+	InspectionSupportedEnginesStarrocks          InspectionSupportedEngines = "starrocks"
+	InspectionSupportedEnginesTdengine           InspectionSupportedEngines = "tdengine"
+	InspectionSupportedEnginesTdsql              InspectionSupportedEngines = "tdsql"
+	InspectionSupportedEnginesTidb               InspectionSupportedEngines = "tidb"
+	InspectionSupportedEnginesVastbase           InspectionSupportedEngines = "vastbase"
+	InspectionSupportedEnginesVault              InspectionSupportedEngines = "vault"
+	InspectionSupportedEnginesVictoriaLogs       InspectionSupportedEngines = "victoria-logs"
+	InspectionSupportedEnginesVictoriametrics    InspectionSupportedEngines = "victoriametrics"
+	InspectionSupportedEnginesZookeeper          InspectionSupportedEngines = "zookeeper"
 )
 
 var allowedInspectionSupportedEnginesEnumValues = []InspectionSupportedEngines{
 	InspectionSupportedEnginesNode,
 	InspectionSupportedEnginesCommon,
-	InspectionSupportedEnginesMysql,
-	InspectionSupportedEnginesRedis,
+	InspectionSupportedEnginesCamelliaRedisProxy,
+	InspectionSupportedEnginesClickhouse,
+	InspectionSupportedEnginesCubetran,
 	InspectionSupportedEnginesDamengdb,
+	InspectionSupportedEnginesDoris,
+	InspectionSupportedEnginesElasticsearch,
+	InspectionSupportedEnginesEtcd,
+	InspectionSupportedEnginesFoundationdb,
+	InspectionSupportedEnginesGaussdb,
+	InspectionSupportedEnginesGoldendb,
+	InspectionSupportedEnginesGreatdb,
+	InspectionSupportedEnginesHadoop,
+	InspectionSupportedEnginesHive,
+	InspectionSupportedEnginesInfluxdb,
 	InspectionSupportedEnginesKafka,
 	InspectionSupportedEnginesKingbase,
-	InspectionSupportedEnginesPostgresql,
+	InspectionSupportedEnginesLoki,
+	InspectionSupportedEnginesMilvus,
+	InspectionSupportedEnginesMinio,
+	InspectionSupportedEnginesMogdb,
+	InspectionSupportedEnginesMongodb,
+	InspectionSupportedEnginesMssql,
+	InspectionSupportedEnginesMysql,
+	InspectionSupportedEnginesNacos,
+	InspectionSupportedEnginesNebula,
+	InspectionSupportedEnginesOceanbase,
+	InspectionSupportedEnginesOceanbaseProxy,
 	InspectionSupportedEnginesOracle,
+	InspectionSupportedEnginesPostgresql,
+	InspectionSupportedEnginesPulsar,
+	InspectionSupportedEnginesQdrant,
+	InspectionSupportedEnginesRabbitmq,
+	InspectionSupportedEnginesRedis,
+	InspectionSupportedEnginesRocketmq,
+	InspectionSupportedEnginesSelectdb,
+	InspectionSupportedEnginesStarrocks,
+	InspectionSupportedEnginesTdengine,
+	InspectionSupportedEnginesTdsql,
+	InspectionSupportedEnginesTidb,
+	InspectionSupportedEnginesVastbase,
+	InspectionSupportedEnginesVault,
+	InspectionSupportedEnginesVictoriaLogs,
+	InspectionSupportedEnginesVictoriametrics,
+	InspectionSupportedEnginesZookeeper,
 }
 
 // GetAllowedValues returns the list of possible values.
