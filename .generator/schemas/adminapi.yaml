@@ -30132,9 +30132,10 @@ components:
         $ref: '#/components/schemas/environmentModule'
     platformComponentStatus:
       type: string
-      description: Platform component status
+      description: Platform component status. NotInstalled means all configured Kubernetes resources are absent; Error means a resource exists but is not ready or a Kubernetes query failed.
       enum:
         - Running
+        - NotInstalled
         - Error
       x-nullable: true
     platformComponent:
@@ -30149,7 +30150,7 @@ components:
           description: Description in multiple languages (e.g. en-US, zh-CN)
         status:
           $ref: '#/components/schemas/platformComponentStatus'
-          description: Status - Running (运行中) or Error (异常)
+          description: Status - Running (运行中), NotInstalled (未安装), or Error (异常)
         version:
           type: string
           description: Component version
