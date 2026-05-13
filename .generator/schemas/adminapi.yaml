@@ -3008,6 +3008,229 @@ paths:
         - cluster
         - shared
       x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics:
+    post:
+      tags:
+        - diagnostic
+      summary: Create diagnostic task
+      description: Create a diagnostic task for a cluster. The task result is a layered report and can be exported as a redacted diagnostic package.
+      operationId: createDiagnosticTask
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          description: Organization name
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          description: Cluster name
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/diagnosticTaskCreate'
+      responses:
+        '201':
+          description: Diagnostic task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/diagnosticTask'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+    get:
+      tags:
+        - diagnostic
+      summary: List diagnostic tasks
+      description: List diagnostic tasks for a cluster.
+      operationId: listDiagnosticTasks
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          description: Organization name
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          description: Cluster name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Diagnostic task list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/diagnosticTaskList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/{taskId}:
+    get:
+      tags:
+        - diagnostic
+      summary: Get diagnostic task
+      description: Get one diagnostic task by ID.
+      operationId: getDiagnosticTask
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: taskId
+          required: true
+          description: Diagnostic task ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Diagnostic task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/diagnosticTask'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/{taskId}/cancel:
+    post:
+      tags:
+        - diagnostic
+      summary: Cancel diagnostic task
+      description: Cancel a diagnostic task. Succeeded and failed tasks keep their terminal state.
+      operationId: cancelDiagnosticTask
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: taskId
+          required: true
+          description: Diagnostic task ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Diagnostic task after cancel request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/diagnosticTask'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/{taskId}/report:
+    get:
+      tags:
+        - diagnostic
+      summary: Get diagnostic report
+      description: Get the layered report for one diagnostic task.
+      operationId: getDiagnosticReport
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: taskId
+          required: true
+          description: Diagnostic task ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Diagnostic report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/diagnosticReport'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/{taskId}/export/manifest:
+    get:
+      tags:
+        - diagnostic
+      summary: Get diagnostic export manifest
+      description: Get the manifest for a redacted diagnostic package. The binary package download will be implemented after the manifest contract is stable.
+      operationId: getDiagnosticExportManifest
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: taskId
+          required: true
+          description: Diagnostic task ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Diagnostic export manifest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/diagnosticExportManifest'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery:
     get:
       operationId: listDisasterRecovery
@@ -20639,6 +20862,251 @@ components:
             $ref: '#/components/schemas/haHistory'
       required:
         - items
+    diagnosticTaskStatus:
+      type: string
+      description: Diagnostic task status.
+      enum:
+        - pending
+        - running
+        - succeeded
+        - failed
+        - canceled
+    diagnosticLayer:
+      type: string
+      description: Diagnostic report layer.
+      enum:
+        - platform
+        - kbe-kb
+        - database
+    diagnosticRuleStatus:
+      type: string
+      description: Result status for one diagnostic rule.
+      enum:
+        - pass
+        - warning
+        - failed
+        - unknown
+        - not_applicable
+    diagnosticEvidence:
+      type: object
+      description: Evidence collected for one diagnostic finding.
+      properties:
+        source:
+          type: string
+          description: Evidence source, such as Pod, Event, Node, Component, version, or log.
+        collectedAt:
+          type: string
+          format: date-time
+          description: Evidence collection time.
+        objectName:
+          type: string
+          description: Kubernetes or KBE object name.
+        namespace:
+          type: string
+          description: Kubernetes namespace, when applicable.
+        kind:
+          type: string
+          description: Object kind, when applicable.
+        message:
+          type: string
+          description: Redacted evidence message or important field summary.
+        fields:
+          type: object
+          description: Redacted key-value evidence fields.
+          additionalProperties:
+            type: string
+        redacted:
+          type: boolean
+          description: Whether this evidence has passed redaction.
+      required:
+        - source
+        - collectedAt
+        - redacted
+    diagnosticFinding:
+      type: object
+      description: One rule result in a diagnostic report.
+      properties:
+        layer:
+          $ref: '#/components/schemas/diagnosticLayer'
+        ruleId:
+          type: string
+          description: Stable rule ID, such as node-not-ready or kb-version-mismatch.
+        status:
+          $ref: '#/components/schemas/diagnosticRuleStatus'
+        summary:
+          type: string
+          description: One-sentence result summary.
+        evidence:
+          type: array
+          items:
+            $ref: '#/components/schemas/diagnosticEvidence'
+        actionHint:
+          type: string
+          description: Deterministic next action. Do not include guesses without evidence.
+        redaction:
+          type: boolean
+          description: Whether all attached evidence has been redacted.
+      required:
+        - layer
+        - ruleId
+        - status
+        - summary
+        - evidence
+        - redaction
+    diagnosticReport:
+      type: object
+      description: Layered diagnostic report.
+      properties:
+        taskId:
+          type: string
+          description: Diagnostic task ID.
+        generatedAt:
+          type: string
+          format: date-time
+          description: Report generation time.
+        findings:
+          type: array
+          items:
+            $ref: '#/components/schemas/diagnosticFinding'
+      required:
+        - taskId
+        - generatedAt
+        - findings
+    diagnosticExportFile:
+      type: object
+      description: One file included in a redacted diagnostic package.
+      properties:
+        path:
+          type: string
+          description: Path inside the diagnostic package.
+        type:
+          type: string
+          description: File type, such as report-json, manifest-json, yaml, event, or log.
+        collectedAt:
+          type: string
+          format: date-time
+          description: Collection time for this file.
+        redacted:
+          type: boolean
+          description: Whether the file has passed redaction.
+        sizeBytes:
+          type: integer
+          format: int64
+          description: Redacted file size in bytes.
+      required:
+        - path
+        - type
+        - collectedAt
+        - redacted
+    diagnosticExportManifest:
+      type: object
+      description: Manifest for a redacted diagnostic package.
+      properties:
+        taskId:
+          type: string
+          description: Diagnostic task ID.
+        packageName:
+          type: string
+          description: Generated package name.
+        generatedAt:
+          type: string
+          format: date-time
+          description: Package generation time.
+        redacted:
+          type: boolean
+          description: Whether the package was produced from redacted files only.
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/diagnosticExportFile'
+      required:
+        - taskId
+        - packageName
+        - generatedAt
+        - redacted
+        - files
+    diagnosticTask:
+      type: object
+      description: Diagnostic task summary.
+      properties:
+        taskId:
+          type: string
+          description: Diagnostic task ID.
+        orgName:
+          type: string
+          description: Organization name.
+        clusterName:
+          type: string
+          description: Cluster name.
+        status:
+          $ref: '#/components/schemas/diagnosticTaskStatus'
+        progress:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 100
+          description: Progress percentage.
+        reason:
+          type: string
+          description: Failure or cancellation reason.
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation time.
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update time.
+        startedAt:
+          type: string
+          format: date-time
+          description: Start time.
+        finishedAt:
+          type: string
+          format: date-time
+          description: Finish time.
+        report:
+          $ref: '#/components/schemas/diagnosticReport'
+        exportManifest:
+          $ref: '#/components/schemas/diagnosticExportManifest'
+      required:
+        - taskId
+        - orgName
+        - clusterName
+        - status
+        - progress
+        - createdAt
+        - updatedAt
+    diagnosticTaskList:
+      type: object
+      description: Diagnostic task list.
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/diagnosticTask'
+      required:
+        - items
+    diagnosticTaskCreate:
+      type: object
+      description: Request to start a diagnostic task for one cluster.
+      properties:
+        ruleIds:
+          type: array
+          description: Optional rule IDs to run. Empty means run the default P0 rule set.
+          items:
+            type: string
+        includeLogs:
+          type: boolean
+          description: Whether to collect recent diagnostic log snippets.
+          default: true
+        includeEvents:
+          type: boolean
+          description: Whether to collect Kubernetes events.
+          default: true
+        description:
+          type: string
+          description: Optional human-readable reason for this diagnostic task.
     taskSummary:
       type: object
       properties:
@@ -33064,6 +33532,9 @@ x-tagGroups:
   - name: task
     tags:
       - task
+  - name: Diagnostic
+    tags:
+      - diagnostic
   - name: engine
     tags:
       - engine
