@@ -16833,6 +16833,11 @@ components:
         node:
           description: node name
           type: string
+        containers:
+          description: Container names in the pod
+          type: array
+          items:
+            type: string
         podIP:
           description: Pod IP address
           type: string
