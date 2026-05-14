@@ -12,12 +12,16 @@ import (
 
 type AiAgentContextResponse struct {
 	// Organization-scoped single-cluster Agent execution scope.
-	Scope             AiAgentResourceScope     `json:"scope"`
-	Cluster           *AiAgentClusterContext   `json:"cluster,omitempty"`
-	DefaultTimeRanges []AiAgentTimeRange       `json:"defaultTimeRanges,omitempty"`
-	Playbooks         []AiAgentPlaybookSummary `json:"playbooks,omitempty"`
-	Capabilities      map[string]bool          `json:"capabilities"`
-	Suggestions       []AiAgentSuggestion      `json:"suggestions,omitempty"`
+	Scope             AiAgentResourceScope   `json:"scope"`
+	Cluster           *AiAgentClusterContext `json:"cluster,omitempty"`
+	DefaultTimeRanges []AiAgentTimeRange     `json:"defaultTimeRanges,omitempty"`
+	// Candidate model names from the existing /api/v1/organizations/{orgName}/llm/models API.
+	AvailableModels []string `json:"availableModels,omitempty"`
+	// Default or currently selected model name for starting an Agent run. The value should be selected from availableModels when provided.
+	Model        *string                  `json:"model,omitempty"`
+	Playbooks    []AiAgentPlaybookSummary `json:"playbooks,omitempty"`
+	Capabilities map[string]bool          `json:"capabilities"`
+	Suggestions  []AiAgentSuggestion      `json:"suggestions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -121,6 +125,62 @@ func (o *AiAgentContextResponse) SetDefaultTimeRanges(v []AiAgentTimeRange) {
 	o.DefaultTimeRanges = v
 }
 
+// GetAvailableModels returns the AvailableModels field value if set, zero value otherwise.
+func (o *AiAgentContextResponse) GetAvailableModels() []string {
+	if o == nil || o.AvailableModels == nil {
+		var ret []string
+		return ret
+	}
+	return o.AvailableModels
+}
+
+// GetAvailableModelsOk returns a tuple with the AvailableModels field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentContextResponse) GetAvailableModelsOk() (*[]string, bool) {
+	if o == nil || o.AvailableModels == nil {
+		return nil, false
+	}
+	return &o.AvailableModels, true
+}
+
+// HasAvailableModels returns a boolean if a field has been set.
+func (o *AiAgentContextResponse) HasAvailableModels() bool {
+	return o != nil && o.AvailableModels != nil
+}
+
+// SetAvailableModels gets a reference to the given []string and assigns it to the AvailableModels field.
+func (o *AiAgentContextResponse) SetAvailableModels(v []string) {
+	o.AvailableModels = v
+}
+
+// GetModel returns the Model field value if set, zero value otherwise.
+func (o *AiAgentContextResponse) GetModel() string {
+	if o == nil || o.Model == nil {
+		var ret string
+		return ret
+	}
+	return *o.Model
+}
+
+// GetModelOk returns a tuple with the Model field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentContextResponse) GetModelOk() (*string, bool) {
+	if o == nil || o.Model == nil {
+		return nil, false
+	}
+	return o.Model, true
+}
+
+// HasModel returns a boolean if a field has been set.
+func (o *AiAgentContextResponse) HasModel() bool {
+	return o != nil && o.Model != nil
+}
+
+// SetModel gets a reference to the given string and assigns it to the Model field.
+func (o *AiAgentContextResponse) SetModel(v string) {
+	o.Model = &v
+}
+
 // GetPlaybooks returns the Playbooks field value if set, zero value otherwise.
 func (o *AiAgentContextResponse) GetPlaybooks() []AiAgentPlaybookSummary {
 	if o == nil || o.Playbooks == nil {
@@ -213,6 +273,12 @@ func (o AiAgentContextResponse) MarshalJSON() ([]byte, error) {
 	if o.DefaultTimeRanges != nil {
 		toSerialize["defaultTimeRanges"] = o.DefaultTimeRanges
 	}
+	if o.AvailableModels != nil {
+		toSerialize["availableModels"] = o.AvailableModels
+	}
+	if o.Model != nil {
+		toSerialize["model"] = o.Model
+	}
 	if o.Playbooks != nil {
 		toSerialize["playbooks"] = o.Playbooks
 	}
@@ -233,6 +299,8 @@ func (o *AiAgentContextResponse) UnmarshalJSON(bytes []byte) (err error) {
 		Scope             *AiAgentResourceScope    `json:"scope"`
 		Cluster           *AiAgentClusterContext   `json:"cluster,omitempty"`
 		DefaultTimeRanges []AiAgentTimeRange       `json:"defaultTimeRanges,omitempty"`
+		AvailableModels   []string                 `json:"availableModels,omitempty"`
+		Model             *string                  `json:"model,omitempty"`
 		Playbooks         []AiAgentPlaybookSummary `json:"playbooks,omitempty"`
 		Capabilities      *map[string]bool         `json:"capabilities"`
 		Suggestions       []AiAgentSuggestion      `json:"suggestions,omitempty"`
@@ -248,7 +316,7 @@ func (o *AiAgentContextResponse) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"scope", "cluster", "defaultTimeRanges", "playbooks", "capabilities", "suggestions"})
+		common.DeleteKeys(additionalProperties, &[]string{"scope", "cluster", "defaultTimeRanges", "availableModels", "model", "playbooks", "capabilities", "suggestions"})
 	} else {
 		return err
 	}
@@ -263,6 +331,8 @@ func (o *AiAgentContextResponse) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Cluster = all.Cluster
 	o.DefaultTimeRanges = all.DefaultTimeRanges
+	o.AvailableModels = all.AvailableModels
+	o.Model = all.Model
 	o.Playbooks = all.Playbooks
 	o.Capabilities = *all.Capabilities
 	o.Suggestions = all.Suggestions

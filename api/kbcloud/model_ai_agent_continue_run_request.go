@@ -16,6 +16,8 @@ type AiAgentContinueRunRequest struct {
 	// Organization-scoped single-cluster Agent execution scope.
 	ScopePatch        *AiAgentResourceScope `json:"scopePatch,omitempty"`
 	ResumeFromEventId *string               `json:"resumeFromEventId,omitempty"`
+	// Selected model name from the current organization's /llm/models response. Omit to keep the run default or prior selection.
+	Model *string `json:"model,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -142,6 +144,34 @@ func (o *AiAgentContinueRunRequest) SetResumeFromEventId(v string) {
 	o.ResumeFromEventId = &v
 }
 
+// GetModel returns the Model field value if set, zero value otherwise.
+func (o *AiAgentContinueRunRequest) GetModel() string {
+	if o == nil || o.Model == nil {
+		var ret string
+		return ret
+	}
+	return *o.Model
+}
+
+// GetModelOk returns a tuple with the Model field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentContinueRunRequest) GetModelOk() (*string, bool) {
+	if o == nil || o.Model == nil {
+		return nil, false
+	}
+	return o.Model, true
+}
+
+// HasModel returns a boolean if a field has been set.
+func (o *AiAgentContinueRunRequest) HasModel() bool {
+	return o != nil && o.Model != nil
+}
+
+// SetModel gets a reference to the given string and assigns it to the Model field.
+func (o *AiAgentContinueRunRequest) SetModel(v string) {
+	o.Model = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AiAgentContinueRunRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -155,6 +185,9 @@ func (o AiAgentContinueRunRequest) MarshalJSON() ([]byte, error) {
 	}
 	if o.ResumeFromEventId != nil {
 		toSerialize["resumeFromEventId"] = o.ResumeFromEventId
+	}
+	if o.Model != nil {
+		toSerialize["model"] = o.Model
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -170,6 +203,7 @@ func (o *AiAgentContinueRunRequest) UnmarshalJSON(bytes []byte) (err error) {
 		ContinueMode      *AiAgentContinueMode  `json:"continueMode"`
 		ScopePatch        *AiAgentResourceScope `json:"scopePatch,omitempty"`
 		ResumeFromEventId *string               `json:"resumeFromEventId,omitempty"`
+		Model             *string               `json:"model,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -182,7 +216,7 @@ func (o *AiAgentContinueRunRequest) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"message", "continueMode", "scopePatch", "resumeFromEventId"})
+		common.DeleteKeys(additionalProperties, &[]string{"message", "continueMode", "scopePatch", "resumeFromEventId", "model"})
 	} else {
 		return err
 	}
@@ -202,6 +236,7 @@ func (o *AiAgentContinueRunRequest) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.ScopePatch = all.ScopePatch
 	o.ResumeFromEventId = all.ResumeFromEventId
+	o.Model = all.Model
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -26949,6 +26949,10 @@ components:
     aiAgentRunMetadata:
       type: object
       properties:
+        model:
+          type: string
+          description: Actual model name used for this run. The value reuses the existing /llm/models string contract.
+          x-nullable: true
         playbookVersion:
           type: string
           x-nullable: true
@@ -26960,6 +26964,7 @@ components:
           x-nullable: true
         modelConfig:
           type: object
+          description: Sanitized model strategy/version metadata for audit and replay. Must not include llm.config, provider credentials, or secrets.
           additionalProperties: true
           x-nullable: true
         builderVersions:
@@ -27343,6 +27348,10 @@ components:
           x-nullable: true
         scopeValidationStatus:
           $ref: '#/components/schemas/aiAgentScopeValidationStatus'
+        model:
+          type: string
+          description: Actual model name used to produce this report. The value reuses the existing /llm/models string contract.
+          x-nullable: true
         approvalRequired:
           type: boolean
           x-nullable: true
@@ -27769,6 +27778,16 @@ components:
           items:
             $ref: '#/components/schemas/aiAgentTimeRange'
           x-nullable: true
+        availableModels:
+          type: array
+          description: Candidate model names from the existing /api/v1/organizations/{orgName}/llm/models API.
+          items:
+            type: string
+          x-nullable: true
+        model:
+          type: string
+          description: Default or currently selected model name for starting an Agent run. The value should be selected from availableModels when provided.
+          x-nullable: true
         playbooks:
           type: array
           items:
@@ -27795,6 +27814,10 @@ components:
           $ref: '#/components/schemas/aiAgentResourceScope'
         playbookId:
           type: string
+          x-nullable: true
+        model:
+          type: string
+          description: Selected model name from the current organization's /llm/models response.
           x-nullable: true
         stream:
           type: boolean
@@ -27869,6 +27892,10 @@ components:
           $ref: '#/components/schemas/aiAgentResourceScope'
         resumeFromEventId:
           type: string
+          x-nullable: true
+        model:
+          type: string
+          description: Selected model name from the current organization's /llm/models response. Omit to keep the run default or prior selection.
           x-nullable: true
     aiAgentContinueRunResponse:
       type: object

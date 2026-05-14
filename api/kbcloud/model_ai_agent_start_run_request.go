@@ -15,7 +15,9 @@ type AiAgentStartRunRequest struct {
 	// Organization-scoped single-cluster Agent execution scope.
 	Scope      AiAgentResourceScope `json:"scope"`
 	PlaybookId *string              `json:"playbookId,omitempty"`
-	Stream     *bool                `json:"stream,omitempty"`
+	// Selected model name from the current organization's /llm/models response.
+	Model  *string `json:"model,omitempty"`
+	Stream *bool   `json:"stream,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -118,6 +120,34 @@ func (o *AiAgentStartRunRequest) SetPlaybookId(v string) {
 	o.PlaybookId = &v
 }
 
+// GetModel returns the Model field value if set, zero value otherwise.
+func (o *AiAgentStartRunRequest) GetModel() string {
+	if o == nil || o.Model == nil {
+		var ret string
+		return ret
+	}
+	return *o.Model
+}
+
+// GetModelOk returns a tuple with the Model field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentStartRunRequest) GetModelOk() (*string, bool) {
+	if o == nil || o.Model == nil {
+		return nil, false
+	}
+	return o.Model, true
+}
+
+// HasModel returns a boolean if a field has been set.
+func (o *AiAgentStartRunRequest) HasModel() bool {
+	return o != nil && o.Model != nil
+}
+
+// SetModel gets a reference to the given string and assigns it to the Model field.
+func (o *AiAgentStartRunRequest) SetModel(v string) {
+	o.Model = &v
+}
+
 // GetStream returns the Stream field value if set, zero value otherwise.
 func (o *AiAgentStartRunRequest) GetStream() bool {
 	if o == nil || o.Stream == nil {
@@ -157,6 +187,9 @@ func (o AiAgentStartRunRequest) MarshalJSON() ([]byte, error) {
 	if o.PlaybookId != nil {
 		toSerialize["playbookId"] = o.PlaybookId
 	}
+	if o.Model != nil {
+		toSerialize["model"] = o.Model
+	}
 	if o.Stream != nil {
 		toSerialize["stream"] = o.Stream
 	}
@@ -173,6 +206,7 @@ func (o *AiAgentStartRunRequest) UnmarshalJSON(bytes []byte) (err error) {
 		UserMessage *string               `json:"userMessage"`
 		Scope       *AiAgentResourceScope `json:"scope"`
 		PlaybookId  *string               `json:"playbookId,omitempty"`
+		Model       *string               `json:"model,omitempty"`
 		Stream      *bool                 `json:"stream,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -186,7 +220,7 @@ func (o *AiAgentStartRunRequest) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"userMessage", "scope", "playbookId", "stream"})
+		common.DeleteKeys(additionalProperties, &[]string{"userMessage", "scope", "playbookId", "model", "stream"})
 	} else {
 		return err
 	}
@@ -198,6 +232,7 @@ func (o *AiAgentStartRunRequest) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Scope = *all.Scope
 	o.PlaybookId = all.PlaybookId
+	o.Model = all.Model
 	o.Stream = all.Stream
 
 	if len(additionalProperties) > 0 {

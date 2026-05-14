@@ -7,11 +7,14 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type AiAgentRunMetadata struct {
-	PlaybookVersion      *string                `json:"playbookVersion,omitempty"`
-	ToolsetVersion       *string                `json:"toolsetVersion,omitempty"`
-	PromptOrSkillVersion *string                `json:"promptOrSkillVersion,omitempty"`
-	ModelConfig          map[string]interface{} `json:"modelConfig,omitempty"`
-	BuilderVersions      map[string]string      `json:"builderVersions,omitempty"`
+	// Actual model name used for this run. The value reuses the existing /llm/models string contract.
+	Model                *string `json:"model,omitempty"`
+	PlaybookVersion      *string `json:"playbookVersion,omitempty"`
+	ToolsetVersion       *string `json:"toolsetVersion,omitempty"`
+	PromptOrSkillVersion *string `json:"promptOrSkillVersion,omitempty"`
+	// Sanitized model strategy/version metadata for audit and replay. Must not include llm.config, provider credentials, or secrets.
+	ModelConfig     map[string]interface{} `json:"modelConfig,omitempty"`
+	BuilderVersions map[string]string      `json:"builderVersions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -32,6 +35,34 @@ func NewAiAgentRunMetadata() *AiAgentRunMetadata {
 func NewAiAgentRunMetadataWithDefaults() *AiAgentRunMetadata {
 	this := AiAgentRunMetadata{}
 	return &this
+}
+
+// GetModel returns the Model field value if set, zero value otherwise.
+func (o *AiAgentRunMetadata) GetModel() string {
+	if o == nil || o.Model == nil {
+		var ret string
+		return ret
+	}
+	return *o.Model
+}
+
+// GetModelOk returns a tuple with the Model field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentRunMetadata) GetModelOk() (*string, bool) {
+	if o == nil || o.Model == nil {
+		return nil, false
+	}
+	return o.Model, true
+}
+
+// HasModel returns a boolean if a field has been set.
+func (o *AiAgentRunMetadata) HasModel() bool {
+	return o != nil && o.Model != nil
+}
+
+// SetModel gets a reference to the given string and assigns it to the Model field.
+func (o *AiAgentRunMetadata) SetModel(v string) {
+	o.Model = &v
 }
 
 // GetPlaybookVersion returns the PlaybookVersion field value if set, zero value otherwise.
@@ -180,6 +211,9 @@ func (o AiAgentRunMetadata) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Model != nil {
+		toSerialize["model"] = o.Model
+	}
 	if o.PlaybookVersion != nil {
 		toSerialize["playbookVersion"] = o.PlaybookVersion
 	}
@@ -205,6 +239,7 @@ func (o AiAgentRunMetadata) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AiAgentRunMetadata) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		Model                *string                `json:"model,omitempty"`
 		PlaybookVersion      *string                `json:"playbookVersion,omitempty"`
 		ToolsetVersion       *string                `json:"toolsetVersion,omitempty"`
 		PromptOrSkillVersion *string                `json:"promptOrSkillVersion,omitempty"`
@@ -216,10 +251,11 @@ func (o *AiAgentRunMetadata) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"playbookVersion", "toolsetVersion", "promptOrSkillVersion", "modelConfig", "builderVersions"})
+		common.DeleteKeys(additionalProperties, &[]string{"model", "playbookVersion", "toolsetVersion", "promptOrSkillVersion", "modelConfig", "builderVersions"})
 	} else {
 		return err
 	}
+	o.Model = all.Model
 	o.PlaybookVersion = all.PlaybookVersion
 	o.ToolsetVersion = all.ToolsetVersion
 	o.PromptOrSkillVersion = all.PromptOrSkillVersion

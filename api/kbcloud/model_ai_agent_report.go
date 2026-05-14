@@ -33,10 +33,12 @@ type AiAgentReport struct {
 	PartialReason                   *AiAgentPartialReason           `json:"partialReason,omitempty"`
 	BudgetStatus                    *string                         `json:"budgetStatus,omitempty"`
 	ScopeValidationStatus           *AiAgentScopeValidationStatus   `json:"scopeValidationStatus,omitempty"`
-	ApprovalRequired                *bool                           `json:"approvalRequired,omitempty"`
-	ApprovalStatus                  *AiAgentApprovalStatus          `json:"approvalStatus,omitempty"`
-	Recommendations                 []AiAgentRecommendation         `json:"recommendations,omitempty"`
-	Visualizations                  []AiAgentVisualization          `json:"visualizations,omitempty"`
+	// Actual model name used to produce this report. The value reuses the existing /llm/models string contract.
+	Model            *string                 `json:"model,omitempty"`
+	ApprovalRequired *bool                   `json:"approvalRequired,omitempty"`
+	ApprovalStatus   *AiAgentApprovalStatus  `json:"approvalStatus,omitempty"`
+	Recommendations  []AiAgentRecommendation `json:"recommendations,omitempty"`
+	Visualizations   []AiAgentVisualization  `json:"visualizations,omitempty"`
 	// References aiAgentMetricSeries.metricSeriesId values for batch hydration.
 	MetricSeriesRefs []string  `json:"metricSeriesRefs,omitempty"`
 	SourceEventIds   []string  `json:"sourceEventIds,omitempty"`
@@ -600,6 +602,34 @@ func (o *AiAgentReport) SetScopeValidationStatus(v AiAgentScopeValidationStatus)
 	o.ScopeValidationStatus = &v
 }
 
+// GetModel returns the Model field value if set, zero value otherwise.
+func (o *AiAgentReport) GetModel() string {
+	if o == nil || o.Model == nil {
+		var ret string
+		return ret
+	}
+	return *o.Model
+}
+
+// GetModelOk returns a tuple with the Model field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentReport) GetModelOk() (*string, bool) {
+	if o == nil || o.Model == nil {
+		return nil, false
+	}
+	return o.Model, true
+}
+
+// HasModel returns a boolean if a field has been set.
+func (o *AiAgentReport) HasModel() bool {
+	return o != nil && o.Model != nil
+}
+
+// SetModel gets a reference to the given string and assigns it to the Model field.
+func (o *AiAgentReport) SetModel(v string) {
+	o.Model = &v
+}
+
 // GetApprovalRequired returns the ApprovalRequired field value if set, zero value otherwise.
 func (o *AiAgentReport) GetApprovalRequired() bool {
 	if o == nil || o.ApprovalRequired == nil {
@@ -845,6 +875,9 @@ func (o AiAgentReport) MarshalJSON() ([]byte, error) {
 	if o.ScopeValidationStatus != nil {
 		toSerialize["scopeValidationStatus"] = o.ScopeValidationStatus
 	}
+	if o.Model != nil {
+		toSerialize["model"] = o.Model
+	}
 	if o.ApprovalRequired != nil {
 		toSerialize["approvalRequired"] = o.ApprovalRequired
 	}
@@ -898,6 +931,7 @@ func (o *AiAgentReport) UnmarshalJSON(bytes []byte) (err error) {
 		PartialReason                   *AiAgentPartialReason           `json:"partialReason,omitempty"`
 		BudgetStatus                    *string                         `json:"budgetStatus,omitempty"`
 		ScopeValidationStatus           *AiAgentScopeValidationStatus   `json:"scopeValidationStatus,omitempty"`
+		Model                           *string                         `json:"model,omitempty"`
 		ApprovalRequired                *bool                           `json:"approvalRequired,omitempty"`
 		ApprovalStatus                  *AiAgentApprovalStatus          `json:"approvalStatus,omitempty"`
 		Recommendations                 []AiAgentRecommendation         `json:"recommendations,omitempty"`
@@ -932,7 +966,7 @@ func (o *AiAgentReport) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"reportId", "runId", "conversationId", "status", "finalStatus", "evidenceCompleteness", "confidence", "title", "summary", "rootCause", "checkedScope", "evidenceSummary", "uncertainty", "blockingRequirementIds", "degradedRequirementIds", "permissionBlockedRequirementIds", "missingReasonByRequirement", "partialReason", "budgetStatus", "scopeValidationStatus", "approvalRequired", "approvalStatus", "recommendations", "visualizations", "metricSeriesRefs", "sourceEventIds", "createdAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"reportId", "runId", "conversationId", "status", "finalStatus", "evidenceCompleteness", "confidence", "title", "summary", "rootCause", "checkedScope", "evidenceSummary", "uncertainty", "blockingRequirementIds", "degradedRequirementIds", "permissionBlockedRequirementIds", "missingReasonByRequirement", "partialReason", "budgetStatus", "scopeValidationStatus", "model", "approvalRequired", "approvalStatus", "recommendations", "visualizations", "metricSeriesRefs", "sourceEventIds", "createdAt"})
 	} else {
 		return err
 	}
@@ -984,6 +1018,7 @@ func (o *AiAgentReport) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.ScopeValidationStatus = all.ScopeValidationStatus
 	}
+	o.Model = all.Model
 	o.ApprovalRequired = all.ApprovalRequired
 	if all.ApprovalStatus != nil && !all.ApprovalStatus.IsValid() {
 		hasInvalidField = true
