@@ -18822,7 +18822,10 @@ components:
           description: The display name of User. Read-Only
           type: string
         email:
-          description: The email of User. Read-Only after create
+          description: |
+            The email of the user. Sourced from the user profile; may be empty
+            if the user has not set one. Cannot be changed via the org-member
+            API (use the user-profile API instead).
           type: string
         role:
           description: The role of the User in the Org.

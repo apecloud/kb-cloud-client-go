@@ -14,7 +14,10 @@ import (
 type OrgMember struct {
 	// The display name of User. Read-Only
 	DisplayName *string `json:"displayName,omitempty"`
-	// The email of User. Read-Only after create
+	// The email of the user. Sourced from the user profile; may be empty
+	// if the user has not set one. Cannot be changed via the org-member
+	// API (use the user-profile API instead).
+	//
 	Email *string `json:"email,omitempty"`
 	// The role of the User in the Org.
 	Role string `json:"role"`
