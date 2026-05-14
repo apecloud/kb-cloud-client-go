@@ -15,7 +15,7 @@ type PlatformComponent struct {
 	// Component name
 	Name        string                `json:"name"`
 	Description *LocalizedDescription `json:"description,omitempty"`
-	// Platform component status
+	// Platform component status. NotInstalled means all configured Kubernetes resources are absent; Error means a resource exists but is not ready or a Kubernetes query failed.
 	Status PlatformComponentStatus `json:"status"`
 	// Component version
 	Version *string `json:"version,omitempty"`
