@@ -14723,6 +14723,7 @@ components:
         email:
           description: The email for the user
           type: string
+          x-nullable: true
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
         createdAt:
@@ -14766,6 +14767,7 @@ components:
         email:
           description: The email for the user
           type: string
+          x-nullable: true
         description:
           description: The description for the user
           type: string
