@@ -16,39 +16,10 @@ except ImportError:
 from . import formatter
 from . import utils
 
-OPERATION_METHODS = {"get", "put", "post", "delete", "options", "head", "patch", "trace"}
-
-
 def load(filename):
     path = pathlib.Path(filename)
     with path.open() as fp:
         return JsonRef.replace_refs(yaml.load(fp, Loader=SafeLoader))
-
-
-def path_operations(spec):
-    for path, path_item in spec["paths"].items():
-        if path.startswith("x-"):
-            continue
-
-        path_parameters = path_item.get("parameters", [])
-        for method, operation in path_item.items():
-            if method not in OPERATION_METHODS:
-                continue
-
-            if path_parameters:
-                operation = operation.copy()
-                operation_parameters = operation.get("parameters", [])
-                operation_parameter_keys = {
-                    (parameter.get("in"), parameter.get("name"))
-                    for parameter in operation_parameters
-                }
-                operation["parameters"] = [
-                    parameter
-                    for parameter in path_parameters
-                    if (parameter.get("in"), parameter.get("name")) not in operation_parameter_keys
-                ] + operation_parameters
-
-            yield path, method, operation
 
 
 def get_name(schema):
@@ -81,11 +52,6 @@ def type_to_go(schema, alternative_name=None, render_nullable=False, render_new=
             return name
 
     name = get_name(schema)
-    if "enum" in schema and not name and alternative_name:
-        if render_new and schema.get("nullable", False):
-            return f"New{prefix}{alternative_name}"
-        return prefix + alternative_name
-
     if name:
         if "enum" in schema:
             if render_new and schema.get("nullable", False):
@@ -289,19 +255,24 @@ def models(spec):
     name_to_schema = {}
 
     # First collect models from API paths
-    for _, _, operation in path_operations(spec):
-        for content in operation.get("parameters", []):
-            if "schema" in content:
-                name_to_schema.update(dict(child_models(content["schema"])))
+    for path in spec["paths"]:
+        if path.startswith("x-"):
+            continue
+        for method in spec["paths"][path]:
+            operation = spec["paths"][path][method]
 
-        for content in operation.get("requestBody", {}).get("content", {}).values():
-            if "schema" in content:
-                name_to_schema.update(dict(child_models(content["schema"])))
-
-        for response in operation.get("responses", {}).values():
-            for content in response.get("content", {}).values():
+            for content in operation.get("parameters", []):
                 if "schema" in content:
                     name_to_schema.update(dict(child_models(content["schema"])))
+
+            for content in operation.get("requestBody", {}).get("content", {}).values():
+                if "schema" in content:
+                    name_to_schema.update(dict(child_models(content["schema"])))
+
+            for response in operation.get("responses", {}).values():
+                for content in response.get("content", {}).values():
+                    if "schema" in content:
+                        name_to_schema.update(dict(child_models(content["schema"])))
 
     # Also collect all schemas from components/schemas to ensure
     # we don't miss any referenced types like ImportFieldType, ImportStringValidation, etc.
@@ -318,9 +289,13 @@ def models(spec):
 def apis(spec):
     operations = {}
 
-    for path, method, operation in path_operations(spec):
-        tag = operation.get("tags", [None])[0]
-        operations.setdefault(tag, []).append((path, method, operation))
+    for path in spec["paths"]:
+        if path.startswith("x-"):
+            continue
+        for method in spec["paths"][path]:
+            operation = spec["paths"][path][method]
+            tag = operation.get("tags", [None])[0]
+            operations.setdefault(tag, []).append((path, method, operation))
 
     return operations
 
