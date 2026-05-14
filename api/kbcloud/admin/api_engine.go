@@ -1073,7 +1073,7 @@ func (a *EngineApi) DisableServiceVersion(ctx _context.Context, body EngineVersi
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
 		OperationID: "disableServiceVersion",
-		Path:        "/admin/v1/engineVersions/disableServiceVersion",
+		Path:        "/admin/v1/engineVersions/disable",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1083,7 +1083,7 @@ func (a *EngineApi) DisableServiceVersion(ctx _context.Context, body EngineVersi
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/engineVersions/disableServiceVersion"
+	localVarPath := localBasePath + "/admin/v1/engineVersions/disable"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}

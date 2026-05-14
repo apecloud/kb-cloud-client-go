@@ -11981,7 +11981,7 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/engineVersions/disableServiceVersion:
+  /admin/v1/engineVersions/disable:
     post:
       tags:
         - engine
