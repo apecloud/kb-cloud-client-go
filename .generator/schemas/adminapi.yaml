@@ -20757,6 +20757,7 @@ components:
       description: event source
       enum:
         - user
+        - admin
         - system
       type: string
     event:
