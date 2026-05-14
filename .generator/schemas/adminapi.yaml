@@ -18424,6 +18424,7 @@ components:
         email:
           description: The email for the user
           type: string
+          x-nullable: true
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
         createdAt:
@@ -18467,6 +18468,7 @@ components:
         email:
           description: The email for the user
           type: string
+          x-nullable: true
         description:
           description: The description for the user
           type: string
@@ -18820,7 +18822,10 @@ components:
           description: The display name of User. Read-Only
           type: string
         email:
-          description: The email of User. Required when create. Read-Only after create
+          description: |
+            The email of the user. Sourced from the user profile; may be empty
+            if the user has not set one. Cannot be changed via the org-member
+            API (use the user-profile API instead).
           type: string
         role:
           description: The role of the User in the Org.
@@ -18832,7 +18837,6 @@ components:
           description: Return true if the member is freezed in the organization
           type: boolean
       required:
-        - email
         - role
         - userId
       type: object
@@ -28085,7 +28089,6 @@ components:
     engineOptionHistory:
       required:
         - modifierId
-        - modifierEmail
         - option
         - createdAt
       type: object
