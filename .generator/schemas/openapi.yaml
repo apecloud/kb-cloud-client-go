@@ -27902,11 +27902,19 @@ components:
           type: string
           description: Selected model name from the current organization's /llm/models response. Omit to keep the run default or prior selection.
           x-nullable: true
+    aiAgentMessageOutcome:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - accepted_pending
+        - started_new_run
+        - rejected
     aiAgentContinueRunResponse:
       type: object
       required:
         - runId
         - messageId
+        - messageOutcome
         - newRunCreated
         - status
       properties:
@@ -27914,6 +27922,8 @@ components:
           type: string
         messageId:
           type: string
+        messageOutcome:
+          $ref: '#/components/schemas/aiAgentMessageOutcome'
         newRunCreated:
           type: boolean
         continuedRunId:
