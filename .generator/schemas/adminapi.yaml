@@ -4913,6 +4913,15 @@ paths:
             type: integer
             format: int32
         - in: query
+          name: sortBy
+          description: Sort templates by count or avgExecutionTime.
+          schema:
+            type: string
+        - in: query
+          name: sortType
+          schema:
+            $ref: '#/components/schemas/sortType'
+        - in: query
           name: minExecutionTime
           description: Minimum execution time in seconds. Decimal values are supported, for example 0.5.
           schema:
@@ -5053,6 +5062,69 @@ paths:
       tags:
         - clusterLog
         - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/templates/{templateId}/explain:
+    post:
+      description: Explain a slow log template sample using DMS. The SQL is selected by templateId and time range; request body does not accept raw SQL.
+      summary: Explain cluster slow log template
+      operationId: explainSlowLogTemplate
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: templateId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          description: Start time in epoch nanoseconds.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          description: End time in epoch nanoseconds.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: query
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterSlowLogExplainResponse'
+          description: Successful operation
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/templates/{templateId}/samples:
     get:
       description: Query slow log samples for a template
@@ -5160,6 +5232,78 @@ paths:
           name: instanceName
           schema:
             type: string
+        - in: query
+          name: query
+          schema:
+            type: string
+        - in: query
+          name: minExecutionTime
+          description: Minimum execution time in seconds. Decimal values are supported, for example 0.5.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxExecutionTime
+          description: Maximum execution time in seconds. Decimal values are supported, for example 0.5.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minLockTime
+          description: Minimum lock time in seconds. Decimal values are supported, for example 0.001.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxLockTime
+          description: Maximum lock time in seconds. Decimal values are supported, for example 0.001.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: minRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: dbName
+          schema:
+            type: string
+        - in: query
+          name: userName
+          schema:
+            type: string
+        - in: query
+          name: clientIp
+          schema:
+            type: string
+        - in: query
+          name: appName
+          schema:
+            type: string
+        - in: query
+          name: templateId
+          schema:
+            type: string
+        - in: query
+          name: unclassifiedOnly
+          schema:
+            type: boolean
       responses:
         '200':
           content:
@@ -22184,6 +22328,11 @@ components:
           type: integer
           format: int64
           x-omitempty: false
+        totalExecutionTime:
+          type: number
+          format: double
+          description: Total execution time in seconds
+          x-omitempty: false
         avgExecutionTime:
           type: number
           format: double
@@ -22219,6 +22368,24 @@ components:
           format: int64
           description: Number of unique application names in the time range
           x-omitempty: false
+        avgRowsExamined:
+          type: number
+          format: double
+          description: Average rows examined by the template
+          x-nullable: true
+          x-omitempty: true
+        avgRowsSent:
+          type: number
+          format: double
+          description: Average rows returned or sent by the template
+          x-nullable: true
+          x-omitempty: true
+        avgLockTime:
+          type: number
+          format: double
+          description: Average lock wait time in seconds
+          x-nullable: true
+          x-omitempty: true
         dbNames:
           type: array
           description: Sampled database names for the template
@@ -22251,6 +22418,43 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/clusterSlowLogTemplate'
+    clusterSlowLogExplainResponse:
+      type: object
+      description: Explain response for a selected slow log template sample
+      properties:
+        templateId:
+          type: string
+          description: Query template identifier
+          x-omitempty: false
+        sql:
+          type: string
+          description: Concrete sample SQL used for EXPLAIN
+          x-omitempty: false
+        sqlType:
+          type: string
+          description: Statement type accepted by the backend safety check
+          x-omitempty: false
+        database:
+          type: string
+          description: Database selected from the slow log sample
+          x-omitempty: false
+        normalizedQuery:
+          type: string
+          description: Normalized SQL template from oteld
+        sampleTimestamp:
+          type: integer
+          format: int64
+          description: Timestamp of the selected sample in epoch nanoseconds
+          x-omitempty: false
+        executionTime:
+          type: number
+          format: double
+          description: Execution time of the selected sample in seconds
+          x-omitempty: false
+        sample:
+          $ref: '#/components/schemas/clusterExecutionLogItem'
+        explainResult:
+          $ref: '#/components/schemas/DmsQueryResponse'
     clusterSlowLogStats:
       type: object
       description: Summary statistics for slow logs
