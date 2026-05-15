@@ -8071,8 +8071,19 @@ paths:
           schema:
             type: string
       responses:
-        '200':
-          description: A successful response.
+        '204':
+          description: collection or view dropped
+          content: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/collections/{col}/find:
     post:
       tags:
@@ -8427,8 +8438,19 @@ paths:
               $ref: '#/components/schemas/MongoCreateIndexRequest'
         required: true
       responses:
-        '200':
+        '204':
           description: index created
+          content: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/collections/{col}/indexes/{indexName}:
     delete:
       tags:
@@ -8467,8 +8489,19 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        '204':
           description: index dropped
+          content: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/collections/{col}/schema:
     get:
       tags:
@@ -8591,8 +8624,19 @@ paths:
               $ref: '#/components/schemas/MongoSetValidationRequest'
         required: true
       responses:
-        '200':
+        '204':
           description: validation updated
+          content: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/views:
     post:
       tags:
@@ -8627,8 +8671,19 @@ paths:
               $ref: '#/components/schemas/MongoCreateViewRequest'
         required: true
       responses:
-        '200':
+        '204':
           description: view created
+          content: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/explain:
     post:
       tags:
