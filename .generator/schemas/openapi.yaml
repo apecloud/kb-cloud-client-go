@@ -7916,6 +7916,757 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DmsResult'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases:
+    get:
+      tags:
+        - dms
+      operationId: listMongoDatabases
+      summary: list MongoDB databases
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of the datasource
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/collections:
+    get:
+      tags:
+        - dms
+      operationId: listMongoCollections
+      summary: list collections in a MongoDB database
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of the datasource
+          required: true
+          schema:
+            type: string
+        - name: db
+          in: path
+          description: database name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MongoCollectionInfo'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/collections/{col}:
+    get:
+      tags:
+        - dms
+      operationId: getMongoCollection
+      summary: get MongoDB collection stats
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of the datasource
+          required: true
+          schema:
+            type: string
+        - name: db
+          in: path
+          description: database name
+          required: true
+          schema:
+            type: string
+        - name: col
+          in: path
+          description: collection name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoCollectionStats'
+    delete:
+      tags:
+        - dms
+      operationId: dropMongoCollection
+      summary: drop a MongoDB collection or view
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of the datasource
+          required: true
+          schema:
+            type: string
+        - name: db
+          in: path
+          description: database name
+          required: true
+          schema:
+            type: string
+        - name: col
+          in: path
+          description: collection or view name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/collections/{col}/find:
+    post:
+      tags:
+        - dms
+      operationId: mongoFind
+      summary: find documents in a MongoDB collection
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of the datasource
+          required: true
+          schema:
+            type: string
+        - name: db
+          in: path
+          description: database name
+          required: true
+          schema:
+            type: string
+        - name: col
+          in: path
+          description: collection name
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoFindRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoFindResponse'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/collections/{col}/aggregate:
+    post:
+      tags:
+        - dms
+      operationId: mongoAggregate
+      summary: run MongoDB aggregation pipeline preview
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: db
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: col
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoAggregateRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoFindResponse'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/collections/{col}/insert:
+    post:
+      tags:
+        - dms
+      operationId: mongoInsert
+      summary: insert MongoDB document(s)
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: db
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: col
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoInsertRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoWriteResponse'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/collections/{col}/update:
+    post:
+      tags:
+        - dms
+      operationId: mongoUpdate
+      summary: update a single MongoDB document
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: db
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: col
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoWriteResult'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/collections/{col}/delete:
+    post:
+      tags:
+        - dms
+      operationId: mongoDelete
+      summary: delete a single MongoDB document
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: db
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: col
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoDeleteRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoWriteResult'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/collections/{col}/replace:
+    post:
+      tags:
+        - dms
+      operationId: mongoReplace
+      summary: replace a single MongoDB document
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: db
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: col
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoReplaceRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoWriteResult'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/collections/{col}/indexes:
+    get:
+      tags:
+        - dms
+      operationId: mongoListIndexes
+      summary: list MongoDB collection indexes
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: db
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: col
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MongoIndexInfo'
+    post:
+      tags:
+        - dms
+      operationId: mongoCreateIndex
+      summary: create MongoDB collection index
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: db
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: col
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoCreateIndexRequest'
+        required: true
+      responses:
+        '200':
+          description: index created
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/collections/{col}/indexes/{indexName}:
+    delete:
+      tags:
+        - dms
+      operationId: mongoDropIndex
+      summary: drop MongoDB collection index
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: db
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: col
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: indexName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: index dropped
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/collections/{col}/schema:
+    get:
+      tags:
+        - dms
+      operationId: mongoAnalyzeSchema
+      summary: analyze MongoDB collection schema from sample documents
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: db
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: col
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sample
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoSchemaAnalysis'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/collections/{col}/validation:
+    get:
+      tags:
+        - dms
+      operationId: mongoGetValidation
+      summary: get MongoDB collection validation options
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: db
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: col
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoValidationInfo'
+    put:
+      tags:
+        - dms
+      operationId: mongoSetValidation
+      summary: set MongoDB collection validation options
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: db
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: col
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoSetValidationRequest'
+        required: true
+      responses:
+        '200':
+          description: validation updated
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/views:
+    post:
+      tags:
+        - dms
+      operationId: mongoCreateView
+      summary: create MongoDB view from a read-only aggregation pipeline
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: db
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoCreateViewRequest'
+        required: true
+      responses:
+        '200':
+          description: view created
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/explain:
+    post:
+      tags:
+        - dms
+      operationId: mongoExplain
+      summary: explain a MongoDB query
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of the datasource
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoExplainRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoExplainResponse'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/sessions:
     get:
       deprecated: true
@@ -24342,6 +25093,315 @@ components:
           type: integer
           description: return limited number of data
           nullable: true
+    MongoCollectionInfo:
+      type: object
+      properties:
+        name:
+          type: string
+          description: collection or view name
+        type:
+          type: string
+          description: collection type (collection or view)
+        options:
+          type: object
+          description: collection options, including viewOn/pipeline when type is view
+    MongoCollectionStats:
+      type: object
+      properties:
+        name:
+          type: string
+          description: collection name
+        type:
+          type: string
+          description: collection type (collection or view)
+        documentCount:
+          type: integer
+          format: int64
+        totalSize:
+          type: integer
+          format: int64
+        indexCount:
+          type: integer
+          format: int64
+    MongoFindRequest:
+      type: object
+      properties:
+        filter:
+          type: object
+          description: MongoDB query filter
+        sort:
+          type: object
+          description: sort specification
+        projection:
+          type: object
+          description: field projection
+        collation:
+          type: object
+          description: MongoDB collation options
+        skip:
+          type: integer
+          format: int64
+          description: number of documents to skip
+        limit:
+          type: integer
+          format: int64
+          description: maximum number of documents to return
+        maxTimeMS:
+          type: integer
+          format: int64
+          description: maximum query execution time in milliseconds
+    MongoFindResponse:
+      type: object
+      properties:
+        columns:
+          type: array
+          items:
+            type: string
+          description: column names (flattened document key union)
+        rows:
+          type: array
+          items:
+            type: array
+            items: {}
+          description: row data (flattened document values)
+        documents:
+          type: array
+          items:
+            type: object
+          description: raw documents (when raw mode)
+        totalCount:
+          type: integer
+          format: int64
+          description: total matching documents
+    MongoAggregateRequest:
+      type: object
+      properties:
+        pipeline:
+          type: array
+          items:
+            type: object
+          description: aggregation pipeline; write stages such as $out/$merge are rejected by DMS in S1
+        maxTimeMS:
+          type: integer
+          format: int64
+          description: maximum aggregation execution time in milliseconds
+        limit:
+          type: integer
+          format: int64
+          description: optional preview result limit appended when pipeline has no terminal $limit
+    MongoInsertRequest:
+      type: object
+      properties:
+        document:
+          type: object
+          description: single document to insert
+        documents:
+          type: array
+          items:
+            type: object
+          description: low-batch documents to insert
+    MongoWriteResponse:
+      type: object
+      properties:
+        insertedCount:
+          type: integer
+          format: int64
+        insertedIds:
+          type: array
+          items: {}
+    MongoUpdateRequest:
+      type: object
+      properties:
+        filter:
+          type: object
+          description: document selector
+        update:
+          type: object
+          description: update document
+        upsert:
+          type: boolean
+          description: create document when no match exists
+        many:
+          type: boolean
+          description: reserved for future bulk update; S1 rejects true
+    MongoWriteResult:
+      type: object
+      properties:
+        matchedCount:
+          type: integer
+          format: int64
+        modifiedCount:
+          type: integer
+          format: int64
+        deletedCount:
+          type: integer
+          format: int64
+        insertedCount:
+          type: integer
+          format: int64
+        upsertedCount:
+          type: integer
+          format: int64
+        upsertedId:
+          description: upserted document id
+    MongoDeleteRequest:
+      type: object
+      properties:
+        filter:
+          type: object
+          description: document selector
+        many:
+          type: boolean
+          description: reserved for future bulk delete; S1 rejects true
+    MongoReplaceRequest:
+      type: object
+      properties:
+        filter:
+          type: object
+          description: document selector
+        replacement:
+          type: object
+          description: replacement document
+        upsert:
+          type: boolean
+          description: create document when no match exists
+    MongoIndexInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        key:
+          type: object
+        type:
+          type: string
+        unique:
+          type: boolean
+        sparse:
+          type: boolean
+        ttl:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int64
+        usage:
+          type: object
+    MongoIndexOptions:
+      type: object
+      properties:
+        name:
+          type: string
+        unique:
+          type: boolean
+        sparse:
+          type: boolean
+    MongoCreateIndexRequest:
+      type: object
+      properties:
+        keys:
+          type: object
+          description: index key pattern
+        options:
+          $ref: '#/components/schemas/MongoIndexOptions'
+    MongoSchemaField:
+      type: object
+      properties:
+        name:
+          type: string
+        types:
+          type: array
+          items:
+            type: string
+        occurrence:
+          type: number
+          format: double
+    MongoSchemaAnalysis:
+      type: object
+      properties:
+        sampleSize:
+          type: integer
+          format: int64
+        documentCount:
+          type: integer
+          format: int64
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoSchemaField'
+    MongoValidationInfo:
+      type: object
+      properties:
+        validator:
+          type: object
+        validationLevel:
+          type: string
+        validationAction:
+          type: string
+    MongoSetValidationRequest:
+      type: object
+      properties:
+        validator:
+          type: object
+        level:
+          type: string
+          description: validationLevel value
+        action:
+          type: string
+          description: validationAction value
+    MongoCreateViewRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: view name
+        viewOn:
+          type: string
+          description: source collection name
+        pipeline:
+          type: array
+          items:
+            type: object
+          description: read-only aggregation pipeline backing the view
+        collation:
+          type: object
+          description: optional view collation
+    MongoExplainRequest:
+      type: object
+      properties:
+        database:
+          type: string
+          description: database name
+        collection:
+          type: string
+          description: collection name
+        filter:
+          type: object
+          description: query filter to explain
+        sort:
+          type: object
+          description: sort specification
+        pipeline:
+          type: array
+          items:
+            type: object
+          description: aggregation pipeline to explain
+        collation:
+          type: object
+          description: MongoDB collation options
+        maxTimeMS:
+          type: integer
+          format: int64
+          description: maximum query execution time in milliseconds
+        verbosity:
+          type: string
+          description: explain verbosity level (queryPlanner, executionStats, or allPlansExecution)
+    MongoExplainResponse:
+      type: object
+      properties:
+        queryPlanner:
+          type: object
+        executionStats:
+          type: object
     DmsSession:
       type: object
       required:
