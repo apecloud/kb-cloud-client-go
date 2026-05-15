@@ -10,17 +10,19 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// PlatformComponentStatus Platform component status
+// PlatformComponentStatus Platform component status. NotInstalled means all configured Kubernetes resources are absent; Error means a resource exists but is not ready or a Kubernetes query failed.
 type PlatformComponentStatus string
 
 // List of PlatformComponentStatus.
 const (
-	PlatformComponentStatusRunning PlatformComponentStatus = "Running"
-	PlatformComponentStatusError   PlatformComponentStatus = "Error"
+	PlatformComponentStatusRunning      PlatformComponentStatus = "Running"
+	PlatformComponentStatusNotInstalled PlatformComponentStatus = "NotInstalled"
+	PlatformComponentStatusError        PlatformComponentStatus = "Error"
 )
 
 var allowedPlatformComponentStatusEnumValues = []PlatformComponentStatus{
 	PlatformComponentStatusRunning,
+	PlatformComponentStatusNotInstalled,
 	PlatformComponentStatusError,
 }
 

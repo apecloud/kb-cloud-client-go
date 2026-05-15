@@ -16,11 +16,13 @@ type EventSource string
 // List of EventSource.
 const (
 	EventSourceUser   EventSource = "user"
+	EventSourceAdmin  EventSource = "admin"
 	EventSourceSystem EventSource = "system"
 )
 
 var allowedEventSourceEnumValues = []EventSource{
 	EventSourceUser,
+	EventSourceAdmin,
 	EventSourceSystem,
 }
 
