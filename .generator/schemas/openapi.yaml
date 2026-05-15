@@ -12949,8 +12949,8 @@ paths:
       tags:
         - AI Agent
       operationId: getAIAgentConversation
-      summary: Get AI Agent conversation detail
-      description: Returns the conversation read model, including restorable message and run summaries when available.
+      summary: Get AI Agent conversation summary
+      description: Returns the conversation summary with a recent message preview. Use the paginated message and artifact APIs to restore full history.
       responses:
         '200':
           description: AI Agent conversation detail
@@ -13761,16 +13761,6 @@ paths:
       operationId: resumeAIAgentRun
       summary: Resume an AI Agent run
       description: Resumes a paused Agent workflow.
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                resumeFromEventId:
-                  type: string
-                  x-nullable: true
       responses:
         '200':
           description: AI Agent run resumed
@@ -27895,9 +27885,6 @@ components:
           $ref: '#/components/schemas/aiAgentContinueMode'
         scopePatch:
           $ref: '#/components/schemas/aiAgentResourceScope'
-        resumeFromEventId:
-          type: string
-          x-nullable: true
         model:
           type: string
           description: Selected model name from the current organization's /llm/models response. Omit to keep the run default or prior selection.
