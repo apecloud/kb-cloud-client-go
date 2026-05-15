@@ -2507,6 +2507,69 @@ paths:
       tags:
         - clusterLog
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/templates/{templateId}/explain:
+    post:
+      description: Explain a slow log template sample using DMS. The SQL is selected by templateId and time range; request body does not accept raw SQL. Only MySQL-compatible and PostgreSQL SELECT samples are supported.
+      summary: Explain cluster slow log template
+      operationId: explainSlowLogTemplate
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: templateId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          description: Start time in epoch nanoseconds.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          description: End time in epoch nanoseconds.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: query
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterSlowLogExplainResponse'
+          description: Successful operation
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/templates/{templateId}/samples:
     get:
       description: Query slow log samples for a template
@@ -19437,6 +19500,102 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/clusterSlowLogTemplate'
+    DmsPagination:
+      type: object
+      properties:
+        rows_count:
+          type: integer
+        page:
+          type: integer
+        pages_count:
+          type: integer
+        per_page:
+          type: integer
+    DmsRow:
+      type: array
+      items:
+        type: object
+    DmsResultStats:
+      type: object
+      properties:
+        columns_count:
+          type: integer
+        rows_count:
+          type: integer
+        rows_affected:
+          type: integer
+        query_start_time:
+          type: string
+          format: date-time
+        query_finish_time:
+          type: string
+          format: date-time
+    DmsResult:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/DmsPagination'
+        columns:
+          type: array
+          items:
+            type: string
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/DmsRow'
+        stats:
+          $ref: '#/components/schemas/DmsResultStats'
+    DmsQueryResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          description: result set of query
+          items:
+            $ref: '#/components/schemas/DmsResult'
+        errMessage:
+          type: array
+          description: error message set of query
+          items:
+            type: string
+          nullable: true
+    clusterSlowLogExplainResponse:
+      type: object
+      description: Explain response for a selected slow log template sample
+      properties:
+        templateId:
+          type: string
+          description: Query template identifier
+          x-omitempty: false
+        sql:
+          type: string
+          description: Concrete sample SQL used for EXPLAIN
+          x-omitempty: false
+        sqlType:
+          type: string
+          description: Statement type accepted by the backend safety check
+          x-omitempty: false
+        database:
+          type: string
+          description: Database selected from the slow log sample
+          x-omitempty: false
+        normalizedQuery:
+          type: string
+          description: Normalized SQL template from oteld
+        sampleTimestamp:
+          type: integer
+          format: int64
+          description: Timestamp of the selected sample in epoch nanoseconds
+          x-omitempty: false
+        executionTime:
+          type: number
+          format: double
+          description: Execution time of the selected sample in seconds
+          x-omitempty: false
+        sample:
+          $ref: '#/components/schemas/clusterExecutionLogItem'
+        explainResult:
+          $ref: '#/components/schemas/DmsQueryResponse'
     clusterExecutionLogAggregateItem:
       type: object
       description: Aggregate item for grouped execution logs
@@ -24521,65 +24680,6 @@ components:
               type: boolean
               description: if noRecord is true, the query(s) will not be added to query history
               nullable: true
-    DmsPagination:
-      type: object
-      properties:
-        rows_count:
-          type: integer
-        page:
-          type: integer
-        pages_count:
-          type: integer
-        per_page:
-          type: integer
-    DmsRow:
-      type: array
-      items:
-        type: object
-    DmsResultStats:
-      type: object
-      properties:
-        columns_count:
-          type: integer
-        rows_count:
-          type: integer
-        rows_affected:
-          type: integer
-        query_start_time:
-          type: string
-          format: date-time
-        query_finish_time:
-          type: string
-          format: date-time
-    DmsResult:
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/DmsPagination'
-        columns:
-          type: array
-          items:
-            type: string
-        rows:
-          type: array
-          items:
-            $ref: '#/components/schemas/DmsRow'
-        stats:
-          $ref: '#/components/schemas/DmsResultStats'
-    DmsQueryResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          description: result set of query
-          items:
-            $ref: '#/components/schemas/DmsResult'
-        errMessage:
-          type: array
-          description: error message set of query
-          items:
-            type: string
-          nullable: true
     DmsExportRequest:
       type: object
       allOf:
