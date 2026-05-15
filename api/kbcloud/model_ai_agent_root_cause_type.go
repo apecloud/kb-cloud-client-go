@@ -16,13 +16,13 @@ type AiAgentRootCauseType string
 const (
 	AiAgentRootCauseTypeConfirmed AiAgentRootCauseType = "confirmed"
 	AiAgentRootCauseTypeCandidate AiAgentRootCauseType = "candidate"
-	AiAgentRootCauseType          AiAgentRootCauseType = "none"
+	AiAgentRootCauseTypeNone      AiAgentRootCauseType = "none"
 )
 
 var allowedAiAgentRootCauseTypeEnumValues = []AiAgentRootCauseType{
 	AiAgentRootCauseTypeConfirmed,
 	AiAgentRootCauseTypeCandidate,
-	AiAgentRootCauseType,
+	AiAgentRootCauseTypeNone,
 }
 
 // GetAllowedValues returns the list of possible values.

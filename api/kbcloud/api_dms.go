@@ -1019,7 +1019,7 @@ func (a *DmsApi) DropMongoCollection(ctx _context.Context, orgName string, clust
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	_, err = common.ReadBody(localVarHTTPResponse)
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -2156,7 +2156,7 @@ func (a *DmsApi) MongoCreateIndex(ctx _context.Context, orgName string, clusterN
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	_, err = common.ReadBody(localVarHTTPResponse)
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -2214,7 +2214,7 @@ func (a *DmsApi) MongoCreateView(ctx _context.Context, orgName string, clusterNa
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	_, err = common.ReadBody(localVarHTTPResponse)
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -2340,7 +2340,7 @@ func (a *DmsApi) MongoDropIndex(ctx _context.Context, orgName string, clusterNam
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	_, err = common.ReadBody(localVarHTTPResponse)
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -2805,7 +2805,7 @@ func (a *DmsApi) MongoSetValidation(ctx _context.Context, orgName string, cluste
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	_, err = common.ReadBody(localVarHTTPResponse)
 	if err != nil {
 		return localVarHTTPResponse, err
 	}

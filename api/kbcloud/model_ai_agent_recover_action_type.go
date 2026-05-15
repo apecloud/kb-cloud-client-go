@@ -21,7 +21,7 @@ const (
 	AiAgentRecoverActionTypeViewReport            AiAgentRecoverActionType = "view_report"
 	AiAgentRecoverActionTypeRegenerateReport      AiAgentRecoverActionType = "regenerate_report"
 	AiAgentRecoverActionTypeContinueInvestigation AiAgentRecoverActionType = "continue_investigation"
-	AiAgentRecoverActionType                      AiAgentRecoverActionType = "none"
+	AiAgentRecoverActionTypeNone                  AiAgentRecoverActionType = "none"
 )
 
 var allowedAiAgentRecoverActionTypeEnumValues = []AiAgentRecoverActionType{
@@ -32,7 +32,7 @@ var allowedAiAgentRecoverActionTypeEnumValues = []AiAgentRecoverActionType{
 	AiAgentRecoverActionTypeViewReport,
 	AiAgentRecoverActionTypeRegenerateReport,
 	AiAgentRecoverActionTypeContinueInvestigation,
-	AiAgentRecoverActionType,
+	AiAgentRecoverActionTypeNone,
 }
 
 // GetAllowedValues returns the list of possible values.
