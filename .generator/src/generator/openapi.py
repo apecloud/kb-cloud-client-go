@@ -338,13 +338,14 @@ def parameters(operation):
 def form_parameter(operation):
     if "requestBody" in operation and "multipart/form-data" in operation["requestBody"]["content"]:
         parent = operation["requestBody"]["content"]["multipart/form-data"]["schema"]
-        [(name, schema)] = list(parent["properties"].items())
-        return {
-            "schema": schema,
-            "name": name,
-            "description": schema.get("description"),
-            "required": name in parent.get("required", []),
-        }
+        for name, schema in parent["properties"].items():
+            if schema.get("format") == "binary":
+                return {
+                    "schema": schema,
+                    "name": name,
+                    "description": schema.get("description"),
+                    "required": name in parent.get("required", []),
+                }
 
 
 def need_body_parameter(operation):
