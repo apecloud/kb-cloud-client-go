@@ -217,6 +217,7 @@
 //   - [engineApi.deleteEngineResourceConstraint]
 //   - [engineApi.deleteEngineSchedulingRule]
 //   - [engineApi.deleteEngineVersion]
+//   - [engineApi.disableServiceVersion]
 //   - [engineApi.engineAction]
 //   - [engineApi.getEngineByNameInEnv]
 //   - [engineApi.getEngineLicenseEntity]

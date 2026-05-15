@@ -11610,6 +11610,34 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/engineVersions/disable:
+    post:
+      tags:
+        - engine
+      summary: Disable service version
+      description: Remove a service version from the engine version's service_versions list if no running clusters are using it
+      operationId: disableServiceVersion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/engineVersionDisableServiceVersion'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineVersion'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/engineVersions/{engineName}:
     get:
       tags:
@@ -28568,6 +28596,23 @@ components:
             type: string
           description: Service versions supported by this engine version
           nullable: true
+    engineVersionDisableServiceVersion:
+      description: EngineVersionRecord disable service version option
+      type: object
+      required:
+        - engineName
+        - version
+        - serviceVersion
+      properties:
+        engineName:
+          type: string
+          description: Name of the engine
+        version:
+          type: string
+          description: Version of the engine
+        serviceVersion:
+          type: string
+          description: The service version to disable
     engineVersionList:
       description: EngineVersionRecord list
       type: object
