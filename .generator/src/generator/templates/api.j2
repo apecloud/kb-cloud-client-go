@@ -22,6 +22,7 @@ type {{ classname }} {{ common_package_name }}.Service
 {%- set returnType = operation|return_type %}
 {%- set formParameter = operation|form_parameter %}
 {%- set needBodyParameter = operation|need_body_parameter %}
+{%- set errorResponses = operation|responses_by_types|list %}
 {%- set operationId = operation.operationId|upperfirst %}
 
 {%- for name, parameter in operation|parameters if not parameter.required and parameter.in != "path" %}
@@ -321,14 +322,14 @@ localVarQueryParams.Add("{{ parameter.name }}", {{ common_package_name }}.Parame
 	if err != nil || localVarHTTPResponse == nil {
 		return {% if returnType %}localVarReturnValue, {% endif %}localVarHTTPResponse, err
 	}
-	{%- if returnType != '_io.Reader' %}
+	{%- if returnType != '_io.Reader' and (returnType or errorResponses) %}
 
 	localVarBody, err := common.ReadBody(localVarHTTPResponse)
 	if err != nil {
 		return {% if returnType %}localVarReturnValue, {% endif %}localVarHTTPResponse, err
 	}
 	{%- endif %}
-	{%- for responseType, (response, responseCodes) in operation|responses_by_types %}
+	{%- for responseType, (response, responseCodes) in errorResponses %}
 	{%- if loop.first %}
 
 	if localVarHTTPResponse.StatusCode >= 300 {

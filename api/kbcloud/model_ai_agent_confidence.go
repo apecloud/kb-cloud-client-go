@@ -17,14 +17,14 @@ const (
 	AiAgentConfidenceHigh   AiAgentConfidence = "high"
 	AiAgentConfidenceMedium AiAgentConfidence = "medium"
 	AiAgentConfidenceLow    AiAgentConfidence = "low"
-	AiAgentConfidence       AiAgentConfidence = "none"
+	AiAgentConfidenceNon    AiAgentConfidence = "none"
 )
 
 var allowedAiAgentConfidenceEnumValues = []AiAgentConfidence{
 	AiAgentConfidenceHigh,
 	AiAgentConfidenceMedium,
 	AiAgentConfidenceLow,
-	AiAgentConfidence,
+	AiAgentConfidenceNon,
 }
 
 // GetAllowedValues returns the list of possible values.
