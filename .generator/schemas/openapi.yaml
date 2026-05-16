@@ -19142,6 +19142,9 @@ components:
         newParamTplName:
           description: Specify the new name of the parameter template
           type: string
+        description:
+          description: The description of the parameter template
+          type: string
         rawContent:
           description: The raw content of the configuration file
           type: string
