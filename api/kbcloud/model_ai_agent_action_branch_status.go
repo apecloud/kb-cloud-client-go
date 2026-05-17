@@ -14,7 +14,7 @@ type AiAgentActionBranchStatus string
 
 // List of AiAgentActionBranchStatus.
 const (
-	AiAgentActionBranchStatus                    AiAgentActionBranchStatus = "none"
+	AiAgentActionBranchStatusNon                 AiAgentActionBranchStatus = "none"
 	AiAgentActionBranchStatusPendingConfirmation AiAgentActionBranchStatus = "pending_confirmation"
 	AiAgentActionBranchStatusApproved            AiAgentActionBranchStatus = "approved"
 	AiAgentActionBranchStatusExecuting           AiAgentActionBranchStatus = "executing"
@@ -25,7 +25,7 @@ const (
 )
 
 var allowedAiAgentActionBranchStatusEnumValues = []AiAgentActionBranchStatus{
-	AiAgentActionBranchStatus,
+	AiAgentActionBranchStatusNon,
 	AiAgentActionBranchStatusPendingConfirmation,
 	AiAgentActionBranchStatusApproved,
 	AiAgentActionBranchStatusExecuting,
