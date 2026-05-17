@@ -14,8 +14,7 @@ type AiAgentContinueRunRequest struct {
 	Message      AiAgentMessageInput `json:"message"`
 	ContinueMode AiAgentContinueMode `json:"continueMode"`
 	// Organization-scoped single-cluster Agent execution scope.
-	ScopePatch        *AiAgentResourceScope `json:"scopePatch,omitempty"`
-	ResumeFromEventId *string               `json:"resumeFromEventId,omitempty"`
+	ScopePatch *AiAgentResourceScope `json:"scopePatch,omitempty"`
 	// Selected model name from the current organization's /llm/models response. Omit to keep the run default or prior selection.
 	Model *string `json:"model,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -116,34 +115,6 @@ func (o *AiAgentContinueRunRequest) SetScopePatch(v AiAgentResourceScope) {
 	o.ScopePatch = &v
 }
 
-// GetResumeFromEventId returns the ResumeFromEventId field value if set, zero value otherwise.
-func (o *AiAgentContinueRunRequest) GetResumeFromEventId() string {
-	if o == nil || o.ResumeFromEventId == nil {
-		var ret string
-		return ret
-	}
-	return *o.ResumeFromEventId
-}
-
-// GetResumeFromEventIdOk returns a tuple with the ResumeFromEventId field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiAgentContinueRunRequest) GetResumeFromEventIdOk() (*string, bool) {
-	if o == nil || o.ResumeFromEventId == nil {
-		return nil, false
-	}
-	return o.ResumeFromEventId, true
-}
-
-// HasResumeFromEventId returns a boolean if a field has been set.
-func (o *AiAgentContinueRunRequest) HasResumeFromEventId() bool {
-	return o != nil && o.ResumeFromEventId != nil
-}
-
-// SetResumeFromEventId gets a reference to the given string and assigns it to the ResumeFromEventId field.
-func (o *AiAgentContinueRunRequest) SetResumeFromEventId(v string) {
-	o.ResumeFromEventId = &v
-}
-
 // GetModel returns the Model field value if set, zero value otherwise.
 func (o *AiAgentContinueRunRequest) GetModel() string {
 	if o == nil || o.Model == nil {
@@ -183,9 +154,6 @@ func (o AiAgentContinueRunRequest) MarshalJSON() ([]byte, error) {
 	if o.ScopePatch != nil {
 		toSerialize["scopePatch"] = o.ScopePatch
 	}
-	if o.ResumeFromEventId != nil {
-		toSerialize["resumeFromEventId"] = o.ResumeFromEventId
-	}
 	if o.Model != nil {
 		toSerialize["model"] = o.Model
 	}
@@ -199,11 +167,10 @@ func (o AiAgentContinueRunRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AiAgentContinueRunRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Message           *AiAgentMessageInput  `json:"message"`
-		ContinueMode      *AiAgentContinueMode  `json:"continueMode"`
-		ScopePatch        *AiAgentResourceScope `json:"scopePatch,omitempty"`
-		ResumeFromEventId *string               `json:"resumeFromEventId,omitempty"`
-		Model             *string               `json:"model,omitempty"`
+		Message      *AiAgentMessageInput  `json:"message"`
+		ContinueMode *AiAgentContinueMode  `json:"continueMode"`
+		ScopePatch   *AiAgentResourceScope `json:"scopePatch,omitempty"`
+		Model        *string               `json:"model,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -216,7 +183,7 @@ func (o *AiAgentContinueRunRequest) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"message", "continueMode", "scopePatch", "resumeFromEventId", "model"})
+		common.DeleteKeys(additionalProperties, &[]string{"message", "continueMode", "scopePatch", "model"})
 	} else {
 		return err
 	}
@@ -235,7 +202,6 @@ func (o *AiAgentContinueRunRequest) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.ScopePatch = all.ScopePatch
-	o.ResumeFromEventId = all.ResumeFromEventId
 	o.Model = all.Model
 
 	if len(additionalProperties) > 0 {

@@ -905,8 +905,8 @@ func (a *AIAgentApi) GetAIAgentContext(ctx _context.Context, orgName string, clu
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetAIAgentConversation Get AI Agent conversation detail.
-// Returns the conversation read model, including restorable message and run summaries when available.
+// GetAIAgentConversation Get AI Agent conversation summary.
+// Returns the conversation summary with a recent message preview. Use the paginated message and artifact APIs to restore full history.
 func (a *AIAgentApi) GetAIAgentConversation(ctx _context.Context, orgName string, conversationId string) (AiAgentConversation, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -2064,39 +2064,14 @@ func (a *AIAgentApi) RegenerateAIAgentReport(ctx _context.Context, orgName strin
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ResumeAIAgentRunOptionalParameters holds optional parameters for ResumeAIAgentRun.
-type ResumeAIAgentRunOptionalParameters struct {
-	Body *interface{}
-}
-
-// NewResumeAIAgentRunOptionalParameters creates an empty struct for parameters.
-func NewResumeAIAgentRunOptionalParameters() *ResumeAIAgentRunOptionalParameters {
-	this := ResumeAIAgentRunOptionalParameters{}
-	return &this
-}
-
-// WithBody sets the corresponding parameter name and returns the struct.
-func (r *ResumeAIAgentRunOptionalParameters) WithBody(body interface{}) *ResumeAIAgentRunOptionalParameters {
-	r.Body = &body
-	return r
-}
-
 // ResumeAIAgentRun Resume an AI Agent run.
 // Resumes a paused Agent workflow.
-func (a *AIAgentApi) ResumeAIAgentRun(ctx _context.Context, orgName string, runId string, o ...ResumeAIAgentRunOptionalParameters) (AiAgentRunControlResponse, *_nethttp.Response, error) {
+func (a *AIAgentApi) ResumeAIAgentRun(ctx _context.Context, orgName string, runId string) (AiAgentRunControlResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue AiAgentRunControlResponse
-		optionalParams      ResumeAIAgentRunOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ResumeAIAgentRunOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -2119,13 +2094,8 @@ func (a *AIAgentApi) ResumeAIAgentRun(ctx _context.Context, orgName string, runI
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	// body params
-	if optionalParams.Body != nil {
-		localVarPostBody = &optionalParams.Body
-	}
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
