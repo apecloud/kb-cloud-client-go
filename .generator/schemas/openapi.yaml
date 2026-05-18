@@ -27231,7 +27231,7 @@ components:
           type: array
           items:
             type: string
-          description: The schemas where the extension can be installed in the database.
+          description: The schema candidates or fixed schema hints for this extension in the database. Extensions with fixed schemas return schemas declared by extension metadata. Relocatable extensions return database schemas where they can usually be installed. Extensions without schema hints return an empty list.
           x-omitempty: false
     PgExtension:
       type: object

@@ -9,7 +9,7 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 type PgExtensionAvailableDatabaseSchema struct {
 	// The database where the extension can be installed.
 	Database *string `json:"database,omitempty"`
-	// The schemas where the extension can be installed in the database.
+	// The schema candidates or fixed schema hints for this extension in the database. Extensions with fixed schemas return schemas declared by extension metadata. Relocatable extensions return database schemas where they can usually be installed. Extensions without schema hints return an empty list.
 	Schemas []string `json:"schemas,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
