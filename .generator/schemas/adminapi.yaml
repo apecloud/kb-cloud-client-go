@@ -17492,7 +17492,7 @@ paths:
             type: string
         - name: database
           in: query
-          description: database name. When status is installed, if not specified, all databases installed extensions will be returned. Otherwise, if specified, only the available extension install locations in this database will be returned; if not specified, all databases' available extension install locations will be returned.
+          description: database name. This parameter is only used when status is installed; if not specified, all databases installed extensions will be returned.
           required: false
           schema:
             type: string
