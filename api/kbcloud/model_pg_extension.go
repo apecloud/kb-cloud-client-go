@@ -17,6 +17,8 @@ type PgExtension struct {
 	InstalledVersion *string `json:"installed_version,omitempty"`
 	// The schema where the extension is installed.
 	Schema *string `json:"schema,omitempty"`
+	// The databases and schemas where the extension can be installed. This is empty for installed extensions.
+	AvailableDatabaseSchema []PgExtensionAvailableDatabaseSchema `json:"available_database_schema,omitempty"`
 	// The category of the extension.
 	Category *string `json:"category,omitempty"`
 	// Whether the extension needs a restart to take effect.
@@ -189,6 +191,34 @@ func (o *PgExtension) SetSchema(v string) {
 	o.Schema = &v
 }
 
+// GetAvailableDatabaseSchema returns the AvailableDatabaseSchema field value if set, zero value otherwise.
+func (o *PgExtension) GetAvailableDatabaseSchema() []PgExtensionAvailableDatabaseSchema {
+	if o == nil || o.AvailableDatabaseSchema == nil {
+		var ret []PgExtensionAvailableDatabaseSchema
+		return ret
+	}
+	return o.AvailableDatabaseSchema
+}
+
+// GetAvailableDatabaseSchemaOk returns a tuple with the AvailableDatabaseSchema field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PgExtension) GetAvailableDatabaseSchemaOk() (*[]PgExtensionAvailableDatabaseSchema, bool) {
+	if o == nil || o.AvailableDatabaseSchema == nil {
+		return nil, false
+	}
+	return &o.AvailableDatabaseSchema, true
+}
+
+// HasAvailableDatabaseSchema returns a boolean if a field has been set.
+func (o *PgExtension) HasAvailableDatabaseSchema() bool {
+	return o != nil && o.AvailableDatabaseSchema != nil
+}
+
+// SetAvailableDatabaseSchema gets a reference to the given []PgExtensionAvailableDatabaseSchema and assigns it to the AvailableDatabaseSchema field.
+func (o *PgExtension) SetAvailableDatabaseSchema(v []PgExtensionAvailableDatabaseSchema) {
+	o.AvailableDatabaseSchema = v
+}
+
 // GetCategory returns the Category field value if set, zero value otherwise.
 func (o *PgExtension) GetCategory() string {
 	if o == nil || o.Category == nil {
@@ -350,6 +380,9 @@ func (o PgExtension) MarshalJSON() ([]byte, error) {
 	if o.Schema != nil {
 		toSerialize["schema"] = o.Schema
 	}
+	if o.AvailableDatabaseSchema != nil {
+		toSerialize["available_database_schema"] = o.AvailableDatabaseSchema
+	}
 	if o.Category != nil {
 		toSerialize["category"] = o.Category
 	}
@@ -375,23 +408,24 @@ func (o PgExtension) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PgExtension) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name             *string  `json:"name,omitempty"`
-		Database         *string  `json:"database,omitempty"`
-		DefaultVersion   *string  `json:"default_version,omitempty"`
-		InstalledVersion *string  `json:"installed_version,omitempty"`
-		Schema           *string  `json:"schema,omitempty"`
-		Category         *string  `json:"category,omitempty"`
-		NeedRestart      *bool    `json:"need_restart,omitempty"`
-		PgVersion        []string `json:"pg_version,omitempty"`
-		DescriptionZn    *string  `json:"description_zn,omitempty"`
-		DescriptionEn    *string  `json:"description_en,omitempty"`
+		Name                    *string                              `json:"name,omitempty"`
+		Database                *string                              `json:"database,omitempty"`
+		DefaultVersion          *string                              `json:"default_version,omitempty"`
+		InstalledVersion        *string                              `json:"installed_version,omitempty"`
+		Schema                  *string                              `json:"schema,omitempty"`
+		AvailableDatabaseSchema []PgExtensionAvailableDatabaseSchema `json:"available_database_schema,omitempty"`
+		Category                *string                              `json:"category,omitempty"`
+		NeedRestart             *bool                                `json:"need_restart,omitempty"`
+		PgVersion               []string                             `json:"pg_version,omitempty"`
+		DescriptionZn           *string                              `json:"description_zn,omitempty"`
+		DescriptionEn           *string                              `json:"description_en,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "database", "default_version", "installed_version", "schema", "category", "need_restart", "pg_version", "description_zn", "description_en"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "database", "default_version", "installed_version", "schema", "available_database_schema", "category", "need_restart", "pg_version", "description_zn", "description_en"})
 	} else {
 		return err
 	}
@@ -400,6 +434,7 @@ func (o *PgExtension) UnmarshalJSON(bytes []byte) (err error) {
 	o.DefaultVersion = all.DefaultVersion
 	o.InstalledVersion = all.InstalledVersion
 	o.Schema = all.Schema
+	o.AvailableDatabaseSchema = all.AvailableDatabaseSchema
 	o.Category = all.Category
 	o.NeedRestart = all.NeedRestart
 	o.PgVersion = all.PgVersion
