@@ -15,6 +15,8 @@ type ClusterSlowLogTemplate struct {
 	// Representative SQL sample for the template
 	SampleSql  *string `json:"sampleSQL,omitempty"`
 	TotalCount *int64  `json:"totalCount,omitempty"`
+	// Total execution time in seconds
+	TotalExecutionTime *float64 `json:"totalExecutionTime,omitempty"`
 	// Average execution time in seconds
 	AvgExecutionTime *float64 `json:"avgExecutionTime,omitempty"`
 	// Maximum execution time in seconds
@@ -29,6 +31,12 @@ type ClusterSlowLogTemplate struct {
 	ClientIpCount *int64 `json:"clientIPCount,omitempty"`
 	// Number of unique application names in the time range
 	AppCount *int64 `json:"appCount,omitempty"`
+	// Average rows examined by the template
+	AvgRowsExamined *float64 `json:"avgRowsExamined,omitempty"`
+	// Average rows returned or sent by the template
+	AvgRowsSent *float64 `json:"avgRowsSent,omitempty"`
+	// Average lock wait time in seconds
+	AvgLockTime *float64 `json:"avgLockTime,omitempty"`
 	// Sampled database names for the template
 	DbNames []string `json:"dbNames,omitempty"`
 	// Sampled users for the template
@@ -169,6 +177,34 @@ func (o *ClusterSlowLogTemplate) HasTotalCount() bool {
 // SetTotalCount gets a reference to the given int64 and assigns it to the TotalCount field.
 func (o *ClusterSlowLogTemplate) SetTotalCount(v int64) {
 	o.TotalCount = &v
+}
+
+// GetTotalExecutionTime returns the TotalExecutionTime field value if set, zero value otherwise.
+func (o *ClusterSlowLogTemplate) GetTotalExecutionTime() float64 {
+	if o == nil || o.TotalExecutionTime == nil {
+		var ret float64
+		return ret
+	}
+	return *o.TotalExecutionTime
+}
+
+// GetTotalExecutionTimeOk returns a tuple with the TotalExecutionTime field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterSlowLogTemplate) GetTotalExecutionTimeOk() (*float64, bool) {
+	if o == nil || o.TotalExecutionTime == nil {
+		return nil, false
+	}
+	return o.TotalExecutionTime, true
+}
+
+// HasTotalExecutionTime returns a boolean if a field has been set.
+func (o *ClusterSlowLogTemplate) HasTotalExecutionTime() bool {
+	return o != nil && o.TotalExecutionTime != nil
+}
+
+// SetTotalExecutionTime gets a reference to the given float64 and assigns it to the TotalExecutionTime field.
+func (o *ClusterSlowLogTemplate) SetTotalExecutionTime(v float64) {
+	o.TotalExecutionTime = &v
 }
 
 // GetAvgExecutionTime returns the AvgExecutionTime field value if set, zero value otherwise.
@@ -367,6 +403,90 @@ func (o *ClusterSlowLogTemplate) SetAppCount(v int64) {
 	o.AppCount = &v
 }
 
+// GetAvgRowsExamined returns the AvgRowsExamined field value if set, zero value otherwise.
+func (o *ClusterSlowLogTemplate) GetAvgRowsExamined() float64 {
+	if o == nil || o.AvgRowsExamined == nil {
+		var ret float64
+		return ret
+	}
+	return *o.AvgRowsExamined
+}
+
+// GetAvgRowsExaminedOk returns a tuple with the AvgRowsExamined field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterSlowLogTemplate) GetAvgRowsExaminedOk() (*float64, bool) {
+	if o == nil || o.AvgRowsExamined == nil {
+		return nil, false
+	}
+	return o.AvgRowsExamined, true
+}
+
+// HasAvgRowsExamined returns a boolean if a field has been set.
+func (o *ClusterSlowLogTemplate) HasAvgRowsExamined() bool {
+	return o != nil && o.AvgRowsExamined != nil
+}
+
+// SetAvgRowsExamined gets a reference to the given float64 and assigns it to the AvgRowsExamined field.
+func (o *ClusterSlowLogTemplate) SetAvgRowsExamined(v float64) {
+	o.AvgRowsExamined = &v
+}
+
+// GetAvgRowsSent returns the AvgRowsSent field value if set, zero value otherwise.
+func (o *ClusterSlowLogTemplate) GetAvgRowsSent() float64 {
+	if o == nil || o.AvgRowsSent == nil {
+		var ret float64
+		return ret
+	}
+	return *o.AvgRowsSent
+}
+
+// GetAvgRowsSentOk returns a tuple with the AvgRowsSent field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterSlowLogTemplate) GetAvgRowsSentOk() (*float64, bool) {
+	if o == nil || o.AvgRowsSent == nil {
+		return nil, false
+	}
+	return o.AvgRowsSent, true
+}
+
+// HasAvgRowsSent returns a boolean if a field has been set.
+func (o *ClusterSlowLogTemplate) HasAvgRowsSent() bool {
+	return o != nil && o.AvgRowsSent != nil
+}
+
+// SetAvgRowsSent gets a reference to the given float64 and assigns it to the AvgRowsSent field.
+func (o *ClusterSlowLogTemplate) SetAvgRowsSent(v float64) {
+	o.AvgRowsSent = &v
+}
+
+// GetAvgLockTime returns the AvgLockTime field value if set, zero value otherwise.
+func (o *ClusterSlowLogTemplate) GetAvgLockTime() float64 {
+	if o == nil || o.AvgLockTime == nil {
+		var ret float64
+		return ret
+	}
+	return *o.AvgLockTime
+}
+
+// GetAvgLockTimeOk returns a tuple with the AvgLockTime field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterSlowLogTemplate) GetAvgLockTimeOk() (*float64, bool) {
+	if o == nil || o.AvgLockTime == nil {
+		return nil, false
+	}
+	return o.AvgLockTime, true
+}
+
+// HasAvgLockTime returns a boolean if a field has been set.
+func (o *ClusterSlowLogTemplate) HasAvgLockTime() bool {
+	return o != nil && o.AvgLockTime != nil
+}
+
+// SetAvgLockTime gets a reference to the given float64 and assigns it to the AvgLockTime field.
+func (o *ClusterSlowLogTemplate) SetAvgLockTime(v float64) {
+	o.AvgLockTime = &v
+}
+
 // GetDbNames returns the DbNames field value if set, zero value otherwise.
 func (o *ClusterSlowLogTemplate) GetDbNames() []string {
 	if o == nil || o.DbNames == nil {
@@ -497,6 +617,9 @@ func (o ClusterSlowLogTemplate) MarshalJSON() ([]byte, error) {
 	if o.TotalCount != nil {
 		toSerialize["totalCount"] = o.TotalCount
 	}
+	if o.TotalExecutionTime != nil {
+		toSerialize["totalExecutionTime"] = o.TotalExecutionTime
+	}
 	if o.AvgExecutionTime != nil {
 		toSerialize["avgExecutionTime"] = o.AvgExecutionTime
 	}
@@ -517,6 +640,15 @@ func (o ClusterSlowLogTemplate) MarshalJSON() ([]byte, error) {
 	}
 	if o.AppCount != nil {
 		toSerialize["appCount"] = o.AppCount
+	}
+	if o.AvgRowsExamined != nil {
+		toSerialize["avgRowsExamined"] = o.AvgRowsExamined
+	}
+	if o.AvgRowsSent != nil {
+		toSerialize["avgRowsSent"] = o.AvgRowsSent
+	}
+	if o.AvgLockTime != nil {
+		toSerialize["avgLockTime"] = o.AvgLockTime
 	}
 	if o.DbNames != nil {
 		toSerialize["dbNames"] = o.DbNames
@@ -540,28 +672,32 @@ func (o ClusterSlowLogTemplate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterSlowLogTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		TemplateId       *string  `json:"templateId,omitempty"`
-		NormalizedQuery  *string  `json:"normalizedQuery,omitempty"`
-		SampleSql        *string  `json:"sampleSQL,omitempty"`
-		TotalCount       *int64   `json:"totalCount,omitempty"`
-		AvgExecutionTime *float64 `json:"avgExecutionTime,omitempty"`
-		MaxExecutionTime *float64 `json:"maxExecutionTime,omitempty"`
-		P95ExecutionTime *float64 `json:"p95ExecutionTime,omitempty"`
-		DbCount          *int64   `json:"dbCount,omitempty"`
-		UserCount        *int64   `json:"userCount,omitempty"`
-		ClientIpCount    *int64   `json:"clientIPCount,omitempty"`
-		AppCount         *int64   `json:"appCount,omitempty"`
-		DbNames          []string `json:"dbNames,omitempty"`
-		Users            []string `json:"users,omitempty"`
-		ClientIPs        []string `json:"clientIPs,omitempty"`
-		Apps             []string `json:"apps,omitempty"`
+		TemplateId         *string  `json:"templateId,omitempty"`
+		NormalizedQuery    *string  `json:"normalizedQuery,omitempty"`
+		SampleSql          *string  `json:"sampleSQL,omitempty"`
+		TotalCount         *int64   `json:"totalCount,omitempty"`
+		TotalExecutionTime *float64 `json:"totalExecutionTime,omitempty"`
+		AvgExecutionTime   *float64 `json:"avgExecutionTime,omitempty"`
+		MaxExecutionTime   *float64 `json:"maxExecutionTime,omitempty"`
+		P95ExecutionTime   *float64 `json:"p95ExecutionTime,omitempty"`
+		DbCount            *int64   `json:"dbCount,omitempty"`
+		UserCount          *int64   `json:"userCount,omitempty"`
+		ClientIpCount      *int64   `json:"clientIPCount,omitempty"`
+		AppCount           *int64   `json:"appCount,omitempty"`
+		AvgRowsExamined    *float64 `json:"avgRowsExamined,omitempty"`
+		AvgRowsSent        *float64 `json:"avgRowsSent,omitempty"`
+		AvgLockTime        *float64 `json:"avgLockTime,omitempty"`
+		DbNames            []string `json:"dbNames,omitempty"`
+		Users              []string `json:"users,omitempty"`
+		ClientIPs          []string `json:"clientIPs,omitempty"`
+		Apps               []string `json:"apps,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"templateId", "normalizedQuery", "sampleSQL", "totalCount", "avgExecutionTime", "maxExecutionTime", "p95ExecutionTime", "dbCount", "userCount", "clientIPCount", "appCount", "dbNames", "users", "clientIPs", "apps"})
+		common.DeleteKeys(additionalProperties, &[]string{"templateId", "normalizedQuery", "sampleSQL", "totalCount", "totalExecutionTime", "avgExecutionTime", "maxExecutionTime", "p95ExecutionTime", "dbCount", "userCount", "clientIPCount", "appCount", "avgRowsExamined", "avgRowsSent", "avgLockTime", "dbNames", "users", "clientIPs", "apps"})
 	} else {
 		return err
 	}
@@ -569,6 +705,7 @@ func (o *ClusterSlowLogTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	o.NormalizedQuery = all.NormalizedQuery
 	o.SampleSql = all.SampleSql
 	o.TotalCount = all.TotalCount
+	o.TotalExecutionTime = all.TotalExecutionTime
 	o.AvgExecutionTime = all.AvgExecutionTime
 	o.MaxExecutionTime = all.MaxExecutionTime
 	o.P95ExecutionTime = all.P95ExecutionTime
@@ -576,6 +713,9 @@ func (o *ClusterSlowLogTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	o.UserCount = all.UserCount
 	o.ClientIpCount = all.ClientIpCount
 	o.AppCount = all.AppCount
+	o.AvgRowsExamined = all.AvgRowsExamined
+	o.AvgRowsSent = all.AvgRowsSent
+	o.AvgLockTime = all.AvgLockTime
 	o.DbNames = all.DbNames
 	o.Users = all.Users
 	o.ClientIPs = all.ClientIPs
