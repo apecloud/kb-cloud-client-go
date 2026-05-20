@@ -23043,26 +23043,35 @@ components:
         sizeOnDisk:
           type: integer
           format: int64
+          x-omitempty: false
         empty:
           type: boolean
+          x-omitempty: false
         collectionCount:
           type: integer
           format: int64
+          x-omitempty: false
         isSystem:
           type: boolean
+          x-omitempty: false
     MongoCollectionCapabilities:
       type: object
       properties:
         canReadDocuments:
           type: boolean
+          x-omitempty: false
         canWriteDocuments:
           type: boolean
+          x-omitempty: false
         canManageIndexes:
           type: boolean
+          x-omitempty: false
         canSetValidation:
           type: boolean
+          x-omitempty: false
         canDrop:
           type: boolean
+          x-omitempty: false
     MongoCollectionInfo:
       type: object
       properties:
@@ -23075,6 +23084,7 @@ components:
         isSystem:
           type: boolean
           description: whether this is a MongoDB system collection
+          x-omitempty: false
         capabilities:
           $ref: '#/components/schemas/MongoCollectionCapabilities'
         options:
@@ -23092,6 +23102,7 @@ components:
         isSystem:
           type: boolean
           description: whether this is a MongoDB system collection
+          x-omitempty: false
         capabilities:
           $ref: '#/components/schemas/MongoCollectionCapabilities'
         documentCount:
