@@ -13,11 +13,7 @@ type MongoCreateCollectionOptions struct {
 	// capped collection max document count
 	Max *int64 `json:"max,omitempty"`
 	// collection validator document
-	Validator        interface{} `json:"validator,omitempty"`
-	ValidationLevel  *string     `json:"validationLevel,omitempty"`
-	ValidationAction *string     `json:"validationAction,omitempty"`
-	// default collection collation
-	Collation interface{} `json:"collation,omitempty"`
+	Validator interface{} `json:"validator,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -152,90 +148,6 @@ func (o *MongoCreateCollectionOptions) SetValidator(v interface{}) {
 	o.Validator = v
 }
 
-// GetValidationLevel returns the ValidationLevel field value if set, zero value otherwise.
-func (o *MongoCreateCollectionOptions) GetValidationLevel() string {
-	if o == nil || o.ValidationLevel == nil {
-		var ret string
-		return ret
-	}
-	return *o.ValidationLevel
-}
-
-// GetValidationLevelOk returns a tuple with the ValidationLevel field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *MongoCreateCollectionOptions) GetValidationLevelOk() (*string, bool) {
-	if o == nil || o.ValidationLevel == nil {
-		return nil, false
-	}
-	return o.ValidationLevel, true
-}
-
-// HasValidationLevel returns a boolean if a field has been set.
-func (o *MongoCreateCollectionOptions) HasValidationLevel() bool {
-	return o != nil && o.ValidationLevel != nil
-}
-
-// SetValidationLevel gets a reference to the given string and assigns it to the ValidationLevel field.
-func (o *MongoCreateCollectionOptions) SetValidationLevel(v string) {
-	o.ValidationLevel = &v
-}
-
-// GetValidationAction returns the ValidationAction field value if set, zero value otherwise.
-func (o *MongoCreateCollectionOptions) GetValidationAction() string {
-	if o == nil || o.ValidationAction == nil {
-		var ret string
-		return ret
-	}
-	return *o.ValidationAction
-}
-
-// GetValidationActionOk returns a tuple with the ValidationAction field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *MongoCreateCollectionOptions) GetValidationActionOk() (*string, bool) {
-	if o == nil || o.ValidationAction == nil {
-		return nil, false
-	}
-	return o.ValidationAction, true
-}
-
-// HasValidationAction returns a boolean if a field has been set.
-func (o *MongoCreateCollectionOptions) HasValidationAction() bool {
-	return o != nil && o.ValidationAction != nil
-}
-
-// SetValidationAction gets a reference to the given string and assigns it to the ValidationAction field.
-func (o *MongoCreateCollectionOptions) SetValidationAction(v string) {
-	o.ValidationAction = &v
-}
-
-// GetCollation returns the Collation field value if set, zero value otherwise.
-func (o *MongoCreateCollectionOptions) GetCollation() interface{} {
-	if o == nil || o.Collation == nil {
-		var ret interface{}
-		return ret
-	}
-	return o.Collation
-}
-
-// GetCollationOk returns a tuple with the Collation field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *MongoCreateCollectionOptions) GetCollationOk() (*interface{}, bool) {
-	if o == nil || o.Collation == nil {
-		return nil, false
-	}
-	return &o.Collation, true
-}
-
-// HasCollation returns a boolean if a field has been set.
-func (o *MongoCreateCollectionOptions) HasCollation() bool {
-	return o != nil && o.Collation != nil
-}
-
-// SetCollation gets a reference to the given interface{} and assigns it to the Collation field.
-func (o *MongoCreateCollectionOptions) SetCollation(v interface{}) {
-	o.Collation = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o MongoCreateCollectionOptions) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -254,15 +166,6 @@ func (o MongoCreateCollectionOptions) MarshalJSON() ([]byte, error) {
 	if o.Validator != nil {
 		toSerialize["validator"] = o.Validator
 	}
-	if o.ValidationLevel != nil {
-		toSerialize["validationLevel"] = o.ValidationLevel
-	}
-	if o.ValidationAction != nil {
-		toSerialize["validationAction"] = o.ValidationAction
-	}
-	if o.Collation != nil {
-		toSerialize["collation"] = o.Collation
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -273,20 +176,17 @@ func (o MongoCreateCollectionOptions) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *MongoCreateCollectionOptions) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Capped           *bool       `json:"capped,omitempty"`
-		Size             *int64      `json:"size,omitempty"`
-		Max              *int64      `json:"max,omitempty"`
-		Validator        interface{} `json:"validator,omitempty"`
-		ValidationLevel  *string     `json:"validationLevel,omitempty"`
-		ValidationAction *string     `json:"validationAction,omitempty"`
-		Collation        interface{} `json:"collation,omitempty"`
+		Capped    *bool       `json:"capped,omitempty"`
+		Size      *int64      `json:"size,omitempty"`
+		Max       *int64      `json:"max,omitempty"`
+		Validator interface{} `json:"validator,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"capped", "size", "max", "validator", "validationLevel", "validationAction", "collation"})
+		common.DeleteKeys(additionalProperties, &[]string{"capped", "size", "max", "validator"})
 	} else {
 		return err
 	}
@@ -294,9 +194,6 @@ func (o *MongoCreateCollectionOptions) UnmarshalJSON(bytes []byte) (err error) {
 	o.Size = all.Size
 	o.Max = all.Max
 	o.Validator = all.Validator
-	o.ValidationLevel = all.ValidationLevel
-	o.ValidationAction = all.ValidationAction
-	o.Collation = all.Collation
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

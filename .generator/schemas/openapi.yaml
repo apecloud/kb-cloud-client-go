@@ -9042,6 +9042,261 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MongoExplainResponse'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/shell/sessions:
+    post:
+      tags:
+        - dms
+      operationId: mongoCreateShellSession
+      summary: create MongoDB mongosh runtime session
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of the datasource
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoShellCreateSessionRequest'
+        required: false
+      responses:
+        '201':
+          description: shell session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoShellSession'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/shell/sessions/{sessionID}:
+    delete:
+      tags:
+        - dms
+      operationId: mongoCloseShellSession
+      summary: close MongoDB mongosh runtime session
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sessionID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: shell session closed
+          content: {}
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/shell/sessions/{sessionID}/prompt:
+    get:
+      tags:
+        - dms
+      operationId: mongoGetShellPrompt
+      summary: get MongoDB mongosh session prompt
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sessionID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoShellPromptResponse'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/shell/sessions/{sessionID}/evaluate:
+    post:
+      tags:
+        - dms
+      operationId: mongoEvaluateShell
+      summary: evaluate input in a MongoDB mongosh session
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sessionID
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoShellEvaluateRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoShellEvaluateResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '504':
+          $ref: '#/components/responses/504'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/shell/sessions/{sessionID}/completions:
+    post:
+      tags:
+        - dms
+      operationId: mongoCompleteShell
+      summary: get completions for a MongoDB mongosh session
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sessionID
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoShellCompletionsRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoShellCompletionsResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/shell/sessions/{sessionID}/interrupt:
+    post:
+      tags:
+        - dms
+      operationId: mongoInterruptShell
+      summary: interrupt current MongoDB mongosh session operation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sessionID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoShellInterruptResponse'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/sessions:
     get:
       deprecated: true
@@ -25741,13 +25996,6 @@ components:
         validator:
           type: object
           description: collection validator document
-        validationLevel:
-          type: string
-        validationAction:
-          type: string
-        collation:
-          type: object
-          description: default collection collation
     MongoCreateCollectionRequest:
       type: object
       properties:
@@ -26032,6 +26280,110 @@ components:
           type: object
         executionStats:
           type: object
+    MongoShellCreateSessionRequest:
+      type: object
+      properties:
+        database:
+          type: string
+          description: optional initial database for the mongosh session
+    MongoShellSession:
+      type: object
+      properties:
+        sessionId:
+          type: string
+          description: shell session id
+        prompt:
+          type: string
+          description: current mongosh prompt
+        state:
+          type: string
+          description: session state
+        createdAt:
+          type: string
+          description: creation time
+        expiresAt:
+          type: string
+          description: expiration time
+    MongoShellPromptResponse:
+      type: object
+      properties:
+        prompt:
+          type: string
+          description: current mongosh prompt
+    MongoShellEvaluateRequest:
+      type: object
+      required:
+        - code
+      properties:
+        code:
+          type: string
+          description: mongosh input to evaluate
+        timeoutMs:
+          type: integer
+          format: int64
+          description: optional execution timeout in milliseconds
+        maxOutputBytes:
+          type: integer
+          format: int64
+          description: optional output cap in bytes
+    MongoShellResult:
+      type: object
+      properties:
+        type:
+          description: mongosh result type
+        printable:
+          description: printable representation
+        source:
+          description: original source value when available
+    MongoShellEvaluateResponse:
+      type: object
+      properties:
+        result:
+          $ref: '#/components/schemas/MongoShellResult'
+        prints:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoShellResult'
+        prompt:
+          type: string
+          description: prompt after evaluation
+        truncated:
+          type: boolean
+          x-omitempty: false
+          description: whether output was truncated
+    MongoShellCompletionsRequest:
+      type: object
+      properties:
+        code:
+          type: string
+          description: current shell input
+    MongoShellCompletionItem:
+      type: object
+      properties:
+        completion:
+          type: string
+          description: completion text
+    MongoShellCompletionsResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoShellCompletionItem'
+    MongoShellInterruptResponse:
+      type: object
+      properties:
+        interrupted:
+          type: boolean
+          x-omitempty: false
+          description: whether the current operation was interrupted
+        validationLevel:
+          type: string
+        validationAction:
+          type: string
+        collation:
+          type: object
+          description: default collection collation
     DmsSession:
       type: object
       required:
@@ -31663,6 +32015,18 @@ components:
           schema:
             $ref: '#/components/schemas/APIErrorResponse'
       description: Not Implemented
+    '503':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIErrorResponse'
+      description: Service Unavailable
+    '504':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIErrorResponse'
+      description: Gateway Timeout
   parameters:
     startTime:
       name: start
