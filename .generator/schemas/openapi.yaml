@@ -4208,6 +4208,88 @@ paths:
         - cluster
         - shared
       x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/tde:
+    get:
+      operationId: getTDE
+      summary: Get TDE status
+      description: Query the transparent data encryption switch status for a cluster component
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: component type
+          in: query
+          name: component
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tdeStatus'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
+        - shared
+    post:
+      operationId: updateTDE
+      summary: Enable TDE
+      description: Enable transparent data encryption for a cluster component. Disabling TDE is not supported.
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tdeRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tdeResponse'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
+        - shared
+      x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/clusters/{clusterName}/metrics:
     get:
       description: Query cluster metrics by specified metric name and instance name, support instant and range query
@@ -20500,6 +20582,44 @@ components:
         taskId:
           type: string
           description: Task ID if the operation is asynchronous (e.g. reconfigure)
+    tdeStatus:
+      type: object
+      description: Transparent data encryption status
+      required:
+        - enable
+      properties:
+        enable:
+          type: boolean
+          description: Whether TDE is enabled
+        options:
+          type: object
+          additionalProperties: true
+          description: Additional configuration options for TDE
+    tdeRequest:
+      type: object
+      description: Request to enable transparent data encryption. Disabling TDE is not supported.
+      required:
+        - component
+        - enable
+      properties:
+        component:
+          type: string
+          description: Component type to update TDE for
+        enable:
+          type: boolean
+          description: Whether to enable TDE. Must be true because disabling TDE is not supported.
+    tdeResponse:
+      type: object
+      description: Response after enabling transparent data encryption
+      required:
+        - enable
+      properties:
+        enable:
+          type: boolean
+          description: Whether TDE is enabled after the operation
+        taskId:
+          type: string
+          description: Task ID if the operation is asynchronous (e.g. reconfigure)
     metricsQueryType:
       type: string
       enum:
@@ -24272,6 +24392,46 @@ components:
           items:
             type: string
           nullable: true
+    tdeParameterOption:
+      type: object
+      description: Parameter configuration for querying and controlling TDE.
+      required:
+        - configSpec
+        - configFileName
+        - key
+      properties:
+        configSpec:
+          type: string
+          description: Configuration spec name
+        configFileName:
+          type: string
+          description: Configuration file name
+        key:
+          type: string
+          description: Primary parameter key used to query TDE status
+        enabledValues:
+          type: array
+          items:
+            type: string
+          description: List of parameter values that indicate TDE is enabled
+        disabledValues:
+          type: array
+          items:
+            type: string
+          description: List of parameter values that indicate TDE is disabled
+    tdeOption:
+      type: object
+      description: Transparent data encryption configuration.
+      required:
+        - component
+        - parameter
+      properties:
+        component:
+          type: string
+          description: Component type
+        parameter:
+          $ref: '#/components/schemas/tdeParameterOption'
+          description: Parameter-based configuration for querying and controlling TDE.
     engineOption:
       type: object
       additionalProperties: false
@@ -24438,6 +24598,11 @@ components:
             When present, use supported to state explicitly whether TLS configuration is offered.
           $ref: '#/components/schemas/engineTlsOption'
           nullable: true
+        tde:
+          type: array
+          items:
+            $ref: '#/components/schemas/tdeOption'
+          description: Transparent data encryption configuration.
     engineOptionList:
       required:
         - items

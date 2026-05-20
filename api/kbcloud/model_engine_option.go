@@ -57,6 +57,8 @@ type EngineOption struct {
 	// blueGreenDeploymentEngine is the engine of a blue-green deployment.
 	BlueGreenDeployment *BlueGreenDeploymentEngineOption `json:"blueGreenDeployment,omitempty"`
 	Tls                 *EngineTlsOption                 `json:"tls,omitempty"`
+	// Transparent data encryption configuration.
+	Tde []TdeOption `json:"tde,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject map[string]interface{} `json:"-"`
 }
@@ -1076,6 +1078,34 @@ func (o *EngineOption) SetTls(v EngineTlsOption) {
 	o.Tls = &v
 }
 
+// GetTde returns the Tde field value if set, zero value otherwise.
+func (o *EngineOption) GetTde() []TdeOption {
+	if o == nil || o.Tde == nil {
+		var ret []TdeOption
+		return ret
+	}
+	return o.Tde
+}
+
+// GetTdeOk returns a tuple with the Tde field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOption) GetTdeOk() (*[]TdeOption, bool) {
+	if o == nil || o.Tde == nil {
+		return nil, false
+	}
+	return &o.Tde, true
+}
+
+// HasTde returns a boolean if a field has been set.
+func (o *EngineOption) HasTde() bool {
+	return o != nil && o.Tde != nil
+}
+
+// SetTde gets a reference to the given []TdeOption and assigns it to the Tde field.
+func (o *EngineOption) SetTde(v []TdeOption) {
+	o.Tde = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -1161,6 +1191,9 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 	if o.Tls != nil {
 		toSerialize["tls"] = o.Tls
 	}
+	if o.Tde != nil {
+		toSerialize["tde"] = o.Tde
+	}
 	return common.Marshal(toSerialize)
 }
 
@@ -1204,6 +1237,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		Architectures       common.NullableList[string]      `json:"architectures,omitempty"`
 		BlueGreenDeployment *BlueGreenDeploymentEngineOption `json:"blueGreenDeployment,omitempty"`
 		Tls                 *EngineTlsOption                 `json:"tls,omitempty"`
+		Tde                 []TdeOption                      `json:"tde,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1338,6 +1372,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Tls = all.Tls
+	o.Tde = all.Tde
 
 	if hasInvalidField {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
