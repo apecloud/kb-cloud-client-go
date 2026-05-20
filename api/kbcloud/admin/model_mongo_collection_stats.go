@@ -10,10 +10,13 @@ type MongoCollectionStats struct {
 	// collection name
 	Name *string `json:"name,omitempty"`
 	// collection type (collection or view)
-	Type          *string `json:"type,omitempty"`
-	DocumentCount *int64  `json:"documentCount,omitempty"`
-	TotalSize     *int64  `json:"totalSize,omitempty"`
-	IndexCount    *int64  `json:"indexCount,omitempty"`
+	Type *string `json:"type,omitempty"`
+	// whether this is a MongoDB system collection
+	IsSystem      *bool                        `json:"isSystem,omitempty"`
+	Capabilities  *MongoCollectionCapabilities `json:"capabilities,omitempty"`
+	DocumentCount *int64                       `json:"documentCount,omitempty"`
+	TotalSize     *int64                       `json:"totalSize,omitempty"`
+	IndexCount    *int64                       `json:"indexCount,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -90,6 +93,62 @@ func (o *MongoCollectionStats) HasType() bool {
 // SetType gets a reference to the given string and assigns it to the Type field.
 func (o *MongoCollectionStats) SetType(v string) {
 	o.Type = &v
+}
+
+// GetIsSystem returns the IsSystem field value if set, zero value otherwise.
+func (o *MongoCollectionStats) GetIsSystem() bool {
+	if o == nil || o.IsSystem == nil {
+		var ret bool
+		return ret
+	}
+	return *o.IsSystem
+}
+
+// GetIsSystemOk returns a tuple with the IsSystem field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MongoCollectionStats) GetIsSystemOk() (*bool, bool) {
+	if o == nil || o.IsSystem == nil {
+		return nil, false
+	}
+	return o.IsSystem, true
+}
+
+// HasIsSystem returns a boolean if a field has been set.
+func (o *MongoCollectionStats) HasIsSystem() bool {
+	return o != nil && o.IsSystem != nil
+}
+
+// SetIsSystem gets a reference to the given bool and assigns it to the IsSystem field.
+func (o *MongoCollectionStats) SetIsSystem(v bool) {
+	o.IsSystem = &v
+}
+
+// GetCapabilities returns the Capabilities field value if set, zero value otherwise.
+func (o *MongoCollectionStats) GetCapabilities() MongoCollectionCapabilities {
+	if o == nil || o.Capabilities == nil {
+		var ret MongoCollectionCapabilities
+		return ret
+	}
+	return *o.Capabilities
+}
+
+// GetCapabilitiesOk returns a tuple with the Capabilities field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MongoCollectionStats) GetCapabilitiesOk() (*MongoCollectionCapabilities, bool) {
+	if o == nil || o.Capabilities == nil {
+		return nil, false
+	}
+	return o.Capabilities, true
+}
+
+// HasCapabilities returns a boolean if a field has been set.
+func (o *MongoCollectionStats) HasCapabilities() bool {
+	return o != nil && o.Capabilities != nil
+}
+
+// SetCapabilities gets a reference to the given MongoCollectionCapabilities and assigns it to the Capabilities field.
+func (o *MongoCollectionStats) SetCapabilities(v MongoCollectionCapabilities) {
+	o.Capabilities = &v
 }
 
 // GetDocumentCount returns the DocumentCount field value if set, zero value otherwise.
@@ -188,6 +247,12 @@ func (o MongoCollectionStats) MarshalJSON() ([]byte, error) {
 	if o.Type != nil {
 		toSerialize["type"] = o.Type
 	}
+	if o.IsSystem != nil {
+		toSerialize["isSystem"] = o.IsSystem
+	}
+	if o.Capabilities != nil {
+		toSerialize["capabilities"] = o.Capabilities
+	}
 	if o.DocumentCount != nil {
 		toSerialize["documentCount"] = o.DocumentCount
 	}
@@ -207,29 +272,42 @@ func (o MongoCollectionStats) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *MongoCollectionStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name          *string `json:"name,omitempty"`
-		Type          *string `json:"type,omitempty"`
-		DocumentCount *int64  `json:"documentCount,omitempty"`
-		TotalSize     *int64  `json:"totalSize,omitempty"`
-		IndexCount    *int64  `json:"indexCount,omitempty"`
+		Name          *string                      `json:"name,omitempty"`
+		Type          *string                      `json:"type,omitempty"`
+		IsSystem      *bool                        `json:"isSystem,omitempty"`
+		Capabilities  *MongoCollectionCapabilities `json:"capabilities,omitempty"`
+		DocumentCount *int64                       `json:"documentCount,omitempty"`
+		TotalSize     *int64                       `json:"totalSize,omitempty"`
+		IndexCount    *int64                       `json:"indexCount,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "documentCount", "totalSize", "indexCount"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "isSystem", "capabilities", "documentCount", "totalSize", "indexCount"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Name = all.Name
 	o.Type = all.Type
+	o.IsSystem = all.IsSystem
+	if all.Capabilities != nil && all.Capabilities.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Capabilities = all.Capabilities
 	o.DocumentCount = all.DocumentCount
 	o.TotalSize = all.TotalSize
 	o.IndexCount = all.IndexCount
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

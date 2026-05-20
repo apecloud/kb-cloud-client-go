@@ -8176,6 +8176,40 @@ paths:
                 type: array
                 items:
                   type: string
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/metadata:
+    get:
+      tags:
+        - dms
+      operationId: listMongoDatabaseMetadata
+      summary: list MongoDB database metadata
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of the datasource
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MongoDatabaseInfo'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/collections:
     get:
       tags:
@@ -8217,6 +8251,66 @@ paths:
                 items:
                   $ref: '#/components/schemas/MongoCollectionInfo'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/collections/{col}:
+    post:
+      tags:
+        - dms
+      operationId: mongoCreateCollection
+      summary: create MongoDB collection
+      description: Creates a collection. Creating the first collection in a database is the supported Create Database backend semantic.
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of the datasource
+          required: true
+          schema:
+            type: string
+        - name: db
+          in: path
+          description: database name
+          required: true
+          schema:
+            type: string
+        - name: col
+          in: path
+          description: initial collection name
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoCreateCollectionRequest'
+        required: false
+      responses:
+        '201':
+          description: collection created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoCollectionInfo'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
     get:
       tags:
         - dms
@@ -15432,6 +15526,11 @@ paths:
           schema:
             type: string
         - in: query
+          name: containerName
+          schema:
+            type: string
+          required: false
+        - in: query
           name: limit
           schema:
             type: string
@@ -15441,7 +15540,43 @@ paths:
             text/plain:
               schema:
                 type: string
-          description: OK
+          description: channel logs output
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /api/v1/organizations/{orgName}/replication/channel/{channelID}/containers:
+    get:
+      description: Query containers of a data channel module pod
+      summary: Query data channel module pod containers
+      operationId: queryDataChannelContainers
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: channelID
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: moduleName
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataReplicationChannelContainer'
+          description: A list of data channel module containers.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -25510,6 +25645,44 @@ components:
           type: integer
           description: return limited number of data
           nullable: true
+    MongoDatabaseInfo:
+      type: object
+      properties:
+        name:
+          type: string
+          description: database name
+        sizeOnDisk:
+          type: integer
+          format: int64
+          x-omitempty: false
+        empty:
+          type: boolean
+          x-omitempty: false
+        collectionCount:
+          type: integer
+          format: int64
+          x-omitempty: false
+        isSystem:
+          type: boolean
+          x-omitempty: false
+    MongoCollectionCapabilities:
+      type: object
+      properties:
+        canReadDocuments:
+          type: boolean
+          x-omitempty: false
+        canWriteDocuments:
+          type: boolean
+          x-omitempty: false
+        canManageIndexes:
+          type: boolean
+          x-omitempty: false
+        canSetValidation:
+          type: boolean
+          x-omitempty: false
+        canDrop:
+          type: boolean
+          x-omitempty: false
     MongoCollectionInfo:
       type: object
       properties:
@@ -25519,6 +25692,12 @@ components:
         type:
           type: string
           description: collection type (collection or view)
+        isSystem:
+          type: boolean
+          description: whether this is a MongoDB system collection
+          x-omitempty: false
+        capabilities:
+          $ref: '#/components/schemas/MongoCollectionCapabilities'
         options:
           type: object
           description: collection options, including viewOn/pipeline when type is view
@@ -25531,6 +25710,12 @@ components:
         type:
           type: string
           description: collection type (collection or view)
+        isSystem:
+          type: boolean
+          description: whether this is a MongoDB system collection
+          x-omitempty: false
+        capabilities:
+          $ref: '#/components/schemas/MongoCollectionCapabilities'
         documentCount:
           type: integer
           format: int64
@@ -25540,6 +25725,34 @@ components:
         indexCount:
           type: integer
           format: int64
+    MongoCreateCollectionOptions:
+      type: object
+      properties:
+        capped:
+          type: boolean
+        size:
+          type: integer
+          format: int64
+          description: capped collection size in bytes
+        max:
+          type: integer
+          format: int64
+          description: capped collection max document count
+        validator:
+          type: object
+          description: collection validator document
+        validationLevel:
+          type: string
+        validationAction:
+          type: string
+        collation:
+          type: object
+          description: default collection collation
+    MongoCreateCollectionRequest:
+      type: object
+      properties:
+        options:
+          $ref: '#/components/schemas/MongoCreateCollectionOptions'
     MongoFindRequest:
       type: object
       properties:
@@ -30517,6 +30730,17 @@ components:
           type: string
           format: date-time
           nullable: true
+    dataReplicationChannelContainer:
+      type: object
+      properties:
+        name:
+          type: string
+        isMainContainer:
+          type: boolean
+          default: false
+        isInitContainer:
+          type: boolean
+          default: false
     dataReplicationParametersResponseDetail:
       type: object
       properties:

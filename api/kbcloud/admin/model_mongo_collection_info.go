@@ -11,6 +11,9 @@ type MongoCollectionInfo struct {
 	Name *string `json:"name,omitempty"`
 	// collection type (collection or view)
 	Type *string `json:"type,omitempty"`
+	// whether this is a MongoDB system collection
+	IsSystem     *bool                        `json:"isSystem,omitempty"`
+	Capabilities *MongoCollectionCapabilities `json:"capabilities,omitempty"`
 	// collection options, including viewOn/pipeline when type is view
 	Options interface{} `json:"options,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -91,6 +94,62 @@ func (o *MongoCollectionInfo) SetType(v string) {
 	o.Type = &v
 }
 
+// GetIsSystem returns the IsSystem field value if set, zero value otherwise.
+func (o *MongoCollectionInfo) GetIsSystem() bool {
+	if o == nil || o.IsSystem == nil {
+		var ret bool
+		return ret
+	}
+	return *o.IsSystem
+}
+
+// GetIsSystemOk returns a tuple with the IsSystem field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MongoCollectionInfo) GetIsSystemOk() (*bool, bool) {
+	if o == nil || o.IsSystem == nil {
+		return nil, false
+	}
+	return o.IsSystem, true
+}
+
+// HasIsSystem returns a boolean if a field has been set.
+func (o *MongoCollectionInfo) HasIsSystem() bool {
+	return o != nil && o.IsSystem != nil
+}
+
+// SetIsSystem gets a reference to the given bool and assigns it to the IsSystem field.
+func (o *MongoCollectionInfo) SetIsSystem(v bool) {
+	o.IsSystem = &v
+}
+
+// GetCapabilities returns the Capabilities field value if set, zero value otherwise.
+func (o *MongoCollectionInfo) GetCapabilities() MongoCollectionCapabilities {
+	if o == nil || o.Capabilities == nil {
+		var ret MongoCollectionCapabilities
+		return ret
+	}
+	return *o.Capabilities
+}
+
+// GetCapabilitiesOk returns a tuple with the Capabilities field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MongoCollectionInfo) GetCapabilitiesOk() (*MongoCollectionCapabilities, bool) {
+	if o == nil || o.Capabilities == nil {
+		return nil, false
+	}
+	return o.Capabilities, true
+}
+
+// HasCapabilities returns a boolean if a field has been set.
+func (o *MongoCollectionInfo) HasCapabilities() bool {
+	return o != nil && o.Capabilities != nil
+}
+
+// SetCapabilities gets a reference to the given MongoCollectionCapabilities and assigns it to the Capabilities field.
+func (o *MongoCollectionInfo) SetCapabilities(v MongoCollectionCapabilities) {
+	o.Capabilities = &v
+}
+
 // GetOptions returns the Options field value if set, zero value otherwise.
 func (o *MongoCollectionInfo) GetOptions() interface{} {
 	if o == nil || o.Options == nil {
@@ -131,6 +190,12 @@ func (o MongoCollectionInfo) MarshalJSON() ([]byte, error) {
 	if o.Type != nil {
 		toSerialize["type"] = o.Type
 	}
+	if o.IsSystem != nil {
+		toSerialize["isSystem"] = o.IsSystem
+	}
+	if o.Capabilities != nil {
+		toSerialize["capabilities"] = o.Capabilities
+	}
 	if o.Options != nil {
 		toSerialize["options"] = o.Options
 	}
@@ -144,25 +209,38 @@ func (o MongoCollectionInfo) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *MongoCollectionInfo) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name    *string     `json:"name,omitempty"`
-		Type    *string     `json:"type,omitempty"`
-		Options interface{} `json:"options,omitempty"`
+		Name         *string                      `json:"name,omitempty"`
+		Type         *string                      `json:"type,omitempty"`
+		IsSystem     *bool                        `json:"isSystem,omitempty"`
+		Capabilities *MongoCollectionCapabilities `json:"capabilities,omitempty"`
+		Options      interface{}                  `json:"options,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "options"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "isSystem", "capabilities", "options"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Name = all.Name
 	o.Type = all.Type
+	o.IsSystem = all.IsSystem
+	if all.Capabilities != nil && all.Capabilities.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Capabilities = all.Capabilities
 	o.Options = all.Options
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
