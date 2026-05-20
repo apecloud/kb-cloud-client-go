@@ -187,6 +187,7 @@
 //   - [dataReplicationApi.listDataChannelEvents]
 //   - [dataReplicationApi.listDataChannelParameters]
 //   - [dataReplicationApi.listDataChannels]
+//   - [dataReplicationApi.queryDataChannelContainers]
 //   - [dataReplicationApi.queryDataChannelLogs]
 //   - [dataReplicationApi.queryReplicationObject]
 //   - [dataReplicationApi.updateDataChannel]
