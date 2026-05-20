@@ -13025,6 +13025,11 @@ paths:
           schema:
             type: string
         - in: query
+          name: containerName
+          schema:
+            type: string
+          required: false
+        - in: query
           name: limit
           schema:
             type: string
@@ -13034,7 +13039,43 @@ paths:
             text/plain:
               schema:
                 type: string
-          description: OK
+          description: channel logs output
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /api/v1/organizations/{orgName}/replication/channel/{channelID}/containers:
+    get:
+      description: Query containers of a data channel module pod
+      summary: Query data channel module pod containers
+      operationId: queryDataChannelContainers
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: channelID
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: moduleName
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataReplicationChannelContainer'
+          description: A list of data channel module containers.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -25690,6 +25731,17 @@ components:
           type: string
           format: date-time
           nullable: true
+    dataReplicationChannelContainer:
+      type: object
+      properties:
+        name:
+          type: string
+        isMainContainer:
+          type: boolean
+          default: false
+        isInitContainer:
+          type: boolean
+          default: false
     dataReplicationParametersResponseDetail:
       type: object
       properties:
