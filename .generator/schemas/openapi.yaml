@@ -8094,6 +8094,40 @@ paths:
                 type: array
                 items:
                   type: string
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/metadata:
+    get:
+      tags:
+        - dms
+      operationId: listMongoDatabaseMetadata
+      summary: list MongoDB database metadata
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of the datasource
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MongoDatabaseInfo'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/collections:
     get:
       tags:
@@ -8135,6 +8169,66 @@ paths:
                 items:
                   $ref: '#/components/schemas/MongoCollectionInfo'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases/{db}/collections/{col}:
+    post:
+      tags:
+        - dms
+      operationId: mongoCreateCollection
+      summary: create MongoDB collection
+      description: Creates a collection. Creating the first collection in a database is the supported Create Database backend semantic.
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of the datasource
+          required: true
+          schema:
+            type: string
+        - name: db
+          in: path
+          description: database name
+          required: true
+          schema:
+            type: string
+        - name: col
+          in: path
+          description: initial collection name
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoCreateCollectionRequest'
+        required: false
+      responses:
+        '201':
+          description: collection created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoCollectionInfo'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
     get:
       tags:
         - dms
@@ -25345,6 +25439,35 @@ components:
           type: integer
           description: return limited number of data
           nullable: true
+    MongoDatabaseInfo:
+      type: object
+      properties:
+        name:
+          type: string
+          description: database name
+        sizeOnDisk:
+          type: integer
+          format: int64
+        empty:
+          type: boolean
+        collectionCount:
+          type: integer
+          format: int64
+        isSystem:
+          type: boolean
+    MongoCollectionCapabilities:
+      type: object
+      properties:
+        canReadDocuments:
+          type: boolean
+        canWriteDocuments:
+          type: boolean
+        canManageIndexes:
+          type: boolean
+        canSetValidation:
+          type: boolean
+        canDrop:
+          type: boolean
     MongoCollectionInfo:
       type: object
       properties:
@@ -25354,6 +25477,11 @@ components:
         type:
           type: string
           description: collection type (collection or view)
+        isSystem:
+          type: boolean
+          description: whether this is a MongoDB system collection
+        capabilities:
+          $ref: '#/components/schemas/MongoCollectionCapabilities'
         options:
           type: object
           description: collection options, including viewOn/pipeline when type is view
@@ -25366,6 +25494,11 @@ components:
         type:
           type: string
           description: collection type (collection or view)
+        isSystem:
+          type: boolean
+          description: whether this is a MongoDB system collection
+        capabilities:
+          $ref: '#/components/schemas/MongoCollectionCapabilities'
         documentCount:
           type: integer
           format: int64
@@ -25375,6 +25508,34 @@ components:
         indexCount:
           type: integer
           format: int64
+    MongoCreateCollectionOptions:
+      type: object
+      properties:
+        capped:
+          type: boolean
+        size:
+          type: integer
+          format: int64
+          description: capped collection size in bytes
+        max:
+          type: integer
+          format: int64
+          description: capped collection max document count
+        validator:
+          type: object
+          description: collection validator document
+        validationLevel:
+          type: string
+        validationAction:
+          type: string
+        collation:
+          type: object
+          description: default collection collation
+    MongoCreateCollectionRequest:
+      type: object
+      properties:
+        options:
+          $ref: '#/components/schemas/MongoCreateCollectionOptions'
     MongoFindRequest:
       type: object
       properties:
