@@ -28346,6 +28346,7 @@ components:
         - sysbench
         - tpcc
         - ycsb
+        - esrally
       properties:
         pgbench:
           type: boolean
@@ -28354,6 +28355,8 @@ components:
         tpcc:
           type: boolean
         ycsb:
+          type: boolean
+        esrally:
           type: boolean
     engineOptionsServicePattern:
       type: string

@@ -111,6 +111,7 @@
 //   - [backupRepoApi.getBackupRepo]
 //   - [backupRepoApi.listBackupRepos]
 //   - [backupRepoApi.viewBackupRepo]
+//   - [benchmarkApi.createEsrally]
 //   - [benchmarkApi.createPgbench]
 //   - [benchmarkApi.createSysbench]
 //   - [benchmarkApi.createTpcc]
