@@ -12,8 +12,8 @@ import (
 
 // Sysbench sysbench is the sysbench benchmark object
 type Sysbench struct {
-	// Step of sysbench
-	Step *SysbenchStep `json:"step,omitempty"`
+	// Step of benchmark
+	Step *BenchmarkStep `json:"step,omitempty"`
 	// the cpu limit for test container
 	LimitCpu *string `json:"limitCpu,omitempty"`
 	// the memory limit for test container
@@ -61,7 +61,7 @@ type Sysbench struct {
 // will change when the set of required properties is changed.
 func NewSysbench(cluster string, database string, username string, password string, address string) *Sysbench {
 	this := Sysbench{}
-	var step SysbenchStep = SysbenchStepAll
+	var step BenchmarkStep = BenchmarkStepAll
 	this.Step = &step
 	var limitCpu string = "1"
 	this.LimitCpu = &limitCpu
@@ -86,7 +86,7 @@ func NewSysbench(cluster string, database string, username string, password stri
 // but it doesn't guarantee that properties required by API are set.
 func NewSysbenchWithDefaults() *Sysbench {
 	this := Sysbench{}
-	var step SysbenchStep = SysbenchStepAll
+	var step BenchmarkStep = BenchmarkStepAll
 	this.Step = &step
 	var limitCpu string = "1"
 	this.LimitCpu = &limitCpu
@@ -102,9 +102,9 @@ func NewSysbenchWithDefaults() *Sysbench {
 }
 
 // GetStep returns the Step field value if set, zero value otherwise.
-func (o *Sysbench) GetStep() SysbenchStep {
+func (o *Sysbench) GetStep() BenchmarkStep {
 	if o == nil || o.Step == nil {
-		var ret SysbenchStep
+		var ret BenchmarkStep
 		return ret
 	}
 	return *o.Step
@@ -112,7 +112,7 @@ func (o *Sysbench) GetStep() SysbenchStep {
 
 // GetStepOk returns a tuple with the Step field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Sysbench) GetStepOk() (*SysbenchStep, bool) {
+func (o *Sysbench) GetStepOk() (*BenchmarkStep, bool) {
 	if o == nil || o.Step == nil {
 		return nil, false
 	}
@@ -124,8 +124,8 @@ func (o *Sysbench) HasStep() bool {
 	return o != nil && o.Step != nil
 }
 
-// SetStep gets a reference to the given SysbenchStep and assigns it to the Step field.
-func (o *Sysbench) SetStep(v SysbenchStep) {
+// SetStep gets a reference to the given BenchmarkStep and assigns it to the Step field.
+func (o *Sysbench) SetStep(v BenchmarkStep) {
 	o.Step = &v
 }
 
@@ -737,7 +737,7 @@ func (o Sysbench) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Sysbench) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Step          *SysbenchStep        `json:"step,omitempty"`
+		Step          *BenchmarkStep       `json:"step,omitempty"`
 		LimitCpu      *string              `json:"limitCpu,omitempty"`
 		LimitMemory   *string              `json:"limitMemory,omitempty"`
 		RequestCpu    *string              `json:"requestCpu,omitempty"`

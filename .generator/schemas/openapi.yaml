@@ -18143,9 +18143,9 @@ components:
           type: array
           items:
             type: string
-    pgbenchStep:
+    benchmarkStep:
       type: string
-      description: Step of pgbench
+      description: Step of benchmark
       default: all
       enum:
         - prepare
@@ -18163,7 +18163,7 @@ components:
       type: object
       properties:
         step:
-          $ref: '#/components/schemas/pgbenchStep'
+          $ref: '#/components/schemas/benchmarkStep'
         limitCpu:
           type: string
           description: the cpu limit for test container
@@ -18217,15 +18217,6 @@ components:
         extraArgs:
           type: string
           description: Extra arguments for pgbench
-    sysbenchStep:
-      type: string
-      description: Step of sysbench
-      default: all
-      enum:
-        - prepare
-        - run
-        - cleanup
-        - all
     sysbenchTestType:
       type: string
       description: Test type for sysbench
@@ -18254,7 +18245,7 @@ components:
       type: object
       properties:
         step:
-          $ref: '#/components/schemas/sysbenchStep'
+          $ref: '#/components/schemas/benchmarkStep'
         limitCpu:
           type: string
           description: the cpu limit for test container
@@ -18318,15 +18309,6 @@ components:
         extraArgs:
           type: string
           description: Extra arguments for sysbench
-    tpccStep:
-      type: string
-      description: Step of sysbench
-      default: all
-      enum:
-        - prepare
-        - run
-        - cleanup
-        - all
     tpcc:
       description: tpcc is the tpcc benchmark object
       required:
@@ -18338,7 +18320,7 @@ components:
       type: object
       properties:
         step:
-          $ref: '#/components/schemas/tpccStep'
+          $ref: '#/components/schemas/benchmarkStep'
         limitCpu:
           type: string
           description: the cpu limit for test container
@@ -18419,15 +18401,6 @@ components:
         extraArgs:
           type: string
           description: Extra arguments for tpcc
-    ycsbStep:
-      type: string
-      description: Step of benchmark
-      default: all
-      enum:
-        - prepare
-        - run
-        - cleanup
-        - all
     ycsbRedisMode:
       type: string
       description: Redis mode
@@ -18444,7 +18417,7 @@ components:
       type: object
       properties:
         step:
-          $ref: '#/components/schemas/ycsbStep'
+          $ref: '#/components/schemas/benchmarkStep'
         limitCpu:
           type: string
           description: the cpu limit for test container
@@ -18523,15 +18496,6 @@ components:
         redisSentinelPassword:
           type: string
           description: Redis sentinel password
-    esrallyStep:
-      type: string
-      description: Step of esrally
-      default: all
-      enum:
-        - prepare
-        - run
-        - cleanup
-        - all
     esrallyOnError:
       type: string
       description: Rally request error handling behavior
@@ -18588,7 +18552,7 @@ components:
       type: object
       properties:
         step:
-          $ref: '#/components/schemas/esrallyStep'
+          $ref: '#/components/schemas/benchmarkStep'
         limitCpu:
           type: string
           description: the cpu limit for test container

@@ -12,8 +12,8 @@ import (
 
 // Esrally esrally is the Elasticsearch Rally benchmark object
 type Esrally struct {
-	// Step of esrally
-	Step *EsrallyStep `json:"step,omitempty"`
+	// Step of benchmark
+	Step *BenchmarkStep `json:"step,omitempty"`
 	// the cpu limit for test container
 	LimitCpu *string `json:"limitCpu,omitempty"`
 	// the memory limit for test container
@@ -59,7 +59,7 @@ type Esrally struct {
 // will change when the set of required properties is changed.
 func NewEsrally(cluster string, username string, address string) *Esrally {
 	this := Esrally{}
-	var step EsrallyStep = EsrallyStepAll
+	var step BenchmarkStep = BenchmarkStepAll
 	this.Step = &step
 	var limitCpu string = "1"
 	this.LimitCpu = &limitCpu
@@ -90,7 +90,7 @@ func NewEsrally(cluster string, username string, address string) *Esrally {
 // but it doesn't guarantee that properties required by API are set.
 func NewEsrallyWithDefaults() *Esrally {
 	this := Esrally{}
-	var step EsrallyStep = EsrallyStepAll
+	var step BenchmarkStep = BenchmarkStepAll
 	this.Step = &step
 	var limitCpu string = "1"
 	this.LimitCpu = &limitCpu
@@ -114,9 +114,9 @@ func NewEsrallyWithDefaults() *Esrally {
 }
 
 // GetStep returns the Step field value if set, zero value otherwise.
-func (o *Esrally) GetStep() EsrallyStep {
+func (o *Esrally) GetStep() BenchmarkStep {
 	if o == nil || o.Step == nil {
-		var ret EsrallyStep
+		var ret BenchmarkStep
 		return ret
 	}
 	return *o.Step
@@ -124,7 +124,7 @@ func (o *Esrally) GetStep() EsrallyStep {
 
 // GetStepOk returns a tuple with the Step field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Esrally) GetStepOk() (*EsrallyStep, bool) {
+func (o *Esrally) GetStepOk() (*BenchmarkStep, bool) {
 	if o == nil || o.Step == nil {
 		return nil, false
 	}
@@ -136,8 +136,8 @@ func (o *Esrally) HasStep() bool {
 	return o != nil && o.Step != nil
 }
 
-// SetStep gets a reference to the given EsrallyStep and assigns it to the Step field.
-func (o *Esrally) SetStep(v EsrallyStep) {
+// SetStep gets a reference to the given BenchmarkStep and assigns it to the Step field.
+func (o *Esrally) SetStep(v BenchmarkStep) {
 	o.Step = &v
 }
 
@@ -677,7 +677,7 @@ func (o Esrally) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Esrally) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Step          *EsrallyStep         `json:"step,omitempty"`
+		Step          *BenchmarkStep       `json:"step,omitempty"`
 		LimitCpu      *string              `json:"limitCpu,omitempty"`
 		LimitMemory   *string              `json:"limitMemory,omitempty"`
 		RequestCpu    *string              `json:"requestCpu,omitempty"`
