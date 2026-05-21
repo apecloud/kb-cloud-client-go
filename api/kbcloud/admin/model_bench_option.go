@@ -11,11 +11,11 @@ import (
 )
 
 type BenchOption struct {
-	Pgbench  bool `json:"pgbench"`
-	Sysbench bool `json:"sysbench"`
-	Tpcc     bool `json:"tpcc"`
-	Ycsb     bool `json:"ycsb"`
-	Esrally  bool `json:"esrally"`
+	Pgbench  bool  `json:"pgbench"`
+	Sysbench bool  `json:"sysbench"`
+	Tpcc     bool  `json:"tpcc"`
+	Ycsb     bool  `json:"ycsb"`
+	Esrally  *bool `json:"esrally,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -25,13 +25,14 @@ type BenchOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBenchOption(pgbench bool, sysbench bool, tpcc bool, ycsb bool, esrally bool) *BenchOption {
+func NewBenchOption(pgbench bool, sysbench bool, tpcc bool, ycsb bool) *BenchOption {
 	this := BenchOption{}
 	this.Pgbench = pgbench
 	this.Sysbench = sysbench
 	this.Tpcc = tpcc
 	this.Ycsb = ycsb
-	this.Esrally = esrally
+	var esrally bool = false
+	this.Esrally = &esrally
 	return &this
 }
 
@@ -40,6 +41,8 @@ func NewBenchOption(pgbench bool, sysbench bool, tpcc bool, ycsb bool, esrally b
 // but it doesn't guarantee that properties required by API are set.
 func NewBenchOptionWithDefaults() *BenchOption {
 	this := BenchOption{}
+	var esrally bool = false
+	this.Esrally = &esrally
 	return &this
 }
 
@@ -135,27 +138,32 @@ func (o *BenchOption) SetYcsb(v bool) {
 	o.Ycsb = v
 }
 
-// GetEsrally returns the Esrally field value.
+// GetEsrally returns the Esrally field value if set, zero value otherwise.
 func (o *BenchOption) GetEsrally() bool {
-	if o == nil {
+	if o == nil || o.Esrally == nil {
 		var ret bool
 		return ret
 	}
-	return o.Esrally
+	return *o.Esrally
 }
 
-// GetEsrallyOk returns a tuple with the Esrally field value
+// GetEsrallyOk returns a tuple with the Esrally field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *BenchOption) GetEsrallyOk() (*bool, bool) {
-	if o == nil {
+	if o == nil || o.Esrally == nil {
 		return nil, false
 	}
-	return &o.Esrally, true
+	return o.Esrally, true
 }
 
-// SetEsrally sets field value.
+// HasEsrally returns a boolean if a field has been set.
+func (o *BenchOption) HasEsrally() bool {
+	return o != nil && o.Esrally != nil
+}
+
+// SetEsrally gets a reference to the given bool and assigns it to the Esrally field.
 func (o *BenchOption) SetEsrally(v bool) {
-	o.Esrally = v
+	o.Esrally = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -168,7 +176,9 @@ func (o BenchOption) MarshalJSON() ([]byte, error) {
 	toSerialize["sysbench"] = o.Sysbench
 	toSerialize["tpcc"] = o.Tpcc
 	toSerialize["ycsb"] = o.Ycsb
-	toSerialize["esrally"] = o.Esrally
+	if o.Esrally != nil {
+		toSerialize["esrally"] = o.Esrally
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -183,7 +193,7 @@ func (o *BenchOption) UnmarshalJSON(bytes []byte) (err error) {
 		Sysbench *bool `json:"sysbench"`
 		Tpcc     *bool `json:"tpcc"`
 		Ycsb     *bool `json:"ycsb"`
-		Esrally  *bool `json:"esrally"`
+		Esrally  *bool `json:"esrally,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -200,9 +210,6 @@ func (o *BenchOption) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Ycsb == nil {
 		return fmt.Errorf("required field ycsb missing")
 	}
-	if all.Esrally == nil {
-		return fmt.Errorf("required field esrally missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"pgbench", "sysbench", "tpcc", "ycsb", "esrally"})
@@ -213,7 +220,7 @@ func (o *BenchOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Sysbench = *all.Sysbench
 	o.Tpcc = *all.Tpcc
 	o.Ycsb = *all.Ycsb
-	o.Esrally = *all.Esrally
+	o.Esrally = all.Esrally
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

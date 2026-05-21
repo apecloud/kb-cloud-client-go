@@ -23472,7 +23472,6 @@ components:
         - sysbench
         - tpcc
         - ycsb
-        - esrally
       properties:
         pgbench:
           type: boolean
@@ -23484,6 +23483,7 @@ components:
           type: boolean
         esrally:
           type: boolean
+          default: false
     engineOptionsServicePattern:
       type: string
       description: service name pattern, e.g. ClusterName-ComponentName or .ClusterName`
