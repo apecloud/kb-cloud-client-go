@@ -28358,6 +28358,9 @@ components:
           type: boolean
         ycsb:
           type: boolean
+        esrally:
+          type: boolean
+          default: false
     engineOptionsServicePattern:
       type: string
       description: service name pattern, e.g. ClusterName-ComponentName or .ClusterName`

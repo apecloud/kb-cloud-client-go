@@ -12,8 +12,8 @@ import (
 
 // Pgbench pgbench is the pgbench benchmark object
 type Pgbench struct {
-	// Step of pgbench
-	Step *PgbenchStep `json:"step,omitempty"`
+	// Step of benchmark
+	Step *BenchmarkStep `json:"step,omitempty"`
 	// the cpu limit for test container
 	LimitCpu *string `json:"limitCpu,omitempty"`
 	// the memory limit for test container
@@ -57,7 +57,7 @@ type Pgbench struct {
 // will change when the set of required properties is changed.
 func NewPgbench(cluster string, database string, username string, password string, address string) *Pgbench {
 	this := Pgbench{}
-	var step PgbenchStep = PgbenchStepAll
+	var step BenchmarkStep = BenchmarkStepAll
 	this.Step = &step
 	var limitCpu string = "1"
 	this.LimitCpu = &limitCpu
@@ -82,7 +82,7 @@ func NewPgbench(cluster string, database string, username string, password strin
 // but it doesn't guarantee that properties required by API are set.
 func NewPgbenchWithDefaults() *Pgbench {
 	this := Pgbench{}
-	var step PgbenchStep = PgbenchStepAll
+	var step BenchmarkStep = BenchmarkStepAll
 	this.Step = &step
 	var limitCpu string = "1"
 	this.LimitCpu = &limitCpu
@@ -98,9 +98,9 @@ func NewPgbenchWithDefaults() *Pgbench {
 }
 
 // GetStep returns the Step field value if set, zero value otherwise.
-func (o *Pgbench) GetStep() PgbenchStep {
+func (o *Pgbench) GetStep() BenchmarkStep {
 	if o == nil || o.Step == nil {
-		var ret PgbenchStep
+		var ret BenchmarkStep
 		return ret
 	}
 	return *o.Step
@@ -108,7 +108,7 @@ func (o *Pgbench) GetStep() PgbenchStep {
 
 // GetStepOk returns a tuple with the Step field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Pgbench) GetStepOk() (*PgbenchStep, bool) {
+func (o *Pgbench) GetStepOk() (*BenchmarkStep, bool) {
 	if o == nil || o.Step == nil {
 		return nil, false
 	}
@@ -120,8 +120,8 @@ func (o *Pgbench) HasStep() bool {
 	return o != nil && o.Step != nil
 }
 
-// SetStep gets a reference to the given PgbenchStep and assigns it to the Step field.
-func (o *Pgbench) SetStep(v PgbenchStep) {
+// SetStep gets a reference to the given BenchmarkStep and assigns it to the Step field.
+func (o *Pgbench) SetStep(v BenchmarkStep) {
 	o.Step = &v
 }
 
@@ -605,23 +605,23 @@ func (o Pgbench) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Pgbench) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Step          *PgbenchStep `json:"step,omitempty"`
-		LimitCpu      *string      `json:"limitCpu,omitempty"`
-		LimitMemory   *string      `json:"limitMemory,omitempty"`
-		RequestCpu    *string      `json:"requestCpu,omitempty"`
-		RequestMemory *string      `json:"requestMemory,omitempty"`
-		Name          *string      `json:"name,omitempty"`
-		Cluster       *string      `json:"cluster"`
-		Database      *string      `json:"database"`
-		Username      *string      `json:"username"`
-		Password      *string      `json:"password"`
-		Address       *string      `json:"address"`
-		Scale         *int32       `json:"scale,omitempty"`
-		Clients       *int32       `json:"clients,omitempty"`
-		Threads       *int32       `json:"threads,omitempty"`
-		Duration      *int32       `json:"duration,omitempty"`
-		SelectOnly    *bool        `json:"selectOnly,omitempty"`
-		ExtraArgs     *string      `json:"extraArgs,omitempty"`
+		Step          *BenchmarkStep `json:"step,omitempty"`
+		LimitCpu      *string        `json:"limitCpu,omitempty"`
+		LimitMemory   *string        `json:"limitMemory,omitempty"`
+		RequestCpu    *string        `json:"requestCpu,omitempty"`
+		RequestMemory *string        `json:"requestMemory,omitempty"`
+		Name          *string        `json:"name,omitempty"`
+		Cluster       *string        `json:"cluster"`
+		Database      *string        `json:"database"`
+		Username      *string        `json:"username"`
+		Password      *string        `json:"password"`
+		Address       *string        `json:"address"`
+		Scale         *int32         `json:"scale,omitempty"`
+		Clients       *int32         `json:"clients,omitempty"`
+		Threads       *int32         `json:"threads,omitempty"`
+		Duration      *int32         `json:"duration,omitempty"`
+		SelectOnly    *bool          `json:"selectOnly,omitempty"`
+		ExtraArgs     *string        `json:"extraArgs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

@@ -1463,6 +1463,33 @@ paths:
               schema:
                 $ref: '#/components/schemas/benchmark'
       x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/benchmark/esrally:
+    post:
+      tags:
+        - benchmark
+      operationId: createEsrally
+      summary: Create an esrally benchmark task
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/esrally'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/benchmark'
+      x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/clusters:
     get:
       tags:
@@ -18178,6 +18205,7 @@ components:
         - tpcc
         - tpch
         - ycsb
+        - esrally
     benchmarkStatus:
       type: string
       description: the status of benchmark
@@ -18253,9 +18281,9 @@ components:
           type: array
           items:
             type: string
-    pgbenchStep:
+    benchmarkStep:
       type: string
-      description: Step of pgbench
+      description: Step of benchmark
       default: all
       enum:
         - prepare
@@ -18273,7 +18301,7 @@ components:
       type: object
       properties:
         step:
-          $ref: '#/components/schemas/pgbenchStep'
+          $ref: '#/components/schemas/benchmarkStep'
         limitCpu:
           type: string
           description: the cpu limit for test container
@@ -18327,15 +18355,6 @@ components:
         extraArgs:
           type: string
           description: Extra arguments for pgbench
-    sysbenchStep:
-      type: string
-      description: Step of sysbench
-      default: all
-      enum:
-        - prepare
-        - run
-        - cleanup
-        - all
     sysbenchTestType:
       type: string
       description: Test type for sysbench
@@ -18364,7 +18383,7 @@ components:
       type: object
       properties:
         step:
-          $ref: '#/components/schemas/sysbenchStep'
+          $ref: '#/components/schemas/benchmarkStep'
         limitCpu:
           type: string
           description: the cpu limit for test container
@@ -18428,15 +18447,6 @@ components:
         extraArgs:
           type: string
           description: Extra arguments for sysbench
-    tpccStep:
-      type: string
-      description: Step of sysbench
-      default: all
-      enum:
-        - prepare
-        - run
-        - cleanup
-        - all
     tpcc:
       description: tpcc is the tpcc benchmark object
       required:
@@ -18448,7 +18458,7 @@ components:
       type: object
       properties:
         step:
-          $ref: '#/components/schemas/tpccStep'
+          $ref: '#/components/schemas/benchmarkStep'
         limitCpu:
           type: string
           description: the cpu limit for test container
@@ -18529,15 +18539,6 @@ components:
         extraArgs:
           type: string
           description: Extra arguments for tpcc
-    ycsbStep:
-      type: string
-      description: Step of benchmark
-      default: all
-      enum:
-        - prepare
-        - run
-        - cleanup
-        - all
     ycsbRedisMode:
       type: string
       description: Redis mode
@@ -18554,7 +18555,7 @@ components:
       type: object
       properties:
         step:
-          $ref: '#/components/schemas/ycsbStep'
+          $ref: '#/components/schemas/benchmarkStep'
         limitCpu:
           type: string
           description: the cpu limit for test container
@@ -18633,6 +18634,114 @@ components:
         redisSentinelPassword:
           type: string
           description: Redis sentinel password
+    esrallyOnError:
+      type: string
+      description: Rally request error handling behavior
+      default: abort
+      enum:
+        - abort
+        - continue
+    esrallyTelemetry:
+      type: string
+      description: Rally runtime telemetry device
+      enum:
+        - node-stats
+        - recovery-stats
+        - ccr-stats
+        - segment-stats
+        - transform-stats
+        - searchable-snapshots-stats
+        - shard-stats
+        - data-stream-stats
+        - ingest-pipeline-stats
+        - disk-usage-stats
+        - geoip-stats
+    esrallyDataProfile:
+      type: string
+      description: Generated Elasticsearch dataset shape
+      default: logs
+      enum:
+        - logs
+        - metrics
+        - http_logs
+        - metricbeat
+        - geonames
+        - nyc_taxis
+        - noaa
+        - nested
+        - pmc
+        - so
+        - dense_vector
+    esrallyWorkload:
+      type: string
+      description: Generated Rally workload profile
+      default: all
+      enum:
+        - index
+        - search
+        - mixed
+        - all
+    esrally:
+      description: esrally is the Elasticsearch Rally benchmark object
+      required:
+        - address
+        - cluster
+        - username
+      type: object
+      properties:
+        step:
+          $ref: '#/components/schemas/benchmarkStep'
+        limitCpu:
+          type: string
+          description: the cpu limit for test container
+          default: '1'
+        limitMemory:
+          type: string
+          description: the memory limit for test container
+          default: 2Gi
+        requestCpu:
+          type: string
+          description: the cpu request for test container
+          default: '0.25'
+        requestMemory:
+          type: string
+          description: the memory request for test container
+          default: 0.5Gi
+        name:
+          type: string
+          description: the name of benchmark
+        cluster:
+          type: string
+          description: the cluster name
+        username:
+          type: string
+          description: Username for Elasticsearch
+        password:
+          type: string
+          description: Password for Elasticsearch
+        address:
+          type: string
+          description: Address for Elasticsearch
+        onError:
+          $ref: '#/components/schemas/esrallyOnError'
+        telemetry:
+          type: array
+          description: Rally telemetry devices
+          items:
+            $ref: '#/components/schemas/esrallyTelemetry'
+        dataProfile:
+          $ref: '#/components/schemas/esrallyDataProfile'
+        documentCount:
+          type: integer
+          minimum: 1
+          default: 10000
+          nullable: true
+          description: Number of generated documents
+        workload:
+          $ref: '#/components/schemas/esrallyWorkload'
+        extraArgs:
+          type: string
+          description: Extra arguments for esrally
     clusterType:
       title: ClusterType
       type: string
@@ -23470,6 +23579,9 @@ components:
           type: boolean
         ycsb:
           type: boolean
+        esrally:
+          type: boolean
+          default: false
     engineOptionsServicePattern:
       type: string
       description: service name pattern, e.g. ClusterName-ComponentName or .ClusterName`
