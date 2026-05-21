@@ -3090,6 +3090,267 @@ paths:
         - cluster
         - shared
       x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics:
+    post:
+      tags:
+        - diagnostic
+      summary: Create diagnostic task
+      description: Create a diagnostic task for a cluster. The task result is a layered report and can be exported as a redacted diagnostic package.
+      operationId: createDiagnosticTask
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          description: Organization name
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          description: Cluster name
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/diagnosticTaskCreate'
+      responses:
+        '201':
+          description: Diagnostic task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/diagnosticTask'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+    get:
+      tags:
+        - diagnostic
+      summary: List diagnostic tasks
+      description: List diagnostic tasks for a cluster.
+      operationId: listDiagnosticTasks
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          description: Organization name
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          description: Cluster name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Diagnostic task list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/diagnosticTaskList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/{taskId}:
+    get:
+      tags:
+        - diagnostic
+      summary: Get diagnostic task
+      description: Get one diagnostic task by ID.
+      operationId: getDiagnosticTask
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: taskId
+          required: true
+          description: Diagnostic task ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Diagnostic task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/diagnosticTask'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/{taskId}/cancel:
+    post:
+      tags:
+        - diagnostic
+      summary: Cancel diagnostic task
+      description: Cancel a diagnostic task. Succeeded and failed tasks keep their terminal state.
+      operationId: cancelDiagnosticTask
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: taskId
+          required: true
+          description: Diagnostic task ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Diagnostic task after cancel request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/diagnosticTask'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/{taskId}/report:
+    get:
+      tags:
+        - diagnostic
+      summary: Get diagnostic report
+      description: Get the layered report for one diagnostic task.
+      operationId: getDiagnosticReport
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: taskId
+          required: true
+          description: Diagnostic task ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Diagnostic report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/diagnosticReport'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/{taskId}/export/manifest:
+    get:
+      tags:
+        - diagnostic
+      summary: Get diagnostic export manifest
+      description: Get the manifest for a redacted diagnostic package.
+      operationId: getDiagnosticExportManifest
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: taskId
+          required: true
+          description: Diagnostic task ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Diagnostic export manifest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/diagnosticExportManifest'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/{taskId}/export/archive:
+    get:
+      tags:
+        - diagnostic
+      summary: Download diagnostic export archive
+      description: Download the redacted diagnostic zip package for one succeeded diagnostic task. Non-succeeded terminal tasks and pre-terminal tasks return 404 because no package has been produced.
+      operationId: getDiagnosticExportArchive
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: taskId
+          required: true
+          description: Diagnostic task ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Redacted diagnostic zip package
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery:
     get:
       operationId: listDisasterRecovery
@@ -22093,6 +22354,1296 @@ components:
             $ref: '#/components/schemas/haHistory'
       required:
         - items
+    diagnosticTaskStatus:
+      type: string
+      description: Diagnostic task status.
+      enum:
+        - pending
+        - running
+        - succeeded
+        - failed
+        - canceled
+        - timeout
+    diagnosticRuleStatus:
+      type: string
+      description: Result status for one diagnostic rule.
+      enum:
+        - pass
+        - warning
+        - failed
+        - unknown
+        - not_applicable
+    diagnosticLayer:
+      type: string
+      description: Diagnostic report layer.
+      enum:
+        - platform
+        - kbe_kb
+        - database
+        - database_metrics
+    diagnosticHealthBucket:
+      type: string
+      description: Health score bucket for the report first screen.
+      enum:
+        - healthy
+        - attention
+        - abnormal
+        - critical
+    diagnosticCheckSeverity:
+      type: string
+      description: User-facing severity and priority bucket for one diagnostic check.
+      enum:
+        - critical
+        - severe
+        - warning
+        - normal
+        - not_applicable
+        - collection_failed
+    diagnosticNextActionTarget:
+      type: string
+      description: Target surface this next action points to. Matches the Sprint 7 v0.1 product contract.
+      enum:
+        - cluster_object
+        - db_pod
+        - component
+        - instanceset
+        - ops_request
+        - controller_log
+        - event_or_condition
+        - metric_source
+        - data_source_plan
+        - control_plane
+    diagnosticNextAction:
+      type: object
+      description: Structured next action for one diagnostic check or top issue.
+      properties:
+        title:
+          type: string
+          description: Short imperative title shown to the user, such as "查看关联对象和控制面日志".
+        target:
+          $ref: '#/components/schemas/diagnosticNextActionTarget'
+        reason:
+          type: string
+          description: One-sentence rationale that explains why this action is suggested.
+        ownerHint:
+          type: string
+          description: Suggested first responder for this action.
+        evidencePath:
+          type: string
+          description: Optional report-internal evidence path or related resource identifier that the action points to.
+        linkType:
+          type: string
+          description: Optional hint of the Console entry to open, such as cluster_console or log_drawer. Not enforced in Sprint 7.
+      required:
+        - title
+        - target
+        - reason
+        - ownerHint
+    diagnosticTopIssue:
+      type: object
+      description: One prioritized issue shown on the report first screen.
+      properties:
+        checkId:
+          type: string
+          description: ID of the diagnostic check that produced this issue.
+        severity:
+          $ref: '#/components/schemas/diagnosticCheckSeverity'
+        priority:
+          type: integer
+          format: int64
+          description: Deterministic priority, where 1 is the highest.
+        summary:
+          type: string
+          description: One-sentence issue summary.
+        impact:
+          type: string
+          description: Impact of this issue on the database cluster.
+        actionHint:
+          type: string
+          description: Deterministic next action for the user or first responder.
+        ownerHint:
+          type: string
+          description: Suggested first responder.
+        resourceRef:
+          type: string
+          description: Optional related resource reference.
+        nextActions:
+          type: array
+          description: Structured next actions for this top issue. Sprint 7 v0.1 hard gate.
+          items:
+            $ref: '#/components/schemas/diagnosticNextAction'
+      required:
+        - checkId
+        - severity
+        - priority
+        - summary
+        - impact
+        - actionHint
+        - ownerHint
+        - nextActions
+    diagnosticTimelineTimeQuality:
+      type: string
+      description: Quality of the timestamp used for ordering a diagnostic timeline item.
+      enum:
+        - precise
+        - observed_only
+    diagnosticTimelineSource:
+      type: string
+      description: Source type for one diagnostic timeline item.
+      enum:
+        - event
+        - condition
+        - opsrequest
+        - controller_log
+        - metric
+    diagnosticTimelineItem:
+      type: object
+      description: One time-ordered diagnostic event used to explain what happened.
+      properties:
+        occurredAt:
+          type: string
+          format: date-time
+          description: Best known time when the event happened.
+        observedAt:
+          type: string
+          format: date-time
+          description: Time when this diagnostic run observed the event.
+        timeQuality:
+          $ref: '#/components/schemas/diagnosticTimelineTimeQuality'
+        source:
+          $ref: '#/components/schemas/diagnosticTimelineSource'
+        resourceRef:
+          type: string
+          description: Related resource reference.
+        checkId:
+          type: string
+          description: Related diagnostic check ID.
+        severity:
+          $ref: '#/components/schemas/diagnosticCheckSeverity'
+        summary:
+          type: string
+          description: One-sentence timeline summary.
+        reasonCode:
+          type: string
+          description: Optional structured reason code from the source.
+      required:
+        - occurredAt
+        - observedAt
+        - timeQuality
+        - source
+        - resourceRef
+        - checkId
+        - severity
+        - summary
+    diagnosticMetricDataQuality:
+      type: string
+      description: Data quality status for one database performance metric.
+      enum:
+        - complete
+        - partial
+        - source_missing
+        - collection_failed
+        - not_applicable
+    diagnosticDBPerformanceMetricReasonCode:
+      type: string
+      description: Structured reason code for unavailable or degraded database performance metrics.
+      enum:
+        - data_source_not_integrated
+        - engine_not_supported
+        - collection_error
+    diagnosticDBPerformanceMetric:
+      type: object
+      description: One database performance metric with threshold and source quality.
+      properties:
+        value:
+          type: string
+          description: Display value when available.
+        unit:
+          type: string
+          description: Metric unit.
+        ratio:
+          type: string
+          description: Utilization ratio when available.
+        threshold:
+          type: string
+          description: Threshold rule used for this metric.
+        severity:
+          $ref: '#/components/schemas/diagnosticCheckSeverity'
+        source:
+          type: string
+          description: Data source used for this metric.
+        dataQuality:
+          $ref: '#/components/schemas/diagnosticMetricDataQuality'
+        reasonCode:
+          $ref: '#/components/schemas/diagnosticDBPerformanceMetricReasonCode'
+        reason:
+          type: string
+          description: Reason when the metric is unavailable or degraded.
+      required:
+        - severity
+        - source
+        - dataQuality
+        - reason
+    diagnosticDBPerformanceSlowSQLState:
+      type: string
+      description: |
+        Business-result axis for the slow SQL metric. Sprint 9 v0.1 four-state contract.
+        Separate from dataQuality (collection-quality axis) so the Console can render the
+        correct main text without overloading dataQuality. Each enum value pairs with a
+        fixed (dataQuality, reasonCode, count) tuple enforced by backend Validate.
+      enum:
+        - source_present_with_data
+        - source_present_no_data_in_window
+        - source_present_collection_failed
+        - source_missing
+    diagnosticDBPerformanceSlowSQLSample:
+      type: object
+      description: One slow SQL statement digest sample shown in the Top-N list.
+      properties:
+        digest:
+          type: string
+          description: Stable normalized statement digest, such as a pg_stat_statements queryid string.
+        redactedText:
+          type: string
+          description: Optional redacted SQL text. Literals removed; safe to display.
+        callCount:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Execution count within the time window.
+        meanDurationMs:
+          type: number
+          format: double
+          minimum: 0
+          description: Mean execution duration in milliseconds within the window.
+        maxDurationMs:
+          type: number
+          format: double
+          minimum: 0
+          description: Max execution duration in milliseconds within the window.
+      required:
+        - digest
+    diagnosticDBPerformanceSlowSQLDatasetSummary:
+      type: object
+      description: |
+        Summary of the slow SQL sample set. REQUIRED when slowSqlState is
+        source_present_with_data or source_present_no_data_in_window;
+        FORBIDDEN otherwise. Cross-field consistency enforced by
+        ValidateSlowSQLStateConsistency.
+      properties:
+        totalCount:
+          type: integer
+          format: int64
+          minimum: 0
+          description: |
+            Number of distinct slow SQL statements / fingerprints matched by
+            the threshold inside the time window. NOT a call count — repeated
+            executions of the same statement contribute to a single fingerprint
+            and increment topSlowSqls[].callCount instead. Must be > 0 when
+            slowSqlState=source_present_with_data and == 0 when
+            slowSqlState=source_present_no_data_in_window.
+        threshold:
+          type: string
+          description: Threshold rule used to pick slow SQL, such as "mean_time >= 200ms".
+        topSlowSqls:
+          type: array
+          description: |
+            Top-N slow SQL fingerprints inside the window. Empty when
+            slowSqlState=source_present_no_data_in_window. May also be empty
+            when slowSqlState=source_present_with_data if redaction removed
+            every digest.
+          items:
+            $ref: '#/components/schemas/diagnosticDBPerformanceSlowSQLSample'
+      required:
+        - totalCount
+        - threshold
+    diagnosticDBPerformanceSlowSQLTimeWindow:
+      type: object
+      description: Collection time window for one slow SQL sample set. Required when slowSqlState is source_present_with_data or source_present_no_data_in_window.
+      properties:
+        startedAt:
+          type: string
+          format: date-time
+          description: Time window start.
+        endedAt:
+          type: string
+          format: date-time
+          description: Time window end.
+        durationSeconds:
+          type: integer
+          format: int64
+          minimum: 1
+          description: Window duration in seconds. Must equal endedAt minus startedAt.
+      required:
+        - startedAt
+        - endedAt
+        - durationSeconds
+    diagnosticDBPerformanceSlowSQLCollectionError:
+      type: object
+      description: Structured collection error detail when slowSqlState is source_present_collection_failed.
+      properties:
+        code:
+          type: string
+          description: Stable error code, such as connect_refused, permission_denied, query_timeout.
+        message:
+          type: string
+          description: Human-readable error message passed through to Console.
+        retryable:
+          type: boolean
+          description: Whether the controller indicates the collection error is retryable.
+      required:
+        - code
+        - message
+        - retryable
+    diagnosticDBPerformanceSlowSQLMetric:
+      type: object
+      description: |
+        Richer slow SQL performance metric. Inlines the generic metric fields and adds
+        Sprint 9 slow SQL specific result fields. Cross-field consistency between
+        slowSqlState, dataQuality, reasonCode and datasetSummary.totalCount is enforced
+        by backend loader Validate (see Sprint 9 v0.1 contract).
+      properties:
+        value:
+          type: string
+          description: Display value when available.
+        unit:
+          type: string
+          description: Metric unit.
+        ratio:
+          type: string
+          description: Utilization ratio when available.
+        threshold:
+          type: string
+          description: Threshold rule used for this metric.
+        severity:
+          $ref: '#/components/schemas/diagnosticCheckSeverity'
+        source:
+          type: string
+          description: Data source used for this metric, such as pg_stat_statements.
+        dataQuality:
+          $ref: '#/components/schemas/diagnosticMetricDataQuality'
+        reasonCode:
+          $ref: '#/components/schemas/diagnosticDBPerformanceMetricReasonCode'
+        reason:
+          type: string
+          description: Reason when the metric is unavailable or degraded.
+        slowSqlState:
+          $ref: '#/components/schemas/diagnosticDBPerformanceSlowSQLState'
+        datasetSummary:
+          $ref: '#/components/schemas/diagnosticDBPerformanceSlowSQLDatasetSummary'
+        timeWindow:
+          $ref: '#/components/schemas/diagnosticDBPerformanceSlowSQLTimeWindow'
+        collectionError:
+          $ref: '#/components/schemas/diagnosticDBPerformanceSlowSQLCollectionError'
+      required:
+        - severity
+        - source
+        - dataQuality
+        - reason
+        - slowSqlState
+    diagnosticDBPerformanceLongTransactionState:
+      type: string
+      description: |
+        Business-result axis for the PostgreSQL long-transaction metric. Live
+        collection produces the three states source_present_with_data,
+        source_present_no_data, and source_present_collection_failed.
+        source_missing is the compatibility state used when the collector is not
+        enabled or no PostgreSQL pod is available.
+      enum:
+        - source_present_with_data
+        - source_present_no_data
+        - source_present_collection_failed
+        - source_missing
+    diagnosticDBPerformanceLongTransactionSample:
+      type: object
+      description: One active PostgreSQL transaction that exceeded the long-transaction threshold.
+      properties:
+        pid:
+          type: integer
+          format: int64
+          description: PostgreSQL backend PID for the session holding the long transaction.
+        userName:
+          type: string
+          description: Database user of the session.
+        databaseName:
+          type: string
+          description: Database name observed for the session.
+        applicationName:
+          type: string
+          description: PostgreSQL application_name for the session.
+        clientAddr:
+          type: string
+          description: Client address reported by pg_stat_activity, when available.
+        transactionStart:
+          type: string
+          format: date-time
+          description: pg_stat_activity.xact_start for the active transaction.
+        transactionDurationSeconds:
+          type: integer
+          format: int64
+          minimum: 0
+          description: How long the transaction has been open, in seconds.
+        state:
+          type: string
+          description: pg_stat_activity.state for the session.
+        waitEventType:
+          type: string
+          description: PostgreSQL wait_event_type for the session.
+        waitEvent:
+          type: string
+          description: PostgreSQL wait_event for the session.
+        queryDigest:
+          type: string
+          description: Digest of the current query text. Full SQL text is not exposed.
+      required:
+        - pid
+        - userName
+        - databaseName
+        - transactionStart
+        - transactionDurationSeconds
+        - state
+        - queryDigest
+    diagnosticDBPerformanceLongTransactionDatasetSummary:
+      type: object
+      description: Summary of the long-transaction sample set.
+      properties:
+        totalCount:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Number of sessions whose transaction age exceeded the readonly threshold.
+        thresholdSeconds:
+          type: integer
+          format: int64
+          minimum: 1
+          description: Minimum transaction age, in seconds, used by the readonly collector.
+        collectedAt:
+          type: string
+          format: date-time
+          description: Time when the readonly long-transaction collector produced this sample set.
+        activeTransactions:
+          type: array
+          description: Top long transactions sorted by transaction duration.
+          items:
+            $ref: '#/components/schemas/diagnosticDBPerformanceLongTransactionSample'
+      required:
+        - totalCount
+        - thresholdSeconds
+        - collectedAt
+        - activeTransactions
+    diagnosticDBPerformanceLongTransactionCollectionError:
+      type: object
+      description: Structured collection error detail when longTransactionState is source_present_collection_failed.
+      properties:
+        code:
+          type: string
+          description: Stable error code, such as permission_denied, query_timeout, collection_failed, or unexpected_output.
+        message:
+          type: string
+          description: Human-readable, redacted error message passed through to Console.
+        retryable:
+          type: boolean
+          description: Whether the collection error is retryable.
+        query:
+          type: string
+          description: Name or redacted template of the readonly query that failed.
+      required:
+        - code
+        - message
+        - retryable
+        - query
+    diagnosticDBPerformanceLongTransactionMetric:
+      type: object
+      description: |
+        PostgreSQL long-transaction performance metric. It exposes a three-state
+        live collector contract (has data / no data / collection failed) plus the
+        source_missing compatibility state when collection is disabled or not
+        integrated. Full SQL text is never exposed; only digests are returned.
+      properties:
+        value:
+          type: string
+          description: Display value when available.
+        unit:
+          type: string
+          description: Metric unit.
+        ratio:
+          type: string
+          description: Utilization ratio when available.
+        threshold:
+          type: string
+          description: Threshold rule used for this metric.
+        severity:
+          $ref: '#/components/schemas/diagnosticCheckSeverity'
+        source:
+          type: string
+          description: Data source used for this metric, such as pg_stat_activity.
+        dataQuality:
+          $ref: '#/components/schemas/diagnosticMetricDataQuality'
+        reasonCode:
+          $ref: '#/components/schemas/diagnosticDBPerformanceMetricReasonCode'
+        reason:
+          type: string
+          description: Reason when the metric is unavailable or degraded.
+        longTransactionState:
+          $ref: '#/components/schemas/diagnosticDBPerformanceLongTransactionState'
+        datasetSummary:
+          $ref: '#/components/schemas/diagnosticDBPerformanceLongTransactionDatasetSummary'
+        collectionError:
+          $ref: '#/components/schemas/diagnosticDBPerformanceLongTransactionCollectionError'
+      required:
+        - severity
+        - source
+        - dataQuality
+        - reason
+        - longTransactionState
+    diagnosticDBPerformanceLockWaitState:
+      type: string
+      description: |
+        Business-result axis for the PostgreSQL lock-wait metric. Live collection
+        produces the three states source_present_with_data, source_present_no_data,
+        and source_present_collection_failed. source_missing is the compatibility
+        state used when the collector is not enabled or no PostgreSQL pod is
+        available.
+      enum:
+        - source_present_with_data
+        - source_present_no_data
+        - source_present_collection_failed
+        - source_missing
+    diagnosticDBPerformanceLockWaitSample:
+      type: object
+      description: One blocked session and its blocker, redacted for report display.
+      properties:
+        blockedPid:
+          type: integer
+          format: int64
+          description: PostgreSQL backend PID of the blocked session.
+        blockingPid:
+          type: integer
+          format: int64
+          description: PostgreSQL backend PID of the blocking session.
+        blockedUser:
+          type: string
+          description: Database user of the blocked session.
+        blockingUser:
+          type: string
+          description: Database user of the blocking session.
+        databaseName:
+          type: string
+          description: Database name observed for the blocked session.
+        waitDurationSeconds:
+          type: integer
+          format: int64
+          minimum: 0
+          description: How long the blocked session has been waiting, in seconds.
+        waitEventType:
+          type: string
+          description: PostgreSQL wait_event_type for the blocked session.
+        waitEvent:
+          type: string
+          description: PostgreSQL wait_event for the blocked session.
+        lockType:
+          type: string
+          description: pg_locks.locktype for the waiting lock.
+        lockMode:
+          type: string
+          description: pg_locks.mode for the waiting lock.
+        lockObject:
+          type: string
+          description: Stable lock object identity, such as relation:<name>, transactionid:<id>, tuple:<relation>:<page>:<tuple>, or advisory:<classid>:<objid>:<objsubid>.
+        blockedQueryDigest:
+          type: string
+          description: Digest of the blocked SQL text. Full SQL text is not exposed.
+        blockingQueryDigest:
+          type: string
+          description: Digest of the blocking SQL text. Full SQL text is not exposed.
+      required:
+        - blockedPid
+        - blockingPid
+        - waitDurationSeconds
+        - lockType
+        - lockObject
+        - blockedQueryDigest
+        - blockingQueryDigest
+    diagnosticDBPerformanceLockWaitDatasetSummary:
+      type: object
+      description: Summary of the lock-wait sample set.
+      properties:
+        totalCount:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Number of blocked sessions found by the readonly lock-wait query.
+        blockedSessions:
+          type: array
+          description: Top blocked sessions sorted by wait duration.
+          items:
+            $ref: '#/components/schemas/diagnosticDBPerformanceLockWaitSample'
+      required:
+        - totalCount
+        - blockedSessions
+    diagnosticDBPerformanceLockWaitCollectionError:
+      type: object
+      description: Structured collection error detail when lockWaitState is source_present_collection_failed.
+      properties:
+        code:
+          type: string
+          description: Stable error code, such as permission_denied, query_timeout, collection_failed, or unexpected_output.
+        message:
+          type: string
+          description: Human-readable, redacted error message passed through to Console.
+        retryable:
+          type: boolean
+          description: Whether the collection error is retryable.
+        query:
+          type: string
+          description: Name or redacted template of the readonly query that failed.
+      required:
+        - code
+        - message
+        - retryable
+        - query
+    diagnosticDBPerformanceLockWaitMetric:
+      type: object
+      description: |
+        PostgreSQL lock-wait performance metric. It exposes a three-state live
+        collector contract (has data / no data / collection failed) plus the
+        source_missing compatibility state when collection is disabled or not
+        integrated. Full SQL text is never exposed; only digests are returned.
+      properties:
+        value:
+          type: string
+          description: Display value when available.
+        unit:
+          type: string
+          description: Metric unit.
+        ratio:
+          type: string
+          description: Utilization ratio when available.
+        threshold:
+          type: string
+          description: Threshold rule used for this metric.
+        severity:
+          $ref: '#/components/schemas/diagnosticCheckSeverity'
+        source:
+          type: string
+          description: Data source used for this metric, such as pg_locks.
+        dataQuality:
+          $ref: '#/components/schemas/diagnosticMetricDataQuality'
+        reasonCode:
+          $ref: '#/components/schemas/diagnosticDBPerformanceMetricReasonCode'
+        reason:
+          type: string
+          description: Reason when the metric is unavailable or degraded.
+        lockWaitState:
+          $ref: '#/components/schemas/diagnosticDBPerformanceLockWaitState'
+        datasetSummary:
+          $ref: '#/components/schemas/diagnosticDBPerformanceLockWaitDatasetSummary'
+        collectionError:
+          $ref: '#/components/schemas/diagnosticDBPerformanceLockWaitCollectionError'
+      required:
+        - severity
+        - source
+        - dataQuality
+        - reason
+        - lockWaitState
+    diagnosticDBPerformance:
+      type: object
+      description: First-screen database performance summary.
+      properties:
+        cpu:
+          $ref: '#/components/schemas/diagnosticDBPerformanceMetric'
+        memory:
+          $ref: '#/components/schemas/diagnosticDBPerformanceMetric'
+        disk:
+          $ref: '#/components/schemas/diagnosticDBPerformanceMetric'
+        connections:
+          $ref: '#/components/schemas/diagnosticDBPerformanceMetric'
+        slowSql:
+          $ref: '#/components/schemas/diagnosticDBPerformanceSlowSQLMetric'
+        longTransaction:
+          $ref: '#/components/schemas/diagnosticDBPerformanceLongTransactionMetric'
+        lockWait:
+          $ref: '#/components/schemas/diagnosticDBPerformanceLockWaitMetric'
+      required:
+        - cpu
+        - memory
+        - disk
+        - connections
+        - slowSql
+        - longTransaction
+        - lockWait
+    diagnosticEvidence:
+      type: object
+      description: Evidence collected for one diagnostic finding.
+      properties:
+        source:
+          type: string
+          description: Evidence source, such as Pod, Event, Node, Component, version, or log.
+        collectedAt:
+          type: string
+          format: date-time
+          description: Evidence collection time.
+        objectName:
+          type: string
+          description: Kubernetes or KBE object name.
+        namespace:
+          type: string
+          description: Kubernetes namespace, when applicable.
+        kind:
+          type: string
+          description: Object kind, when applicable.
+        message:
+          type: string
+          description: Redacted evidence message or important field summary.
+        fields:
+          type: object
+          description: Redacted key-value evidence fields.
+          additionalProperties:
+            type: string
+        redacted:
+          type: boolean
+          description: Whether this evidence has passed redaction.
+      required:
+        - source
+        - collectedAt
+        - redacted
+    diagnosticFinding:
+      type: object
+      description: One rule result in a diagnostic report.
+      properties:
+        layer:
+          $ref: '#/components/schemas/diagnosticLayer'
+        ruleId:
+          type: string
+          description: Stable rule ID, such as node-not-ready or kb-version-mismatch.
+        status:
+          $ref: '#/components/schemas/diagnosticRuleStatus'
+        summary:
+          type: string
+          description: One-sentence result summary.
+        evidence:
+          type: array
+          items:
+            $ref: '#/components/schemas/diagnosticEvidence'
+        actionHint:
+          type: string
+          description: Deterministic next action. Do not include guesses without evidence.
+        ownerHint:
+          type: string
+          description: Suggested first responder, such as platform, kbe-kb, or database team.
+        redacted:
+          type: boolean
+          description: Whether all attached evidence has been redacted.
+      required:
+        - layer
+        - ruleId
+        - status
+        - summary
+        - evidence
+        - ownerHint
+        - redacted
+    diagnosticCheckStatus:
+      type: string
+      description: Result status for one executed diagnostic check.
+      enum:
+        - pass
+        - warning
+        - fail
+        - collection_failed
+        - not_applicable
+    diagnosticCheckCriticality:
+      type: string
+      description: Whether this check is on the critical diagnostic path for health score calculation.
+      enum:
+        - critical_path
+        - supporting
+    diagnosticCheckRiskDomain:
+      type: string
+      description: Whether this check describes database health or KBE control-plane risk.
+      enum:
+        - database
+        - control_plane
+    diagnosticCheckRelationStatus:
+      type: string
+      description: Whether this check has proven relation to the current database object.
+      enum:
+        - related
+        - unknown
+        - unrelated
+    diagnosticRelatedResource:
+      type: object
+      description: Resource connected to one diagnostic check.
+      properties:
+        kind:
+          type: string
+          description: Kubernetes or KBE resource kind.
+        namespace:
+          type: string
+          description: Kubernetes namespace, when applicable.
+        name:
+          type: string
+          description: Resource name.
+        relation:
+          type: string
+          description: Why this resource is related to the check.
+    diagnosticControllerLogRelationKind:
+      type: string
+      description: |
+        Product-facing relation bucket for one controller-log explanation card.
+        This is separate from the legacy check-level relationStatus/riskDomain
+        fields, which remain for Sprint 6/7 compatibility.
+      enum:
+        - current_instance_related
+        - current_cluster_related
+        - control_plane_risk
+        - unknown_relation
+        - unrelated
+    diagnosticControllerLogRelationTimeWindow:
+      type: object
+      description: |
+        Time range covered by one controller-log relation card. Together with
+        lastOccurredAt, this is the recency contract for Console display.
+      properties:
+        startedAt:
+          type: string
+          format: date-time
+          description: Earliest representative log timestamp or collection-window start.
+        endedAt:
+          type: string
+          format: date-time
+          description: Latest representative log timestamp or collection-window end.
+        durationSeconds:
+          type: integer
+          format: int64
+          minimum: 1
+          description: Window duration in seconds. Must be positive when present.
+      required:
+        - startedAt
+        - endedAt
+        - durationSeconds
+    diagnosticControllerLogRepresentativeLog:
+      type: object
+      description: Redacted representative controller log for one relation card.
+      properties:
+        occurredAt:
+          type: string
+          format: date-time
+          description: Best known log occurrence time.
+        namespace:
+          type: string
+          description: Namespace of the controller log pod.
+        pod:
+          type: string
+          description: Pod name that produced the log.
+        container:
+          type: string
+          description: Container name that produced the log.
+        message:
+          type: string
+          description: Redacted representative log message.
+        rawEvidencePath:
+          type: string
+          description: Report-internal pointer to the rawEvidence entry backing this representative log.
+      required:
+        - occurredAt
+        - namespace
+        - pod
+        - container
+        - message
+        - rawEvidencePath
+    diagnosticControllerLogRelation:
+      type: object
+      description: |
+        Controller-log explanation card consumed by Console before raw evidence.
+        It groups redacted raw controller logs by product relation, error type,
+        recency and next action.
+      properties:
+        relation:
+          $ref: '#/components/schemas/diagnosticControllerLogRelationKind'
+        relatedResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/diagnosticRelatedResource'
+        timeWindow:
+          $ref: '#/components/schemas/diagnosticControllerLogRelationTimeWindow'
+        lastOccurredAt:
+          type: string
+          format: date-time
+          description: Latest known occurrence time for this relation card.
+        errorType:
+          type: string
+          description: Stable snake_case grouping hint, such as reconcile_failed, object_not_found, permission_denied, or unknown_error.
+        count:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Number of redacted controller log entries represented by this card.
+        representativeLogs:
+          type: array
+          items:
+            $ref: '#/components/schemas/diagnosticControllerLogRepresentativeLog'
+        nextAction:
+          $ref: '#/components/schemas/diagnosticNextAction'
+        rawEvidenceRefs:
+          type: array
+          description: Report-internal pointers to rawEvidence entries backing this relation card.
+          items:
+            type: string
+      required:
+        - relation
+        - relatedResources
+        - timeWindow
+        - lastOccurredAt
+        - errorType
+        - count
+        - representativeLogs
+        - nextAction
+        - rawEvidenceRefs
+    diagnosticDataQuality:
+      type: object
+      description: Data-source quality for one diagnostic check.
+      properties:
+        status:
+          type: string
+          description: Data quality status, such as complete, partial, failed, or not_applicable.
+        reason:
+          type: string
+          description: Human-readable reason when data is partial, failed, or not applicable.
+        missingSources:
+          type: array
+          description: Missing or unavailable data sources.
+          items:
+            type: string
+    diagnosticCheck:
+      type: object
+      description: One executed diagnostic check result shown in the self-diagnosis report.
+      properties:
+        id:
+          type: string
+          description: Stable check ID, such as event-analysis or db-key-metrics.
+        name:
+          type: string
+          description: Human-readable check name.
+        layer:
+          $ref: '#/components/schemas/diagnosticLayer'
+        status:
+          $ref: '#/components/schemas/diagnosticCheckStatus'
+        severity:
+          $ref: '#/components/schemas/diagnosticCheckSeverity'
+        priority:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 3
+          description: Deterministic priority, where 1 is the highest.
+        criticality:
+          $ref: '#/components/schemas/diagnosticCheckCriticality'
+        riskDomain:
+          $ref: '#/components/schemas/diagnosticCheckRiskDomain'
+        relationStatus:
+          $ref: '#/components/schemas/diagnosticCheckRelationStatus'
+        summary:
+          type: string
+          description: One-sentence check result.
+        explanation:
+          type: string
+          description: Human-readable explanation of what this check means.
+        impact:
+          type: string
+          description: Impact of this check on the database cluster.
+        relatedResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/diagnosticRelatedResource'
+        controllerLogRelations:
+          type: array
+          description: Optional controller-log explanation cards. Only populated for the kb-controller-logs check.
+          items:
+            $ref: '#/components/schemas/diagnosticControllerLogRelation'
+        evidenceSummary:
+          type: string
+          description: Human-readable evidence summary for the default page.
+        nextActions:
+          type: array
+          items:
+            $ref: '#/components/schemas/diagnosticNextAction'
+        rawEvidence:
+          type: array
+          items:
+            $ref: '#/components/schemas/diagnosticEvidence'
+        dataQuality:
+          $ref: '#/components/schemas/diagnosticDataQuality'
+        evidence:
+          type: array
+          items:
+            $ref: '#/components/schemas/diagnosticEvidence'
+        algorithm:
+          type: string
+          description: Deterministic judgment method used by this check.
+        actionHint:
+          type: string
+          description: Deterministic next action for the user or first responder.
+        ownerHint:
+          type: string
+          description: Suggested first responder, such as platform, kbe-kb, or database team.
+        reason:
+          type: string
+          description: Failure, collection-failed, or not-applicable reason. Empty when no extra reason is needed.
+        checkedAt:
+          type: string
+          format: date-time
+          description: Check execution time.
+        redacted:
+          type: boolean
+          description: Whether all attached evidence has been redacted.
+      required:
+        - id
+        - name
+        - layer
+        - status
+        - severity
+        - priority
+        - criticality
+        - riskDomain
+        - relationStatus
+        - summary
+        - explanation
+        - impact
+        - relatedResources
+        - evidenceSummary
+        - nextActions
+        - rawEvidence
+        - dataQuality
+        - evidence
+        - algorithm
+        - actionHint
+        - ownerHint
+        - reason
+        - checkedAt
+        - redacted
+    diagnosticReport:
+      type: object
+      description: Layered diagnostic report.
+      properties:
+        taskId:
+          type: string
+          description: Diagnostic task ID.
+        generatedAt:
+          type: string
+          format: date-time
+          description: Report generation time.
+        overallStatus:
+          $ref: '#/components/schemas/diagnosticRuleStatus'
+        summary:
+          type: string
+          description: Human-readable top-level report summary.
+        recommendedLayer:
+          $ref: '#/components/schemas/diagnosticLayer'
+        ownerHint:
+          type: string
+          description: Suggested first responder for the highest-priority finding.
+        exportAvailable:
+          type: boolean
+          description: Whether a redacted diagnostic package can be downloaded for this task.
+        healthScore:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 100
+          description: Deterministic 0-100 health score for the first screen.
+        healthBucket:
+          $ref: '#/components/schemas/diagnosticHealthBucket'
+        topIssues:
+          type: array
+          description: Top prioritized issues for the first screen.
+          items:
+            $ref: '#/components/schemas/diagnosticTopIssue'
+        timeline:
+          type: array
+          description: Time-ordered diagnostic timeline.
+          items:
+            $ref: '#/components/schemas/diagnosticTimelineItem'
+        dbPerformance:
+          $ref: '#/components/schemas/diagnosticDBPerformance'
+        findings:
+          type: array
+          items:
+            $ref: '#/components/schemas/diagnosticFinding'
+        checks:
+          type: array
+          items:
+            $ref: '#/components/schemas/diagnosticCheck'
+      required:
+        - taskId
+        - generatedAt
+        - overallStatus
+        - summary
+        - recommendedLayer
+        - ownerHint
+        - exportAvailable
+        - healthScore
+        - healthBucket
+        - topIssues
+        - timeline
+        - dbPerformance
+        - findings
+        - checks
+    diagnosticExportFileResult:
+      type: string
+      description: Collection result for one file included in a redacted diagnostic package.
+      enum:
+        - success
+        - failed
+        - skipped
+        - not_applicable
+    diagnosticExportFile:
+      type: object
+      description: One file included in a redacted diagnostic package.
+      properties:
+        path:
+          type: string
+          description: Path inside the diagnostic package.
+        type:
+          type: string
+          description: File type, such as report-json, manifest-json, yaml, event, or log.
+        collectedAt:
+          type: string
+          format: date-time
+          description: Collection time for this file.
+        source:
+          type: string
+          description: Source that produced this file.
+        redacted:
+          type: boolean
+          description: Whether the file has passed redaction.
+        result:
+          $ref: '#/components/schemas/diagnosticExportFileResult'
+          description: Collection result for this file.
+        reason:
+          type: string
+          description: Failure, skipped, or not-applicable reason. Empty when result is success.
+        sizeBytes:
+          type: integer
+          format: int64
+          description: Redacted file size in bytes.
+      required:
+        - path
+        - type
+        - collectedAt
+        - source
+        - redacted
+        - result
+        - reason
+        - sizeBytes
+    diagnosticExportManifest:
+      type: object
+      description: Manifest for a redacted diagnostic package.
+      properties:
+        taskId:
+          type: string
+          description: Diagnostic task ID.
+        packageName:
+          type: string
+          description: Generated package name.
+        generatedAt:
+          type: string
+          format: date-time
+          description: Package generation time.
+        redacted:
+          type: boolean
+          description: Whether the package was produced from redacted files only.
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/diagnosticExportFile'
+      required:
+        - taskId
+        - packageName
+        - generatedAt
+        - redacted
+        - files
+    diagnosticTask:
+      type: object
+      description: Diagnostic task summary.
+      properties:
+        taskId:
+          type: string
+          description: Diagnostic task ID.
+        orgName:
+          type: string
+          description: Organization name.
+        clusterName:
+          type: string
+          description: Cluster name.
+        status:
+          $ref: '#/components/schemas/diagnosticTaskStatus'
+        progress:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 100
+          description: Progress percentage.
+        reason:
+          type: string
+          description: Failure or cancellation reason.
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation time.
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update time.
+        startedAt:
+          type: string
+          format: date-time
+          description: Start time.
+        finishedAt:
+          type: string
+          format: date-time
+          description: Finish time.
+        report:
+          $ref: '#/components/schemas/diagnosticReport'
+        exportManifest:
+          $ref: '#/components/schemas/diagnosticExportManifest'
+      required:
+        - taskId
+        - orgName
+        - clusterName
+        - status
+        - progress
+        - createdAt
+        - updatedAt
+    diagnosticTaskList:
+      type: object
+      description: Diagnostic task list.
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/diagnosticTask'
+      required:
+        - items
+    diagnosticTaskCreate:
+      type: object
+      description: Request to start a diagnostic task for one cluster.
+      properties:
+        ruleIds:
+          type: array
+          description: Optional rule IDs to run. Empty means run the default P0 rule set.
+          items:
+            type: string
+        includeLogs:
+          type: boolean
+          description: Whether to collect recent diagnostic log snippets.
+          default: true
+        includeEvents:
+          type: boolean
+          description: Whether to collect Kubernetes events.
+          default: true
+        description:
+          type: string
+          description: Optional human-readable reason for this diagnostic task.
     taskSummary:
       type: object
       properties:
@@ -35111,6 +36662,9 @@ x-tagGroups:
   - name: task
     tags:
       - task
+  - name: Diagnostic
+    tags:
+      - diagnostic
   - name: engine
     tags:
       - engine
