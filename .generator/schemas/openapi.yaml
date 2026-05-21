@@ -18859,6 +18859,9 @@ components:
           description: |
             the cluster name that will be used in serviceRef. The referenced cluster should 
             be at the same organization as the current cluster.
+        clusterDefinition:
+          type: string
+          description: the cluster definition of the referenced cluster.
         serviceDescriptor:
           $ref: '#/components/schemas/serviceDescriptor'
     clusterObjectStorageConfig:

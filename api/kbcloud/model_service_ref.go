@@ -19,6 +19,8 @@ type ServiceRef struct {
 	// be at the same organization as the current cluster.
 	//
 	Cluster *string `json:"cluster,omitempty"`
+	// the cluster definition of the referenced cluster.
+	ClusterDefinition *string `json:"clusterDefinition,omitempty"`
 	// serviceDescriptor that will be used in serviceRef. The field definition is in line with kubeblocks.
 	ServiceDescriptor *ServiceDescriptor `json:"serviceDescriptor,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -95,6 +97,34 @@ func (o *ServiceRef) SetCluster(v string) {
 	o.Cluster = &v
 }
 
+// GetClusterDefinition returns the ClusterDefinition field value if set, zero value otherwise.
+func (o *ServiceRef) GetClusterDefinition() string {
+	if o == nil || o.ClusterDefinition == nil {
+		var ret string
+		return ret
+	}
+	return *o.ClusterDefinition
+}
+
+// GetClusterDefinitionOk returns a tuple with the ClusterDefinition field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ServiceRef) GetClusterDefinitionOk() (*string, bool) {
+	if o == nil || o.ClusterDefinition == nil {
+		return nil, false
+	}
+	return o.ClusterDefinition, true
+}
+
+// HasClusterDefinition returns a boolean if a field has been set.
+func (o *ServiceRef) HasClusterDefinition() bool {
+	return o != nil && o.ClusterDefinition != nil
+}
+
+// SetClusterDefinition gets a reference to the given string and assigns it to the ClusterDefinition field.
+func (o *ServiceRef) SetClusterDefinition(v string) {
+	o.ClusterDefinition = &v
+}
+
 // GetServiceDescriptor returns the ServiceDescriptor field value if set, zero value otherwise.
 func (o *ServiceRef) GetServiceDescriptor() ServiceDescriptor {
 	if o == nil || o.ServiceDescriptor == nil {
@@ -133,6 +163,9 @@ func (o ServiceRef) MarshalJSON() ([]byte, error) {
 	if o.Cluster != nil {
 		toSerialize["cluster"] = o.Cluster
 	}
+	if o.ClusterDefinition != nil {
+		toSerialize["clusterDefinition"] = o.ClusterDefinition
+	}
 	if o.ServiceDescriptor != nil {
 		toSerialize["serviceDescriptor"] = o.ServiceDescriptor
 	}
@@ -148,6 +181,7 @@ func (o *ServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name              *string            `json:"name"`
 		Cluster           *string            `json:"cluster,omitempty"`
+		ClusterDefinition *string            `json:"clusterDefinition,omitempty"`
 		ServiceDescriptor *ServiceDescriptor `json:"serviceDescriptor,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -158,7 +192,7 @@ func (o *ServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "cluster", "serviceDescriptor"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "cluster", "clusterDefinition", "serviceDescriptor"})
 	} else {
 		return err
 	}
@@ -166,6 +200,7 @@ func (o *ServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Name = *all.Name
 	o.Cluster = all.Cluster
+	o.ClusterDefinition = all.ClusterDefinition
 	if all.ServiceDescriptor != nil && all.ServiceDescriptor.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
