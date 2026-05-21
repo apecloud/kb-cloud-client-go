@@ -14710,6 +14710,144 @@ paths:
           required: true
           schema:
             type: string
+  /api/v1/organizations/{orgName}/ai-agent/runs/{runId}/tool-approvals/{approvalRequestId}/approve:
+    post:
+      tags:
+        - AI Agent
+      operationId: approveAIAgentToolApprovalRequest
+      summary: Approve an AI Agent tool approval request
+      description: Approves a pending Runtime-created tool approval request after validating run, tool call, argument hash, version, and expiry. Tool execution only starts after this decision or a Runtime policy allow.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiAgentToolApprovalDecisionRequest'
+      responses:
+        '200':
+          description: AI Agent tool approval decision
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentToolApprovalDecisionResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: approvalRequestId
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/runs/{runId}/tool-approvals/{approvalRequestId}/reject:
+    post:
+      tags:
+        - AI Agent
+      operationId: rejectAIAgentToolApprovalRequest
+      summary: Reject an AI Agent tool approval request
+      description: Rejects a pending Runtime-created tool approval request. The tool is not executed and the Agent returns to the conversation with a safe assistant message.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiAgentToolApprovalDecisionRequest'
+      responses:
+        '200':
+          description: AI Agent tool approval decision
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentToolApprovalDecisionResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: approvalRequestId
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/organizations/{orgName}/ai-agent/runs/{runId}/tool-approvals/{approvalRequestId}/cancel:
+    post:
+      tags:
+        - AI Agent
+      operationId: cancelAIAgentToolApprovalRequest
+      summary: Cancel an AI Agent tool approval request
+      description: Cancels a pending Runtime-created tool approval request. The tool is not executed and the Agent returns to the conversation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiAgentToolApprovalDecisionRequest'
+      responses:
+        '200':
+          description: AI Agent tool approval decision
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentToolApprovalDecisionResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: approvalRequestId
+          in: path
+          required: true
+          schema:
+            type: string
   /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/reports:
     get:
       tags:
@@ -19114,6 +19252,9 @@ components:
           description: |
             the cluster name that will be used in serviceRef. The referenced cluster should 
             be at the same organization as the current cluster.
+        clusterDefinition:
+          type: string
+          description: the cluster definition of the referenced cluster.
         serviceDescriptor:
           $ref: '#/components/schemas/serviceDescriptor'
     clusterObjectStorageConfig:
@@ -29644,6 +29785,111 @@ components:
           type: string
           format: date-time
           x-nullable: true
+    aiAgentToolApprovalStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - pending_user_confirmation
+        - policy_auto_approved
+        - blocked
+        - user_approved
+        - user_rejected
+        - user_cancelled
+        - approval_expired
+        - executing
+        - completed
+        - failed
+        - partial
+    aiAgentToolApprovalRequest:
+      type: object
+      required:
+        - approvalRequestId
+        - runId
+        - toolCallId
+        - agentToolId
+        - displayName
+        - approvalStatus
+        - argsHash
+        - approvalVersion
+        - expiresAt
+        - auditRef
+        - createdAt
+      properties:
+        approvalRequestId:
+          type: string
+        runId:
+          type: string
+        toolCallId:
+          type: string
+        agentToolId:
+          type: string
+        displayName:
+          type: string
+        scope:
+          $ref: '#/components/schemas/aiAgentResourceScope'
+        scopeLabel:
+          type: string
+          x-nullable: true
+        reason:
+          type: string
+          x-nullable: true
+        expectedEvidence:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        riskLevel:
+          type: string
+          x-nullable: true
+        expectedImpact:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        changesResources:
+          type: boolean
+          x-nullable: true
+        budget:
+          type: object
+          additionalProperties: true
+          x-nullable: true
+        guardrailReason:
+          type: string
+          x-nullable: true
+        approvalStatus:
+          $ref: '#/components/schemas/aiAgentToolApprovalStatus'
+        statusDisplay:
+          $ref: '#/components/schemas/aiAgentStatusDisplay'
+        auditRef:
+          type: string
+        argsHash:
+          type: string
+          description: Hash of the Runtime-validated tool arguments and scope used for idempotency and tamper checks. Raw tool args are not exposed.
+        approvalVersion:
+          type: integer
+          format: int64
+        expiresAt:
+          type: string
+          format: date-time
+        decidedAt:
+          type: string
+          format: date-time
+          x-nullable: true
+        feedback:
+          type: string
+          x-nullable: true
+        safeEvidenceRefs:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+          x-nullable: true
     aiAgentMetricSeriesPoint:
       type: object
       description: Chart-ready point. x/y are the stable frontend plotting fields; timestamp/value may mirror them for time-series and numeric readers.
@@ -29713,6 +29959,11 @@ components:
           additionalProperties:
             $ref: '#/components/schemas/aiAgentActionPlan'
           x-nullable: true
+        toolApprovalRequests:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/aiAgentToolApprovalRequest'
+          x-nullable: true
         runSummaries:
           type: object
           additionalProperties:
@@ -29750,6 +30001,11 @@ components:
             type: string
           x-nullable: true
         actionPlans:
+          type: array
+          items:
+            type: string
+          x-nullable: true
+        toolApprovalRequests:
           type: array
           items:
             type: string
@@ -30011,6 +30267,10 @@ components:
         - evidence_update
         - report_ready
         - approval_required
+        - approval_requested
+        - approval_decided
+        - approval_invalidated
+        - approval_expired
         - run_completed
         - run_failed
         - run_cancelled
@@ -30020,6 +30280,8 @@ components:
         - tool_request_completed
         - tool_request_failed
         - tool_request_rejected
+        - tool_execution_started
+        - tool_execution_finished
         - needs_user_input
         - budget_update
         - run_paused
@@ -30159,6 +30421,13 @@ components:
         agentToolId:
           type: string
           x-nullable: true
+        approvalRequestId:
+          type: string
+          x-nullable: true
+        approvalStatus:
+          $ref: '#/components/schemas/aiAgentToolApprovalStatus'
+        toolApprovalRequest:
+          $ref: '#/components/schemas/aiAgentToolApprovalRequest'
         requirementIds:
           type: array
           items:
@@ -30274,6 +30543,33 @@ components:
           type: string
         payload:
           $ref: '#/components/schemas/aiAgentEventPayload'
+    aiAgentToolApprovalDecisionRequest:
+      type: object
+      required:
+        - toolCallId
+        - argsHash
+        - approvalVersion
+      properties:
+        toolCallId:
+          type: string
+        argsHash:
+          type: string
+        approvalVersion:
+          type: integer
+          format: int64
+        feedback:
+          type: string
+          x-nullable: true
+    aiAgentToolApprovalDecisionResponse:
+      type: object
+      required:
+        - approvalRequest
+        - run
+      properties:
+        approvalRequest:
+          $ref: '#/components/schemas/aiAgentToolApprovalRequest'
+        run:
+          $ref: '#/components/schemas/aiAgentRun'
     aiAgentReportList:
       allOf:
         - $ref: '#/components/schemas/aiAgentPagination'

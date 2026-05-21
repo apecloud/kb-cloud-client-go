@@ -7,11 +7,12 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type AiAgentArtifactBatchGetRequest struct {
-	Reports      []string `json:"reports,omitempty"`
-	Evidence     []string `json:"evidence,omitempty"`
-	ActionPlans  []string `json:"actionPlans,omitempty"`
-	RunSummaries []string `json:"runSummaries,omitempty"`
-	MetricSeries []string `json:"metricSeries,omitempty"`
+	Reports              []string `json:"reports,omitempty"`
+	Evidence             []string `json:"evidence,omitempty"`
+	ActionPlans          []string `json:"actionPlans,omitempty"`
+	ToolApprovalRequests []string `json:"toolApprovalRequests,omitempty"`
+	RunSummaries         []string `json:"runSummaries,omitempty"`
+	MetricSeries         []string `json:"metricSeries,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -118,6 +119,34 @@ func (o *AiAgentArtifactBatchGetRequest) SetActionPlans(v []string) {
 	o.ActionPlans = v
 }
 
+// GetToolApprovalRequests returns the ToolApprovalRequests field value if set, zero value otherwise.
+func (o *AiAgentArtifactBatchGetRequest) GetToolApprovalRequests() []string {
+	if o == nil || o.ToolApprovalRequests == nil {
+		var ret []string
+		return ret
+	}
+	return o.ToolApprovalRequests
+}
+
+// GetToolApprovalRequestsOk returns a tuple with the ToolApprovalRequests field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentArtifactBatchGetRequest) GetToolApprovalRequestsOk() (*[]string, bool) {
+	if o == nil || o.ToolApprovalRequests == nil {
+		return nil, false
+	}
+	return &o.ToolApprovalRequests, true
+}
+
+// HasToolApprovalRequests returns a boolean if a field has been set.
+func (o *AiAgentArtifactBatchGetRequest) HasToolApprovalRequests() bool {
+	return o != nil && o.ToolApprovalRequests != nil
+}
+
+// SetToolApprovalRequests gets a reference to the given []string and assigns it to the ToolApprovalRequests field.
+func (o *AiAgentArtifactBatchGetRequest) SetToolApprovalRequests(v []string) {
+	o.ToolApprovalRequests = v
+}
+
 // GetRunSummaries returns the RunSummaries field value if set, zero value otherwise.
 func (o *AiAgentArtifactBatchGetRequest) GetRunSummaries() []string {
 	if o == nil || o.RunSummaries == nil {
@@ -189,6 +218,9 @@ func (o AiAgentArtifactBatchGetRequest) MarshalJSON() ([]byte, error) {
 	if o.ActionPlans != nil {
 		toSerialize["actionPlans"] = o.ActionPlans
 	}
+	if o.ToolApprovalRequests != nil {
+		toSerialize["toolApprovalRequests"] = o.ToolApprovalRequests
+	}
 	if o.RunSummaries != nil {
 		toSerialize["runSummaries"] = o.RunSummaries
 	}
@@ -205,24 +237,26 @@ func (o AiAgentArtifactBatchGetRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AiAgentArtifactBatchGetRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Reports      []string `json:"reports,omitempty"`
-		Evidence     []string `json:"evidence,omitempty"`
-		ActionPlans  []string `json:"actionPlans,omitempty"`
-		RunSummaries []string `json:"runSummaries,omitempty"`
-		MetricSeries []string `json:"metricSeries,omitempty"`
+		Reports              []string `json:"reports,omitempty"`
+		Evidence             []string `json:"evidence,omitempty"`
+		ActionPlans          []string `json:"actionPlans,omitempty"`
+		ToolApprovalRequests []string `json:"toolApprovalRequests,omitempty"`
+		RunSummaries         []string `json:"runSummaries,omitempty"`
+		MetricSeries         []string `json:"metricSeries,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"reports", "evidence", "actionPlans", "runSummaries", "metricSeries"})
+		common.DeleteKeys(additionalProperties, &[]string{"reports", "evidence", "actionPlans", "toolApprovalRequests", "runSummaries", "metricSeries"})
 	} else {
 		return err
 	}
 	o.Reports = all.Reports
 	o.Evidence = all.Evidence
 	o.ActionPlans = all.ActionPlans
+	o.ToolApprovalRequests = all.ToolApprovalRequests
 	o.RunSummaries = all.RunSummaries
 	o.MetricSeries = all.MetricSeries
 

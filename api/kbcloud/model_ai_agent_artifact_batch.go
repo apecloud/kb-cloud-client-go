@@ -7,11 +7,12 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type AiAgentArtifactBatch struct {
-	Reports      map[string]AiAgentReport         `json:"reports,omitempty"`
-	Evidence     map[string]AiAgentEvidenceDetail `json:"evidence,omitempty"`
-	ActionPlans  map[string]AiAgentActionPlan     `json:"actionPlans,omitempty"`
-	RunSummaries map[string]AiAgentRun            `json:"runSummaries,omitempty"`
-	MetricSeries map[string]AiAgentMetricSeries   `json:"metricSeries,omitempty"`
+	Reports              map[string]AiAgentReport              `json:"reports,omitempty"`
+	Evidence             map[string]AiAgentEvidenceDetail      `json:"evidence,omitempty"`
+	ActionPlans          map[string]AiAgentActionPlan          `json:"actionPlans,omitempty"`
+	ToolApprovalRequests map[string]AiAgentToolApprovalRequest `json:"toolApprovalRequests,omitempty"`
+	RunSummaries         map[string]AiAgentRun                 `json:"runSummaries,omitempty"`
+	MetricSeries         map[string]AiAgentMetricSeries        `json:"metricSeries,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -118,6 +119,34 @@ func (o *AiAgentArtifactBatch) SetActionPlans(v map[string]AiAgentActionPlan) {
 	o.ActionPlans = v
 }
 
+// GetToolApprovalRequests returns the ToolApprovalRequests field value if set, zero value otherwise.
+func (o *AiAgentArtifactBatch) GetToolApprovalRequests() map[string]AiAgentToolApprovalRequest {
+	if o == nil || o.ToolApprovalRequests == nil {
+		var ret map[string]AiAgentToolApprovalRequest
+		return ret
+	}
+	return o.ToolApprovalRequests
+}
+
+// GetToolApprovalRequestsOk returns a tuple with the ToolApprovalRequests field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentArtifactBatch) GetToolApprovalRequestsOk() (*map[string]AiAgentToolApprovalRequest, bool) {
+	if o == nil || o.ToolApprovalRequests == nil {
+		return nil, false
+	}
+	return &o.ToolApprovalRequests, true
+}
+
+// HasToolApprovalRequests returns a boolean if a field has been set.
+func (o *AiAgentArtifactBatch) HasToolApprovalRequests() bool {
+	return o != nil && o.ToolApprovalRequests != nil
+}
+
+// SetToolApprovalRequests gets a reference to the given map[string]AiAgentToolApprovalRequest and assigns it to the ToolApprovalRequests field.
+func (o *AiAgentArtifactBatch) SetToolApprovalRequests(v map[string]AiAgentToolApprovalRequest) {
+	o.ToolApprovalRequests = v
+}
+
 // GetRunSummaries returns the RunSummaries field value if set, zero value otherwise.
 func (o *AiAgentArtifactBatch) GetRunSummaries() map[string]AiAgentRun {
 	if o == nil || o.RunSummaries == nil {
@@ -189,6 +218,9 @@ func (o AiAgentArtifactBatch) MarshalJSON() ([]byte, error) {
 	if o.ActionPlans != nil {
 		toSerialize["actionPlans"] = o.ActionPlans
 	}
+	if o.ToolApprovalRequests != nil {
+		toSerialize["toolApprovalRequests"] = o.ToolApprovalRequests
+	}
 	if o.RunSummaries != nil {
 		toSerialize["runSummaries"] = o.RunSummaries
 	}
@@ -205,24 +237,26 @@ func (o AiAgentArtifactBatch) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AiAgentArtifactBatch) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Reports      map[string]AiAgentReport         `json:"reports,omitempty"`
-		Evidence     map[string]AiAgentEvidenceDetail `json:"evidence,omitempty"`
-		ActionPlans  map[string]AiAgentActionPlan     `json:"actionPlans,omitempty"`
-		RunSummaries map[string]AiAgentRun            `json:"runSummaries,omitempty"`
-		MetricSeries map[string]AiAgentMetricSeries   `json:"metricSeries,omitempty"`
+		Reports              map[string]AiAgentReport              `json:"reports,omitempty"`
+		Evidence             map[string]AiAgentEvidenceDetail      `json:"evidence,omitempty"`
+		ActionPlans          map[string]AiAgentActionPlan          `json:"actionPlans,omitempty"`
+		ToolApprovalRequests map[string]AiAgentToolApprovalRequest `json:"toolApprovalRequests,omitempty"`
+		RunSummaries         map[string]AiAgentRun                 `json:"runSummaries,omitempty"`
+		MetricSeries         map[string]AiAgentMetricSeries        `json:"metricSeries,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"reports", "evidence", "actionPlans", "runSummaries", "metricSeries"})
+		common.DeleteKeys(additionalProperties, &[]string{"reports", "evidence", "actionPlans", "toolApprovalRequests", "runSummaries", "metricSeries"})
 	} else {
 		return err
 	}
 	o.Reports = all.Reports
 	o.Evidence = all.Evidence
 	o.ActionPlans = all.ActionPlans
+	o.ToolApprovalRequests = all.ToolApprovalRequests
 	o.RunSummaries = all.RunSummaries
 	o.MetricSeries = all.MetricSeries
 
