@@ -18575,10 +18575,6 @@ components:
         cluster:
           type: string
           description: the cluster name
-        database:
-          type: string
-          description: Elasticsearch index name
-          default: kubebench
         username:
           type: string
           description: Username for Elasticsearch
@@ -18588,9 +18584,6 @@ components:
         address:
           type: string
           description: Address for Elasticsearch
-        targetVersion:
-          type: string
-          description: Elasticsearch target version hint for generated workload compatibility
         onError:
           $ref: '#/components/schemas/esrallyOnError'
         telemetry:

@@ -26,16 +26,12 @@ type Esrally struct {
 	Name *string `json:"name,omitempty"`
 	// the cluster name
 	Cluster string `json:"cluster"`
-	// Elasticsearch index name
-	Database *string `json:"database,omitempty"`
 	// Username for Elasticsearch
 	Username string `json:"username"`
 	// Password for Elasticsearch
 	Password *string `json:"password,omitempty"`
 	// Address for Elasticsearch
 	Address string `json:"address"`
-	// Elasticsearch target version hint for generated workload compatibility
-	TargetVersion *string `json:"targetVersion,omitempty"`
 	// Rally request error handling behavior
 	OnError *EsrallyOnError `json:"onError,omitempty"`
 	// Rally telemetry devices
@@ -70,8 +66,6 @@ func NewEsrally(cluster string, username string, address string) *Esrally {
 	var requestMemory string = "0.5Gi"
 	this.RequestMemory = &requestMemory
 	this.Cluster = cluster
-	var database string = "kubebench"
-	this.Database = &database
 	this.Username = username
 	this.Address = address
 	var onError EsrallyOnError = EsrallyOnErrorAbort
@@ -100,8 +94,6 @@ func NewEsrallyWithDefaults() *Esrally {
 	this.RequestCpu = &requestCpu
 	var requestMemory string = "0.5Gi"
 	this.RequestMemory = &requestMemory
-	var database string = "kubebench"
-	this.Database = &database
 	var onError EsrallyOnError = EsrallyOnErrorAbort
 	this.OnError = &onError
 	var dataProfile EsrallyDataProfile = EsrallyDataProfileLogs
@@ -304,34 +296,6 @@ func (o *Esrally) SetCluster(v string) {
 	o.Cluster = v
 }
 
-// GetDatabase returns the Database field value if set, zero value otherwise.
-func (o *Esrally) GetDatabase() string {
-	if o == nil || o.Database == nil {
-		var ret string
-		return ret
-	}
-	return *o.Database
-}
-
-// GetDatabaseOk returns a tuple with the Database field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Esrally) GetDatabaseOk() (*string, bool) {
-	if o == nil || o.Database == nil {
-		return nil, false
-	}
-	return o.Database, true
-}
-
-// HasDatabase returns a boolean if a field has been set.
-func (o *Esrally) HasDatabase() bool {
-	return o != nil && o.Database != nil
-}
-
-// SetDatabase gets a reference to the given string and assigns it to the Database field.
-func (o *Esrally) SetDatabase(v string) {
-	o.Database = &v
-}
-
 // GetUsername returns the Username field value.
 func (o *Esrally) GetUsername() string {
 	if o == nil {
@@ -404,34 +368,6 @@ func (o *Esrally) GetAddressOk() (*string, bool) {
 // SetAddress sets field value.
 func (o *Esrally) SetAddress(v string) {
 	o.Address = v
-}
-
-// GetTargetVersion returns the TargetVersion field value if set, zero value otherwise.
-func (o *Esrally) GetTargetVersion() string {
-	if o == nil || o.TargetVersion == nil {
-		var ret string
-		return ret
-	}
-	return *o.TargetVersion
-}
-
-// GetTargetVersionOk returns a tuple with the TargetVersion field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Esrally) GetTargetVersionOk() (*string, bool) {
-	if o == nil || o.TargetVersion == nil {
-		return nil, false
-	}
-	return o.TargetVersion, true
-}
-
-// HasTargetVersion returns a boolean if a field has been set.
-func (o *Esrally) HasTargetVersion() bool {
-	return o != nil && o.TargetVersion != nil
-}
-
-// SetTargetVersion gets a reference to the given string and assigns it to the TargetVersion field.
-func (o *Esrally) SetTargetVersion(v string) {
-	o.TargetVersion = &v
 }
 
 // GetOnError returns the OnError field value if set, zero value otherwise.
@@ -638,17 +574,11 @@ func (o Esrally) MarshalJSON() ([]byte, error) {
 		toSerialize["name"] = o.Name
 	}
 	toSerialize["cluster"] = o.Cluster
-	if o.Database != nil {
-		toSerialize["database"] = o.Database
-	}
 	toSerialize["username"] = o.Username
 	if o.Password != nil {
 		toSerialize["password"] = o.Password
 	}
 	toSerialize["address"] = o.Address
-	if o.TargetVersion != nil {
-		toSerialize["targetVersion"] = o.TargetVersion
-	}
 	if o.OnError != nil {
 		toSerialize["onError"] = o.OnError
 	}
@@ -684,11 +614,9 @@ func (o *Esrally) UnmarshalJSON(bytes []byte) (err error) {
 		RequestMemory *string              `json:"requestMemory,omitempty"`
 		Name          *string              `json:"name,omitempty"`
 		Cluster       *string              `json:"cluster"`
-		Database      *string              `json:"database,omitempty"`
 		Username      *string              `json:"username"`
 		Password      *string              `json:"password,omitempty"`
 		Address       *string              `json:"address"`
-		TargetVersion *string              `json:"targetVersion,omitempty"`
 		OnError       *EsrallyOnError      `json:"onError,omitempty"`
 		Telemetry     []EsrallyTelemetry   `json:"telemetry,omitempty"`
 		DataProfile   *EsrallyDataProfile  `json:"dataProfile,omitempty"`
@@ -710,7 +638,7 @@ func (o *Esrally) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"step", "limitCpu", "limitMemory", "requestCpu", "requestMemory", "name", "cluster", "database", "username", "password", "address", "targetVersion", "onError", "telemetry", "dataProfile", "documentCount", "workload", "extraArgs"})
+		common.DeleteKeys(additionalProperties, &[]string{"step", "limitCpu", "limitMemory", "requestCpu", "requestMemory", "name", "cluster", "username", "password", "address", "onError", "telemetry", "dataProfile", "documentCount", "workload", "extraArgs"})
 	} else {
 		return err
 	}
@@ -727,11 +655,9 @@ func (o *Esrally) UnmarshalJSON(bytes []byte) (err error) {
 	o.RequestMemory = all.RequestMemory
 	o.Name = all.Name
 	o.Cluster = *all.Cluster
-	o.Database = all.Database
 	o.Username = *all.Username
 	o.Password = all.Password
 	o.Address = *all.Address
-	o.TargetVersion = all.TargetVersion
 	if all.OnError != nil && !all.OnError.IsValid() {
 		hasInvalidField = true
 	} else {
