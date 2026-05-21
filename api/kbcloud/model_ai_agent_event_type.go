@@ -14,26 +14,32 @@ type AiAgentEventType string
 
 // List of AiAgentEventType.
 const (
-	AiAgentEventTypeRunStarted           AiAgentEventType = "run_started"
-	AiAgentEventTypeThinking             AiAgentEventType = "thinking"
-	AiAgentEventTypeAssistantDelta       AiAgentEventType = "assistant_delta"
-	AiAgentEventTypeStageUpdate          AiAgentEventType = "stage_update"
-	AiAgentEventTypeEvidenceUpdate       AiAgentEventType = "evidence_update"
-	AiAgentEventTypeReportReady          AiAgentEventType = "report_ready"
-	AiAgentEventTypeApprovalRequired     AiAgentEventType = "approval_required"
-	AiAgentEventTypeRunCompleted         AiAgentEventType = "run_completed"
-	AiAgentEventTypeRunFailed            AiAgentEventType = "run_failed"
-	AiAgentEventTypeRunCancelled         AiAgentEventType = "run_cancelled"
-	AiAgentEventTypePlanCreated          AiAgentEventType = "plan_created"
-	AiAgentEventTypePlanUpdated          AiAgentEventType = "plan_updated"
-	AiAgentEventTypeToolRequestStarted   AiAgentEventType = "tool_request_started"
-	AiAgentEventTypeToolRequestCompleted AiAgentEventType = "tool_request_completed"
-	AiAgentEventTypeToolRequestFailed    AiAgentEventType = "tool_request_failed"
-	AiAgentEventTypeToolRequestRejected  AiAgentEventType = "tool_request_rejected"
-	AiAgentEventTypeNeedsUserInput       AiAgentEventType = "needs_user_input"
-	AiAgentEventTypeBudgetUpdate         AiAgentEventType = "budget_update"
-	AiAgentEventTypeRunPaused            AiAgentEventType = "run_paused"
-	AiAgentEventTypeRunResumed           AiAgentEventType = "run_resumed"
+	AiAgentEventTypeRunStarted            AiAgentEventType = "run_started"
+	AiAgentEventTypeThinking              AiAgentEventType = "thinking"
+	AiAgentEventTypeAssistantDelta        AiAgentEventType = "assistant_delta"
+	AiAgentEventTypeStageUpdate           AiAgentEventType = "stage_update"
+	AiAgentEventTypeEvidenceUpdate        AiAgentEventType = "evidence_update"
+	AiAgentEventTypeReportReady           AiAgentEventType = "report_ready"
+	AiAgentEventTypeApprovalRequired      AiAgentEventType = "approval_required"
+	AiAgentEventTypeApprovalRequested     AiAgentEventType = "approval_requested"
+	AiAgentEventTypeApprovalDecided       AiAgentEventType = "approval_decided"
+	AiAgentEventTypeApprovalInvalidated   AiAgentEventType = "approval_invalidated"
+	AiAgentEventTypeApprovalExpired       AiAgentEventType = "approval_expired"
+	AiAgentEventTypeRunCompleted          AiAgentEventType = "run_completed"
+	AiAgentEventTypeRunFailed             AiAgentEventType = "run_failed"
+	AiAgentEventTypeRunCancelled          AiAgentEventType = "run_cancelled"
+	AiAgentEventTypePlanCreated           AiAgentEventType = "plan_created"
+	AiAgentEventTypePlanUpdated           AiAgentEventType = "plan_updated"
+	AiAgentEventTypeToolRequestStarted    AiAgentEventType = "tool_request_started"
+	AiAgentEventTypeToolRequestCompleted  AiAgentEventType = "tool_request_completed"
+	AiAgentEventTypeToolRequestFailed     AiAgentEventType = "tool_request_failed"
+	AiAgentEventTypeToolRequestRejected   AiAgentEventType = "tool_request_rejected"
+	AiAgentEventTypeToolExecutionStarted  AiAgentEventType = "tool_execution_started"
+	AiAgentEventTypeToolExecutionFinished AiAgentEventType = "tool_execution_finished"
+	AiAgentEventTypeNeedsUserInput        AiAgentEventType = "needs_user_input"
+	AiAgentEventTypeBudgetUpdate          AiAgentEventType = "budget_update"
+	AiAgentEventTypeRunPaused             AiAgentEventType = "run_paused"
+	AiAgentEventTypeRunResumed            AiAgentEventType = "run_resumed"
 )
 
 var allowedAiAgentEventTypeEnumValues = []AiAgentEventType{
@@ -44,6 +50,10 @@ var allowedAiAgentEventTypeEnumValues = []AiAgentEventType{
 	AiAgentEventTypeEvidenceUpdate,
 	AiAgentEventTypeReportReady,
 	AiAgentEventTypeApprovalRequired,
+	AiAgentEventTypeApprovalRequested,
+	AiAgentEventTypeApprovalDecided,
+	AiAgentEventTypeApprovalInvalidated,
+	AiAgentEventTypeApprovalExpired,
 	AiAgentEventTypeRunCompleted,
 	AiAgentEventTypeRunFailed,
 	AiAgentEventTypeRunCancelled,
@@ -53,6 +63,8 @@ var allowedAiAgentEventTypeEnumValues = []AiAgentEventType{
 	AiAgentEventTypeToolRequestCompleted,
 	AiAgentEventTypeToolRequestFailed,
 	AiAgentEventTypeToolRequestRejected,
+	AiAgentEventTypeToolExecutionStarted,
+	AiAgentEventTypeToolExecutionFinished,
 	AiAgentEventTypeNeedsUserInput,
 	AiAgentEventTypeBudgetUpdate,
 	AiAgentEventTypeRunPaused,

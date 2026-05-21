@@ -23,6 +23,9 @@ type AiAgentEventPayload struct {
 	UiVisibility          *AiAgentUIVisibility         `json:"uiVisibility,omitempty"`
 	ToolCallId            *string                      `json:"toolCallId,omitempty"`
 	AgentToolId           *string                      `json:"agentToolId,omitempty"`
+	ApprovalRequestId     *string                      `json:"approvalRequestId,omitempty"`
+	ApprovalStatus        *AiAgentToolApprovalStatus   `json:"approvalStatus,omitempty"`
+	ToolApprovalRequest   *AiAgentToolApprovalRequest  `json:"toolApprovalRequest,omitempty"`
 	RequirementIds        []string                     `json:"requirementIds,omitempty"`
 	EvidenceIds           []string                     `json:"evidenceIds,omitempty"`
 	MissingRequirements   []AiAgentMissingRequirement  `json:"missingRequirements,omitempty"`
@@ -433,6 +436,90 @@ func (o *AiAgentEventPayload) HasAgentToolId() bool {
 // SetAgentToolId gets a reference to the given string and assigns it to the AgentToolId field.
 func (o *AiAgentEventPayload) SetAgentToolId(v string) {
 	o.AgentToolId = &v
+}
+
+// GetApprovalRequestId returns the ApprovalRequestId field value if set, zero value otherwise.
+func (o *AiAgentEventPayload) GetApprovalRequestId() string {
+	if o == nil || o.ApprovalRequestId == nil {
+		var ret string
+		return ret
+	}
+	return *o.ApprovalRequestId
+}
+
+// GetApprovalRequestIdOk returns a tuple with the ApprovalRequestId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentEventPayload) GetApprovalRequestIdOk() (*string, bool) {
+	if o == nil || o.ApprovalRequestId == nil {
+		return nil, false
+	}
+	return o.ApprovalRequestId, true
+}
+
+// HasApprovalRequestId returns a boolean if a field has been set.
+func (o *AiAgentEventPayload) HasApprovalRequestId() bool {
+	return o != nil && o.ApprovalRequestId != nil
+}
+
+// SetApprovalRequestId gets a reference to the given string and assigns it to the ApprovalRequestId field.
+func (o *AiAgentEventPayload) SetApprovalRequestId(v string) {
+	o.ApprovalRequestId = &v
+}
+
+// GetApprovalStatus returns the ApprovalStatus field value if set, zero value otherwise.
+func (o *AiAgentEventPayload) GetApprovalStatus() AiAgentToolApprovalStatus {
+	if o == nil || o.ApprovalStatus == nil {
+		var ret AiAgentToolApprovalStatus
+		return ret
+	}
+	return *o.ApprovalStatus
+}
+
+// GetApprovalStatusOk returns a tuple with the ApprovalStatus field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentEventPayload) GetApprovalStatusOk() (*AiAgentToolApprovalStatus, bool) {
+	if o == nil || o.ApprovalStatus == nil {
+		return nil, false
+	}
+	return o.ApprovalStatus, true
+}
+
+// HasApprovalStatus returns a boolean if a field has been set.
+func (o *AiAgentEventPayload) HasApprovalStatus() bool {
+	return o != nil && o.ApprovalStatus != nil
+}
+
+// SetApprovalStatus gets a reference to the given AiAgentToolApprovalStatus and assigns it to the ApprovalStatus field.
+func (o *AiAgentEventPayload) SetApprovalStatus(v AiAgentToolApprovalStatus) {
+	o.ApprovalStatus = &v
+}
+
+// GetToolApprovalRequest returns the ToolApprovalRequest field value if set, zero value otherwise.
+func (o *AiAgentEventPayload) GetToolApprovalRequest() AiAgentToolApprovalRequest {
+	if o == nil || o.ToolApprovalRequest == nil {
+		var ret AiAgentToolApprovalRequest
+		return ret
+	}
+	return *o.ToolApprovalRequest
+}
+
+// GetToolApprovalRequestOk returns a tuple with the ToolApprovalRequest field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentEventPayload) GetToolApprovalRequestOk() (*AiAgentToolApprovalRequest, bool) {
+	if o == nil || o.ToolApprovalRequest == nil {
+		return nil, false
+	}
+	return o.ToolApprovalRequest, true
+}
+
+// HasToolApprovalRequest returns a boolean if a field has been set.
+func (o *AiAgentEventPayload) HasToolApprovalRequest() bool {
+	return o != nil && o.ToolApprovalRequest != nil
+}
+
+// SetToolApprovalRequest gets a reference to the given AiAgentToolApprovalRequest and assigns it to the ToolApprovalRequest field.
+func (o *AiAgentEventPayload) SetToolApprovalRequest(v AiAgentToolApprovalRequest) {
+	o.ToolApprovalRequest = &v
 }
 
 // GetRequirementIds returns the RequirementIds field value if set, zero value otherwise.
@@ -1208,6 +1295,15 @@ func (o AiAgentEventPayload) MarshalJSON() ([]byte, error) {
 	if o.AgentToolId != nil {
 		toSerialize["agentToolId"] = o.AgentToolId
 	}
+	if o.ApprovalRequestId != nil {
+		toSerialize["approvalRequestId"] = o.ApprovalRequestId
+	}
+	if o.ApprovalStatus != nil {
+		toSerialize["approvalStatus"] = o.ApprovalStatus
+	}
+	if o.ToolApprovalRequest != nil {
+		toSerialize["toolApprovalRequest"] = o.ToolApprovalRequest
+	}
 	if o.RequirementIds != nil {
 		toSerialize["requirementIds"] = o.RequirementIds
 	}
@@ -1309,6 +1405,9 @@ func (o *AiAgentEventPayload) UnmarshalJSON(bytes []byte) (err error) {
 		UiVisibility          *AiAgentUIVisibility         `json:"uiVisibility,omitempty"`
 		ToolCallId            *string                      `json:"toolCallId,omitempty"`
 		AgentToolId           *string                      `json:"agentToolId,omitempty"`
+		ApprovalRequestId     *string                      `json:"approvalRequestId,omitempty"`
+		ApprovalStatus        *AiAgentToolApprovalStatus   `json:"approvalStatus,omitempty"`
+		ToolApprovalRequest   *AiAgentToolApprovalRequest  `json:"toolApprovalRequest,omitempty"`
 		RequirementIds        []string                     `json:"requirementIds,omitempty"`
 		EvidenceIds           []string                     `json:"evidenceIds,omitempty"`
 		MissingRequirements   []AiAgentMissingRequirement  `json:"missingRequirements,omitempty"`
@@ -1341,7 +1440,7 @@ func (o *AiAgentEventPayload) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"messageId", "partId", "deltaKind", "sequence", "delta", "isFinal", "stageId", "state", "displayLabel", "displayDescription", "uiVisibility", "toolCallId", "agentToolId", "requirementIds", "evidenceIds", "missingRequirements", "toolResponseStatus", "missingReason", "partialReason", "statusReason", "primaryMissingReason", "evidenceCompleteness", "summary", "reportId", "reportUrl", "actionPlanId", "title", "riskLevel", "impactSummary", "question", "requiredContextFields", "suggestedReplies", "recoverActions", "costClass", "budgetStatus", "remainingBudgetClass", "reason", "planTitle", "planSteps"})
+		common.DeleteKeys(additionalProperties, &[]string{"messageId", "partId", "deltaKind", "sequence", "delta", "isFinal", "stageId", "state", "displayLabel", "displayDescription", "uiVisibility", "toolCallId", "agentToolId", "approvalRequestId", "approvalStatus", "toolApprovalRequest", "requirementIds", "evidenceIds", "missingRequirements", "toolResponseStatus", "missingReason", "partialReason", "statusReason", "primaryMissingReason", "evidenceCompleteness", "summary", "reportId", "reportUrl", "actionPlanId", "title", "riskLevel", "impactSummary", "question", "requiredContextFields", "suggestedReplies", "recoverActions", "costClass", "budgetStatus", "remainingBudgetClass", "reason", "planTitle", "planSteps"})
 	} else {
 		return err
 	}
@@ -1371,6 +1470,16 @@ func (o *AiAgentEventPayload) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.ToolCallId = all.ToolCallId
 	o.AgentToolId = all.AgentToolId
+	o.ApprovalRequestId = all.ApprovalRequestId
+	if all.ApprovalStatus != nil && !all.ApprovalStatus.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.ApprovalStatus = all.ApprovalStatus
+	}
+	if all.ToolApprovalRequest != nil && all.ToolApprovalRequest.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ToolApprovalRequest = all.ToolApprovalRequest
 	o.RequirementIds = all.RequirementIds
 	o.EvidenceIds = all.EvidenceIds
 	o.MissingRequirements = all.MissingRequirements
