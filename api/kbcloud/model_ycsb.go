@@ -13,7 +13,7 @@ import (
 // Ycsb ycsb is the ycsb benchmark object
 type Ycsb struct {
 	// Step of benchmark
-	Step *YcsbStep `json:"step,omitempty"`
+	Step *BenchmarkStep `json:"step,omitempty"`
 	// the cpu limit for test container
 	LimitCpu *string `json:"limitCpu,omitempty"`
 	// the memory limit for test container
@@ -71,7 +71,7 @@ type Ycsb struct {
 // will change when the set of required properties is changed.
 func NewYcsb(cluster string, username string, address string) *Ycsb {
 	this := Ycsb{}
-	var step YcsbStep = YcsbStepAll
+	var step BenchmarkStep = BenchmarkStepAll
 	this.Step = &step
 	var limitCpu string = "1"
 	this.LimitCpu = &limitCpu
@@ -94,7 +94,7 @@ func NewYcsb(cluster string, username string, address string) *Ycsb {
 // but it doesn't guarantee that properties required by API are set.
 func NewYcsbWithDefaults() *Ycsb {
 	this := Ycsb{}
-	var step YcsbStep = YcsbStepAll
+	var step BenchmarkStep = BenchmarkStepAll
 	this.Step = &step
 	var limitCpu string = "1"
 	this.LimitCpu = &limitCpu
@@ -110,9 +110,9 @@ func NewYcsbWithDefaults() *Ycsb {
 }
 
 // GetStep returns the Step field value if set, zero value otherwise.
-func (o *Ycsb) GetStep() YcsbStep {
+func (o *Ycsb) GetStep() BenchmarkStep {
 	if o == nil || o.Step == nil {
-		var ret YcsbStep
+		var ret BenchmarkStep
 		return ret
 	}
 	return *o.Step
@@ -120,7 +120,7 @@ func (o *Ycsb) GetStep() YcsbStep {
 
 // GetStepOk returns a tuple with the Step field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Ycsb) GetStepOk() (*YcsbStep, bool) {
+func (o *Ycsb) GetStepOk() (*BenchmarkStep, bool) {
 	if o == nil || o.Step == nil {
 		return nil, false
 	}
@@ -132,8 +132,8 @@ func (o *Ycsb) HasStep() bool {
 	return o != nil && o.Step != nil
 }
 
-// SetStep gets a reference to the given YcsbStep and assigns it to the Step field.
-func (o *Ycsb) SetStep(v YcsbStep) {
+// SetStep gets a reference to the given BenchmarkStep and assigns it to the Step field.
+func (o *Ycsb) SetStep(v BenchmarkStep) {
 	o.Step = &v
 }
 
@@ -903,7 +903,7 @@ func (o Ycsb) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Ycsb) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Step                      *YcsbStep            `json:"step,omitempty"`
+		Step                      *BenchmarkStep       `json:"step,omitempty"`
 		LimitCpu                  *string              `json:"limitCpu,omitempty"`
 		LimitMemory               *string              `json:"limitMemory,omitempty"`
 		RequestCpu                *string              `json:"requestCpu,omitempty"`
