@@ -7468,25 +7468,6 @@ paths:
           required: true
           schema:
             type: string
-        - name: historyType
-          in: query
-          description: optional history type filter, for example sql or shell
-          required: false
-          schema:
-            type: string
-        - name: sessionId
-          in: query
-          description: optional shell session id filter
-          required: false
-          schema:
-            type: string
-        - name: limit
-          in: query
-          description: maximum history records to return, default and max 100
-          required: false
-          schema:
-            type: integer
-            format: int64
       responses:
         '200':
           description: A successful response.
@@ -8064,6 +8045,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: limit
+          in: query
+          description: maximum history records to return, default and max 100
+          required: false
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: A successful response.
@@ -25817,66 +25805,16 @@ components:
           format: int64
           x-nullable: true
           description: datasource id
-        datasourceName:
-          title: DatasourceName
-          type: string
-          x-nullable: true
-          description: datasource display name
-        userId:
-          title: UserID
-          type: string
-          x-nullable: true
-          description: user id that created the history record
         engine:
           title: Engine
           type: string
           x-nullable: true
           description: datasource engine
-        historyType:
-          title: HistoryType
-          type: string
-          x-nullable: true
-          description: operation history type, for example sql or shell
-        sessionId:
-          title: SessionID
-          type: string
-          x-nullable: true
-          description: shell session id when historyType is shell
-        prompt:
-          title: Prompt
-          type: string
-          x-nullable: true
-          description: shell prompt after evaluation
-        currentDb:
-          title: CurrentDB
-          type: string
-          x-nullable: true
-          description: current database inferred from shell prompt
-        command:
-          title: Command
-          type: string
-          x-nullable: true
-          description: executed command, generalized from sql for shell history
-        status:
-          title: Status
-          type: string
-          x-nullable: true
-          description: command status, such as success, error, interrupted, or timeout
-        resultSummary:
-          title: ResultSummary
-          type: string
-          x-nullable: true
-          description: truncated and redacted result summary
-        errorMessage:
-          title: ErrorMessage
-          type: string
-          x-nullable: true
-          description: truncated and redacted error message
         sql:
           title: SQL
           type: string
           x-nullable: true
-          description: executed sql statements
+          description: user input text, such as SQL statements or MongoDB Shell commands
         errMassage:
           title: errMassage
           type: string
@@ -25894,12 +25832,6 @@ components:
           format: int64
           x-nullable: true
           description: sql executed duration
-        durationMs:
-          title: durationMs
-          type: integer
-          format: int64
-          x-nullable: true
-          description: shell command duration in milliseconds
     DmsQueryHistoryList:
       type: array
       items:
