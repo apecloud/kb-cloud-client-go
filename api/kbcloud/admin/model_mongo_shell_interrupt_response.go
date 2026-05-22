@@ -8,11 +8,7 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type MongoShellInterruptResponse struct {
 	// whether the current operation was interrupted
-	Interrupted      *bool   `json:"interrupted,omitempty"`
-	ValidationLevel  *string `json:"validationLevel,omitempty"`
-	ValidationAction *string `json:"validationAction,omitempty"`
-	// default collection collation
-	Collation interface{} `json:"collation,omitempty"`
+	Interrupted *bool `json:"interrupted,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -63,90 +59,6 @@ func (o *MongoShellInterruptResponse) SetInterrupted(v bool) {
 	o.Interrupted = &v
 }
 
-// GetValidationLevel returns the ValidationLevel field value if set, zero value otherwise.
-func (o *MongoShellInterruptResponse) GetValidationLevel() string {
-	if o == nil || o.ValidationLevel == nil {
-		var ret string
-		return ret
-	}
-	return *o.ValidationLevel
-}
-
-// GetValidationLevelOk returns a tuple with the ValidationLevel field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *MongoShellInterruptResponse) GetValidationLevelOk() (*string, bool) {
-	if o == nil || o.ValidationLevel == nil {
-		return nil, false
-	}
-	return o.ValidationLevel, true
-}
-
-// HasValidationLevel returns a boolean if a field has been set.
-func (o *MongoShellInterruptResponse) HasValidationLevel() bool {
-	return o != nil && o.ValidationLevel != nil
-}
-
-// SetValidationLevel gets a reference to the given string and assigns it to the ValidationLevel field.
-func (o *MongoShellInterruptResponse) SetValidationLevel(v string) {
-	o.ValidationLevel = &v
-}
-
-// GetValidationAction returns the ValidationAction field value if set, zero value otherwise.
-func (o *MongoShellInterruptResponse) GetValidationAction() string {
-	if o == nil || o.ValidationAction == nil {
-		var ret string
-		return ret
-	}
-	return *o.ValidationAction
-}
-
-// GetValidationActionOk returns a tuple with the ValidationAction field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *MongoShellInterruptResponse) GetValidationActionOk() (*string, bool) {
-	if o == nil || o.ValidationAction == nil {
-		return nil, false
-	}
-	return o.ValidationAction, true
-}
-
-// HasValidationAction returns a boolean if a field has been set.
-func (o *MongoShellInterruptResponse) HasValidationAction() bool {
-	return o != nil && o.ValidationAction != nil
-}
-
-// SetValidationAction gets a reference to the given string and assigns it to the ValidationAction field.
-func (o *MongoShellInterruptResponse) SetValidationAction(v string) {
-	o.ValidationAction = &v
-}
-
-// GetCollation returns the Collation field value if set, zero value otherwise.
-func (o *MongoShellInterruptResponse) GetCollation() interface{} {
-	if o == nil || o.Collation == nil {
-		var ret interface{}
-		return ret
-	}
-	return o.Collation
-}
-
-// GetCollationOk returns a tuple with the Collation field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *MongoShellInterruptResponse) GetCollationOk() (*interface{}, bool) {
-	if o == nil || o.Collation == nil {
-		return nil, false
-	}
-	return &o.Collation, true
-}
-
-// HasCollation returns a boolean if a field has been set.
-func (o *MongoShellInterruptResponse) HasCollation() bool {
-	return o != nil && o.Collation != nil
-}
-
-// SetCollation gets a reference to the given interface{} and assigns it to the Collation field.
-func (o *MongoShellInterruptResponse) SetCollation(v interface{}) {
-	o.Collation = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o MongoShellInterruptResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -155,15 +67,6 @@ func (o MongoShellInterruptResponse) MarshalJSON() ([]byte, error) {
 	}
 	if o.Interrupted != nil {
 		toSerialize["interrupted"] = o.Interrupted
-	}
-	if o.ValidationLevel != nil {
-		toSerialize["validationLevel"] = o.ValidationLevel
-	}
-	if o.ValidationAction != nil {
-		toSerialize["validationAction"] = o.ValidationAction
-	}
-	if o.Collation != nil {
-		toSerialize["collation"] = o.Collation
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -175,24 +78,18 @@ func (o MongoShellInterruptResponse) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *MongoShellInterruptResponse) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Interrupted      *bool       `json:"interrupted,omitempty"`
-		ValidationLevel  *string     `json:"validationLevel,omitempty"`
-		ValidationAction *string     `json:"validationAction,omitempty"`
-		Collation        interface{} `json:"collation,omitempty"`
+		Interrupted *bool `json:"interrupted,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"interrupted", "validationLevel", "validationAction", "collation"})
+		common.DeleteKeys(additionalProperties, &[]string{"interrupted"})
 	} else {
 		return err
 	}
 	o.Interrupted = all.Interrupted
-	o.ValidationLevel = all.ValidationLevel
-	o.ValidationAction = all.ValidationAction
-	o.Collation = all.Collation
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

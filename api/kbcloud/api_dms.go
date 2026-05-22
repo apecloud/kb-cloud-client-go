@@ -1238,13 +1238,52 @@ func (a *DmsApi) GenerateDDL(ctx _context.Context, orgName string, clusterName s
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetDataSourceV2OptionalParameters holds optional parameters for GetDataSourceV2.
+type GetDataSourceV2OptionalParameters struct {
+	HistoryType *string
+	SessionId   *string
+	Limit       *int64
+}
+
+// NewGetDataSourceV2OptionalParameters creates an empty struct for parameters.
+func NewGetDataSourceV2OptionalParameters() *GetDataSourceV2OptionalParameters {
+	this := GetDataSourceV2OptionalParameters{}
+	return &this
+}
+
+// WithHistoryType sets the corresponding parameter name and returns the struct.
+func (r *GetDataSourceV2OptionalParameters) WithHistoryType(historyType string) *GetDataSourceV2OptionalParameters {
+	r.HistoryType = &historyType
+	return r
+}
+
+// WithSessionId sets the corresponding parameter name and returns the struct.
+func (r *GetDataSourceV2OptionalParameters) WithSessionId(sessionId string) *GetDataSourceV2OptionalParameters {
+	r.SessionId = &sessionId
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *GetDataSourceV2OptionalParameters) WithLimit(limit int64) *GetDataSourceV2OptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
 // GetDataSourceV2 get the datasource.
-func (a *DmsApi) GetDataSourceV2(ctx _context.Context, orgName string, clusterName string, id string) (Datasource, *_nethttp.Response, error) {
+func (a *DmsApi) GetDataSourceV2(ctx _context.Context, orgName string, clusterName string, id string, o ...GetDataSourceV2OptionalParameters) (Datasource, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue Datasource
+		optionalParams      GetDataSourceV2OptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDataSourceV2OptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -1268,6 +1307,15 @@ func (a *DmsApi) GetDataSourceV2(ctx _context.Context, orgName string, clusterNa
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.HistoryType != nil {
+		localVarQueryParams.Add("historyType", common.ParameterToString(*optionalParams.HistoryType, ""))
+	}
+	if optionalParams.SessionId != nil {
+		localVarQueryParams.Add("sessionId", common.ParameterToString(*optionalParams.SessionId, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
