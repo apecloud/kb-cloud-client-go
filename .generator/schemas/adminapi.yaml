@@ -29603,6 +29603,13 @@ components:
         objectExpressionTips:
           $ref: '#/components/schemas/internationalDesc'
           nullable: true
+          deprecated: true
+        objectIncludeTips:
+          $ref: '#/components/schemas/internationalDesc'
+          nullable: true
+        objectExcludeTips:
+          $ref: '#/components/schemas/internationalDesc'
+          nullable: true
     parameterValueType:
       enum:
         - string
