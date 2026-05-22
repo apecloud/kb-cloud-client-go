@@ -11,23 +11,15 @@ import (
 )
 
 type DmsQueryHistory struct {
-	// history record id
-	Id *int64 `json:"id,omitempty"`
-	// organization name
-	OrgName *string `json:"orgName,omitempty"`
-	// cluster name
-	ClusterName *string `json:"clusterName,omitempty"`
-	// datasource id
-	DatasourceId *int64 `json:"datasourceId,omitempty"`
 	// datasource engine
 	Engine *string `json:"engine,omitempty"`
-	// user input text, such as SQL statements or MongoDB Shell commands
+	// user input text
 	Sql *string `json:"sql,omitempty"`
-	// sql executed massage
+	// execution message
 	ErrMassage *string `json:"errMassage,omitempty"`
-	// sql executed time
+	// executed time
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	// sql executed duration
+	// execution duration
 	Duration *int64 `json:"duration,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -49,118 +41,6 @@ func NewDmsQueryHistory() *DmsQueryHistory {
 func NewDmsQueryHistoryWithDefaults() *DmsQueryHistory {
 	this := DmsQueryHistory{}
 	return &this
-}
-
-// GetId returns the Id field value if set, zero value otherwise.
-func (o *DmsQueryHistory) GetId() int64 {
-	if o == nil || o.Id == nil {
-		var ret int64
-		return ret
-	}
-	return *o.Id
-}
-
-// GetIdOk returns a tuple with the Id field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *DmsQueryHistory) GetIdOk() (*int64, bool) {
-	if o == nil || o.Id == nil {
-		return nil, false
-	}
-	return o.Id, true
-}
-
-// HasId returns a boolean if a field has been set.
-func (o *DmsQueryHistory) HasId() bool {
-	return o != nil && o.Id != nil
-}
-
-// SetId gets a reference to the given int64 and assigns it to the Id field.
-func (o *DmsQueryHistory) SetId(v int64) {
-	o.Id = &v
-}
-
-// GetOrgName returns the OrgName field value if set, zero value otherwise.
-func (o *DmsQueryHistory) GetOrgName() string {
-	if o == nil || o.OrgName == nil {
-		var ret string
-		return ret
-	}
-	return *o.OrgName
-}
-
-// GetOrgNameOk returns a tuple with the OrgName field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *DmsQueryHistory) GetOrgNameOk() (*string, bool) {
-	if o == nil || o.OrgName == nil {
-		return nil, false
-	}
-	return o.OrgName, true
-}
-
-// HasOrgName returns a boolean if a field has been set.
-func (o *DmsQueryHistory) HasOrgName() bool {
-	return o != nil && o.OrgName != nil
-}
-
-// SetOrgName gets a reference to the given string and assigns it to the OrgName field.
-func (o *DmsQueryHistory) SetOrgName(v string) {
-	o.OrgName = &v
-}
-
-// GetClusterName returns the ClusterName field value if set, zero value otherwise.
-func (o *DmsQueryHistory) GetClusterName() string {
-	if o == nil || o.ClusterName == nil {
-		var ret string
-		return ret
-	}
-	return *o.ClusterName
-}
-
-// GetClusterNameOk returns a tuple with the ClusterName field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *DmsQueryHistory) GetClusterNameOk() (*string, bool) {
-	if o == nil || o.ClusterName == nil {
-		return nil, false
-	}
-	return o.ClusterName, true
-}
-
-// HasClusterName returns a boolean if a field has been set.
-func (o *DmsQueryHistory) HasClusterName() bool {
-	return o != nil && o.ClusterName != nil
-}
-
-// SetClusterName gets a reference to the given string and assigns it to the ClusterName field.
-func (o *DmsQueryHistory) SetClusterName(v string) {
-	o.ClusterName = &v
-}
-
-// GetDatasourceId returns the DatasourceId field value if set, zero value otherwise.
-func (o *DmsQueryHistory) GetDatasourceId() int64 {
-	if o == nil || o.DatasourceId == nil {
-		var ret int64
-		return ret
-	}
-	return *o.DatasourceId
-}
-
-// GetDatasourceIdOk returns a tuple with the DatasourceId field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *DmsQueryHistory) GetDatasourceIdOk() (*int64, bool) {
-	if o == nil || o.DatasourceId == nil {
-		return nil, false
-	}
-	return o.DatasourceId, true
-}
-
-// HasDatasourceId returns a boolean if a field has been set.
-func (o *DmsQueryHistory) HasDatasourceId() bool {
-	return o != nil && o.DatasourceId != nil
-}
-
-// SetDatasourceId gets a reference to the given int64 and assigns it to the DatasourceId field.
-func (o *DmsQueryHistory) SetDatasourceId(v int64) {
-	o.DatasourceId = &v
 }
 
 // GetEngine returns the Engine field value if set, zero value otherwise.
@@ -309,18 +189,6 @@ func (o DmsQueryHistory) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Id != nil {
-		toSerialize["id"] = o.Id
-	}
-	if o.OrgName != nil {
-		toSerialize["orgName"] = o.OrgName
-	}
-	if o.ClusterName != nil {
-		toSerialize["clusterName"] = o.ClusterName
-	}
-	if o.DatasourceId != nil {
-		toSerialize["datasourceId"] = o.DatasourceId
-	}
 	if o.Engine != nil {
 		toSerialize["engine"] = o.Engine
 	}
@@ -350,29 +218,21 @@ func (o DmsQueryHistory) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DmsQueryHistory) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id           *int64     `json:"id,omitempty"`
-		OrgName      *string    `json:"orgName,omitempty"`
-		ClusterName  *string    `json:"clusterName,omitempty"`
-		DatasourceId *int64     `json:"datasourceId,omitempty"`
-		Engine       *string    `json:"engine,omitempty"`
-		Sql          *string    `json:"sql,omitempty"`
-		ErrMassage   *string    `json:"errMassage,omitempty"`
-		CreatedAt    *time.Time `json:"createdAt,omitempty"`
-		Duration     *int64     `json:"duration,omitempty"`
+		Engine     *string    `json:"engine,omitempty"`
+		Sql        *string    `json:"sql,omitempty"`
+		ErrMassage *string    `json:"errMassage,omitempty"`
+		CreatedAt  *time.Time `json:"createdAt,omitempty"`
+		Duration   *int64     `json:"duration,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "clusterName", "datasourceId", "engine", "sql", "errMassage", "createdAt", "duration"})
+		common.DeleteKeys(additionalProperties, &[]string{"engine", "sql", "errMassage", "createdAt", "duration"})
 	} else {
 		return err
 	}
-	o.Id = all.Id
-	o.OrgName = all.OrgName
-	o.ClusterName = all.ClusterName
-	o.DatasourceId = all.DatasourceId
 	o.Engine = all.Engine
 	o.Sql = all.Sql
 	o.ErrMassage = all.ErrMassage
