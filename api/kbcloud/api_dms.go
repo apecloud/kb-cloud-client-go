@@ -1850,13 +1850,38 @@ func (a *DmsApi) ListParameters(ctx _context.Context, orgName string, clusterNam
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// ListQueryHistoryOptionalParameters holds optional parameters for ListQueryHistory.
+type ListQueryHistoryOptionalParameters struct {
+	Limit *int64
+}
+
+// NewListQueryHistoryOptionalParameters creates an empty struct for parameters.
+func NewListQueryHistoryOptionalParameters() *ListQueryHistoryOptionalParameters {
+	this := ListQueryHistoryOptionalParameters{}
+	return &this
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *ListQueryHistoryOptionalParameters) WithLimit(limit int64) *ListQueryHistoryOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
 // ListQueryHistory list the query History.
-func (a *DmsApi) ListQueryHistory(ctx _context.Context, orgName string, clusterName string, id string) ([]DmsQueryHistory, *_nethttp.Response, error) {
+func (a *DmsApi) ListQueryHistory(ctx _context.Context, orgName string, clusterName string, id string, o ...ListQueryHistoryOptionalParameters) ([]DmsQueryHistory, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue []DmsQueryHistory
+		optionalParams      ListQueryHistoryOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListQueryHistoryOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -1880,6 +1905,9 @@ func (a *DmsApi) ListQueryHistory(ctx _context.Context, orgName string, clusterN
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
