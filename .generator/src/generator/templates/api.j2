@@ -222,6 +222,19 @@ localVarQueryParams.Add("{{ parameter.name }}", {{ common_package_name }}.Parame
 	{%- endif %}
 	{%- endfor %}
 
+	{%- for name, parameter in operation|parameters if parameter.in == "form" and (not formParameter or name != formParameter.name) %}
+	{%- set collectionFormat = parameter|collection_format %}
+	{%- if parameter.required %}
+
+	localVarFormParams.Add("{{ parameter.name }}", {{ common_package_name }}.ParameterToString({{ name|variable_name}}, "{{collectionFormat}}"))
+	{%- else %}
+
+	if optionalParams.{{ name|attribute_name }} != nil {
+		localVarFormParams.Add("{{ parameter.name }}", {{ common_package_name }}.ParameterToString(*optionalParams.{{ name|attribute_name }}, "{{collectionFormat}}"))
+	}
+	{%- endif %}
+	{%- endfor %}
+
 	{%- if formParameter %}
     formFile := {{ common_package_name }}.FormFile{}
 	formFile.FormFileName = "{{ formParameter.name }}"
