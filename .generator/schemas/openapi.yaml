@@ -96,6 +96,8 @@ tags:
     description: LLM APIs
   - name: AI Agent
     description: Chat With AI Agent APIs
+  - name: Hermes Agent
+    description: Hermes Agent bridge APIs
   - name: organizationParameter
     description: Organization Parameter APIs
   - name: dataReplication
@@ -15422,6 +15424,233 @@ paths:
           required: true
           schema:
             type: string
+  /api/v1/organizations/{orgName}/hermes-agent/runtime:
+    get:
+      tags:
+        - Hermes Agent
+      operationId: getHermesAgentRuntime
+      summary: Get Hermes Agent runtime status
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - name: clusterName
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Hermes runtime status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/hermesAgentRuntimeStatus'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/hermes-agent/conversations:
+    post:
+      tags:
+        - Hermes Agent
+      operationId: createHermesAgentConversation
+      summary: Create a Hermes Agent conversation
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/hermesAgentCreateConversationRequest'
+      responses:
+        '200':
+          description: Hermes conversation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/hermesAgentConversation'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/hermes-agent/conversations/{conversationId}/runs:
+    post:
+      tags:
+        - Hermes Agent
+      operationId: startHermesAgentRun
+      summary: Start a Hermes Agent run
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/conversationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/hermesAgentStartRunRequest'
+      responses:
+        '202':
+          description: Hermes run accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/hermesAgentStartRunResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '503':
+          $ref: '#/components/responses/503'
+  /api/v1/organizations/{orgName}/hermes-agent/runs/{runId}:
+    get:
+      tags:
+        - Hermes Agent
+      operationId: getHermesAgentRun
+      summary: Get a Hermes Agent run
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/runId'
+      responses:
+        '200':
+          description: Hermes run
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/hermesAgentRun'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/hermes-agent/runs/{runId}/events:
+    get:
+      tags:
+        - Hermes Agent
+      operationId: subscribeHermesAgentRunEvents
+      summary: Subscribe to Hermes Agent run events
+      description: Returns `text/event-stream` events with name `hermes_agent_event`. The SSE id is the Cloud bridge replay cursor and can be sent as `after` or `Last-Event-ID`.
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/runId'
+        - name: after
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Hermes Agent event stream
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/hermesAgentEvent'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/hermes-agent/runs/{runId}/tool-approvals/{approvalRequestId}/approve:
+    post:
+      tags:
+        - Hermes Agent
+      operationId: approveHermesAgentTool
+      summary: Approve one Hermes Agent tool call
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/runId'
+        - $ref: '#/components/parameters/approvalRequestId'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/hermesAgentApprovalDecisionRequest'
+      responses:
+        '200':
+          description: Approval decision
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/hermesAgentApprovalDecisionResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/hermes-agent/runs/{runId}/tool-approvals/{approvalRequestId}/reject:
+    post:
+      tags:
+        - Hermes Agent
+      operationId: rejectHermesAgentTool
+      summary: Reject one Hermes Agent tool call
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/runId'
+        - $ref: '#/components/parameters/approvalRequestId'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/hermesAgentApprovalDecisionRequest'
+      responses:
+        '200':
+          description: Approval decision
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/hermesAgentApprovalDecisionResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/hermes-agent/runs/{runId}/stop:
+    post:
+      tags:
+        - Hermes Agent
+      operationId: stopHermesAgentRun
+      summary: Stop a Hermes Agent run
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/runId'
+      responses:
+        '200':
+          description: Stop result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/hermesAgentStopRunResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/keys:
     get:
       tags:
@@ -30933,6 +31162,262 @@ components:
           type: string
           format: date-time
           x-nullable: true
+    hermesAgentRuntimeStatusCode:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - ready
+        - not_configured
+        - missing_model_config
+        - unreachable
+        - unauthorized
+    hermesAgentModelConfigStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - ready
+        - missing
+    hermesAgentRuntimeStatus:
+      type: object
+      required:
+        - runtimeStatus
+        - modelConfigStatus
+        - endpointConfigured
+      properties:
+        runtimeStatus:
+          $ref: '#/components/schemas/hermesAgentRuntimeStatusCode'
+        modelConfigStatus:
+          $ref: '#/components/schemas/hermesAgentModelConfigStatus'
+        endpointConfigured:
+          type: boolean
+        model:
+          type: string
+          x-nullable: true
+        message:
+          type: string
+          x-nullable: true
+    hermesAgentCreateConversationRequest:
+      type: object
+      properties:
+        clusterName:
+          type: string
+          x-nullable: true
+        title:
+          type: string
+          x-nullable: true
+    hermesAgentConversation:
+      type: object
+      required:
+        - conversationId
+        - orgName
+        - createdAt
+      properties:
+        conversationId:
+          type: string
+        orgName:
+          type: string
+        clusterName:
+          type: string
+          x-nullable: true
+        title:
+          type: string
+          x-nullable: true
+        createdAt:
+          type: string
+          format: date-time
+    hermesAgentStartRunRequest:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          minLength: 1
+        clusterName:
+          type: string
+          x-nullable: true
+        namespace:
+          type: string
+          x-nullable: true
+        model:
+          type: string
+          x-nullable: true
+        instructions:
+          type: string
+          x-nullable: true
+    hermesAgentRunStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - started
+        - running
+        - waiting_for_approval
+        - completed
+        - failed
+        - cancelled
+    hermesAgentRun:
+      type: object
+      required:
+        - runId
+        - conversationId
+        - orgName
+        - status
+        - createdAt
+        - updatedAt
+      properties:
+        runId:
+          type: string
+        hermesRunId:
+          type: string
+          x-nullable: true
+        conversationId:
+          type: string
+        orgName:
+          type: string
+        clusterName:
+          type: string
+          x-nullable: true
+        model:
+          type: string
+          x-nullable: true
+        status:
+          $ref: '#/components/schemas/hermesAgentRunStatus'
+        statusReason:
+          type: string
+          x-nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    hermesAgentStartRunResponse:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/hermesAgentRun'
+        - type: object
+          required:
+            - runtime
+          properties:
+            runtime:
+              $ref: '#/components/schemas/hermesAgentRuntimeStatus'
+    hermesAgentEventType:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - run_started
+        - assistant_delta
+        - reasoning_available
+        - tool_started
+        - tool_completed
+        - approval_requested
+        - approval_decided
+        - run_completed
+        - run_failed
+        - run_cancelled
+        - hermes_event
+    hermesAgentEvent:
+      type: object
+      required:
+        - eventId
+        - type
+        - runId
+        - timestamp
+      properties:
+        eventId:
+          type: string
+          description: Cloud bridge replay cursor. This is also emitted as SSE id.
+        type:
+          $ref: '#/components/schemas/hermesAgentEventType'
+        status:
+          type: string
+          x-nullable: true
+        message:
+          type: string
+          x-nullable: true
+        runId:
+          type: string
+        hermesRunId:
+          type: string
+          x-nullable: true
+        conversationId:
+          type: string
+          x-nullable: true
+        timestamp:
+          type: string
+          format: date-time
+        approvalRequestId:
+          type: string
+          x-nullable: true
+        toolName:
+          type: string
+          x-nullable: true
+        toolTarget:
+          type: string
+          x-nullable: true
+        toolReason:
+          type: string
+          x-nullable: true
+        toolRisk:
+          type: string
+          x-nullable: true
+        expiresAt:
+          type: string
+          format: date-time
+          x-nullable: true
+        finalText:
+          type: string
+          x-nullable: true
+        errorMessage:
+          type: string
+          x-nullable: true
+        payload:
+          type: object
+          description: Hermes raw event projection for debugging and parity checks. Frontend should prefer stable fields above.
+          additionalProperties: true
+          x-nullable: true
+    hermesAgentApprovalDecision:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - approve
+        - reject
+    hermesAgentApprovalDecisionRequest:
+      type: object
+      properties:
+        decision:
+          $ref: '#/components/schemas/hermesAgentApprovalDecision'
+          x-nullable: true
+        reason:
+          type: string
+          x-nullable: true
+    hermesAgentApprovalDecisionResponse:
+      type: object
+      required:
+        - runId
+        - approvalRequestId
+        - decision
+        - createdAt
+      properties:
+        runId:
+          type: string
+        approvalRequestId:
+          type: string
+        decision:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    hermesAgentStopRunResponse:
+      type: object
+      required:
+        - runId
+        - status
+      properties:
+        runId:
+          type: string
+        status:
+          $ref: '#/components/schemas/hermesAgentRunStatus'
     encryptionAlgorithm:
       description: the encryption algorithm
       type: string
@@ -32489,6 +32974,30 @@ components:
         type: boolean
       required: false
       default: true
+    orgName:
+      name: orgName
+      in: path
+      required: true
+      schema:
+        type: string
+    conversationId:
+      name: conversationId
+      in: path
+      required: true
+      schema:
+        type: string
+    runId:
+      name: runId
+      in: path
+      required: true
+      schema:
+        type: string
+    approvalRequestId:
+      name: approvalRequestId
+      in: path
+      required: true
+      schema:
+        type: string
 x-tagGroups:
   - name: User
     tags:
@@ -32566,6 +33075,7 @@ x-tagGroups:
     tags:
       - AI
       - AI Agent
+      - Hermes Agent
       - llm
   - name: billing
     tags:
