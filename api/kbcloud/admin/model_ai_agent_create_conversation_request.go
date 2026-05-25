@@ -4,16 +4,12 @@
 
 package admin
 
-import (
-	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type AiAgentCreateConversationRequest struct {
-	Title *string `json:"title,omitempty"`
-	// Organization-scoped single-cluster Agent execution scope.
-	Scope AiAgentResourceScope `json:"scope"`
+	Scope *AiAgentScope `json:"scope,omitempty"`
+	Title *string       `json:"title,omitempty"`
+	Model *string       `json:"model,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -23,9 +19,8 @@ type AiAgentCreateConversationRequest struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAiAgentCreateConversationRequest(scope AiAgentResourceScope) *AiAgentCreateConversationRequest {
+func NewAiAgentCreateConversationRequest() *AiAgentCreateConversationRequest {
 	this := AiAgentCreateConversationRequest{}
-	this.Scope = scope
 	return &this
 }
 
@@ -35,6 +30,34 @@ func NewAiAgentCreateConversationRequest(scope AiAgentResourceScope) *AiAgentCre
 func NewAiAgentCreateConversationRequestWithDefaults() *AiAgentCreateConversationRequest {
 	this := AiAgentCreateConversationRequest{}
 	return &this
+}
+
+// GetScope returns the Scope field value if set, zero value otherwise.
+func (o *AiAgentCreateConversationRequest) GetScope() AiAgentScope {
+	if o == nil || o.Scope == nil {
+		var ret AiAgentScope
+		return ret
+	}
+	return *o.Scope
+}
+
+// GetScopeOk returns a tuple with the Scope field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentCreateConversationRequest) GetScopeOk() (*AiAgentScope, bool) {
+	if o == nil || o.Scope == nil {
+		return nil, false
+	}
+	return o.Scope, true
+}
+
+// HasScope returns a boolean if a field has been set.
+func (o *AiAgentCreateConversationRequest) HasScope() bool {
+	return o != nil && o.Scope != nil
+}
+
+// SetScope gets a reference to the given AiAgentScope and assigns it to the Scope field.
+func (o *AiAgentCreateConversationRequest) SetScope(v AiAgentScope) {
+	o.Scope = &v
 }
 
 // GetTitle returns the Title field value if set, zero value otherwise.
@@ -65,27 +88,32 @@ func (o *AiAgentCreateConversationRequest) SetTitle(v string) {
 	o.Title = &v
 }
 
-// GetScope returns the Scope field value.
-func (o *AiAgentCreateConversationRequest) GetScope() AiAgentResourceScope {
-	if o == nil {
-		var ret AiAgentResourceScope
+// GetModel returns the Model field value if set, zero value otherwise.
+func (o *AiAgentCreateConversationRequest) GetModel() string {
+	if o == nil || o.Model == nil {
+		var ret string
 		return ret
 	}
-	return o.Scope
+	return *o.Model
 }
 
-// GetScopeOk returns a tuple with the Scope field value
+// GetModelOk returns a tuple with the Model field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AiAgentCreateConversationRequest) GetScopeOk() (*AiAgentResourceScope, bool) {
-	if o == nil {
+func (o *AiAgentCreateConversationRequest) GetModelOk() (*string, bool) {
+	if o == nil || o.Model == nil {
 		return nil, false
 	}
-	return &o.Scope, true
+	return o.Model, true
 }
 
-// SetScope sets field value.
-func (o *AiAgentCreateConversationRequest) SetScope(v AiAgentResourceScope) {
-	o.Scope = v
+// HasModel returns a boolean if a field has been set.
+func (o *AiAgentCreateConversationRequest) HasModel() bool {
+	return o != nil && o.Model != nil
+}
+
+// SetModel gets a reference to the given string and assigns it to the Model field.
+func (o *AiAgentCreateConversationRequest) SetModel(v string) {
+	o.Model = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -94,10 +122,15 @@ func (o AiAgentCreateConversationRequest) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Scope != nil {
+		toSerialize["scope"] = o.Scope
+	}
 	if o.Title != nil {
 		toSerialize["title"] = o.Title
 	}
-	toSerialize["scope"] = o.Scope
+	if o.Model != nil {
+		toSerialize["model"] = o.Model
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -108,28 +141,27 @@ func (o AiAgentCreateConversationRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AiAgentCreateConversationRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Title *string               `json:"title,omitempty"`
-		Scope *AiAgentResourceScope `json:"scope"`
+		Scope *AiAgentScope `json:"scope,omitempty"`
+		Title *string       `json:"title,omitempty"`
+		Model *string       `json:"model,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Scope == nil {
-		return fmt.Errorf("required field scope missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"title", "scope"})
+		common.DeleteKeys(additionalProperties, &[]string{"scope", "title", "model"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	o.Title = all.Title
-	if all.Scope.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Scope != nil && all.Scope.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.Scope = *all.Scope
+	o.Scope = all.Scope
+	o.Title = all.Title
+	o.Model = all.Model
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

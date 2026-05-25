@@ -14,19 +14,19 @@ type AiAgentConversationStatus string
 
 // List of AiAgentConversationStatus.
 const (
-	AiAgentConversationStatusActive    AiAgentConversationStatus = "active"
-	AiAgentConversationStatusCompleted AiAgentConversationStatus = "completed"
-	AiAgentConversationStatusFailed    AiAgentConversationStatus = "failed"
-	AiAgentConversationStatusCancelled AiAgentConversationStatus = "cancelled"
-	AiAgentConversationStatusArchived  AiAgentConversationStatus = "archived"
+	AiAgentConversationStatusIdle               AiAgentConversationStatus = "idle"
+	AiAgentConversationStatusRunning            AiAgentConversationStatus = "running"
+	AiAgentConversationStatusWaitingForApproval AiAgentConversationStatus = "waiting_for_approval"
+	AiAgentConversationStatusFailed             AiAgentConversationStatus = "failed"
+	AiAgentConversationStatusCancelled          AiAgentConversationStatus = "cancelled"
 )
 
 var allowedAiAgentConversationStatusEnumValues = []AiAgentConversationStatus{
-	AiAgentConversationStatusActive,
-	AiAgentConversationStatusCompleted,
+	AiAgentConversationStatusIdle,
+	AiAgentConversationStatusRunning,
+	AiAgentConversationStatusWaitingForApproval,
 	AiAgentConversationStatusFailed,
 	AiAgentConversationStatusCancelled,
-	AiAgentConversationStatusArchived,
 }
 
 // GetAllowedValues returns the list of possible values.

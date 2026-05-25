@@ -12,16 +12,14 @@ import (
 )
 
 type AiAgentEvent struct {
-	EventId        string              `json:"eventId"`
-	RunId          string              `json:"runId"`
-	ConversationId string              `json:"conversationId"`
-	EventType      AiAgentEventType    `json:"eventType"`
-	Status         *AiAgentEventStatus `json:"status,omitempty"`
-	Timestamp      time.Time           `json:"timestamp"`
-	Source         *AiAgentEventSource `json:"source,omitempty"`
-	SchemaVersion  string              `json:"schemaVersion"`
-	// Frontend-safe union payload for typed Agent events. For eventType=assistant_delta, messageId, partId, deltaKind, sequence, delta, and isFinal are required by contract; sequence is monotonically increasing per partId from 1 and is used by clients to order and deduplicate streamed deltas. Debug or hidden projections must not be sent on the ordinary user SSE stream.
-	Payload *AiAgentEventPayload `json:"payload,omitempty"`
+	EventId        string                 `json:"eventId"`
+	ConversationId string                 `json:"conversationId"`
+	TurnId         *string                `json:"turnId,omitempty"`
+	Type           AiAgentEventType       `json:"type"`
+	Status         *string                `json:"status,omitempty"`
+	Message        *string                `json:"message,omitempty"`
+	Payload        map[string]interface{} `json:"payload,omitempty"`
+	CreatedAt      time.Time              `json:"createdAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -31,14 +29,12 @@ type AiAgentEvent struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAiAgentEvent(eventId string, runId string, conversationId string, eventType AiAgentEventType, timestamp time.Time, schemaVersion string) *AiAgentEvent {
+func NewAiAgentEvent(eventId string, conversationId string, typeVar AiAgentEventType, createdAt time.Time) *AiAgentEvent {
 	this := AiAgentEvent{}
 	this.EventId = eventId
-	this.RunId = runId
 	this.ConversationId = conversationId
-	this.EventType = eventType
-	this.Timestamp = timestamp
-	this.SchemaVersion = schemaVersion
+	this.Type = typeVar
+	this.CreatedAt = createdAt
 	return &this
 }
 
@@ -73,29 +69,6 @@ func (o *AiAgentEvent) SetEventId(v string) {
 	o.EventId = v
 }
 
-// GetRunId returns the RunId field value.
-func (o *AiAgentEvent) GetRunId() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.RunId
-}
-
-// GetRunIdOk returns a tuple with the RunId field value
-// and a boolean to check if the value has been set.
-func (o *AiAgentEvent) GetRunIdOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.RunId, true
-}
-
-// SetRunId sets field value.
-func (o *AiAgentEvent) SetRunId(v string) {
-	o.RunId = v
-}
-
 // GetConversationId returns the ConversationId field value.
 func (o *AiAgentEvent) GetConversationId() string {
 	if o == nil {
@@ -119,33 +92,61 @@ func (o *AiAgentEvent) SetConversationId(v string) {
 	o.ConversationId = v
 }
 
-// GetEventType returns the EventType field value.
-func (o *AiAgentEvent) GetEventType() AiAgentEventType {
+// GetTurnId returns the TurnId field value if set, zero value otherwise.
+func (o *AiAgentEvent) GetTurnId() string {
+	if o == nil || o.TurnId == nil {
+		var ret string
+		return ret
+	}
+	return *o.TurnId
+}
+
+// GetTurnIdOk returns a tuple with the TurnId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentEvent) GetTurnIdOk() (*string, bool) {
+	if o == nil || o.TurnId == nil {
+		return nil, false
+	}
+	return o.TurnId, true
+}
+
+// HasTurnId returns a boolean if a field has been set.
+func (o *AiAgentEvent) HasTurnId() bool {
+	return o != nil && o.TurnId != nil
+}
+
+// SetTurnId gets a reference to the given string and assigns it to the TurnId field.
+func (o *AiAgentEvent) SetTurnId(v string) {
+	o.TurnId = &v
+}
+
+// GetType returns the Type field value.
+func (o *AiAgentEvent) GetType() AiAgentEventType {
 	if o == nil {
 		var ret AiAgentEventType
 		return ret
 	}
-	return o.EventType
+	return o.Type
 }
 
-// GetEventTypeOk returns a tuple with the EventType field value
+// GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *AiAgentEvent) GetEventTypeOk() (*AiAgentEventType, bool) {
+func (o *AiAgentEvent) GetTypeOk() (*AiAgentEventType, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.EventType, true
+	return &o.Type, true
 }
 
-// SetEventType sets field value.
-func (o *AiAgentEvent) SetEventType(v AiAgentEventType) {
-	o.EventType = v
+// SetType sets field value.
+func (o *AiAgentEvent) SetType(v AiAgentEventType) {
+	o.Type = v
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *AiAgentEvent) GetStatus() AiAgentEventStatus {
+func (o *AiAgentEvent) GetStatus() string {
 	if o == nil || o.Status == nil {
-		var ret AiAgentEventStatus
+		var ret string
 		return ret
 	}
 	return *o.Status
@@ -153,7 +154,7 @@ func (o *AiAgentEvent) GetStatus() AiAgentEventStatus {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AiAgentEvent) GetStatusOk() (*AiAgentEventStatus, bool) {
+func (o *AiAgentEvent) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -165,101 +166,55 @@ func (o *AiAgentEvent) HasStatus() bool {
 	return o != nil && o.Status != nil
 }
 
-// SetStatus gets a reference to the given AiAgentEventStatus and assigns it to the Status field.
-func (o *AiAgentEvent) SetStatus(v AiAgentEventStatus) {
+// SetStatus gets a reference to the given string and assigns it to the Status field.
+func (o *AiAgentEvent) SetStatus(v string) {
 	o.Status = &v
 }
 
-// GetTimestamp returns the Timestamp field value.
-func (o *AiAgentEvent) GetTimestamp() time.Time {
-	if o == nil {
-		var ret time.Time
-		return ret
-	}
-	return o.Timestamp
-}
-
-// GetTimestampOk returns a tuple with the Timestamp field value
-// and a boolean to check if the value has been set.
-func (o *AiAgentEvent) GetTimestampOk() (*time.Time, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Timestamp, true
-}
-
-// SetTimestamp sets field value.
-func (o *AiAgentEvent) SetTimestamp(v time.Time) {
-	o.Timestamp = v
-}
-
-// GetSource returns the Source field value if set, zero value otherwise.
-func (o *AiAgentEvent) GetSource() AiAgentEventSource {
-	if o == nil || o.Source == nil {
-		var ret AiAgentEventSource
-		return ret
-	}
-	return *o.Source
-}
-
-// GetSourceOk returns a tuple with the Source field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiAgentEvent) GetSourceOk() (*AiAgentEventSource, bool) {
-	if o == nil || o.Source == nil {
-		return nil, false
-	}
-	return o.Source, true
-}
-
-// HasSource returns a boolean if a field has been set.
-func (o *AiAgentEvent) HasSource() bool {
-	return o != nil && o.Source != nil
-}
-
-// SetSource gets a reference to the given AiAgentEventSource and assigns it to the Source field.
-func (o *AiAgentEvent) SetSource(v AiAgentEventSource) {
-	o.Source = &v
-}
-
-// GetSchemaVersion returns the SchemaVersion field value.
-func (o *AiAgentEvent) GetSchemaVersion() string {
-	if o == nil {
+// GetMessage returns the Message field value if set, zero value otherwise.
+func (o *AiAgentEvent) GetMessage() string {
+	if o == nil || o.Message == nil {
 		var ret string
 		return ret
 	}
-	return o.SchemaVersion
+	return *o.Message
 }
 
-// GetSchemaVersionOk returns a tuple with the SchemaVersion field value
+// GetMessageOk returns a tuple with the Message field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AiAgentEvent) GetSchemaVersionOk() (*string, bool) {
-	if o == nil {
+func (o *AiAgentEvent) GetMessageOk() (*string, bool) {
+	if o == nil || o.Message == nil {
 		return nil, false
 	}
-	return &o.SchemaVersion, true
+	return o.Message, true
 }
 
-// SetSchemaVersion sets field value.
-func (o *AiAgentEvent) SetSchemaVersion(v string) {
-	o.SchemaVersion = v
+// HasMessage returns a boolean if a field has been set.
+func (o *AiAgentEvent) HasMessage() bool {
+	return o != nil && o.Message != nil
+}
+
+// SetMessage gets a reference to the given string and assigns it to the Message field.
+func (o *AiAgentEvent) SetMessage(v string) {
+	o.Message = &v
 }
 
 // GetPayload returns the Payload field value if set, zero value otherwise.
-func (o *AiAgentEvent) GetPayload() AiAgentEventPayload {
+func (o *AiAgentEvent) GetPayload() map[string]interface{} {
 	if o == nil || o.Payload == nil {
-		var ret AiAgentEventPayload
+		var ret map[string]interface{}
 		return ret
 	}
-	return *o.Payload
+	return o.Payload
 }
 
 // GetPayloadOk returns a tuple with the Payload field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AiAgentEvent) GetPayloadOk() (*AiAgentEventPayload, bool) {
+func (o *AiAgentEvent) GetPayloadOk() (*map[string]interface{}, bool) {
 	if o == nil || o.Payload == nil {
 		return nil, false
 	}
-	return o.Payload, true
+	return &o.Payload, true
 }
 
 // HasPayload returns a boolean if a field has been set.
@@ -267,9 +222,32 @@ func (o *AiAgentEvent) HasPayload() bool {
 	return o != nil && o.Payload != nil
 }
 
-// SetPayload gets a reference to the given AiAgentEventPayload and assigns it to the Payload field.
-func (o *AiAgentEvent) SetPayload(v AiAgentEventPayload) {
-	o.Payload = &v
+// SetPayload gets a reference to the given map[string]interface{} and assigns it to the Payload field.
+func (o *AiAgentEvent) SetPayload(v map[string]interface{}) {
+	o.Payload = v
+}
+
+// GetCreatedAt returns the CreatedAt field value.
+func (o *AiAgentEvent) GetCreatedAt() time.Time {
+	if o == nil {
+		var ret time.Time
+		return ret
+	}
+	return o.CreatedAt
+}
+
+// GetCreatedAtOk returns a tuple with the CreatedAt field value
+// and a boolean to check if the value has been set.
+func (o *AiAgentEvent) GetCreatedAtOk() (*time.Time, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.CreatedAt, true
+}
+
+// SetCreatedAt sets field value.
+func (o *AiAgentEvent) SetCreatedAt(v time.Time) {
+	o.CreatedAt = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -279,23 +257,24 @@ func (o AiAgentEvent) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["eventId"] = o.EventId
-	toSerialize["runId"] = o.RunId
 	toSerialize["conversationId"] = o.ConversationId
-	toSerialize["eventType"] = o.EventType
+	if o.TurnId != nil {
+		toSerialize["turnId"] = o.TurnId
+	}
+	toSerialize["type"] = o.Type
 	if o.Status != nil {
 		toSerialize["status"] = o.Status
 	}
-	if o.Timestamp.Nanosecond() == 0 {
-		toSerialize["timestamp"] = o.Timestamp.Format("2006-01-02T15:04:05Z07:00")
-	} else {
-		toSerialize["timestamp"] = o.Timestamp.Format("2006-01-02T15:04:05.000Z07:00")
+	if o.Message != nil {
+		toSerialize["message"] = o.Message
 	}
-	if o.Source != nil {
-		toSerialize["source"] = o.Source
-	}
-	toSerialize["schemaVersion"] = o.SchemaVersion
 	if o.Payload != nil {
 		toSerialize["payload"] = o.Payload
+	}
+	if o.CreatedAt.Nanosecond() == 0 {
+		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
+	} else {
+		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -307,15 +286,14 @@ func (o AiAgentEvent) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AiAgentEvent) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EventId        *string              `json:"eventId"`
-		RunId          *string              `json:"runId"`
-		ConversationId *string              `json:"conversationId"`
-		EventType      *AiAgentEventType    `json:"eventType"`
-		Status         *AiAgentEventStatus  `json:"status,omitempty"`
-		Timestamp      *time.Time           `json:"timestamp"`
-		Source         *AiAgentEventSource  `json:"source,omitempty"`
-		SchemaVersion  *string              `json:"schemaVersion"`
-		Payload        *AiAgentEventPayload `json:"payload,omitempty"`
+		EventId        *string                `json:"eventId"`
+		ConversationId *string                `json:"conversationId"`
+		TurnId         *string                `json:"turnId,omitempty"`
+		Type           *AiAgentEventType      `json:"type"`
+		Status         *string                `json:"status,omitempty"`
+		Message        *string                `json:"message,omitempty"`
+		Payload        map[string]interface{} `json:"payload,omitempty"`
+		CreatedAt      *time.Time             `json:"createdAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -323,53 +301,35 @@ func (o *AiAgentEvent) UnmarshalJSON(bytes []byte) (err error) {
 	if all.EventId == nil {
 		return fmt.Errorf("required field eventId missing")
 	}
-	if all.RunId == nil {
-		return fmt.Errorf("required field runId missing")
-	}
 	if all.ConversationId == nil {
 		return fmt.Errorf("required field conversationId missing")
 	}
-	if all.EventType == nil {
-		return fmt.Errorf("required field eventType missing")
+	if all.Type == nil {
+		return fmt.Errorf("required field type missing")
 	}
-	if all.Timestamp == nil {
-		return fmt.Errorf("required field timestamp missing")
-	}
-	if all.SchemaVersion == nil {
-		return fmt.Errorf("required field schemaVersion missing")
+	if all.CreatedAt == nil {
+		return fmt.Errorf("required field createdAt missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"eventId", "runId", "conversationId", "eventType", "status", "timestamp", "source", "schemaVersion", "payload"})
+		common.DeleteKeys(additionalProperties, &[]string{"eventId", "conversationId", "turnId", "type", "status", "message", "payload", "createdAt"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.EventId = *all.EventId
-	o.RunId = *all.RunId
 	o.ConversationId = *all.ConversationId
-	if !all.EventType.IsValid() {
+	o.TurnId = all.TurnId
+	if !all.Type.IsValid() {
 		hasInvalidField = true
 	} else {
-		o.EventType = *all.EventType
+		o.Type = *all.Type
 	}
-	if all.Status != nil && !all.Status.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Status = all.Status
-	}
-	o.Timestamp = *all.Timestamp
-	if all.Source != nil && !all.Source.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Source = all.Source
-	}
-	o.SchemaVersion = *all.SchemaVersion
-	if all.Payload != nil && all.Payload.UnparsedObject != nil && o.UnparsedObject == nil {
-		hasInvalidField = true
-	}
+	o.Status = all.Status
+	o.Message = all.Message
 	o.Payload = all.Payload
+	o.CreatedAt = *all.CreatedAt
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

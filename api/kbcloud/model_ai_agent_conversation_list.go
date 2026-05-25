@@ -4,12 +4,14 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type AiAgentConversationList struct {
-	NextCursor *string                      `json:"nextCursor,omitempty"`
-	HasMore    *bool                        `json:"hasMore,omitempty"`
-	Items      []AiAgentConversationSummary `json:"items,omitempty"`
+	Items []AiAgentConversation `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -19,92 +21,40 @@ type AiAgentConversationList struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAiAgentConversationList() *AiAgentConversationList {
+func NewAiAgentConversationList(items []AiAgentConversation) *AiAgentConversationList {
+	this := AiAgentConversationList{}
+	this.Items = items
+	return &this
+}
+
+// NewAiAgentConversationListWithDefaults instantiates a new AiAgentConversationList object.
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set.
+func NewAiAgentConversationListWithDefaults() *AiAgentConversationList {
 	this := AiAgentConversationList{}
 	return &this
 }
 
-// GetNextCursor returns the NextCursor field value if set, zero value otherwise.
-func (o *AiAgentConversationList) GetNextCursor() string {
-	if o == nil || o.NextCursor == nil {
-		var ret string
-		return ret
-	}
-	return *o.NextCursor
-}
-
-// GetNextCursorOk returns a tuple with the NextCursor field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiAgentConversationList) GetNextCursorOk() (*string, bool) {
-	if o == nil || o.NextCursor == nil {
-		return nil, false
-	}
-	return o.NextCursor, true
-}
-
-// HasNextCursor returns a boolean if a field has been set.
-func (o *AiAgentConversationList) HasNextCursor() bool {
-	return o != nil && o.NextCursor != nil
-}
-
-// SetNextCursor gets a reference to the given string and assigns it to the NextCursor field.
-func (o *AiAgentConversationList) SetNextCursor(v string) {
-	o.NextCursor = &v
-}
-
-// GetHasMore returns the HasMore field value if set, zero value otherwise.
-func (o *AiAgentConversationList) GetHasMore() bool {
-	if o == nil || o.HasMore == nil {
-		var ret bool
-		return ret
-	}
-	return *o.HasMore
-}
-
-// GetHasMoreOk returns a tuple with the HasMore field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiAgentConversationList) GetHasMoreOk() (*bool, bool) {
-	if o == nil || o.HasMore == nil {
-		return nil, false
-	}
-	return o.HasMore, true
-}
-
-// HasHasMore returns a boolean if a field has been set.
-func (o *AiAgentConversationList) HasHasMore() bool {
-	return o != nil && o.HasMore != nil
-}
-
-// SetHasMore gets a reference to the given bool and assigns it to the HasMore field.
-func (o *AiAgentConversationList) SetHasMore(v bool) {
-	o.HasMore = &v
-}
-
-// GetItems returns the Items field value if set, zero value otherwise.
-func (o *AiAgentConversationList) GetItems() []AiAgentConversationSummary {
-	if o == nil || o.Items == nil {
-		var ret []AiAgentConversationSummary
+// GetItems returns the Items field value.
+func (o *AiAgentConversationList) GetItems() []AiAgentConversation {
+	if o == nil {
+		var ret []AiAgentConversation
 		return ret
 	}
 	return o.Items
 }
 
-// GetItemsOk returns a tuple with the Items field value if set, nil otherwise
+// GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *AiAgentConversationList) GetItemsOk() (*[]AiAgentConversationSummary, bool) {
-	if o == nil || o.Items == nil {
+func (o *AiAgentConversationList) GetItemsOk() (*[]AiAgentConversation, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Items, true
 }
 
-// HasItems returns a boolean if a field has been set.
-func (o *AiAgentConversationList) HasItems() bool {
-	return o != nil && o.Items != nil
-}
-
-// SetItems gets a reference to the given []AiAgentConversationSummary and assigns it to the Items field.
-func (o *AiAgentConversationList) SetItems(v []AiAgentConversationSummary) {
+// SetItems sets field value.
+func (o *AiAgentConversationList) SetItems(v []AiAgentConversation) {
 	o.Items = v
 }
 
@@ -114,15 +64,7 @@ func (o AiAgentConversationList) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.NextCursor != nil {
-		toSerialize["nextCursor"] = o.NextCursor
-	}
-	if o.HasMore != nil {
-		toSerialize["hasMore"] = o.HasMore
-	}
-	if o.Items != nil {
-		toSerialize["items"] = o.Items
-	}
+	toSerialize["items"] = o.Items
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -133,22 +75,22 @@ func (o AiAgentConversationList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AiAgentConversationList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		NextCursor *string                      `json:"nextCursor,omitempty"`
-		HasMore    *bool                        `json:"hasMore,omitempty"`
-		Items      []AiAgentConversationSummary `json:"items,omitempty"`
+		Items *[]AiAgentConversation `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
+	if all.Items == nil {
+		return fmt.Errorf("required field items missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"nextCursor", "hasMore", "items"})
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}
-	o.NextCursor = all.NextCursor
-	o.HasMore = all.HasMore
-	o.Items = all.Items
+	o.Items = *all.Items
+
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
 	}
