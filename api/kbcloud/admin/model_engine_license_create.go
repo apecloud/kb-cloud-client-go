@@ -23,9 +23,9 @@ type EngineLicenseCreate struct {
 	ExpiredAt *time.Time `json:"expiredAt,omitempty"`
 	// Environment ID of the license (optional)
 	EnvironmentId *string `json:"environmentID,omitempty"`
-	// Type of the license (optional)
+	// Type of the license. Determines whether licenseFile is required.
 	Type string `json:"type"`
-	// The license file to upload
+	// The license file to upload. Required when type is not NodeScope; optional when type is NodeScope.
 	LicenseFile *_io.Reader `json:"licenseFile,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

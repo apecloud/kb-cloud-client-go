@@ -20,6 +20,7 @@ const (
 	BenchmarkTypeTpcc     BenchmarkType = "tpcc"
 	BenchmarkTypeTpch     BenchmarkType = "tpch"
 	BenchmarkTypeYcsb     BenchmarkType = "ycsb"
+	BenchmarkTypeEsrally  BenchmarkType = "esrally"
 )
 
 var allowedBenchmarkTypeEnumValues = []BenchmarkType{
@@ -28,6 +29,7 @@ var allowedBenchmarkTypeEnumValues = []BenchmarkType{
 	BenchmarkTypeTpcc,
 	BenchmarkTypeTpch,
 	BenchmarkTypeYcsb,
+	BenchmarkTypeEsrally,
 }
 
 // GetAllowedValues returns the list of possible values.

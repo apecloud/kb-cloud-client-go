@@ -8,13 +8,15 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ClusterExecutionLogItem Cluster execution log item represents a single log entry
 type ClusterExecutionLogItem struct {
-	Client        *string                `json:"client,omitempty"`
-	Command       *string                `json:"command,omitempty"`
-	DbName        *string                `json:"dbName,omitempty"`
-	ExecutionTime *float64               `json:"executionTime,omitempty"`
-	Extra         map[string]interface{} `json:"extra,omitempty"`
-	Timestamp     *int64                 `json:"timestamp,omitempty"`
-	User          *string                `json:"user,omitempty"`
+	Client        *string  `json:"client,omitempty"`
+	Command       *string  `json:"command,omitempty"`
+	DbName        *string  `json:"dbName,omitempty"`
+	ExecutionTime *float64 `json:"executionTime,omitempty"`
+	// Slow log fields emitted by oteld
+	SlowLog   *ClusterSlowLogDetail  `json:"slowLog,omitempty"`
+	Extra     map[string]interface{} `json:"extra,omitempty"`
+	Timestamp *int64                 `json:"timestamp,omitempty"`
+	User      *string                `json:"user,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -149,6 +151,34 @@ func (o *ClusterExecutionLogItem) SetExecutionTime(v float64) {
 	o.ExecutionTime = &v
 }
 
+// GetSlowLog returns the SlowLog field value if set, zero value otherwise.
+func (o *ClusterExecutionLogItem) GetSlowLog() ClusterSlowLogDetail {
+	if o == nil || o.SlowLog == nil {
+		var ret ClusterSlowLogDetail
+		return ret
+	}
+	return *o.SlowLog
+}
+
+// GetSlowLogOk returns a tuple with the SlowLog field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterExecutionLogItem) GetSlowLogOk() (*ClusterSlowLogDetail, bool) {
+	if o == nil || o.SlowLog == nil {
+		return nil, false
+	}
+	return o.SlowLog, true
+}
+
+// HasSlowLog returns a boolean if a field has been set.
+func (o *ClusterExecutionLogItem) HasSlowLog() bool {
+	return o != nil && o.SlowLog != nil
+}
+
+// SetSlowLog gets a reference to the given ClusterSlowLogDetail and assigns it to the SlowLog field.
+func (o *ClusterExecutionLogItem) SetSlowLog(v ClusterSlowLogDetail) {
+	o.SlowLog = &v
+}
+
 // GetExtra returns the Extra field value if set, zero value otherwise.
 func (o *ClusterExecutionLogItem) GetExtra() map[string]interface{} {
 	if o == nil || o.Extra == nil {
@@ -251,6 +281,9 @@ func (o ClusterExecutionLogItem) MarshalJSON() ([]byte, error) {
 	if o.ExecutionTime != nil {
 		toSerialize["executionTime"] = o.ExecutionTime
 	}
+	if o.SlowLog != nil {
+		toSerialize["slowLog"] = o.SlowLog
+	}
 	if o.Extra != nil {
 		toSerialize["extra"] = o.Extra
 	}
@@ -274,6 +307,7 @@ func (o *ClusterExecutionLogItem) UnmarshalJSON(bytes []byte) (err error) {
 		Command       *string                `json:"command,omitempty"`
 		DbName        *string                `json:"dbName,omitempty"`
 		ExecutionTime *float64               `json:"executionTime,omitempty"`
+		SlowLog       *ClusterSlowLogDetail  `json:"slowLog,omitempty"`
 		Extra         map[string]interface{} `json:"extra,omitempty"`
 		Timestamp     *int64                 `json:"timestamp,omitempty"`
 		User          *string                `json:"user,omitempty"`
@@ -283,20 +317,30 @@ func (o *ClusterExecutionLogItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"client", "command", "dbName", "executionTime", "extra", "timestamp", "user"})
+		common.DeleteKeys(additionalProperties, &[]string{"client", "command", "dbName", "executionTime", "slowLog", "extra", "timestamp", "user"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Client = all.Client
 	o.Command = all.Command
 	o.DbName = all.DbName
 	o.ExecutionTime = all.ExecutionTime
+	if all.SlowLog != nil && all.SlowLog.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.SlowLog = all.SlowLog
 	o.Extra = all.Extra
 	o.Timestamp = all.Timestamp
 	o.User = all.User
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

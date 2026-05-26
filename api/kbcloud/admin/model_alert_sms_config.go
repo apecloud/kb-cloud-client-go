@@ -12,12 +12,13 @@ import (
 
 // AlertSMSConfig Alert sms config
 type AlertSMSConfig struct {
-	Name            *string `json:"name,omitempty"`
-	AccessKeyId     string  `json:"accessKeyID"`
-	AccessKeySecret string  `json:"accessKeySecret"`
-	Endpoint        *string `json:"endpoint,omitempty"`
-	TemplateCode    string  `json:"templateCode"`
-	SignName        *string `json:"signName,omitempty"`
+	Name               *string `json:"name,omitempty"`
+	AccessKeyId        string  `json:"accessKeyID"`
+	AccessKeySecret    string  `json:"accessKeySecret"`
+	Endpoint           *string `json:"endpoint,omitempty"`
+	AlertTemplateCode  *string `json:"alertTemplateCode,omitempty"`
+	VerifyTemplateCode *string `json:"verifyTemplateCode,omitempty"`
+	SignName           *string `json:"signName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -27,11 +28,10 @@ type AlertSMSConfig struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAlertSMSConfig(accessKeyId string, accessKeySecret string, templateCode string) *AlertSMSConfig {
+func NewAlertSMSConfig(accessKeyId string, accessKeySecret string) *AlertSMSConfig {
 	this := AlertSMSConfig{}
 	this.AccessKeyId = accessKeyId
 	this.AccessKeySecret = accessKeySecret
-	this.TemplateCode = templateCode
 	return &this
 }
 
@@ -145,27 +145,60 @@ func (o *AlertSMSConfig) SetEndpoint(v string) {
 	o.Endpoint = &v
 }
 
-// GetTemplateCode returns the TemplateCode field value.
-func (o *AlertSMSConfig) GetTemplateCode() string {
-	if o == nil {
+// GetAlertTemplateCode returns the AlertTemplateCode field value if set, zero value otherwise.
+func (o *AlertSMSConfig) GetAlertTemplateCode() string {
+	if o == nil || o.AlertTemplateCode == nil {
 		var ret string
 		return ret
 	}
-	return o.TemplateCode
+	return *o.AlertTemplateCode
 }
 
-// GetTemplateCodeOk returns a tuple with the TemplateCode field value
+// GetAlertTemplateCodeOk returns a tuple with the AlertTemplateCode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AlertSMSConfig) GetTemplateCodeOk() (*string, bool) {
-	if o == nil {
+func (o *AlertSMSConfig) GetAlertTemplateCodeOk() (*string, bool) {
+	if o == nil || o.AlertTemplateCode == nil {
 		return nil, false
 	}
-	return &o.TemplateCode, true
+	return o.AlertTemplateCode, true
 }
 
-// SetTemplateCode sets field value.
-func (o *AlertSMSConfig) SetTemplateCode(v string) {
-	o.TemplateCode = v
+// HasAlertTemplateCode returns a boolean if a field has been set.
+func (o *AlertSMSConfig) HasAlertTemplateCode() bool {
+	return o != nil && o.AlertTemplateCode != nil
+}
+
+// SetAlertTemplateCode gets a reference to the given string and assigns it to the AlertTemplateCode field.
+func (o *AlertSMSConfig) SetAlertTemplateCode(v string) {
+	o.AlertTemplateCode = &v
+}
+
+// GetVerifyTemplateCode returns the VerifyTemplateCode field value if set, zero value otherwise.
+func (o *AlertSMSConfig) GetVerifyTemplateCode() string {
+	if o == nil || o.VerifyTemplateCode == nil {
+		var ret string
+		return ret
+	}
+	return *o.VerifyTemplateCode
+}
+
+// GetVerifyTemplateCodeOk returns a tuple with the VerifyTemplateCode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AlertSMSConfig) GetVerifyTemplateCodeOk() (*string, bool) {
+	if o == nil || o.VerifyTemplateCode == nil {
+		return nil, false
+	}
+	return o.VerifyTemplateCode, true
+}
+
+// HasVerifyTemplateCode returns a boolean if a field has been set.
+func (o *AlertSMSConfig) HasVerifyTemplateCode() bool {
+	return o != nil && o.VerifyTemplateCode != nil
+}
+
+// SetVerifyTemplateCode gets a reference to the given string and assigns it to the VerifyTemplateCode field.
+func (o *AlertSMSConfig) SetVerifyTemplateCode(v string) {
+	o.VerifyTemplateCode = &v
 }
 
 // GetSignName returns the SignName field value if set, zero value otherwise.
@@ -210,7 +243,12 @@ func (o AlertSMSConfig) MarshalJSON() ([]byte, error) {
 	if o.Endpoint != nil {
 		toSerialize["endpoint"] = o.Endpoint
 	}
-	toSerialize["templateCode"] = o.TemplateCode
+	if o.AlertTemplateCode != nil {
+		toSerialize["alertTemplateCode"] = o.AlertTemplateCode
+	}
+	if o.VerifyTemplateCode != nil {
+		toSerialize["verifyTemplateCode"] = o.VerifyTemplateCode
+	}
 	if o.SignName != nil {
 		toSerialize["signName"] = o.SignName
 	}
@@ -224,12 +262,13 @@ func (o AlertSMSConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AlertSMSConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name            *string `json:"name,omitempty"`
-		AccessKeyId     *string `json:"accessKeyID"`
-		AccessKeySecret *string `json:"accessKeySecret"`
-		Endpoint        *string `json:"endpoint,omitempty"`
-		TemplateCode    *string `json:"templateCode"`
-		SignName        *string `json:"signName,omitempty"`
+		Name               *string `json:"name,omitempty"`
+		AccessKeyId        *string `json:"accessKeyID"`
+		AccessKeySecret    *string `json:"accessKeySecret"`
+		Endpoint           *string `json:"endpoint,omitempty"`
+		AlertTemplateCode  *string `json:"alertTemplateCode,omitempty"`
+		VerifyTemplateCode *string `json:"verifyTemplateCode,omitempty"`
+		SignName           *string `json:"signName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -240,12 +279,9 @@ func (o *AlertSMSConfig) UnmarshalJSON(bytes []byte) (err error) {
 	if all.AccessKeySecret == nil {
 		return fmt.Errorf("required field accessKeySecret missing")
 	}
-	if all.TemplateCode == nil {
-		return fmt.Errorf("required field templateCode missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "accessKeyID", "accessKeySecret", "endpoint", "templateCode", "signName"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "accessKeyID", "accessKeySecret", "endpoint", "alertTemplateCode", "verifyTemplateCode", "signName"})
 	} else {
 		return err
 	}
@@ -253,7 +289,8 @@ func (o *AlertSMSConfig) UnmarshalJSON(bytes []byte) (err error) {
 	o.AccessKeyId = *all.AccessKeyId
 	o.AccessKeySecret = *all.AccessKeySecret
 	o.Endpoint = all.Endpoint
-	o.TemplateCode = *all.TemplateCode
+	o.AlertTemplateCode = all.AlertTemplateCode
+	o.VerifyTemplateCode = all.VerifyTemplateCode
 	o.SignName = all.SignName
 
 	if len(additionalProperties) > 0 {

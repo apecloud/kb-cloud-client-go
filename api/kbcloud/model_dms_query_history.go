@@ -11,13 +11,15 @@ import (
 )
 
 type DmsQueryHistory struct {
-	// executed sql statements
+	// datasource engine
+	Engine *string `json:"engine,omitempty"`
+	// user input text
 	Sql *string `json:"sql,omitempty"`
-	// sql executed massage
+	// execution message
 	ErrMassage *string `json:"errMassage,omitempty"`
-	// sql executed time
+	// executed time
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	// sql executed duration
+	// execution duration
 	Duration *int64 `json:"duration,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -39,6 +41,34 @@ func NewDmsQueryHistory() *DmsQueryHistory {
 func NewDmsQueryHistoryWithDefaults() *DmsQueryHistory {
 	this := DmsQueryHistory{}
 	return &this
+}
+
+// GetEngine returns the Engine field value if set, zero value otherwise.
+func (o *DmsQueryHistory) GetEngine() string {
+	if o == nil || o.Engine == nil {
+		var ret string
+		return ret
+	}
+	return *o.Engine
+}
+
+// GetEngineOk returns a tuple with the Engine field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DmsQueryHistory) GetEngineOk() (*string, bool) {
+	if o == nil || o.Engine == nil {
+		return nil, false
+	}
+	return o.Engine, true
+}
+
+// HasEngine returns a boolean if a field has been set.
+func (o *DmsQueryHistory) HasEngine() bool {
+	return o != nil && o.Engine != nil
+}
+
+// SetEngine gets a reference to the given string and assigns it to the Engine field.
+func (o *DmsQueryHistory) SetEngine(v string) {
+	o.Engine = &v
 }
 
 // GetSql returns the Sql field value if set, zero value otherwise.
@@ -159,6 +189,9 @@ func (o DmsQueryHistory) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Engine != nil {
+		toSerialize["engine"] = o.Engine
+	}
 	if o.Sql != nil {
 		toSerialize["sql"] = o.Sql
 	}
@@ -185,6 +218,7 @@ func (o DmsQueryHistory) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DmsQueryHistory) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		Engine     *string    `json:"engine,omitempty"`
 		Sql        *string    `json:"sql,omitempty"`
 		ErrMassage *string    `json:"errMassage,omitempty"`
 		CreatedAt  *time.Time `json:"createdAt,omitempty"`
@@ -195,10 +229,11 @@ func (o *DmsQueryHistory) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"sql", "errMassage", "createdAt", "duration"})
+		common.DeleteKeys(additionalProperties, &[]string{"engine", "sql", "errMassage", "createdAt", "duration"})
 	} else {
 		return err
 	}
+	o.Engine = all.Engine
 	o.Sql = all.Sql
 	o.ErrMassage = all.ErrMassage
 	o.CreatedAt = all.CreatedAt

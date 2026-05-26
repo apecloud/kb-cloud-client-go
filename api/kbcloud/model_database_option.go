@@ -20,8 +20,9 @@ type DatabaseOption struct {
 	// min length of database name.
 	// If not set, use default value.
 	//
-	MinLen              *int32  `json:"minLen,omitempty"`
-	DatabaseNamePattern *string `json:"databaseNamePattern,omitempty"`
+	MinLen              *int32                            `json:"minLen,omitempty"`
+	DatabaseNamePattern *string                           `json:"databaseNamePattern,omitempty"`
+	PatternDescription  *DatabaseOptionPatternDescription `json:"patternDescription,omitempty"`
 	// The database option information that will be displayed when listing databases
 	//
 	ListOption []string `json:"listOption,omitempty"`
@@ -197,6 +198,34 @@ func (o *DatabaseOption) SetDatabaseNamePattern(v string) {
 	o.DatabaseNamePattern = &v
 }
 
+// GetPatternDescription returns the PatternDescription field value if set, zero value otherwise.
+func (o *DatabaseOption) GetPatternDescription() DatabaseOptionPatternDescription {
+	if o == nil || o.PatternDescription == nil {
+		var ret DatabaseOptionPatternDescription
+		return ret
+	}
+	return *o.PatternDescription
+}
+
+// GetPatternDescriptionOk returns a tuple with the PatternDescription field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DatabaseOption) GetPatternDescriptionOk() (*DatabaseOptionPatternDescription, bool) {
+	if o == nil || o.PatternDescription == nil {
+		return nil, false
+	}
+	return o.PatternDescription, true
+}
+
+// HasPatternDescription returns a boolean if a field has been set.
+func (o *DatabaseOption) HasPatternDescription() bool {
+	return o != nil && o.PatternDescription != nil
+}
+
+// SetPatternDescription gets a reference to the given DatabaseOptionPatternDescription and assigns it to the PatternDescription field.
+func (o *DatabaseOption) SetPatternDescription(v DatabaseOptionPatternDescription) {
+	o.PatternDescription = &v
+}
+
 // GetListOption returns the ListOption field value if set, zero value otherwise.
 func (o *DatabaseOption) GetListOption() []string {
 	if o == nil || o.ListOption == nil {
@@ -300,6 +329,9 @@ func (o DatabaseOption) MarshalJSON() ([]byte, error) {
 	if o.DatabaseNamePattern != nil {
 		toSerialize["databaseNamePattern"] = o.DatabaseNamePattern
 	}
+	if o.PatternDescription != nil {
+		toSerialize["patternDescription"] = o.PatternDescription
+	}
 	if o.ListOption != nil {
 		toSerialize["listOption"] = o.ListOption
 	}
@@ -324,6 +356,7 @@ func (o *DatabaseOption) UnmarshalJSON(bytes []byte) (err error) {
 		MaxLen                 *int32                                     `json:"maxLen,omitempty"`
 		MinLen                 *int32                                     `json:"minLen,omitempty"`
 		DatabaseNamePattern    *string                                    `json:"databaseNamePattern,omitempty"`
+		PatternDescription     *DatabaseOptionPatternDescription          `json:"patternDescription,omitempty"`
 		ListOption             []string                                   `json:"listOption,omitempty"`
 		AvailableOptions       []string                                   `json:"availableOptions,omitempty"`
 		AvailbaleUpdateOptions []DatabaseOptionAvailbaleUpdateOptionsItem `json:"availbaleUpdateOptions,omitempty"`
@@ -336,21 +369,31 @@ func (o *DatabaseOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"enabled", "update", "maxLen", "minLen", "databaseNamePattern", "listOption", "availableOptions", "availbaleUpdateOptions"})
+		common.DeleteKeys(additionalProperties, &[]string{"enabled", "update", "maxLen", "minLen", "databaseNamePattern", "patternDescription", "listOption", "availableOptions", "availbaleUpdateOptions"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Enabled = *all.Enabled
 	o.Update = all.Update
 	o.MaxLen = all.MaxLen
 	o.MinLen = all.MinLen
 	o.DatabaseNamePattern = all.DatabaseNamePattern
+	if all.PatternDescription != nil && all.PatternDescription.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.PatternDescription = all.PatternDescription
 	o.ListOption = all.ListOption
 	o.AvailableOptions = all.AvailableOptions
 	o.AvailbaleUpdateOptions = all.AvailbaleUpdateOptions
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

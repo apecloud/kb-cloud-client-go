@@ -24,6 +24,8 @@ type OpsExpose struct {
 	LoadBalancerIp common.NullableString `json:"loadBalancerIP,omitempty"`
 	// The IP pool ID of the LoadBalancer service. If not set, the IP pool will be assigned by the system. Only available when vpcServiceType is LoadBalancer.
 	LoadBalancerIpPoolId common.NullableString `json:"loadBalancerIPPoolID,omitempty"`
+	// The custom domain for accessing the cluster. If not set, the default domain will be used. Max 253 characters in total (1-63 characters per segment), allowing only lowercase letters, numbers, and hyphens (-); each segment must start and end with a letter or number.
+	Domain common.NullableString `json:"domain,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -284,6 +286,45 @@ func (o *OpsExpose) UnsetLoadBalancerIpPoolId() {
 	o.LoadBalancerIpPoolId.Unset()
 }
 
+// GetDomain returns the Domain field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *OpsExpose) GetDomain() string {
+	if o == nil || o.Domain.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.Domain.Get()
+}
+
+// GetDomainOk returns a tuple with the Domain field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *OpsExpose) GetDomainOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Domain.Get(), o.Domain.IsSet()
+}
+
+// HasDomain returns a boolean if a field has been set.
+func (o *OpsExpose) HasDomain() bool {
+	return o != nil && o.Domain.IsSet()
+}
+
+// SetDomain gets a reference to the given common.NullableString and assigns it to the Domain field.
+func (o *OpsExpose) SetDomain(v string) {
+	o.Domain.Set(&v)
+}
+
+// SetDomainNil sets the value for Domain to be an explicit nil.
+func (o *OpsExpose) SetDomainNil() {
+	o.Domain.Set(nil)
+}
+
+// UnsetDomain ensures that no value is present for Domain, not even an explicit nil.
+func (o *OpsExpose) UnsetDomain() {
+	o.Domain.Unset()
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsExpose) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -308,6 +349,9 @@ func (o OpsExpose) MarshalJSON() ([]byte, error) {
 	if o.LoadBalancerIpPoolId.IsSet() {
 		toSerialize["loadBalancerIPPoolID"] = o.LoadBalancerIpPoolId.Get()
 	}
+	if o.Domain.IsSet() {
+		toSerialize["domain"] = o.Domain.Get()
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -326,6 +370,7 @@ func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 		PortsMapping         []OpsExposePortsMappingItem `json:"portsMapping,omitempty"`
 		LoadBalancerIp       common.NullableString       `json:"loadBalancerIP,omitempty"`
 		LoadBalancerIpPoolId common.NullableString       `json:"loadBalancerIPPoolID,omitempty"`
+		Domain               common.NullableString       `json:"domain,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -341,7 +386,7 @@ func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "enable", "readonly", "type", "vpcServiceType", "portsMapping", "loadBalancerIP", "loadBalancerIPPoolID"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "enable", "readonly", "type", "vpcServiceType", "portsMapping", "loadBalancerIP", "loadBalancerIPPoolID", "domain"})
 	} else {
 		return err
 	}
@@ -363,6 +408,7 @@ func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 	o.PortsMapping = all.PortsMapping
 	o.LoadBalancerIp = all.LoadBalancerIp
 	o.LoadBalancerIpPoolId = all.LoadBalancerIpPoolId
+	o.Domain = all.Domain
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

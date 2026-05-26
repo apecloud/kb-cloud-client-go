@@ -18,6 +18,8 @@ type TaskListItem struct {
 	TaskName string `json:"taskName"`
 	// Type of task operation
 	TaskType string `json:"taskType"`
+	// Subtype of task operation.
+	SubTaskType *string `json:"subTaskType,omitempty"`
 	// Current status of the task
 	Status TaskStatus `json:"status"`
 	// Resource type of the task
@@ -138,6 +140,34 @@ func (o *TaskListItem) GetTaskTypeOk() (*string, bool) {
 // SetTaskType sets field value.
 func (o *TaskListItem) SetTaskType(v string) {
 	o.TaskType = v
+}
+
+// GetSubTaskType returns the SubTaskType field value if set, zero value otherwise.
+func (o *TaskListItem) GetSubTaskType() string {
+	if o == nil || o.SubTaskType == nil {
+		var ret string
+		return ret
+	}
+	return *o.SubTaskType
+}
+
+// GetSubTaskTypeOk returns a tuple with the SubTaskType field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *TaskListItem) GetSubTaskTypeOk() (*string, bool) {
+	if o == nil || o.SubTaskType == nil {
+		return nil, false
+	}
+	return o.SubTaskType, true
+}
+
+// HasSubTaskType returns a boolean if a field has been set.
+func (o *TaskListItem) HasSubTaskType() bool {
+	return o != nil && o.SubTaskType != nil
+}
+
+// SetSubTaskType gets a reference to the given string and assigns it to the SubTaskType field.
+func (o *TaskListItem) SetSubTaskType(v string) {
+	o.SubTaskType = &v
 }
 
 // GetStatus returns the Status field value.
@@ -498,6 +528,9 @@ func (o TaskListItem) MarshalJSON() ([]byte, error) {
 	toSerialize["taskId"] = o.TaskId
 	toSerialize["taskName"] = o.TaskName
 	toSerialize["taskType"] = o.TaskType
+	if o.SubTaskType != nil {
+		toSerialize["subTaskType"] = o.SubTaskType
+	}
 	toSerialize["status"] = o.Status
 	if o.ResourceType != nil {
 		toSerialize["resourceType"] = o.ResourceType
@@ -560,6 +593,7 @@ func (o *TaskListItem) UnmarshalJSON(bytes []byte) (err error) {
 		TaskId         *string       `json:"taskId"`
 		TaskName       *string       `json:"taskName"`
 		TaskType       *string       `json:"taskType"`
+		SubTaskType    *string       `json:"subTaskType,omitempty"`
 		Status         *TaskStatus   `json:"status"`
 		ResourceType   *string       `json:"resourceType,omitempty"`
 		ResourceId     *string       `json:"resourceId,omitempty"`
@@ -597,7 +631,7 @@ func (o *TaskListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"taskId", "taskName", "taskType", "status", "resourceType", "resourceId", "resourceName", "orgName", "createdAt", "updatedAt", "startedAt", "completionTime", "message", "progress", "operator", "scheduled"})
+		common.DeleteKeys(additionalProperties, &[]string{"taskId", "taskName", "taskType", "subTaskType", "status", "resourceType", "resourceId", "resourceName", "orgName", "createdAt", "updatedAt", "startedAt", "completionTime", "message", "progress", "operator", "scheduled"})
 	} else {
 		return err
 	}
@@ -606,6 +640,7 @@ func (o *TaskListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.TaskId = *all.TaskId
 	o.TaskName = *all.TaskName
 	o.TaskType = *all.TaskType
+	o.SubTaskType = all.SubTaskType
 	if !all.Status.IsValid() {
 		hasInvalidField = true
 	} else {

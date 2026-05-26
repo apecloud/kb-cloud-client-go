@@ -14,6 +14,8 @@ import (
 type EnvironmentCredentialList struct {
 	// Items is the list of environment credential objects in the list
 	Items []EnvironmentCredential `json:"items"`
+	// UsageHints contains permission hints for each supported credential usage under the environment provider.
+	UsageHints []EnvironmentCredentialUsageHint `json:"usageHints"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -23,9 +25,10 @@ type EnvironmentCredentialList struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentCredentialList(items []EnvironmentCredential) *EnvironmentCredentialList {
+func NewEnvironmentCredentialList(items []EnvironmentCredential, usageHints []EnvironmentCredentialUsageHint) *EnvironmentCredentialList {
 	this := EnvironmentCredentialList{}
 	this.Items = items
+	this.UsageHints = usageHints
 	return &this
 }
 
@@ -60,6 +63,29 @@ func (o *EnvironmentCredentialList) SetItems(v []EnvironmentCredential) {
 	o.Items = v
 }
 
+// GetUsageHints returns the UsageHints field value.
+func (o *EnvironmentCredentialList) GetUsageHints() []EnvironmentCredentialUsageHint {
+	if o == nil {
+		var ret []EnvironmentCredentialUsageHint
+		return ret
+	}
+	return o.UsageHints
+}
+
+// GetUsageHintsOk returns a tuple with the UsageHints field value
+// and a boolean to check if the value has been set.
+func (o *EnvironmentCredentialList) GetUsageHintsOk() (*[]EnvironmentCredentialUsageHint, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.UsageHints, true
+}
+
+// SetUsageHints sets field value.
+func (o *EnvironmentCredentialList) SetUsageHints(v []EnvironmentCredentialUsageHint) {
+	o.UsageHints = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentCredentialList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -67,6 +93,7 @@ func (o EnvironmentCredentialList) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["items"] = o.Items
+	toSerialize["usageHints"] = o.UsageHints
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -77,7 +104,8 @@ func (o EnvironmentCredentialList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentCredentialList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items *[]EnvironmentCredential `json:"items"`
+		Items      *[]EnvironmentCredential          `json:"items"`
+		UsageHints *[]EnvironmentCredentialUsageHint `json:"usageHints"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -85,13 +113,17 @@ func (o *EnvironmentCredentialList) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Items == nil {
 		return fmt.Errorf("required field items missing")
 	}
+	if all.UsageHints == nil {
+		return fmt.Errorf("required field usageHints missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items"})
+		common.DeleteKeys(additionalProperties, &[]string{"items", "usageHints"})
 	} else {
 		return err
 	}
 	o.Items = *all.Items
+	o.UsageHints = *all.UsageHints
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

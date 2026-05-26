@@ -4,15 +4,22 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type ExtraConfig struct {
 	Name  *string            `json:"name,omitempty"`
 	Title *InternationalDesc `json:"title,omitempty"`
-	// the type of config
-	Type              *ConfigType        `json:"type,omitempty"`
-	IsRequired        *bool              `json:"isRequired,omitempty"`
-	ConnectionCfgType *ConnectionCfgType `json:"connectionCfgType,omitempty"`
+	// the type of config. The difference between 'text' and 'string' is that 'text' refers to a longer string, which may need to be displayed using a textarea on the frontend rather than an input field.
+	Type              *ConfigType           `json:"type,omitempty"`
+	DefaultValue      common.NullableString `json:"defaultValue,omitempty"`
+	IsRequired        *bool                 `json:"isRequired,omitempty"`
+	ConnectionCfgType *ConnectionCfgType    `json:"connectionCfgType,omitempty"`
+	// Whether to display this config only when the endpoint type is custom. If true, it will not be displayed when the endpoint type is kubeblocks.
+	IsDisplayOnlyCustomEndpoint common.NullableBool `json:"isDisplayOnlyCustomEndpoint,omitempty"`
+	// The display condition of this config. If empty, it will always be displayed; otherwise, it will be displayed only when the config corresponding to displayWith (of boolean type) is true.
+	DisplayWith common.NullableString `json:"displayWith,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -119,6 +126,45 @@ func (o *ExtraConfig) SetType(v ConfigType) {
 	o.Type = &v
 }
 
+// GetDefaultValue returns the DefaultValue field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ExtraConfig) GetDefaultValue() string {
+	if o == nil || o.DefaultValue.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.DefaultValue.Get()
+}
+
+// GetDefaultValueOk returns a tuple with the DefaultValue field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ExtraConfig) GetDefaultValueOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.DefaultValue.Get(), o.DefaultValue.IsSet()
+}
+
+// HasDefaultValue returns a boolean if a field has been set.
+func (o *ExtraConfig) HasDefaultValue() bool {
+	return o != nil && o.DefaultValue.IsSet()
+}
+
+// SetDefaultValue gets a reference to the given common.NullableString and assigns it to the DefaultValue field.
+func (o *ExtraConfig) SetDefaultValue(v string) {
+	o.DefaultValue.Set(&v)
+}
+
+// SetDefaultValueNil sets the value for DefaultValue to be an explicit nil.
+func (o *ExtraConfig) SetDefaultValueNil() {
+	o.DefaultValue.Set(nil)
+}
+
+// UnsetDefaultValue ensures that no value is present for DefaultValue, not even an explicit nil.
+func (o *ExtraConfig) UnsetDefaultValue() {
+	o.DefaultValue.Unset()
+}
+
 // GetIsRequired returns the IsRequired field value if set, zero value otherwise.
 func (o *ExtraConfig) GetIsRequired() bool {
 	if o == nil || o.IsRequired == nil {
@@ -175,6 +221,84 @@ func (o *ExtraConfig) SetConnectionCfgType(v ConnectionCfgType) {
 	o.ConnectionCfgType = &v
 }
 
+// GetIsDisplayOnlyCustomEndpoint returns the IsDisplayOnlyCustomEndpoint field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ExtraConfig) GetIsDisplayOnlyCustomEndpoint() bool {
+	if o == nil || o.IsDisplayOnlyCustomEndpoint.Get() == nil {
+		var ret bool
+		return ret
+	}
+	return *o.IsDisplayOnlyCustomEndpoint.Get()
+}
+
+// GetIsDisplayOnlyCustomEndpointOk returns a tuple with the IsDisplayOnlyCustomEndpoint field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ExtraConfig) GetIsDisplayOnlyCustomEndpointOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.IsDisplayOnlyCustomEndpoint.Get(), o.IsDisplayOnlyCustomEndpoint.IsSet()
+}
+
+// HasIsDisplayOnlyCustomEndpoint returns a boolean if a field has been set.
+func (o *ExtraConfig) HasIsDisplayOnlyCustomEndpoint() bool {
+	return o != nil && o.IsDisplayOnlyCustomEndpoint.IsSet()
+}
+
+// SetIsDisplayOnlyCustomEndpoint gets a reference to the given common.NullableBool and assigns it to the IsDisplayOnlyCustomEndpoint field.
+func (o *ExtraConfig) SetIsDisplayOnlyCustomEndpoint(v bool) {
+	o.IsDisplayOnlyCustomEndpoint.Set(&v)
+}
+
+// SetIsDisplayOnlyCustomEndpointNil sets the value for IsDisplayOnlyCustomEndpoint to be an explicit nil.
+func (o *ExtraConfig) SetIsDisplayOnlyCustomEndpointNil() {
+	o.IsDisplayOnlyCustomEndpoint.Set(nil)
+}
+
+// UnsetIsDisplayOnlyCustomEndpoint ensures that no value is present for IsDisplayOnlyCustomEndpoint, not even an explicit nil.
+func (o *ExtraConfig) UnsetIsDisplayOnlyCustomEndpoint() {
+	o.IsDisplayOnlyCustomEndpoint.Unset()
+}
+
+// GetDisplayWith returns the DisplayWith field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ExtraConfig) GetDisplayWith() string {
+	if o == nil || o.DisplayWith.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.DisplayWith.Get()
+}
+
+// GetDisplayWithOk returns a tuple with the DisplayWith field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ExtraConfig) GetDisplayWithOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.DisplayWith.Get(), o.DisplayWith.IsSet()
+}
+
+// HasDisplayWith returns a boolean if a field has been set.
+func (o *ExtraConfig) HasDisplayWith() bool {
+	return o != nil && o.DisplayWith.IsSet()
+}
+
+// SetDisplayWith gets a reference to the given common.NullableString and assigns it to the DisplayWith field.
+func (o *ExtraConfig) SetDisplayWith(v string) {
+	o.DisplayWith.Set(&v)
+}
+
+// SetDisplayWithNil sets the value for DisplayWith to be an explicit nil.
+func (o *ExtraConfig) SetDisplayWithNil() {
+	o.DisplayWith.Set(nil)
+}
+
+// UnsetDisplayWith ensures that no value is present for DisplayWith, not even an explicit nil.
+func (o *ExtraConfig) UnsetDisplayWith() {
+	o.DisplayWith.Unset()
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ExtraConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -190,11 +314,20 @@ func (o ExtraConfig) MarshalJSON() ([]byte, error) {
 	if o.Type != nil {
 		toSerialize["type"] = o.Type
 	}
+	if o.DefaultValue.IsSet() {
+		toSerialize["defaultValue"] = o.DefaultValue.Get()
+	}
 	if o.IsRequired != nil {
 		toSerialize["isRequired"] = o.IsRequired
 	}
 	if o.ConnectionCfgType != nil {
 		toSerialize["connectionCfgType"] = o.ConnectionCfgType
+	}
+	if o.IsDisplayOnlyCustomEndpoint.IsSet() {
+		toSerialize["isDisplayOnlyCustomEndpoint"] = o.IsDisplayOnlyCustomEndpoint.Get()
+	}
+	if o.DisplayWith.IsSet() {
+		toSerialize["displayWith"] = o.DisplayWith.Get()
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -206,18 +339,21 @@ func (o ExtraConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ExtraConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name              *string            `json:"name,omitempty"`
-		Title             *InternationalDesc `json:"title,omitempty"`
-		Type              *ConfigType        `json:"type,omitempty"`
-		IsRequired        *bool              `json:"isRequired,omitempty"`
-		ConnectionCfgType *ConnectionCfgType `json:"connectionCfgType,omitempty"`
+		Name                        *string               `json:"name,omitempty"`
+		Title                       *InternationalDesc    `json:"title,omitempty"`
+		Type                        *ConfigType           `json:"type,omitempty"`
+		DefaultValue                common.NullableString `json:"defaultValue,omitempty"`
+		IsRequired                  *bool                 `json:"isRequired,omitempty"`
+		ConnectionCfgType           *ConnectionCfgType    `json:"connectionCfgType,omitempty"`
+		IsDisplayOnlyCustomEndpoint common.NullableBool   `json:"isDisplayOnlyCustomEndpoint,omitempty"`
+		DisplayWith                 common.NullableString `json:"displayWith,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "type", "isRequired", "connectionCfgType"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "type", "defaultValue", "isRequired", "connectionCfgType", "isDisplayOnlyCustomEndpoint", "displayWith"})
 	} else {
 		return err
 	}
@@ -233,12 +369,15 @@ func (o *ExtraConfig) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.Type = all.Type
 	}
+	o.DefaultValue = all.DefaultValue
 	o.IsRequired = all.IsRequired
 	if all.ConnectionCfgType != nil && !all.ConnectionCfgType.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.ConnectionCfgType = all.ConnectionCfgType
 	}
+	o.IsDisplayOnlyCustomEndpoint = all.IsDisplayOnlyCustomEndpoint
+	o.DisplayWith = all.DisplayWith
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -36,6 +36,10 @@ type Instance struct {
 	Name string `json:"name"`
 	// node name
 	Node string `json:"node"`
+	// Container names in the pod
+	Containers []string `json:"containers,omitempty"`
+	// Pod IP address
+	PodIp *string `json:"podIP,omitempty"`
 	// Region for instance
 	Region string `json:"region"`
 	// Role for instance
@@ -372,6 +376,62 @@ func (o *Instance) SetNode(v string) {
 	o.Node = v
 }
 
+// GetContainers returns the Containers field value if set, zero value otherwise.
+func (o *Instance) GetContainers() []string {
+	if o == nil || o.Containers == nil {
+		var ret []string
+		return ret
+	}
+	return o.Containers
+}
+
+// GetContainersOk returns a tuple with the Containers field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Instance) GetContainersOk() (*[]string, bool) {
+	if o == nil || o.Containers == nil {
+		return nil, false
+	}
+	return &o.Containers, true
+}
+
+// HasContainers returns a boolean if a field has been set.
+func (o *Instance) HasContainers() bool {
+	return o != nil && o.Containers != nil
+}
+
+// SetContainers gets a reference to the given []string and assigns it to the Containers field.
+func (o *Instance) SetContainers(v []string) {
+	o.Containers = v
+}
+
+// GetPodIp returns the PodIp field value if set, zero value otherwise.
+func (o *Instance) GetPodIp() string {
+	if o == nil || o.PodIp == nil {
+		var ret string
+		return ret
+	}
+	return *o.PodIp
+}
+
+// GetPodIpOk returns a tuple with the PodIp field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Instance) GetPodIpOk() (*string, bool) {
+	if o == nil || o.PodIp == nil {
+		return nil, false
+	}
+	return o.PodIp, true
+}
+
+// HasPodIp returns a boolean if a field has been set.
+func (o *Instance) HasPodIp() bool {
+	return o != nil && o.PodIp != nil
+}
+
+// SetPodIp gets a reference to the given string and assigns it to the PodIp field.
+func (o *Instance) SetPodIp(v string) {
+	o.PodIp = &v
+}
+
 // GetRegion returns the Region field value.
 func (o *Instance) GetRegion() string {
 	if o == nil {
@@ -516,6 +576,12 @@ func (o Instance) MarshalJSON() ([]byte, error) {
 	toSerialize["memory"] = o.Memory
 	toSerialize["name"] = o.Name
 	toSerialize["node"] = o.Node
+	if o.Containers != nil {
+		toSerialize["containers"] = o.Containers
+	}
+	if o.PodIp != nil {
+		toSerialize["podIP"] = o.PodIp
+	}
 	toSerialize["region"] = o.Region
 	toSerialize["role"] = o.Role
 	toSerialize["status"] = o.Status
@@ -545,6 +611,8 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 		Memory        *string               `json:"memory"`
 		Name          *string               `json:"name"`
 		Node          *string               `json:"node"`
+		Containers    []string              `json:"containers,omitempty"`
+		PodIp         *string               `json:"podIP,omitempty"`
 		Region        *string               `json:"region"`
 		Role          *string               `json:"role"`
 		Status        *InstanceStatus       `json:"status"`
@@ -595,7 +663,7 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"accessMode", "orgName", "cloud", "cluster", "componentName", "componentDef", "component", "cpu", "createdAt", "memory", "name", "node", "region", "role", "status", "storage", "zone"})
+		common.DeleteKeys(additionalProperties, &[]string{"accessMode", "orgName", "cloud", "cluster", "componentName", "componentDef", "component", "cpu", "createdAt", "memory", "name", "node", "containers", "podIP", "region", "role", "status", "storage", "zone"})
 	} else {
 		return err
 	}
@@ -613,6 +681,8 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	o.Memory = *all.Memory
 	o.Name = *all.Name
 	o.Node = *all.Node
+	o.Containers = all.Containers
+	o.PodIp = all.PodIp
 	o.Region = *all.Region
 	o.Role = *all.Role
 	if all.Status.UnparsedObject != nil && o.UnparsedObject == nil {

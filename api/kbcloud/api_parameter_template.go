@@ -701,6 +701,123 @@ func (a *ParameterTemplateApi) ReadParameterTemplate(ctx _context.Context, orgNa
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// ReadParameterTemplateDiffOptionalParameters holds optional parameters for ReadParameterTemplateDiff.
+type ReadParameterTemplateDiffOptionalParameters struct {
+	Partition  *ParameterTemplatePartition
+	RawContent *bool
+}
+
+// NewReadParameterTemplateDiffOptionalParameters creates an empty struct for parameters.
+func NewReadParameterTemplateDiffOptionalParameters() *ReadParameterTemplateDiffOptionalParameters {
+	this := ReadParameterTemplateDiffOptionalParameters{}
+	return &this
+}
+
+// WithPartition sets the corresponding parameter name and returns the struct.
+func (r *ReadParameterTemplateDiffOptionalParameters) WithPartition(partition ParameterTemplatePartition) *ReadParameterTemplateDiffOptionalParameters {
+	r.Partition = &partition
+	return r
+}
+
+// WithRawContent sets the corresponding parameter name and returns the struct.
+func (r *ReadParameterTemplateDiffOptionalParameters) WithRawContent(rawContent bool) *ReadParameterTemplateDiffOptionalParameters {
+	r.RawContent = &rawContent
+	return r
+}
+
+// ReadParameterTemplateDiff Get parameter template diff against default template.
+func (a *ParameterTemplateApi) ReadParameterTemplateDiff(ctx _context.Context, orgName string, parameterTemplateName string, o ...ReadParameterTemplateDiffOptionalParameters) (ParameterTemplateDiff, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ParameterTemplateDiff
+		optionalParams      ReadParameterTemplateDiffOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ReadParameterTemplateDiffOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "parameterTemplate",
+		OperationID: "readParameterTemplateDiff",
+		Path:        "/api/v1/organizations/{orgName}/parameterTemplate/{parameterTemplateName}/diff",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParameterTemplateApi.ReadParameterTemplateDiff")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/parameterTemplate/{parameterTemplateName}/diff"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"parameterTemplateName"+"}", _neturl.PathEscape(common.ParameterToString(parameterTemplateName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Partition != nil {
+		localVarQueryParams.Add("partition", common.ParameterToString(*optionalParams.Partition, ""))
+	}
+	if optionalParams.RawContent != nil {
+		localVarQueryParams.Add("rawContent", common.ParameterToString(*optionalParams.RawContent, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 409 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // UpdateClusterParameterTemplate Update cluster parameter template.
 func (a *ParameterTemplateApi) UpdateClusterParameterTemplate(ctx _context.Context, orgName string, clusterName string, body []ParamTplsItem) (*_nethttp.Response, error) {
 	var (

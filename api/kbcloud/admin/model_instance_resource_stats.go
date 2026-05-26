@@ -20,7 +20,7 @@ type InstanceResourceStats struct {
 	EphemeralStorageStats *ResourceStats `json:"ephemeralStorageStats,omitempty"`
 	// Name of the instance.
 	Name string `json:"name"`
-	// Type of the instance, choose cluster or system
+	// Type of the instance, choose cluster, system, or other
 	Type *InstanceResourceStatsType `json:"type,omitempty"`
 	// Engine type of the instance.
 	Engine *string `json:"engine,omitempty"`

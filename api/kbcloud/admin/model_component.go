@@ -20,7 +20,7 @@ type Component struct {
 	GeminiVersion *string `json:"geminiVersion,omitempty"`
 	// Oteld version of the environment
 	OteldVersion *string `json:"oteldVersion,omitempty"`
-	// Image registry used by the environment
+	// Image registry URL used by the environment. Must match image_registries.url, not image_registries.name.
 	ImageRegistry *string `json:"imageRegistry,omitempty"`
 	// Default storage class that used by KubeBlocks to create cluster
 	DefaultStorageClass string `json:"defaultStorageClass"`

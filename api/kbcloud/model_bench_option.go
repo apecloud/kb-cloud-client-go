@@ -11,10 +11,11 @@ import (
 )
 
 type BenchOption struct {
-	Pgbench  bool `json:"pgbench"`
-	Sysbench bool `json:"sysbench"`
-	Tpcc     bool `json:"tpcc"`
-	Ycsb     bool `json:"ycsb"`
+	Pgbench  bool  `json:"pgbench"`
+	Sysbench bool  `json:"sysbench"`
+	Tpcc     bool  `json:"tpcc"`
+	Ycsb     bool  `json:"ycsb"`
+	Esrally  *bool `json:"esrally,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -30,6 +31,8 @@ func NewBenchOption(pgbench bool, sysbench bool, tpcc bool, ycsb bool) *BenchOpt
 	this.Sysbench = sysbench
 	this.Tpcc = tpcc
 	this.Ycsb = ycsb
+	var esrally bool = false
+	this.Esrally = &esrally
 	return &this
 }
 
@@ -38,6 +41,8 @@ func NewBenchOption(pgbench bool, sysbench bool, tpcc bool, ycsb bool) *BenchOpt
 // but it doesn't guarantee that properties required by API are set.
 func NewBenchOptionWithDefaults() *BenchOption {
 	this := BenchOption{}
+	var esrally bool = false
+	this.Esrally = &esrally
 	return &this
 }
 
@@ -133,6 +138,34 @@ func (o *BenchOption) SetYcsb(v bool) {
 	o.Ycsb = v
 }
 
+// GetEsrally returns the Esrally field value if set, zero value otherwise.
+func (o *BenchOption) GetEsrally() bool {
+	if o == nil || o.Esrally == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Esrally
+}
+
+// GetEsrallyOk returns a tuple with the Esrally field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BenchOption) GetEsrallyOk() (*bool, bool) {
+	if o == nil || o.Esrally == nil {
+		return nil, false
+	}
+	return o.Esrally, true
+}
+
+// HasEsrally returns a boolean if a field has been set.
+func (o *BenchOption) HasEsrally() bool {
+	return o != nil && o.Esrally != nil
+}
+
+// SetEsrally gets a reference to the given bool and assigns it to the Esrally field.
+func (o *BenchOption) SetEsrally(v bool) {
+	o.Esrally = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o BenchOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -143,6 +176,9 @@ func (o BenchOption) MarshalJSON() ([]byte, error) {
 	toSerialize["sysbench"] = o.Sysbench
 	toSerialize["tpcc"] = o.Tpcc
 	toSerialize["ycsb"] = o.Ycsb
+	if o.Esrally != nil {
+		toSerialize["esrally"] = o.Esrally
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -157,6 +193,7 @@ func (o *BenchOption) UnmarshalJSON(bytes []byte) (err error) {
 		Sysbench *bool `json:"sysbench"`
 		Tpcc     *bool `json:"tpcc"`
 		Ycsb     *bool `json:"ycsb"`
+		Esrally  *bool `json:"esrally,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -175,7 +212,7 @@ func (o *BenchOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"pgbench", "sysbench", "tpcc", "ycsb"})
+		common.DeleteKeys(additionalProperties, &[]string{"pgbench", "sysbench", "tpcc", "ycsb", "esrally"})
 	} else {
 		return err
 	}
@@ -183,6 +220,7 @@ func (o *BenchOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Sysbench = *all.Sysbench
 	o.Tpcc = *all.Tpcc
 	o.Ycsb = *all.Ycsb
+	o.Esrally = all.Esrally
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

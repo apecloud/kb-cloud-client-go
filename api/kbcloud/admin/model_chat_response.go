@@ -12,14 +12,14 @@ import (
 
 // ChatResponse Chat message response
 type ChatResponse struct {
-	// Arbitrary data
-	Data map[string]interface{} `json:"data"`
+	// Arbitrary event payload
+	Data interface{} `json:"data"`
+	// Whether the SSE stream is complete
+	Done bool `json:"done"`
 	// Message type
 	Type ChatResponseType `json:"type"`
 	// Message ID
-	MessageId string `json:"messageID"`
-	// Parent message ID
-	ParentId string `json:"parentID"`
+	MessageId *string `json:"messageID,omitempty"`
 	// Session ID
 	SessionId string `json:"sessionId"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -31,12 +31,11 @@ type ChatResponse struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewChatResponse(data map[string]interface{}, typeVar ChatResponseType, messageId string, parentId string, sessionId string) *ChatResponse {
+func NewChatResponse(data interface{}, done bool, typeVar ChatResponseType, sessionId string) *ChatResponse {
 	this := ChatResponse{}
 	this.Data = data
+	this.Done = done
 	this.Type = typeVar
-	this.MessageId = messageId
-	this.ParentId = parentId
 	this.SessionId = sessionId
 	return &this
 }
@@ -50,9 +49,9 @@ func NewChatResponseWithDefaults() *ChatResponse {
 }
 
 // GetData returns the Data field value.
-func (o *ChatResponse) GetData() map[string]interface{} {
+func (o *ChatResponse) GetData() interface{} {
 	if o == nil {
-		var ret map[string]interface{}
+		var ret interface{}
 		return ret
 	}
 	return o.Data
@@ -60,7 +59,7 @@ func (o *ChatResponse) GetData() map[string]interface{} {
 
 // GetDataOk returns a tuple with the Data field value
 // and a boolean to check if the value has been set.
-func (o *ChatResponse) GetDataOk() (*map[string]interface{}, bool) {
+func (o *ChatResponse) GetDataOk() (*interface{}, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -68,8 +67,31 @@ func (o *ChatResponse) GetDataOk() (*map[string]interface{}, bool) {
 }
 
 // SetData sets field value.
-func (o *ChatResponse) SetData(v map[string]interface{}) {
+func (o *ChatResponse) SetData(v interface{}) {
 	o.Data = v
+}
+
+// GetDone returns the Done field value.
+func (o *ChatResponse) GetDone() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+	return o.Done
+}
+
+// GetDoneOk returns a tuple with the Done field value
+// and a boolean to check if the value has been set.
+func (o *ChatResponse) GetDoneOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Done, true
+}
+
+// SetDone sets field value.
+func (o *ChatResponse) SetDone(v bool) {
+	o.Done = v
 }
 
 // GetType returns the Type field value.
@@ -95,50 +117,32 @@ func (o *ChatResponse) SetType(v ChatResponseType) {
 	o.Type = v
 }
 
-// GetMessageId returns the MessageId field value.
+// GetMessageId returns the MessageId field value if set, zero value otherwise.
 func (o *ChatResponse) GetMessageId() string {
-	if o == nil {
+	if o == nil || o.MessageId == nil {
 		var ret string
 		return ret
 	}
-	return o.MessageId
+	return *o.MessageId
 }
 
-// GetMessageIdOk returns a tuple with the MessageId field value
+// GetMessageIdOk returns a tuple with the MessageId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ChatResponse) GetMessageIdOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.MessageId == nil {
 		return nil, false
 	}
-	return &o.MessageId, true
+	return o.MessageId, true
 }
 
-// SetMessageId sets field value.
+// HasMessageId returns a boolean if a field has been set.
+func (o *ChatResponse) HasMessageId() bool {
+	return o != nil && o.MessageId != nil
+}
+
+// SetMessageId gets a reference to the given string and assigns it to the MessageId field.
 func (o *ChatResponse) SetMessageId(v string) {
-	o.MessageId = v
-}
-
-// GetParentId returns the ParentId field value.
-func (o *ChatResponse) GetParentId() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.ParentId
-}
-
-// GetParentIdOk returns a tuple with the ParentId field value
-// and a boolean to check if the value has been set.
-func (o *ChatResponse) GetParentIdOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.ParentId, true
-}
-
-// SetParentId sets field value.
-func (o *ChatResponse) SetParentId(v string) {
-	o.ParentId = v
+	o.MessageId = &v
 }
 
 // GetSessionId returns the SessionId field value.
@@ -171,9 +175,11 @@ func (o ChatResponse) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["data"] = o.Data
+	toSerialize["done"] = o.Done
 	toSerialize["type"] = o.Type
-	toSerialize["messageID"] = o.MessageId
-	toSerialize["parentID"] = o.ParentId
+	if o.MessageId != nil {
+		toSerialize["messageID"] = o.MessageId
+	}
 	toSerialize["sessionId"] = o.SessionId
 
 	for key, value := range o.AdditionalProperties {
@@ -185,11 +191,11 @@ func (o ChatResponse) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ChatResponse) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Data      *map[string]interface{} `json:"data"`
-		Type      *ChatResponseType       `json:"type"`
-		MessageId *string                 `json:"messageID"`
-		ParentId  *string                 `json:"parentID"`
-		SessionId *string                 `json:"sessionId"`
+		Data      *interface{}      `json:"data"`
+		Done      *bool             `json:"done"`
+		Type      *ChatResponseType `json:"type"`
+		MessageId *string           `json:"messageID,omitempty"`
+		SessionId *string           `json:"sessionId"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -197,34 +203,31 @@ func (o *ChatResponse) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Data == nil {
 		return fmt.Errorf("required field data missing")
 	}
+	if all.Done == nil {
+		return fmt.Errorf("required field done missing")
+	}
 	if all.Type == nil {
 		return fmt.Errorf("required field type missing")
-	}
-	if all.MessageId == nil {
-		return fmt.Errorf("required field messageID missing")
-	}
-	if all.ParentId == nil {
-		return fmt.Errorf("required field parentID missing")
 	}
 	if all.SessionId == nil {
 		return fmt.Errorf("required field sessionId missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"data", "type", "messageID", "parentID", "sessionId"})
+		common.DeleteKeys(additionalProperties, &[]string{"data", "done", "type", "messageID", "sessionId"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Data = *all.Data
+	o.Done = *all.Done
 	if !all.Type.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Type = *all.Type
 	}
-	o.MessageId = *all.MessageId
-	o.ParentId = *all.ParentId
+	o.MessageId = all.MessageId
 	o.SessionId = *all.SessionId
 
 	if len(additionalProperties) > 0 {

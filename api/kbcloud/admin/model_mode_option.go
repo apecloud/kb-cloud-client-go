@@ -29,6 +29,8 @@ type ModeOption struct {
 	ValuesMappings *ModeOptionValuesMappings `json:"valuesMappings,omitempty"`
 	// whether the mode is hidden for creation
 	HideOnCreate common.NullableBool `json:"hideOnCreate,omitempty"`
+	// Valid mode transitions from this mode.
+	Transition []EngineModeTransition `json:"transition,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -410,6 +412,34 @@ func (o *ModeOption) UnsetHideOnCreate() {
 	o.HideOnCreate.Unset()
 }
 
+// GetTransition returns the Transition field value if set, zero value otherwise.
+func (o *ModeOption) GetTransition() []EngineModeTransition {
+	if o == nil || o.Transition == nil {
+		var ret []EngineModeTransition
+		return ret
+	}
+	return o.Transition
+}
+
+// GetTransitionOk returns a tuple with the Transition field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeOption) GetTransitionOk() (*[]EngineModeTransition, bool) {
+	if o == nil || o.Transition == nil {
+		return nil, false
+	}
+	return &o.Transition, true
+}
+
+// HasTransition returns a boolean if a field has been set.
+func (o *ModeOption) HasTransition() bool {
+	return o != nil && o.Transition != nil
+}
+
+// SetTransition gets a reference to the given []EngineModeTransition and assigns it to the Transition field.
+func (o *ModeOption) SetTransition(v []EngineModeTransition) {
+	o.Transition = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -447,6 +477,9 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 	if o.HideOnCreate.IsSet() {
 		toSerialize["hideOnCreate"] = o.HideOnCreate.Get()
 	}
+	if o.Transition != nil {
+		toSerialize["transition"] = o.Transition
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -470,6 +503,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 		ObjectStorage               *ModeObjectStorage               `json:"objectStorage,omitempty"`
 		ValuesMappings              *ModeOptionValuesMappings        `json:"valuesMappings,omitempty"`
 		HideOnCreate                common.NullableBool              `json:"hideOnCreate,omitempty"`
+		Transition                  []EngineModeTransition           `json:"transition,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -488,7 +522,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "schedulingPolicy", "compatibleKubeblocksVersion", "components", "proxy", "versions", "extra", "serviceRefs", "objectStorage", "valuesMappings", "hideOnCreate"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "schedulingPolicy", "compatibleKubeblocksVersion", "components", "proxy", "versions", "extra", "serviceRefs", "objectStorage", "valuesMappings", "hideOnCreate", "transition"})
 	} else {
 		return err
 	}
@@ -529,6 +563,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.ValuesMappings = all.ValuesMappings
 	o.HideOnCreate = all.HideOnCreate
+	o.Transition = all.Transition
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

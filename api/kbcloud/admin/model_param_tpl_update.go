@@ -14,6 +14,8 @@ type ParamTplUpdate struct {
 	Parameters map[string]string `json:"parameters,omitempty"`
 	// Specify the new name of the parameter template
 	NewParamTplName *string `json:"newParamTplName,omitempty"`
+	// The description of the parameter template
+	Description *string `json:"description,omitempty"`
 	// The raw content of the configuration file
 	RawContent *string `json:"rawContent,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -122,6 +124,34 @@ func (o *ParamTplUpdate) SetNewParamTplName(v string) {
 	o.NewParamTplName = &v
 }
 
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *ParamTplUpdate) GetDescription() string {
+	if o == nil || o.Description == nil {
+		var ret string
+		return ret
+	}
+	return *o.Description
+}
+
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParamTplUpdate) GetDescriptionOk() (*string, bool) {
+	if o == nil || o.Description == nil {
+		return nil, false
+	}
+	return o.Description, true
+}
+
+// HasDescription returns a boolean if a field has been set.
+func (o *ParamTplUpdate) HasDescription() bool {
+	return o != nil && o.Description != nil
+}
+
+// SetDescription gets a reference to the given string and assigns it to the Description field.
+func (o *ParamTplUpdate) SetDescription(v string) {
+	o.Description = &v
+}
+
 // GetRawContent returns the RawContent field value if set, zero value otherwise.
 func (o *ParamTplUpdate) GetRawContent() string {
 	if o == nil || o.RawContent == nil {
@@ -165,6 +195,9 @@ func (o ParamTplUpdate) MarshalJSON() ([]byte, error) {
 	if o.NewParamTplName != nil {
 		toSerialize["newParamTplName"] = o.NewParamTplName
 	}
+	if o.Description != nil {
+		toSerialize["description"] = o.Description
+	}
 	if o.RawContent != nil {
 		toSerialize["rawContent"] = o.RawContent
 	}
@@ -181,6 +214,7 @@ func (o *ParamTplUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		SpecName        *string           `json:"specName,omitempty"`
 		Parameters      map[string]string `json:"parameters,omitempty"`
 		NewParamTplName *string           `json:"newParamTplName,omitempty"`
+		Description     *string           `json:"description,omitempty"`
 		RawContent      *string           `json:"rawContent,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -188,13 +222,14 @@ func (o *ParamTplUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"specName", "parameters", "newParamTplName", "rawContent"})
+		common.DeleteKeys(additionalProperties, &[]string{"specName", "parameters", "newParamTplName", "description", "rawContent"})
 	} else {
 		return err
 	}
 	o.SpecName = all.SpecName
 	o.Parameters = all.Parameters
 	o.NewParamTplName = all.NewParamTplName
+	o.Description = all.Description
 	o.RawContent = all.RawContent
 
 	if len(additionalProperties) > 0 {

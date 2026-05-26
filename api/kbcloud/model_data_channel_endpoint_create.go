@@ -9,12 +9,12 @@ import (
 )
 
 type DataChannelEndpointCreate struct {
-	EngineName     *string                       `json:"engineName,omitempty"`
-	DefinitionName *string                       `json:"definitionName,omitempty"`
-	EndpointType   *DataReplication_endpointType `json:"endpointType,omitempty"`
-	Custom         *CustomEndpointCreate         `json:"custom,omitempty"`
-	Kubeblocks     *KubeblocksEndpoint           `json:"kubeblocks,omitempty"`
-	ExtraCfgs      map[string]string             `json:"extraCfgs,omitempty"`
+	EngineName     *string                      `json:"engineName,omitempty"`
+	DefinitionName *string                      `json:"definitionName,omitempty"`
+	EndpointType   *DataReplicationEndpointType `json:"endpointType,omitempty"`
+	Custom         *CustomEndpointCreate        `json:"custom,omitempty"`
+	Kubeblocks     *KubeblocksEndpoint          `json:"kubeblocks,omitempty"`
+	ExtraCfgs      map[string]string            `json:"extraCfgs,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -94,9 +94,9 @@ func (o *DataChannelEndpointCreate) SetDefinitionName(v string) {
 }
 
 // GetEndpointType returns the EndpointType field value if set, zero value otherwise.
-func (o *DataChannelEndpointCreate) GetEndpointType() DataReplication_endpointType {
+func (o *DataChannelEndpointCreate) GetEndpointType() DataReplicationEndpointType {
 	if o == nil || o.EndpointType == nil {
-		var ret DataReplication_endpointType
+		var ret DataReplicationEndpointType
 		return ret
 	}
 	return *o.EndpointType
@@ -104,7 +104,7 @@ func (o *DataChannelEndpointCreate) GetEndpointType() DataReplication_endpointTy
 
 // GetEndpointTypeOk returns a tuple with the EndpointType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DataChannelEndpointCreate) GetEndpointTypeOk() (*DataReplication_endpointType, bool) {
+func (o *DataChannelEndpointCreate) GetEndpointTypeOk() (*DataReplicationEndpointType, bool) {
 	if o == nil || o.EndpointType == nil {
 		return nil, false
 	}
@@ -116,8 +116,8 @@ func (o *DataChannelEndpointCreate) HasEndpointType() bool {
 	return o != nil && o.EndpointType != nil
 }
 
-// SetEndpointType gets a reference to the given DataReplication_endpointType and assigns it to the EndpointType field.
-func (o *DataChannelEndpointCreate) SetEndpointType(v DataReplication_endpointType) {
+// SetEndpointType gets a reference to the given DataReplicationEndpointType and assigns it to the EndpointType field.
+func (o *DataChannelEndpointCreate) SetEndpointType(v DataReplicationEndpointType) {
 	o.EndpointType = &v
 }
 
@@ -240,12 +240,12 @@ func (o DataChannelEndpointCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DataChannelEndpointCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EngineName     *string                       `json:"engineName,omitempty"`
-		DefinitionName *string                       `json:"definitionName,omitempty"`
-		EndpointType   *DataReplication_endpointType `json:"endpointType,omitempty"`
-		Custom         *CustomEndpointCreate         `json:"custom,omitempty"`
-		Kubeblocks     *KubeblocksEndpoint           `json:"kubeblocks,omitempty"`
-		ExtraCfgs      map[string]string             `json:"extraCfgs,omitempty"`
+		EngineName     *string                      `json:"engineName,omitempty"`
+		DefinitionName *string                      `json:"definitionName,omitempty"`
+		EndpointType   *DataReplicationEndpointType `json:"endpointType,omitempty"`
+		Custom         *CustomEndpointCreate        `json:"custom,omitempty"`
+		Kubeblocks     *KubeblocksEndpoint          `json:"kubeblocks,omitempty"`
+		ExtraCfgs      map[string]string            `json:"extraCfgs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

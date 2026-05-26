@@ -171,6 +171,88 @@ func (a *DataReplicationApi) CreateDataChannelOps(ctx _context.Context, orgName 
 	return localVarHTTPResponse, nil
 }
 
+// CreateDataCheck Create a data check.
+// Create an independent data check. The request must use exactly one entry point: provide channelID with checkType, or provide the full direct check configuration.
+func (a *DataReplicationApi) CreateDataCheck(ctx _context.Context, orgName string, body DataCheckCreate) (DataCheckResponse, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue DataCheckResponse
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dataReplication",
+		OperationID: "createDataCheck",
+		Path:        "/api/v1/organizations/{orgName}/checks",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DataReplicationApi.CreateDataCheck")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/checks"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "application/json"
+
+	// body params
+	localVarPostBody = &body
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // CreatePreCheck create pre check.
 // create pre check.
 func (a *DataReplicationApi) CreatePreCheck(ctx _context.Context, orgName string, body PreCheckCreate) (PreCheckTaskResponse, *_nethttp.Response, error) {
@@ -323,6 +405,76 @@ func (a *DataReplicationApi) DeleteDataChannel(ctx _context.Context, orgName str
 	return localVarHTTPResponse, nil
 }
 
+// DeleteDataCheck Delete a data check.
+// Delete a standalone data check and its runtime resources.
+func (a *DataReplicationApi) DeleteDataCheck(ctx _context.Context, orgName string, checkId string) (*_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod = _nethttp.MethodDelete
+		localVarPostBody   interface{}
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dataReplication",
+		OperationID: "deleteDataCheck",
+		Path:        "/api/v1/organizations/{orgName}/checks/{checkID}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DataReplicationApi.DeleteDataCheck")
+	if err != nil {
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/checks/{checkID}"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"checkID"+"}", _neturl.PathEscape(common.ParameterToString(checkId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 // DeletePreCheck delete preCheck.
 // delete preCheck.
 // Deprecated: This API is deprecated.
@@ -420,6 +572,315 @@ func (a *DataReplicationApi) GetDataChannel(ctx _context.Context, orgName string
 	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/replication/channel/{channelID}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"channelID"+"}", _neturl.PathEscape(common.ParameterToString(channelId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDataCheck Get Data Check.
+// Retrieve a standalone data check detail.
+func (a *DataReplicationApi) GetDataCheck(ctx _context.Context, orgName string, checkId string) (DataCheckItem, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue DataCheckItem
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dataReplication",
+		OperationID: "getDataCheck",
+		Path:        "/api/v1/organizations/{orgName}/checks/{checkID}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DataReplicationApi.GetDataCheck")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/checks/{checkID}"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"checkID"+"}", _neturl.PathEscape(common.ParameterToString(checkId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDataCheckDetailsOptionalParameters holds optional parameters for GetDataCheckDetails.
+type GetDataCheckDetailsOptionalParameters struct {
+	Schema   *string
+	Table    *string
+	Key      *string
+	Page     *int32
+	PageSize *int32
+}
+
+// NewGetDataCheckDetailsOptionalParameters creates an empty struct for parameters.
+func NewGetDataCheckDetailsOptionalParameters() *GetDataCheckDetailsOptionalParameters {
+	this := GetDataCheckDetailsOptionalParameters{}
+	return &this
+}
+
+// WithSchema sets the corresponding parameter name and returns the struct.
+func (r *GetDataCheckDetailsOptionalParameters) WithSchema(schema string) *GetDataCheckDetailsOptionalParameters {
+	r.Schema = &schema
+	return r
+}
+
+// WithTable sets the corresponding parameter name and returns the struct.
+func (r *GetDataCheckDetailsOptionalParameters) WithTable(table string) *GetDataCheckDetailsOptionalParameters {
+	r.Table = &table
+	return r
+}
+
+// WithKey sets the corresponding parameter name and returns the struct.
+func (r *GetDataCheckDetailsOptionalParameters) WithKey(key string) *GetDataCheckDetailsOptionalParameters {
+	r.Key = &key
+	return r
+}
+
+// WithPage sets the corresponding parameter name and returns the struct.
+func (r *GetDataCheckDetailsOptionalParameters) WithPage(page int32) *GetDataCheckDetailsOptionalParameters {
+	r.Page = &page
+	return r
+}
+
+// WithPageSize sets the corresponding parameter name and returns the struct.
+func (r *GetDataCheckDetailsOptionalParameters) WithPageSize(pageSize int32) *GetDataCheckDetailsOptionalParameters {
+	r.PageSize = &pageSize
+	return r
+}
+
+// GetDataCheckDetails Get Data Check Difference Details.
+// Read typed check miss or diff details from the latest parsed check result.
+func (a *DataReplicationApi) GetDataCheckDetails(ctx _context.Context, orgName string, checkId string, typeVar DataCheckDetailType, o ...GetDataCheckDetailsOptionalParameters) (DataCheckDetails, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue DataCheckDetails
+		optionalParams      GetDataCheckDetailsOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDataCheckDetailsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dataReplication",
+		OperationID: "getDataCheckDetails",
+		Path:        "/api/v1/organizations/{orgName}/checks/{checkID}/details",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DataReplicationApi.GetDataCheckDetails")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/checks/{checkID}/details"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"checkID"+"}", _neturl.PathEscape(common.ParameterToString(checkId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("type", common.ParameterToString(typeVar, ""))
+	if optionalParams.Schema != nil {
+		localVarQueryParams.Add("schema", common.ParameterToString(*optionalParams.Schema, ""))
+	}
+	if optionalParams.Table != nil {
+		localVarQueryParams.Add("table", common.ParameterToString(*optionalParams.Table, ""))
+	}
+	if optionalParams.Key != nil {
+		localVarQueryParams.Add("key", common.ParameterToString(*optionalParams.Key, ""))
+	}
+	if optionalParams.Page != nil {
+		localVarQueryParams.Add("page", common.ParameterToString(*optionalParams.Page, ""))
+	}
+	if optionalParams.PageSize != nil {
+		localVarQueryParams.Add("pageSize", common.ParameterToString(*optionalParams.PageSize, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDataCheckSQLLogs Get Data Check SQL Logs.
+// Read raw SQL lines emitted by check sql_logger entries.
+func (a *DataReplicationApi) GetDataCheckSQLLogs(ctx _context.Context, orgName string, checkId string) (string, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue string
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dataReplication",
+		OperationID: "getDataCheckSQLLogs",
+		Path:        "/api/v1/organizations/{orgName}/checks/{checkID}/sqlLogs",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DataReplicationApi.GetDataCheckSQLLogs")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/checks/{checkID}/sqlLogs"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"checkID"+"}", _neturl.PathEscape(common.ParameterToString(checkId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -906,10 +1367,244 @@ func (a *DataReplicationApi) ListDataChannels(ctx _context.Context, orgName stri
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// ListDataChecksOptionalParameters holds optional parameters for ListDataChecks.
+type ListDataChecksOptionalParameters struct {
+	Name   *string
+	Status *[]string
+}
+
+// NewListDataChecksOptionalParameters creates an empty struct for parameters.
+func NewListDataChecksOptionalParameters() *ListDataChecksOptionalParameters {
+	this := ListDataChecksOptionalParameters{}
+	return &this
+}
+
+// WithName sets the corresponding parameter name and returns the struct.
+func (r *ListDataChecksOptionalParameters) WithName(name string) *ListDataChecksOptionalParameters {
+	r.Name = &name
+	return r
+}
+
+// WithStatus sets the corresponding parameter name and returns the struct.
+func (r *ListDataChecksOptionalParameters) WithStatus(status []string) *ListDataChecksOptionalParameters {
+	r.Status = &status
+	return r
+}
+
+// ListDataChecks List Data Checks.
+// Retrieve a list of standalone data checks.
+func (a *DataReplicationApi) ListDataChecks(ctx _context.Context, orgName string, o ...ListDataChecksOptionalParameters) ([]DataCheckListItem, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []DataCheckListItem
+		optionalParams      ListDataChecksOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListDataChecksOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dataReplication",
+		OperationID: "listDataChecks",
+		Path:        "/api/v1/organizations/{orgName}/checks",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DataReplicationApi.ListDataChecks")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/checks"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Name != nil {
+		localVarQueryParams.Add("name", common.ParameterToString(*optionalParams.Name, ""))
+	}
+	if optionalParams.Status != nil {
+		t := *optionalParams.Status
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("status", common.ParameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("status", common.ParameterToString(t, "multi"))
+		}
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// QueryDataChannelContainersOptionalParameters holds optional parameters for QueryDataChannelContainers.
+type QueryDataChannelContainersOptionalParameters struct {
+	ModuleName *string
+}
+
+// NewQueryDataChannelContainersOptionalParameters creates an empty struct for parameters.
+func NewQueryDataChannelContainersOptionalParameters() *QueryDataChannelContainersOptionalParameters {
+	this := QueryDataChannelContainersOptionalParameters{}
+	return &this
+}
+
+// WithModuleName sets the corresponding parameter name and returns the struct.
+func (r *QueryDataChannelContainersOptionalParameters) WithModuleName(moduleName string) *QueryDataChannelContainersOptionalParameters {
+	r.ModuleName = &moduleName
+	return r
+}
+
+// QueryDataChannelContainers Query data channel module pod containers.
+// Query containers of a data channel module pod
+func (a *DataReplicationApi) QueryDataChannelContainers(ctx _context.Context, orgName string, channelId string, o ...QueryDataChannelContainersOptionalParameters) (DataReplicationChannelContainer, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue DataReplicationChannelContainer
+		optionalParams      QueryDataChannelContainersOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type QueryDataChannelContainersOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dataReplication",
+		OperationID: "queryDataChannelContainers",
+		Path:        "/api/v1/organizations/{orgName}/replication/channel/{channelID}/containers",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DataReplicationApi.QueryDataChannelContainers")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/replication/channel/{channelID}/containers"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"channelID"+"}", _neturl.PathEscape(common.ParameterToString(channelId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.ModuleName != nil {
+		localVarQueryParams.Add("moduleName", common.ParameterToString(*optionalParams.ModuleName, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // QueryDataChannelLogsOptionalParameters holds optional parameters for QueryDataChannelLogs.
 type QueryDataChannelLogsOptionalParameters struct {
-	ModuleName *string
-	Limit      *string
+	ModuleName    *string
+	ContainerName *string
+	Limit         *string
 }
 
 // NewQueryDataChannelLogsOptionalParameters creates an empty struct for parameters.
@@ -921,6 +1616,12 @@ func NewQueryDataChannelLogsOptionalParameters() *QueryDataChannelLogsOptionalPa
 // WithModuleName sets the corresponding parameter name and returns the struct.
 func (r *QueryDataChannelLogsOptionalParameters) WithModuleName(moduleName string) *QueryDataChannelLogsOptionalParameters {
 	r.ModuleName = &moduleName
+	return r
+}
+
+// WithContainerName sets the corresponding parameter name and returns the struct.
+func (r *QueryDataChannelLogsOptionalParameters) WithContainerName(containerName string) *QueryDataChannelLogsOptionalParameters {
+	r.ContainerName = &containerName
 	return r
 }
 
@@ -970,6 +1671,9 @@ func (a *DataReplicationApi) QueryDataChannelLogs(ctx _context.Context, orgName 
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.ModuleName != nil {
 		localVarQueryParams.Add("moduleName", common.ParameterToString(*optionalParams.ModuleName, ""))
+	}
+	if optionalParams.ContainerName != nil {
+		localVarQueryParams.Add("containerName", common.ParameterToString(*optionalParams.ContainerName, ""))
 	}
 	if optionalParams.Limit != nil {
 		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))

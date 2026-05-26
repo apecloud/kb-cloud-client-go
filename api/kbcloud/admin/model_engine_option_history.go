@@ -13,7 +13,7 @@ import (
 
 type EngineOptionHistory struct {
 	ModifierId    string       `json:"modifierId"`
-	ModifierEmail string       `json:"modifierEmail"`
+	ModifierEmail *string      `json:"modifierEmail,omitempty"`
 	Option        EngineOption `json:"option"`
 	CreatedAt     time.Time    `json:"createdAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -25,10 +25,9 @@ type EngineOptionHistory struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineOptionHistory(modifierId string, modifierEmail string, option EngineOption, createdAt time.Time) *EngineOptionHistory {
+func NewEngineOptionHistory(modifierId string, option EngineOption, createdAt time.Time) *EngineOptionHistory {
 	this := EngineOptionHistory{}
 	this.ModifierId = modifierId
-	this.ModifierEmail = modifierEmail
 	this.Option = option
 	this.CreatedAt = createdAt
 	return &this
@@ -65,27 +64,32 @@ func (o *EngineOptionHistory) SetModifierId(v string) {
 	o.ModifierId = v
 }
 
-// GetModifierEmail returns the ModifierEmail field value.
+// GetModifierEmail returns the ModifierEmail field value if set, zero value otherwise.
 func (o *EngineOptionHistory) GetModifierEmail() string {
-	if o == nil {
+	if o == nil || o.ModifierEmail == nil {
 		var ret string
 		return ret
 	}
-	return o.ModifierEmail
+	return *o.ModifierEmail
 }
 
-// GetModifierEmailOk returns a tuple with the ModifierEmail field value
+// GetModifierEmailOk returns a tuple with the ModifierEmail field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EngineOptionHistory) GetModifierEmailOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.ModifierEmail == nil {
 		return nil, false
 	}
-	return &o.ModifierEmail, true
+	return o.ModifierEmail, true
 }
 
-// SetModifierEmail sets field value.
+// HasModifierEmail returns a boolean if a field has been set.
+func (o *EngineOptionHistory) HasModifierEmail() bool {
+	return o != nil && o.ModifierEmail != nil
+}
+
+// SetModifierEmail gets a reference to the given string and assigns it to the ModifierEmail field.
 func (o *EngineOptionHistory) SetModifierEmail(v string) {
-	o.ModifierEmail = v
+	o.ModifierEmail = &v
 }
 
 // GetOption returns the Option field value.
@@ -141,7 +145,9 @@ func (o EngineOptionHistory) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["modifierId"] = o.ModifierId
-	toSerialize["modifierEmail"] = o.ModifierEmail
+	if o.ModifierEmail != nil {
+		toSerialize["modifierEmail"] = o.ModifierEmail
+	}
 	toSerialize["option"] = o.Option
 	if o.CreatedAt.Nanosecond() == 0 {
 		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
@@ -159,7 +165,7 @@ func (o EngineOptionHistory) MarshalJSON() ([]byte, error) {
 func (o *EngineOptionHistory) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		ModifierId    *string       `json:"modifierId"`
-		ModifierEmail *string       `json:"modifierEmail"`
+		ModifierEmail *string       `json:"modifierEmail,omitempty"`
 		Option        *EngineOption `json:"option"`
 		CreatedAt     *time.Time    `json:"createdAt"`
 	}{}
@@ -168,9 +174,6 @@ func (o *EngineOptionHistory) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.ModifierId == nil {
 		return fmt.Errorf("required field modifierId missing")
-	}
-	if all.ModifierEmail == nil {
-		return fmt.Errorf("required field modifierEmail missing")
 	}
 	if all.Option == nil {
 		return fmt.Errorf("required field option missing")
@@ -187,7 +190,7 @@ func (o *EngineOptionHistory) UnmarshalJSON(bytes []byte) (err error) {
 
 	hasInvalidField := false
 	o.ModifierId = *all.ModifierId
-	o.ModifierEmail = *all.ModifierEmail
+	o.ModifierEmail = all.ModifierEmail
 	if all.Option.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
