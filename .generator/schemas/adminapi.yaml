@@ -1092,11 +1092,6 @@ paths:
           required: true
           schema:
             type: string
-        - name: clusterName
-          in: query
-          required: false
-          schema:
-            type: string
       responses:
         '200':
           description: AI diagnosis agent runtime status
@@ -1120,11 +1115,6 @@ paths:
         - name: orgName
           in: path
           required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: query
-          required: false
           schema:
             type: string
         - name: limit
@@ -20760,6 +20750,9 @@ components:
         clusterName:
           type: string
           x-nullable: true
+        label:
+          type: string
+          x-nullable: true
         namespace:
           type: string
           x-nullable: true
@@ -20838,6 +20831,10 @@ components:
           x-nullable: true
         role:
           $ref: '#/components/schemas/aiAgentMessageRole'
+        contexts:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentScope'
         parts:
           type: array
           items:
@@ -20850,7 +20847,6 @@ components:
       required:
         - conversationId
         - status
-        - scope
         - createdAt
         - updatedAt
       properties:
@@ -20859,8 +20855,6 @@ components:
         title:
           type: string
           x-nullable: true
-        scope:
-          $ref: '#/components/schemas/aiAgentScope'
         status:
           $ref: '#/components/schemas/aiAgentConversationStatus'
         runtimeStatus:
@@ -20888,8 +20882,6 @@ components:
     aiAgentCreateConversationRequest:
       type: object
       properties:
-        scope:
-          $ref: '#/components/schemas/aiAgentScope'
         title:
           type: string
           x-nullable: true
@@ -20912,8 +20904,10 @@ components:
       properties:
         content:
           type: string
-        scopePatch:
-          $ref: '#/components/schemas/aiAgentScope'
+        contexts:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentScope'
     aiAgentTurnStatus:
       x-generate-alias-as-model: true
       type: string

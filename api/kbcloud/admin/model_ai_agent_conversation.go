@@ -14,7 +14,6 @@ import (
 type AiAgentConversation struct {
 	ConversationId string                    `json:"conversationId"`
 	Title          *string                   `json:"title,omitempty"`
-	Scope          AiAgentScope              `json:"scope"`
 	Status         AiAgentConversationStatus `json:"status"`
 	RuntimeStatus  *AiAgentRuntimeStatusCode `json:"runtimeStatus,omitempty"`
 	Model          *string                   `json:"model,omitempty"`
@@ -30,10 +29,9 @@ type AiAgentConversation struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAiAgentConversation(conversationId string, scope AiAgentScope, status AiAgentConversationStatus, createdAt time.Time, updatedAt time.Time) *AiAgentConversation {
+func NewAiAgentConversation(conversationId string, status AiAgentConversationStatus, createdAt time.Time, updatedAt time.Time) *AiAgentConversation {
 	this := AiAgentConversation{}
 	this.ConversationId = conversationId
-	this.Scope = scope
 	this.Status = status
 	this.CreatedAt = createdAt
 	this.UpdatedAt = updatedAt
@@ -97,29 +95,6 @@ func (o *AiAgentConversation) HasTitle() bool {
 // SetTitle gets a reference to the given string and assigns it to the Title field.
 func (o *AiAgentConversation) SetTitle(v string) {
 	o.Title = &v
-}
-
-// GetScope returns the Scope field value.
-func (o *AiAgentConversation) GetScope() AiAgentScope {
-	if o == nil {
-		var ret AiAgentScope
-		return ret
-	}
-	return o.Scope
-}
-
-// GetScopeOk returns a tuple with the Scope field value
-// and a boolean to check if the value has been set.
-func (o *AiAgentConversation) GetScopeOk() (*AiAgentScope, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Scope, true
-}
-
-// SetScope sets field value.
-func (o *AiAgentConversation) SetScope(v AiAgentScope) {
-	o.Scope = v
 }
 
 // GetStatus returns the Status field value.
@@ -285,7 +260,6 @@ func (o AiAgentConversation) MarshalJSON() ([]byte, error) {
 	if o.Title != nil {
 		toSerialize["title"] = o.Title
 	}
-	toSerialize["scope"] = o.Scope
 	toSerialize["status"] = o.Status
 	if o.RuntimeStatus != nil {
 		toSerialize["runtimeStatus"] = o.RuntimeStatus
@@ -318,7 +292,6 @@ func (o *AiAgentConversation) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		ConversationId *string                    `json:"conversationId"`
 		Title          *string                    `json:"title,omitempty"`
-		Scope          *AiAgentScope              `json:"scope"`
 		Status         *AiAgentConversationStatus `json:"status"`
 		RuntimeStatus  *AiAgentRuntimeStatusCode  `json:"runtimeStatus,omitempty"`
 		Model          *string                    `json:"model,omitempty"`
@@ -332,9 +305,6 @@ func (o *AiAgentConversation) UnmarshalJSON(bytes []byte) (err error) {
 	if all.ConversationId == nil {
 		return fmt.Errorf("required field conversationId missing")
 	}
-	if all.Scope == nil {
-		return fmt.Errorf("required field scope missing")
-	}
 	if all.Status == nil {
 		return fmt.Errorf("required field status missing")
 	}
@@ -346,7 +316,7 @@ func (o *AiAgentConversation) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"conversationId", "title", "scope", "status", "runtimeStatus", "model", "createdAt", "updatedAt", "lastMessage"})
+		common.DeleteKeys(additionalProperties, &[]string{"conversationId", "title", "status", "runtimeStatus", "model", "createdAt", "updatedAt", "lastMessage"})
 	} else {
 		return err
 	}
@@ -354,10 +324,6 @@ func (o *AiAgentConversation) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.ConversationId = *all.ConversationId
 	o.Title = all.Title
-	if all.Scope.UnparsedObject != nil && o.UnparsedObject == nil {
-		hasInvalidField = true
-	}
-	o.Scope = *all.Scope
 	if !all.Status.IsValid() {
 		hasInvalidField = true
 	} else {

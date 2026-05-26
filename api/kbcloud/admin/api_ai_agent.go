@@ -287,38 +287,13 @@ func (a *AIAgentApi) GetAIAgentConversation(ctx _context.Context, orgName string
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetAIAgentStatusOptionalParameters holds optional parameters for GetAIAgentStatus.
-type GetAIAgentStatusOptionalParameters struct {
-	ClusterName *string
-}
-
-// NewGetAIAgentStatusOptionalParameters creates an empty struct for parameters.
-func NewGetAIAgentStatusOptionalParameters() *GetAIAgentStatusOptionalParameters {
-	this := GetAIAgentStatusOptionalParameters{}
-	return &this
-}
-
-// WithClusterName sets the corresponding parameter name and returns the struct.
-func (r *GetAIAgentStatusOptionalParameters) WithClusterName(clusterName string) *GetAIAgentStatusOptionalParameters {
-	r.ClusterName = &clusterName
-	return r
-}
-
 // GetAIAgentStatus Get AI diagnosis agent status.
-func (a *AIAgentApi) GetAIAgentStatus(ctx _context.Context, orgName string, o ...GetAIAgentStatusOptionalParameters) (AiAgentRuntimeStatus, *_nethttp.Response, error) {
+func (a *AIAgentApi) GetAIAgentStatus(ctx _context.Context, orgName string) (AiAgentRuntimeStatus, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue AiAgentRuntimeStatus
-		optionalParams      GetAIAgentStatusOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type GetAIAgentStatusOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -340,9 +315,6 @@ func (a *AIAgentApi) GetAIAgentStatus(ctx _context.Context, orgName string, o ..
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.ClusterName != nil {
-		localVarQueryParams.Add("clusterName", common.ParameterToString(*optionalParams.ClusterName, ""))
-	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -395,21 +367,14 @@ func (a *AIAgentApi) GetAIAgentStatus(ctx _context.Context, orgName string, o ..
 
 // ListAIAgentConversationsOptionalParameters holds optional parameters for ListAIAgentConversations.
 type ListAIAgentConversationsOptionalParameters struct {
-	ClusterName *string
-	Limit       *int32
-	After       *string
+	Limit *int32
+	After *string
 }
 
 // NewListAIAgentConversationsOptionalParameters creates an empty struct for parameters.
 func NewListAIAgentConversationsOptionalParameters() *ListAIAgentConversationsOptionalParameters {
 	this := ListAIAgentConversationsOptionalParameters{}
 	return &this
-}
-
-// WithClusterName sets the corresponding parameter name and returns the struct.
-func (r *ListAIAgentConversationsOptionalParameters) WithClusterName(clusterName string) *ListAIAgentConversationsOptionalParameters {
-	r.ClusterName = &clusterName
-	return r
 }
 
 // WithLimit sets the corresponding parameter name and returns the struct.
@@ -460,9 +425,6 @@ func (a *AIAgentApi) ListAIAgentConversations(ctx _context.Context, orgName stri
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.ClusterName != nil {
-		localVarQueryParams.Add("clusterName", common.ParameterToString(*optionalParams.ClusterName, ""))
-	}
 	if optionalParams.Limit != nil {
 		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
 	}

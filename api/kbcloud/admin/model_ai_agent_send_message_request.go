@@ -11,8 +11,8 @@ import (
 )
 
 type AiAgentSendMessageRequest struct {
-	Content    string        `json:"content"`
-	ScopePatch *AiAgentScope `json:"scopePatch,omitempty"`
+	Content  string         `json:"content"`
+	Contexts []AiAgentScope `json:"contexts,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -59,32 +59,32 @@ func (o *AiAgentSendMessageRequest) SetContent(v string) {
 	o.Content = v
 }
 
-// GetScopePatch returns the ScopePatch field value if set, zero value otherwise.
-func (o *AiAgentSendMessageRequest) GetScopePatch() AiAgentScope {
-	if o == nil || o.ScopePatch == nil {
-		var ret AiAgentScope
+// GetContexts returns the Contexts field value if set, zero value otherwise.
+func (o *AiAgentSendMessageRequest) GetContexts() []AiAgentScope {
+	if o == nil || o.Contexts == nil {
+		var ret []AiAgentScope
 		return ret
 	}
-	return *o.ScopePatch
+	return o.Contexts
 }
 
-// GetScopePatchOk returns a tuple with the ScopePatch field value if set, nil otherwise
+// GetContextsOk returns a tuple with the Contexts field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AiAgentSendMessageRequest) GetScopePatchOk() (*AiAgentScope, bool) {
-	if o == nil || o.ScopePatch == nil {
+func (o *AiAgentSendMessageRequest) GetContextsOk() (*[]AiAgentScope, bool) {
+	if o == nil || o.Contexts == nil {
 		return nil, false
 	}
-	return o.ScopePatch, true
+	return &o.Contexts, true
 }
 
-// HasScopePatch returns a boolean if a field has been set.
-func (o *AiAgentSendMessageRequest) HasScopePatch() bool {
-	return o != nil && o.ScopePatch != nil
+// HasContexts returns a boolean if a field has been set.
+func (o *AiAgentSendMessageRequest) HasContexts() bool {
+	return o != nil && o.Contexts != nil
 }
 
-// SetScopePatch gets a reference to the given AiAgentScope and assigns it to the ScopePatch field.
-func (o *AiAgentSendMessageRequest) SetScopePatch(v AiAgentScope) {
-	o.ScopePatch = &v
+// SetContexts gets a reference to the given []AiAgentScope and assigns it to the Contexts field.
+func (o *AiAgentSendMessageRequest) SetContexts(v []AiAgentScope) {
+	o.Contexts = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -94,8 +94,8 @@ func (o AiAgentSendMessageRequest) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["content"] = o.Content
-	if o.ScopePatch != nil {
-		toSerialize["scopePatch"] = o.ScopePatch
+	if o.Contexts != nil {
+		toSerialize["contexts"] = o.Contexts
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -107,8 +107,8 @@ func (o AiAgentSendMessageRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AiAgentSendMessageRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Content    *string       `json:"content"`
-		ScopePatch *AiAgentScope `json:"scopePatch,omitempty"`
+		Content  *string        `json:"content"`
+		Contexts []AiAgentScope `json:"contexts,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -118,24 +118,15 @@ func (o *AiAgentSendMessageRequest) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"content", "scopePatch"})
+		common.DeleteKeys(additionalProperties, &[]string{"content", "contexts"})
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
 	o.Content = *all.Content
-	if all.ScopePatch != nil && all.ScopePatch.UnparsedObject != nil && o.UnparsedObject == nil {
-		hasInvalidField = true
-	}
-	o.ScopePatch = all.ScopePatch
+	o.Contexts = all.Contexts
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

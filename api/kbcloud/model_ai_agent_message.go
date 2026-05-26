@@ -16,6 +16,7 @@ type AiAgentMessage struct {
 	ConversationId string               `json:"conversationId"`
 	TurnId         *string              `json:"turnId,omitempty"`
 	Role           AiAgentMessageRole   `json:"role"`
+	Contexts       []AiAgentScope       `json:"contexts,omitempty"`
 	Parts          []AiAgentMessagePart `json:"parts"`
 	CreatedAt      time.Time            `json:"createdAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -142,6 +143,34 @@ func (o *AiAgentMessage) SetRole(v AiAgentMessageRole) {
 	o.Role = v
 }
 
+// GetContexts returns the Contexts field value if set, zero value otherwise.
+func (o *AiAgentMessage) GetContexts() []AiAgentScope {
+	if o == nil || o.Contexts == nil {
+		var ret []AiAgentScope
+		return ret
+	}
+	return o.Contexts
+}
+
+// GetContextsOk returns a tuple with the Contexts field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentMessage) GetContextsOk() (*[]AiAgentScope, bool) {
+	if o == nil || o.Contexts == nil {
+		return nil, false
+	}
+	return &o.Contexts, true
+}
+
+// HasContexts returns a boolean if a field has been set.
+func (o *AiAgentMessage) HasContexts() bool {
+	return o != nil && o.Contexts != nil
+}
+
+// SetContexts gets a reference to the given []AiAgentScope and assigns it to the Contexts field.
+func (o *AiAgentMessage) SetContexts(v []AiAgentScope) {
+	o.Contexts = v
+}
+
 // GetParts returns the Parts field value.
 func (o *AiAgentMessage) GetParts() []AiAgentMessagePart {
 	if o == nil {
@@ -200,6 +229,9 @@ func (o AiAgentMessage) MarshalJSON() ([]byte, error) {
 		toSerialize["turnId"] = o.TurnId
 	}
 	toSerialize["role"] = o.Role
+	if o.Contexts != nil {
+		toSerialize["contexts"] = o.Contexts
+	}
 	toSerialize["parts"] = o.Parts
 	if o.CreatedAt.Nanosecond() == 0 {
 		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
@@ -220,6 +252,7 @@ func (o *AiAgentMessage) UnmarshalJSON(bytes []byte) (err error) {
 		ConversationId *string               `json:"conversationId"`
 		TurnId         *string               `json:"turnId,omitempty"`
 		Role           *AiAgentMessageRole   `json:"role"`
+		Contexts       []AiAgentScope        `json:"contexts,omitempty"`
 		Parts          *[]AiAgentMessagePart `json:"parts"`
 		CreatedAt      *time.Time            `json:"createdAt"`
 	}{}
@@ -243,7 +276,7 @@ func (o *AiAgentMessage) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"messageId", "conversationId", "turnId", "role", "parts", "createdAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"messageId", "conversationId", "turnId", "role", "contexts", "parts", "createdAt"})
 	} else {
 		return err
 	}
@@ -257,6 +290,7 @@ func (o *AiAgentMessage) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.Role = *all.Role
 	}
+	o.Contexts = all.Contexts
 	o.Parts = *all.Parts
 	o.CreatedAt = *all.CreatedAt
 
