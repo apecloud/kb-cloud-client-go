@@ -9,10 +9,11 @@ import (
 )
 
 type DataChannelModuleProgress struct {
-	ModuleName *string                `json:"moduleName,omitempty"`
-	Progress   common.NullableFloat64 `json:"progress,omitempty"`
-	Status     *string                `json:"status,omitempty"`
-	Message    common.NullableString  `json:"message,omitempty"`
+	ModuleName     *string                `json:"moduleName,omitempty"`
+	KubernetesName common.NullableString  `json:"kubernetesName,omitempty"`
+	Progress       common.NullableFloat64 `json:"progress,omitempty"`
+	Status         *string                `json:"status,omitempty"`
+	Message        common.NullableString  `json:"message,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -61,6 +62,45 @@ func (o *DataChannelModuleProgress) HasModuleName() bool {
 // SetModuleName gets a reference to the given string and assigns it to the ModuleName field.
 func (o *DataChannelModuleProgress) SetModuleName(v string) {
 	o.ModuleName = &v
+}
+
+// GetKubernetesName returns the KubernetesName field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DataChannelModuleProgress) GetKubernetesName() string {
+	if o == nil || o.KubernetesName.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.KubernetesName.Get()
+}
+
+// GetKubernetesNameOk returns a tuple with the KubernetesName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *DataChannelModuleProgress) GetKubernetesNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.KubernetesName.Get(), o.KubernetesName.IsSet()
+}
+
+// HasKubernetesName returns a boolean if a field has been set.
+func (o *DataChannelModuleProgress) HasKubernetesName() bool {
+	return o != nil && o.KubernetesName.IsSet()
+}
+
+// SetKubernetesName gets a reference to the given common.NullableString and assigns it to the KubernetesName field.
+func (o *DataChannelModuleProgress) SetKubernetesName(v string) {
+	o.KubernetesName.Set(&v)
+}
+
+// SetKubernetesNameNil sets the value for KubernetesName to be an explicit nil.
+func (o *DataChannelModuleProgress) SetKubernetesNameNil() {
+	o.KubernetesName.Set(nil)
+}
+
+// UnsetKubernetesName ensures that no value is present for KubernetesName, not even an explicit nil.
+func (o *DataChannelModuleProgress) UnsetKubernetesName() {
+	o.KubernetesName.Unset()
 }
 
 // GetProgress returns the Progress field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -178,6 +218,9 @@ func (o DataChannelModuleProgress) MarshalJSON() ([]byte, error) {
 	if o.ModuleName != nil {
 		toSerialize["moduleName"] = o.ModuleName
 	}
+	if o.KubernetesName.IsSet() {
+		toSerialize["kubernetesName"] = o.KubernetesName.Get()
+	}
 	if o.Progress.IsSet() {
 		toSerialize["progress"] = o.Progress.Get()
 	}
@@ -197,21 +240,23 @@ func (o DataChannelModuleProgress) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DataChannelModuleProgress) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ModuleName *string                `json:"moduleName,omitempty"`
-		Progress   common.NullableFloat64 `json:"progress,omitempty"`
-		Status     *string                `json:"status,omitempty"`
-		Message    common.NullableString  `json:"message,omitempty"`
+		ModuleName     *string                `json:"moduleName,omitempty"`
+		KubernetesName common.NullableString  `json:"kubernetesName,omitempty"`
+		Progress       common.NullableFloat64 `json:"progress,omitempty"`
+		Status         *string                `json:"status,omitempty"`
+		Message        common.NullableString  `json:"message,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"moduleName", "progress", "status", "message"})
+		common.DeleteKeys(additionalProperties, &[]string{"moduleName", "kubernetesName", "progress", "status", "message"})
 	} else {
 		return err
 	}
 	o.ModuleName = all.ModuleName
+	o.KubernetesName = all.KubernetesName
 	o.Progress = all.Progress
 	o.Status = all.Status
 	o.Message = all.Message
