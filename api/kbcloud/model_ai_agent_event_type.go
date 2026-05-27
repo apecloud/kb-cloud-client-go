@@ -17,9 +17,14 @@ const (
 	AiAgentEventTypeConversationReady         AiAgentEventType = "conversation_ready"
 	AiAgentEventTypeTurnStarted               AiAgentEventType = "turn_started"
 	AiAgentEventTypeAssistantDelta            AiAgentEventType = "assistant_delta"
+	AiAgentEventTypeAssistantInterim          AiAgentEventType = "assistant_interim"
 	AiAgentEventTypeAssistantMessageCompleted AiAgentEventType = "assistant_message_completed"
+	AiAgentEventTypeAgentReasoning            AiAgentEventType = "agent_reasoning"
+	AiAgentEventTypeAgentThinking             AiAgentEventType = "agent_thinking"
+	AiAgentEventTypeAgentStep                 AiAgentEventType = "agent_step"
 	AiAgentEventTypeToolConfirmationRequested AiAgentEventType = "tool_confirmation_requested"
 	AiAgentEventTypeToolConfirmationDecided   AiAgentEventType = "tool_confirmation_decided"
+	AiAgentEventTypeToolGenerating            AiAgentEventType = "tool_generating"
 	AiAgentEventTypeToolStarted               AiAgentEventType = "tool_started"
 	AiAgentEventTypeToolCompleted             AiAgentEventType = "tool_completed"
 	AiAgentEventTypeTurnCompleted             AiAgentEventType = "turn_completed"
@@ -32,9 +37,14 @@ var allowedAiAgentEventTypeEnumValues = []AiAgentEventType{
 	AiAgentEventTypeConversationReady,
 	AiAgentEventTypeTurnStarted,
 	AiAgentEventTypeAssistantDelta,
+	AiAgentEventTypeAssistantInterim,
 	AiAgentEventTypeAssistantMessageCompleted,
+	AiAgentEventTypeAgentReasoning,
+	AiAgentEventTypeAgentThinking,
+	AiAgentEventTypeAgentStep,
 	AiAgentEventTypeToolConfirmationRequested,
 	AiAgentEventTypeToolConfirmationDecided,
+	AiAgentEventTypeToolGenerating,
 	AiAgentEventTypeToolStarted,
 	AiAgentEventTypeToolCompleted,
 	AiAgentEventTypeTurnCompleted,
