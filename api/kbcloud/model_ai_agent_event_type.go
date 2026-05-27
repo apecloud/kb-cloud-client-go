@@ -14,43 +14,41 @@ type AiAgentEventType string
 
 // List of AiAgentEventType.
 const (
-	AiAgentEventTypeConversationReady         AiAgentEventType = "conversation_ready"
-	AiAgentEventTypeTurnStarted               AiAgentEventType = "turn_started"
-	AiAgentEventTypeAssistantDelta            AiAgentEventType = "assistant_delta"
-	AiAgentEventTypeAssistantInterim          AiAgentEventType = "assistant_interim"
-	AiAgentEventTypeAssistantMessageCompleted AiAgentEventType = "assistant_message_completed"
-	AiAgentEventTypeAgentReasoning            AiAgentEventType = "agent_reasoning"
-	AiAgentEventTypeAgentThinking             AiAgentEventType = "agent_thinking"
-	AiAgentEventTypeAgentStep                 AiAgentEventType = "agent_step"
-	AiAgentEventTypeToolConfirmationRequested AiAgentEventType = "tool_confirmation_requested"
-	AiAgentEventTypeToolConfirmationDecided   AiAgentEventType = "tool_confirmation_decided"
-	AiAgentEventTypeToolGenerating            AiAgentEventType = "tool_generating"
-	AiAgentEventTypeToolStarted               AiAgentEventType = "tool_started"
-	AiAgentEventTypeToolCompleted             AiAgentEventType = "tool_completed"
-	AiAgentEventTypeTurnCompleted             AiAgentEventType = "turn_completed"
-	AiAgentEventTypeTurnFailed                AiAgentEventType = "turn_failed"
-	AiAgentEventTypeTurnCancelled             AiAgentEventType = "turn_cancelled"
-	AiAgentEventTypeRuntimeStatusChanged      AiAgentEventType = "runtime_status_changed"
+	AiAgentEventTypeCloudConversationReady         AiAgentEventType = "cloud.conversation.ready"
+	AiAgentEventTypeCloudTurnStarted               AiAgentEventType = "cloud.turn.started"
+	AiAgentEventTypeMessageDelta                   AiAgentEventType = "message.delta"
+	AiAgentEventTypeMessageInterim                 AiAgentEventType = "message.interim"
+	AiAgentEventTypeCloudAssistantMessageCompleted AiAgentEventType = "cloud.assistant.message.completed"
+	AiAgentEventTypeReasoningAvailable             AiAgentEventType = "reasoning.available"
+	AiAgentEventTypeStatusMessage                  AiAgentEventType = "status.message"
+	AiAgentEventTypeAgentStep                      AiAgentEventType = "agent.step"
+	AiAgentEventTypeToolGenerating                 AiAgentEventType = "tool.generating"
+	AiAgentEventTypeToolStarted                    AiAgentEventType = "tool.started"
+	AiAgentEventTypeToolCompleted                  AiAgentEventType = "tool.completed"
+	AiAgentEventTypeApprovalRequest                AiAgentEventType = "approval.request"
+	AiAgentEventTypeApprovalResponded              AiAgentEventType = "approval.responded"
+	AiAgentEventTypeRunCompleted                   AiAgentEventType = "run.completed"
+	AiAgentEventTypeRunFailed                      AiAgentEventType = "run.failed"
+	AiAgentEventTypeRunCancelled                   AiAgentEventType = "run.cancelled"
 )
 
 var allowedAiAgentEventTypeEnumValues = []AiAgentEventType{
-	AiAgentEventTypeConversationReady,
-	AiAgentEventTypeTurnStarted,
-	AiAgentEventTypeAssistantDelta,
-	AiAgentEventTypeAssistantInterim,
-	AiAgentEventTypeAssistantMessageCompleted,
-	AiAgentEventTypeAgentReasoning,
-	AiAgentEventTypeAgentThinking,
+	AiAgentEventTypeCloudConversationReady,
+	AiAgentEventTypeCloudTurnStarted,
+	AiAgentEventTypeMessageDelta,
+	AiAgentEventTypeMessageInterim,
+	AiAgentEventTypeCloudAssistantMessageCompleted,
+	AiAgentEventTypeReasoningAvailable,
+	AiAgentEventTypeStatusMessage,
 	AiAgentEventTypeAgentStep,
-	AiAgentEventTypeToolConfirmationRequested,
-	AiAgentEventTypeToolConfirmationDecided,
 	AiAgentEventTypeToolGenerating,
 	AiAgentEventTypeToolStarted,
 	AiAgentEventTypeToolCompleted,
-	AiAgentEventTypeTurnCompleted,
-	AiAgentEventTypeTurnFailed,
-	AiAgentEventTypeTurnCancelled,
-	AiAgentEventTypeRuntimeStatusChanged,
+	AiAgentEventTypeApprovalRequest,
+	AiAgentEventTypeApprovalResponded,
+	AiAgentEventTypeRunCompleted,
+	AiAgentEventTypeRunFailed,
+	AiAgentEventTypeRunCancelled,
 }
 
 // GetAllowedValues returns the list of possible values.

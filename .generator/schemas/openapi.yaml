@@ -28650,23 +28650,22 @@ components:
       x-generate-alias-as-model: true
       type: string
       enum:
-        - conversation_ready
-        - turn_started
-        - assistant_delta
-        - assistant_interim
-        - assistant_message_completed
-        - agent_reasoning
-        - agent_thinking
-        - agent_step
-        - tool_confirmation_requested
-        - tool_confirmation_decided
-        - tool_generating
-        - tool_started
-        - tool_completed
-        - turn_completed
-        - turn_failed
-        - turn_cancelled
-        - runtime_status_changed
+        - cloud.conversation.ready
+        - cloud.turn.started
+        - message.delta
+        - message.interim
+        - cloud.assistant.message.completed
+        - reasoning.available
+        - status.message
+        - agent.step
+        - tool.generating
+        - tool.started
+        - tool.completed
+        - approval.request
+        - approval.responded
+        - run.completed
+        - run.failed
+        - run.cancelled
     aiAgentEvent:
       type: object
       required:
