@@ -20747,6 +20747,9 @@ components:
         orgName:
           type: string
           x-nullable: true
+        environmentName:
+          type: string
+          x-nullable: true
         clusterName:
           type: string
           x-nullable: true

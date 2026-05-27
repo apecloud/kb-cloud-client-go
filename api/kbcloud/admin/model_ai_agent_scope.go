@@ -7,11 +7,12 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type AiAgentScope struct {
-	OrgName     *string           `json:"orgName,omitempty"`
-	ClusterName *string           `json:"clusterName,omitempty"`
-	Label       *string           `json:"label,omitempty"`
-	Namespace   *string           `json:"namespace,omitempty"`
-	ObjectRef   *AiAgentObjectRef `json:"objectRef,omitempty"`
+	OrgName         *string           `json:"orgName,omitempty"`
+	EnvironmentName *string           `json:"environmentName,omitempty"`
+	ClusterName     *string           `json:"clusterName,omitempty"`
+	Label           *string           `json:"label,omitempty"`
+	Namespace       *string           `json:"namespace,omitempty"`
+	ObjectRef       *AiAgentObjectRef `json:"objectRef,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -60,6 +61,34 @@ func (o *AiAgentScope) HasOrgName() bool {
 // SetOrgName gets a reference to the given string and assigns it to the OrgName field.
 func (o *AiAgentScope) SetOrgName(v string) {
 	o.OrgName = &v
+}
+
+// GetEnvironmentName returns the EnvironmentName field value if set, zero value otherwise.
+func (o *AiAgentScope) GetEnvironmentName() string {
+	if o == nil || o.EnvironmentName == nil {
+		var ret string
+		return ret
+	}
+	return *o.EnvironmentName
+}
+
+// GetEnvironmentNameOk returns a tuple with the EnvironmentName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentScope) GetEnvironmentNameOk() (*string, bool) {
+	if o == nil || o.EnvironmentName == nil {
+		return nil, false
+	}
+	return o.EnvironmentName, true
+}
+
+// HasEnvironmentName returns a boolean if a field has been set.
+func (o *AiAgentScope) HasEnvironmentName() bool {
+	return o != nil && o.EnvironmentName != nil
+}
+
+// SetEnvironmentName gets a reference to the given string and assigns it to the EnvironmentName field.
+func (o *AiAgentScope) SetEnvironmentName(v string) {
+	o.EnvironmentName = &v
 }
 
 // GetClusterName returns the ClusterName field value if set, zero value otherwise.
@@ -183,6 +212,9 @@ func (o AiAgentScope) MarshalJSON() ([]byte, error) {
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
 	}
+	if o.EnvironmentName != nil {
+		toSerialize["environmentName"] = o.EnvironmentName
+	}
 	if o.ClusterName != nil {
 		toSerialize["clusterName"] = o.ClusterName
 	}
@@ -205,24 +237,26 @@ func (o AiAgentScope) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AiAgentScope) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		OrgName     *string           `json:"orgName,omitempty"`
-		ClusterName *string           `json:"clusterName,omitempty"`
-		Label       *string           `json:"label,omitempty"`
-		Namespace   *string           `json:"namespace,omitempty"`
-		ObjectRef   *AiAgentObjectRef `json:"objectRef,omitempty"`
+		OrgName         *string           `json:"orgName,omitempty"`
+		EnvironmentName *string           `json:"environmentName,omitempty"`
+		ClusterName     *string           `json:"clusterName,omitempty"`
+		Label           *string           `json:"label,omitempty"`
+		Namespace       *string           `json:"namespace,omitempty"`
+		ObjectRef       *AiAgentObjectRef `json:"objectRef,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"orgName", "clusterName", "label", "namespace", "objectRef"})
+		common.DeleteKeys(additionalProperties, &[]string{"orgName", "environmentName", "clusterName", "label", "namespace", "objectRef"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.OrgName = all.OrgName
+	o.EnvironmentName = all.EnvironmentName
 	o.ClusterName = all.ClusterName
 	o.Label = all.Label
 	o.Namespace = all.Namespace
