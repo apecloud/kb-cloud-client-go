@@ -14,61 +14,41 @@ type AiAgentEventType string
 
 // List of AiAgentEventType.
 const (
-	AiAgentEventTypeRunStarted            AiAgentEventType = "run_started"
-	AiAgentEventTypeThinking              AiAgentEventType = "thinking"
-	AiAgentEventTypeAssistantDelta        AiAgentEventType = "assistant_delta"
-	AiAgentEventTypeStageUpdate           AiAgentEventType = "stage_update"
-	AiAgentEventTypeEvidenceUpdate        AiAgentEventType = "evidence_update"
-	AiAgentEventTypeReportReady           AiAgentEventType = "report_ready"
-	AiAgentEventTypeApprovalRequired      AiAgentEventType = "approval_required"
-	AiAgentEventTypeApprovalRequested     AiAgentEventType = "approval_requested"
-	AiAgentEventTypeApprovalDecided       AiAgentEventType = "approval_decided"
-	AiAgentEventTypeApprovalInvalidated   AiAgentEventType = "approval_invalidated"
-	AiAgentEventTypeApprovalExpired       AiAgentEventType = "approval_expired"
-	AiAgentEventTypeRunCompleted          AiAgentEventType = "run_completed"
-	AiAgentEventTypeRunFailed             AiAgentEventType = "run_failed"
-	AiAgentEventTypeRunCancelled          AiAgentEventType = "run_cancelled"
-	AiAgentEventTypePlanCreated           AiAgentEventType = "plan_created"
-	AiAgentEventTypePlanUpdated           AiAgentEventType = "plan_updated"
-	AiAgentEventTypeToolRequestStarted    AiAgentEventType = "tool_request_started"
-	AiAgentEventTypeToolRequestCompleted  AiAgentEventType = "tool_request_completed"
-	AiAgentEventTypeToolRequestFailed     AiAgentEventType = "tool_request_failed"
-	AiAgentEventTypeToolRequestRejected   AiAgentEventType = "tool_request_rejected"
-	AiAgentEventTypeToolExecutionStarted  AiAgentEventType = "tool_execution_started"
-	AiAgentEventTypeToolExecutionFinished AiAgentEventType = "tool_execution_finished"
-	AiAgentEventTypeNeedsUserInput        AiAgentEventType = "needs_user_input"
-	AiAgentEventTypeBudgetUpdate          AiAgentEventType = "budget_update"
-	AiAgentEventTypeRunPaused             AiAgentEventType = "run_paused"
-	AiAgentEventTypeRunResumed            AiAgentEventType = "run_resumed"
+	AiAgentEventTypeCloudConversationReady         AiAgentEventType = "cloud.conversation.ready"
+	AiAgentEventTypeCloudTurnStarted               AiAgentEventType = "cloud.turn.started"
+	AiAgentEventTypeMessageDelta                   AiAgentEventType = "message.delta"
+	AiAgentEventTypeMessageInterim                 AiAgentEventType = "message.interim"
+	AiAgentEventTypeCloudAssistantMessageCompleted AiAgentEventType = "cloud.assistant.message.completed"
+	AiAgentEventTypeReasoningAvailable             AiAgentEventType = "reasoning.available"
+	AiAgentEventTypeStatusMessage                  AiAgentEventType = "status.message"
+	AiAgentEventTypeAgentStep                      AiAgentEventType = "agent.step"
+	AiAgentEventTypeToolGenerating                 AiAgentEventType = "tool.generating"
+	AiAgentEventTypeToolStarted                    AiAgentEventType = "tool.started"
+	AiAgentEventTypeToolCompleted                  AiAgentEventType = "tool.completed"
+	AiAgentEventTypeApprovalRequest                AiAgentEventType = "approval.request"
+	AiAgentEventTypeApprovalResponded              AiAgentEventType = "approval.responded"
+	AiAgentEventTypeRunCompleted                   AiAgentEventType = "run.completed"
+	AiAgentEventTypeRunFailed                      AiAgentEventType = "run.failed"
+	AiAgentEventTypeRunCancelled                   AiAgentEventType = "run.cancelled"
 )
 
 var allowedAiAgentEventTypeEnumValues = []AiAgentEventType{
-	AiAgentEventTypeRunStarted,
-	AiAgentEventTypeThinking,
-	AiAgentEventTypeAssistantDelta,
-	AiAgentEventTypeStageUpdate,
-	AiAgentEventTypeEvidenceUpdate,
-	AiAgentEventTypeReportReady,
-	AiAgentEventTypeApprovalRequired,
-	AiAgentEventTypeApprovalRequested,
-	AiAgentEventTypeApprovalDecided,
-	AiAgentEventTypeApprovalInvalidated,
-	AiAgentEventTypeApprovalExpired,
+	AiAgentEventTypeCloudConversationReady,
+	AiAgentEventTypeCloudTurnStarted,
+	AiAgentEventTypeMessageDelta,
+	AiAgentEventTypeMessageInterim,
+	AiAgentEventTypeCloudAssistantMessageCompleted,
+	AiAgentEventTypeReasoningAvailable,
+	AiAgentEventTypeStatusMessage,
+	AiAgentEventTypeAgentStep,
+	AiAgentEventTypeToolGenerating,
+	AiAgentEventTypeToolStarted,
+	AiAgentEventTypeToolCompleted,
+	AiAgentEventTypeApprovalRequest,
+	AiAgentEventTypeApprovalResponded,
 	AiAgentEventTypeRunCompleted,
 	AiAgentEventTypeRunFailed,
 	AiAgentEventTypeRunCancelled,
-	AiAgentEventTypePlanCreated,
-	AiAgentEventTypePlanUpdated,
-	AiAgentEventTypeToolRequestStarted,
-	AiAgentEventTypeToolRequestCompleted,
-	AiAgentEventTypeToolRequestFailed,
-	AiAgentEventTypeToolRequestRejected,
-	AiAgentEventTypeToolExecutionStarted,
-	AiAgentEventTypeToolExecutionFinished,
-	AiAgentEventTypeNeedsUserInput,
-	AiAgentEventTypeBudgetUpdate,
-	AiAgentEventTypeRunPaused,
-	AiAgentEventTypeRunResumed,
 }
 
 // GetAllowedValues returns the list of possible values.

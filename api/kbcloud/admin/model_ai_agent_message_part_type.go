@@ -14,23 +14,15 @@ type AiAgentMessagePartType string
 
 // List of AiAgentMessagePartType.
 const (
-	AiAgentMessagePartTypeText             AiAgentMessagePartType = "text"
-	AiAgentMessagePartTypeReportRef        AiAgentMessagePartType = "report_ref"
-	AiAgentMessagePartTypeEvidenceRef      AiAgentMessagePartType = "evidence_ref"
-	AiAgentMessagePartTypeActionPlanRef    AiAgentMessagePartType = "action_plan_ref"
-	AiAgentMessagePartTypeRunSummaryRef    AiAgentMessagePartType = "run_summary_ref"
-	AiAgentMessagePartTypeErrorRef         AiAgentMessagePartType = "error_ref"
-	AiAgentMessagePartTypeUserInputRequest AiAgentMessagePartType = "user_input_request"
+	AiAgentMessagePartTypeText                   AiAgentMessagePartType = "text"
+	AiAgentMessagePartTypeDiagnosisSummary       AiAgentMessagePartType = "diagnosis_summary"
+	AiAgentMessagePartTypeToolObservationSummary AiAgentMessagePartType = "tool_observation_summary"
 )
 
 var allowedAiAgentMessagePartTypeEnumValues = []AiAgentMessagePartType{
 	AiAgentMessagePartTypeText,
-	AiAgentMessagePartTypeReportRef,
-	AiAgentMessagePartTypeEvidenceRef,
-	AiAgentMessagePartTypeActionPlanRef,
-	AiAgentMessagePartTypeRunSummaryRef,
-	AiAgentMessagePartTypeErrorRef,
-	AiAgentMessagePartTypeUserInputRequest,
+	AiAgentMessagePartTypeDiagnosisSummary,
+	AiAgentMessagePartTypeToolObservationSummary,
 }
 
 // GetAllowedValues returns the list of possible values.
