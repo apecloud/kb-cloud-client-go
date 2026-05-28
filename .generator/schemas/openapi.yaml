@@ -25555,6 +25555,9 @@ components:
       properties:
         moduleName:
           type: string
+        kubernetesName:
+          type: string
+          nullable: true
         progress:
           type: number
           format: double
