@@ -1128,6 +1128,11 @@ paths:
           required: false
           schema:
             type: string
+        - name: clusterName
+          in: query
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: AI diagnosis conversations
@@ -1203,6 +1208,39 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - AI Agent
+      operationId: deleteAIAgentConversation
+      summary: Delete an AI diagnosis conversation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI diagnosis conversation deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentDeleteConversationResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/messages:
@@ -20933,6 +20971,9 @@ components:
       properties:
         conversationId:
           type: string
+        entryClusterName:
+          type: string
+          x-nullable: true
         title:
           type: string
           x-nullable: true
@@ -20969,6 +21010,19 @@ components:
         model:
           type: string
           x-nullable: true
+        entryClusterName:
+          type: string
+          x-nullable: true
+    aiAgentDeleteConversationResponse:
+      type: object
+      required:
+        - conversationId
+        - status
+      properties:
+        conversationId:
+          type: string
+        status:
+          type: string
     aiAgentMessageList:
       type: object
       required:

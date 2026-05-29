@@ -7,8 +7,9 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type AiAgentCreateConversationRequest struct {
-	Title *string `json:"title,omitempty"`
-	Model *string `json:"model,omitempty"`
+	Title            *string `json:"title,omitempty"`
+	Model            *string `json:"model,omitempty"`
+	EntryClusterName *string `json:"entryClusterName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -87,6 +88,34 @@ func (o *AiAgentCreateConversationRequest) SetModel(v string) {
 	o.Model = &v
 }
 
+// GetEntryClusterName returns the EntryClusterName field value if set, zero value otherwise.
+func (o *AiAgentCreateConversationRequest) GetEntryClusterName() string {
+	if o == nil || o.EntryClusterName == nil {
+		var ret string
+		return ret
+	}
+	return *o.EntryClusterName
+}
+
+// GetEntryClusterNameOk returns a tuple with the EntryClusterName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentCreateConversationRequest) GetEntryClusterNameOk() (*string, bool) {
+	if o == nil || o.EntryClusterName == nil {
+		return nil, false
+	}
+	return o.EntryClusterName, true
+}
+
+// HasEntryClusterName returns a boolean if a field has been set.
+func (o *AiAgentCreateConversationRequest) HasEntryClusterName() bool {
+	return o != nil && o.EntryClusterName != nil
+}
+
+// SetEntryClusterName gets a reference to the given string and assigns it to the EntryClusterName field.
+func (o *AiAgentCreateConversationRequest) SetEntryClusterName(v string) {
+	o.EntryClusterName = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AiAgentCreateConversationRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -99,6 +128,9 @@ func (o AiAgentCreateConversationRequest) MarshalJSON() ([]byte, error) {
 	if o.Model != nil {
 		toSerialize["model"] = o.Model
 	}
+	if o.EntryClusterName != nil {
+		toSerialize["entryClusterName"] = o.EntryClusterName
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -109,20 +141,22 @@ func (o AiAgentCreateConversationRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AiAgentCreateConversationRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Title *string `json:"title,omitempty"`
-		Model *string `json:"model,omitempty"`
+		Title            *string `json:"title,omitempty"`
+		Model            *string `json:"model,omitempty"`
+		EntryClusterName *string `json:"entryClusterName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"title", "model"})
+		common.DeleteKeys(additionalProperties, &[]string{"title", "model", "entryClusterName"})
 	} else {
 		return err
 	}
 	o.Title = all.Title
 	o.Model = all.Model
+	o.EntryClusterName = all.EntryClusterName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
