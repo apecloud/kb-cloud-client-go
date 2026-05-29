@@ -14493,6 +14493,91 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
+  /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions:
+    get:
+      tags:
+        - AI Agent
+      operationId: listAIAgentTurnActions
+      summary: List stable AI diagnosis turn process actions
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: turnId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: after
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+      responses:
+        '200':
+          description: Stable AI diagnosis process actions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentTurnActionList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}:
+    get:
+      tags:
+        - AI Agent
+      operationId: getAIAgentTurnAction
+      summary: Get one stable AI diagnosis turn process action
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: actionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI diagnosis process action detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentTurnAction'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/events:
     get:
       tags:
@@ -28647,6 +28732,7 @@ components:
       type: string
       enum:
         - cloud.conversation.ready
+        - cloud.stream.connected
         - cloud.turn.started
         - message.delta
         - message.interim
@@ -28662,6 +28748,63 @@ components:
         - run.completed
         - run.failed
         - run.cancelled
+    aiAgentTurnAction:
+      type: object
+      required:
+        - actionId
+        - conversationId
+        - turnId
+        - type
+        - title
+        - hasDetail
+        - createdAt
+      properties:
+        actionId:
+          type: string
+        conversationId:
+          type: string
+        turnId:
+          type: string
+        messageId:
+          type: string
+          x-nullable: true
+        type:
+          $ref: '#/components/schemas/aiAgentEventType'
+        status:
+          type: string
+          x-nullable: true
+        title:
+          type: string
+        summary:
+          type: string
+          x-nullable: true
+        toolName:
+          type: string
+          x-nullable: true
+        target:
+          type: string
+          x-nullable: true
+        confirmationId:
+          type: string
+          x-nullable: true
+        hasDetail:
+          type: boolean
+        detail:
+          type: object
+          additionalProperties: true
+          x-nullable: true
+        createdAt:
+          type: string
+          format: date-time
+    aiAgentTurnActionList:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentTurnAction'
     aiAgentEvent:
       type: object
       required:

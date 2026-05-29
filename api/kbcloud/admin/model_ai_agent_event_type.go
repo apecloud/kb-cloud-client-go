@@ -15,6 +15,7 @@ type AiAgentEventType string
 // List of AiAgentEventType.
 const (
 	AiAgentEventTypeCloudConversationReady         AiAgentEventType = "cloud.conversation.ready"
+	AiAgentEventTypeCloudStreamConnected           AiAgentEventType = "cloud.stream.connected"
 	AiAgentEventTypeCloudTurnStarted               AiAgentEventType = "cloud.turn.started"
 	AiAgentEventTypeMessageDelta                   AiAgentEventType = "message.delta"
 	AiAgentEventTypeMessageInterim                 AiAgentEventType = "message.interim"
@@ -34,6 +35,7 @@ const (
 
 var allowedAiAgentEventTypeEnumValues = []AiAgentEventType{
 	AiAgentEventTypeCloudConversationReady,
+	AiAgentEventTypeCloudStreamConnected,
 	AiAgentEventTypeCloudTurnStarted,
 	AiAgentEventTypeMessageDelta,
 	AiAgentEventTypeMessageInterim,

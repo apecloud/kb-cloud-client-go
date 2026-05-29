@@ -365,6 +365,86 @@ func (a *AIAgentApi) GetAIAgentStatus(ctx _context.Context, orgName string) (AiA
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetAIAgentTurnAction Get one stable AI diagnosis turn process action.
+func (a *AIAgentApi) GetAIAgentTurnAction(ctx _context.Context, orgName string, conversationId string, actionId string) (AiAgentTurnAction, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue AiAgentTurnAction
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "AI Agent",
+		OperationID: "getAIAgentTurnAction",
+		Path:        "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AIAgentApi.GetAIAgentTurnAction")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"conversationId"+"}", _neturl.PathEscape(common.ParameterToString(conversationId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"actionId"+"}", _neturl.PathEscape(common.ParameterToString(actionId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // ListAIAgentConversationsOptionalParameters holds optional parameters for ListAIAgentConversations.
 type ListAIAgentConversationsOptionalParameters struct {
 	Limit *int32
@@ -542,6 +622,133 @@ func (a *AIAgentApi) ListAIAgentMessages(ctx _context.Context, orgName string, c
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.After != nil {
+		localVarQueryParams.Add("after", common.ParameterToString(*optionalParams.After, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// ListAIAgentTurnActionsOptionalParameters holds optional parameters for ListAIAgentTurnActions.
+type ListAIAgentTurnActionsOptionalParameters struct {
+	TurnId *string
+	After  *string
+	Limit  *int32
+}
+
+// NewListAIAgentTurnActionsOptionalParameters creates an empty struct for parameters.
+func NewListAIAgentTurnActionsOptionalParameters() *ListAIAgentTurnActionsOptionalParameters {
+	this := ListAIAgentTurnActionsOptionalParameters{}
+	return &this
+}
+
+// WithTurnId sets the corresponding parameter name and returns the struct.
+func (r *ListAIAgentTurnActionsOptionalParameters) WithTurnId(turnId string) *ListAIAgentTurnActionsOptionalParameters {
+	r.TurnId = &turnId
+	return r
+}
+
+// WithAfter sets the corresponding parameter name and returns the struct.
+func (r *ListAIAgentTurnActionsOptionalParameters) WithAfter(after string) *ListAIAgentTurnActionsOptionalParameters {
+	r.After = &after
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *ListAIAgentTurnActionsOptionalParameters) WithLimit(limit int32) *ListAIAgentTurnActionsOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// ListAIAgentTurnActions List stable AI diagnosis turn process actions.
+func (a *AIAgentApi) ListAIAgentTurnActions(ctx _context.Context, orgName string, conversationId string, o ...ListAIAgentTurnActionsOptionalParameters) (AiAgentTurnActionList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue AiAgentTurnActionList
+		optionalParams      ListAIAgentTurnActionsOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListAIAgentTurnActionsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "AI Agent",
+		OperationID: "listAIAgentTurnActions",
+		Path:        "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AIAgentApi.ListAIAgentTurnActions")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"conversationId"+"}", _neturl.PathEscape(common.ParameterToString(conversationId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.TurnId != nil {
+		localVarQueryParams.Add("turnId", common.ParameterToString(*optionalParams.TurnId, ""))
+	}
 	if optionalParams.After != nil {
 		localVarQueryParams.Add("after", common.ParameterToString(*optionalParams.After, ""))
 	}
