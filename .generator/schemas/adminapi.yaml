@@ -20934,6 +20934,7 @@ components:
       type: string
       enum:
         - cloud.conversation.ready
+        - cloud.stream.connected
         - cloud.turn.started
         - message.delta
         - message.interim
