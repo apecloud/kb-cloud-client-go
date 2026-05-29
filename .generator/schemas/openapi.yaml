@@ -28466,36 +28466,6 @@ components:
         clusterName:
           type: string
           x-nullable: true
-        kubernetesName:
-          type: string
-          x-nullable: true
-        kubernetesNamespace:
-          type: string
-          x-nullable: true
-        clusterDefinition:
-          type: string
-          x-nullable: true
-        engineMode:
-          type: string
-          x-nullable: true
-        components:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-          x-nullable: true
-        serviceRefs:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-          x-nullable: true
-        label:
-          type: string
-          x-nullable: true
-        namespace:
-          type: string
-          x-nullable: true
         objectRef:
           $ref: '#/components/schemas/aiAgentObjectRef'
     aiAgentRuntimeStatus:
