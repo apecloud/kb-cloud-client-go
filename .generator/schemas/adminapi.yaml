@@ -20752,13 +20752,6 @@ components:
           x-nullable: true
         clusterName:
           type: string
-          x-nullable: true
-        label:
-          type: string
-          x-nullable: true
-        namespace:
-          type: string
-          x-nullable: true
         objectRef:
           $ref: '#/components/schemas/aiAgentObjectRef'
     aiAgentRuntimeStatus:

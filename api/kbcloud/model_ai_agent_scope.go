@@ -10,8 +10,6 @@ type AiAgentScope struct {
 	OrgName         *string           `json:"orgName,omitempty"`
 	EnvironmentName *string           `json:"environmentName,omitempty"`
 	ClusterName     *string           `json:"clusterName,omitempty"`
-	Label           *string           `json:"label,omitempty"`
-	Namespace       *string           `json:"namespace,omitempty"`
 	ObjectRef       *AiAgentObjectRef `json:"objectRef,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -119,62 +117,6 @@ func (o *AiAgentScope) SetClusterName(v string) {
 	o.ClusterName = &v
 }
 
-// GetLabel returns the Label field value if set, zero value otherwise.
-func (o *AiAgentScope) GetLabel() string {
-	if o == nil || o.Label == nil {
-		var ret string
-		return ret
-	}
-	return *o.Label
-}
-
-// GetLabelOk returns a tuple with the Label field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiAgentScope) GetLabelOk() (*string, bool) {
-	if o == nil || o.Label == nil {
-		return nil, false
-	}
-	return o.Label, true
-}
-
-// HasLabel returns a boolean if a field has been set.
-func (o *AiAgentScope) HasLabel() bool {
-	return o != nil && o.Label != nil
-}
-
-// SetLabel gets a reference to the given string and assigns it to the Label field.
-func (o *AiAgentScope) SetLabel(v string) {
-	o.Label = &v
-}
-
-// GetNamespace returns the Namespace field value if set, zero value otherwise.
-func (o *AiAgentScope) GetNamespace() string {
-	if o == nil || o.Namespace == nil {
-		var ret string
-		return ret
-	}
-	return *o.Namespace
-}
-
-// GetNamespaceOk returns a tuple with the Namespace field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiAgentScope) GetNamespaceOk() (*string, bool) {
-	if o == nil || o.Namespace == nil {
-		return nil, false
-	}
-	return o.Namespace, true
-}
-
-// HasNamespace returns a boolean if a field has been set.
-func (o *AiAgentScope) HasNamespace() bool {
-	return o != nil && o.Namespace != nil
-}
-
-// SetNamespace gets a reference to the given string and assigns it to the Namespace field.
-func (o *AiAgentScope) SetNamespace(v string) {
-	o.Namespace = &v
-}
-
 // GetObjectRef returns the ObjectRef field value if set, zero value otherwise.
 func (o *AiAgentScope) GetObjectRef() AiAgentObjectRef {
 	if o == nil || o.ObjectRef == nil {
@@ -218,12 +160,6 @@ func (o AiAgentScope) MarshalJSON() ([]byte, error) {
 	if o.ClusterName != nil {
 		toSerialize["clusterName"] = o.ClusterName
 	}
-	if o.Label != nil {
-		toSerialize["label"] = o.Label
-	}
-	if o.Namespace != nil {
-		toSerialize["namespace"] = o.Namespace
-	}
 	if o.ObjectRef != nil {
 		toSerialize["objectRef"] = o.ObjectRef
 	}
@@ -240,8 +176,6 @@ func (o *AiAgentScope) UnmarshalJSON(bytes []byte) (err error) {
 		OrgName         *string           `json:"orgName,omitempty"`
 		EnvironmentName *string           `json:"environmentName,omitempty"`
 		ClusterName     *string           `json:"clusterName,omitempty"`
-		Label           *string           `json:"label,omitempty"`
-		Namespace       *string           `json:"namespace,omitempty"`
 		ObjectRef       *AiAgentObjectRef `json:"objectRef,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -249,7 +183,7 @@ func (o *AiAgentScope) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"orgName", "environmentName", "clusterName", "label", "namespace", "objectRef"})
+		common.DeleteKeys(additionalProperties, &[]string{"orgName", "environmentName", "clusterName", "objectRef"})
 	} else {
 		return err
 	}
@@ -258,8 +192,6 @@ func (o *AiAgentScope) UnmarshalJSON(bytes []byte) (err error) {
 	o.OrgName = all.OrgName
 	o.EnvironmentName = all.EnvironmentName
 	o.ClusterName = all.ClusterName
-	o.Label = all.Label
-	o.Namespace = all.Namespace
 	if all.ObjectRef != nil && all.ObjectRef.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
