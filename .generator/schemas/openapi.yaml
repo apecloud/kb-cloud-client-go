@@ -28626,6 +28626,7 @@ components:
       type: string
       enum:
         - text
+        - reasoning_summary
         - diagnosis_summary
         - tool_observation_summary
     aiAgentMessagePart:
