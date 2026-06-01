@@ -14330,6 +14330,11 @@ paths:
           required: false
           schema:
             type: string
+        - name: clusterName
+          in: query
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: AI diagnosis conversations
@@ -14405,6 +14410,39 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - AI Agent
+      operationId: deleteAIAgentConversation
+      summary: Delete an AI diagnosis conversation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI diagnosis conversation deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentDeleteConversationResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/messages:
@@ -26691,7 +26729,7 @@ components:
           description: Name of the Org
           type: string
         state:
-          description: state represents whether the cluster has been deleted by a stop opsRequest,  and therefore, whether it is in the recycle bin. It is differnt from the Status.Phase of the cluster in k8s.
+          description: state represents whether the cluster has been deleted by a stop opsRequest, and therefore, whether it is in the recycle bin. It is differnt from the Status.Phase of the cluster in k8s.
           type: string
         stoppedAt:
           title: StoppedAt
@@ -26806,11 +26844,11 @@ components:
         status:
           title: Status
           type: string
-          description: status represents the actual status of the cluster in k8s,  it is different from the state of the cluster in recycle bin,  which means whether the cluster has been deleted by a stop opsRequest.
+          description: status represents the actual status of the cluster in k8s, it is different from the state of the cluster in recycle bin, which means whether the cluster has been deleted by a stop opsRequest.
         state:
           title: state
           type: string
-          description: state represents whether the cluster has been deleted by a stop opsRequest,  and therefore, whether it is in the recycle bin. It is differnt from the Status of the cluster undeleted.
+          description: state represents whether the cluster has been deleted by a stop opsRequest, and therefore, whether it is in the recycle bin. It is differnt from the Status of the cluster undeleted.
         mode:
           title: Mode
           type: string
@@ -28588,6 +28626,7 @@ components:
       type: string
       enum:
         - text
+        - reasoning_summary
         - diagnosis_summary
         - tool_observation_summary
     aiAgentMessagePart:
@@ -28646,6 +28685,9 @@ components:
       properties:
         conversationId:
           type: string
+        entryClusterName:
+          type: string
+          x-nullable: true
         title:
           type: string
           x-nullable: true
@@ -28682,6 +28724,19 @@ components:
         model:
           type: string
           x-nullable: true
+        entryClusterName:
+          type: string
+          x-nullable: true
+    aiAgentDeleteConversationResponse:
+      type: object
+      required:
+        - conversationId
+        - status
+      properties:
+        conversationId:
+          type: string
+        status:
+          type: string
     aiAgentMessageList:
       type: object
       required:

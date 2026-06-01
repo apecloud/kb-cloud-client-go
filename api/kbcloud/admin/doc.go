@@ -11,6 +11,7 @@
 //   - [AIApi.newAIConversation]
 //   - [AIAgentApi.approveAIAgentToolConfirmation]
 //   - [AIAgentApi.createAIAgentConversation]
+//   - [AIAgentApi.deleteAIAgentConversation]
 //   - [AIAgentApi.getAIAgentConversation]
 //   - [AIAgentApi.getAIAgentStatus]
 //   - [AIAgentApi.getAIAgentTurnAction]

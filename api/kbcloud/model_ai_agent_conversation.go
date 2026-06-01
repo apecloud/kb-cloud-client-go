@@ -12,14 +12,15 @@ import (
 )
 
 type AiAgentConversation struct {
-	ConversationId string                    `json:"conversationId"`
-	Title          *string                   `json:"title,omitempty"`
-	Status         AiAgentConversationStatus `json:"status"`
-	RuntimeStatus  *AiAgentRuntimeStatusCode `json:"runtimeStatus,omitempty"`
-	Model          *string                   `json:"model,omitempty"`
-	CreatedAt      time.Time                 `json:"createdAt"`
-	UpdatedAt      time.Time                 `json:"updatedAt"`
-	LastMessage    *AiAgentMessage           `json:"lastMessage,omitempty"`
+	ConversationId   string                    `json:"conversationId"`
+	EntryClusterName *string                   `json:"entryClusterName,omitempty"`
+	Title            *string                   `json:"title,omitempty"`
+	Status           AiAgentConversationStatus `json:"status"`
+	RuntimeStatus    *AiAgentRuntimeStatusCode `json:"runtimeStatus,omitempty"`
+	Model            *string                   `json:"model,omitempty"`
+	CreatedAt        time.Time                 `json:"createdAt"`
+	UpdatedAt        time.Time                 `json:"updatedAt"`
+	LastMessage      *AiAgentMessage           `json:"lastMessage,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -67,6 +68,34 @@ func (o *AiAgentConversation) GetConversationIdOk() (*string, bool) {
 // SetConversationId sets field value.
 func (o *AiAgentConversation) SetConversationId(v string) {
 	o.ConversationId = v
+}
+
+// GetEntryClusterName returns the EntryClusterName field value if set, zero value otherwise.
+func (o *AiAgentConversation) GetEntryClusterName() string {
+	if o == nil || o.EntryClusterName == nil {
+		var ret string
+		return ret
+	}
+	return *o.EntryClusterName
+}
+
+// GetEntryClusterNameOk returns a tuple with the EntryClusterName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentConversation) GetEntryClusterNameOk() (*string, bool) {
+	if o == nil || o.EntryClusterName == nil {
+		return nil, false
+	}
+	return o.EntryClusterName, true
+}
+
+// HasEntryClusterName returns a boolean if a field has been set.
+func (o *AiAgentConversation) HasEntryClusterName() bool {
+	return o != nil && o.EntryClusterName != nil
+}
+
+// SetEntryClusterName gets a reference to the given string and assigns it to the EntryClusterName field.
+func (o *AiAgentConversation) SetEntryClusterName(v string) {
+	o.EntryClusterName = &v
 }
 
 // GetTitle returns the Title field value if set, zero value otherwise.
@@ -257,6 +286,9 @@ func (o AiAgentConversation) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["conversationId"] = o.ConversationId
+	if o.EntryClusterName != nil {
+		toSerialize["entryClusterName"] = o.EntryClusterName
+	}
 	if o.Title != nil {
 		toSerialize["title"] = o.Title
 	}
@@ -290,14 +322,15 @@ func (o AiAgentConversation) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AiAgentConversation) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ConversationId *string                    `json:"conversationId"`
-		Title          *string                    `json:"title,omitempty"`
-		Status         *AiAgentConversationStatus `json:"status"`
-		RuntimeStatus  *AiAgentRuntimeStatusCode  `json:"runtimeStatus,omitempty"`
-		Model          *string                    `json:"model,omitempty"`
-		CreatedAt      *time.Time                 `json:"createdAt"`
-		UpdatedAt      *time.Time                 `json:"updatedAt"`
-		LastMessage    *AiAgentMessage            `json:"lastMessage,omitempty"`
+		ConversationId   *string                    `json:"conversationId"`
+		EntryClusterName *string                    `json:"entryClusterName,omitempty"`
+		Title            *string                    `json:"title,omitempty"`
+		Status           *AiAgentConversationStatus `json:"status"`
+		RuntimeStatus    *AiAgentRuntimeStatusCode  `json:"runtimeStatus,omitempty"`
+		Model            *string                    `json:"model,omitempty"`
+		CreatedAt        *time.Time                 `json:"createdAt"`
+		UpdatedAt        *time.Time                 `json:"updatedAt"`
+		LastMessage      *AiAgentMessage            `json:"lastMessage,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -316,13 +349,14 @@ func (o *AiAgentConversation) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"conversationId", "title", "status", "runtimeStatus", "model", "createdAt", "updatedAt", "lastMessage"})
+		common.DeleteKeys(additionalProperties, &[]string{"conversationId", "entryClusterName", "title", "status", "runtimeStatus", "model", "createdAt", "updatedAt", "lastMessage"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.ConversationId = *all.ConversationId
+	o.EntryClusterName = all.EntryClusterName
 	o.Title = all.Title
 	if !all.Status.IsValid() {
 		hasInvalidField = true

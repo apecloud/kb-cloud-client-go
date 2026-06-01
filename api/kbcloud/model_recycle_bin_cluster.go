@@ -49,9 +49,9 @@ type RecycleBinCluster struct {
 	Memory *float64 `json:"memory,omitempty"`
 	// Storage size, the unit is Gi.
 	Storage *float64 `json:"storage,omitempty"`
-	// status represents the actual status of the cluster in k8s,  it is different from the state of the cluster in recycle bin,  which means whether the cluster has been deleted by a stop opsRequest.
+	// status represents the actual status of the cluster in k8s, it is different from the state of the cluster in recycle bin, which means whether the cluster has been deleted by a stop opsRequest.
 	Status *string `json:"status,omitempty"`
-	// state represents whether the cluster has been deleted by a stop opsRequest,  and therefore, whether it is in the recycle bin. It is differnt from the Status of the cluster undeleted.
+	// state represents whether the cluster has been deleted by a stop opsRequest, and therefore, whether it is in the recycle bin. It is differnt from the Status of the cluster undeleted.
 	State *string `json:"state,omitempty"`
 	// Cluster topology mode
 	Mode *string `json:"mode,omitempty"`
