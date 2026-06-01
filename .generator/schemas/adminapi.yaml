@@ -70,8 +70,8 @@ tags:
     description: Platform Component APIs
   - name: AI Agent
     description: Chat With AI Agent APIs
-  - name: healthDiagnosis
-    description: Health Diagnosis APIs
+  - name: diagnostics
+    description: Diagnostics APIs
 paths:
   /admin/v1/user:
     get:
@@ -3024,14 +3024,14 @@ paths:
         - cluster
         - shared
       x-codegen-request-body-name: body
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/health-diagnosis/realtime-sessions:
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/realtime-sessions:
     get:
       tags:
-        - healthDiagnosis
+        - diagnostics
         - shared
-      summary: Get PostgreSQL realtime sessions for health diagnosis
+      summary: Get PostgreSQL realtime sessions for diagnostics
       description: Get read-only PostgreSQL realtime session diagnostics for a cluster.
-      operationId: getHealthDiagnosisRealtimeSessions
+      operationId: getDiagnosticsPostgresqlRealtimeSessions
       parameters:
         - name: orgName
           in: path
@@ -3051,7 +3051,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/healthDiagnosisRealtimeSessionsReport'
+                $ref: '#/components/schemas/postgresqlRealtimeSessionsReport'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -22601,70 +22601,18 @@ components:
         taskId:
           type: string
           description: Task ID if the operation is asynchronous (e.g. reconfigure)
-    healthDiagnosisCapabilityModule:
-      type: string
-      enum:
-        - realtimeSessions
-    healthDiagnosisCapabilityState:
-      type: string
-      enum:
-        - supported
-        - unsupported_engine
-        - unsupported_version
-        - dependency_disabled
-        - permission_denied
-        - collection_failed
-    healthDiagnosisPayloadKind:
-      type: string
-      enum:
-        - postgresql.realtimeSessions.v1
-    healthDiagnosisCapability:
-      type: object
-      required:
-        - module
-        - state
-        - reasonCode
-      properties:
-        module:
-          $ref: '#/components/schemas/healthDiagnosisCapabilityModule'
-        state:
-          $ref: '#/components/schemas/healthDiagnosisCapabilityState'
-        payloadKind:
-          $ref: '#/components/schemas/healthDiagnosisPayloadKind'
-        reasonCode:
-          type: string
-          description: Machine-readable reason for the capability state.
-        summary:
-          type: string
-          description: Human-readable capability summary.
-    healthDiagnosisModuleState:
+    postgresqlRealtimeSessionsReportStatus:
       type: string
       enum:
         - with_data
         - no_data
         - unsupported_engine
-        - unsupported_version
-        - dependency_disabled
         - permission_denied
         - collection_failed
-    healthDiagnosisReadonlyBoundary:
-      type: object
-      required:
-        - readOnly
-        - source
-        - dangerousActions
-      properties:
-        readOnly:
-          type: boolean
-          description: Whether the module only performs read-only collection.
-        source:
-          type: string
-          description: Source used for the read-only collection.
-        dangerousActions:
-          type: array
-          description: Dangerous action types intentionally not provided by this module.
-          items:
-            type: string
+    postgresqlRealtimeSessionsReportType:
+      type: string
+      enum:
+        - postgresql_realtime_sessions
     postgresqlRealtimeSessionStats:
       type: object
       required:
@@ -22754,83 +22702,41 @@ components:
           type: array
           items:
             type: string
-    healthDiagnosisCopyPayloadFormat:
-      type: string
-      enum:
-        - plain_text
-    healthDiagnosisCopyPayload:
+    postgresqlRealtimeSessionsReport:
       type: object
       required:
-        - format
-        - redacted
-        - content
-      properties:
-        format:
-          $ref: '#/components/schemas/healthDiagnosisCopyPayloadFormat'
-        redacted:
-          type: boolean
-        content:
-          type: string
-    postgresqlRealtimeSessionsPayload:
-      type: object
-      required:
-        - collectedAt
+        - engine
+        - status
+        - createdAt
+        - reportType
+        - reasonCode
+        - summary
         - stats
         - sessions
-        - readonlyBoundary
-        - copyPayload
+        - copyContext
       properties:
-        collectedAt:
+        engine:
+          type: string
+        status:
+          $ref: '#/components/schemas/postgresqlRealtimeSessionsReportStatus'
+        createdAt:
           type: string
           format: date-time
+        reportType:
+          $ref: '#/components/schemas/postgresqlRealtimeSessionsReportType'
+        reasonCode:
+          type: string
+        summary:
+          type: string
         stats:
           $ref: '#/components/schemas/postgresqlRealtimeSessionStats'
         sessions:
           type: array
           items:
             $ref: '#/components/schemas/postgresqlRealtimeSession'
-        readonlyBoundary:
-          $ref: '#/components/schemas/healthDiagnosisReadonlyBoundary'
-        copyPayload:
-          $ref: '#/components/schemas/healthDiagnosisCopyPayload'
-    healthDiagnosisModule:
-      type: object
-      required:
-        - module
-        - state
-        - payloadKind
-        - summary
-        - readonlyBoundary
-      properties:
-        module:
-          $ref: '#/components/schemas/healthDiagnosisCapabilityModule'
-        state:
-          $ref: '#/components/schemas/healthDiagnosisModuleState'
-        payloadKind:
-          $ref: '#/components/schemas/healthDiagnosisPayloadKind'
-        summary:
+        copyContext:
           type: string
-        reasonCode:
-          type: string
-        readonlyBoundary:
-          $ref: '#/components/schemas/healthDiagnosisReadonlyBoundary'
-        postgresqlRealtimeSessions:
-          $ref: '#/components/schemas/postgresqlRealtimeSessionsPayload'
-    healthDiagnosisRealtimeSessionsReport:
-      type: object
-      required:
-        - engine
-        - diagnosticCapabilities
-        - module
-      properties:
-        engine:
-          type: string
-        diagnosticCapabilities:
-          type: array
-          items:
-            $ref: '#/components/schemas/healthDiagnosisCapability'
-        module:
-          $ref: '#/components/schemas/healthDiagnosisModule'
+          description: Redacted plain text context for copy actions.
     tag:
       description: tag info
       properties:
@@ -36258,9 +36164,9 @@ x-tagGroups:
   - name: AI Agent
     tags:
       - AI Agent
-  - name: Health Diagnosis
+  - name: Diagnostics
     tags:
-      - healthDiagnosis
+      - diagnostics
   - name: PlatformParameter
     tags:
       - platformParameter

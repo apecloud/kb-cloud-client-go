@@ -14,33 +14,33 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// HealthDiagnosisApi service type
-type HealthDiagnosisApi common.Service
+// DiagnosticsApi service type
+type DiagnosticsApi common.Service
 
-// GetHealthDiagnosisRealtimeSessions Get PostgreSQL realtime sessions for health diagnosis.
+// GetDiagnosticsPostgresqlRealtimeSessions Get PostgreSQL realtime sessions for diagnostics.
 // Get read-only PostgreSQL realtime session diagnostics for a cluster.
-func (a *HealthDiagnosisApi) GetHealthDiagnosisRealtimeSessions(ctx _context.Context, orgName string, clusterName string) (HealthDiagnosisRealtimeSessionsReport, *_nethttp.Response, error) {
+func (a *DiagnosticsApi) GetDiagnosticsPostgresqlRealtimeSessions(ctx _context.Context, orgName string, clusterName string) (PostgresqlRealtimeSessionsReport, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue HealthDiagnosisRealtimeSessionsReport
+		localVarReturnValue PostgresqlRealtimeSessionsReport
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "healthDiagnosis",
-		OperationID: "getHealthDiagnosisRealtimeSessions",
-		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/health-diagnosis/realtime-sessions",
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsPostgresqlRealtimeSessions",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/realtime-sessions",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".HealthDiagnosisApi.GetHealthDiagnosisRealtimeSessions")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsPostgresqlRealtimeSessions")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/health-diagnosis/realtime-sessions"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/realtime-sessions"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -97,9 +97,9 @@ func (a *HealthDiagnosisApi) GetHealthDiagnosisRealtimeSessions(ctx _context.Con
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewHealthDiagnosisApi Returns NewHealthDiagnosisApi.
-func NewHealthDiagnosisApi(client *common.APIClient) *HealthDiagnosisApi {
-	return &HealthDiagnosisApi{
+// NewDiagnosticsApi Returns NewDiagnosticsApi.
+func NewDiagnosticsApi(client *common.APIClient) *DiagnosticsApi {
+	return &DiagnosticsApi{
 		Client: client,
 	}
 }
