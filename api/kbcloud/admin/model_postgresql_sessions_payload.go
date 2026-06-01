@@ -15,6 +15,10 @@ type PostgresqlSessionsPayload struct {
 	Sessions []PostgresqlSession     `json:"sessions"`
 	// Redacted plain text context for copy actions.
 	CopyContext string `json:"copyContext"`
+	// Effective maximum number of sessions requested from pg_stat_activity.
+	SessionLimit int64 `json:"sessionLimit"`
+	// Effective threshold used for long_running tags and statistics.
+	LongRunningThresholdSeconds int64 `json:"longRunningThresholdSeconds"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -24,11 +28,13 @@ type PostgresqlSessionsPayload struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlSessionsPayload(stats PostgresqlSessionsStats, sessions []PostgresqlSession, copyContext string) *PostgresqlSessionsPayload {
+func NewPostgresqlSessionsPayload(stats PostgresqlSessionsStats, sessions []PostgresqlSession, copyContext string, sessionLimit int64, longRunningThresholdSeconds int64) *PostgresqlSessionsPayload {
 	this := PostgresqlSessionsPayload{}
 	this.Stats = stats
 	this.Sessions = sessions
 	this.CopyContext = copyContext
+	this.SessionLimit = sessionLimit
+	this.LongRunningThresholdSeconds = longRunningThresholdSeconds
 	return &this
 }
 
@@ -109,6 +115,52 @@ func (o *PostgresqlSessionsPayload) SetCopyContext(v string) {
 	o.CopyContext = v
 }
 
+// GetSessionLimit returns the SessionLimit field value.
+func (o *PostgresqlSessionsPayload) GetSessionLimit() int64 {
+	if o == nil {
+		var ret int64
+		return ret
+	}
+	return o.SessionLimit
+}
+
+// GetSessionLimitOk returns a tuple with the SessionLimit field value
+// and a boolean to check if the value has been set.
+func (o *PostgresqlSessionsPayload) GetSessionLimitOk() (*int64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.SessionLimit, true
+}
+
+// SetSessionLimit sets field value.
+func (o *PostgresqlSessionsPayload) SetSessionLimit(v int64) {
+	o.SessionLimit = v
+}
+
+// GetLongRunningThresholdSeconds returns the LongRunningThresholdSeconds field value.
+func (o *PostgresqlSessionsPayload) GetLongRunningThresholdSeconds() int64 {
+	if o == nil {
+		var ret int64
+		return ret
+	}
+	return o.LongRunningThresholdSeconds
+}
+
+// GetLongRunningThresholdSecondsOk returns a tuple with the LongRunningThresholdSeconds field value
+// and a boolean to check if the value has been set.
+func (o *PostgresqlSessionsPayload) GetLongRunningThresholdSecondsOk() (*int64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.LongRunningThresholdSeconds, true
+}
+
+// SetLongRunningThresholdSeconds sets field value.
+func (o *PostgresqlSessionsPayload) SetLongRunningThresholdSeconds(v int64) {
+	o.LongRunningThresholdSeconds = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o PostgresqlSessionsPayload) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -118,6 +170,8 @@ func (o PostgresqlSessionsPayload) MarshalJSON() ([]byte, error) {
 	toSerialize["stats"] = o.Stats
 	toSerialize["sessions"] = o.Sessions
 	toSerialize["copyContext"] = o.CopyContext
+	toSerialize["sessionLimit"] = o.SessionLimit
+	toSerialize["longRunningThresholdSeconds"] = o.LongRunningThresholdSeconds
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -128,9 +182,11 @@ func (o PostgresqlSessionsPayload) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PostgresqlSessionsPayload) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Stats       *PostgresqlSessionsStats `json:"stats"`
-		Sessions    *[]PostgresqlSession     `json:"sessions"`
-		CopyContext *string                  `json:"copyContext"`
+		Stats                       *PostgresqlSessionsStats `json:"stats"`
+		Sessions                    *[]PostgresqlSession     `json:"sessions"`
+		CopyContext                 *string                  `json:"copyContext"`
+		SessionLimit                *int64                   `json:"sessionLimit"`
+		LongRunningThresholdSeconds *int64                   `json:"longRunningThresholdSeconds"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -144,9 +200,15 @@ func (o *PostgresqlSessionsPayload) UnmarshalJSON(bytes []byte) (err error) {
 	if all.CopyContext == nil {
 		return fmt.Errorf("required field copyContext missing")
 	}
+	if all.SessionLimit == nil {
+		return fmt.Errorf("required field sessionLimit missing")
+	}
+	if all.LongRunningThresholdSeconds == nil {
+		return fmt.Errorf("required field longRunningThresholdSeconds missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"stats", "sessions", "copyContext"})
+		common.DeleteKeys(additionalProperties, &[]string{"stats", "sessions", "copyContext", "sessionLimit", "longRunningThresholdSeconds"})
 	} else {
 		return err
 	}
@@ -158,6 +220,8 @@ func (o *PostgresqlSessionsPayload) UnmarshalJSON(bytes []byte) (err error) {
 	o.Stats = *all.Stats
 	o.Sessions = *all.Sessions
 	o.CopyContext = *all.CopyContext
+	o.SessionLimit = *all.SessionLimit
+	o.LongRunningThresholdSeconds = *all.LongRunningThresholdSeconds
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

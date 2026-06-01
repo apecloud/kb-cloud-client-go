@@ -17,14 +17,46 @@ import (
 // DiagnosticsApi service type
 type DiagnosticsApi common.Service
 
+// GetDiagnosticsPostgresqlSessionsOptionalParameters holds optional parameters for GetDiagnosticsPostgresqlSessions.
+type GetDiagnosticsPostgresqlSessionsOptionalParameters struct {
+	Limit              *int64
+	LongRunningSeconds *int64
+}
+
+// NewGetDiagnosticsPostgresqlSessionsOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsPostgresqlSessionsOptionalParameters() *GetDiagnosticsPostgresqlSessionsOptionalParameters {
+	this := GetDiagnosticsPostgresqlSessionsOptionalParameters{}
+	return &this
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSessionsOptionalParameters) WithLimit(limit int64) *GetDiagnosticsPostgresqlSessionsOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// WithLongRunningSeconds sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSessionsOptionalParameters) WithLongRunningSeconds(longRunningSeconds int64) *GetDiagnosticsPostgresqlSessionsOptionalParameters {
+	r.LongRunningSeconds = &longRunningSeconds
+	return r
+}
+
 // GetDiagnosticsPostgresqlSessions Get PostgreSQL session diagnostics.
 // Get read-only PostgreSQL session diagnostics for a cluster.
-func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSessions(ctx _context.Context, orgName string, clusterName string) (DiagnosticsSessionsReport, *_nethttp.Response, error) {
+func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSessions(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsPostgresqlSessionsOptionalParameters) (DiagnosticsSessionsReport, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue DiagnosticsSessionsReport
+		optionalParams      GetDiagnosticsPostgresqlSessionsOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsPostgresqlSessionsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -47,6 +79,12 @@ func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSessions(ctx _context.Context, 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.LongRunningSeconds != nil {
+		localVarQueryParams.Add("longRunningSeconds", common.ParameterToString(*optionalParams.LongRunningSeconds, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
