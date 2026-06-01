@@ -20913,7 +20913,7 @@ components:
       type: string
       enum:
         - text
-        - reasoning_summary
+        - reasoning_text
         - diagnosis_summary
         - tool_observation_summary
     aiAgentMessagePart:
