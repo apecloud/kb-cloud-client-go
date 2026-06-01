@@ -3054,22 +3054,15 @@ paths:
             format: int64
             minimum: 1
             maximum: 500
-        - name: longRunningSeconds
-          in: query
-          description: Threshold in seconds for the long_running tag and statistics. Defaults to 300.
-          required: false
-          schema:
-            type: integer
-            format: int64
-            minimum: 1
-            maximum: 86400
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/diagnosticsSessionsReport'
+                type: array
+                items:
+                  $ref: '#/components/schemas/postgresqlSession'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -22619,46 +22612,6 @@ components:
         taskId:
           type: string
           description: Task ID if the operation is asynchronous (e.g. reconfigure)
-    diagnosticsSessionsReportStatus:
-      type: string
-      enum:
-        - with_data
-        - no_data
-        - unsupported_engine
-        - permission_denied
-        - collection_failed
-    diagnosticsSessionsReportType:
-      type: string
-      enum:
-        - postgresql_sessions
-    postgresqlSessionsStats:
-      type: object
-      required:
-        - total
-        - active
-        - idle
-        - idleInTransaction
-        - waiting
-        - longRunning
-      properties:
-        total:
-          type: integer
-          format: int64
-        active:
-          type: integer
-          format: int64
-        idle:
-          type: integer
-          format: int64
-        idleInTransaction:
-          type: integer
-          format: int64
-        waiting:
-          type: integer
-          format: int64
-        longRunning:
-          type: integer
-          format: int64
     postgresqlSession:
       type: object
       required:
@@ -22675,7 +22628,6 @@ components:
         - queryDigest
         - redactedQuery
         - backendType
-        - riskTags
       properties:
         pid:
           type: integer
@@ -22686,7 +22638,7 @@ components:
           type: string
         client:
           type: string
-          description: Masked client address.
+          description: Client address and port.
         application:
           type: string
         state:
@@ -22716,58 +22668,6 @@ components:
           type: string
         backendType:
           type: string
-        riskTags:
-          type: array
-          items:
-            type: string
-    postgresqlSessionsPayload:
-      type: object
-      required:
-        - stats
-        - sessions
-        - sessionLimit
-        - longRunningThresholdSeconds
-      properties:
-        stats:
-          $ref: '#/components/schemas/postgresqlSessionsStats'
-        sessions:
-          type: array
-          items:
-            $ref: '#/components/schemas/postgresqlSession'
-        sessionLimit:
-          type: integer
-          format: int64
-          description: Effective maximum number of sessions requested from pg_stat_activity.
-        longRunningThresholdSeconds:
-          type: integer
-          format: int64
-          description: Effective threshold used for long_running tags and statistics.
-    diagnosticsSessionsReport:
-      type: object
-      required:
-        - engine
-        - status
-        - createdAt
-        - reportType
-        - reasonCode
-        - summary
-        - postgresqlSessions
-      properties:
-        engine:
-          type: string
-        status:
-          $ref: '#/components/schemas/diagnosticsSessionsReportStatus'
-        createdAt:
-          type: string
-          format: date-time
-        reportType:
-          $ref: '#/components/schemas/diagnosticsSessionsReportType'
-        reasonCode:
-          type: string
-        summary:
-          type: string
-        postgresqlSessions:
-          $ref: '#/components/schemas/postgresqlSessionsPayload'
     tag:
       description: tag info
       properties:

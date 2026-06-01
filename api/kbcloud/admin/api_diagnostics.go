@@ -19,8 +19,7 @@ type DiagnosticsApi common.Service
 
 // GetDiagnosticsPostgresqlSessionsOptionalParameters holds optional parameters for GetDiagnosticsPostgresqlSessions.
 type GetDiagnosticsPostgresqlSessionsOptionalParameters struct {
-	Limit              *int64
-	LongRunningSeconds *int64
+	Limit *int64
 }
 
 // NewGetDiagnosticsPostgresqlSessionsOptionalParameters creates an empty struct for parameters.
@@ -35,19 +34,13 @@ func (r *GetDiagnosticsPostgresqlSessionsOptionalParameters) WithLimit(limit int
 	return r
 }
 
-// WithLongRunningSeconds sets the corresponding parameter name and returns the struct.
-func (r *GetDiagnosticsPostgresqlSessionsOptionalParameters) WithLongRunningSeconds(longRunningSeconds int64) *GetDiagnosticsPostgresqlSessionsOptionalParameters {
-	r.LongRunningSeconds = &longRunningSeconds
-	return r
-}
-
 // GetDiagnosticsPostgresqlSessions Get PostgreSQL session diagnostics.
 // Get read-only PostgreSQL session diagnostics for a cluster.
-func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSessions(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsPostgresqlSessionsOptionalParameters) (DiagnosticsSessionsReport, *_nethttp.Response, error) {
+func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSessions(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsPostgresqlSessionsOptionalParameters) ([]PostgresqlSession, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue DiagnosticsSessionsReport
+		localVarReturnValue []PostgresqlSession
 		optionalParams      GetDiagnosticsPostgresqlSessionsOptionalParameters
 	)
 
@@ -81,9 +74,6 @@ func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSessions(ctx _context.Context, 
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.Limit != nil {
 		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
-	}
-	if optionalParams.LongRunningSeconds != nil {
-		localVarQueryParams.Add("longRunningSeconds", common.ParameterToString(*optionalParams.LongRunningSeconds, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

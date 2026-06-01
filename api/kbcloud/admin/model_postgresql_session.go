@@ -14,7 +14,7 @@ type PostgresqlSession struct {
 	Pid      int64  `json:"pid"`
 	User     string `json:"user"`
 	Database string `json:"database"`
-	// Masked client address.
+	// Client address and port.
 	Client        string `json:"client"`
 	Application   string `json:"application"`
 	State         string `json:"state"`
@@ -25,13 +25,12 @@ type PostgresqlSession struct {
 	// Query start timestamp if available.
 	QueryStart *string `json:"queryStart,omitempty"`
 	// Transaction start timestamp if available.
-	XactStart           *string  `json:"xactStart,omitempty"`
-	DurationSeconds     int64    `json:"durationSeconds"`
-	XactDurationSeconds int64    `json:"xactDurationSeconds"`
-	QueryDigest         string   `json:"queryDigest"`
-	RedactedQuery       string   `json:"redactedQuery"`
-	BackendType         string   `json:"backendType"`
-	RiskTags            []string `json:"riskTags"`
+	XactStart           *string `json:"xactStart,omitempty"`
+	DurationSeconds     int64   `json:"durationSeconds"`
+	XactDurationSeconds int64   `json:"xactDurationSeconds"`
+	QueryDigest         string  `json:"queryDigest"`
+	RedactedQuery       string  `json:"redactedQuery"`
+	BackendType         string  `json:"backendType"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -41,7 +40,7 @@ type PostgresqlSession struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlSession(pid int64, user string, database string, client string, application string, state string, waitEventType string, waitEvent string, durationSeconds int64, xactDurationSeconds int64, queryDigest string, redactedQuery string, backendType string, riskTags []string) *PostgresqlSession {
+func NewPostgresqlSession(pid int64, user string, database string, client string, application string, state string, waitEventType string, waitEvent string, durationSeconds int64, xactDurationSeconds int64, queryDigest string, redactedQuery string, backendType string) *PostgresqlSession {
 	this := PostgresqlSession{}
 	this.Pid = pid
 	this.User = user
@@ -56,7 +55,6 @@ func NewPostgresqlSession(pid int64, user string, database string, client string
 	this.QueryDigest = queryDigest
 	this.RedactedQuery = redactedQuery
 	this.BackendType = backendType
-	this.RiskTags = riskTags
 	return &this
 }
 
@@ -451,29 +449,6 @@ func (o *PostgresqlSession) SetBackendType(v string) {
 	o.BackendType = v
 }
 
-// GetRiskTags returns the RiskTags field value.
-func (o *PostgresqlSession) GetRiskTags() []string {
-	if o == nil {
-		var ret []string
-		return ret
-	}
-	return o.RiskTags
-}
-
-// GetRiskTagsOk returns a tuple with the RiskTags field value
-// and a boolean to check if the value has been set.
-func (o *PostgresqlSession) GetRiskTagsOk() (*[]string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.RiskTags, true
-}
-
-// SetRiskTags sets field value.
-func (o *PostgresqlSession) SetRiskTags(v []string) {
-	o.RiskTags = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o PostgresqlSession) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -502,7 +477,6 @@ func (o PostgresqlSession) MarshalJSON() ([]byte, error) {
 	toSerialize["queryDigest"] = o.QueryDigest
 	toSerialize["redactedQuery"] = o.RedactedQuery
 	toSerialize["backendType"] = o.BackendType
-	toSerialize["riskTags"] = o.RiskTags
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -513,23 +487,22 @@ func (o PostgresqlSession) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PostgresqlSession) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Pid                 *int64    `json:"pid"`
-		User                *string   `json:"user"`
-		Database            *string   `json:"database"`
-		Client              *string   `json:"client"`
-		Application         *string   `json:"application"`
-		State               *string   `json:"state"`
-		WaitEventType       *string   `json:"waitEventType"`
-		WaitEvent           *string   `json:"waitEvent"`
-		BackendStart        *string   `json:"backendStart,omitempty"`
-		QueryStart          *string   `json:"queryStart,omitempty"`
-		XactStart           *string   `json:"xactStart,omitempty"`
-		DurationSeconds     *int64    `json:"durationSeconds"`
-		XactDurationSeconds *int64    `json:"xactDurationSeconds"`
-		QueryDigest         *string   `json:"queryDigest"`
-		RedactedQuery       *string   `json:"redactedQuery"`
-		BackendType         *string   `json:"backendType"`
-		RiskTags            *[]string `json:"riskTags"`
+		Pid                 *int64  `json:"pid"`
+		User                *string `json:"user"`
+		Database            *string `json:"database"`
+		Client              *string `json:"client"`
+		Application         *string `json:"application"`
+		State               *string `json:"state"`
+		WaitEventType       *string `json:"waitEventType"`
+		WaitEvent           *string `json:"waitEvent"`
+		BackendStart        *string `json:"backendStart,omitempty"`
+		QueryStart          *string `json:"queryStart,omitempty"`
+		XactStart           *string `json:"xactStart,omitempty"`
+		DurationSeconds     *int64  `json:"durationSeconds"`
+		XactDurationSeconds *int64  `json:"xactDurationSeconds"`
+		QueryDigest         *string `json:"queryDigest"`
+		RedactedQuery       *string `json:"redactedQuery"`
+		BackendType         *string `json:"backendType"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -573,12 +546,9 @@ func (o *PostgresqlSession) UnmarshalJSON(bytes []byte) (err error) {
 	if all.BackendType == nil {
 		return fmt.Errorf("required field backendType missing")
 	}
-	if all.RiskTags == nil {
-		return fmt.Errorf("required field riskTags missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"pid", "user", "database", "client", "application", "state", "waitEventType", "waitEvent", "backendStart", "queryStart", "xactStart", "durationSeconds", "xactDurationSeconds", "queryDigest", "redactedQuery", "backendType", "riskTags"})
+		common.DeleteKeys(additionalProperties, &[]string{"pid", "user", "database", "client", "application", "state", "waitEventType", "waitEvent", "backendStart", "queryStart", "xactStart", "durationSeconds", "xactDurationSeconds", "queryDigest", "redactedQuery", "backendType"})
 	} else {
 		return err
 	}
@@ -598,7 +568,6 @@ func (o *PostgresqlSession) UnmarshalJSON(bytes []byte) (err error) {
 	o.QueryDigest = *all.QueryDigest
 	o.RedactedQuery = *all.RedactedQuery
 	o.BackendType = *all.BackendType
-	o.RiskTags = *all.RiskTags
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
