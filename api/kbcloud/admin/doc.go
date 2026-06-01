@@ -342,6 +342,7 @@
 //   - [featureApi.listFeature]
 //   - [featureApi.listFeatureGroup]
 //   - [featureApi.readFeature]
+//   - [healthDiagnosisApi.getHealthDiagnosisRealtimeSessions]
 //   - [imageRegistryApi.createImageRegistry]
 //   - [imageRegistryApi.deleteImageRegistry]
 //   - [imageRegistryApi.getImageRegistry]

@@ -70,6 +70,8 @@ tags:
     description: Platform Component APIs
   - name: AI Agent
     description: Chat With AI Agent APIs
+  - name: healthDiagnosis
+    description: Health Diagnosis APIs
 paths:
   /admin/v1/user:
     get:
@@ -3022,6 +3024,42 @@ paths:
         - cluster
         - shared
       x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/health-diagnosis/realtime-sessions:
+    get:
+      tags:
+        - healthDiagnosis
+        - shared
+      summary: Get PostgreSQL realtime sessions for health diagnosis
+      description: Get read-only PostgreSQL realtime session diagnostics for a cluster.
+      operationId: getHealthDiagnosisRealtimeSessions
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/healthDiagnosisRealtimeSessionsReport'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusterTags:
     get:
       tags:
@@ -22563,6 +22601,236 @@ components:
         taskId:
           type: string
           description: Task ID if the operation is asynchronous (e.g. reconfigure)
+    healthDiagnosisCapabilityModule:
+      type: string
+      enum:
+        - realtimeSessions
+    healthDiagnosisCapabilityState:
+      type: string
+      enum:
+        - supported
+        - unsupported_engine
+        - unsupported_version
+        - dependency_disabled
+        - permission_denied
+        - collection_failed
+    healthDiagnosisPayloadKind:
+      type: string
+      enum:
+        - postgresql.realtimeSessions.v1
+    healthDiagnosisCapability:
+      type: object
+      required:
+        - module
+        - state
+        - reasonCode
+      properties:
+        module:
+          $ref: '#/components/schemas/healthDiagnosisCapabilityModule'
+        state:
+          $ref: '#/components/schemas/healthDiagnosisCapabilityState'
+        payloadKind:
+          $ref: '#/components/schemas/healthDiagnosisPayloadKind'
+        reasonCode:
+          type: string
+          description: Machine-readable reason for the capability state.
+        summary:
+          type: string
+          description: Human-readable capability summary.
+    healthDiagnosisModuleState:
+      type: string
+      enum:
+        - with_data
+        - no_data
+        - unsupported_engine
+        - unsupported_version
+        - dependency_disabled
+        - permission_denied
+        - collection_failed
+    healthDiagnosisReadonlyBoundary:
+      type: object
+      required:
+        - readOnly
+        - source
+        - dangerousActions
+      properties:
+        readOnly:
+          type: boolean
+          description: Whether the module only performs read-only collection.
+        source:
+          type: string
+          description: Source used for the read-only collection.
+        dangerousActions:
+          type: array
+          description: Dangerous action types intentionally not provided by this module.
+          items:
+            type: string
+    postgresqlRealtimeSessionStats:
+      type: object
+      required:
+        - total
+        - active
+        - idle
+        - idleInTransaction
+        - waiting
+        - longRunning
+      properties:
+        total:
+          type: integer
+          format: int64
+        active:
+          type: integer
+          format: int64
+        idle:
+          type: integer
+          format: int64
+        idleInTransaction:
+          type: integer
+          format: int64
+        waiting:
+          type: integer
+          format: int64
+        longRunning:
+          type: integer
+          format: int64
+    postgresqlRealtimeSession:
+      type: object
+      required:
+        - pid
+        - user
+        - database
+        - client
+        - application
+        - state
+        - waitEventType
+        - waitEvent
+        - durationSeconds
+        - xactDurationSeconds
+        - queryDigest
+        - redactedQuery
+        - backendType
+        - riskTags
+      properties:
+        pid:
+          type: integer
+          format: int64
+        user:
+          type: string
+        database:
+          type: string
+        client:
+          type: string
+          description: Masked client address.
+        application:
+          type: string
+        state:
+          type: string
+        waitEventType:
+          type: string
+        waitEvent:
+          type: string
+        backendStart:
+          type: string
+          description: Backend start timestamp if available.
+        queryStart:
+          type: string
+          description: Query start timestamp if available.
+        xactStart:
+          type: string
+          description: Transaction start timestamp if available.
+        durationSeconds:
+          type: integer
+          format: int64
+        xactDurationSeconds:
+          type: integer
+          format: int64
+        queryDigest:
+          type: string
+        redactedQuery:
+          type: string
+        backendType:
+          type: string
+        riskTags:
+          type: array
+          items:
+            type: string
+    healthDiagnosisCopyPayloadFormat:
+      type: string
+      enum:
+        - plain_text
+    healthDiagnosisCopyPayload:
+      type: object
+      required:
+        - format
+        - redacted
+        - content
+      properties:
+        format:
+          $ref: '#/components/schemas/healthDiagnosisCopyPayloadFormat'
+        redacted:
+          type: boolean
+        content:
+          type: string
+    postgresqlRealtimeSessionsPayload:
+      type: object
+      required:
+        - collectedAt
+        - stats
+        - sessions
+        - readonlyBoundary
+        - copyPayload
+      properties:
+        collectedAt:
+          type: string
+          format: date-time
+        stats:
+          $ref: '#/components/schemas/postgresqlRealtimeSessionStats'
+        sessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/postgresqlRealtimeSession'
+        readonlyBoundary:
+          $ref: '#/components/schemas/healthDiagnosisReadonlyBoundary'
+        copyPayload:
+          $ref: '#/components/schemas/healthDiagnosisCopyPayload'
+    healthDiagnosisModule:
+      type: object
+      required:
+        - module
+        - state
+        - payloadKind
+        - summary
+        - readonlyBoundary
+      properties:
+        module:
+          $ref: '#/components/schemas/healthDiagnosisCapabilityModule'
+        state:
+          $ref: '#/components/schemas/healthDiagnosisModuleState'
+        payloadKind:
+          $ref: '#/components/schemas/healthDiagnosisPayloadKind'
+        summary:
+          type: string
+        reasonCode:
+          type: string
+        readonlyBoundary:
+          $ref: '#/components/schemas/healthDiagnosisReadonlyBoundary'
+        postgresqlRealtimeSessions:
+          $ref: '#/components/schemas/postgresqlRealtimeSessionsPayload'
+    healthDiagnosisRealtimeSessionsReport:
+      type: object
+      required:
+        - engine
+        - diagnosticCapabilities
+        - module
+      properties:
+        engine:
+          type: string
+        diagnosticCapabilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/healthDiagnosisCapability'
+        module:
+          $ref: '#/components/schemas/healthDiagnosisModule'
     tag:
       description: tag info
       properties:
@@ -35990,6 +36258,9 @@ x-tagGroups:
   - name: AI Agent
     tags:
       - AI Agent
+  - name: Health Diagnosis
+    tags:
+      - healthDiagnosis
   - name: PlatformParameter
     tags:
       - platformParameter
