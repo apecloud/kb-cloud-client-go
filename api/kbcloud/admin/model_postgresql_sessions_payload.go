@@ -13,8 +13,6 @@ import (
 type PostgresqlSessionsPayload struct {
 	Stats    PostgresqlSessionsStats `json:"stats"`
 	Sessions []PostgresqlSession     `json:"sessions"`
-	// Redacted plain text context for copy actions.
-	CopyContext string `json:"copyContext"`
 	// Effective maximum number of sessions requested from pg_stat_activity.
 	SessionLimit int64 `json:"sessionLimit"`
 	// Effective threshold used for long_running tags and statistics.
@@ -28,11 +26,10 @@ type PostgresqlSessionsPayload struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlSessionsPayload(stats PostgresqlSessionsStats, sessions []PostgresqlSession, copyContext string, sessionLimit int64, longRunningThresholdSeconds int64) *PostgresqlSessionsPayload {
+func NewPostgresqlSessionsPayload(stats PostgresqlSessionsStats, sessions []PostgresqlSession, sessionLimit int64, longRunningThresholdSeconds int64) *PostgresqlSessionsPayload {
 	this := PostgresqlSessionsPayload{}
 	this.Stats = stats
 	this.Sessions = sessions
-	this.CopyContext = copyContext
 	this.SessionLimit = sessionLimit
 	this.LongRunningThresholdSeconds = longRunningThresholdSeconds
 	return &this
@@ -92,29 +89,6 @@ func (o *PostgresqlSessionsPayload) SetSessions(v []PostgresqlSession) {
 	o.Sessions = v
 }
 
-// GetCopyContext returns the CopyContext field value.
-func (o *PostgresqlSessionsPayload) GetCopyContext() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.CopyContext
-}
-
-// GetCopyContextOk returns a tuple with the CopyContext field value
-// and a boolean to check if the value has been set.
-func (o *PostgresqlSessionsPayload) GetCopyContextOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.CopyContext, true
-}
-
-// SetCopyContext sets field value.
-func (o *PostgresqlSessionsPayload) SetCopyContext(v string) {
-	o.CopyContext = v
-}
-
 // GetSessionLimit returns the SessionLimit field value.
 func (o *PostgresqlSessionsPayload) GetSessionLimit() int64 {
 	if o == nil {
@@ -169,7 +143,6 @@ func (o PostgresqlSessionsPayload) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["stats"] = o.Stats
 	toSerialize["sessions"] = o.Sessions
-	toSerialize["copyContext"] = o.CopyContext
 	toSerialize["sessionLimit"] = o.SessionLimit
 	toSerialize["longRunningThresholdSeconds"] = o.LongRunningThresholdSeconds
 
@@ -184,7 +157,6 @@ func (o *PostgresqlSessionsPayload) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Stats                       *PostgresqlSessionsStats `json:"stats"`
 		Sessions                    *[]PostgresqlSession     `json:"sessions"`
-		CopyContext                 *string                  `json:"copyContext"`
 		SessionLimit                *int64                   `json:"sessionLimit"`
 		LongRunningThresholdSeconds *int64                   `json:"longRunningThresholdSeconds"`
 	}{}
@@ -197,9 +169,6 @@ func (o *PostgresqlSessionsPayload) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Sessions == nil {
 		return fmt.Errorf("required field sessions missing")
 	}
-	if all.CopyContext == nil {
-		return fmt.Errorf("required field copyContext missing")
-	}
 	if all.SessionLimit == nil {
 		return fmt.Errorf("required field sessionLimit missing")
 	}
@@ -208,7 +177,7 @@ func (o *PostgresqlSessionsPayload) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"stats", "sessions", "copyContext", "sessionLimit", "longRunningThresholdSeconds"})
+		common.DeleteKeys(additionalProperties, &[]string{"stats", "sessions", "sessionLimit", "longRunningThresholdSeconds"})
 	} else {
 		return err
 	}
@@ -219,7 +188,6 @@ func (o *PostgresqlSessionsPayload) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Stats = *all.Stats
 	o.Sessions = *all.Sessions
-	o.CopyContext = *all.CopyContext
 	o.SessionLimit = *all.SessionLimit
 	o.LongRunningThresholdSeconds = *all.LongRunningThresholdSeconds
 

@@ -22725,7 +22725,6 @@ components:
       required:
         - stats
         - sessions
-        - copyContext
         - sessionLimit
         - longRunningThresholdSeconds
       properties:
@@ -22735,9 +22734,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/postgresqlSession'
-        copyContext:
-          type: string
-          description: Redacted plain text context for copy actions.
         sessionLimit:
           type: integer
           format: int64
