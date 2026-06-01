@@ -17,30 +17,30 @@ import (
 // DiagnosticsApi service type
 type DiagnosticsApi common.Service
 
-// GetDiagnosticsPostgresqlRealtimeSessions Get PostgreSQL realtime sessions for diagnostics.
-// Get read-only PostgreSQL realtime session diagnostics for a cluster.
-func (a *DiagnosticsApi) GetDiagnosticsPostgresqlRealtimeSessions(ctx _context.Context, orgName string, clusterName string) (PostgresqlRealtimeSessionsReport, *_nethttp.Response, error) {
+// GetDiagnosticsPostgresqlSessions Get PostgreSQL session diagnostics.
+// Get read-only PostgreSQL session diagnostics for a cluster.
+func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSessions(ctx _context.Context, orgName string, clusterName string) (DiagnosticsSessionsReport, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue PostgresqlRealtimeSessionsReport
+		localVarReturnValue DiagnosticsSessionsReport
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "diagnostics",
-		OperationID: "getDiagnosticsPostgresqlRealtimeSessions",
-		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/realtime-sessions",
+		OperationID: "getDiagnosticsPostgresqlSessions",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsPostgresqlRealtimeSessions")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsPostgresqlSessions")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/realtime-sessions"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 

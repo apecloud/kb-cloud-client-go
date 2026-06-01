@@ -194,7 +194,7 @@
 //   - [databaseParametersApi.deleteDatabaseParameter]
 //   - [databaseParametersApi.listDatabaseParameters]
 //   - [databaseParametersApi.updateDatabaseParameter]
-//   - [diagnosticsApi.getDiagnosticsPostgresqlRealtimeSessions]
+//   - [diagnosticsApi.getDiagnosticsPostgresqlSessions]
 //   - [disasterRecoveryApi.createDisasterRecovery]
 //   - [disasterRecoveryApi.listDisasterRecovery]
 //   - [dmsApi.DataExport]

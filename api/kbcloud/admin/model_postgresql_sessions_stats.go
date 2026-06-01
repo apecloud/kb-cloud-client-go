@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type PostgresqlRealtimeSessionStats struct {
+type PostgresqlSessionsStats struct {
 	Total             int64 `json:"total"`
 	Active            int64 `json:"active"`
 	Idle              int64 `json:"idle"`
@@ -22,12 +22,12 @@ type PostgresqlRealtimeSessionStats struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewPostgresqlRealtimeSessionStats instantiates a new PostgresqlRealtimeSessionStats object.
+// NewPostgresqlSessionsStats instantiates a new PostgresqlSessionsStats object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlRealtimeSessionStats(total int64, active int64, idle int64, idleInTransaction int64, waiting int64, longRunning int64) *PostgresqlRealtimeSessionStats {
-	this := PostgresqlRealtimeSessionStats{}
+func NewPostgresqlSessionsStats(total int64, active int64, idle int64, idleInTransaction int64, waiting int64, longRunning int64) *PostgresqlSessionsStats {
+	this := PostgresqlSessionsStats{}
 	this.Total = total
 	this.Active = active
 	this.Idle = idle
@@ -37,16 +37,16 @@ func NewPostgresqlRealtimeSessionStats(total int64, active int64, idle int64, id
 	return &this
 }
 
-// NewPostgresqlRealtimeSessionStatsWithDefaults instantiates a new PostgresqlRealtimeSessionStats object.
+// NewPostgresqlSessionsStatsWithDefaults instantiates a new PostgresqlSessionsStats object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewPostgresqlRealtimeSessionStatsWithDefaults() *PostgresqlRealtimeSessionStats {
-	this := PostgresqlRealtimeSessionStats{}
+func NewPostgresqlSessionsStatsWithDefaults() *PostgresqlSessionsStats {
+	this := PostgresqlSessionsStats{}
 	return &this
 }
 
 // GetTotal returns the Total field value.
-func (o *PostgresqlRealtimeSessionStats) GetTotal() int64 {
+func (o *PostgresqlSessionsStats) GetTotal() int64 {
 	if o == nil {
 		var ret int64
 		return ret
@@ -56,7 +56,7 @@ func (o *PostgresqlRealtimeSessionStats) GetTotal() int64 {
 
 // GetTotalOk returns a tuple with the Total field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSessionStats) GetTotalOk() (*int64, bool) {
+func (o *PostgresqlSessionsStats) GetTotalOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -64,12 +64,12 @@ func (o *PostgresqlRealtimeSessionStats) GetTotalOk() (*int64, bool) {
 }
 
 // SetTotal sets field value.
-func (o *PostgresqlRealtimeSessionStats) SetTotal(v int64) {
+func (o *PostgresqlSessionsStats) SetTotal(v int64) {
 	o.Total = v
 }
 
 // GetActive returns the Active field value.
-func (o *PostgresqlRealtimeSessionStats) GetActive() int64 {
+func (o *PostgresqlSessionsStats) GetActive() int64 {
 	if o == nil {
 		var ret int64
 		return ret
@@ -79,7 +79,7 @@ func (o *PostgresqlRealtimeSessionStats) GetActive() int64 {
 
 // GetActiveOk returns a tuple with the Active field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSessionStats) GetActiveOk() (*int64, bool) {
+func (o *PostgresqlSessionsStats) GetActiveOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -87,12 +87,12 @@ func (o *PostgresqlRealtimeSessionStats) GetActiveOk() (*int64, bool) {
 }
 
 // SetActive sets field value.
-func (o *PostgresqlRealtimeSessionStats) SetActive(v int64) {
+func (o *PostgresqlSessionsStats) SetActive(v int64) {
 	o.Active = v
 }
 
 // GetIdle returns the Idle field value.
-func (o *PostgresqlRealtimeSessionStats) GetIdle() int64 {
+func (o *PostgresqlSessionsStats) GetIdle() int64 {
 	if o == nil {
 		var ret int64
 		return ret
@@ -102,7 +102,7 @@ func (o *PostgresqlRealtimeSessionStats) GetIdle() int64 {
 
 // GetIdleOk returns a tuple with the Idle field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSessionStats) GetIdleOk() (*int64, bool) {
+func (o *PostgresqlSessionsStats) GetIdleOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -110,12 +110,12 @@ func (o *PostgresqlRealtimeSessionStats) GetIdleOk() (*int64, bool) {
 }
 
 // SetIdle sets field value.
-func (o *PostgresqlRealtimeSessionStats) SetIdle(v int64) {
+func (o *PostgresqlSessionsStats) SetIdle(v int64) {
 	o.Idle = v
 }
 
 // GetIdleInTransaction returns the IdleInTransaction field value.
-func (o *PostgresqlRealtimeSessionStats) GetIdleInTransaction() int64 {
+func (o *PostgresqlSessionsStats) GetIdleInTransaction() int64 {
 	if o == nil {
 		var ret int64
 		return ret
@@ -125,7 +125,7 @@ func (o *PostgresqlRealtimeSessionStats) GetIdleInTransaction() int64 {
 
 // GetIdleInTransactionOk returns a tuple with the IdleInTransaction field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSessionStats) GetIdleInTransactionOk() (*int64, bool) {
+func (o *PostgresqlSessionsStats) GetIdleInTransactionOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -133,12 +133,12 @@ func (o *PostgresqlRealtimeSessionStats) GetIdleInTransactionOk() (*int64, bool)
 }
 
 // SetIdleInTransaction sets field value.
-func (o *PostgresqlRealtimeSessionStats) SetIdleInTransaction(v int64) {
+func (o *PostgresqlSessionsStats) SetIdleInTransaction(v int64) {
 	o.IdleInTransaction = v
 }
 
 // GetWaiting returns the Waiting field value.
-func (o *PostgresqlRealtimeSessionStats) GetWaiting() int64 {
+func (o *PostgresqlSessionsStats) GetWaiting() int64 {
 	if o == nil {
 		var ret int64
 		return ret
@@ -148,7 +148,7 @@ func (o *PostgresqlRealtimeSessionStats) GetWaiting() int64 {
 
 // GetWaitingOk returns a tuple with the Waiting field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSessionStats) GetWaitingOk() (*int64, bool) {
+func (o *PostgresqlSessionsStats) GetWaitingOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -156,12 +156,12 @@ func (o *PostgresqlRealtimeSessionStats) GetWaitingOk() (*int64, bool) {
 }
 
 // SetWaiting sets field value.
-func (o *PostgresqlRealtimeSessionStats) SetWaiting(v int64) {
+func (o *PostgresqlSessionsStats) SetWaiting(v int64) {
 	o.Waiting = v
 }
 
 // GetLongRunning returns the LongRunning field value.
-func (o *PostgresqlRealtimeSessionStats) GetLongRunning() int64 {
+func (o *PostgresqlSessionsStats) GetLongRunning() int64 {
 	if o == nil {
 		var ret int64
 		return ret
@@ -171,7 +171,7 @@ func (o *PostgresqlRealtimeSessionStats) GetLongRunning() int64 {
 
 // GetLongRunningOk returns a tuple with the LongRunning field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSessionStats) GetLongRunningOk() (*int64, bool) {
+func (o *PostgresqlSessionsStats) GetLongRunningOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -179,12 +179,12 @@ func (o *PostgresqlRealtimeSessionStats) GetLongRunningOk() (*int64, bool) {
 }
 
 // SetLongRunning sets field value.
-func (o *PostgresqlRealtimeSessionStats) SetLongRunning(v int64) {
+func (o *PostgresqlSessionsStats) SetLongRunning(v int64) {
 	o.LongRunning = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o PostgresqlRealtimeSessionStats) MarshalJSON() ([]byte, error) {
+func (o PostgresqlSessionsStats) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -203,7 +203,7 @@ func (o PostgresqlRealtimeSessionStats) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *PostgresqlRealtimeSessionStats) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PostgresqlSessionsStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Total             *int64 `json:"total"`
 		Active            *int64 `json:"active"`

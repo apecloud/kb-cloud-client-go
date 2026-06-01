@@ -3024,14 +3024,14 @@ paths:
         - cluster
         - shared
       x-codegen-request-body-name: body
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/realtime-sessions:
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions:
     get:
       tags:
         - diagnostics
         - shared
-      summary: Get PostgreSQL realtime sessions for diagnostics
-      description: Get read-only PostgreSQL realtime session diagnostics for a cluster.
-      operationId: getDiagnosticsPostgresqlRealtimeSessions
+      summary: Get PostgreSQL session diagnostics
+      description: Get read-only PostgreSQL session diagnostics for a cluster.
+      operationId: getDiagnosticsPostgresqlSessions
       parameters:
         - name: orgName
           in: path
@@ -3051,7 +3051,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/postgresqlRealtimeSessionsReport'
+                $ref: '#/components/schemas/diagnosticsSessionsReport'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -22601,7 +22601,7 @@ components:
         taskId:
           type: string
           description: Task ID if the operation is asynchronous (e.g. reconfigure)
-    postgresqlRealtimeSessionsReportStatus:
+    diagnosticsSessionsReportStatus:
       type: string
       enum:
         - with_data
@@ -22609,11 +22609,11 @@ components:
         - unsupported_engine
         - permission_denied
         - collection_failed
-    postgresqlRealtimeSessionsReportType:
+    diagnosticsSessionsReportType:
       type: string
       enum:
-        - postgresql_realtime_sessions
-    postgresqlRealtimeSessionStats:
+        - postgresql_sessions
+    postgresqlSessionsStats:
       type: object
       required:
         - total
@@ -22641,7 +22641,7 @@ components:
         longRunning:
           type: integer
           format: int64
-    postgresqlRealtimeSession:
+    postgresqlSession:
       type: object
       required:
         - pid
@@ -22702,7 +22702,23 @@ components:
           type: array
           items:
             type: string
-    postgresqlRealtimeSessionsReport:
+    postgresqlSessionsPayload:
+      type: object
+      required:
+        - stats
+        - sessions
+        - copyContext
+      properties:
+        stats:
+          $ref: '#/components/schemas/postgresqlSessionsStats'
+        sessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/postgresqlSession'
+        copyContext:
+          type: string
+          description: Redacted plain text context for copy actions.
+    diagnosticsSessionsReport:
       type: object
       required:
         - engine
@@ -22711,32 +22727,23 @@ components:
         - reportType
         - reasonCode
         - summary
-        - stats
-        - sessions
-        - copyContext
+        - postgresqlSessions
       properties:
         engine:
           type: string
         status:
-          $ref: '#/components/schemas/postgresqlRealtimeSessionsReportStatus'
+          $ref: '#/components/schemas/diagnosticsSessionsReportStatus'
         createdAt:
           type: string
           format: date-time
         reportType:
-          $ref: '#/components/schemas/postgresqlRealtimeSessionsReportType'
+          $ref: '#/components/schemas/diagnosticsSessionsReportType'
         reasonCode:
           type: string
         summary:
           type: string
-        stats:
-          $ref: '#/components/schemas/postgresqlRealtimeSessionStats'
-        sessions:
-          type: array
-          items:
-            $ref: '#/components/schemas/postgresqlRealtimeSession'
-        copyContext:
-          type: string
-          description: Redacted plain text context for copy actions.
+        postgresqlSessions:
+          $ref: '#/components/schemas/postgresqlSessionsPayload'
     tag:
       description: tag info
       properties:

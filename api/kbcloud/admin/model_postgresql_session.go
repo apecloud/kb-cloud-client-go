@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type PostgresqlRealtimeSession struct {
+type PostgresqlSession struct {
 	Pid      int64  `json:"pid"`
 	User     string `json:"user"`
 	Database string `json:"database"`
@@ -37,12 +37,12 @@ type PostgresqlRealtimeSession struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewPostgresqlRealtimeSession instantiates a new PostgresqlRealtimeSession object.
+// NewPostgresqlSession instantiates a new PostgresqlSession object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlRealtimeSession(pid int64, user string, database string, client string, application string, state string, waitEventType string, waitEvent string, durationSeconds int64, xactDurationSeconds int64, queryDigest string, redactedQuery string, backendType string, riskTags []string) *PostgresqlRealtimeSession {
-	this := PostgresqlRealtimeSession{}
+func NewPostgresqlSession(pid int64, user string, database string, client string, application string, state string, waitEventType string, waitEvent string, durationSeconds int64, xactDurationSeconds int64, queryDigest string, redactedQuery string, backendType string, riskTags []string) *PostgresqlSession {
+	this := PostgresqlSession{}
 	this.Pid = pid
 	this.User = user
 	this.Database = database
@@ -60,16 +60,16 @@ func NewPostgresqlRealtimeSession(pid int64, user string, database string, clien
 	return &this
 }
 
-// NewPostgresqlRealtimeSessionWithDefaults instantiates a new PostgresqlRealtimeSession object.
+// NewPostgresqlSessionWithDefaults instantiates a new PostgresqlSession object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewPostgresqlRealtimeSessionWithDefaults() *PostgresqlRealtimeSession {
-	this := PostgresqlRealtimeSession{}
+func NewPostgresqlSessionWithDefaults() *PostgresqlSession {
+	this := PostgresqlSession{}
 	return &this
 }
 
 // GetPid returns the Pid field value.
-func (o *PostgresqlRealtimeSession) GetPid() int64 {
+func (o *PostgresqlSession) GetPid() int64 {
 	if o == nil {
 		var ret int64
 		return ret
@@ -79,7 +79,7 @@ func (o *PostgresqlRealtimeSession) GetPid() int64 {
 
 // GetPidOk returns a tuple with the Pid field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSession) GetPidOk() (*int64, bool) {
+func (o *PostgresqlSession) GetPidOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -87,12 +87,12 @@ func (o *PostgresqlRealtimeSession) GetPidOk() (*int64, bool) {
 }
 
 // SetPid sets field value.
-func (o *PostgresqlRealtimeSession) SetPid(v int64) {
+func (o *PostgresqlSession) SetPid(v int64) {
 	o.Pid = v
 }
 
 // GetUser returns the User field value.
-func (o *PostgresqlRealtimeSession) GetUser() string {
+func (o *PostgresqlSession) GetUser() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -102,7 +102,7 @@ func (o *PostgresqlRealtimeSession) GetUser() string {
 
 // GetUserOk returns a tuple with the User field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSession) GetUserOk() (*string, bool) {
+func (o *PostgresqlSession) GetUserOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -110,12 +110,12 @@ func (o *PostgresqlRealtimeSession) GetUserOk() (*string, bool) {
 }
 
 // SetUser sets field value.
-func (o *PostgresqlRealtimeSession) SetUser(v string) {
+func (o *PostgresqlSession) SetUser(v string) {
 	o.User = v
 }
 
 // GetDatabase returns the Database field value.
-func (o *PostgresqlRealtimeSession) GetDatabase() string {
+func (o *PostgresqlSession) GetDatabase() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -125,7 +125,7 @@ func (o *PostgresqlRealtimeSession) GetDatabase() string {
 
 // GetDatabaseOk returns a tuple with the Database field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSession) GetDatabaseOk() (*string, bool) {
+func (o *PostgresqlSession) GetDatabaseOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -133,12 +133,12 @@ func (o *PostgresqlRealtimeSession) GetDatabaseOk() (*string, bool) {
 }
 
 // SetDatabase sets field value.
-func (o *PostgresqlRealtimeSession) SetDatabase(v string) {
+func (o *PostgresqlSession) SetDatabase(v string) {
 	o.Database = v
 }
 
 // GetClient returns the Client field value.
-func (o *PostgresqlRealtimeSession) GetClient() string {
+func (o *PostgresqlSession) GetClient() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -148,7 +148,7 @@ func (o *PostgresqlRealtimeSession) GetClient() string {
 
 // GetClientOk returns a tuple with the Client field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSession) GetClientOk() (*string, bool) {
+func (o *PostgresqlSession) GetClientOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -156,12 +156,12 @@ func (o *PostgresqlRealtimeSession) GetClientOk() (*string, bool) {
 }
 
 // SetClient sets field value.
-func (o *PostgresqlRealtimeSession) SetClient(v string) {
+func (o *PostgresqlSession) SetClient(v string) {
 	o.Client = v
 }
 
 // GetApplication returns the Application field value.
-func (o *PostgresqlRealtimeSession) GetApplication() string {
+func (o *PostgresqlSession) GetApplication() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -171,7 +171,7 @@ func (o *PostgresqlRealtimeSession) GetApplication() string {
 
 // GetApplicationOk returns a tuple with the Application field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSession) GetApplicationOk() (*string, bool) {
+func (o *PostgresqlSession) GetApplicationOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -179,12 +179,12 @@ func (o *PostgresqlRealtimeSession) GetApplicationOk() (*string, bool) {
 }
 
 // SetApplication sets field value.
-func (o *PostgresqlRealtimeSession) SetApplication(v string) {
+func (o *PostgresqlSession) SetApplication(v string) {
 	o.Application = v
 }
 
 // GetState returns the State field value.
-func (o *PostgresqlRealtimeSession) GetState() string {
+func (o *PostgresqlSession) GetState() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -194,7 +194,7 @@ func (o *PostgresqlRealtimeSession) GetState() string {
 
 // GetStateOk returns a tuple with the State field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSession) GetStateOk() (*string, bool) {
+func (o *PostgresqlSession) GetStateOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -202,12 +202,12 @@ func (o *PostgresqlRealtimeSession) GetStateOk() (*string, bool) {
 }
 
 // SetState sets field value.
-func (o *PostgresqlRealtimeSession) SetState(v string) {
+func (o *PostgresqlSession) SetState(v string) {
 	o.State = v
 }
 
 // GetWaitEventType returns the WaitEventType field value.
-func (o *PostgresqlRealtimeSession) GetWaitEventType() string {
+func (o *PostgresqlSession) GetWaitEventType() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -217,7 +217,7 @@ func (o *PostgresqlRealtimeSession) GetWaitEventType() string {
 
 // GetWaitEventTypeOk returns a tuple with the WaitEventType field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSession) GetWaitEventTypeOk() (*string, bool) {
+func (o *PostgresqlSession) GetWaitEventTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -225,12 +225,12 @@ func (o *PostgresqlRealtimeSession) GetWaitEventTypeOk() (*string, bool) {
 }
 
 // SetWaitEventType sets field value.
-func (o *PostgresqlRealtimeSession) SetWaitEventType(v string) {
+func (o *PostgresqlSession) SetWaitEventType(v string) {
 	o.WaitEventType = v
 }
 
 // GetWaitEvent returns the WaitEvent field value.
-func (o *PostgresqlRealtimeSession) GetWaitEvent() string {
+func (o *PostgresqlSession) GetWaitEvent() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -240,7 +240,7 @@ func (o *PostgresqlRealtimeSession) GetWaitEvent() string {
 
 // GetWaitEventOk returns a tuple with the WaitEvent field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSession) GetWaitEventOk() (*string, bool) {
+func (o *PostgresqlSession) GetWaitEventOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -248,12 +248,12 @@ func (o *PostgresqlRealtimeSession) GetWaitEventOk() (*string, bool) {
 }
 
 // SetWaitEvent sets field value.
-func (o *PostgresqlRealtimeSession) SetWaitEvent(v string) {
+func (o *PostgresqlSession) SetWaitEvent(v string) {
 	o.WaitEvent = v
 }
 
 // GetBackendStart returns the BackendStart field value if set, zero value otherwise.
-func (o *PostgresqlRealtimeSession) GetBackendStart() string {
+func (o *PostgresqlSession) GetBackendStart() string {
 	if o == nil || o.BackendStart == nil {
 		var ret string
 		return ret
@@ -263,7 +263,7 @@ func (o *PostgresqlRealtimeSession) GetBackendStart() string {
 
 // GetBackendStartOk returns a tuple with the BackendStart field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSession) GetBackendStartOk() (*string, bool) {
+func (o *PostgresqlSession) GetBackendStartOk() (*string, bool) {
 	if o == nil || o.BackendStart == nil {
 		return nil, false
 	}
@@ -271,17 +271,17 @@ func (o *PostgresqlRealtimeSession) GetBackendStartOk() (*string, bool) {
 }
 
 // HasBackendStart returns a boolean if a field has been set.
-func (o *PostgresqlRealtimeSession) HasBackendStart() bool {
+func (o *PostgresqlSession) HasBackendStart() bool {
 	return o != nil && o.BackendStart != nil
 }
 
 // SetBackendStart gets a reference to the given string and assigns it to the BackendStart field.
-func (o *PostgresqlRealtimeSession) SetBackendStart(v string) {
+func (o *PostgresqlSession) SetBackendStart(v string) {
 	o.BackendStart = &v
 }
 
 // GetQueryStart returns the QueryStart field value if set, zero value otherwise.
-func (o *PostgresqlRealtimeSession) GetQueryStart() string {
+func (o *PostgresqlSession) GetQueryStart() string {
 	if o == nil || o.QueryStart == nil {
 		var ret string
 		return ret
@@ -291,7 +291,7 @@ func (o *PostgresqlRealtimeSession) GetQueryStart() string {
 
 // GetQueryStartOk returns a tuple with the QueryStart field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSession) GetQueryStartOk() (*string, bool) {
+func (o *PostgresqlSession) GetQueryStartOk() (*string, bool) {
 	if o == nil || o.QueryStart == nil {
 		return nil, false
 	}
@@ -299,17 +299,17 @@ func (o *PostgresqlRealtimeSession) GetQueryStartOk() (*string, bool) {
 }
 
 // HasQueryStart returns a boolean if a field has been set.
-func (o *PostgresqlRealtimeSession) HasQueryStart() bool {
+func (o *PostgresqlSession) HasQueryStart() bool {
 	return o != nil && o.QueryStart != nil
 }
 
 // SetQueryStart gets a reference to the given string and assigns it to the QueryStart field.
-func (o *PostgresqlRealtimeSession) SetQueryStart(v string) {
+func (o *PostgresqlSession) SetQueryStart(v string) {
 	o.QueryStart = &v
 }
 
 // GetXactStart returns the XactStart field value if set, zero value otherwise.
-func (o *PostgresqlRealtimeSession) GetXactStart() string {
+func (o *PostgresqlSession) GetXactStart() string {
 	if o == nil || o.XactStart == nil {
 		var ret string
 		return ret
@@ -319,7 +319,7 @@ func (o *PostgresqlRealtimeSession) GetXactStart() string {
 
 // GetXactStartOk returns a tuple with the XactStart field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSession) GetXactStartOk() (*string, bool) {
+func (o *PostgresqlSession) GetXactStartOk() (*string, bool) {
 	if o == nil || o.XactStart == nil {
 		return nil, false
 	}
@@ -327,17 +327,17 @@ func (o *PostgresqlRealtimeSession) GetXactStartOk() (*string, bool) {
 }
 
 // HasXactStart returns a boolean if a field has been set.
-func (o *PostgresqlRealtimeSession) HasXactStart() bool {
+func (o *PostgresqlSession) HasXactStart() bool {
 	return o != nil && o.XactStart != nil
 }
 
 // SetXactStart gets a reference to the given string and assigns it to the XactStart field.
-func (o *PostgresqlRealtimeSession) SetXactStart(v string) {
+func (o *PostgresqlSession) SetXactStart(v string) {
 	o.XactStart = &v
 }
 
 // GetDurationSeconds returns the DurationSeconds field value.
-func (o *PostgresqlRealtimeSession) GetDurationSeconds() int64 {
+func (o *PostgresqlSession) GetDurationSeconds() int64 {
 	if o == nil {
 		var ret int64
 		return ret
@@ -347,7 +347,7 @@ func (o *PostgresqlRealtimeSession) GetDurationSeconds() int64 {
 
 // GetDurationSecondsOk returns a tuple with the DurationSeconds field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSession) GetDurationSecondsOk() (*int64, bool) {
+func (o *PostgresqlSession) GetDurationSecondsOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -355,12 +355,12 @@ func (o *PostgresqlRealtimeSession) GetDurationSecondsOk() (*int64, bool) {
 }
 
 // SetDurationSeconds sets field value.
-func (o *PostgresqlRealtimeSession) SetDurationSeconds(v int64) {
+func (o *PostgresqlSession) SetDurationSeconds(v int64) {
 	o.DurationSeconds = v
 }
 
 // GetXactDurationSeconds returns the XactDurationSeconds field value.
-func (o *PostgresqlRealtimeSession) GetXactDurationSeconds() int64 {
+func (o *PostgresqlSession) GetXactDurationSeconds() int64 {
 	if o == nil {
 		var ret int64
 		return ret
@@ -370,7 +370,7 @@ func (o *PostgresqlRealtimeSession) GetXactDurationSeconds() int64 {
 
 // GetXactDurationSecondsOk returns a tuple with the XactDurationSeconds field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSession) GetXactDurationSecondsOk() (*int64, bool) {
+func (o *PostgresqlSession) GetXactDurationSecondsOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -378,12 +378,12 @@ func (o *PostgresqlRealtimeSession) GetXactDurationSecondsOk() (*int64, bool) {
 }
 
 // SetXactDurationSeconds sets field value.
-func (o *PostgresqlRealtimeSession) SetXactDurationSeconds(v int64) {
+func (o *PostgresqlSession) SetXactDurationSeconds(v int64) {
 	o.XactDurationSeconds = v
 }
 
 // GetQueryDigest returns the QueryDigest field value.
-func (o *PostgresqlRealtimeSession) GetQueryDigest() string {
+func (o *PostgresqlSession) GetQueryDigest() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -393,7 +393,7 @@ func (o *PostgresqlRealtimeSession) GetQueryDigest() string {
 
 // GetQueryDigestOk returns a tuple with the QueryDigest field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSession) GetQueryDigestOk() (*string, bool) {
+func (o *PostgresqlSession) GetQueryDigestOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -401,12 +401,12 @@ func (o *PostgresqlRealtimeSession) GetQueryDigestOk() (*string, bool) {
 }
 
 // SetQueryDigest sets field value.
-func (o *PostgresqlRealtimeSession) SetQueryDigest(v string) {
+func (o *PostgresqlSession) SetQueryDigest(v string) {
 	o.QueryDigest = v
 }
 
 // GetRedactedQuery returns the RedactedQuery field value.
-func (o *PostgresqlRealtimeSession) GetRedactedQuery() string {
+func (o *PostgresqlSession) GetRedactedQuery() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -416,7 +416,7 @@ func (o *PostgresqlRealtimeSession) GetRedactedQuery() string {
 
 // GetRedactedQueryOk returns a tuple with the RedactedQuery field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSession) GetRedactedQueryOk() (*string, bool) {
+func (o *PostgresqlSession) GetRedactedQueryOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -424,12 +424,12 @@ func (o *PostgresqlRealtimeSession) GetRedactedQueryOk() (*string, bool) {
 }
 
 // SetRedactedQuery sets field value.
-func (o *PostgresqlRealtimeSession) SetRedactedQuery(v string) {
+func (o *PostgresqlSession) SetRedactedQuery(v string) {
 	o.RedactedQuery = v
 }
 
 // GetBackendType returns the BackendType field value.
-func (o *PostgresqlRealtimeSession) GetBackendType() string {
+func (o *PostgresqlSession) GetBackendType() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -439,7 +439,7 @@ func (o *PostgresqlRealtimeSession) GetBackendType() string {
 
 // GetBackendTypeOk returns a tuple with the BackendType field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSession) GetBackendTypeOk() (*string, bool) {
+func (o *PostgresqlSession) GetBackendTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -447,12 +447,12 @@ func (o *PostgresqlRealtimeSession) GetBackendTypeOk() (*string, bool) {
 }
 
 // SetBackendType sets field value.
-func (o *PostgresqlRealtimeSession) SetBackendType(v string) {
+func (o *PostgresqlSession) SetBackendType(v string) {
 	o.BackendType = v
 }
 
 // GetRiskTags returns the RiskTags field value.
-func (o *PostgresqlRealtimeSession) GetRiskTags() []string {
+func (o *PostgresqlSession) GetRiskTags() []string {
 	if o == nil {
 		var ret []string
 		return ret
@@ -462,7 +462,7 @@ func (o *PostgresqlRealtimeSession) GetRiskTags() []string {
 
 // GetRiskTagsOk returns a tuple with the RiskTags field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlRealtimeSession) GetRiskTagsOk() (*[]string, bool) {
+func (o *PostgresqlSession) GetRiskTagsOk() (*[]string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -470,12 +470,12 @@ func (o *PostgresqlRealtimeSession) GetRiskTagsOk() (*[]string, bool) {
 }
 
 // SetRiskTags sets field value.
-func (o *PostgresqlRealtimeSession) SetRiskTags(v []string) {
+func (o *PostgresqlSession) SetRiskTags(v []string) {
 	o.RiskTags = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o PostgresqlRealtimeSession) MarshalJSON() ([]byte, error) {
+func (o PostgresqlSession) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -511,7 +511,7 @@ func (o PostgresqlRealtimeSession) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *PostgresqlRealtimeSession) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PostgresqlSession) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Pid                 *int64    `json:"pid"`
 		User                *string   `json:"user"`
