@@ -23796,6 +23796,10 @@ components:
           type: boolean
         slow:
           type: boolean
+        slowTemplate:
+          type: boolean
+          description: Whether slow log template is supported.
+          x-omitempty: false
         audit:
           type: boolean
         running:
