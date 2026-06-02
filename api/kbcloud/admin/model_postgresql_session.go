@@ -29,7 +29,7 @@ type PostgresqlSession struct {
 	DurationSeconds     int64   `json:"durationSeconds"`
 	XactDurationSeconds int64   `json:"xactDurationSeconds"`
 	QueryDigest         string  `json:"queryDigest"`
-	RedactedQuery       string  `json:"redactedQuery"`
+	QuerySummary        string  `json:"querySummary"`
 	BackendType         string  `json:"backendType"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -40,7 +40,7 @@ type PostgresqlSession struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlSession(pid int64, user string, database string, client string, application string, state string, waitEventType string, waitEvent string, durationSeconds int64, xactDurationSeconds int64, queryDigest string, redactedQuery string, backendType string) *PostgresqlSession {
+func NewPostgresqlSession(pid int64, user string, database string, client string, application string, state string, waitEventType string, waitEvent string, durationSeconds int64, xactDurationSeconds int64, queryDigest string, querySummary string, backendType string) *PostgresqlSession {
 	this := PostgresqlSession{}
 	this.Pid = pid
 	this.User = user
@@ -53,7 +53,7 @@ func NewPostgresqlSession(pid int64, user string, database string, client string
 	this.DurationSeconds = durationSeconds
 	this.XactDurationSeconds = xactDurationSeconds
 	this.QueryDigest = queryDigest
-	this.RedactedQuery = redactedQuery
+	this.QuerySummary = querySummary
 	this.BackendType = backendType
 	return &this
 }
@@ -403,27 +403,27 @@ func (o *PostgresqlSession) SetQueryDigest(v string) {
 	o.QueryDigest = v
 }
 
-// GetRedactedQuery returns the RedactedQuery field value.
-func (o *PostgresqlSession) GetRedactedQuery() string {
+// GetQuerySummary returns the QuerySummary field value.
+func (o *PostgresqlSession) GetQuerySummary() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
-	return o.RedactedQuery
+	return o.QuerySummary
 }
 
-// GetRedactedQueryOk returns a tuple with the RedactedQuery field value
+// GetQuerySummaryOk returns a tuple with the QuerySummary field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlSession) GetRedactedQueryOk() (*string, bool) {
+func (o *PostgresqlSession) GetQuerySummaryOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.RedactedQuery, true
+	return &o.QuerySummary, true
 }
 
-// SetRedactedQuery sets field value.
-func (o *PostgresqlSession) SetRedactedQuery(v string) {
-	o.RedactedQuery = v
+// SetQuerySummary sets field value.
+func (o *PostgresqlSession) SetQuerySummary(v string) {
+	o.QuerySummary = v
 }
 
 // GetBackendType returns the BackendType field value.
@@ -475,7 +475,7 @@ func (o PostgresqlSession) MarshalJSON() ([]byte, error) {
 	toSerialize["durationSeconds"] = o.DurationSeconds
 	toSerialize["xactDurationSeconds"] = o.XactDurationSeconds
 	toSerialize["queryDigest"] = o.QueryDigest
-	toSerialize["redactedQuery"] = o.RedactedQuery
+	toSerialize["querySummary"] = o.QuerySummary
 	toSerialize["backendType"] = o.BackendType
 
 	for key, value := range o.AdditionalProperties {
@@ -501,7 +501,7 @@ func (o *PostgresqlSession) UnmarshalJSON(bytes []byte) (err error) {
 		DurationSeconds     *int64  `json:"durationSeconds"`
 		XactDurationSeconds *int64  `json:"xactDurationSeconds"`
 		QueryDigest         *string `json:"queryDigest"`
-		RedactedQuery       *string `json:"redactedQuery"`
+		QuerySummary        *string `json:"querySummary"`
 		BackendType         *string `json:"backendType"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -540,15 +540,15 @@ func (o *PostgresqlSession) UnmarshalJSON(bytes []byte) (err error) {
 	if all.QueryDigest == nil {
 		return fmt.Errorf("required field queryDigest missing")
 	}
-	if all.RedactedQuery == nil {
-		return fmt.Errorf("required field redactedQuery missing")
+	if all.QuerySummary == nil {
+		return fmt.Errorf("required field querySummary missing")
 	}
 	if all.BackendType == nil {
 		return fmt.Errorf("required field backendType missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"pid", "user", "database", "client", "application", "state", "waitEventType", "waitEvent", "backendStart", "queryStart", "xactStart", "durationSeconds", "xactDurationSeconds", "queryDigest", "redactedQuery", "backendType"})
+		common.DeleteKeys(additionalProperties, &[]string{"pid", "user", "database", "client", "application", "state", "waitEventType", "waitEvent", "backendStart", "queryStart", "xactStart", "durationSeconds", "xactDurationSeconds", "queryDigest", "querySummary", "backendType"})
 	} else {
 		return err
 	}
@@ -566,7 +566,7 @@ func (o *PostgresqlSession) UnmarshalJSON(bytes []byte) (err error) {
 	o.DurationSeconds = *all.DurationSeconds
 	o.XactDurationSeconds = *all.XactDurationSeconds
 	o.QueryDigest = *all.QueryDigest
-	o.RedactedQuery = *all.RedactedQuery
+	o.QuerySummary = *all.QuerySummary
 	o.BackendType = *all.BackendType
 
 	if len(additionalProperties) > 0 {
