@@ -16600,6 +16600,44 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/environments/{environmentName}/engineNetworkModes/supported:
+    get:
+      tags:
+        - engine
+      operationId: getEngineNetworkModeSupported
+      summary: Get supported network modes for engine+mode from engineOption config
+      parameters:
+        - name: environmentName
+          in: path
+          description: environment name
+          required: true
+          schema:
+            type: string
+        - name: engineName
+          in: query
+          description: engine name
+          required: true
+          schema:
+            type: string
+        - name: mode
+          in: query
+          description: engine mode
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineNetworkModeSupported'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/blueGreenDeployment/{deploymentID}:
     get:
       operationId: getBlueGreenDeployment
@@ -30484,6 +30522,21 @@ components:
         - engine
         - engineMode
         - schedulingPolicyType
+    engineNetworkModeSupported:
+      type: object
+      properties:
+        supported:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
+          description: supported network modes
+        notSupportedVersions:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: not supported versions, key is networkMode, value is array of versions
     blueGreenDeploymentStatus:
       description: The status of a blue-green deployment.
       enum:

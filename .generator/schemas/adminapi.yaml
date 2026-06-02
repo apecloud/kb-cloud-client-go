@@ -20307,6 +20307,206 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/environments/{environmentName}/engineNetworkModes:
+    get:
+      tags:
+        - engine
+      operationId: listEngineNetworkModes
+      summary: List engine network modes
+      parameters:
+        - name: environmentName
+          in: path
+          description: environment name
+          required: true
+          schema:
+            type: string
+        - name: engineName
+          in: query
+          description: filter by engine name
+          required: false
+          schema:
+            type: string
+        - name: mode
+          in: query
+          description: filter by engine mode
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineNetworkModeList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+    post:
+      tags:
+        - engine
+      operationId: createEngineNetworkMode
+      summary: Create engine network mode
+      parameters:
+        - name: environmentName
+          in: path
+          description: environment name
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/engineNetworkModeCreate'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineNetworkMode'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/engineNetworkModes/{id}:
+    delete:
+      tags:
+        - engine
+      operationId: deleteEngineNetworkMode
+      summary: Delete engine network mode
+      parameters:
+        - name: environmentName
+          in: path
+          description: environment name
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: engine network mode record id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      tags:
+        - engine
+      operationId: updateEngineNetworkMode
+      summary: Update engine network mode
+      parameters:
+        - name: environmentName
+          in: path
+          description: environment name
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: engine network mode record id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/engineNetworkModeUpdate'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineNetworkMode'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/engineNetworkModes/supported:
+    get:
+      tags:
+        - engine
+      operationId: getEngineNetworkModeSupported
+      summary: Get supported network modes for engine+mode from engineOption config
+      parameters:
+        - name: environmentName
+          in: path
+          description: environment name
+          required: true
+          schema:
+            type: string
+        - name: engineName
+          in: query
+          description: engine name
+          required: true
+          schema:
+            type: string
+        - name: mode
+          in: query
+          description: engine mode
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineNetworkModeSupported'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/environments/{environmentName}/engineNetworkModes/options:
+    get:
+      tags:
+        - engine
+      operationId: getEngineNetworkModeOptions
+      summary: Get available network modes for all engines from engineOption config
+      parameters:
+        - name: environmentName
+          in: path
+          description: environment name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineNetworkModeOptions'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
 components:
   securitySchemes:
     BearerToken:
@@ -35838,6 +36038,112 @@ components:
         - engineMode
         - targetSelector
         - schedulingPolicyType
+    engineNetworkMode:
+      type: object
+      required:
+        - id
+        - engineName
+        - mode
+        - networkModes
+        - envId
+        - envName
+      properties:
+        id:
+          type: string
+          description: record id
+        engineName:
+          type: string
+          description: engine name
+        mode:
+          type: string
+          description: engine mode
+        networkModes:
+          type: array
+          items:
+            type: string
+          description: network modes configured for this engine+mode+env combination
+        envId:
+          type: string
+          format: uuid
+          description: environment id
+        envName:
+          type: string
+          description: environment name
+        createTime:
+          type: string
+          format: date-time
+          description: create time
+        updateTime:
+          type: string
+          format: date-time
+          description: update time
+    engineNetworkModeList:
+      type: array
+      items:
+        $ref: '#/components/schemas/engineNetworkMode'
+    engineNetworkModeCreate:
+      type: object
+      required:
+        - engineName
+        - mode
+        - networkModes
+      properties:
+        engineName:
+          type: string
+          description: engine name
+        mode:
+          type: string
+          description: engine mode
+        networkModes:
+          type: array
+          items:
+            type: string
+          description: network modes
+    engineNetworkModeUpdate:
+      type: object
+      required:
+        - networkModes
+      properties:
+        networkModes:
+          type: array
+          items:
+            type: string
+          description: network modes to update
+    engineNetworkModeSupported:
+      type: object
+      properties:
+        supported:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
+          description: supported network modes
+        notSupportedVersions:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: not supported versions, key is networkMode, value is array of versions
+    engineNetworkModeOptions:
+      type: array
+      items:
+        type: object
+        required:
+          - engineName
+          - mode
+          - networkModes
+        properties:
+          engineName:
+            type: string
+            description: engine name
+          mode:
+            type: string
+            description: engine mode
+          networkModes:
+            type: array
+            items:
+              $ref: '#/components/schemas/networkMode'
+            description: available network modes for this engine+mode
   responses:
     '204':
       description: No Content
