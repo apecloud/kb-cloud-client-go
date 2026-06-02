@@ -26941,6 +26941,9 @@ components:
         clusterName:
           description: Name of the cluster this instance belongs to.
           type: string
+        orgName:
+          description: Name of the organization this instance's cluster belongs to.
+          type: string
         clusterStatus:
           description: Cluster status.
           type: string
@@ -29464,10 +29467,6 @@ components:
         defaultAccount:
           type: string
           x-nullable: true
-        tableMetadata:
-          type: array
-          items:
-            type: object
     parameters:
       type: object
       additionalProperties:

@@ -30,6 +30,8 @@ type InstanceResourceStats struct {
 	Role *string `json:"role,omitempty"`
 	// Name of the cluster this instance belongs to.
 	ClusterName *string `json:"clusterName,omitempty"`
+	// Name of the organization this instance's cluster belongs to.
+	OrgName *string `json:"orgName,omitempty"`
 	// Cluster status.
 	ClusterStatus *string `json:"clusterStatus,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -294,6 +296,34 @@ func (o *InstanceResourceStats) SetClusterName(v string) {
 	o.ClusterName = &v
 }
 
+// GetOrgName returns the OrgName field value if set, zero value otherwise.
+func (o *InstanceResourceStats) GetOrgName() string {
+	if o == nil || o.OrgName == nil {
+		var ret string
+		return ret
+	}
+	return *o.OrgName
+}
+
+// GetOrgNameOk returns a tuple with the OrgName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InstanceResourceStats) GetOrgNameOk() (*string, bool) {
+	if o == nil || o.OrgName == nil {
+		return nil, false
+	}
+	return o.OrgName, true
+}
+
+// HasOrgName returns a boolean if a field has been set.
+func (o *InstanceResourceStats) HasOrgName() bool {
+	return o != nil && o.OrgName != nil
+}
+
+// SetOrgName gets a reference to the given string and assigns it to the OrgName field.
+func (o *InstanceResourceStats) SetOrgName(v string) {
+	o.OrgName = &v
+}
+
 // GetClusterStatus returns the ClusterStatus field value if set, zero value otherwise.
 func (o *InstanceResourceStats) GetClusterStatus() string {
 	if o == nil || o.ClusterStatus == nil {
@@ -349,6 +379,9 @@ func (o InstanceResourceStats) MarshalJSON() ([]byte, error) {
 	if o.ClusterName != nil {
 		toSerialize["clusterName"] = o.ClusterName
 	}
+	if o.OrgName != nil {
+		toSerialize["orgName"] = o.OrgName
+	}
 	if o.ClusterStatus != nil {
 		toSerialize["clusterStatus"] = o.ClusterStatus
 	}
@@ -371,6 +404,7 @@ func (o *InstanceResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 		EngineVersion         *string                    `json:"engineVersion,omitempty"`
 		Role                  *string                    `json:"role,omitempty"`
 		ClusterName           *string                    `json:"clusterName,omitempty"`
+		OrgName               *string                    `json:"orgName,omitempty"`
 		ClusterStatus         *string                    `json:"clusterStatus,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -387,7 +421,7 @@ func (o *InstanceResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cpuStats", "memoryStats", "ephemeralStorageStats", "name", "type", "engine", "engineVersion", "role", "clusterName", "clusterStatus"})
+		common.DeleteKeys(additionalProperties, &[]string{"cpuStats", "memoryStats", "ephemeralStorageStats", "name", "type", "engine", "engineVersion", "role", "clusterName", "orgName", "clusterStatus"})
 	} else {
 		return err
 	}
@@ -415,6 +449,7 @@ func (o *InstanceResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	o.EngineVersion = all.EngineVersion
 	o.Role = all.Role
 	o.ClusterName = all.ClusterName
+	o.OrgName = all.OrgName
 	o.ClusterStatus = all.ClusterStatus
 
 	if len(additionalProperties) > 0 {

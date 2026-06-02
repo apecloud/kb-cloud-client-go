@@ -15,7 +15,6 @@ type DmsOption struct {
 	Protocol       *string                `json:"protocol,omitempty"`
 	Feature        map[string]interface{} `json:"feature,omitempty"`
 	DefaultAccount *string                `json:"defaultAccount,omitempty"`
-	TableMetadata  []interface{}          `json:"tableMetadata,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -146,34 +145,6 @@ func (o *DmsOption) SetDefaultAccount(v string) {
 	o.DefaultAccount = &v
 }
 
-// GetTableMetadata returns the TableMetadata field value if set, zero value otherwise.
-func (o *DmsOption) GetTableMetadata() []interface{} {
-	if o == nil || o.TableMetadata == nil {
-		var ret []interface{}
-		return ret
-	}
-	return o.TableMetadata
-}
-
-// GetTableMetadataOk returns a tuple with the TableMetadata field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *DmsOption) GetTableMetadataOk() (*[]interface{}, bool) {
-	if o == nil || o.TableMetadata == nil {
-		return nil, false
-	}
-	return &o.TableMetadata, true
-}
-
-// HasTableMetadata returns a boolean if a field has been set.
-func (o *DmsOption) HasTableMetadata() bool {
-	return o != nil && o.TableMetadata != nil
-}
-
-// SetTableMetadata gets a reference to the given []interface{} and assigns it to the TableMetadata field.
-func (o *DmsOption) SetTableMetadata(v []interface{}) {
-	o.TableMetadata = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o DmsOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -190,9 +161,6 @@ func (o DmsOption) MarshalJSON() ([]byte, error) {
 	if o.DefaultAccount != nil {
 		toSerialize["defaultAccount"] = o.DefaultAccount
 	}
-	if o.TableMetadata != nil {
-		toSerialize["tableMetadata"] = o.TableMetadata
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -207,7 +175,6 @@ func (o *DmsOption) UnmarshalJSON(bytes []byte) (err error) {
 		Protocol       *string                `json:"protocol,omitempty"`
 		Feature        map[string]interface{} `json:"feature,omitempty"`
 		DefaultAccount *string                `json:"defaultAccount,omitempty"`
-		TableMetadata  []interface{}          `json:"tableMetadata,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -217,7 +184,7 @@ func (o *DmsOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"enabled", "protocol", "feature", "defaultAccount", "tableMetadata"})
+		common.DeleteKeys(additionalProperties, &[]string{"enabled", "protocol", "feature", "defaultAccount"})
 	} else {
 		return err
 	}
@@ -225,7 +192,6 @@ func (o *DmsOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Protocol = all.Protocol
 	o.Feature = all.Feature
 	o.DefaultAccount = all.DefaultAccount
-	o.TableMetadata = all.TableMetadata
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
