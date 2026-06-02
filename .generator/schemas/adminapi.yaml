@@ -29360,10 +29360,6 @@ components:
         defaultAccount:
           type: string
           x-nullable: true
-        tableMetadata:
-          type: array
-          items:
-            type: object
     parameters:
       type: object
       additionalProperties:
