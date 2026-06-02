@@ -14,8 +14,10 @@ type LogOption struct {
 	Component string `json:"component"`
 	Error     bool   `json:"error"`
 	Slow      bool   `json:"slow"`
-	Audit     bool   `json:"audit"`
-	Running   bool   `json:"running"`
+	// Whether slow log template is supported.
+	SlowTemplate *bool `json:"slowTemplate,omitempty"`
+	Audit        bool  `json:"audit"`
+	Running      bool  `json:"running"`
 	// SQL audit switch configuration. Either sql or parameter must be provided.
 	SqlAuditSwitch *SqlAuditSwitchOption `json:"sqlAuditSwitch,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -114,6 +116,34 @@ func (o *LogOption) SetSlow(v bool) {
 	o.Slow = v
 }
 
+// GetSlowTemplate returns the SlowTemplate field value if set, zero value otherwise.
+func (o *LogOption) GetSlowTemplate() bool {
+	if o == nil || o.SlowTemplate == nil {
+		var ret bool
+		return ret
+	}
+	return *o.SlowTemplate
+}
+
+// GetSlowTemplateOk returns a tuple with the SlowTemplate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *LogOption) GetSlowTemplateOk() (*bool, bool) {
+	if o == nil || o.SlowTemplate == nil {
+		return nil, false
+	}
+	return o.SlowTemplate, true
+}
+
+// HasSlowTemplate returns a boolean if a field has been set.
+func (o *LogOption) HasSlowTemplate() bool {
+	return o != nil && o.SlowTemplate != nil
+}
+
+// SetSlowTemplate gets a reference to the given bool and assigns it to the SlowTemplate field.
+func (o *LogOption) SetSlowTemplate(v bool) {
+	o.SlowTemplate = &v
+}
+
 // GetAudit returns the Audit field value.
 func (o *LogOption) GetAudit() bool {
 	if o == nil {
@@ -197,6 +227,9 @@ func (o LogOption) MarshalJSON() ([]byte, error) {
 	toSerialize["component"] = o.Component
 	toSerialize["error"] = o.Error
 	toSerialize["slow"] = o.Slow
+	if o.SlowTemplate != nil {
+		toSerialize["slowTemplate"] = o.SlowTemplate
+	}
 	toSerialize["audit"] = o.Audit
 	toSerialize["running"] = o.Running
 	if o.SqlAuditSwitch != nil {
@@ -215,6 +248,7 @@ func (o *LogOption) UnmarshalJSON(bytes []byte) (err error) {
 		Component      *string               `json:"component"`
 		Error          *bool                 `json:"error"`
 		Slow           *bool                 `json:"slow"`
+		SlowTemplate   *bool                 `json:"slowTemplate,omitempty"`
 		Audit          *bool                 `json:"audit"`
 		Running        *bool                 `json:"running"`
 		SqlAuditSwitch *SqlAuditSwitchOption `json:"sqlAuditSwitch,omitempty"`
@@ -239,7 +273,7 @@ func (o *LogOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "error", "slow", "audit", "running", "sqlAuditSwitch"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "error", "slow", "slowTemplate", "audit", "running", "sqlAuditSwitch"})
 	} else {
 		return err
 	}
@@ -248,6 +282,7 @@ func (o *LogOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Component = *all.Component
 	o.Error = *all.Error
 	o.Slow = *all.Slow
+	o.SlowTemplate = all.SlowTemplate
 	o.Audit = *all.Audit
 	o.Running = *all.Running
 	if all.SqlAuditSwitch != nil && all.SqlAuditSwitch.UnparsedObject != nil && o.UnparsedObject == nil {

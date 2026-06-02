@@ -20105,6 +20105,17 @@ components:
             $ref: '#/components/schemas/clusterExecutionLogAggregateItem'
         summary:
           $ref: '#/components/schemas/clusterExecutionLogAggregateSummary'
+    clusterSlowLogDatabaseDistribution:
+      type: object
+      description: Slow log count for a database
+      properties:
+        dbName:
+          type: string
+          x-omitempty: false
+        count:
+          type: integer
+          format: int64
+          x-omitempty: false
     clusterSlowLogStats:
       type: object
       description: Summary statistics for slow logs
@@ -20125,6 +20136,13 @@ components:
           type: integer
           format: int64
           x-nullable: true
+        databaseDistribution:
+          type: array
+          description: Slow log count distribution grouped by database. Null means the engine does not expose a stable database field.
+          x-nullable: true
+          x-omitempty: false
+          items:
+            $ref: '#/components/schemas/clusterSlowLogDatabaseDistribution'
     clusterLogHitsItem:
       type: object
       description: A single time bucket in the log hits histogram
@@ -20137,6 +20155,11 @@ components:
           type: integer
           format: int64
           x-omitempty: false
+        avgExecutionTime:
+          type: number
+          format: double
+          description: Average slow log execution time in seconds for this time bucket. Only returned for slow logs.
+          x-omitempty: true
     clusterLogHitsResponse:
       type: object
       description: Log hits histogram response with time-bucketed counts
@@ -23796,6 +23819,10 @@ components:
           type: boolean
         slow:
           type: boolean
+        slowTemplate:
+          type: boolean
+          description: Whether slow log template is supported.
+          x-omitempty: false
         audit:
           type: boolean
         running:
