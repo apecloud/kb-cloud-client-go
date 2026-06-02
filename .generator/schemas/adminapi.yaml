@@ -20913,7 +20913,7 @@ components:
       type: string
       enum:
         - text
-        - reasoning_summary
+        - reasoning_text
         - diagnosis_summary
         - tool_observation_summary
     aiAgentMessagePart:
@@ -21077,10 +21077,8 @@ components:
         - cloud.stream.connected
         - cloud.turn.started
         - message.delta
-        - message.interim
         - cloud.assistant.message.completed
         - reasoning.available
-        - status.message
         - agent.step
         - tool.generating
         - tool.started

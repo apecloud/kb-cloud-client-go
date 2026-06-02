@@ -15,14 +15,14 @@ type AiAgentMessagePartType string
 // List of AiAgentMessagePartType.
 const (
 	AiAgentMessagePartTypeText                   AiAgentMessagePartType = "text"
-	AiAgentMessagePartTypeReasoningSummary       AiAgentMessagePartType = "reasoning_summary"
+	AiAgentMessagePartTypeReasoningText          AiAgentMessagePartType = "reasoning_text"
 	AiAgentMessagePartTypeDiagnosisSummary       AiAgentMessagePartType = "diagnosis_summary"
 	AiAgentMessagePartTypeToolObservationSummary AiAgentMessagePartType = "tool_observation_summary"
 )
 
 var allowedAiAgentMessagePartTypeEnumValues = []AiAgentMessagePartType{
 	AiAgentMessagePartTypeText,
-	AiAgentMessagePartTypeReasoningSummary,
+	AiAgentMessagePartTypeReasoningText,
 	AiAgentMessagePartTypeDiagnosisSummary,
 	AiAgentMessagePartTypeToolObservationSummary,
 }

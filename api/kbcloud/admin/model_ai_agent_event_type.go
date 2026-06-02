@@ -18,10 +18,8 @@ const (
 	AiAgentEventTypeCloudStreamConnected           AiAgentEventType = "cloud.stream.connected"
 	AiAgentEventTypeCloudTurnStarted               AiAgentEventType = "cloud.turn.started"
 	AiAgentEventTypeMessageDelta                   AiAgentEventType = "message.delta"
-	AiAgentEventTypeMessageInterim                 AiAgentEventType = "message.interim"
 	AiAgentEventTypeCloudAssistantMessageCompleted AiAgentEventType = "cloud.assistant.message.completed"
 	AiAgentEventTypeReasoningAvailable             AiAgentEventType = "reasoning.available"
-	AiAgentEventTypeStatusMessage                  AiAgentEventType = "status.message"
 	AiAgentEventTypeAgentStep                      AiAgentEventType = "agent.step"
 	AiAgentEventTypeToolGenerating                 AiAgentEventType = "tool.generating"
 	AiAgentEventTypeToolStarted                    AiAgentEventType = "tool.started"
@@ -38,10 +36,8 @@ var allowedAiAgentEventTypeEnumValues = []AiAgentEventType{
 	AiAgentEventTypeCloudStreamConnected,
 	AiAgentEventTypeCloudTurnStarted,
 	AiAgentEventTypeMessageDelta,
-	AiAgentEventTypeMessageInterim,
 	AiAgentEventTypeCloudAssistantMessageCompleted,
 	AiAgentEventTypeReasoningAvailable,
-	AiAgentEventTypeStatusMessage,
 	AiAgentEventTypeAgentStep,
 	AiAgentEventTypeToolGenerating,
 	AiAgentEventTypeToolStarted,
