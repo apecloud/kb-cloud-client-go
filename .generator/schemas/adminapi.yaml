@@ -3028,9 +3028,8 @@ paths:
     get:
       tags:
         - diagnostics
-        - shared
       summary: Get PostgreSQL session diagnostics
-      description: Get read-only PostgreSQL session diagnostics for a cluster.
+      description: Get PostgreSQL session diagnostics for a cluster.
       operationId: getDiagnosticsPostgresqlSessions
       parameters:
         - name: orgName

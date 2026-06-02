@@ -35,7 +35,7 @@ func (r *GetDiagnosticsPostgresqlSessionsOptionalParameters) WithLimit(limit int
 }
 
 // GetDiagnosticsPostgresqlSessions Get PostgreSQL session diagnostics.
-// Get read-only PostgreSQL session diagnostics for a cluster.
+// Get PostgreSQL session diagnostics for a cluster.
 func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSessions(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsPostgresqlSessionsOptionalParameters) ([]PostgresqlSession, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
