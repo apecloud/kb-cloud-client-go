@@ -25125,6 +25125,11 @@ components:
           type: integer
           format: int64
           x-omitempty: false
+        avgExecutionTime:
+          type: number
+          format: double
+          description: Average slow log execution time in seconds for this time bucket. Only returned for slow logs.
+          x-omitempty: true
     clusterLogHitsResponse:
       type: object
       description: Log hits histogram response with time-bucketed counts

@@ -10,6 +10,8 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 type ClusterLogHitsItem struct {
 	Timestamp *int64 `json:"timestamp,omitempty"`
 	Count     *int64 `json:"count,omitempty"`
+	// Average slow log execution time in seconds for this time bucket. Only returned for slow logs.
+	AvgExecutionTime *float64 `json:"avgExecutionTime,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -88,6 +90,34 @@ func (o *ClusterLogHitsItem) SetCount(v int64) {
 	o.Count = &v
 }
 
+// GetAvgExecutionTime returns the AvgExecutionTime field value if set, zero value otherwise.
+func (o *ClusterLogHitsItem) GetAvgExecutionTime() float64 {
+	if o == nil || o.AvgExecutionTime == nil {
+		var ret float64
+		return ret
+	}
+	return *o.AvgExecutionTime
+}
+
+// GetAvgExecutionTimeOk returns a tuple with the AvgExecutionTime field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterLogHitsItem) GetAvgExecutionTimeOk() (*float64, bool) {
+	if o == nil || o.AvgExecutionTime == nil {
+		return nil, false
+	}
+	return o.AvgExecutionTime, true
+}
+
+// HasAvgExecutionTime returns a boolean if a field has been set.
+func (o *ClusterLogHitsItem) HasAvgExecutionTime() bool {
+	return o != nil && o.AvgExecutionTime != nil
+}
+
+// SetAvgExecutionTime gets a reference to the given float64 and assigns it to the AvgExecutionTime field.
+func (o *ClusterLogHitsItem) SetAvgExecutionTime(v float64) {
+	o.AvgExecutionTime = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterLogHitsItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -100,6 +130,9 @@ func (o ClusterLogHitsItem) MarshalJSON() ([]byte, error) {
 	if o.Count != nil {
 		toSerialize["count"] = o.Count
 	}
+	if o.AvgExecutionTime != nil {
+		toSerialize["avgExecutionTime"] = o.AvgExecutionTime
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -110,20 +143,22 @@ func (o ClusterLogHitsItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterLogHitsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Timestamp *int64 `json:"timestamp,omitempty"`
-		Count     *int64 `json:"count,omitempty"`
+		Timestamp        *int64   `json:"timestamp,omitempty"`
+		Count            *int64   `json:"count,omitempty"`
+		AvgExecutionTime *float64 `json:"avgExecutionTime,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"timestamp", "count"})
+		common.DeleteKeys(additionalProperties, &[]string{"timestamp", "count", "avgExecutionTime"})
 	} else {
 		return err
 	}
 	o.Timestamp = all.Timestamp
 	o.Count = all.Count
+	o.AvgExecutionTime = all.AvgExecutionTime
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
