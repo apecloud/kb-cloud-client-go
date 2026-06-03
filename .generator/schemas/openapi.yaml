@@ -13454,6 +13454,53 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/data/postgresql/organizations/{orgName}/clusters/{clusterName}/sessions:
+    get:
+      tags:
+        - postgresql
+        - session
+      summary: List PostgreSQL realtime sessions
+      description: List PostgreSQL realtime sessions with SQL summaries and digests.
+      operationId: listPostgresqlRealtimeSessions
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum sessions to return. Defaults to 200 and is capped at 500.
+          required: false
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 500
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/postgresqlSession'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/data/postgresql/organizations/{orgName}/clusters/{clusterName}/extensions:
     get:
       summary: List PostgreSQL extensions
@@ -28046,6 +28093,62 @@ components:
       required:
         - enable
         - disable
+    postgresqlSession:
+      type: object
+      required:
+        - pid
+        - user
+        - database
+        - client
+        - application
+        - state
+        - waitEventType
+        - waitEvent
+        - durationSeconds
+        - xactDurationSeconds
+        - queryDigest
+        - querySummary
+        - backendType
+      properties:
+        pid:
+          type: integer
+          format: int64
+        user:
+          type: string
+        database:
+          type: string
+        client:
+          type: string
+          description: Client address and port.
+        application:
+          type: string
+        state:
+          type: string
+        waitEventType:
+          type: string
+        waitEvent:
+          type: string
+        backendStart:
+          type: string
+          description: Backend start timestamp if available.
+        queryStart:
+          type: string
+          description: Query start timestamp if available.
+        xactStart:
+          type: string
+          description: Transaction start timestamp if available.
+        durationSeconds:
+          type: integer
+          format: int64
+        xactDurationSeconds:
+          type: integer
+          format: int64
+        queryDigest:
+          type: string
+        querySummary:
+          type: string
+        backendType:
+          type: string
     PgExtensionAvailableDatabaseSchema:
       type: object
       properties:

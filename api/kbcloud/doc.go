@@ -380,6 +380,7 @@
 //   - [postgresqlApi.createPGExtension]
 //   - [postgresqlApi.dropPGExtension]
 //   - [postgresqlApi.listPGExtensions]
+//   - [postgresqlApi.listPostgresqlRealtimeSessions]
 //   - [pricingApi.getEnvironmentPricing]
 //   - [pricingApi.getGlobalPricing]
 //   - [projectApi.listProjects]
