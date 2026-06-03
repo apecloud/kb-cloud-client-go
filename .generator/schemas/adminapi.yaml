@@ -4776,6 +4776,39 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases:
+    get:
+      tags:
+        - dms
+        - shared
+      operationId: listDmsDatabases
+      summary: list all databases of the datasource
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of the datasource
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsSchemaList'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/schemas:
     get:
       tags:
@@ -4800,6 +4833,12 @@ paths:
           in: path
           description: id of the datasource
           required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: database name, used by engines such as MSSQL when listing schemas inside a database
+          required: false
           schema:
             type: string
       responses:
@@ -4839,6 +4878,12 @@ paths:
           in: path
           description: schema or database name
           required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: database name, used by engines such as MSSQL when listing objects inside a schema
+          required: false
           schema:
             type: string
       responses:
@@ -4884,6 +4929,12 @@ paths:
           in: path
           description: object type
           required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: database name, used by engines such as MSSQL when listing object names inside a schema
+          required: false
           schema:
             type: string
       responses:
@@ -4935,6 +4986,12 @@ paths:
           in: path
           description: object name
           required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: database name, used by engines such as MSSQL when reading object metadata inside a schema
+          required: false
           schema:
             type: string
       responses:

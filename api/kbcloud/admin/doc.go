@@ -216,6 +216,7 @@
 //   - [dmsApi.getMongoCollection]
 //   - [dmsApi.getSchemaList]
 //   - [dmsApi.listDataSourceV2]
+//   - [dmsApi.listDmsDatabases]
 //   - [dmsApi.listMongoCollections]
 //   - [dmsApi.listMongoDatabaseMetadata]
 //   - [dmsApi.listMongoDatabases]
