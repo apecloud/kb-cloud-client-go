@@ -11,7 +11,7 @@ import (
 )
 
 type EnvironmentEngineOptionUpdate struct {
-	// network modes to update
+	// environment engine option to update
 	NetworkModes []string `json:"networkModes"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

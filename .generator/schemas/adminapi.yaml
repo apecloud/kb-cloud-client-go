@@ -36135,7 +36135,7 @@ components:
           type: array
           items:
             type: string
-          description: network modes to update
+          description: environment engine option to update
     engineNetworkModeSupported:
       type: object
       properties:
