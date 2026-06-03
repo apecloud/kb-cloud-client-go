@@ -12,6 +12,8 @@ type ClusterSlowLogStats struct {
 	AvgExecutionTime *float64 `json:"avgExecutionTime,omitempty"`
 	P95Latency       *float64 `json:"p95Latency,omitempty"`
 	ActiveDBs        *int64   `json:"activeDBs,omitempty"`
+	// Slow log count distribution grouped by database. Null means the engine does not expose a stable database field.
+	DatabaseDistribution []ClusterSlowLogDatabaseDistribution `json:"databaseDistribution,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -146,6 +148,34 @@ func (o *ClusterSlowLogStats) SetActiveDBs(v int64) {
 	o.ActiveDBs = &v
 }
 
+// GetDatabaseDistribution returns the DatabaseDistribution field value if set, zero value otherwise.
+func (o *ClusterSlowLogStats) GetDatabaseDistribution() []ClusterSlowLogDatabaseDistribution {
+	if o == nil || o.DatabaseDistribution == nil {
+		var ret []ClusterSlowLogDatabaseDistribution
+		return ret
+	}
+	return o.DatabaseDistribution
+}
+
+// GetDatabaseDistributionOk returns a tuple with the DatabaseDistribution field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterSlowLogStats) GetDatabaseDistributionOk() (*[]ClusterSlowLogDatabaseDistribution, bool) {
+	if o == nil || o.DatabaseDistribution == nil {
+		return nil, false
+	}
+	return &o.DatabaseDistribution, true
+}
+
+// HasDatabaseDistribution returns a boolean if a field has been set.
+func (o *ClusterSlowLogStats) HasDatabaseDistribution() bool {
+	return o != nil && o.DatabaseDistribution != nil
+}
+
+// SetDatabaseDistribution gets a reference to the given []ClusterSlowLogDatabaseDistribution and assigns it to the DatabaseDistribution field.
+func (o *ClusterSlowLogStats) SetDatabaseDistribution(v []ClusterSlowLogDatabaseDistribution) {
+	o.DatabaseDistribution = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterSlowLogStats) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -164,6 +194,9 @@ func (o ClusterSlowLogStats) MarshalJSON() ([]byte, error) {
 	if o.ActiveDBs != nil {
 		toSerialize["activeDBs"] = o.ActiveDBs
 	}
+	if o.DatabaseDistribution != nil {
+		toSerialize["databaseDistribution"] = o.DatabaseDistribution
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -174,17 +207,18 @@ func (o ClusterSlowLogStats) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterSlowLogStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		TotalSlowLogs    *int64   `json:"totalSlowLogs,omitempty"`
-		AvgExecutionTime *float64 `json:"avgExecutionTime,omitempty"`
-		P95Latency       *float64 `json:"p95Latency,omitempty"`
-		ActiveDBs        *int64   `json:"activeDBs,omitempty"`
+		TotalSlowLogs        *int64                               `json:"totalSlowLogs,omitempty"`
+		AvgExecutionTime     *float64                             `json:"avgExecutionTime,omitempty"`
+		P95Latency           *float64                             `json:"p95Latency,omitempty"`
+		ActiveDBs            *int64                               `json:"activeDBs,omitempty"`
+		DatabaseDistribution []ClusterSlowLogDatabaseDistribution `json:"databaseDistribution,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"totalSlowLogs", "avgExecutionTime", "p95Latency", "activeDBs"})
+		common.DeleteKeys(additionalProperties, &[]string{"totalSlowLogs", "avgExecutionTime", "p95Latency", "activeDBs", "databaseDistribution"})
 	} else {
 		return err
 	}
@@ -192,6 +226,7 @@ func (o *ClusterSlowLogStats) UnmarshalJSON(bytes []byte) (err error) {
 	o.AvgExecutionTime = all.AvgExecutionTime
 	o.P95Latency = all.P95Latency
 	o.ActiveDBs = all.ActiveDBs
+	o.DatabaseDistribution = all.DatabaseDistribution
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
