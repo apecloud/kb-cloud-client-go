@@ -12,7 +12,7 @@ import (
 	"github.com/google/uuid"
 )
 
-type EngineNetworkMode struct {
+type EnvironmentEngineOption struct {
 	// record id
 	Id string `json:"id"`
 	// engine name
@@ -34,12 +34,12 @@ type EngineNetworkMode struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewEngineNetworkMode instantiates a new EngineNetworkMode object.
+// NewEnvironmentEngineOption instantiates a new EnvironmentEngineOption object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineNetworkMode(id string, engineName string, mode string, networkModes []string, envId uuid.UUID, envName string) *EngineNetworkMode {
-	this := EngineNetworkMode{}
+func NewEnvironmentEngineOption(id string, engineName string, mode string, networkModes []string, envId uuid.UUID, envName string) *EnvironmentEngineOption {
+	this := EnvironmentEngineOption{}
 	this.Id = id
 	this.EngineName = engineName
 	this.Mode = mode
@@ -49,16 +49,16 @@ func NewEngineNetworkMode(id string, engineName string, mode string, networkMode
 	return &this
 }
 
-// NewEngineNetworkModeWithDefaults instantiates a new EngineNetworkMode object.
+// NewEnvironmentEngineOptionWithDefaults instantiates a new EnvironmentEngineOption object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewEngineNetworkModeWithDefaults() *EngineNetworkMode {
-	this := EngineNetworkMode{}
+func NewEnvironmentEngineOptionWithDefaults() *EnvironmentEngineOption {
+	this := EnvironmentEngineOption{}
 	return &this
 }
 
 // GetId returns the Id field value.
-func (o *EngineNetworkMode) GetId() string {
+func (o *EnvironmentEngineOption) GetId() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -68,7 +68,7 @@ func (o *EngineNetworkMode) GetId() string {
 
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
-func (o *EngineNetworkMode) GetIdOk() (*string, bool) {
+func (o *EnvironmentEngineOption) GetIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -76,12 +76,12 @@ func (o *EngineNetworkMode) GetIdOk() (*string, bool) {
 }
 
 // SetId sets field value.
-func (o *EngineNetworkMode) SetId(v string) {
+func (o *EnvironmentEngineOption) SetId(v string) {
 	o.Id = v
 }
 
 // GetEngineName returns the EngineName field value.
-func (o *EngineNetworkMode) GetEngineName() string {
+func (o *EnvironmentEngineOption) GetEngineName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -91,7 +91,7 @@ func (o *EngineNetworkMode) GetEngineName() string {
 
 // GetEngineNameOk returns a tuple with the EngineName field value
 // and a boolean to check if the value has been set.
-func (o *EngineNetworkMode) GetEngineNameOk() (*string, bool) {
+func (o *EnvironmentEngineOption) GetEngineNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -99,12 +99,12 @@ func (o *EngineNetworkMode) GetEngineNameOk() (*string, bool) {
 }
 
 // SetEngineName sets field value.
-func (o *EngineNetworkMode) SetEngineName(v string) {
+func (o *EnvironmentEngineOption) SetEngineName(v string) {
 	o.EngineName = v
 }
 
 // GetMode returns the Mode field value.
-func (o *EngineNetworkMode) GetMode() string {
+func (o *EnvironmentEngineOption) GetMode() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -114,7 +114,7 @@ func (o *EngineNetworkMode) GetMode() string {
 
 // GetModeOk returns a tuple with the Mode field value
 // and a boolean to check if the value has been set.
-func (o *EngineNetworkMode) GetModeOk() (*string, bool) {
+func (o *EnvironmentEngineOption) GetModeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -122,12 +122,12 @@ func (o *EngineNetworkMode) GetModeOk() (*string, bool) {
 }
 
 // SetMode sets field value.
-func (o *EngineNetworkMode) SetMode(v string) {
+func (o *EnvironmentEngineOption) SetMode(v string) {
 	o.Mode = v
 }
 
 // GetNetworkModes returns the NetworkModes field value.
-func (o *EngineNetworkMode) GetNetworkModes() []string {
+func (o *EnvironmentEngineOption) GetNetworkModes() []string {
 	if o == nil {
 		var ret []string
 		return ret
@@ -137,7 +137,7 @@ func (o *EngineNetworkMode) GetNetworkModes() []string {
 
 // GetNetworkModesOk returns a tuple with the NetworkModes field value
 // and a boolean to check if the value has been set.
-func (o *EngineNetworkMode) GetNetworkModesOk() (*[]string, bool) {
+func (o *EnvironmentEngineOption) GetNetworkModesOk() (*[]string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -145,12 +145,12 @@ func (o *EngineNetworkMode) GetNetworkModesOk() (*[]string, bool) {
 }
 
 // SetNetworkModes sets field value.
-func (o *EngineNetworkMode) SetNetworkModes(v []string) {
+func (o *EnvironmentEngineOption) SetNetworkModes(v []string) {
 	o.NetworkModes = v
 }
 
 // GetEnvId returns the EnvId field value.
-func (o *EngineNetworkMode) GetEnvId() uuid.UUID {
+func (o *EnvironmentEngineOption) GetEnvId() uuid.UUID {
 	if o == nil {
 		var ret uuid.UUID
 		return ret
@@ -160,7 +160,7 @@ func (o *EngineNetworkMode) GetEnvId() uuid.UUID {
 
 // GetEnvIdOk returns a tuple with the EnvId field value
 // and a boolean to check if the value has been set.
-func (o *EngineNetworkMode) GetEnvIdOk() (*uuid.UUID, bool) {
+func (o *EnvironmentEngineOption) GetEnvIdOk() (*uuid.UUID, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -168,12 +168,12 @@ func (o *EngineNetworkMode) GetEnvIdOk() (*uuid.UUID, bool) {
 }
 
 // SetEnvId sets field value.
-func (o *EngineNetworkMode) SetEnvId(v uuid.UUID) {
+func (o *EnvironmentEngineOption) SetEnvId(v uuid.UUID) {
 	o.EnvId = v
 }
 
 // GetEnvName returns the EnvName field value.
-func (o *EngineNetworkMode) GetEnvName() string {
+func (o *EnvironmentEngineOption) GetEnvName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -183,7 +183,7 @@ func (o *EngineNetworkMode) GetEnvName() string {
 
 // GetEnvNameOk returns a tuple with the EnvName field value
 // and a boolean to check if the value has been set.
-func (o *EngineNetworkMode) GetEnvNameOk() (*string, bool) {
+func (o *EnvironmentEngineOption) GetEnvNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -191,12 +191,12 @@ func (o *EngineNetworkMode) GetEnvNameOk() (*string, bool) {
 }
 
 // SetEnvName sets field value.
-func (o *EngineNetworkMode) SetEnvName(v string) {
+func (o *EnvironmentEngineOption) SetEnvName(v string) {
 	o.EnvName = v
 }
 
 // GetCreateTime returns the CreateTime field value if set, zero value otherwise.
-func (o *EngineNetworkMode) GetCreateTime() time.Time {
+func (o *EnvironmentEngineOption) GetCreateTime() time.Time {
 	if o == nil || o.CreateTime == nil {
 		var ret time.Time
 		return ret
@@ -206,7 +206,7 @@ func (o *EngineNetworkMode) GetCreateTime() time.Time {
 
 // GetCreateTimeOk returns a tuple with the CreateTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EngineNetworkMode) GetCreateTimeOk() (*time.Time, bool) {
+func (o *EnvironmentEngineOption) GetCreateTimeOk() (*time.Time, bool) {
 	if o == nil || o.CreateTime == nil {
 		return nil, false
 	}
@@ -214,17 +214,17 @@ func (o *EngineNetworkMode) GetCreateTimeOk() (*time.Time, bool) {
 }
 
 // HasCreateTime returns a boolean if a field has been set.
-func (o *EngineNetworkMode) HasCreateTime() bool {
+func (o *EnvironmentEngineOption) HasCreateTime() bool {
 	return o != nil && o.CreateTime != nil
 }
 
 // SetCreateTime gets a reference to the given time.Time and assigns it to the CreateTime field.
-func (o *EngineNetworkMode) SetCreateTime(v time.Time) {
+func (o *EnvironmentEngineOption) SetCreateTime(v time.Time) {
 	o.CreateTime = &v
 }
 
 // GetUpdateTime returns the UpdateTime field value if set, zero value otherwise.
-func (o *EngineNetworkMode) GetUpdateTime() time.Time {
+func (o *EnvironmentEngineOption) GetUpdateTime() time.Time {
 	if o == nil || o.UpdateTime == nil {
 		var ret time.Time
 		return ret
@@ -234,7 +234,7 @@ func (o *EngineNetworkMode) GetUpdateTime() time.Time {
 
 // GetUpdateTimeOk returns a tuple with the UpdateTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EngineNetworkMode) GetUpdateTimeOk() (*time.Time, bool) {
+func (o *EnvironmentEngineOption) GetUpdateTimeOk() (*time.Time, bool) {
 	if o == nil || o.UpdateTime == nil {
 		return nil, false
 	}
@@ -242,17 +242,17 @@ func (o *EngineNetworkMode) GetUpdateTimeOk() (*time.Time, bool) {
 }
 
 // HasUpdateTime returns a boolean if a field has been set.
-func (o *EngineNetworkMode) HasUpdateTime() bool {
+func (o *EnvironmentEngineOption) HasUpdateTime() bool {
 	return o != nil && o.UpdateTime != nil
 }
 
 // SetUpdateTime gets a reference to the given time.Time and assigns it to the UpdateTime field.
-func (o *EngineNetworkMode) SetUpdateTime(v time.Time) {
+func (o *EnvironmentEngineOption) SetUpdateTime(v time.Time) {
 	o.UpdateTime = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o EngineNetworkMode) MarshalJSON() ([]byte, error) {
+func (o EnvironmentEngineOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -285,7 +285,7 @@ func (o EngineNetworkMode) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *EngineNetworkMode) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EnvironmentEngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Id           *string    `json:"id"`
 		EngineName   *string    `json:"engineName"`

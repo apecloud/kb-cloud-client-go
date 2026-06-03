@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type EngineNetworkModeCreate struct {
+type EnvironmentEngineOptionCreate struct {
 	// engine name
 	EngineName string `json:"engineName"`
 	// engine mode
@@ -22,28 +22,28 @@ type EngineNetworkModeCreate struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewEngineNetworkModeCreate instantiates a new EngineNetworkModeCreate object.
+// NewEnvironmentEngineOptionCreate instantiates a new EnvironmentEngineOptionCreate object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineNetworkModeCreate(engineName string, mode string, networkModes []string) *EngineNetworkModeCreate {
-	this := EngineNetworkModeCreate{}
+func NewEnvironmentEngineOptionCreate(engineName string, mode string, networkModes []string) *EnvironmentEngineOptionCreate {
+	this := EnvironmentEngineOptionCreate{}
 	this.EngineName = engineName
 	this.Mode = mode
 	this.NetworkModes = networkModes
 	return &this
 }
 
-// NewEngineNetworkModeCreateWithDefaults instantiates a new EngineNetworkModeCreate object.
+// NewEnvironmentEngineOptionCreateWithDefaults instantiates a new EnvironmentEngineOptionCreate object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewEngineNetworkModeCreateWithDefaults() *EngineNetworkModeCreate {
-	this := EngineNetworkModeCreate{}
+func NewEnvironmentEngineOptionCreateWithDefaults() *EnvironmentEngineOptionCreate {
+	this := EnvironmentEngineOptionCreate{}
 	return &this
 }
 
 // GetEngineName returns the EngineName field value.
-func (o *EngineNetworkModeCreate) GetEngineName() string {
+func (o *EnvironmentEngineOptionCreate) GetEngineName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -53,7 +53,7 @@ func (o *EngineNetworkModeCreate) GetEngineName() string {
 
 // GetEngineNameOk returns a tuple with the EngineName field value
 // and a boolean to check if the value has been set.
-func (o *EngineNetworkModeCreate) GetEngineNameOk() (*string, bool) {
+func (o *EnvironmentEngineOptionCreate) GetEngineNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -61,12 +61,12 @@ func (o *EngineNetworkModeCreate) GetEngineNameOk() (*string, bool) {
 }
 
 // SetEngineName sets field value.
-func (o *EngineNetworkModeCreate) SetEngineName(v string) {
+func (o *EnvironmentEngineOptionCreate) SetEngineName(v string) {
 	o.EngineName = v
 }
 
 // GetMode returns the Mode field value.
-func (o *EngineNetworkModeCreate) GetMode() string {
+func (o *EnvironmentEngineOptionCreate) GetMode() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -76,7 +76,7 @@ func (o *EngineNetworkModeCreate) GetMode() string {
 
 // GetModeOk returns a tuple with the Mode field value
 // and a boolean to check if the value has been set.
-func (o *EngineNetworkModeCreate) GetModeOk() (*string, bool) {
+func (o *EnvironmentEngineOptionCreate) GetModeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -84,12 +84,12 @@ func (o *EngineNetworkModeCreate) GetModeOk() (*string, bool) {
 }
 
 // SetMode sets field value.
-func (o *EngineNetworkModeCreate) SetMode(v string) {
+func (o *EnvironmentEngineOptionCreate) SetMode(v string) {
 	o.Mode = v
 }
 
 // GetNetworkModes returns the NetworkModes field value.
-func (o *EngineNetworkModeCreate) GetNetworkModes() []string {
+func (o *EnvironmentEngineOptionCreate) GetNetworkModes() []string {
 	if o == nil {
 		var ret []string
 		return ret
@@ -99,7 +99,7 @@ func (o *EngineNetworkModeCreate) GetNetworkModes() []string {
 
 // GetNetworkModesOk returns a tuple with the NetworkModes field value
 // and a boolean to check if the value has been set.
-func (o *EngineNetworkModeCreate) GetNetworkModesOk() (*[]string, bool) {
+func (o *EnvironmentEngineOptionCreate) GetNetworkModesOk() (*[]string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -107,12 +107,12 @@ func (o *EngineNetworkModeCreate) GetNetworkModesOk() (*[]string, bool) {
 }
 
 // SetNetworkModes sets field value.
-func (o *EngineNetworkModeCreate) SetNetworkModes(v []string) {
+func (o *EnvironmentEngineOptionCreate) SetNetworkModes(v []string) {
 	o.NetworkModes = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o EngineNetworkModeCreate) MarshalJSON() ([]byte, error) {
+func (o EnvironmentEngineOptionCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -128,7 +128,7 @@ func (o EngineNetworkModeCreate) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *EngineNetworkModeCreate) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EnvironmentEngineOptionCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		EngineName   *string   `json:"engineName"`
 		Mode         *string   `json:"mode"`

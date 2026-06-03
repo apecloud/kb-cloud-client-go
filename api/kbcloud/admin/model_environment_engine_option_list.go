@@ -6,32 +6,32 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type EngineNetworkModeList struct {
-	Items []EngineNetworkMode
+type EnvironmentEngineOptionList struct {
+	Items []EnvironmentEngineOption
 
 	// UnparsedObject contains the raw value of the array if there was an error when deserializing into the struct
 	UnparsedObject []interface{} `json:"-"`
 }
 
-// NewEngineNetworkModeList instantiates a new EngineNetworkModeList object.
+// NewEnvironmentEngineOptionList instantiates a new EnvironmentEngineOptionList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineNetworkModeList() *EngineNetworkModeList {
-	this := EngineNetworkModeList{}
+func NewEnvironmentEngineOptionList() *EnvironmentEngineOptionList {
+	this := EnvironmentEngineOptionList{}
 	return &this
 }
 
-// NewEngineNetworkModeListWithDefaults instantiates a new EngineNetworkModeList object.
+// NewEnvironmentEngineOptionListWithDefaults instantiates a new EnvironmentEngineOptionList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewEngineNetworkModeListWithDefaults() *EngineNetworkModeList {
-	this := EngineNetworkModeList{}
+func NewEnvironmentEngineOptionListWithDefaults() *EnvironmentEngineOptionList {
+	this := EnvironmentEngineOptionList{}
 	return &this
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o EngineNetworkModeList) MarshalJSON() ([]byte, error) {
+func (o EnvironmentEngineOptionList) MarshalJSON() ([]byte, error) {
 	toSerialize := make([]interface{}, len(o.Items))
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -43,7 +43,7 @@ func (o EngineNetworkModeList) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *EngineNetworkModeList) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EnvironmentEngineOptionList) UnmarshalJSON(bytes []byte) (err error) {
 	if err = common.Unmarshal(bytes, &o.Items); err != nil {
 		return err
 	}

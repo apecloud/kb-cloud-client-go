@@ -20311,8 +20311,8 @@ paths:
     get:
       tags:
         - engine
-      operationId: listEngineNetworkModes
-      summary: List engine network modes
+      operationId: listEnvironmentEngineOptions
+      summary: List environment engine options
       parameters:
         - name: environmentName
           in: path
@@ -20338,7 +20338,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/engineNetworkModeList'
+                $ref: '#/components/schemas/environmentEngineOptionList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -20346,8 +20346,8 @@ paths:
     post:
       tags:
         - engine
-      operationId: createEngineNetworkMode
-      summary: Create engine network mode
+      operationId: createEnvironmentEngineOption
+      summary: Create environment engine option
       parameters:
         - name: environmentName
           in: path
@@ -20359,7 +20359,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/engineNetworkModeCreate'
+              $ref: '#/components/schemas/environmentEngineOptionCreate'
         required: true
       responses:
         '200':
@@ -20367,7 +20367,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/engineNetworkMode'
+                $ref: '#/components/schemas/environmentEngineOption'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -20375,12 +20375,12 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       x-codegen-request-body-name: body
-  /admin/v1/environments/{environmentName}/engineOptions/{id}:
+  /admin/v1/environments/{environmentName}/engineOption/{id}:
     delete:
       tags:
         - engine
-      operationId: deleteEngineNetworkMode
-      summary: Delete engine network mode
+      operationId: deleteEnvironmentEngineOption
+      summary: Delete environment engine option
       parameters:
         - name: environmentName
           in: path
@@ -20390,7 +20390,7 @@ paths:
             type: string
         - name: id
           in: path
-          description: engine network mode record id
+          description: engine environment engine option id
           required: true
           schema:
             type: string
@@ -20406,8 +20406,8 @@ paths:
     put:
       tags:
         - engine
-      operationId: updateEngineNetworkMode
-      summary: Update engine network mode
+      operationId: updateEnvironmentEngineOption
+      summary: Update environment engine option
       parameters:
         - name: environmentName
           in: path
@@ -20417,7 +20417,7 @@ paths:
             type: string
         - name: id
           in: path
-          description: engine network mode record id
+          description: engine environment engine option record id
           required: true
           schema:
             type: string
@@ -20425,7 +20425,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/engineNetworkModeUpdate'
+              $ref: '#/components/schemas/environmentEngineOptionUpdate'
         required: true
       responses:
         '200':
@@ -20433,7 +20433,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/engineNetworkMode'
+                $ref: '#/components/schemas/environmentEngineOption'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -36065,7 +36065,7 @@ components:
         - engineMode
         - targetSelector
         - schedulingPolicyType
-    engineNetworkMode:
+    environmentEngineOption:
       type: object
       required:
         - id
@@ -36104,11 +36104,11 @@ components:
           type: string
           format: date-time
           description: update time
-    engineNetworkModeList:
+    environmentEngineOptionList:
       type: array
       items:
-        $ref: '#/components/schemas/engineNetworkMode'
-    engineNetworkModeCreate:
+        $ref: '#/components/schemas/environmentEngineOption'
+    environmentEngineOptionCreate:
       type: object
       required:
         - engineName
@@ -36126,7 +36126,7 @@ components:
           items:
             type: string
           description: network modes
-    engineNetworkModeUpdate:
+    environmentEngineOptionUpdate:
       type: object
       required:
         - networkModes

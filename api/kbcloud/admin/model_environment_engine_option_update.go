@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type EngineNetworkModeUpdate struct {
+type EnvironmentEngineOptionUpdate struct {
 	// network modes to update
 	NetworkModes []string `json:"networkModes"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -18,26 +18,26 @@ type EngineNetworkModeUpdate struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewEngineNetworkModeUpdate instantiates a new EngineNetworkModeUpdate object.
+// NewEnvironmentEngineOptionUpdate instantiates a new EnvironmentEngineOptionUpdate object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineNetworkModeUpdate(networkModes []string) *EngineNetworkModeUpdate {
-	this := EngineNetworkModeUpdate{}
+func NewEnvironmentEngineOptionUpdate(networkModes []string) *EnvironmentEngineOptionUpdate {
+	this := EnvironmentEngineOptionUpdate{}
 	this.NetworkModes = networkModes
 	return &this
 }
 
-// NewEngineNetworkModeUpdateWithDefaults instantiates a new EngineNetworkModeUpdate object.
+// NewEnvironmentEngineOptionUpdateWithDefaults instantiates a new EnvironmentEngineOptionUpdate object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewEngineNetworkModeUpdateWithDefaults() *EngineNetworkModeUpdate {
-	this := EngineNetworkModeUpdate{}
+func NewEnvironmentEngineOptionUpdateWithDefaults() *EnvironmentEngineOptionUpdate {
+	this := EnvironmentEngineOptionUpdate{}
 	return &this
 }
 
 // GetNetworkModes returns the NetworkModes field value.
-func (o *EngineNetworkModeUpdate) GetNetworkModes() []string {
+func (o *EnvironmentEngineOptionUpdate) GetNetworkModes() []string {
 	if o == nil {
 		var ret []string
 		return ret
@@ -47,7 +47,7 @@ func (o *EngineNetworkModeUpdate) GetNetworkModes() []string {
 
 // GetNetworkModesOk returns a tuple with the NetworkModes field value
 // and a boolean to check if the value has been set.
-func (o *EngineNetworkModeUpdate) GetNetworkModesOk() (*[]string, bool) {
+func (o *EnvironmentEngineOptionUpdate) GetNetworkModesOk() (*[]string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -55,12 +55,12 @@ func (o *EngineNetworkModeUpdate) GetNetworkModesOk() (*[]string, bool) {
 }
 
 // SetNetworkModes sets field value.
-func (o *EngineNetworkModeUpdate) SetNetworkModes(v []string) {
+func (o *EnvironmentEngineOptionUpdate) SetNetworkModes(v []string) {
 	o.NetworkModes = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o EngineNetworkModeUpdate) MarshalJSON() ([]byte, error) {
+func (o EnvironmentEngineOptionUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -74,7 +74,7 @@ func (o EngineNetworkModeUpdate) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *EngineNetworkModeUpdate) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EnvironmentEngineOptionUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		NetworkModes *[]string `json:"networkModes"`
 	}{}
