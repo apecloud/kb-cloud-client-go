@@ -254,6 +254,7 @@
 //   - [enableServiceVersionApi.EnableServiceVersion]
 //   - [engineApi.ListServiceVersion]
 //   - [engineApi.ListUpgradeableServiceVersion]
+//   - [engineApi.getEngineNetworkModeSupported]
 //   - [engineApi.listEngineLicenses]
 //   - [engineApi.listEngineResourceConstraints]
 //   - [engineApi.listEngineSchedulingPolicies]
