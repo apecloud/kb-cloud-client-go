@@ -490,7 +490,7 @@ func (a *EngineApi) CreateEngineNetworkMode(ctx _context.Context, environmentNam
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
 		OperationID: "createEngineNetworkMode",
-		Path:        "/admin/v1/environments/{environmentName}/engineNetworkModes",
+		Path:        "/admin/v1/environments/{environmentName}/engineOptions",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -500,7 +500,7 @@ func (a *EngineApi) CreateEngineNetworkMode(ctx _context.Context, environmentNam
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/engineNetworkModes"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/engineOptions"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -908,7 +908,7 @@ func (a *EngineApi) DeleteEngineNetworkMode(ctx _context.Context, environmentNam
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
 		OperationID: "deleteEngineNetworkMode",
-		Path:        "/admin/v1/environments/{environmentName}/engineNetworkModes/{id}",
+		Path:        "/admin/v1/environments/{environmentName}/engineOptions/{id}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -918,7 +918,7 @@ func (a *EngineApi) DeleteEngineNetworkMode(ctx _context.Context, environmentNam
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/engineNetworkModes/{id}"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/engineOptions/{id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
@@ -1958,7 +1958,7 @@ func (a *EngineApi) ListEngineNetworkModes(ctx _context.Context, environmentName
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
 		OperationID: "listEngineNetworkModes",
-		Path:        "/admin/v1/environments/{environmentName}/engineNetworkModes",
+		Path:        "/admin/v1/environments/{environmentName}/engineOptions",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1968,7 +1968,7 @@ func (a *EngineApi) ListEngineNetworkModes(ctx _context.Context, environmentName
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/engineNetworkModes"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/engineOptions"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -3000,7 +3000,7 @@ func (a *EngineApi) UpdateEngineNetworkMode(ctx _context.Context, environmentNam
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
 		OperationID: "updateEngineNetworkMode",
-		Path:        "/admin/v1/environments/{environmentName}/engineNetworkModes/{id}",
+		Path:        "/admin/v1/environments/{environmentName}/engineOptions/{id}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -3010,7 +3010,7 @@ func (a *EngineApi) UpdateEngineNetworkMode(ctx _context.Context, environmentNam
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/engineNetworkModes/{id}"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/engineOptions/{id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 

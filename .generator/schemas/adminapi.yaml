@@ -20307,7 +20307,7 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/environments/{environmentName}/engineNetworkModes:
+  /admin/v1/environments/{environmentName}/engineOptions:
     get:
       tags:
         - engine
@@ -20375,7 +20375,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       x-codegen-request-body-name: body
-  /admin/v1/environments/{environmentName}/engineNetworkModes/{id}:
+  /admin/v1/environments/{environmentName}/engineOptions/{id}:
     delete:
       tags:
         - engine
