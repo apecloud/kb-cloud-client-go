@@ -2313,7 +2313,15 @@ paths:
           schema:
             type: string
         - in: query
+          name: dbNameContains
+          schema:
+            type: string
+        - in: query
           name: userName
+          schema:
+            type: string
+        - in: query
+          name: userNameContains
           schema:
             type: string
         - in: query
@@ -2321,7 +2329,19 @@ paths:
           schema:
             type: string
         - in: query
+          name: clientIpContains
+          schema:
+            type: string
+        - in: query
+          name: clientIpCIDR
+          schema:
+            type: string
+        - in: query
           name: appName
+          schema:
+            type: string
+        - in: query
+          name: appNameContains
           schema:
             type: string
         - in: query
@@ -2339,6 +2359,46 @@ paths:
               schema:
                 $ref: '#/components/schemas/clusterExecutionLog'
           description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/explain:
+    post:
+      description: Explain a concrete SQL from a slow log using the cluster default datasource.
+      summary: Explain cluster slow log SQL
+      operationId: explainSlowLog
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DmsExplainRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterSlowLogExplainResponse'
+          description: Successful operation
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -2451,7 +2511,15 @@ paths:
           schema:
             type: string
         - in: query
+          name: dbNameContains
+          schema:
+            type: string
+        - in: query
           name: userName
+          schema:
+            type: string
+        - in: query
+          name: userNameContains
           schema:
             type: string
         - in: query
@@ -2459,7 +2527,19 @@ paths:
           schema:
             type: string
         - in: query
+          name: clientIpContains
+          schema:
+            type: string
+        - in: query
+          name: clientIpCIDR
+          schema:
+            type: string
+        - in: query
           name: appName
+          schema:
+            type: string
+        - in: query
+          name: appNameContains
           schema:
             type: string
       responses:
@@ -2839,7 +2919,15 @@ paths:
           schema:
             type: string
         - in: query
+          name: dbNameContains
+          schema:
+            type: string
+        - in: query
           name: userName
+          schema:
+            type: string
+        - in: query
+          name: userNameContains
           schema:
             type: string
         - in: query
@@ -2847,7 +2935,19 @@ paths:
           schema:
             type: string
         - in: query
+          name: clientIpContains
+          schema:
+            type: string
+        - in: query
+          name: clientIpCIDR
+          schema:
+            type: string
+        - in: query
           name: appName
+          schema:
+            type: string
+        - in: query
+          name: appNameContains
           schema:
             type: string
         - in: query
@@ -19959,6 +20059,112 @@ components:
           type: array
         pagination:
           $ref: '#/components/schemas/clusterLogPagination'
+    DmsExplainRequest:
+      type: object
+      properties:
+        query:
+          type: string
+          description: the sql string
+        database:
+          type: string
+          description: the database for explaining the SQL
+          default: ''
+    DmsPagination:
+      type: object
+      properties:
+        rows_count:
+          type: integer
+        page:
+          type: integer
+        pages_count:
+          type: integer
+        per_page:
+          type: integer
+    DmsRow:
+      type: array
+      items:
+        type: object
+    DmsResultStats:
+      type: object
+      properties:
+        columns_count:
+          type: integer
+        rows_count:
+          type: integer
+        rows_affected:
+          type: integer
+        query_start_time:
+          type: string
+          format: date-time
+        query_finish_time:
+          type: string
+          format: date-time
+    DmsResult:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/DmsPagination'
+        columns:
+          type: array
+          items:
+            type: string
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/DmsRow'
+        stats:
+          $ref: '#/components/schemas/DmsResultStats'
+    DmsQueryResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          description: result set of query
+          items:
+            $ref: '#/components/schemas/DmsResult'
+        errMessage:
+          type: array
+          description: error message set of query
+          items:
+            type: string
+          nullable: true
+    clusterSlowLogExplainResponse:
+      type: object
+      description: Explain response for a selected slow log template sample
+      properties:
+        templateId:
+          type: string
+          description: Query template identifier
+          x-omitempty: false
+        sql:
+          type: string
+          description: Concrete sample SQL used for EXPLAIN
+          x-omitempty: false
+        sqlType:
+          type: string
+          description: Statement type accepted by the backend safety check
+          x-omitempty: false
+        database:
+          type: string
+          description: Database selected from the slow log sample
+          x-omitempty: false
+        normalizedQuery:
+          type: string
+          description: Normalized SQL template from oteld
+        sampleTimestamp:
+          type: integer
+          format: int64
+          description: Timestamp of the selected sample in epoch nanoseconds
+          x-omitempty: false
+        executionTime:
+          type: number
+          format: double
+          description: Execution time of the selected sample in seconds
+          x-omitempty: false
+        sample:
+          $ref: '#/components/schemas/clusterExecutionLogItem'
+        explainResult:
+          $ref: '#/components/schemas/DmsQueryResponse'
     clusterSlowLogTemplate:
       type: object
       description: Aggregated slow log query template
@@ -20069,102 +20275,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/clusterSlowLogTemplate'
-    DmsPagination:
-      type: object
-      properties:
-        rows_count:
-          type: integer
-        page:
-          type: integer
-        pages_count:
-          type: integer
-        per_page:
-          type: integer
-    DmsRow:
-      type: array
-      items:
-        type: object
-    DmsResultStats:
-      type: object
-      properties:
-        columns_count:
-          type: integer
-        rows_count:
-          type: integer
-        rows_affected:
-          type: integer
-        query_start_time:
-          type: string
-          format: date-time
-        query_finish_time:
-          type: string
-          format: date-time
-    DmsResult:
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/DmsPagination'
-        columns:
-          type: array
-          items:
-            type: string
-        rows:
-          type: array
-          items:
-            $ref: '#/components/schemas/DmsRow'
-        stats:
-          $ref: '#/components/schemas/DmsResultStats'
-    DmsQueryResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          description: result set of query
-          items:
-            $ref: '#/components/schemas/DmsResult'
-        errMessage:
-          type: array
-          description: error message set of query
-          items:
-            type: string
-          nullable: true
-    clusterSlowLogExplainResponse:
-      type: object
-      description: Explain response for a selected slow log template sample
-      properties:
-        templateId:
-          type: string
-          description: Query template identifier
-          x-omitempty: false
-        sql:
-          type: string
-          description: Concrete sample SQL used for EXPLAIN
-          x-omitempty: false
-        sqlType:
-          type: string
-          description: Statement type accepted by the backend safety check
-          x-omitempty: false
-        database:
-          type: string
-          description: Database selected from the slow log sample
-          x-omitempty: false
-        normalizedQuery:
-          type: string
-          description: Normalized SQL template from oteld
-        sampleTimestamp:
-          type: integer
-          format: int64
-          description: Timestamp of the selected sample in epoch nanoseconds
-          x-omitempty: false
-        executionTime:
-          type: number
-          format: double
-          description: Execution time of the selected sample in seconds
-          x-omitempty: false
-        sample:
-          $ref: '#/components/schemas/clusterExecutionLogItem'
-        explainResult:
-          $ref: '#/components/schemas/DmsQueryResponse'
     clusterExecutionLogAggregateItem:
       type: object
       description: Aggregate item for grouped execution logs
@@ -25528,16 +25638,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/DmsQueryHistory'
-    DmsExplainRequest:
-      type: object
-      properties:
-        query:
-          type: string
-          description: the sql string
-        database:
-          type: string
-          description: the database for explaining the SQL
-          default: ''
     DmsGenerateDdlOperationType:
       type: string
       description: operation type
