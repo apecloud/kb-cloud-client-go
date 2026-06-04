@@ -6628,7 +6628,15 @@ paths:
           schema:
             type: string
         - in: query
+          name: dbNameContains
+          schema:
+            type: string
+        - in: query
           name: userName
+          schema:
+            type: string
+        - in: query
+          name: userNameContains
           schema:
             type: string
         - in: query
@@ -6636,7 +6644,19 @@ paths:
           schema:
             type: string
         - in: query
+          name: clientIpContains
+          schema:
+            type: string
+        - in: query
+          name: clientIpCIDR
+          schema:
+            type: string
+        - in: query
           name: appName
+          schema:
+            type: string
+        - in: query
+          name: appNameContains
           schema:
             type: string
         - in: query
@@ -6654,6 +6674,46 @@ paths:
               schema:
                 $ref: '#/components/schemas/clusterExecutionLog'
           description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/explain:
+    post:
+      description: Explain a concrete SQL from a slow log using the cluster default datasource.
+      summary: Explain cluster slow log SQL
+      operationId: explainSlowLog
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DmsExplainRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterSlowLogExplainResponse'
+          description: Successful operation
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -6766,7 +6826,15 @@ paths:
           schema:
             type: string
         - in: query
+          name: dbNameContains
+          schema:
+            type: string
+        - in: query
           name: userName
+          schema:
+            type: string
+        - in: query
+          name: userNameContains
           schema:
             type: string
         - in: query
@@ -6774,7 +6842,19 @@ paths:
           schema:
             type: string
         - in: query
+          name: clientIpContains
+          schema:
+            type: string
+        - in: query
+          name: clientIpCIDR
+          schema:
+            type: string
+        - in: query
           name: appName
+          schema:
+            type: string
+        - in: query
+          name: appNameContains
           schema:
             type: string
       responses:
@@ -7081,7 +7161,15 @@ paths:
           schema:
             type: string
         - in: query
+          name: dbNameContains
+          schema:
+            type: string
+        - in: query
           name: userName
+          schema:
+            type: string
+        - in: query
+          name: userNameContains
           schema:
             type: string
         - in: query
@@ -7089,7 +7177,19 @@ paths:
           schema:
             type: string
         - in: query
+          name: clientIpContains
+          schema:
+            type: string
+        - in: query
+          name: clientIpCIDR
+          schema:
+            type: string
+        - in: query
           name: appName
+          schema:
+            type: string
+        - in: query
+          name: appNameContains
           schema:
             type: string
         - in: query
@@ -25203,6 +25303,43 @@ components:
           type: array
         pagination:
           $ref: '#/components/schemas/clusterLogPagination'
+    clusterSlowLogExplainResponse:
+      type: object
+      description: Explain response for a selected slow log template sample
+      properties:
+        templateId:
+          type: string
+          description: Query template identifier
+          x-omitempty: false
+        sql:
+          type: string
+          description: Concrete sample SQL used for EXPLAIN
+          x-omitempty: false
+        sqlType:
+          type: string
+          description: Statement type accepted by the backend safety check
+          x-omitempty: false
+        database:
+          type: string
+          description: Database selected from the slow log sample
+          x-omitempty: false
+        normalizedQuery:
+          type: string
+          description: Normalized SQL template from oteld
+        sampleTimestamp:
+          type: integer
+          format: int64
+          description: Timestamp of the selected sample in epoch nanoseconds
+          x-omitempty: false
+        executionTime:
+          type: number
+          format: double
+          description: Execution time of the selected sample in seconds
+          x-omitempty: false
+        sample:
+          $ref: '#/components/schemas/clusterExecutionLogItem'
+        explainResult:
+          $ref: '#/components/schemas/DmsQueryResponse'
     clusterSlowLogTemplate:
       type: object
       description: Aggregated slow log query template
@@ -25313,43 +25450,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/clusterSlowLogTemplate'
-    clusterSlowLogExplainResponse:
-      type: object
-      description: Explain response for a selected slow log template sample
-      properties:
-        templateId:
-          type: string
-          description: Query template identifier
-          x-omitempty: false
-        sql:
-          type: string
-          description: Concrete sample SQL used for EXPLAIN
-          x-omitempty: false
-        sqlType:
-          type: string
-          description: Statement type accepted by the backend safety check
-          x-omitempty: false
-        database:
-          type: string
-          description: Database selected from the slow log sample
-          x-omitempty: false
-        normalizedQuery:
-          type: string
-          description: Normalized SQL template from oteld
-        sampleTimestamp:
-          type: integer
-          format: int64
-          description: Timestamp of the selected sample in epoch nanoseconds
-          x-omitempty: false
-        executionTime:
-          type: number
-          format: double
-          description: Execution time of the selected sample in seconds
-          x-omitempty: false
-        sample:
-          $ref: '#/components/schemas/clusterExecutionLogItem'
-        explainResult:
-          $ref: '#/components/schemas/DmsQueryResponse'
     clusterSlowLogDatabaseDistribution:
       type: object
       description: Slow log count for a database
