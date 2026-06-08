@@ -29709,6 +29709,12 @@ components:
             The database option information that will be displayed when listing databases
           items:
             type: string
+        protectedDatabases:
+          type: array
+          description: |
+            Database names that should be visible in database lists but protected from destructive operations.
+          items:
+            type: string
         availableOptions:
           type: array
           description: |
