@@ -44,6 +44,8 @@ type DatabaseParameterItem struct {
 	Enum []interface{} `json:"enum,omitempty"`
 	// The unit of the parameter
 	Unit *string `json:"unit,omitempty"`
+	// Whether the parameter can be recovered during backup restore
+	Recoverable *bool `json:"recoverable,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -63,6 +65,8 @@ func NewDatabaseParameterItem(engineName string, component string, name string, 
 	this.NeedRestart = needRestart
 	this.Immutable = immutable
 	this.Level = level
+	var recoverable bool = false
+	this.Recoverable = &recoverable
 	return &this
 }
 
@@ -71,6 +75,8 @@ func NewDatabaseParameterItem(engineName string, component string, name string, 
 // but it doesn't guarantee that properties required by API are set.
 func NewDatabaseParameterItemWithDefaults() *DatabaseParameterItem {
 	this := DatabaseParameterItem{}
+	var recoverable bool = false
+	this.Recoverable = &recoverable
 	return &this
 }
 
@@ -482,6 +488,34 @@ func (o *DatabaseParameterItem) SetUnit(v string) {
 	o.Unit = &v
 }
 
+// GetRecoverable returns the Recoverable field value if set, zero value otherwise.
+func (o *DatabaseParameterItem) GetRecoverable() bool {
+	if o == nil || o.Recoverable == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Recoverable
+}
+
+// GetRecoverableOk returns a tuple with the Recoverable field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DatabaseParameterItem) GetRecoverableOk() (*bool, bool) {
+	if o == nil || o.Recoverable == nil {
+		return nil, false
+	}
+	return o.Recoverable, true
+}
+
+// HasRecoverable returns a boolean if a field has been set.
+func (o *DatabaseParameterItem) HasRecoverable() bool {
+	return o != nil && o.Recoverable != nil
+}
+
+// SetRecoverable gets a reference to the given bool and assigns it to the Recoverable field.
+func (o *DatabaseParameterItem) SetRecoverable(v bool) {
+	o.Recoverable = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o DatabaseParameterItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -520,6 +554,9 @@ func (o DatabaseParameterItem) MarshalJSON() ([]byte, error) {
 	if o.Unit != nil {
 		toSerialize["unit"] = o.Unit
 	}
+	if o.Recoverable != nil {
+		toSerialize["recoverable"] = o.Recoverable
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -546,6 +583,7 @@ func (o *DatabaseParameterItem) UnmarshalJSON(bytes []byte) (err error) {
 		Minimum     *string                 `json:"minimum,omitempty"`
 		Enum        []interface{}           `json:"enum,omitempty"`
 		Unit        *string                 `json:"unit,omitempty"`
+		Recoverable *bool                   `json:"recoverable,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -576,7 +614,7 @@ func (o *DatabaseParameterItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "component", "name", "description", "type", "since", "deprecated", "section", "default", "needRestart", "immutable", "level", "maximum", "minimum", "enum", "unit"})
+		common.DeleteKeys(additionalProperties, &[]string{"engineName", "component", "name", "description", "type", "since", "deprecated", "section", "default", "needRestart", "immutable", "level", "maximum", "minimum", "enum", "unit", "recoverable"})
 	} else {
 		return err
 	}
@@ -606,6 +644,7 @@ func (o *DatabaseParameterItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.Minimum = all.Minimum
 	o.Enum = all.Enum
 	o.Unit = all.Unit
+	o.Recoverable = all.Recoverable
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
