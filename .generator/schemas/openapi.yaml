@@ -23335,7 +23335,7 @@ components:
           description: Name of the Org
           type: string
         state:
-          description: state represents whether the cluster has been deleted by a stop opsRequest,  and therefore, whether it is in the recycle bin. It is differnt from the Status.Phase of the cluster in k8s.
+          description: state represents whether the cluster has been deleted by a stop opsRequest, and therefore, whether it is in the recycle bin. It is differnt from the Status.Phase of the cluster in k8s.
           type: string
         stoppedAt:
           title: StoppedAt
@@ -23450,11 +23450,11 @@ components:
         status:
           title: Status
           type: string
-          description: status represents the actual status of the cluster in k8s,  it is different from the state of the cluster in recycle bin,  which means whether the cluster has been deleted by a stop opsRequest.
+          description: status represents the actual status of the cluster in k8s, it is different from the state of the cluster in recycle bin, which means whether the cluster has been deleted by a stop opsRequest.
         state:
           title: state
           type: string
-          description: state represents whether the cluster has been deleted by a stop opsRequest,  and therefore, whether it is in the recycle bin. It is differnt from the Status of the cluster undeleted.
+          description: state represents whether the cluster has been deleted by a stop opsRequest, and therefore, whether it is in the recycle bin. It is differnt from the Status of the cluster undeleted.
         mode:
           title: Mode
           type: string
@@ -25324,10 +25324,6 @@ components:
           type: object
           description: the tags for the storage
           additionalProperties:
-            type: string
-        engines:
-          type: array
-          items:
             type: string
     storageList:
       type: array

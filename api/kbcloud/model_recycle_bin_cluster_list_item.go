@@ -41,7 +41,7 @@ type RecycleBinClusterListItem struct {
 	Storage *string `json:"storage,omitempty"`
 	// Name of the Org
 	OrgName *string `json:"orgName,omitempty"`
-	// state represents whether the cluster has been deleted by a stop opsRequest,  and therefore, whether it is in the recycle bin. It is differnt from the Status.Phase of the cluster in k8s.
+	// state represents whether the cluster has been deleted by a stop opsRequest, and therefore, whether it is in the recycle bin. It is differnt from the Status.Phase of the cluster in k8s.
 	State string `json:"state"`
 	// StoppedAt is a timestamp representing the server time when this object was stopped and moved to the recycle bin.
 	StoppedAt time.Time `json:"stoppedAt"`
