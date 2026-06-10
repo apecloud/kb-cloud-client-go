@@ -3160,6 +3160,74 @@ paths:
           name: query
           schema:
             type: string
+        - in: query
+          name: minExecutionTime
+          description: Minimum slow log execution time in seconds. Only applies when logType=slow.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxExecutionTime
+          description: Maximum slow log execution time in seconds. Only applies when logType=slow.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minLockTime
+          description: Minimum slow log lock time in seconds. Only applies when logType=slow.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxLockTime
+          description: Maximum slow log lock time in seconds. Only applies when logType=slow.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: minRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: dbName
+          schema:
+            type: string
+        - in: query
+          name: userName
+          schema:
+            type: string
+        - in: query
+          name: clientIp
+          schema:
+            type: string
+        - in: query
+          name: appName
+          schema:
+            type: string
+        - in: query
+          name: templateId
+          schema:
+            type: string
+        - in: query
+          name: unclassifiedOnly
+          schema:
+            type: boolean
       responses:
         '200':
           content:
