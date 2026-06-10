@@ -205,6 +205,7 @@
 //   - [dmsApi.GetObjectInfo]
 //   - [dmsApi.GetTaskList]
 //   - [dmsApi.GetTaskProgress]
+//   - [dmsApi.ListObjectNamePage]
 //   - [dmsApi.ListObjectNamesByType]
 //   - [dmsApi.ListObjectTypesInSchema]
 //   - [dmsApi.alterParameter]

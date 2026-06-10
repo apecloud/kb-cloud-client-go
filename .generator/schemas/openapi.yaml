@@ -8091,6 +8091,83 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DmsSchemaList'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/objectNames/{schema}/{type}:
+    get:
+      tags:
+        - dms
+        - shared
+      operationId: ListObjectNamePage
+      summary: list object names for the specified object type with pagination
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of the datasource
+          required: true
+          schema:
+            type: string
+        - name: schema
+          in: path
+          description: schema or database name
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: path
+          description: object type
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: database name, used by engines such as MSSQL when listing object names inside a schema
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: max number of object names to return
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: offset
+          in: query
+          description: number of object names to skip
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: keyword
+          in: query
+          description: keyword to search object names
+          required: false
+          schema:
+            type: string
+        - name: prefix
+          in: query
+          description: prefix to search object names
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsObjectNamePage'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/{schema}:
     get:
       tags:
@@ -25743,6 +25820,31 @@ components:
       type: array
       items:
         type: string
+    DmsObjectNameList:
+      type: array
+      items:
+        type: string
+    DmsObjectNamePage:
+      type: object
+      properties:
+        items:
+          $ref: '#/components/schemas/DmsObjectNameList'
+        total:
+          type: integer
+          format: int64
+          description: Total number of object names after applying search filters.
+        count:
+          type: integer
+          format: int64
+          description: Number of object names returned in this page.
+        limit:
+          type: integer
+          format: int64
+          description: Requested page size.
+        offset:
+          type: integer
+          format: int64
+          description: Requested offset.
     DmsObject:
       type: object
       x-nullable: true
@@ -25758,10 +25860,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/DmsObject'
-    DmsObjectNameList:
-      type: array
-      items:
-        type: string
     DmsObjectResponse:
       type: object
       properties:
@@ -29470,10 +29568,6 @@ components:
           type: object
           description: the tags for the storage
           additionalProperties:
-            type: string
-        engines:
-          type: array
-          items:
             type: string
     storageList:
       type: array

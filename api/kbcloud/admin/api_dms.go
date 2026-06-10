@@ -469,6 +469,140 @@ func (a *DmsApi) GetTaskProgress(ctx _context.Context, orgName string, clusterNa
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// ListObjectNamePageOptionalParameters holds optional parameters for ListObjectNamePage.
+type ListObjectNamePageOptionalParameters struct {
+	Database *string
+	Limit    *int64
+	Offset   *int64
+	Keyword  *string
+	Prefix   *string
+}
+
+// NewListObjectNamePageOptionalParameters creates an empty struct for parameters.
+func NewListObjectNamePageOptionalParameters() *ListObjectNamePageOptionalParameters {
+	this := ListObjectNamePageOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *ListObjectNamePageOptionalParameters) WithDatabase(database string) *ListObjectNamePageOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *ListObjectNamePageOptionalParameters) WithLimit(limit int64) *ListObjectNamePageOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// WithOffset sets the corresponding parameter name and returns the struct.
+func (r *ListObjectNamePageOptionalParameters) WithOffset(offset int64) *ListObjectNamePageOptionalParameters {
+	r.Offset = &offset
+	return r
+}
+
+// WithKeyword sets the corresponding parameter name and returns the struct.
+func (r *ListObjectNamePageOptionalParameters) WithKeyword(keyword string) *ListObjectNamePageOptionalParameters {
+	r.Keyword = &keyword
+	return r
+}
+
+// WithPrefix sets the corresponding parameter name and returns the struct.
+func (r *ListObjectNamePageOptionalParameters) WithPrefix(prefix string) *ListObjectNamePageOptionalParameters {
+	r.Prefix = &prefix
+	return r
+}
+
+// ListObjectNamePage list object names for the specified object type with pagination.
+func (a *DmsApi) ListObjectNamePage(ctx _context.Context, orgName string, clusterName string, id string, schema string, typeVar string, o ...ListObjectNamePageOptionalParameters) (DmsObjectNamePage, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue DmsObjectNamePage
+		optionalParams      ListObjectNamePageOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListObjectNamePageOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "ListObjectNamePage",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/objectNames/{schema}/{type}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListObjectNamePage")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/objectNames/{schema}/{type}"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"schema"+"}", _neturl.PathEscape(common.ParameterToString(schema, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"type"+"}", _neturl.PathEscape(common.ParameterToString(typeVar, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.Offset != nil {
+		localVarQueryParams.Add("offset", common.ParameterToString(*optionalParams.Offset, ""))
+	}
+	if optionalParams.Keyword != nil {
+		localVarQueryParams.Add("keyword", common.ParameterToString(*optionalParams.Keyword, ""))
+	}
+	if optionalParams.Prefix != nil {
+		localVarQueryParams.Add("prefix", common.ParameterToString(*optionalParams.Prefix, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // ListObjectNamesByTypeOptionalParameters holds optional parameters for ListObjectNamesByType.
 type ListObjectNamesByTypeOptionalParameters struct {
 	Database *string
