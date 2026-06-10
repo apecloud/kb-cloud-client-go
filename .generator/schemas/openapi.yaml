@@ -1789,6 +1789,18 @@ paths:
           required: true
           schema:
             type: string
+        - description: Backup name to override cluster components from its snapshot
+          in: query
+          name: backupName
+          required: false
+          schema:
+            type: string
+        - description: Restore time to find latest continuous backup snapshot after this time
+          in: query
+          name: restoreTime
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -29470,10 +29482,6 @@ components:
           type: object
           description: the tags for the storage
           additionalProperties:
-            type: string
-        engines:
-          type: array
-          items:
             type: string
     storageList:
       type: array
