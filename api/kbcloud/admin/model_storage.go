@@ -31,8 +31,7 @@ type Storage struct {
 	// User who updated the storage
 	UpdatedBy *time.Time `json:"updatedBy,omitempty"`
 	// the tags for the storage
-	Tags    map[string]string `json:"tags,omitempty"`
-	Engines []string          `json:"engines,omitempty"`
+	Tags map[string]string `json:"tags,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -357,34 +356,6 @@ func (o *Storage) SetTags(v map[string]string) {
 	o.Tags = v
 }
 
-// GetEngines returns the Engines field value if set, zero value otherwise.
-func (o *Storage) GetEngines() []string {
-	if o == nil || o.Engines == nil {
-		var ret []string
-		return ret
-	}
-	return o.Engines
-}
-
-// GetEnginesOk returns a tuple with the Engines field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Storage) GetEnginesOk() (*[]string, bool) {
-	if o == nil || o.Engines == nil {
-		return nil, false
-	}
-	return &o.Engines, true
-}
-
-// HasEngines returns a boolean if a field has been set.
-func (o *Storage) HasEngines() bool {
-	return o != nil && o.Engines != nil
-}
-
-// SetEngines gets a reference to the given []string and assigns it to the Engines field.
-func (o *Storage) SetEngines(v []string) {
-	o.Engines = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o Storage) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -429,9 +400,6 @@ func (o Storage) MarshalJSON() ([]byte, error) {
 	if o.Tags != nil {
 		toSerialize["tags"] = o.Tags
 	}
-	if o.Engines != nil {
-		toSerialize["engines"] = o.Engines
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -452,14 +420,13 @@ func (o *Storage) UnmarshalJSON(bytes []byte) (err error) {
 		ClusterMetadataAddress common.NullableString `json:"clusterMetadataAddress,omitempty"`
 		UpdatedBy              *time.Time            `json:"updatedBy,omitempty"`
 		Tags                   map[string]string     `json:"tags,omitempty"`
-		Engines                []string              `json:"engines,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "storageProvider", "params", "envName", "createdBy", "clusterID", "clusterMetadataAddress", "updatedBy", "tags", "engines"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "storageProvider", "params", "envName", "createdBy", "clusterID", "clusterMetadataAddress", "updatedBy", "tags"})
 	} else {
 		return err
 	}
@@ -473,7 +440,6 @@ func (o *Storage) UnmarshalJSON(bytes []byte) (err error) {
 	o.ClusterMetadataAddress = all.ClusterMetadataAddress
 	o.UpdatedBy = all.UpdatedBy
 	o.Tags = all.Tags
-	o.Engines = all.Engines
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
