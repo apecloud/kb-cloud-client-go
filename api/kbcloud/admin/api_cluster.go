@@ -465,13 +465,45 @@ func (a *ClusterApi) GetCluster(ctx _context.Context, orgName string, clusterNam
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetClusterByIDOptionalParameters holds optional parameters for GetClusterByID.
+type GetClusterByIDOptionalParameters struct {
+	BackupName  *string
+	RestoreTime *string
+}
+
+// NewGetClusterByIDOptionalParameters creates an empty struct for parameters.
+func NewGetClusterByIDOptionalParameters() *GetClusterByIDOptionalParameters {
+	this := GetClusterByIDOptionalParameters{}
+	return &this
+}
+
+// WithBackupName sets the corresponding parameter name and returns the struct.
+func (r *GetClusterByIDOptionalParameters) WithBackupName(backupName string) *GetClusterByIDOptionalParameters {
+	r.BackupName = &backupName
+	return r
+}
+
+// WithRestoreTime sets the corresponding parameter name and returns the struct.
+func (r *GetClusterByIDOptionalParameters) WithRestoreTime(restoreTime string) *GetClusterByIDOptionalParameters {
+	r.RestoreTime = &restoreTime
+	return r
+}
+
 // GetClusterByID Get cluster details by ID.
-func (a *ClusterApi) GetClusterByID(ctx _context.Context, orgName string, clusterId string) (Cluster, *_nethttp.Response, error) {
+func (a *ClusterApi) GetClusterByID(ctx _context.Context, orgName string, clusterId string, o ...GetClusterByIDOptionalParameters) (Cluster, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue Cluster
+		optionalParams      GetClusterByIDOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetClusterByIDOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -494,6 +526,12 @@ func (a *ClusterApi) GetClusterByID(ctx _context.Context, orgName string, cluste
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.BackupName != nil {
+		localVarQueryParams.Add("backupName", common.ParameterToString(*optionalParams.BackupName, ""))
+	}
+	if optionalParams.RestoreTime != nil {
+		localVarQueryParams.Add("restoreTime", common.ParameterToString(*optionalParams.RestoreTime, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(

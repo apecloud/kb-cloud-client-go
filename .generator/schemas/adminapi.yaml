@@ -2640,6 +2640,18 @@ paths:
           required: true
           schema:
             type: string
+        - description: Backup name to override cluster components from its snapshot
+          in: query
+          name: backupName
+          required: false
+          schema:
+            type: string
+        - description: Restore time to find latest continuous backup snapshot after this time
+          in: query
+          name: restoreTime
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -24155,6 +24167,10 @@ components:
         unit:
           description: The unit of the parameter
           type: string
+        recoverable:
+          description: Whether the parameter can be recovered during backup restore
+          type: boolean
+          default: false
     databaseParameterList:
       description: A list of database parameters
       type: object
@@ -24233,6 +24249,10 @@ components:
         unit:
           description: The unit of the parameter
           type: string
+        recoverable:
+          description: Whether the parameter can be recovered during backup restore
+          type: boolean
+          default: false
     deleteDatabaseParameterItem:
       description: A database parameter item for deletion
       type: object
