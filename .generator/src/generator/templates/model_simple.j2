@@ -212,8 +212,8 @@ func (o *{{ name }}) Get{{ propertyName }}Ok() (*{{ baseType }}, bool) {
 {%- endif %}
 }
 
-// Has{{ propertyName }} returns a boolean if a field has been set.
-func (o *{{ name }}) Has{{ propertyName }}() bool {
+// {{ model|presence_method_name(attr) }} returns a boolean if a field has been set.
+func (o *{{ name }}) {{ model|presence_method_name(attr) }}() bool {
 	return o != nil && {% if not isNullable %}o.{{ propertyName }} != nil{%- else %}{%- if (isContainer and not isPrimitiveContainer) or isAdditionalPropertiesContainer %}o.{{ propertyName }} != nil{%- else %}o.{{ propertyName }}.IsSet(){%- endif %}{%- endif %}
 }
 
