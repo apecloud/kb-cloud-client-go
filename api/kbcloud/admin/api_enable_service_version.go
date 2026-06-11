@@ -96,6 +96,7 @@ func (a *EnableServiceVersionApi) EnableServiceVersion(ctx _context.Context, env
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFile)
 	if err != nil {

@@ -54,6 +54,7 @@ func (a *AlertReceiverApi) CreateAlertReceiver(ctx _context.Context, orgName str
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
@@ -131,6 +132,7 @@ func (a *AlertReceiverApi) DeleteAlertReceiver(ctx _context.Context, orgName str
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
@@ -200,6 +202,7 @@ func (a *AlertReceiverApi) GetAlertReceiver(ctx _context.Context, orgName string
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
@@ -305,6 +308,7 @@ func (a *AlertReceiverApi) ListAlertReceivers(ctx _context.Context, orgName stri
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
@@ -387,6 +391,7 @@ func (a *AlertReceiverApi) PatchAlertReceiver(ctx _context.Context, orgName stri
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {

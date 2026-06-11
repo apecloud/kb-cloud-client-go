@@ -21023,8 +21023,9 @@ components:
       scheme: bearer
       description: JWT Bearer Token authentication
     DigestAuth:
-      type: http
-      scheme: digest
+      type: apiKey
+      name: Authorization
+      in: header
       description: |
         HTTP Digest Access Authentication (RFC 7616).
 
