@@ -39,6 +39,7 @@ def cli(specs, output):
     env.filters["is_primitive"] = formatter.is_primitive
     env.filters["parameter_schema"] = openapi.parameter_schema
     env.filters["parameters"] = openapi.parameters
+    env.filters["presence_method_name"] = formatter.presence_method_name
     env.filters["form_parameter"] = openapi.form_parameter
     env.filters["need_body_parameter"] = openapi.need_body_parameter
     env.filters["response_type"] = openapi.get_type_for_response

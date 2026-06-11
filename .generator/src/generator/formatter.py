@@ -103,6 +103,30 @@ def attribute_name(attribute):
     return escape_reserved_keyword(camel_case(attribute))
 
 
+def _model_property_names(model):
+    names = set()
+    for attr in model.get("properties", {}):
+        names.add(attribute_name(attr))
+
+    for subschema in model.get("allOf", []):
+        for attr in subschema.get("properties", {}):
+            names.add(attribute_name(attr))
+
+    return names
+
+
+def presence_method_name(model, attribute):
+    name = f"Has{attribute_name(attribute)}"
+    property_names = _model_property_names(model)
+    if name not in property_names:
+        return name
+
+    candidate = f"{name}Set"
+    while candidate in property_names:
+        candidate += "Set"
+    return candidate
+
+
 def variable_name(attribute):
     return escape_reserved_keyword(untitle_case(camel_case(attribute)))
 
