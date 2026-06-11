@@ -7160,6 +7160,90 @@ paths:
           name: sortType
           schema:
             $ref: '#/components/schemas/sortType'
+        - in: query
+          name: minExecutionTime
+          description: Minimum execution time in seconds. Decimal values are supported, for example 0.5.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxExecutionTime
+          description: Maximum execution time in seconds. Decimal values are supported, for example 0.5.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minLockTime
+          description: Minimum lock time in seconds. Decimal values are supported, for example 0.001.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxLockTime
+          description: Maximum lock time in seconds. Decimal values are supported, for example 0.001.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: minRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: dbName
+          schema:
+            type: string
+        - in: query
+          name: dbNameContains
+          schema:
+            type: string
+        - in: query
+          name: userName
+          schema:
+            type: string
+        - in: query
+          name: userNameContains
+          schema:
+            type: string
+        - in: query
+          name: clientIp
+          schema:
+            type: string
+        - in: query
+          name: clientIpContains
+          schema:
+            type: string
+        - in: query
+          name: clientIpCIDR
+          schema:
+            type: string
+        - in: query
+          name: appName
+          schema:
+            type: string
+        - in: query
+          name: appNameContains
+          schema:
+            type: string
+        - in: query
+          name: unclassifiedOnly
+          schema:
+            type: boolean
       responses:
         '200':
           content:
@@ -7169,6 +7253,79 @@ paths:
           description: Successful operation
         '400':
           $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/aggregate:
+    get:
+      description: Aggregate slow logs of a cluster (Victoria Logs backend only)
+      summary: Aggregate cluster slow logs
+      operationId: aggregateSlowLogs
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          description: Start time in epoch nanoseconds.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          description: End time in epoch nanoseconds.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: query
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: string
+        - in: query
+          name: sortType
+          schema:
+            $ref: '#/components/schemas/sortType'
+        - in: query
+          name: groupBy
+          schema:
+            type: string
+        - in: query
+          name: topN
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterExecutionLogAggregateResponse'
+          description: Successful operation
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -7552,7 +7709,15 @@ paths:
           schema:
             type: string
         - in: query
+          name: dbNameContains
+          schema:
+            type: string
+        - in: query
           name: userName
+          schema:
+            type: string
+        - in: query
+          name: userNameContains
           schema:
             type: string
         - in: query
@@ -7560,7 +7725,19 @@ paths:
           schema:
             type: string
         - in: query
+          name: clientIpContains
+          schema:
+            type: string
+        - in: query
+          name: clientIpCIDR
+          schema:
+            type: string
+        - in: query
           name: appName
+          schema:
+            type: string
+        - in: query
+          name: appNameContains
           schema:
             type: string
         - in: query
@@ -25552,15 +25729,40 @@ components:
           format: double
           description: Average execution time in seconds
           x-omitempty: false
+        minExecutionTime:
+          type: number
+          format: double
+          description: Minimum execution time in seconds
+          x-omitempty: false
         maxExecutionTime:
           type: number
           format: double
           description: Maximum execution time in seconds
           x-omitempty: false
+        stddevExecutionTime:
+          type: number
+          format: double
+          description: Standard deviation of execution time in seconds
+          x-omitempty: false
+        p50ExecutionTime:
+          type: number
+          format: double
+          description: P50 execution time in seconds
+          x-omitempty: false
+        p90ExecutionTime:
+          type: number
+          format: double
+          description: P90 execution time in seconds
+          x-omitempty: false
         p95ExecutionTime:
           type: number
           format: double
           description: P95 execution time in seconds
+          x-omitempty: false
+        p99ExecutionTime:
+          type: number
+          format: double
+          description: P99 execution time in seconds
           x-omitempty: false
         dbCount:
           type: integer
@@ -25632,6 +25834,41 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/clusterSlowLogTemplate'
+    clusterExecutionLogAggregateItem:
+      type: object
+      description: Aggregate item for grouped execution logs
+      properties:
+        groupKey:
+          type: string
+        count:
+          type: integer
+          format: int64
+        avgExecutionTime:
+          type: number
+          format: double
+        maxExecutionTime:
+          type: number
+          format: double
+    clusterExecutionLogAggregateSummary:
+      type: object
+      description: Aggregate summary for execution logs
+      properties:
+        totalCount:
+          type: integer
+          format: int64
+        groupCount:
+          type: integer
+          format: int64
+    clusterExecutionLogAggregateResponse:
+      type: object
+      description: Aggregate response for cluster execution logs
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterExecutionLogAggregateItem'
+        summary:
+          $ref: '#/components/schemas/clusterExecutionLogAggregateSummary'
     clusterSlowLogDatabaseDistribution:
       type: object
       description: Slow log count for a database
