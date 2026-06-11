@@ -20646,6 +20646,66 @@ components:
         schedule:
           $ref: '#/components/schemas/taskSchedule'
       type: object
+    koordinatorReservationResourceClass:
+      type: string
+      enum:
+        - database
+        - business
+    koordinatorReservationResources:
+      type: object
+      additionalProperties: false
+      description: Resource requests supported by KBE for Koordinator Reservations. Values are Kubernetes quantities and responses use Kubernetes canonical quantity strings.
+      properties:
+        cpu:
+          type: string
+        memory:
+          type: string
+    koordinatorReservationAllocatePolicy:
+      type: string
+      enum:
+        - Restricted
+        - Aligned
+      default: Restricted
+    koordinatorReservationStatus:
+      type: object
+      properties:
+        phase:
+          type: string
+        nodeName:
+          type: string
+        allocatable:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        allocated:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        available:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+    koordinatorNodeReservation:
+      type: object
+      required:
+        - resourceClass
+        - resources
+      properties:
+        resourceClass:
+          $ref: '#/components/schemas/koordinatorReservationResourceClass'
+        reservationName:
+          type: string
+          readOnly: true
+        resources:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        ttl:
+          type: string
+          default: '0'
+          description: Kubernetes duration string. Use "0" for no expiration.
+        allocateOnce:
+          type: boolean
+          default: false
+        preAllocation:
+          type: boolean
+          default: false
+        allocatePolicy:
+          $ref: '#/components/schemas/koordinatorReservationAllocatePolicy'
+        status:
+          $ref: '#/components/schemas/koordinatorReservationStatus'
     nodeStatus:
       type: string
       description: Status of the node
@@ -20704,6 +20764,10 @@ components:
         managed:
           description: Whether the node is managed (has data-plane or control-plane label)
           type: boolean
+        koordinatorReservations:
+          type: array
+          items:
+            $ref: '#/components/schemas/koordinatorNodeReservation'
         status:
           $ref: '#/components/schemas/nodeStatus'
           description: Node status

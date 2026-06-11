@@ -8913,6 +8913,244 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - environment
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/koordinatorReservations:
+    post:
+      description: Create a Koordinator Reservation intent for one environment node and resource class.
+      summary: Create node Koordinator Reservation
+      operationId: createNodeKoordinatorReservation
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment node
+          in: path
+          name: nodeName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/koordinatorNodeReservationCreate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/koordinatorNodeReservation'
+          description: Koordinator Reservation created.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+    get:
+      description: List Koordinator Reservation intents for one environment node.
+      summary: List node Koordinator Reservations
+      operationId: listNodeKoordinatorReservations
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment node
+          in: path
+          name: nodeName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/koordinatorNodeReservationList'
+          description: A list of Koordinator Reservations.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/koordinatorReservations/{reservationName}:
+    get:
+      description: Get one Koordinator Reservation intent for an environment node.
+      summary: Get node Koordinator Reservation
+      operationId: getNodeKoordinatorReservation
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment node
+          in: path
+          name: nodeName
+          required: true
+          schema:
+            type: string
+        - description: name of the Koordinator Reservation
+          in: path
+          name: reservationName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/koordinatorNodeReservation'
+          description: A Koordinator Reservation.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+    put:
+      description: Update one Koordinator Reservation intent for an environment node.
+      summary: Update node Koordinator Reservation
+      operationId: updateNodeKoordinatorReservation
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment node
+          in: path
+          name: nodeName
+          required: true
+          schema:
+            type: string
+        - description: name of the Koordinator Reservation
+          in: path
+          name: reservationName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/koordinatorNodeReservationUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/koordinatorNodeReservation'
+          description: Koordinator Reservation updated.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+    delete:
+      description: Delete one Koordinator Reservation intent and its Koordinator Reservation CR.
+      summary: Delete node Koordinator Reservation
+      operationId: deleteNodeKoordinatorReservation
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment node
+          in: path
+          name: nodeName
+          required: true
+          schema:
+            type: string
+        - description: name of the Koordinator Reservation
+          in: path
+          name: reservationName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when the Koordinator Reservation is deleted successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+  /admin/v1/environments/{environmentName}/koordinatorReservations/summary:
+    get:
+      description: Get Koordinator Reservation summary for the cluster creation page.
+      summary: Get Koordinator Reservation summary
+      operationId: getKoordinatorReservationSummary
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/koordinatorReservationSummary'
+          description: Koordinator Reservation summary.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
   /admin/v1/environments/{environmentName}/nodes/{nodeName}/cordon:
     patch:
       description: cordon the specified Environment node
@@ -25838,6 +26076,66 @@ components:
       required:
         - usage
       type: object
+    koordinatorReservationResourceClass:
+      type: string
+      enum:
+        - database
+        - business
+    koordinatorReservationResources:
+      type: object
+      additionalProperties: false
+      description: Resource requests supported by KBE for Koordinator Reservations. Values are Kubernetes quantities and responses use Kubernetes canonical quantity strings.
+      properties:
+        cpu:
+          type: string
+        memory:
+          type: string
+    koordinatorReservationAllocatePolicy:
+      type: string
+      enum:
+        - Restricted
+        - Aligned
+      default: Restricted
+    koordinatorReservationStatus:
+      type: object
+      properties:
+        phase:
+          type: string
+        nodeName:
+          type: string
+        allocatable:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        allocated:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        available:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+    koordinatorNodeReservation:
+      type: object
+      required:
+        - resourceClass
+        - resources
+      properties:
+        resourceClass:
+          $ref: '#/components/schemas/koordinatorReservationResourceClass'
+        reservationName:
+          type: string
+          readOnly: true
+        resources:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        ttl:
+          type: string
+          default: '0'
+          description: Kubernetes duration string. Use "0" for no expiration.
+        allocateOnce:
+          type: boolean
+          default: false
+        preAllocation:
+          type: boolean
+          default: false
+        allocatePolicy:
+          $ref: '#/components/schemas/koordinatorReservationAllocatePolicy'
+        status:
+          $ref: '#/components/schemas/koordinatorReservationStatus'
     nodeStatus:
       type: string
       description: Status of the node
@@ -25896,6 +26194,10 @@ components:
         managed:
           description: Whether the node is managed (has data-plane or control-plane label)
           type: boolean
+        koordinatorReservations:
+          type: array
+          items:
+            $ref: '#/components/schemas/koordinatorNodeReservation'
         status:
           $ref: '#/components/schemas/nodeStatus'
           description: Node status
@@ -27417,6 +27719,100 @@ components:
       required:
         - items
       type: object
+    koordinatorNodeReservationList:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/koordinatorNodeReservation'
+    koordinatorNodeReservationCreate:
+      type: object
+      required:
+        - resourceClass
+        - resources
+      properties:
+        resourceClass:
+          $ref: '#/components/schemas/koordinatorReservationResourceClass'
+        resources:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        ttl:
+          type: string
+          default: '0'
+          description: Kubernetes duration string. Use "0" for no expiration.
+        allocateOnce:
+          type: boolean
+          default: false
+        preAllocation:
+          type: boolean
+          default: false
+        allocatePolicy:
+          $ref: '#/components/schemas/koordinatorReservationAllocatePolicy'
+    koordinatorNodeReservationUpdate:
+      type: object
+      required:
+        - resources
+      properties:
+        resources:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        ttl:
+          type: string
+          default: '0'
+          description: Kubernetes duration string. Use "0" for no expiration.
+        allocateOnce:
+          type: boolean
+          default: false
+        preAllocation:
+          type: boolean
+          default: false
+        allocatePolicy:
+          $ref: '#/components/schemas/koordinatorReservationAllocatePolicy'
+    schedulerOption:
+      type: object
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        default:
+          type: boolean
+    koordinatorReservationSummaryItem:
+      type: object
+      properties:
+        resourceClass:
+          $ref: '#/components/schemas/koordinatorReservationResourceClass'
+        nodeCount:
+          type: integer
+          format: int64
+        total:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        allocated:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        available:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+    koordinatorReservationSummary:
+      type: object
+      required:
+        - enabled
+        - schedulerOptions
+        - items
+      properties:
+        enabled:
+          type: boolean
+        schedulerName:
+          type: string
+        defaultSchedulerName:
+          type: string
+        schedulerOptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/schedulerOption'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/koordinatorReservationSummaryItem'
     listBody:
       description: Represents a list of JSON bodies.
       items:
