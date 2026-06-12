@@ -10,8 +10,8 @@ import (
 
 // SLA The SLA (Service Level Agreement) for a cluster.
 type SLA struct {
-	// KubeBlocks cluster information
-	Cluster *ClusterListItem `json:"cluster,omitempty"`
+	// The cluster summary used by SLA calculation results. SLA responses can be built from historical outage data, so general cluster list fields may be unavailable.
+	Cluster *SLACluster `json:"cluster,omitempty"`
 	// A list of outage records.
 	Detail []OutageRecord `json:"detail,omitempty"`
 	// The SLA value for the cluster.
@@ -45,9 +45,9 @@ func NewSLAWithDefaults() *SLA {
 }
 
 // GetCluster returns the Cluster field value if set, zero value otherwise.
-func (o *SLA) GetCluster() ClusterListItem {
+func (o *SLA) GetCluster() SLACluster {
 	if o == nil || o.Cluster == nil {
-		var ret ClusterListItem
+		var ret SLACluster
 		return ret
 	}
 	return *o.Cluster
@@ -55,7 +55,7 @@ func (o *SLA) GetCluster() ClusterListItem {
 
 // GetClusterOk returns a tuple with the Cluster field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SLA) GetClusterOk() (*ClusterListItem, bool) {
+func (o *SLA) GetClusterOk() (*SLACluster, bool) {
 	if o == nil || o.Cluster == nil {
 		return nil, false
 	}
@@ -67,8 +67,8 @@ func (o *SLA) HasCluster() bool {
 	return o != nil && o.Cluster != nil
 }
 
-// SetCluster gets a reference to the given ClusterListItem and assigns it to the Cluster field.
-func (o *SLA) SetCluster(v ClusterListItem) {
+// SetCluster gets a reference to the given SLACluster and assigns it to the Cluster field.
+func (o *SLA) SetCluster(v SLACluster) {
 	o.Cluster = &v
 }
 
@@ -246,12 +246,12 @@ func (o SLA) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *SLA) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Cluster         *ClusterListItem `json:"cluster,omitempty"`
-		Detail          []OutageRecord   `json:"detail,omitempty"`
-		Sla             *float64         `json:"sla,omitempty"`
-		TargetThreshold *float64         `json:"targetThreshold,omitempty"`
-		TotalDuration   *int64           `json:"totalDuration,omitempty"`
-		TotalDowntime   *int64           `json:"totalDowntime,omitempty"`
+		Cluster         *SLACluster    `json:"cluster,omitempty"`
+		Detail          []OutageRecord `json:"detail,omitempty"`
+		Sla             *float64       `json:"sla,omitempty"`
+		TargetThreshold *float64       `json:"targetThreshold,omitempty"`
+		TotalDuration   *int64         `json:"totalDuration,omitempty"`
+		TotalDowntime   *int64         `json:"totalDowntime,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
