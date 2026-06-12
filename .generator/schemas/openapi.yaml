@@ -15139,11 +15139,6 @@ components:
             - kubeblocks-cloud-ns
           type: array
           description: namespace info for environment
-        podAntiAffinityEnabled:
-          title: PodAntiAffinityEnabled
-          description: Enable pod antiaffinity for cluster
-          type: boolean
-          default: true
         defaultStorageClass:
           type: string
           description: the default storageClass for the environment
