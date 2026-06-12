@@ -26663,11 +26663,6 @@ components:
       title: SchedulingConfig
       description: Configuration of resource scheduling for this environment
       properties:
-        podAntiAffinityEnabled:
-          title: PodAntiAffinityEnabled
-          description: Enable pod antiaffinity for cluster
-          type: boolean
-          default: true
         clusterSchedulingPolicy:
           $ref: '#/components/schemas/clusterSchedulingPolicy'
         tolerateDefaultTaints:
@@ -27298,11 +27293,6 @@ components:
           description: the default storage class of this environment
           type: string
           nullable: true
-        podAntiAffinityEnabled:
-          title: PodAntiAffinityEnabled
-          description: Enable pod antiaffinity for cluster
-          type: boolean
-          default: true
         imageRegistry:
           description: Image registry URL used to pull images. Must match image_registries.url, not image_registries.name.
           type: string

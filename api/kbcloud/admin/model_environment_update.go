@@ -28,8 +28,6 @@ type EnvironmentUpdate struct {
 	AutohealingConfig *AutohealingConfig `json:"autohealingConfig,omitempty"`
 	// the default storage class of this environment
 	DefaultStorageClass common.NullableString `json:"defaultStorageClass,omitempty"`
-	// Enable pod antiaffinity for cluster
-	PodAntiAffinityEnabled *bool `json:"podAntiAffinityEnabled,omitempty"`
 	// Image registry URL used to pull images. Must match image_registries.url, not image_registries.name.
 	ImageRegistry common.NullableString `json:"imageRegistry,omitempty"`
 	// Enable node port service for this environment
@@ -69,8 +67,6 @@ func NewEnvironmentUpdate() *EnvironmentUpdate {
 	this := EnvironmentUpdate{}
 	var typeVar EnvironmentType = EnvironmentTypePublic
 	this.Type = &typeVar
-	var podAntiAffinityEnabled bool = true
-	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
 	var nodePortEnabled bool = true
 	this.NodePortEnabled = &nodePortEnabled
 	var lbEnabled bool = true
@@ -97,8 +93,6 @@ func NewEnvironmentUpdateWithDefaults() *EnvironmentUpdate {
 	this := EnvironmentUpdate{}
 	var typeVar EnvironmentType = EnvironmentTypePublic
 	this.Type = &typeVar
-	var podAntiAffinityEnabled bool = true
-	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
 	var nodePortEnabled bool = true
 	this.NodePortEnabled = &nodePortEnabled
 	var lbEnabled bool = true
@@ -445,34 +439,6 @@ func (o *EnvironmentUpdate) SetDefaultStorageClassNil() {
 // UnsetDefaultStorageClass ensures that no value is present for DefaultStorageClass, not even an explicit nil.
 func (o *EnvironmentUpdate) UnsetDefaultStorageClass() {
 	o.DefaultStorageClass.Unset()
-}
-
-// GetPodAntiAffinityEnabled returns the PodAntiAffinityEnabled field value if set, zero value otherwise.
-func (o *EnvironmentUpdate) GetPodAntiAffinityEnabled() bool {
-	if o == nil || o.PodAntiAffinityEnabled == nil {
-		var ret bool
-		return ret
-	}
-	return *o.PodAntiAffinityEnabled
-}
-
-// GetPodAntiAffinityEnabledOk returns a tuple with the PodAntiAffinityEnabled field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *EnvironmentUpdate) GetPodAntiAffinityEnabledOk() (*bool, bool) {
-	if o == nil || o.PodAntiAffinityEnabled == nil {
-		return nil, false
-	}
-	return o.PodAntiAffinityEnabled, true
-}
-
-// HasPodAntiAffinityEnabled returns a boolean if a field has been set.
-func (o *EnvironmentUpdate) HasPodAntiAffinityEnabled() bool {
-	return o != nil && o.PodAntiAffinityEnabled != nil
-}
-
-// SetPodAntiAffinityEnabled gets a reference to the given bool and assigns it to the PodAntiAffinityEnabled field.
-func (o *EnvironmentUpdate) SetPodAntiAffinityEnabled(v bool) {
-	o.PodAntiAffinityEnabled = &v
 }
 
 // GetImageRegistry returns the ImageRegistry field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -838,9 +804,6 @@ func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 	if o.DefaultStorageClass.IsSet() {
 		toSerialize["defaultStorageClass"] = o.DefaultStorageClass.Get()
 	}
-	if o.PodAntiAffinityEnabled != nil {
-		toSerialize["podAntiAffinityEnabled"] = o.PodAntiAffinityEnabled
-	}
 	if o.ImageRegistry.IsSet() {
 		toSerialize["imageRegistry"] = o.ImageRegistry.Get()
 	}
@@ -893,7 +856,6 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		MemoryOverCommitRatio   common.NullableFloat64      `json:"memoryOverCommitRatio,omitempty"`
 		AutohealingConfig       *AutohealingConfig          `json:"autohealingConfig,omitempty"`
 		DefaultStorageClass     common.NullableString       `json:"defaultStorageClass,omitempty"`
-		PodAntiAffinityEnabled  *bool                       `json:"podAntiAffinityEnabled,omitempty"`
 		ImageRegistry           common.NullableString       `json:"imageRegistry,omitempty"`
 		NodePortEnabled         *bool                       `json:"nodePortEnabled,omitempty"`
 		LbEnabled               *bool                       `json:"lbEnabled,omitempty"`
@@ -911,7 +873,7 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "type", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "podAntiAffinityEnabled", "imageRegistry", "nodePortEnabled", "lbEnabled", "domainEnabled", "internetLBEnabled", "networkModes", "deletePolicy", "clusterValidationPolicy", "provider", "slaEnabled", "clusterSchedulingPolicy"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "type", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "imageRegistry", "nodePortEnabled", "lbEnabled", "domainEnabled", "internetLBEnabled", "networkModes", "deletePolicy", "clusterValidationPolicy", "provider", "slaEnabled", "clusterSchedulingPolicy"})
 	} else {
 		return err
 	}
@@ -933,7 +895,6 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.AutohealingConfig = all.AutohealingConfig
 	o.DefaultStorageClass = all.DefaultStorageClass
-	o.PodAntiAffinityEnabled = all.PodAntiAffinityEnabled
 	o.ImageRegistry = all.ImageRegistry
 	o.NodePortEnabled = all.NodePortEnabled
 	o.LbEnabled = all.LbEnabled
