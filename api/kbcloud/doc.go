@@ -44,6 +44,8 @@
 //   - [accountApi.listAccounts]
 //   - [accountApi.listKafkaAccounts]
 //   - [accountApi.listMongoDBAccounts]
+//   - [accountApi.lockAccount]
+//   - [accountApi.unlockAccount]
 //   - [accountApi.updateAccount]
 //   - [accountApi.updateAccountPrivileges]
 //   - [accountApi.updateHiveAccount]

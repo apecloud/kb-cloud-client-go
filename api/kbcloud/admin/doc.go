@@ -47,6 +47,8 @@
 //   - [accountApi.getRootAccountPassword]
 //   - [accountApi.listAccounts]
 //   - [accountApi.listMongoDBAccounts]
+//   - [accountApi.lockAccount]
+//   - [accountApi.unlockAccount]
 //   - [accountApi.updateAccount]
 //   - [accountApi.updateAccountPrivileges]
 //   - [accountApi.updateMssqlAccount]

@@ -13561,6 +13561,94 @@ paths:
         - rdbms
         - shared
       x-codegen-request-body-name: body
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/lock:
+    patch:
+      description: lock an account in cluster
+      summary: Lock cluster account
+      operationId: lockAccount
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when account is locked successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - account
+        - rdbms
+        - shared
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/unlock:
+    patch:
+      description: unlock an account in cluster
+      summary: Unlock cluster account
+      operationId: unlockAccount
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when account is unlocked successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - account
+        - rdbms
+        - shared
   /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions:
     get:
       description: list sessions in cluster
@@ -23751,6 +23839,9 @@ components:
           type: boolean
         delete:
           type: boolean
+        lock:
+          type: boolean
+          description: Whether the engine supports account lock and unlock actions.
         displayRootAccount:
           type: boolean
           x-omitempty: false
@@ -29473,6 +29564,13 @@ components:
           type: boolean
         detail:
           type: object
+          description: |
+            Sanitized action detail. Warning states are returned as `warning.value`
+            with stable values such as `output_truncated`, `final_analysis_missing`,
+            `no_tool_evidence`, `model_no_tool_call`, or `tooling_unavailable`.
+            `model_no_tool_call` and `tooling_unavailable` are turn-completed
+            warnings and are not emitted on tool/check detail cards.
+            The legacy `warningReason` string may be present for compatibility.
           additionalProperties: true
           x-nullable: true
         createdAt:
