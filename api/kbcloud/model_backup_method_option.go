@@ -17,7 +17,9 @@ type BackupMethodOption struct {
 	// The actual path where the backup data is stored. If not set, use the backup.status.path.
 	RealBackupPath *string                          `json:"realBackupPath,omitempty"`
 	RestoreOption  *BackupMethodOptionRestoreOption `json:"restoreOption,omitempty"`
-	Description    *LocalizedDescription            `json:"description,omitempty"`
+	// The cluster modes that this backup method does not support
+	NotSupportedModes []string              `json:"notSupportedModes,omitempty"`
+	Description       *LocalizedDescription `json:"description,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -148,6 +150,34 @@ func (o *BackupMethodOption) SetRestoreOption(v BackupMethodOptionRestoreOption)
 	o.RestoreOption = &v
 }
 
+// GetNotSupportedModes returns the NotSupportedModes field value if set, zero value otherwise.
+func (o *BackupMethodOption) GetNotSupportedModes() []string {
+	if o == nil || o.NotSupportedModes == nil {
+		var ret []string
+		return ret
+	}
+	return o.NotSupportedModes
+}
+
+// GetNotSupportedModesOk returns a tuple with the NotSupportedModes field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupMethodOption) GetNotSupportedModesOk() (*[]string, bool) {
+	if o == nil || o.NotSupportedModes == nil {
+		return nil, false
+	}
+	return &o.NotSupportedModes, true
+}
+
+// HasNotSupportedModes returns a boolean if a field has been set.
+func (o *BackupMethodOption) HasNotSupportedModes() bool {
+	return o != nil && o.NotSupportedModes != nil
+}
+
+// SetNotSupportedModes gets a reference to the given []string and assigns it to the NotSupportedModes field.
+func (o *BackupMethodOption) SetNotSupportedModes(v []string) {
+	o.NotSupportedModes = v
+}
+
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *BackupMethodOption) GetDescription() LocalizedDescription {
 	if o == nil || o.Description == nil {
@@ -192,6 +222,9 @@ func (o BackupMethodOption) MarshalJSON() ([]byte, error) {
 	if o.RestoreOption != nil {
 		toSerialize["restoreOption"] = o.RestoreOption
 	}
+	if o.NotSupportedModes != nil {
+		toSerialize["notSupportedModes"] = o.NotSupportedModes
+	}
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
@@ -205,11 +238,12 @@ func (o BackupMethodOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupMethodOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name             *string                          `json:"name"`
-		CompatibleMethod *string                          `json:"compatibleMethod,omitempty"`
-		RealBackupPath   *string                          `json:"realBackupPath,omitempty"`
-		RestoreOption    *BackupMethodOptionRestoreOption `json:"restoreOption,omitempty"`
-		Description      *LocalizedDescription            `json:"description,omitempty"`
+		Name              *string                          `json:"name"`
+		CompatibleMethod  *string                          `json:"compatibleMethod,omitempty"`
+		RealBackupPath    *string                          `json:"realBackupPath,omitempty"`
+		RestoreOption     *BackupMethodOptionRestoreOption `json:"restoreOption,omitempty"`
+		NotSupportedModes []string                         `json:"notSupportedModes,omitempty"`
+		Description       *LocalizedDescription            `json:"description,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -219,7 +253,7 @@ func (o *BackupMethodOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "compatibleMethod", "realBackupPath", "restoreOption", "description"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "compatibleMethod", "realBackupPath", "restoreOption", "notSupportedModes", "description"})
 	} else {
 		return err
 	}
@@ -232,6 +266,7 @@ func (o *BackupMethodOption) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.RestoreOption = all.RestoreOption
+	o.NotSupportedModes = all.NotSupportedModes
 	if all.Description != nil && all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
