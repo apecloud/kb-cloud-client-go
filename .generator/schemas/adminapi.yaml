@@ -17,6 +17,7 @@ servers:
     description: demo
 security:
   - BearerToken: []
+  - DigestAuth: []
 tags:
   - name: user
     description: User APIs
@@ -21018,10 +21019,22 @@ paths:
 components:
   securitySchemes:
     BearerToken:
+      type: http
+      scheme: bearer
+      description: JWT Bearer Token authentication
+    DigestAuth:
       type: apiKey
-      description: Bearer Token authentication
-      name: authorization
+      name: Authorization
       in: header
+      description: |
+        HTTP Digest Access Authentication (RFC 7616).
+
+        Use your API Key's **accessKey** as the username and **secretKey** as the password.
+
+        Example with curl:
+        ```
+        curl --digest -u "accessKey:secretKey" https://api.example.com/admin/v1/user
+        ```
   schemas:
     phoneNumber:
       description: The phonenumber for the user.
