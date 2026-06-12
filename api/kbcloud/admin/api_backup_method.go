@@ -25,6 +25,7 @@ type GetBackupMethodOptionalParameters struct {
 	WithRestoreCluster  *bool
 	WithHScale          *bool
 	Component           *string
+	Mode                *string
 }
 
 // NewGetBackupMethodOptionalParameters creates an empty struct for parameters.
@@ -66,6 +67,12 @@ func (r *GetBackupMethodOptionalParameters) WithWithHScale(withHScale bool) *Get
 // WithComponent sets the corresponding parameter name and returns the struct.
 func (r *GetBackupMethodOptionalParameters) WithComponent(component string) *GetBackupMethodOptionalParameters {
 	r.Component = &component
+	return r
+}
+
+// WithMode sets the corresponding parameter name and returns the struct.
+func (r *GetBackupMethodOptionalParameters) WithMode(mode string) *GetBackupMethodOptionalParameters {
+	r.Mode = &mode
 	return r
 }
 
@@ -123,6 +130,9 @@ func (a *BackupMethodApi) GetBackupMethod(ctx _context.Context, orgName string, 
 	}
 	if optionalParams.Component != nil {
 		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
+	}
+	if optionalParams.Mode != nil {
+		localVarQueryParams.Add("mode", common.ParameterToString(*optionalParams.Mode, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
