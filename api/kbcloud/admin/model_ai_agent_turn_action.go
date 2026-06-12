@@ -27,6 +27,8 @@ type AiAgentTurnAction struct {
 	// Sanitized action detail. Warning states are returned as `warning.value`
 	// with stable values such as `output_truncated`, `final_analysis_missing`,
 	// `no_tool_evidence`, `model_no_tool_call`, or `tooling_unavailable`.
+	// `model_no_tool_call` and `tooling_unavailable` are turn-completed
+	// warnings and are not emitted on tool/check detail cards.
 	// The legacy `warningReason` string may be present for compatibility.
 	//
 	Detail    map[string]interface{} `json:"detail,omitempty"`
