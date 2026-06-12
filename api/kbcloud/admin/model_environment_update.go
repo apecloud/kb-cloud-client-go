@@ -81,7 +81,7 @@ func NewEnvironmentUpdate() *EnvironmentUpdate {
 	this.ClusterValidationPolicy = &clusterValidationPolicy
 	var slaEnabled bool = false
 	this.SlaEnabled = &slaEnabled
-	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicyNon
+	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicySoftAntiAffinity
 	this.ClusterSchedulingPolicy = &clusterSchedulingPolicy
 	return &this
 }
@@ -107,7 +107,7 @@ func NewEnvironmentUpdateWithDefaults() *EnvironmentUpdate {
 	this.ClusterValidationPolicy = &clusterValidationPolicy
 	var slaEnabled bool = false
 	this.SlaEnabled = &slaEnabled
-	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicyNon
+	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicySoftAntiAffinity
 	this.ClusterSchedulingPolicy = &clusterSchedulingPolicy
 	return &this
 }

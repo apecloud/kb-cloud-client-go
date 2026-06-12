@@ -26641,7 +26641,7 @@ components:
         - SoftAntiAffinity
         - Disabled
         - None
-      default: None
+      default: SoftAntiAffinity
       description: |
         * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
         * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.

@@ -27,7 +27,7 @@ type SchedulingConfig struct {
 // will change when the set of required properties is changed.
 func NewSchedulingConfig() *SchedulingConfig {
 	this := SchedulingConfig{}
-	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicyNon
+	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicySoftAntiAffinity
 	this.ClusterSchedulingPolicy = &clusterSchedulingPolicy
 	return &this
 }
@@ -37,7 +37,7 @@ func NewSchedulingConfig() *SchedulingConfig {
 // but it doesn't guarantee that properties required by API are set.
 func NewSchedulingConfigWithDefaults() *SchedulingConfig {
 	this := SchedulingConfig{}
-	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicyNon
+	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicySoftAntiAffinity
 	this.ClusterSchedulingPolicy = &clusterSchedulingPolicy
 	return &this
 }
