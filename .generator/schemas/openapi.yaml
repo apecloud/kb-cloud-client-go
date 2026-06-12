@@ -4892,6 +4892,11 @@ paths:
           description: The component type is required when withRebuildInstance/withHScale is true.
           schema:
             type: string
+        - name: mode
+          in: query
+          description: The cluster mode, used to filter out unsupported backup methods.
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -23907,6 +23912,11 @@ components:
               description: |
                 If set to true, the restore will be ready after the cluster is running.
                 If set to false, the restore will be ready after the cluster is created.
+        notSupportedModes:
+          type: array
+          description: The cluster modes that this backup method does not support
+          items:
+            type: string
         description:
           $ref: '#/components/schemas/localizedDescription'
     selectedObjectOption:
