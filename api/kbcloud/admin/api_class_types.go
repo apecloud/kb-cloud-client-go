@@ -79,7 +79,7 @@ func (a *ClassTypesApi) CreateClassType(ctx _context.Context, o ...CreateClassTy
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
@@ -156,7 +156,7 @@ func (a *ClassTypesApi) DeleteClassType(ctx _context.Context, id string) (*_neth
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
@@ -225,7 +225,7 @@ func (a *ClassTypesApi) GetClassType(ctx _context.Context, id string) (ClassType
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
@@ -302,7 +302,7 @@ func (a *ClassTypesApi) GetClassTypes(ctx _context.Context) ([]ClassType, *_neth
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
@@ -410,7 +410,7 @@ func (a *ClassTypesApi) UpdateClassType(ctx _context.Context, id string, o ...Up
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {

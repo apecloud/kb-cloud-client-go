@@ -53,7 +53,7 @@ func (a *MonitorDataSinkApi) CreateMonitorDataSink(ctx _context.Context, body Mo
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
@@ -130,7 +130,7 @@ func (a *MonitorDataSinkApi) DeleteMonitorDataSink(ctx _context.Context, monitor
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
@@ -200,7 +200,7 @@ func (a *MonitorDataSinkApi) ListMonitorDataSinks(ctx _context.Context, environm
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
@@ -282,7 +282,7 @@ func (a *MonitorDataSinkApi) PatchMonitorDataSink(ctx _context.Context, monitorD
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {

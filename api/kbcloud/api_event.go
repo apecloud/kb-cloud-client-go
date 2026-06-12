@@ -82,7 +82,7 @@ func (a *EventApi) GetEventFilter(ctx _context.Context, orgName string, filterTy
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
@@ -162,7 +162,7 @@ func (a *EventApi) GetOrgEvent(ctx _context.Context, orgName string, eventId str
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
@@ -321,7 +321,7 @@ func (a *EventApi) ListOrgEvents(ctx _context.Context, orgName string, start int
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {

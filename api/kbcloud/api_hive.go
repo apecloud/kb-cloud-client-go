@@ -52,7 +52,7 @@ func (a *HiveApi) GetHiveAccounts(ctx _context.Context, orgName string, clusterN
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {

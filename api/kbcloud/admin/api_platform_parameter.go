@@ -50,7 +50,7 @@ func (a *PlatformParameterApi) GetPlatformParameter(ctx _context.Context, platfo
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
@@ -127,7 +127,7 @@ func (a *PlatformParameterApi) ListPlatformParameters(ctx _context.Context) (Pla
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
@@ -234,7 +234,7 @@ func (a *PlatformParameterApi) UpdatePlatformParameters(ctx _context.Context, o 
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
+		[2]string{"DigestAuth", "Authorization"},
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
