@@ -5,15 +5,13 @@
 package admin
 
 import (
-	"time"
-
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // DailySLA The SLA (Service Level Agreement) for a cluster on a specific date.
 type DailySLA struct {
-	// The date for which the SLA is calculated.
-	Date *time.Time `json:"date,omitempty"`
+	// The date for which the SLA is calculated, formatted as YYYY-MM-DD.
+	Date *string `json:"date,omitempty"`
 	// The SLA value for the cluster on the specified date. Null indicates that the cluster was not existing on that date.
 	Sla common.NullableFloat64 `json:"sla,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -39,9 +37,9 @@ func NewDailySLAWithDefaults() *DailySLA {
 }
 
 // GetDate returns the Date field value if set, zero value otherwise.
-func (o *DailySLA) GetDate() time.Time {
+func (o *DailySLA) GetDate() string {
 	if o == nil || o.Date == nil {
-		var ret time.Time
+		var ret string
 		return ret
 	}
 	return *o.Date
@@ -49,7 +47,7 @@ func (o *DailySLA) GetDate() time.Time {
 
 // GetDateOk returns a tuple with the Date field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DailySLA) GetDateOk() (*time.Time, bool) {
+func (o *DailySLA) GetDateOk() (*string, bool) {
 	if o == nil || o.Date == nil {
 		return nil, false
 	}
@@ -61,8 +59,8 @@ func (o *DailySLA) HasDate() bool {
 	return o != nil && o.Date != nil
 }
 
-// SetDate gets a reference to the given time.Time and assigns it to the Date field.
-func (o *DailySLA) SetDate(v time.Time) {
+// SetDate gets a reference to the given string and assigns it to the Date field.
+func (o *DailySLA) SetDate(v string) {
 	o.Date = &v
 }
 
@@ -127,7 +125,7 @@ func (o DailySLA) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DailySLA) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Date *time.Time             `json:"date,omitempty"`
+		Date *string                `json:"date,omitempty"`
 		Sla  common.NullableFloat64 `json:"sla,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {

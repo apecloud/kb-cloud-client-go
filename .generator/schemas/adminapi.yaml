@@ -36263,6 +36263,41 @@ components:
           $ref: '#/components/schemas/paginationResult'
       required:
         - items
+    SLACluster:
+      type: object
+      description: The cluster summary used by SLA calculation results. SLA responses can be built from historical outage data, so general cluster list fields may be unavailable.
+      properties:
+        id:
+          type: string
+          description: ID of cluster.
+        name:
+          type: string
+          description: Name of cluster.
+        displayName:
+          type: string
+          description: Display name of cluster.
+        orgName:
+          type: string
+          description: Org Name.
+        environmentName:
+          type: string
+          description: Environment Name.
+        engine:
+          type: string
+          description: Cluster Application Engine.
+        clusterType:
+          $ref: '#/components/schemas/clusterType'
+        createdAt:
+          type: string
+          format: date-time
+          x-nullable: true
+          description: The timestamp when the cluster was created, when available.
+        status:
+          type: string
+          description: The SLA calculation status for the cluster.
+        version:
+          type: string
+          description: Cluster Application Version.
     OutageRecord:
       type: object
       description: Records the outage events of a cluster for SLA calculation. It is designed to ensure that for any given cluster, there can be at most one active outage record at any time.
@@ -36315,7 +36350,7 @@ components:
       properties:
         cluster:
           type: object
-          $ref: '#/components/schemas/clusterListItem'
+          $ref: '#/components/schemas/SLACluster'
         detail:
           type: object
           $ref: '#/components/schemas/OutageRecordList'
@@ -36355,8 +36390,7 @@ components:
       properties:
         date:
           type: string
-          format: date
-          description: The date for which the SLA is calculated.
+          description: The date for which the SLA is calculated, formatted as YYYY-MM-DD.
         sla:
           type: number
           description: The SLA value for the cluster on the specified date. Null indicates that the cluster was not existing on that date.
