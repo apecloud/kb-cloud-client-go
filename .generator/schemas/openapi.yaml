@@ -3,7 +3,7 @@ info:
   title: KubeBlocks Cloud API
   version: 1.0.0
   description: |
-    ***KubeBlocks Cloud API*** is a RESTful API for managing KubeBlocks Cloud resources.
+    KubeBlocks Cloud API is a RESTful API for managing KubeBlocks Cloud resources.
 
     The API is organized around REST.
 
@@ -23,6 +23,7 @@ servers:
     description: demo
 security:
   - BearerToken: []
+  - DigestAuth: []
 tags:
   - name: user
     description: User APIs
@@ -1789,6 +1790,18 @@ paths:
           required: true
           schema:
             type: string
+        - description: Backup name to override cluster components from its snapshot
+          in: query
+          name: backupName
+          required: false
+          schema:
+            type: string
+        - description: Restore time to find latest continuous backup snapshot after this time
+          in: query
+          name: restoreTime
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -2313,7 +2326,15 @@ paths:
           schema:
             type: string
         - in: query
+          name: dbNameContains
+          schema:
+            type: string
+        - in: query
           name: userName
+          schema:
+            type: string
+        - in: query
+          name: userNameContains
           schema:
             type: string
         - in: query
@@ -2321,7 +2342,19 @@ paths:
           schema:
             type: string
         - in: query
+          name: clientIpContains
+          schema:
+            type: string
+        - in: query
+          name: clientIpCIDR
+          schema:
+            type: string
+        - in: query
           name: appName
+          schema:
+            type: string
+        - in: query
+          name: appNameContains
           schema:
             type: string
         - in: query
@@ -2339,6 +2372,46 @@ paths:
               schema:
                 $ref: '#/components/schemas/clusterExecutionLog'
           description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/explain:
+    post:
+      description: Explain a concrete SQL from a slow log using the cluster default datasource.
+      summary: Explain cluster slow log SQL
+      operationId: explainSlowLog
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DmsExplainRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterSlowLogExplainResponse'
+          description: Successful operation
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -2451,7 +2524,15 @@ paths:
           schema:
             type: string
         - in: query
+          name: dbNameContains
+          schema:
+            type: string
+        - in: query
           name: userName
+          schema:
+            type: string
+        - in: query
+          name: userNameContains
           schema:
             type: string
         - in: query
@@ -2459,7 +2540,19 @@ paths:
           schema:
             type: string
         - in: query
+          name: clientIpContains
+          schema:
+            type: string
+        - in: query
+          name: clientIpCIDR
+          schema:
+            type: string
+        - in: query
           name: appName
+          schema:
+            type: string
+        - in: query
+          name: appNameContains
           schema:
             type: string
       responses:
@@ -2659,6 +2752,90 @@ paths:
           name: sortType
           schema:
             $ref: '#/components/schemas/sortType'
+        - in: query
+          name: minExecutionTime
+          description: Minimum execution time in seconds. Decimal values are supported, for example 0.5.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxExecutionTime
+          description: Maximum execution time in seconds. Decimal values are supported, for example 0.5.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minLockTime
+          description: Minimum lock time in seconds. Decimal values are supported, for example 0.001.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxLockTime
+          description: Maximum lock time in seconds. Decimal values are supported, for example 0.001.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: minRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: dbName
+          schema:
+            type: string
+        - in: query
+          name: dbNameContains
+          schema:
+            type: string
+        - in: query
+          name: userName
+          schema:
+            type: string
+        - in: query
+          name: userNameContains
+          schema:
+            type: string
+        - in: query
+          name: clientIp
+          schema:
+            type: string
+        - in: query
+          name: clientIpContains
+          schema:
+            type: string
+        - in: query
+          name: clientIpCIDR
+          schema:
+            type: string
+        - in: query
+          name: appName
+          schema:
+            type: string
+        - in: query
+          name: appNameContains
+          schema:
+            type: string
+        - in: query
+          name: unclassifiedOnly
+          schema:
+            type: boolean
       responses:
         '200':
           content:
@@ -2734,6 +2911,94 @@ paths:
           schema:
             type: integer
             format: int32
+        - in: query
+          name: minExecutionTime
+          description: Minimum execution time in seconds. Decimal values are supported, for example 0.5.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxExecutionTime
+          description: Maximum execution time in seconds. Decimal values are supported, for example 0.5.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minLockTime
+          description: Minimum lock time in seconds. Decimal values are supported, for example 0.001.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxLockTime
+          description: Maximum lock time in seconds. Decimal values are supported, for example 0.001.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: minRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: dbName
+          schema:
+            type: string
+        - in: query
+          name: dbNameContains
+          schema:
+            type: string
+        - in: query
+          name: userName
+          schema:
+            type: string
+        - in: query
+          name: userNameContains
+          schema:
+            type: string
+        - in: query
+          name: clientIp
+          schema:
+            type: string
+        - in: query
+          name: clientIpContains
+          schema:
+            type: string
+        - in: query
+          name: clientIpCIDR
+          schema:
+            type: string
+        - in: query
+          name: appName
+          schema:
+            type: string
+        - in: query
+          name: appNameContains
+          schema:
+            type: string
+        - in: query
+          name: templateId
+          schema:
+            type: string
+        - in: query
+          name: unclassifiedOnly
+          schema:
+            type: boolean
       responses:
         '200':
           content:
@@ -2839,7 +3104,15 @@ paths:
           schema:
             type: string
         - in: query
+          name: dbNameContains
+          schema:
+            type: string
+        - in: query
           name: userName
+          schema:
+            type: string
+        - in: query
+          name: userNameContains
           schema:
             type: string
         - in: query
@@ -2847,7 +3120,19 @@ paths:
           schema:
             type: string
         - in: query
+          name: clientIpContains
+          schema:
+            type: string
+        - in: query
+          name: clientIpCIDR
+          schema:
+            type: string
+        - in: query
           name: appName
+          schema:
+            type: string
+        - in: query
+          name: appNameContains
           schema:
             type: string
         - in: query
@@ -3060,6 +3345,94 @@ paths:
           name: query
           schema:
             type: string
+        - in: query
+          name: minExecutionTime
+          description: Minimum slow log execution time in seconds. Only applies when logType=slow.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxExecutionTime
+          description: Maximum slow log execution time in seconds. Only applies when logType=slow.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minLockTime
+          description: Minimum slow log lock time in seconds. Only applies when logType=slow.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxLockTime
+          description: Maximum slow log lock time in seconds. Only applies when logType=slow.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: minRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: dbName
+          schema:
+            type: string
+        - in: query
+          name: dbNameContains
+          schema:
+            type: string
+        - in: query
+          name: userName
+          schema:
+            type: string
+        - in: query
+          name: userNameContains
+          schema:
+            type: string
+        - in: query
+          name: clientIp
+          schema:
+            type: string
+        - in: query
+          name: clientIpContains
+          schema:
+            type: string
+        - in: query
+          name: clientIpCIDR
+          schema:
+            type: string
+        - in: query
+          name: appName
+          schema:
+            type: string
+        - in: query
+          name: appNameContains
+          schema:
+            type: string
+        - in: query
+          name: templateId
+          schema:
+            type: string
+        - in: query
+          name: unclassifiedOnly
+          schema:
+            type: boolean
       responses:
         '200':
           content:
@@ -3270,6 +3643,94 @@ paths:
           schema:
             type: string
           description: Optional instance name filter
+        - in: query
+          name: minExecutionTime
+          description: Minimum slow log execution time in seconds. Only applies when logType=slow.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxExecutionTime
+          description: Maximum slow log execution time in seconds. Only applies when logType=slow.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minLockTime
+          description: Minimum slow log lock time in seconds. Only applies when logType=slow.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxLockTime
+          description: Maximum slow log lock time in seconds. Only applies when logType=slow.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: minRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: dbName
+          schema:
+            type: string
+        - in: query
+          name: dbNameContains
+          schema:
+            type: string
+        - in: query
+          name: userName
+          schema:
+            type: string
+        - in: query
+          name: userNameContains
+          schema:
+            type: string
+        - in: query
+          name: clientIp
+          schema:
+            type: string
+        - in: query
+          name: clientIpContains
+          schema:
+            type: string
+        - in: query
+          name: clientIpCIDR
+          schema:
+            type: string
+        - in: query
+          name: appName
+          schema:
+            type: string
+        - in: query
+          name: appNameContains
+          schema:
+            type: string
+        - in: query
+          name: templateId
+          schema:
+            type: string
+        - in: query
+          name: unclassifiedOnly
+          schema:
+            type: boolean
         - in: query
           name: maxLines
           schema:
@@ -4517,6 +4978,11 @@ paths:
         - name: component
           in: query
           description: The component type is required when withRebuildInstance/withHScale is true.
+          schema:
+            type: string
+        - name: mode
+          in: query
+          description: The cluster mode, used to filter out unsupported backup methods.
           schema:
             type: string
       responses:
@@ -7851,6 +8317,39 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases:
+    get:
+      tags:
+        - dms
+        - shared
+      operationId: listDmsDatabases
+      summary: list all databases of the datasource
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of the datasource
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsSchemaList'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/schemas:
     get:
       tags:
@@ -7875,6 +8374,12 @@ paths:
           in: path
           description: id of the datasource
           required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: database name, used by engines such as MSSQL when listing schemas inside a database
+          required: false
           schema:
             type: string
       responses:
@@ -7914,6 +8419,12 @@ paths:
           in: path
           description: schema or database name
           required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: database name, used by engines such as MSSQL when listing objects inside a schema
+          required: false
           schema:
             type: string
       responses:
@@ -7959,6 +8470,12 @@ paths:
           in: path
           description: object type
           required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: database name, used by engines such as MSSQL when listing object names inside a schema
+          required: false
           schema:
             type: string
       responses:
@@ -8010,6 +8527,12 @@ paths:
           in: path
           description: object name
           required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: database name, used by engines such as MSSQL when reading object metadata inside a schema
+          required: false
           schema:
             type: string
       responses:
@@ -13131,6 +13654,94 @@ paths:
         - rdbms
         - shared
       x-codegen-request-body-name: body
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/lock:
+    patch:
+      description: lock an account in cluster
+      summary: Lock cluster account
+      operationId: lockAccount
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when account is locked successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - account
+        - rdbms
+        - shared
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/unlock:
+    patch:
+      description: unlock an account in cluster
+      summary: Unlock cluster account
+      operationId: unlockAccount
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when account is unlocked successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - account
+        - rdbms
+        - shared
   /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions:
     get:
       description: list sessions in cluster
@@ -13446,53 +14057,6 @@ paths:
         '204':
           content: {}
           description: Enable mssql database in tde successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /api/v1/data/postgresql/organizations/{orgName}/clusters/{clusterName}/sessions:
-    get:
-      tags:
-        - postgresql
-        - session
-      summary: List PostgreSQL realtime sessions
-      description: List PostgreSQL realtime sessions with SQL summaries and digests.
-      operationId: listPostgresqlRealtimeSessions
-      parameters:
-        - name: orgName
-          in: path
-          description: Organization name
-          required: true
-          schema:
-            type: string
-        - description: name of the cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - name: limit
-          in: query
-          description: Maximum sessions to return. Defaults to 200 and is capped at 500.
-          required: false
-          schema:
-            type: integer
-            format: int64
-            minimum: 1
-            maximum: 500
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/postgresqlSession'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -14132,203 +14696,6 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/ai/conversations:
-    get:
-      tags:
-        - AI
-      summary: List conversations by user
-      description: Retrieves a list of conversations filtered by user.
-      operationId: listConversations
-      parameters:
-        - name: page
-          in: query
-          description: Page number for pagination
-          schema:
-            type: integer
-            default: 1
-        - name: pageSize
-          in: query
-          description: Number of items per page
-          schema:
-            type: integer
-            default: 10
-        - name: type
-          in: query
-          description: Type of conversations to filter, can be bi or analysis.
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A list of conversations
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/aiConversationListResponse'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-    post:
-      tags:
-        - AI
-      summary: Create a new conversation
-      description: Creates a new conversation.
-      operationId: newAIConversation
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AIConversationRequest'
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/aiConversation'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /api/v1/ai/conversations/{conversationId}/messages:
-    get:
-      tags:
-        - AI
-      summary: Get AI conversation messages
-      description: Retrieves ai messages for a specific conversation. If pre is not provided, returns the last 10 turn messages. If pre is provided, returns 10 turn messages after the pre message.
-      operationId: getConversationMessages
-      parameters:
-        - name: conversationId
-          in: path
-          required: true
-          description: ID of the conversation
-          schema:
-            type: string
-            format: uuid
-        - name: pre
-          in: query
-          description: Previous message ID
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A list of messages for the conversation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/aiMessageListResponse'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /api/v1/ai/conversations/{conversationId}:
-    delete:
-      tags:
-        - AI
-      summary: Delete a conversation
-      description: Deletes a specific conversation and all its associated messages.
-      operationId: deleteConversation
-      parameters:
-        - name: conversationId
-          in: path
-          required: true
-          description: ID of the conversation to delete
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '204':
-          content: {}
-          description: Conversation deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /api/v1/ai/chatbi/v2:
-    post:
-      tags:
-        - AI
-      summary: SSE endpoint for Chat BI V2
-      description: Establishes an SSE connection for AI BI conversation.
-      operationId: chatBIV2SSE
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/chatRequest'
-      responses:
-        '200':
-          description: Successful operation, returns an event stream.
-          content:
-            text/event-stream:
-              schema:
-                $ref: '#/components/schemas/chatResponse'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /api/v1/ai/chatops/v2:
-    post:
-      tags:
-        - AI
-      summary: SSE endpoint for Chat V2
-      description: Establishes an SSE connection for AI conversation.
-      operationId: chatV2SSE
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/chatRequest'
-      responses:
-        '200':
-          description: Successful operation, returns an event stream.
-          content:
-            text/event-stream:
-              schema:
-                $ref: '#/components/schemas/chatResponse'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/ai-agent/status:
     get:
       tags:
@@ -14663,6 +15030,100 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/browse:
+    get:
+      tags:
+        - AI Agent
+      operationId: browseAIAgentTurnActionArtifact
+      summary: Browse a generated AI diagnosis report artifact
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: actionId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: artifactId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Generated report artifact content for browser preview
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+  /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/download:
+    get:
+      tags:
+        - AI Agent
+      operationId: downloadAIAgentTurnActionArtifact
+      summary: Download a generated AI diagnosis report artifact
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: actionId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: artifactId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Generated report artifact content
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
   /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/events:
     get:
       tags:
@@ -16647,6 +17108,44 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/environments/{environmentName}/engineNetworkModes/supported:
+    get:
+      tags:
+        - engine
+      operationId: getEngineNetworkModeSupported
+      summary: Get supported network modes for engine+mode from engineOption config
+      parameters:
+        - name: environmentName
+          in: path
+          description: environment name
+          required: true
+          schema:
+            type: string
+        - name: engineName
+          in: query
+          description: engine name
+          required: true
+          schema:
+            type: string
+        - name: mode
+          in: query
+          description: engine mode
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineNetworkModeSupported'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/blueGreenDeployment/{deploymentID}:
     get:
       operationId: getBlueGreenDeployment
@@ -16939,10 +17438,22 @@ paths:
 components:
   securitySchemes:
     BearerToken:
+      type: http
+      scheme: bearer
+      description: JWT Bearer Token authentication
+    DigestAuth:
       type: apiKey
-      description: Bearer Token authentication
-      name: authorization
+      name: Authorization
       in: header
+      description: |
+        HTTP Digest Access Authentication (RFC 7616).
+
+        Use your API Key's **accessKey** as the username and **secretKey** as the password.
+
+        Example with curl:
+        ```
+        curl --digest -u "accessKey:secretKey" https://api.example.com/api/v1/user
+        ```
   schemas:
     phoneNumber:
       description: The phonenumber for the user.
@@ -17697,11 +18208,6 @@ components:
             - kubeblocks-cloud-ns
           type: array
           description: namespace info for environment
-        podAntiAffinityEnabled:
-          title: PodAntiAffinityEnabled
-          description: Enable pod antiaffinity for cluster
-          type: boolean
-          default: true
         defaultStorageClass:
           type: string
           description: the default storageClass for the environment
@@ -19911,116 +20417,16 @@ components:
           type: array
         pagination:
           $ref: '#/components/schemas/clusterLogPagination'
-    clusterSlowLogTemplate:
+    DmsExplainRequest:
       type: object
-      description: Aggregated slow log query template
       properties:
-        templateId:
+        query:
           type: string
-          description: Query template identifier
-          x-omitempty: false
-        normalizedQuery:
+          description: the sql string
+        database:
           type: string
-          description: Normalized SQL or command template
-          x-omitempty: false
-        sampleSQL:
-          type: string
-          description: Representative SQL sample for the template
-          x-omitempty: false
-        totalCount:
-          type: integer
-          format: int64
-          x-omitempty: false
-        totalExecutionTime:
-          type: number
-          format: double
-          description: Total execution time in seconds
-          x-omitempty: false
-        avgExecutionTime:
-          type: number
-          format: double
-          description: Average execution time in seconds
-          x-omitempty: false
-        maxExecutionTime:
-          type: number
-          format: double
-          description: Maximum execution time in seconds
-          x-omitempty: false
-        p95ExecutionTime:
-          type: number
-          format: double
-          description: P95 execution time in seconds
-          x-omitempty: false
-        dbCount:
-          type: integer
-          format: int64
-          description: Number of unique database names in the time range
-          x-omitempty: false
-        userCount:
-          type: integer
-          format: int64
-          description: Number of unique users in the time range
-          x-omitempty: false
-        clientIPCount:
-          type: integer
-          format: int64
-          description: Number of unique client IPs in the time range
-          x-omitempty: false
-        appCount:
-          type: integer
-          format: int64
-          description: Number of unique application names in the time range
-          x-omitempty: false
-        avgRowsExamined:
-          type: number
-          format: double
-          description: Average rows examined by the template
-          x-nullable: true
-          x-omitempty: true
-        avgRowsSent:
-          type: number
-          format: double
-          description: Average rows returned or sent by the template
-          x-nullable: true
-          x-omitempty: true
-        avgLockTime:
-          type: number
-          format: double
-          description: Average lock wait time in seconds
-          x-nullable: true
-          x-omitempty: true
-        dbNames:
-          type: array
-          description: Sampled database names for the template
-          items:
-            type: string
-          x-omitempty: true
-        users:
-          type: array
-          description: Sampled users for the template
-          items:
-            type: string
-          x-omitempty: true
-        clientIPs:
-          type: array
-          description: Sampled client IPs for the template
-          items:
-            type: string
-          x-omitempty: true
-        apps:
-          type: array
-          description: Sampled application names for the template
-          items:
-            type: string
-          x-omitempty: true
-    clusterSlowLogTemplateList:
-      type: object
-      description: Query template list for slow logs
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/clusterSlowLogTemplate'
+          description: the database for explaining the SQL
+          default: ''
     DmsPagination:
       type: object
       properties:
@@ -20117,6 +20523,141 @@ components:
           $ref: '#/components/schemas/clusterExecutionLogItem'
         explainResult:
           $ref: '#/components/schemas/DmsQueryResponse'
+    clusterSlowLogTemplate:
+      type: object
+      description: Aggregated slow log query template
+      properties:
+        templateId:
+          type: string
+          description: Query template identifier
+          x-omitempty: false
+        normalizedQuery:
+          type: string
+          description: Normalized SQL or command template
+          x-omitempty: false
+        sampleSQL:
+          type: string
+          description: Representative SQL sample for the template
+          x-omitempty: false
+        totalCount:
+          type: integer
+          format: int64
+          x-omitempty: false
+        totalExecutionTime:
+          type: number
+          format: double
+          description: Total execution time in seconds
+          x-omitempty: false
+        avgExecutionTime:
+          type: number
+          format: double
+          description: Average execution time in seconds
+          x-omitempty: false
+        minExecutionTime:
+          type: number
+          format: double
+          description: Minimum execution time in seconds
+          x-omitempty: false
+        maxExecutionTime:
+          type: number
+          format: double
+          description: Maximum execution time in seconds
+          x-omitempty: false
+        stddevExecutionTime:
+          type: number
+          format: double
+          description: Standard deviation of execution time in seconds
+          x-omitempty: false
+        p50ExecutionTime:
+          type: number
+          format: double
+          description: P50 execution time in seconds
+          x-omitempty: false
+        p90ExecutionTime:
+          type: number
+          format: double
+          description: P90 execution time in seconds
+          x-omitempty: false
+        p95ExecutionTime:
+          type: number
+          format: double
+          description: P95 execution time in seconds
+          x-omitempty: false
+        p99ExecutionTime:
+          type: number
+          format: double
+          description: P99 execution time in seconds
+          x-omitempty: false
+        dbCount:
+          type: integer
+          format: int64
+          description: Number of unique database names in the time range
+          x-omitempty: false
+        userCount:
+          type: integer
+          format: int64
+          description: Number of unique users in the time range
+          x-omitempty: false
+        clientIPCount:
+          type: integer
+          format: int64
+          description: Number of unique client IPs in the time range
+          x-omitempty: false
+        appCount:
+          type: integer
+          format: int64
+          description: Number of unique application names in the time range
+          x-omitempty: false
+        avgRowsExamined:
+          type: number
+          format: double
+          description: Average rows examined by the template
+          x-nullable: true
+          x-omitempty: true
+        avgRowsSent:
+          type: number
+          format: double
+          description: Average rows returned or sent by the template
+          x-nullable: true
+          x-omitempty: true
+        avgLockTime:
+          type: number
+          format: double
+          description: Average lock wait time in seconds
+          x-nullable: true
+          x-omitempty: true
+        dbNames:
+          type: array
+          description: Sampled database names for the template
+          items:
+            type: string
+          x-omitempty: true
+        users:
+          type: array
+          description: Sampled users for the template
+          items:
+            type: string
+          x-omitempty: true
+        clientIPs:
+          type: array
+          description: Sampled client IPs for the template
+          items:
+            type: string
+          x-omitempty: true
+        apps:
+          type: array
+          description: Sampled application names for the template
+          items:
+            type: string
+          x-omitempty: true
+    clusterSlowLogTemplateList:
+      type: object
+      description: Query template list for slow logs
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterSlowLogTemplate'
     clusterExecutionLogAggregateItem:
       type: object
       description: Aggregate item for grouped execution logs
@@ -23194,6 +23735,14 @@ components:
           type: boolean
         delete:
           type: boolean
+        supportLock:
+          type: boolean
+          description: Whether the engine supports account lock and unlock actions.
+        protectedAccounts:
+          type: array
+          description: Account names that are protected from update, delete, lock, and unlock actions.
+          items:
+            type: string
         displayRootAccount:
           type: boolean
           x-omitempty: false
@@ -23248,6 +23797,12 @@ components:
           type: array
           description: |
             The database option information that will be displayed when listing databases
+          items:
+            type: string
+        protectedDatabases:
+          type: array
+          description: |
+            Database names that should be visible in database lists but protected from destructive operations.
           items:
             type: string
         availableOptions:
@@ -23344,6 +23899,11 @@ components:
               description: |
                 If set to true, the restore will be ready after the cluster is running.
                 If set to false, the restore will be ready after the cluster is created.
+        notSupportedModes:
+          type: array
+          description: The cluster modes that this backup method does not support
+          items:
+            type: string
         description:
           $ref: '#/components/schemas/localizedDescription'
     selectedObjectOption:
@@ -25480,16 +26040,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/DmsQueryHistory'
-    DmsExplainRequest:
-      type: object
-      properties:
-        query:
-          type: string
-          description: the sql string
-        database:
-          type: string
-          description: the database for explaining the SQL
-          default: ''
     DmsGenerateDdlOperationType:
       type: string
       description: operation type
@@ -28093,62 +28643,6 @@ components:
       required:
         - enable
         - disable
-    postgresqlSession:
-      type: object
-      required:
-        - pid
-        - user
-        - database
-        - client
-        - application
-        - state
-        - waitEventType
-        - waitEvent
-        - durationSeconds
-        - xactDurationSeconds
-        - queryDigest
-        - querySummary
-        - backendType
-      properties:
-        pid:
-          type: integer
-          format: int64
-        user:
-          type: string
-        database:
-          type: string
-        client:
-          type: string
-          description: Client address and port.
-        application:
-          type: string
-        state:
-          type: string
-        waitEventType:
-          type: string
-        waitEvent:
-          type: string
-        backendStart:
-          type: string
-          description: Backend start timestamp if available.
-        queryStart:
-          type: string
-          description: Query start timestamp if available.
-        xactStart:
-          type: string
-          description: Transaction start timestamp if available.
-        durationSeconds:
-          type: integer
-          format: int64
-        xactDurationSeconds:
-          type: integer
-          format: int64
-        queryDigest:
-          type: string
-        querySummary:
-          type: string
-        backendType:
-          type: string
     PgExtensionAvailableDatabaseSchema:
       type: object
       properties:
@@ -28456,7 +28950,13 @@ components:
           title: Enabled
           type: boolean
         config:
-          description: Config
+          description: |
+            Config.
+
+            For OpenAI-compatible providers, model entries under `available_models`
+            may include `max_tokens` as the maximum output token count and
+            `context_length` as the total context window. `context_window` is a
+            deprecated compatibility alias and should not be used by new clients.
           title: Config
           type: object
           additionalProperties:
@@ -28501,190 +29001,6 @@ components:
           x-omitempty: false
         message:
           type: string
-    aiConversation:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Conversation ID
-        userId:
-          type: string
-          description: User ID associated with the conversation
-        clusterName:
-          type: string
-          description: Name of the cluster associated with the conversation
-        orgName:
-          type: string
-          description: Name of the organization associated with the conversation
-        title:
-          type: string
-          description: Optional title for the conversation
-          x-nullable: true
-        type:
-          type: string
-          description: Type of the conversation, can be chatbi or chatops.
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp of when the conversation was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp of when the conversation was last updated
-    aiConversationListResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/aiConversation'
-        total:
-          type: integer
-          format: int64
-          description: Total number of conversations
-    AIChatType:
-      type: string
-      enum:
-        - chatbi
-        - chatops
-      description: Query type
-    AIConversationRequest:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/AIChatType'
-    senderType:
-      type: string
-      enum:
-        - user
-        - assistant
-        - system
-      description: Type of the sender (user, assistant, or system)
-    metadataObject:
-      type: object
-      additionalProperties: true
-      description: Optional metadata for AI messages (e.g., tool calls, results)
-      x-nullable: true
-    aiMessage:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Message ID
-        conversationId:
-          type: string
-          format: uuid
-          description: ID of the conversation this message belongs to
-        senderType:
-          $ref: '#/components/schemas/senderType'
-        content:
-          type: string
-          description: Content of the message
-        isFavorited:
-          type: boolean
-          description: Whether the message is favorited by user
-          default: false
-        metadata:
-          $ref: '#/components/schemas/metadataObject'
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp of when the message was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp of when the message was last updated
-    aiMessageListResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/aiMessage'
-    chatRequest:
-      type: object
-      required:
-        - orgName
-        - clusterName
-        - sessionId
-        - query
-        - model
-      description: Chat message request
-      properties:
-        orgName:
-          type: string
-          description: Organization name
-        clusterName:
-          type: string
-          description: Cluster name
-        sessionId:
-          type: string
-          description: Session ID
-        messageID:
-          type: string
-          description: Message ID
-        query:
-          type: string
-          description: Query content
-        model:
-          type: string
-          description: LLM model
-          x-nullable: true
-        datasourceName:
-          type: string
-          description: Datasource name
-          x-nullable: true
-        database:
-          type: string
-          description: Database involved in the chat
-          x-nullable: true
-        schema:
-          type: string
-          description: Schema involved in the chat
-          x-nullable: true
-        tables:
-          type: array
-          description: Tables involved in the chat
-          items:
-            type: string
-            x-nullable: true
-    chatResponseType:
-      type: string
-      enum:
-        - Message
-        - Graph
-        - Finish
-        - DataInterpretation
-        - Error
-        - Think
-        - ToolResult
-        - SessionID
-        - ToolCall
-      description: Message type
-    chatResponse:
-      type: object
-      required:
-        - data
-        - type
-        - done
-        - sessionId
-      description: Chat message response
-      properties:
-        data:
-          description: Arbitrary event payload
-        done:
-          type: boolean
-          description: Whether the SSE stream is complete
-        type:
-          $ref: '#/components/schemas/chatResponseType'
-        messageID:
-          type: string
-          description: Message ID
-        sessionId:
-          type: string
-          description: Session ID
     aiAgentRuntimeStatusCode:
       x-generate-alias-as-model: true
       type: string
@@ -28970,6 +29286,13 @@ components:
           type: boolean
         detail:
           type: object
+          description: |
+            Sanitized action detail. Warning states are returned as `warning.value`
+            with stable values such as `output_truncated`, `final_analysis_missing`,
+            `no_tool_evidence`, `model_no_tool_call`, or `tooling_unavailable`.
+            `model_no_tool_call` and `tooling_unavailable` are turn-completed
+            warnings and are not emitted on tool/check detail cards.
+            The legacy `warningReason` string may be present for compatibility.
           additionalProperties: true
           x-nullable: true
         createdAt:
@@ -29210,10 +29533,6 @@ components:
           type: object
           description: the tags for the storage
           additionalProperties:
-            type: string
-        engines:
-          type: array
-          items:
             type: string
     storageList:
       type: array
@@ -30614,6 +30933,21 @@ components:
         - engine
         - engineMode
         - schedulingPolicyType
+    engineNetworkModeSupported:
+      type: object
+      properties:
+        supported:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
+          description: supported network modes
+        notSupportedVersions:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: not supported versions, key is networkMode, value is array of versions
     blueGreenDeploymentStatus:
       description: The status of a blue-green deployment.
       enum:

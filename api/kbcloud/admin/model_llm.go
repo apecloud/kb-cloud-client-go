@@ -19,7 +19,13 @@ type Llm struct {
 	Name string `json:"name"`
 	// Whether this LLM is enabled
 	Enabled bool `json:"enabled"`
-	// Config
+	// Config.
+	//
+	// For OpenAI-compatible providers, model entries under `available_models`
+	// may include `max_tokens` as the maximum output token count and
+	// `context_length` as the total context window. `context_window` is a
+	// deprecated compatibility alias and should not be used by new clients.
+	//
 	Config map[string]interface{} `json:"config"`
 	Level  *AccessLevel           `json:"level,omitempty"`
 	// CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.

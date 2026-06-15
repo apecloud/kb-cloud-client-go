@@ -12,20 +12,27 @@ import (
 )
 
 type AiAgentTurnAction struct {
-	ActionId       string                 `json:"actionId"`
-	ConversationId string                 `json:"conversationId"`
-	TurnId         string                 `json:"turnId"`
-	MessageId      *string                `json:"messageId,omitempty"`
-	Type           AiAgentEventType       `json:"type"`
-	Status         *string                `json:"status,omitempty"`
-	Title          string                 `json:"title"`
-	Summary        *string                `json:"summary,omitempty"`
-	ToolName       *string                `json:"toolName,omitempty"`
-	Target         *string                `json:"target,omitempty"`
-	ConfirmationId *string                `json:"confirmationId,omitempty"`
-	HasDetail      bool                   `json:"hasDetail"`
-	Detail         map[string]interface{} `json:"detail,omitempty"`
-	CreatedAt      time.Time              `json:"createdAt"`
+	ActionId       string           `json:"actionId"`
+	ConversationId string           `json:"conversationId"`
+	TurnId         string           `json:"turnId"`
+	MessageId      *string          `json:"messageId,omitempty"`
+	Type           AiAgentEventType `json:"type"`
+	Status         *string          `json:"status,omitempty"`
+	Title          string           `json:"title"`
+	Summary        *string          `json:"summary,omitempty"`
+	ToolName       *string          `json:"toolName,omitempty"`
+	Target         *string          `json:"target,omitempty"`
+	ConfirmationId *string          `json:"confirmationId,omitempty"`
+	HasDetail      bool             `json:"hasDetail"`
+	// Sanitized action detail. Warning states are returned as `warning.value`
+	// with stable values such as `output_truncated`, `final_analysis_missing`,
+	// `no_tool_evidence`, `model_no_tool_call`, or `tooling_unavailable`.
+	// `model_no_tool_call` and `tooling_unavailable` are turn-completed
+	// warnings and are not emitted on tool/check detail cards.
+	// The legacy `warningReason` string may be present for compatibility.
+	//
+	Detail    map[string]interface{} `json:"detail,omitempty"`
+	CreatedAt time.Time              `json:"createdAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

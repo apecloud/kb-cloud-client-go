@@ -48,8 +48,6 @@ type Environment struct {
 	KbVersion *string `json:"kbVersion,omitempty"`
 	// namespace info for environment
 	Namespaces []string `json:"namespaces,omitempty"`
-	// Enable pod antiaffinity for cluster
-	PodAntiAffinityEnabled *bool `json:"podAntiAffinityEnabled,omitempty"`
 	// the default storageClass for the environment
 	DefaultStorageClass string `json:"defaultStorageClass"`
 	// Cluster operation validation policy, such as create, hscale, vscale, etc.
@@ -77,8 +75,6 @@ func NewEnvironment(provider string, region string, availabilityZones []string, 
 	this.State = state
 	this.Type = typeVar
 	this.UpdatedAt = updatedAt
-	var podAntiAffinityEnabled bool = true
-	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
 	this.DefaultStorageClass = defaultStorageClass
 	var clusterValidationPolicy ClusterValidationPolicy = ClusterValidationPolicyValidateOnly
 	this.ClusterValidationPolicy = &clusterValidationPolicy
@@ -92,8 +88,6 @@ func NewEnvironmentWithDefaults() *Environment {
 	this := Environment{}
 	var typeVar EnvironmentType = EnvironmentTypePublic
 	this.Type = typeVar
-	var podAntiAffinityEnabled bool = true
-	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
 	var clusterValidationPolicy ClusterValidationPolicy = ClusterValidationPolicyValidateOnly
 	this.ClusterValidationPolicy = &clusterValidationPolicy
 	return &this
@@ -525,34 +519,6 @@ func (o *Environment) SetNamespaces(v []string) {
 	o.Namespaces = v
 }
 
-// GetPodAntiAffinityEnabled returns the PodAntiAffinityEnabled field value if set, zero value otherwise.
-func (o *Environment) GetPodAntiAffinityEnabled() bool {
-	if o == nil || o.PodAntiAffinityEnabled == nil {
-		var ret bool
-		return ret
-	}
-	return *o.PodAntiAffinityEnabled
-}
-
-// GetPodAntiAffinityEnabledOk returns a tuple with the PodAntiAffinityEnabled field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Environment) GetPodAntiAffinityEnabledOk() (*bool, bool) {
-	if o == nil || o.PodAntiAffinityEnabled == nil {
-		return nil, false
-	}
-	return o.PodAntiAffinityEnabled, true
-}
-
-// HasPodAntiAffinityEnabled returns a boolean if a field has been set.
-func (o *Environment) HasPodAntiAffinityEnabled() bool {
-	return o != nil && o.PodAntiAffinityEnabled != nil
-}
-
-// SetPodAntiAffinityEnabled gets a reference to the given bool and assigns it to the PodAntiAffinityEnabled field.
-func (o *Environment) SetPodAntiAffinityEnabled(v bool) {
-	o.PodAntiAffinityEnabled = &v
-}
-
 // GetDefaultStorageClass returns the DefaultStorageClass field value.
 func (o *Environment) GetDefaultStorageClass() string {
 	if o == nil {
@@ -677,9 +643,6 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 	if o.Namespaces != nil {
 		toSerialize["namespaces"] = o.Namespaces
 	}
-	if o.PodAntiAffinityEnabled != nil {
-		toSerialize["podAntiAffinityEnabled"] = o.PodAntiAffinityEnabled
-	}
 	toSerialize["defaultStorageClass"] = o.DefaultStorageClass
 	if o.ClusterValidationPolicy != nil {
 		toSerialize["clusterValidationPolicy"] = o.ClusterValidationPolicy
@@ -714,7 +677,6 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 		ExtraInfo               *string                  `json:"extraInfo,omitempty"`
 		KbVersion               *string                  `json:"kbVersion,omitempty"`
 		Namespaces              []string                 `json:"namespaces,omitempty"`
-		PodAntiAffinityEnabled  *bool                    `json:"podAntiAffinityEnabled,omitempty"`
 		DefaultStorageClass     *string                  `json:"defaultStorageClass"`
 		ClusterValidationPolicy *ClusterValidationPolicy `json:"clusterValidationPolicy,omitempty"`
 		Architecture            *EnvironmentArchitecture `json:"architecture,omitempty"`
@@ -757,7 +719,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "networkConfig", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "kbVersion", "namespaces", "podAntiAffinityEnabled", "defaultStorageClass", "clusterValidationPolicy", "architecture"})
+		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "networkConfig", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "kbVersion", "namespaces", "defaultStorageClass", "clusterValidationPolicy", "architecture"})
 	} else {
 		return err
 	}
@@ -791,7 +753,6 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	o.ExtraInfo = all.ExtraInfo
 	o.KbVersion = all.KbVersion
 	o.Namespaces = all.Namespaces
-	o.PodAntiAffinityEnabled = all.PodAntiAffinityEnabled
 	o.DefaultStorageClass = *all.DefaultStorageClass
 	if all.ClusterValidationPolicy != nil && !all.ClusterValidationPolicy.IsValid() {
 		hasInvalidField = true

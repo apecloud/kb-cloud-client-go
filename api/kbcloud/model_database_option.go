@@ -26,6 +26,9 @@ type DatabaseOption struct {
 	// The database option information that will be displayed when listing databases
 	//
 	ListOption []string `json:"listOption,omitempty"`
+	// Database names that should be visible in database lists but protected from destructive operations.
+	//
+	ProtectedDatabases []string `json:"protectedDatabases,omitempty"`
 	// The database option cloud be set when creating databases
 	//
 	AvailableOptions []string `json:"availableOptions,omitempty"`
@@ -254,6 +257,34 @@ func (o *DatabaseOption) SetListOption(v []string) {
 	o.ListOption = v
 }
 
+// GetProtectedDatabases returns the ProtectedDatabases field value if set, zero value otherwise.
+func (o *DatabaseOption) GetProtectedDatabases() []string {
+	if o == nil || o.ProtectedDatabases == nil {
+		var ret []string
+		return ret
+	}
+	return o.ProtectedDatabases
+}
+
+// GetProtectedDatabasesOk returns a tuple with the ProtectedDatabases field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DatabaseOption) GetProtectedDatabasesOk() (*[]string, bool) {
+	if o == nil || o.ProtectedDatabases == nil {
+		return nil, false
+	}
+	return &o.ProtectedDatabases, true
+}
+
+// HasProtectedDatabases returns a boolean if a field has been set.
+func (o *DatabaseOption) HasProtectedDatabases() bool {
+	return o != nil && o.ProtectedDatabases != nil
+}
+
+// SetProtectedDatabases gets a reference to the given []string and assigns it to the ProtectedDatabases field.
+func (o *DatabaseOption) SetProtectedDatabases(v []string) {
+	o.ProtectedDatabases = v
+}
+
 // GetAvailableOptions returns the AvailableOptions field value if set, zero value otherwise.
 func (o *DatabaseOption) GetAvailableOptions() []string {
 	if o == nil || o.AvailableOptions == nil {
@@ -335,6 +366,9 @@ func (o DatabaseOption) MarshalJSON() ([]byte, error) {
 	if o.ListOption != nil {
 		toSerialize["listOption"] = o.ListOption
 	}
+	if o.ProtectedDatabases != nil {
+		toSerialize["protectedDatabases"] = o.ProtectedDatabases
+	}
 	if o.AvailableOptions != nil {
 		toSerialize["availableOptions"] = o.AvailableOptions
 	}
@@ -358,6 +392,7 @@ func (o *DatabaseOption) UnmarshalJSON(bytes []byte) (err error) {
 		DatabaseNamePattern    *string                                    `json:"databaseNamePattern,omitempty"`
 		PatternDescription     *DatabaseOptionPatternDescription          `json:"patternDescription,omitempty"`
 		ListOption             []string                                   `json:"listOption,omitempty"`
+		ProtectedDatabases     []string                                   `json:"protectedDatabases,omitempty"`
 		AvailableOptions       []string                                   `json:"availableOptions,omitempty"`
 		AvailbaleUpdateOptions []DatabaseOptionAvailbaleUpdateOptionsItem `json:"availbaleUpdateOptions,omitempty"`
 	}{}
@@ -369,7 +404,7 @@ func (o *DatabaseOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"enabled", "update", "maxLen", "minLen", "databaseNamePattern", "patternDescription", "listOption", "availableOptions", "availbaleUpdateOptions"})
+		common.DeleteKeys(additionalProperties, &[]string{"enabled", "update", "maxLen", "minLen", "databaseNamePattern", "patternDescription", "listOption", "protectedDatabases", "availableOptions", "availbaleUpdateOptions"})
 	} else {
 		return err
 	}
@@ -385,6 +420,7 @@ func (o *DatabaseOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.PatternDescription = all.PatternDescription
 	o.ListOption = all.ListOption
+	o.ProtectedDatabases = all.ProtectedDatabases
 	o.AvailableOptions = all.AvailableOptions
 	o.AvailbaleUpdateOptions = all.AvailbaleUpdateOptions
 

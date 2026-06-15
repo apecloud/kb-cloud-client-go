@@ -11,12 +11,14 @@ import (
 )
 
 type PostgresqlSession struct {
-	Pid      int64  `json:"pid"`
-	User     string `json:"user"`
-	Database string `json:"database"`
-	// Client address and port.
-	Client        string `json:"client"`
-	Application   string `json:"application"`
+	Pid             int64  `json:"pid"`
+	User            string `json:"user"`
+	Database        string `json:"database"`
+	ApplicationName string `json:"applicationName"`
+	// Client address.
+	ClientAddr string `json:"clientAddr"`
+	// Client port.
+	ClientPort    string `json:"clientPort"`
 	State         string `json:"state"`
 	WaitEventType string `json:"waitEventType"`
 	WaitEvent     string `json:"waitEvent"`
@@ -40,13 +42,14 @@ type PostgresqlSession struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlSession(pid int64, user string, database string, client string, application string, state string, waitEventType string, waitEvent string, durationSeconds int64, xactDurationSeconds int64, queryDigest string, querySummary string, backendType string) *PostgresqlSession {
+func NewPostgresqlSession(pid int64, user string, database string, applicationName string, clientAddr string, clientPort string, state string, waitEventType string, waitEvent string, durationSeconds int64, xactDurationSeconds int64, queryDigest string, querySummary string, backendType string) *PostgresqlSession {
 	this := PostgresqlSession{}
 	this.Pid = pid
 	this.User = user
 	this.Database = database
-	this.Client = client
-	this.Application = application
+	this.ApplicationName = applicationName
+	this.ClientAddr = clientAddr
+	this.ClientPort = clientPort
 	this.State = state
 	this.WaitEventType = waitEventType
 	this.WaitEvent = waitEvent
@@ -135,50 +138,73 @@ func (o *PostgresqlSession) SetDatabase(v string) {
 	o.Database = v
 }
 
-// GetClient returns the Client field value.
-func (o *PostgresqlSession) GetClient() string {
+// GetApplicationName returns the ApplicationName field value.
+func (o *PostgresqlSession) GetApplicationName() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
-	return o.Client
+	return o.ApplicationName
 }
 
-// GetClientOk returns a tuple with the Client field value
+// GetApplicationNameOk returns a tuple with the ApplicationName field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlSession) GetClientOk() (*string, bool) {
+func (o *PostgresqlSession) GetApplicationNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Client, true
+	return &o.ApplicationName, true
 }
 
-// SetClient sets field value.
-func (o *PostgresqlSession) SetClient(v string) {
-	o.Client = v
+// SetApplicationName sets field value.
+func (o *PostgresqlSession) SetApplicationName(v string) {
+	o.ApplicationName = v
 }
 
-// GetApplication returns the Application field value.
-func (o *PostgresqlSession) GetApplication() string {
+// GetClientAddr returns the ClientAddr field value.
+func (o *PostgresqlSession) GetClientAddr() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
-	return o.Application
+	return o.ClientAddr
 }
 
-// GetApplicationOk returns a tuple with the Application field value
+// GetClientAddrOk returns a tuple with the ClientAddr field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlSession) GetApplicationOk() (*string, bool) {
+func (o *PostgresqlSession) GetClientAddrOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Application, true
+	return &o.ClientAddr, true
 }
 
-// SetApplication sets field value.
-func (o *PostgresqlSession) SetApplication(v string) {
-	o.Application = v
+// SetClientAddr sets field value.
+func (o *PostgresqlSession) SetClientAddr(v string) {
+	o.ClientAddr = v
+}
+
+// GetClientPort returns the ClientPort field value.
+func (o *PostgresqlSession) GetClientPort() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.ClientPort
+}
+
+// GetClientPortOk returns a tuple with the ClientPort field value
+// and a boolean to check if the value has been set.
+func (o *PostgresqlSession) GetClientPortOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ClientPort, true
+}
+
+// SetClientPort sets field value.
+func (o *PostgresqlSession) SetClientPort(v string) {
+	o.ClientPort = v
 }
 
 // GetState returns the State field value.
@@ -458,8 +484,9 @@ func (o PostgresqlSession) MarshalJSON() ([]byte, error) {
 	toSerialize["pid"] = o.Pid
 	toSerialize["user"] = o.User
 	toSerialize["database"] = o.Database
-	toSerialize["client"] = o.Client
-	toSerialize["application"] = o.Application
+	toSerialize["applicationName"] = o.ApplicationName
+	toSerialize["clientAddr"] = o.ClientAddr
+	toSerialize["clientPort"] = o.ClientPort
 	toSerialize["state"] = o.State
 	toSerialize["waitEventType"] = o.WaitEventType
 	toSerialize["waitEvent"] = o.WaitEvent
@@ -490,8 +517,9 @@ func (o *PostgresqlSession) UnmarshalJSON(bytes []byte) (err error) {
 		Pid                 *int64  `json:"pid"`
 		User                *string `json:"user"`
 		Database            *string `json:"database"`
-		Client              *string `json:"client"`
-		Application         *string `json:"application"`
+		ApplicationName     *string `json:"applicationName"`
+		ClientAddr          *string `json:"clientAddr"`
+		ClientPort          *string `json:"clientPort"`
 		State               *string `json:"state"`
 		WaitEventType       *string `json:"waitEventType"`
 		WaitEvent           *string `json:"waitEvent"`
@@ -516,11 +544,14 @@ func (o *PostgresqlSession) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Database == nil {
 		return fmt.Errorf("required field database missing")
 	}
-	if all.Client == nil {
-		return fmt.Errorf("required field client missing")
+	if all.ApplicationName == nil {
+		return fmt.Errorf("required field applicationName missing")
 	}
-	if all.Application == nil {
-		return fmt.Errorf("required field application missing")
+	if all.ClientAddr == nil {
+		return fmt.Errorf("required field clientAddr missing")
+	}
+	if all.ClientPort == nil {
+		return fmt.Errorf("required field clientPort missing")
 	}
 	if all.State == nil {
 		return fmt.Errorf("required field state missing")
@@ -548,15 +579,16 @@ func (o *PostgresqlSession) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"pid", "user", "database", "client", "application", "state", "waitEventType", "waitEvent", "backendStart", "queryStart", "xactStart", "durationSeconds", "xactDurationSeconds", "queryDigest", "querySummary", "backendType"})
+		common.DeleteKeys(additionalProperties, &[]string{"pid", "user", "database", "applicationName", "clientAddr", "clientPort", "state", "waitEventType", "waitEvent", "backendStart", "queryStart", "xactStart", "durationSeconds", "xactDurationSeconds", "queryDigest", "querySummary", "backendType"})
 	} else {
 		return err
 	}
 	o.Pid = *all.Pid
 	o.User = *all.User
 	o.Database = *all.Database
-	o.Client = *all.Client
-	o.Application = *all.Application
+	o.ApplicationName = *all.ApplicationName
+	o.ClientAddr = *all.ClientAddr
+	o.ClientPort = *all.ClientPort
 	o.State = *all.State
 	o.WaitEventType = *all.WaitEventType
 	o.WaitEvent = *all.WaitEvent
