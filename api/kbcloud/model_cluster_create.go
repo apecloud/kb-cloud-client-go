@@ -64,6 +64,8 @@ type ClusterCreate struct {
 	// * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
 	//
 	SchedulingPolicy *SchedulingPolicyType `json:"schedulingPolicy,omitempty"`
+	// Scheduler used by this cluster. If omitted, KBE uses the environment default. When KoordinatorColocation is enabled, the environment default is the globally configured Koordinator scheduler.
+	SchedulerName common.NullableString `json:"schedulerName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -855,6 +857,45 @@ func (o *ClusterCreate) SetSchedulingPolicy(v SchedulingPolicyType) {
 	o.SchedulingPolicy = &v
 }
 
+// GetSchedulerName returns the SchedulerName field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ClusterCreate) GetSchedulerName() string {
+	if o == nil || o.SchedulerName.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.SchedulerName.Get()
+}
+
+// GetSchedulerNameOk returns a tuple with the SchedulerName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ClusterCreate) GetSchedulerNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SchedulerName.Get(), o.SchedulerName.IsSet()
+}
+
+// HasSchedulerName returns a boolean if a field has been set.
+func (o *ClusterCreate) HasSchedulerName() bool {
+	return o != nil && o.SchedulerName.IsSet()
+}
+
+// SetSchedulerName gets a reference to the given common.NullableString and assigns it to the SchedulerName field.
+func (o *ClusterCreate) SetSchedulerName(v string) {
+	o.SchedulerName.Set(&v)
+}
+
+// SetSchedulerNameNil sets the value for SchedulerName to be an explicit nil.
+func (o *ClusterCreate) SetSchedulerNameNil() {
+	o.SchedulerName.Set(nil)
+}
+
+// UnsetSchedulerName ensures that no value is present for SchedulerName, not even an explicit nil.
+func (o *ClusterCreate) UnsetSchedulerName() {
+	o.SchedulerName.Unset()
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -933,6 +974,9 @@ func (o ClusterCreate) MarshalJSON() ([]byte, error) {
 	if o.SchedulingPolicy != nil {
 		toSerialize["schedulingPolicy"] = o.SchedulingPolicy
 	}
+	if o.SchedulerName.IsSet() {
+		toSerialize["schedulerName"] = o.SchedulerName.Get()
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -969,6 +1013,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 		ObjectStorageConfig *ClusterObjectStorageConfig `json:"objectStorageConfig,omitempty"`
 		MaintainceWindow    *ClusterMaintainceWindow    `json:"maintainceWindow,omitempty"`
 		SchedulingPolicy    *SchedulingPolicyType       `json:"schedulingPolicy,omitempty"`
+		SchedulerName       common.NullableString       `json:"schedulerName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -984,7 +1029,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"parentId", "clusterType", "orgName", "environmentName", "project", "name", "engine", "license", "paramTpls", "version", "terminationPolicy", "mode", "components", "extra", "initOptions", "singleZone", "availabilityZones", "backup", "nodeGroup", "displayName", "static", "networkMode", "serviceRefs", "objectStorageConfig", "maintainceWindow", "schedulingPolicy"})
+		common.DeleteKeys(additionalProperties, &[]string{"parentId", "clusterType", "orgName", "environmentName", "project", "name", "engine", "license", "paramTpls", "version", "terminationPolicy", "mode", "components", "extra", "initOptions", "singleZone", "availabilityZones", "backup", "nodeGroup", "displayName", "static", "networkMode", "serviceRefs", "objectStorageConfig", "maintainceWindow", "schedulingPolicy", "schedulerName"})
 	} else {
 		return err
 	}
@@ -1044,6 +1089,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.SchedulingPolicy = all.SchedulingPolicy
 	}
+	o.SchedulerName = all.SchedulerName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

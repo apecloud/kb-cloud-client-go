@@ -22783,6 +22783,11 @@ components:
         schedulingPolicy:
           description: Scheduling policy for this cluster.
           $ref: '#/components/schemas/schedulingPolicyType'
+        schedulerName:
+          title: Scheduler Name
+          type: string
+          nullable: true
+          description: Scheduler used by this cluster. If omitted, KBE uses the environment default. When KoordinatorColocation is enabled, the environment default is the globally configured Koordinator scheduler.
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -23010,6 +23015,11 @@ components:
         schedulingPolicy:
           description: Scheduling policy for this cluster.
           $ref: '#/components/schemas/schedulingPolicyType'
+        schedulerName:
+          title: Scheduler Name
+          type: string
+          nullable: true
+          description: Effective scheduler used when the cluster was created.
       description: KubeBlocks cluster details
     clusterBatchUpdateData:
       type: object

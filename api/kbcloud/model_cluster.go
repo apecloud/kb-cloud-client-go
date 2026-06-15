@@ -99,6 +99,8 @@ type Cluster struct {
 	// * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
 	//
 	SchedulingPolicy *SchedulingPolicyType `json:"schedulingPolicy,omitempty"`
+	// Effective scheduler used when the cluster was created.
+	SchedulerName common.NullableString `json:"schedulerName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -1415,6 +1417,45 @@ func (o *Cluster) SetSchedulingPolicy(v SchedulingPolicyType) {
 	o.SchedulingPolicy = &v
 }
 
+// GetSchedulerName returns the SchedulerName field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Cluster) GetSchedulerName() string {
+	if o == nil || o.SchedulerName.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.SchedulerName.Get()
+}
+
+// GetSchedulerNameOk returns a tuple with the SchedulerName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *Cluster) GetSchedulerNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SchedulerName.Get(), o.SchedulerName.IsSet()
+}
+
+// HasSchedulerName returns a boolean if a field has been set.
+func (o *Cluster) HasSchedulerName() bool {
+	return o != nil && o.SchedulerName.IsSet()
+}
+
+// SetSchedulerName gets a reference to the given common.NullableString and assigns it to the SchedulerName field.
+func (o *Cluster) SetSchedulerName(v string) {
+	o.SchedulerName.Set(&v)
+}
+
+// SetSchedulerNameNil sets the value for SchedulerName to be an explicit nil.
+func (o *Cluster) SetSchedulerNameNil() {
+	o.SchedulerName.Set(nil)
+}
+
+// UnsetSchedulerName ensures that no value is present for SchedulerName, not even an explicit nil.
+func (o *Cluster) UnsetSchedulerName() {
+	o.SchedulerName.Unset()
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Cluster) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -1552,6 +1593,9 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 	if o.SchedulingPolicy != nil {
 		toSerialize["schedulingPolicy"] = o.SchedulingPolicy
 	}
+	if o.SchedulerName.IsSet() {
+		toSerialize["schedulerName"] = o.SchedulerName.Get()
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -1605,6 +1649,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 		ObjectStorageConfig    *ClusterObjectStorageConfig `json:"objectStorageConfig,omitempty"`
 		MaintainceWindow       *ClusterMaintainceWindow    `json:"maintainceWindow,omitempty"`
 		SchedulingPolicy       *SchedulingPolicyType       `json:"schedulingPolicy,omitempty"`
+		SchedulerName          common.NullableString       `json:"schedulerName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1620,7 +1665,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "mode", "proxyEnabled", "components", "extra", "initOptions", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static", "networkMode", "serviceRefs", "referencedBy", "objectStorageConfig", "maintainceWindow", "schedulingPolicy"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "mode", "proxyEnabled", "components", "extra", "initOptions", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static", "networkMode", "serviceRefs", "referencedBy", "objectStorageConfig", "maintainceWindow", "schedulingPolicy", "schedulerName"})
 	} else {
 		return err
 	}
@@ -1697,6 +1742,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.SchedulingPolicy = all.SchedulingPolicy
 	}
+	o.SchedulerName = all.SchedulerName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
