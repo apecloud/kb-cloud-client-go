@@ -19,13 +19,32 @@ type ClusterLogApi common.Service
 
 // AggregateSlowLogsOptionalParameters holds optional parameters for AggregateSlowLogs.
 type AggregateSlowLogsOptionalParameters struct {
-	ComponentName *string
-	InstanceName  *string
-	Query         *string
-	Limit         *string
-	SortType      *SortType
-	GroupBy       *string
-	TopN          *int32
+	ComponentName    *string
+	InstanceName     *string
+	Query            *string
+	Limit            *string
+	SortType         *SortType
+	GroupBy          *string
+	TopN             *int32
+	MinExecutionTime *float64
+	MaxExecutionTime *float64
+	MinLockTime      *float64
+	MaxLockTime      *float64
+	MinRowsExamined  *int64
+	MaxRowsExamined  *int64
+	MinRowsSent      *int64
+	MaxRowsSent      *int64
+	DbName           *string
+	DbNameContains   *string
+	UserName         *string
+	UserNameContains *string
+	ClientIp         *string
+	ClientIpContains *string
+	ClientIpCidr     *string
+	AppName          *string
+	AppNameContains  *string
+	TemplateId       *string
+	UnclassifiedOnly *bool
 }
 
 // NewAggregateSlowLogsOptionalParameters creates an empty struct for parameters.
@@ -73,6 +92,120 @@ func (r *AggregateSlowLogsOptionalParameters) WithGroupBy(groupBy string) *Aggre
 // WithTopN sets the corresponding parameter name and returns the struct.
 func (r *AggregateSlowLogsOptionalParameters) WithTopN(topN int32) *AggregateSlowLogsOptionalParameters {
 	r.TopN = &topN
+	return r
+}
+
+// WithMinExecutionTime sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithMinExecutionTime(minExecutionTime float64) *AggregateSlowLogsOptionalParameters {
+	r.MinExecutionTime = &minExecutionTime
+	return r
+}
+
+// WithMaxExecutionTime sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithMaxExecutionTime(maxExecutionTime float64) *AggregateSlowLogsOptionalParameters {
+	r.MaxExecutionTime = &maxExecutionTime
+	return r
+}
+
+// WithMinLockTime sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithMinLockTime(minLockTime float64) *AggregateSlowLogsOptionalParameters {
+	r.MinLockTime = &minLockTime
+	return r
+}
+
+// WithMaxLockTime sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithMaxLockTime(maxLockTime float64) *AggregateSlowLogsOptionalParameters {
+	r.MaxLockTime = &maxLockTime
+	return r
+}
+
+// WithMinRowsExamined sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithMinRowsExamined(minRowsExamined int64) *AggregateSlowLogsOptionalParameters {
+	r.MinRowsExamined = &minRowsExamined
+	return r
+}
+
+// WithMaxRowsExamined sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithMaxRowsExamined(maxRowsExamined int64) *AggregateSlowLogsOptionalParameters {
+	r.MaxRowsExamined = &maxRowsExamined
+	return r
+}
+
+// WithMinRowsSent sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithMinRowsSent(minRowsSent int64) *AggregateSlowLogsOptionalParameters {
+	r.MinRowsSent = &minRowsSent
+	return r
+}
+
+// WithMaxRowsSent sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithMaxRowsSent(maxRowsSent int64) *AggregateSlowLogsOptionalParameters {
+	r.MaxRowsSent = &maxRowsSent
+	return r
+}
+
+// WithDbName sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithDbName(dbName string) *AggregateSlowLogsOptionalParameters {
+	r.DbName = &dbName
+	return r
+}
+
+// WithDbNameContains sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithDbNameContains(dbNameContains string) *AggregateSlowLogsOptionalParameters {
+	r.DbNameContains = &dbNameContains
+	return r
+}
+
+// WithUserName sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithUserName(userName string) *AggregateSlowLogsOptionalParameters {
+	r.UserName = &userName
+	return r
+}
+
+// WithUserNameContains sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithUserNameContains(userNameContains string) *AggregateSlowLogsOptionalParameters {
+	r.UserNameContains = &userNameContains
+	return r
+}
+
+// WithClientIp sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithClientIp(clientIp string) *AggregateSlowLogsOptionalParameters {
+	r.ClientIp = &clientIp
+	return r
+}
+
+// WithClientIpContains sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithClientIpContains(clientIpContains string) *AggregateSlowLogsOptionalParameters {
+	r.ClientIpContains = &clientIpContains
+	return r
+}
+
+// WithClientIpCidr sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithClientIpCidr(clientIpCidr string) *AggregateSlowLogsOptionalParameters {
+	r.ClientIpCidr = &clientIpCidr
+	return r
+}
+
+// WithAppName sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithAppName(appName string) *AggregateSlowLogsOptionalParameters {
+	r.AppName = &appName
+	return r
+}
+
+// WithAppNameContains sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithAppNameContains(appNameContains string) *AggregateSlowLogsOptionalParameters {
+	r.AppNameContains = &appNameContains
+	return r
+}
+
+// WithTemplateId sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithTemplateId(templateId string) *AggregateSlowLogsOptionalParameters {
+	r.TemplateId = &templateId
+	return r
+}
+
+// WithUnclassifiedOnly sets the corresponding parameter name and returns the struct.
+func (r *AggregateSlowLogsOptionalParameters) WithUnclassifiedOnly(unclassifiedOnly bool) *AggregateSlowLogsOptionalParameters {
+	r.UnclassifiedOnly = &unclassifiedOnly
 	return r
 }
 
@@ -136,6 +269,63 @@ func (a *ClusterLogApi) AggregateSlowLogs(ctx _context.Context, orgName string, 
 	}
 	if optionalParams.TopN != nil {
 		localVarQueryParams.Add("topN", common.ParameterToString(*optionalParams.TopN, ""))
+	}
+	if optionalParams.MinExecutionTime != nil {
+		localVarQueryParams.Add("minExecutionTime", common.ParameterToString(*optionalParams.MinExecutionTime, ""))
+	}
+	if optionalParams.MaxExecutionTime != nil {
+		localVarQueryParams.Add("maxExecutionTime", common.ParameterToString(*optionalParams.MaxExecutionTime, ""))
+	}
+	if optionalParams.MinLockTime != nil {
+		localVarQueryParams.Add("minLockTime", common.ParameterToString(*optionalParams.MinLockTime, ""))
+	}
+	if optionalParams.MaxLockTime != nil {
+		localVarQueryParams.Add("maxLockTime", common.ParameterToString(*optionalParams.MaxLockTime, ""))
+	}
+	if optionalParams.MinRowsExamined != nil {
+		localVarQueryParams.Add("minRowsExamined", common.ParameterToString(*optionalParams.MinRowsExamined, ""))
+	}
+	if optionalParams.MaxRowsExamined != nil {
+		localVarQueryParams.Add("maxRowsExamined", common.ParameterToString(*optionalParams.MaxRowsExamined, ""))
+	}
+	if optionalParams.MinRowsSent != nil {
+		localVarQueryParams.Add("minRowsSent", common.ParameterToString(*optionalParams.MinRowsSent, ""))
+	}
+	if optionalParams.MaxRowsSent != nil {
+		localVarQueryParams.Add("maxRowsSent", common.ParameterToString(*optionalParams.MaxRowsSent, ""))
+	}
+	if optionalParams.DbName != nil {
+		localVarQueryParams.Add("dbName", common.ParameterToString(*optionalParams.DbName, ""))
+	}
+	if optionalParams.DbNameContains != nil {
+		localVarQueryParams.Add("dbNameContains", common.ParameterToString(*optionalParams.DbNameContains, ""))
+	}
+	if optionalParams.UserName != nil {
+		localVarQueryParams.Add("userName", common.ParameterToString(*optionalParams.UserName, ""))
+	}
+	if optionalParams.UserNameContains != nil {
+		localVarQueryParams.Add("userNameContains", common.ParameterToString(*optionalParams.UserNameContains, ""))
+	}
+	if optionalParams.ClientIp != nil {
+		localVarQueryParams.Add("clientIp", common.ParameterToString(*optionalParams.ClientIp, ""))
+	}
+	if optionalParams.ClientIpContains != nil {
+		localVarQueryParams.Add("clientIpContains", common.ParameterToString(*optionalParams.ClientIpContains, ""))
+	}
+	if optionalParams.ClientIpCidr != nil {
+		localVarQueryParams.Add("clientIpCIDR", common.ParameterToString(*optionalParams.ClientIpCidr, ""))
+	}
+	if optionalParams.AppName != nil {
+		localVarQueryParams.Add("appName", common.ParameterToString(*optionalParams.AppName, ""))
+	}
+	if optionalParams.AppNameContains != nil {
+		localVarQueryParams.Add("appNameContains", common.ParameterToString(*optionalParams.AppNameContains, ""))
+	}
+	if optionalParams.TemplateId != nil {
+		localVarQueryParams.Add("templateId", common.ParameterToString(*optionalParams.TemplateId, ""))
+	}
+	if optionalParams.UnclassifiedOnly != nil {
+		localVarQueryParams.Add("unclassifiedOnly", common.ParameterToString(*optionalParams.UnclassifiedOnly, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
