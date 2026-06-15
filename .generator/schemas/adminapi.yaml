@@ -17,6 +17,7 @@ servers:
     description: demo
 security:
   - BearerToken: []
+  - DigestAuth: []
 tags:
   - name: user
     description: User APIs
@@ -7160,6 +7161,90 @@ paths:
           name: sortType
           schema:
             $ref: '#/components/schemas/sortType'
+        - in: query
+          name: minExecutionTime
+          description: Minimum execution time in seconds. Decimal values are supported, for example 0.5.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxExecutionTime
+          description: Maximum execution time in seconds. Decimal values are supported, for example 0.5.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minLockTime
+          description: Minimum lock time in seconds. Decimal values are supported, for example 0.001.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxLockTime
+          description: Maximum lock time in seconds. Decimal values are supported, for example 0.001.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: minRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: dbName
+          schema:
+            type: string
+        - in: query
+          name: dbNameContains
+          schema:
+            type: string
+        - in: query
+          name: userName
+          schema:
+            type: string
+        - in: query
+          name: userNameContains
+          schema:
+            type: string
+        - in: query
+          name: clientIp
+          schema:
+            type: string
+        - in: query
+          name: clientIpContains
+          schema:
+            type: string
+        - in: query
+          name: clientIpCIDR
+          schema:
+            type: string
+        - in: query
+          name: appName
+          schema:
+            type: string
+        - in: query
+          name: appNameContains
+          schema:
+            type: string
+        - in: query
+          name: unclassifiedOnly
+          schema:
+            type: boolean
       responses:
         '200':
           content:
@@ -7169,6 +7254,79 @@ paths:
           description: Successful operation
         '400':
           $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/aggregate:
+    get:
+      description: Aggregate slow logs of a cluster (Victoria Logs backend only)
+      summary: Aggregate cluster slow logs
+      operationId: aggregateSlowLogs
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          description: Start time in epoch nanoseconds.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          description: End time in epoch nanoseconds.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: query
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: string
+        - in: query
+          name: sortType
+          schema:
+            $ref: '#/components/schemas/sortType'
+        - in: query
+          name: groupBy
+          schema:
+            type: string
+        - in: query
+          name: topN
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterExecutionLogAggregateResponse'
+          description: Successful operation
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -7552,7 +7710,15 @@ paths:
           schema:
             type: string
         - in: query
+          name: dbNameContains
+          schema:
+            type: string
+        - in: query
           name: userName
+          schema:
+            type: string
+        - in: query
+          name: userNameContains
           schema:
             type: string
         - in: query
@@ -7560,7 +7726,19 @@ paths:
           schema:
             type: string
         - in: query
+          name: clientIpContains
+          schema:
+            type: string
+        - in: query
+          name: clientIpCIDR
+          schema:
+            type: string
+        - in: query
           name: appName
+          schema:
+            type: string
+        - in: query
+          name: appNameContains
           schema:
             type: string
         - in: query
@@ -11716,6 +11894,11 @@ paths:
         - name: component
           in: query
           description: The component type is required when withRebuildInstance/withHScale is true.
+          schema:
+            type: string
+        - name: mode
+          in: query
+          description: The cluster mode, used to filter out unsupported backup methods.
           schema:
             type: string
       responses:
@@ -18787,6 +18970,94 @@ paths:
         - rdbms
         - shared
       x-codegen-request-body-name: body
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/lock:
+    patch:
+      description: lock an account in cluster
+      summary: Lock cluster account
+      operationId: lockAccount
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when account is locked successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - account
+        - rdbms
+        - shared
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/unlock:
+    patch:
+      description: unlock an account in cluster
+      summary: Unlock cluster account
+      operationId: unlockAccount
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when account is unlocked successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - account
+        - rdbms
+        - shared
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions:
     get:
       description: list sessions in cluster
@@ -19233,203 +19504,6 @@ paths:
         '204':
           description: OK
           content: {}
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/ai/conversations:
-    get:
-      tags:
-        - AI
-      summary: List conversations by user
-      description: Retrieves a list of conversations filtered by user.
-      operationId: listConversations
-      parameters:
-        - name: page
-          in: query
-          description: Page number for pagination
-          schema:
-            type: integer
-            default: 1
-        - name: pageSize
-          in: query
-          description: Number of items per page
-          schema:
-            type: integer
-            default: 10
-        - name: type
-          in: query
-          description: Type of conversations to filter, can be bi or analysis.
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A list of conversations
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/aiConversationListResponse'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-    post:
-      tags:
-        - AI
-      summary: Create a new conversation
-      description: Creates a new conversation.
-      operationId: newAIConversation
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AIConversationRequest'
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/aiConversation'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/ai/conversations/{conversationId}/messages:
-    get:
-      tags:
-        - AI
-      summary: Get AI conversation messages
-      description: Retrieves ai messages for a specific conversation. If pre is not provided, returns the last 10 turn messages. If pre is provided, returns 10 turn messages after the pre message.
-      operationId: getConversationMessages
-      parameters:
-        - name: conversationId
-          in: path
-          required: true
-          description: ID of the conversation
-          schema:
-            type: string
-            format: uuid
-        - name: pre
-          in: query
-          description: Previous message ID
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A list of messages for the conversation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/aiMessageListResponse'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/ai/conversations/{conversationId}:
-    delete:
-      tags:
-        - AI
-      summary: Delete a conversation
-      description: Deletes a specific conversation and all its associated messages.
-      operationId: deleteConversation
-      parameters:
-        - name: conversationId
-          in: path
-          required: true
-          description: ID of the conversation to delete
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '204':
-          content: {}
-          description: Conversation deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/ai/chatbi/v2:
-    post:
-      tags:
-        - AI
-      summary: SSE endpoint for Chat BI V2
-      description: Establishes an SSE connection for AI BI conversation.
-      operationId: chatBIV2SSE
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/chatRequest'
-      responses:
-        '200':
-          description: Successful operation, returns an event stream.
-          content:
-            text/event-stream:
-              schema:
-                $ref: '#/components/schemas/chatResponse'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/ai/chatops/v2:
-    post:
-      tags:
-        - AI
-      summary: SSE endpoint for Chat V2
-      description: Establishes an SSE connection for AI conversation.
-      operationId: chatV2SSE
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/chatRequest'
-      responses:
-        '200':
-          description: Successful operation, returns an event stream.
-          content:
-            text/event-stream:
-              schema:
-                $ref: '#/components/schemas/chatResponse'
-        '400':
-          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -21079,10 +21153,22 @@ paths:
 components:
   securitySchemes:
     BearerToken:
+      type: http
+      scheme: bearer
+      description: JWT Bearer Token authentication
+    DigestAuth:
       type: apiKey
-      description: Bearer Token authentication
-      name: authorization
+      name: Authorization
       in: header
+      description: |
+        HTTP Digest Access Authentication (RFC 7616).
+
+        Use your API Key's **accessKey** as the username and **secretKey** as the password.
+
+        Example with curl:
+        ```
+        curl --digest -u "accessKey:secretKey" https://api.example.com/admin/v1/user
+        ```
   schemas:
     phoneNumber:
       description: The phonenumber for the user.
@@ -21900,6 +21986,13 @@ components:
           type: boolean
         detail:
           type: object
+          description: |
+            Sanitized action detail. Warning states are returned as `warning.value`
+            with stable values such as `output_truncated`, `final_analysis_missing`,
+            `no_tool_evidence`, `model_no_tool_call`, or `tooling_unavailable`.
+            `model_no_tool_call` and `tooling_unavailable` are turn-completed
+            warnings and are not emitted on tool/check detail cards.
+            The legacy `warningReason` string may be present for compatibility.
           additionalProperties: true
           x-nullable: true
         createdAt:
@@ -25790,15 +25883,40 @@ components:
           format: double
           description: Average execution time in seconds
           x-omitempty: false
+        minExecutionTime:
+          type: number
+          format: double
+          description: Minimum execution time in seconds
+          x-omitempty: false
         maxExecutionTime:
           type: number
           format: double
           description: Maximum execution time in seconds
           x-omitempty: false
+        stddevExecutionTime:
+          type: number
+          format: double
+          description: Standard deviation of execution time in seconds
+          x-omitempty: false
+        p50ExecutionTime:
+          type: number
+          format: double
+          description: P50 execution time in seconds
+          x-omitempty: false
+        p90ExecutionTime:
+          type: number
+          format: double
+          description: P90 execution time in seconds
+          x-omitempty: false
         p95ExecutionTime:
           type: number
           format: double
           description: P95 execution time in seconds
+          x-omitempty: false
+        p99ExecutionTime:
+          type: number
+          format: double
+          description: P99 execution time in seconds
           x-omitempty: false
         dbCount:
           type: integer
@@ -25870,6 +25988,41 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/clusterSlowLogTemplate'
+    clusterExecutionLogAggregateItem:
+      type: object
+      description: Aggregate item for grouped execution logs
+      properties:
+        groupKey:
+          type: string
+        count:
+          type: integer
+          format: int64
+        avgExecutionTime:
+          type: number
+          format: double
+        maxExecutionTime:
+          type: number
+          format: double
+    clusterExecutionLogAggregateSummary:
+      type: object
+      description: Aggregate summary for execution logs
+      properties:
+        totalCount:
+          type: integer
+          format: int64
+        groupCount:
+          type: integer
+          format: int64
+    clusterExecutionLogAggregateResponse:
+      type: object
+      description: Aggregate response for cluster execution logs
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterExecutionLogAggregateItem'
+        summary:
+          $ref: '#/components/schemas/clusterExecutionLogAggregateSummary'
     clusterSlowLogDatabaseDistribution:
       type: object
       description: Slow log count for a database
@@ -26693,7 +26846,7 @@ components:
         - SoftAntiAffinity
         - Disabled
         - None
-      default: None
+      default: SoftAntiAffinity
       description: |
         * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
         * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
@@ -26715,11 +26868,6 @@ components:
       title: SchedulingConfig
       description: Configuration of resource scheduling for this environment
       properties:
-        podAntiAffinityEnabled:
-          title: PodAntiAffinityEnabled
-          description: Enable pod antiaffinity for cluster
-          type: boolean
-          default: true
         clusterSchedulingPolicy:
           $ref: '#/components/schemas/clusterSchedulingPolicy'
         tolerateDefaultTaints:
@@ -27350,11 +27498,6 @@ components:
           description: the default storage class of this environment
           type: string
           nullable: true
-        podAntiAffinityEnabled:
-          title: PodAntiAffinityEnabled
-          description: Enable pod antiaffinity for cluster
-          type: boolean
-          default: true
         imageRegistry:
           description: Image registry URL used to pull images. Must match image_registries.url, not image_registries.name.
           type: string
@@ -30227,6 +30370,9 @@ components:
           type: boolean
         delete:
           type: boolean
+        lock:
+          type: boolean
+          description: Whether the engine supports account lock and unlock actions.
         displayRootAccount:
           type: boolean
           x-omitempty: false
@@ -30383,6 +30529,11 @@ components:
               description: |
                 If set to true, the restore will be ready after the cluster is running.
                 If set to false, the restore will be ready after the cluster is created.
+        notSupportedModes:
+          type: array
+          description: The cluster modes that this backup method does not support
+          items:
+            type: string
         description:
           $ref: '#/components/schemas/localizedDescription'
     selectedObjectOption:
@@ -35644,190 +35795,6 @@ components:
         PgExtension:
           type: object
           $ref: '#/components/schemas/PgExtension'
-    aiConversation:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Conversation ID
-        userId:
-          type: string
-          description: User ID associated with the conversation
-        clusterName:
-          type: string
-          description: Name of the cluster associated with the conversation
-        orgName:
-          type: string
-          description: Name of the organization associated with the conversation
-        title:
-          type: string
-          description: Optional title for the conversation
-          x-nullable: true
-        type:
-          type: string
-          description: Type of the conversation, can be chatbi or chatops.
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp of when the conversation was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp of when the conversation was last updated
-    aiConversationListResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/aiConversation'
-        total:
-          type: integer
-          format: int64
-          description: Total number of conversations
-    AIChatType:
-      type: string
-      enum:
-        - chatbi
-        - chatops
-      description: Query type
-    AIConversationRequest:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/AIChatType'
-    senderType:
-      type: string
-      enum:
-        - user
-        - assistant
-        - system
-      description: Type of the sender (user, assistant, or system)
-    metadataObject:
-      type: object
-      additionalProperties: true
-      description: Optional metadata for AI messages (e.g., tool calls, results)
-      x-nullable: true
-    aiMessage:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Message ID
-        conversationId:
-          type: string
-          format: uuid
-          description: ID of the conversation this message belongs to
-        senderType:
-          $ref: '#/components/schemas/senderType'
-        content:
-          type: string
-          description: Content of the message
-        isFavorited:
-          type: boolean
-          description: Whether the message is favorited by user
-          default: false
-        metadata:
-          $ref: '#/components/schemas/metadataObject'
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp of when the message was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp of when the message was last updated
-    aiMessageListResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/aiMessage'
-    chatRequest:
-      type: object
-      required:
-        - orgName
-        - clusterName
-        - sessionId
-        - query
-        - model
-      description: Chat message request
-      properties:
-        orgName:
-          type: string
-          description: Organization name
-        clusterName:
-          type: string
-          description: Cluster name
-        sessionId:
-          type: string
-          description: Session ID
-        messageID:
-          type: string
-          description: Message ID
-        query:
-          type: string
-          description: Query content
-        model:
-          type: string
-          description: LLM model
-          x-nullable: true
-        datasourceName:
-          type: string
-          description: Datasource name
-          x-nullable: true
-        database:
-          type: string
-          description: Database involved in the chat
-          x-nullable: true
-        schema:
-          type: string
-          description: Schema involved in the chat
-          x-nullable: true
-        tables:
-          type: array
-          description: Tables involved in the chat
-          items:
-            type: string
-            x-nullable: true
-    chatResponseType:
-      type: string
-      enum:
-        - Message
-        - Graph
-        - Finish
-        - DataInterpretation
-        - Error
-        - Think
-        - ToolResult
-        - SessionID
-        - ToolCall
-      description: Message type
-    chatResponse:
-      type: object
-      required:
-        - data
-        - type
-        - done
-        - sessionId
-      description: Chat message response
-      properties:
-        data:
-          description: Arbitrary event payload
-        done:
-          type: boolean
-          description: Whether the SSE stream is complete
-        type:
-          $ref: '#/components/schemas/chatResponseType'
-        messageID:
-          type: string
-          description: Message ID
-        sessionId:
-          type: string
-          description: Session ID
     encryptionAlgorithm:
       description: the encryption algorithm
       type: string
@@ -36409,6 +36376,41 @@ components:
           $ref: '#/components/schemas/paginationResult'
       required:
         - items
+    SLACluster:
+      type: object
+      description: The cluster summary used by SLA calculation results. SLA responses can be built from historical outage data, so general cluster list fields may be unavailable.
+      properties:
+        id:
+          type: string
+          description: ID of cluster.
+        name:
+          type: string
+          description: Name of cluster.
+        displayName:
+          type: string
+          description: Display name of cluster.
+        orgName:
+          type: string
+          description: Org Name.
+        environmentName:
+          type: string
+          description: Environment Name.
+        engine:
+          type: string
+          description: Cluster Application Engine.
+        clusterType:
+          $ref: '#/components/schemas/clusterType'
+        createdAt:
+          type: string
+          format: date-time
+          x-nullable: true
+          description: The timestamp when the cluster was created, when available.
+        status:
+          type: string
+          description: The SLA calculation status for the cluster.
+        version:
+          type: string
+          description: Cluster Application Version.
     OutageRecord:
       type: object
       description: Records the outage events of a cluster for SLA calculation. It is designed to ensure that for any given cluster, there can be at most one active outage record at any time.
@@ -36461,7 +36463,7 @@ components:
       properties:
         cluster:
           type: object
-          $ref: '#/components/schemas/clusterListItem'
+          $ref: '#/components/schemas/SLACluster'
         detail:
           type: object
           $ref: '#/components/schemas/OutageRecordList'
@@ -36501,8 +36503,7 @@ components:
       properties:
         date:
           type: string
-          format: date
-          description: The date for which the SLA is calculated.
+          description: The date for which the SLA is calculated, formatted as YYYY-MM-DD.
         sla:
           type: number
           description: The SLA value for the cluster on the specified date. Null indicates that the cluster was not existing on that date.

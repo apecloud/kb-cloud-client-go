@@ -3,12 +3,6 @@
 // Copyright 2022-Present ApeCloud Co., Ltd
 
 // List of APIs:
-//   - [AIApi.chatBIV2SSE]
-//   - [AIApi.chatV2SSE]
-//   - [AIApi.deleteConversation]
-//   - [AIApi.getConversationMessages]
-//   - [AIApi.listConversations]
-//   - [AIApi.newAIConversation]
 //   - [AIAgentApi.approveAIAgentToolConfirmation]
 //   - [AIAgentApi.browseAIAgentTurnActionArtifact]
 //   - [AIAgentApi.createAIAgentConversation]
@@ -47,6 +41,8 @@
 //   - [accountApi.getRootAccountPassword]
 //   - [accountApi.listAccounts]
 //   - [accountApi.listMongoDBAccounts]
+//   - [accountApi.lockAccount]
+//   - [accountApi.unlockAccount]
 //   - [accountApi.updateAccount]
 //   - [accountApi.updateAccountPrivileges]
 //   - [accountApi.updateMssqlAccount]
@@ -166,6 +162,7 @@
 //   - [clusterApi.validateClusterCreation]
 //   - [clusterAlertSwitchApi.getClusterAlertDisabled]
 //   - [clusterAlertSwitchApi.setClusterAlertDisabled]
+//   - [clusterLogApi.aggregateSlowLogs]
 //   - [clusterLogApi.explainSlowLog]
 //   - [clusterLogApi.explainSlowLogTemplate]
 //   - [clusterLogApi.getSlowLogStats]

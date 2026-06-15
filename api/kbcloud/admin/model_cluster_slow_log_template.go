@@ -19,10 +19,20 @@ type ClusterSlowLogTemplate struct {
 	TotalExecutionTime *float64 `json:"totalExecutionTime,omitempty"`
 	// Average execution time in seconds
 	AvgExecutionTime *float64 `json:"avgExecutionTime,omitempty"`
+	// Minimum execution time in seconds
+	MinExecutionTime *float64 `json:"minExecutionTime,omitempty"`
 	// Maximum execution time in seconds
 	MaxExecutionTime *float64 `json:"maxExecutionTime,omitempty"`
+	// Standard deviation of execution time in seconds
+	StddevExecutionTime *float64 `json:"stddevExecutionTime,omitempty"`
+	// P50 execution time in seconds
+	P50ExecutionTime *float64 `json:"p50ExecutionTime,omitempty"`
+	// P90 execution time in seconds
+	P90ExecutionTime *float64 `json:"p90ExecutionTime,omitempty"`
 	// P95 execution time in seconds
 	P95ExecutionTime *float64 `json:"p95ExecutionTime,omitempty"`
+	// P99 execution time in seconds
+	P99ExecutionTime *float64 `json:"p99ExecutionTime,omitempty"`
 	// Number of unique database names in the time range
 	DbCount *int64 `json:"dbCount,omitempty"`
 	// Number of unique users in the time range
@@ -235,6 +245,34 @@ func (o *ClusterSlowLogTemplate) SetAvgExecutionTime(v float64) {
 	o.AvgExecutionTime = &v
 }
 
+// GetMinExecutionTime returns the MinExecutionTime field value if set, zero value otherwise.
+func (o *ClusterSlowLogTemplate) GetMinExecutionTime() float64 {
+	if o == nil || o.MinExecutionTime == nil {
+		var ret float64
+		return ret
+	}
+	return *o.MinExecutionTime
+}
+
+// GetMinExecutionTimeOk returns a tuple with the MinExecutionTime field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterSlowLogTemplate) GetMinExecutionTimeOk() (*float64, bool) {
+	if o == nil || o.MinExecutionTime == nil {
+		return nil, false
+	}
+	return o.MinExecutionTime, true
+}
+
+// HasMinExecutionTime returns a boolean if a field has been set.
+func (o *ClusterSlowLogTemplate) HasMinExecutionTime() bool {
+	return o != nil && o.MinExecutionTime != nil
+}
+
+// SetMinExecutionTime gets a reference to the given float64 and assigns it to the MinExecutionTime field.
+func (o *ClusterSlowLogTemplate) SetMinExecutionTime(v float64) {
+	o.MinExecutionTime = &v
+}
+
 // GetMaxExecutionTime returns the MaxExecutionTime field value if set, zero value otherwise.
 func (o *ClusterSlowLogTemplate) GetMaxExecutionTime() float64 {
 	if o == nil || o.MaxExecutionTime == nil {
@@ -263,6 +301,90 @@ func (o *ClusterSlowLogTemplate) SetMaxExecutionTime(v float64) {
 	o.MaxExecutionTime = &v
 }
 
+// GetStddevExecutionTime returns the StddevExecutionTime field value if set, zero value otherwise.
+func (o *ClusterSlowLogTemplate) GetStddevExecutionTime() float64 {
+	if o == nil || o.StddevExecutionTime == nil {
+		var ret float64
+		return ret
+	}
+	return *o.StddevExecutionTime
+}
+
+// GetStddevExecutionTimeOk returns a tuple with the StddevExecutionTime field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterSlowLogTemplate) GetStddevExecutionTimeOk() (*float64, bool) {
+	if o == nil || o.StddevExecutionTime == nil {
+		return nil, false
+	}
+	return o.StddevExecutionTime, true
+}
+
+// HasStddevExecutionTime returns a boolean if a field has been set.
+func (o *ClusterSlowLogTemplate) HasStddevExecutionTime() bool {
+	return o != nil && o.StddevExecutionTime != nil
+}
+
+// SetStddevExecutionTime gets a reference to the given float64 and assigns it to the StddevExecutionTime field.
+func (o *ClusterSlowLogTemplate) SetStddevExecutionTime(v float64) {
+	o.StddevExecutionTime = &v
+}
+
+// GetP50ExecutionTime returns the P50ExecutionTime field value if set, zero value otherwise.
+func (o *ClusterSlowLogTemplate) GetP50ExecutionTime() float64 {
+	if o == nil || o.P50ExecutionTime == nil {
+		var ret float64
+		return ret
+	}
+	return *o.P50ExecutionTime
+}
+
+// GetP50ExecutionTimeOk returns a tuple with the P50ExecutionTime field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterSlowLogTemplate) GetP50ExecutionTimeOk() (*float64, bool) {
+	if o == nil || o.P50ExecutionTime == nil {
+		return nil, false
+	}
+	return o.P50ExecutionTime, true
+}
+
+// HasP50ExecutionTime returns a boolean if a field has been set.
+func (o *ClusterSlowLogTemplate) HasP50ExecutionTime() bool {
+	return o != nil && o.P50ExecutionTime != nil
+}
+
+// SetP50ExecutionTime gets a reference to the given float64 and assigns it to the P50ExecutionTime field.
+func (o *ClusterSlowLogTemplate) SetP50ExecutionTime(v float64) {
+	o.P50ExecutionTime = &v
+}
+
+// GetP90ExecutionTime returns the P90ExecutionTime field value if set, zero value otherwise.
+func (o *ClusterSlowLogTemplate) GetP90ExecutionTime() float64 {
+	if o == nil || o.P90ExecutionTime == nil {
+		var ret float64
+		return ret
+	}
+	return *o.P90ExecutionTime
+}
+
+// GetP90ExecutionTimeOk returns a tuple with the P90ExecutionTime field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterSlowLogTemplate) GetP90ExecutionTimeOk() (*float64, bool) {
+	if o == nil || o.P90ExecutionTime == nil {
+		return nil, false
+	}
+	return o.P90ExecutionTime, true
+}
+
+// HasP90ExecutionTime returns a boolean if a field has been set.
+func (o *ClusterSlowLogTemplate) HasP90ExecutionTime() bool {
+	return o != nil && o.P90ExecutionTime != nil
+}
+
+// SetP90ExecutionTime gets a reference to the given float64 and assigns it to the P90ExecutionTime field.
+func (o *ClusterSlowLogTemplate) SetP90ExecutionTime(v float64) {
+	o.P90ExecutionTime = &v
+}
+
 // GetP95ExecutionTime returns the P95ExecutionTime field value if set, zero value otherwise.
 func (o *ClusterSlowLogTemplate) GetP95ExecutionTime() float64 {
 	if o == nil || o.P95ExecutionTime == nil {
@@ -289,6 +411,34 @@ func (o *ClusterSlowLogTemplate) HasP95ExecutionTime() bool {
 // SetP95ExecutionTime gets a reference to the given float64 and assigns it to the P95ExecutionTime field.
 func (o *ClusterSlowLogTemplate) SetP95ExecutionTime(v float64) {
 	o.P95ExecutionTime = &v
+}
+
+// GetP99ExecutionTime returns the P99ExecutionTime field value if set, zero value otherwise.
+func (o *ClusterSlowLogTemplate) GetP99ExecutionTime() float64 {
+	if o == nil || o.P99ExecutionTime == nil {
+		var ret float64
+		return ret
+	}
+	return *o.P99ExecutionTime
+}
+
+// GetP99ExecutionTimeOk returns a tuple with the P99ExecutionTime field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterSlowLogTemplate) GetP99ExecutionTimeOk() (*float64, bool) {
+	if o == nil || o.P99ExecutionTime == nil {
+		return nil, false
+	}
+	return o.P99ExecutionTime, true
+}
+
+// HasP99ExecutionTime returns a boolean if a field has been set.
+func (o *ClusterSlowLogTemplate) HasP99ExecutionTime() bool {
+	return o != nil && o.P99ExecutionTime != nil
+}
+
+// SetP99ExecutionTime gets a reference to the given float64 and assigns it to the P99ExecutionTime field.
+func (o *ClusterSlowLogTemplate) SetP99ExecutionTime(v float64) {
+	o.P99ExecutionTime = &v
 }
 
 // GetDbCount returns the DbCount field value if set, zero value otherwise.
@@ -623,11 +773,26 @@ func (o ClusterSlowLogTemplate) MarshalJSON() ([]byte, error) {
 	if o.AvgExecutionTime != nil {
 		toSerialize["avgExecutionTime"] = o.AvgExecutionTime
 	}
+	if o.MinExecutionTime != nil {
+		toSerialize["minExecutionTime"] = o.MinExecutionTime
+	}
 	if o.MaxExecutionTime != nil {
 		toSerialize["maxExecutionTime"] = o.MaxExecutionTime
 	}
+	if o.StddevExecutionTime != nil {
+		toSerialize["stddevExecutionTime"] = o.StddevExecutionTime
+	}
+	if o.P50ExecutionTime != nil {
+		toSerialize["p50ExecutionTime"] = o.P50ExecutionTime
+	}
+	if o.P90ExecutionTime != nil {
+		toSerialize["p90ExecutionTime"] = o.P90ExecutionTime
+	}
 	if o.P95ExecutionTime != nil {
 		toSerialize["p95ExecutionTime"] = o.P95ExecutionTime
+	}
+	if o.P99ExecutionTime != nil {
+		toSerialize["p99ExecutionTime"] = o.P99ExecutionTime
 	}
 	if o.DbCount != nil {
 		toSerialize["dbCount"] = o.DbCount
@@ -672,32 +837,37 @@ func (o ClusterSlowLogTemplate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterSlowLogTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		TemplateId         *string  `json:"templateId,omitempty"`
-		NormalizedQuery    *string  `json:"normalizedQuery,omitempty"`
-		SampleSql          *string  `json:"sampleSQL,omitempty"`
-		TotalCount         *int64   `json:"totalCount,omitempty"`
-		TotalExecutionTime *float64 `json:"totalExecutionTime,omitempty"`
-		AvgExecutionTime   *float64 `json:"avgExecutionTime,omitempty"`
-		MaxExecutionTime   *float64 `json:"maxExecutionTime,omitempty"`
-		P95ExecutionTime   *float64 `json:"p95ExecutionTime,omitempty"`
-		DbCount            *int64   `json:"dbCount,omitempty"`
-		UserCount          *int64   `json:"userCount,omitempty"`
-		ClientIpCount      *int64   `json:"clientIPCount,omitempty"`
-		AppCount           *int64   `json:"appCount,omitempty"`
-		AvgRowsExamined    *float64 `json:"avgRowsExamined,omitempty"`
-		AvgRowsSent        *float64 `json:"avgRowsSent,omitempty"`
-		AvgLockTime        *float64 `json:"avgLockTime,omitempty"`
-		DbNames            []string `json:"dbNames,omitempty"`
-		Users              []string `json:"users,omitempty"`
-		ClientIPs          []string `json:"clientIPs,omitempty"`
-		Apps               []string `json:"apps,omitempty"`
+		TemplateId          *string  `json:"templateId,omitempty"`
+		NormalizedQuery     *string  `json:"normalizedQuery,omitempty"`
+		SampleSql           *string  `json:"sampleSQL,omitempty"`
+		TotalCount          *int64   `json:"totalCount,omitempty"`
+		TotalExecutionTime  *float64 `json:"totalExecutionTime,omitempty"`
+		AvgExecutionTime    *float64 `json:"avgExecutionTime,omitempty"`
+		MinExecutionTime    *float64 `json:"minExecutionTime,omitempty"`
+		MaxExecutionTime    *float64 `json:"maxExecutionTime,omitempty"`
+		StddevExecutionTime *float64 `json:"stddevExecutionTime,omitempty"`
+		P50ExecutionTime    *float64 `json:"p50ExecutionTime,omitempty"`
+		P90ExecutionTime    *float64 `json:"p90ExecutionTime,omitempty"`
+		P95ExecutionTime    *float64 `json:"p95ExecutionTime,omitempty"`
+		P99ExecutionTime    *float64 `json:"p99ExecutionTime,omitempty"`
+		DbCount             *int64   `json:"dbCount,omitempty"`
+		UserCount           *int64   `json:"userCount,omitempty"`
+		ClientIpCount       *int64   `json:"clientIPCount,omitempty"`
+		AppCount            *int64   `json:"appCount,omitempty"`
+		AvgRowsExamined     *float64 `json:"avgRowsExamined,omitempty"`
+		AvgRowsSent         *float64 `json:"avgRowsSent,omitempty"`
+		AvgLockTime         *float64 `json:"avgLockTime,omitempty"`
+		DbNames             []string `json:"dbNames,omitempty"`
+		Users               []string `json:"users,omitempty"`
+		ClientIPs           []string `json:"clientIPs,omitempty"`
+		Apps                []string `json:"apps,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"templateId", "normalizedQuery", "sampleSQL", "totalCount", "totalExecutionTime", "avgExecutionTime", "maxExecutionTime", "p95ExecutionTime", "dbCount", "userCount", "clientIPCount", "appCount", "avgRowsExamined", "avgRowsSent", "avgLockTime", "dbNames", "users", "clientIPs", "apps"})
+		common.DeleteKeys(additionalProperties, &[]string{"templateId", "normalizedQuery", "sampleSQL", "totalCount", "totalExecutionTime", "avgExecutionTime", "minExecutionTime", "maxExecutionTime", "stddevExecutionTime", "p50ExecutionTime", "p90ExecutionTime", "p95ExecutionTime", "p99ExecutionTime", "dbCount", "userCount", "clientIPCount", "appCount", "avgRowsExamined", "avgRowsSent", "avgLockTime", "dbNames", "users", "clientIPs", "apps"})
 	} else {
 		return err
 	}
@@ -707,8 +877,13 @@ func (o *ClusterSlowLogTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	o.TotalCount = all.TotalCount
 	o.TotalExecutionTime = all.TotalExecutionTime
 	o.AvgExecutionTime = all.AvgExecutionTime
+	o.MinExecutionTime = all.MinExecutionTime
 	o.MaxExecutionTime = all.MaxExecutionTime
+	o.StddevExecutionTime = all.StddevExecutionTime
+	o.P50ExecutionTime = all.P50ExecutionTime
+	o.P90ExecutionTime = all.P90ExecutionTime
 	o.P95ExecutionTime = all.P95ExecutionTime
+	o.P99ExecutionTime = all.P99ExecutionTime
 	o.DbCount = all.DbCount
 	o.UserCount = all.UserCount
 	o.ClientIpCount = all.ClientIpCount

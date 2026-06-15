@@ -3,12 +3,6 @@
 // Copyright 2022-Present ApeCloud Co., Ltd
 
 // List of APIs:
-//   - [AIApi.chatBIV2SSE]
-//   - [AIApi.chatV2SSE]
-//   - [AIApi.deleteConversation]
-//   - [AIApi.getConversationMessages]
-//   - [AIApi.listConversations]
-//   - [AIApi.newAIConversation]
 //   - [AIAgentApi.approveAIAgentToolConfirmation]
 //   - [AIAgentApi.browseAIAgentTurnActionArtifact]
 //   - [AIAgentApi.createAIAgentConversation]
@@ -44,6 +38,8 @@
 //   - [accountApi.listAccounts]
 //   - [accountApi.listKafkaAccounts]
 //   - [accountApi.listMongoDBAccounts]
+//   - [accountApi.lockAccount]
+//   - [accountApi.unlockAccount]
 //   - [accountApi.updateAccount]
 //   - [accountApi.updateAccountPrivileges]
 //   - [accountApi.updateHiveAccount]

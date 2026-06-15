@@ -25,11 +25,13 @@ type AccountOption struct {
 	// min length of account name.
 	// If not set, use default value.
 	//
-	MinLen                   *int32   `json:"minLen,omitempty"`
-	AccountNamePattern       string   `json:"accountNamePattern"`
-	Create                   bool     `json:"create"`
-	ResetPassword            bool     `json:"resetPassword"`
-	Delete                   bool     `json:"delete"`
+	MinLen             *int32 `json:"minLen,omitempty"`
+	AccountNamePattern string `json:"accountNamePattern"`
+	Create             bool   `json:"create"`
+	ResetPassword      bool   `json:"resetPassword"`
+	Delete             bool   `json:"delete"`
+	// Whether the engine supports account lock and unlock actions.
+	Lock                     *bool    `json:"lock,omitempty"`
 	DisplayRootAccount       *bool    `json:"displayRootAccount,omitempty"`
 	ResetRootPassword        *bool    `json:"resetRootPassword,omitempty"`
 	SupportMultipleComponent *bool    `json:"supportMultipleComponent,omitempty"`
@@ -315,6 +317,34 @@ func (o *AccountOption) SetDelete(v bool) {
 	o.Delete = v
 }
 
+// GetLock returns the Lock field value if set, zero value otherwise.
+func (o *AccountOption) GetLock() bool {
+	if o == nil || o.Lock == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Lock
+}
+
+// GetLockOk returns a tuple with the Lock field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AccountOption) GetLockOk() (*bool, bool) {
+	if o == nil || o.Lock == nil {
+		return nil, false
+	}
+	return o.Lock, true
+}
+
+// HasLock returns a boolean if a field has been set.
+func (o *AccountOption) HasLock() bool {
+	return o != nil && o.Lock != nil
+}
+
+// SetLock gets a reference to the given bool and assigns it to the Lock field.
+func (o *AccountOption) SetLock(v bool) {
+	o.Lock = &v
+}
+
 // GetDisplayRootAccount returns the DisplayRootAccount field value if set, zero value otherwise.
 func (o *AccountOption) GetDisplayRootAccount() bool {
 	if o == nil || o.DisplayRootAccount == nil {
@@ -450,6 +480,9 @@ func (o AccountOption) MarshalJSON() ([]byte, error) {
 	toSerialize["create"] = o.Create
 	toSerialize["resetPassword"] = o.ResetPassword
 	toSerialize["delete"] = o.Delete
+	if o.Lock != nil {
+		toSerialize["lock"] = o.Lock
+	}
 	if o.DisplayRootAccount != nil {
 		toSerialize["displayRootAccount"] = o.DisplayRootAccount
 	}
@@ -481,6 +514,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 		Create                   *bool                `json:"create"`
 		ResetPassword            *bool                `json:"resetPassword"`
 		Delete                   *bool                `json:"delete"`
+		Lock                     *bool                `json:"lock,omitempty"`
 		DisplayRootAccount       *bool                `json:"displayRootAccount,omitempty"`
 		ResetRootPassword        *bool                `json:"resetRootPassword,omitempty"`
 		SupportMultipleComponent *bool                `json:"supportMultipleComponent,omitempty"`
@@ -506,7 +540,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"maxSuperUserAccount", "enabled", "privileges", "maxLen", "minLen", "accountNamePattern", "create", "resetPassword", "delete", "displayRootAccount", "resetRootPassword", "supportMultipleComponent", "excludeRootAccounts"})
+		common.DeleteKeys(additionalProperties, &[]string{"maxSuperUserAccount", "enabled", "privileges", "maxLen", "minLen", "accountNamePattern", "create", "resetPassword", "delete", "lock", "displayRootAccount", "resetRootPassword", "supportMultipleComponent", "excludeRootAccounts"})
 	} else {
 		return err
 	}
@@ -519,6 +553,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Create = *all.Create
 	o.ResetPassword = *all.ResetPassword
 	o.Delete = *all.Delete
+	o.Lock = all.Lock
 	o.DisplayRootAccount = all.DisplayRootAccount
 	o.ResetRootPassword = all.ResetRootPassword
 	o.SupportMultipleComponent = all.SupportMultipleComponent
