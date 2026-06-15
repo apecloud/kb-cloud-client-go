@@ -23711,9 +23711,14 @@ components:
           type: boolean
         delete:
           type: boolean
-        lock:
+        supportLock:
           type: boolean
           description: Whether the engine supports account lock and unlock actions.
+        protectedAccounts:
+          type: array
+          description: Account names that are protected from update, delete, lock, and unlock actions.
+          items:
+            type: string
         displayRootAccount:
           type: boolean
           x-omitempty: false
