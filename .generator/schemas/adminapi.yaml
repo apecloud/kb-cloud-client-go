@@ -19274,203 +19274,6 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/ai/conversations:
-    get:
-      tags:
-        - AI
-      summary: List conversations by user
-      description: Retrieves a list of conversations filtered by user.
-      operationId: listConversations
-      parameters:
-        - name: page
-          in: query
-          description: Page number for pagination
-          schema:
-            type: integer
-            default: 1
-        - name: pageSize
-          in: query
-          description: Number of items per page
-          schema:
-            type: integer
-            default: 10
-        - name: type
-          in: query
-          description: Type of conversations to filter, can be bi or analysis.
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A list of conversations
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/aiConversationListResponse'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-    post:
-      tags:
-        - AI
-      summary: Create a new conversation
-      description: Creates a new conversation.
-      operationId: newAIConversation
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AIConversationRequest'
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/aiConversation'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/ai/conversations/{conversationId}/messages:
-    get:
-      tags:
-        - AI
-      summary: Get AI conversation messages
-      description: Retrieves ai messages for a specific conversation. If pre is not provided, returns the last 10 turn messages. If pre is provided, returns 10 turn messages after the pre message.
-      operationId: getConversationMessages
-      parameters:
-        - name: conversationId
-          in: path
-          required: true
-          description: ID of the conversation
-          schema:
-            type: string
-            format: uuid
-        - name: pre
-          in: query
-          description: Previous message ID
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A list of messages for the conversation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/aiMessageListResponse'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/ai/conversations/{conversationId}:
-    delete:
-      tags:
-        - AI
-      summary: Delete a conversation
-      description: Deletes a specific conversation and all its associated messages.
-      operationId: deleteConversation
-      parameters:
-        - name: conversationId
-          in: path
-          required: true
-          description: ID of the conversation to delete
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '204':
-          content: {}
-          description: Conversation deleted successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/ai/chatbi/v2:
-    post:
-      tags:
-        - AI
-      summary: SSE endpoint for Chat BI V2
-      description: Establishes an SSE connection for AI BI conversation.
-      operationId: chatBIV2SSE
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/chatRequest'
-      responses:
-        '200':
-          description: Successful operation, returns an event stream.
-          content:
-            text/event-stream:
-              schema:
-                $ref: '#/components/schemas/chatResponse'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/ai/chatops/v2:
-    post:
-      tags:
-        - AI
-      summary: SSE endpoint for Chat V2
-      description: Establishes an SSE connection for AI conversation.
-      operationId: chatV2SSE
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/chatRequest'
-      responses:
-        '200':
-          description: Successful operation, returns an event stream.
-          content:
-            text/event-stream:
-              schema:
-                $ref: '#/components/schemas/chatResponse'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /admin/v1/keys:
     get:
       tags:
@@ -21129,6 +20932,190 @@ components:
         curl --digest -u "accessKey:secretKey" https://api.example.com/admin/v1/user
         ```
   schemas:
+    AIChatType:
+      type: string
+      enum:
+        - chatbi
+        - chatops
+      description: Query type
+    AIConversationRequest:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/AIChatType'
+    aiConversation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Conversation ID
+        userId:
+          type: string
+          description: User ID associated with the conversation
+        clusterName:
+          type: string
+          description: Name of the cluster associated with the conversation
+        orgName:
+          type: string
+          description: Name of the organization associated with the conversation
+        title:
+          type: string
+          description: Optional title for the conversation
+          x-nullable: true
+        type:
+          type: string
+          description: Type of the conversation, can be chatbi or chatops.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp of when the conversation was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp of when the conversation was last updated
+    aiConversationListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiConversation'
+        total:
+          type: integer
+          format: int64
+          description: Total number of conversations
+    aiMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Message ID
+        conversationId:
+          type: string
+          format: uuid
+          description: ID of the conversation this message belongs to
+        senderType:
+          $ref: '#/components/schemas/senderType'
+        content:
+          type: string
+          description: Content of the message
+        isFavorited:
+          type: boolean
+          description: Whether the message is favorited by user
+          default: false
+        metadata:
+          $ref: '#/components/schemas/metadataObject'
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp of when the message was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp of when the message was last updated
+    aiMessageListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiMessage'
+    chatRequest:
+      type: object
+      required:
+        - orgName
+        - clusterName
+        - sessionId
+        - query
+        - model
+      description: Chat message request
+      properties:
+        orgName:
+          type: string
+          description: Organization name
+        clusterName:
+          type: string
+          description: Cluster name
+        sessionId:
+          type: string
+          description: Session ID
+        messageID:
+          type: string
+          description: Message ID
+        query:
+          type: string
+          description: Query content
+        model:
+          type: string
+          description: LLM model
+          x-nullable: true
+        datasourceName:
+          type: string
+          description: Datasource name
+          x-nullable: true
+        database:
+          type: string
+          description: Database involved in the chat
+          x-nullable: true
+        schema:
+          type: string
+          description: Schema involved in the chat
+          x-nullable: true
+        tables:
+          type: array
+          description: Tables involved in the chat
+          items:
+            type: string
+            x-nullable: true
+    chatResponse:
+      type: object
+      required:
+        - data
+        - type
+        - done
+        - sessionId
+      description: Chat message response
+      properties:
+        data:
+          description: Arbitrary event payload
+        done:
+          type: boolean
+          description: Whether the SSE stream is complete
+        type:
+          $ref: '#/components/schemas/chatResponseType'
+        messageID:
+          type: string
+          description: Message ID
+        sessionId:
+          type: string
+          description: Session ID
+    chatResponseType:
+      type: string
+      enum:
+        - Message
+        - Graph
+        - Finish
+        - DataInterpretation
+        - Error
+        - Think
+        - ToolResult
+        - SessionID
+        - ToolCall
+      description: Message type
+    metadataObject:
+      type: object
+      additionalProperties: true
+      description: Optional metadata for AI messages (e.g., tool calls, results)
+      x-nullable: true
+    senderType:
+      type: string
+      enum:
+        - user
+        - assistant
+        - system
+      description: Type of the sender (user, assistant, or system)
     phoneNumber:
       description: The phonenumber for the user.
       example: '+8618912345678'
@@ -35596,190 +35583,6 @@ components:
         PgExtension:
           type: object
           $ref: '#/components/schemas/PgExtension'
-    aiConversation:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Conversation ID
-        userId:
-          type: string
-          description: User ID associated with the conversation
-        clusterName:
-          type: string
-          description: Name of the cluster associated with the conversation
-        orgName:
-          type: string
-          description: Name of the organization associated with the conversation
-        title:
-          type: string
-          description: Optional title for the conversation
-          x-nullable: true
-        type:
-          type: string
-          description: Type of the conversation, can be chatbi or chatops.
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp of when the conversation was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp of when the conversation was last updated
-    aiConversationListResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/aiConversation'
-        total:
-          type: integer
-          format: int64
-          description: Total number of conversations
-    AIChatType:
-      type: string
-      enum:
-        - chatbi
-        - chatops
-      description: Query type
-    AIConversationRequest:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/AIChatType'
-    senderType:
-      type: string
-      enum:
-        - user
-        - assistant
-        - system
-      description: Type of the sender (user, assistant, or system)
-    metadataObject:
-      type: object
-      additionalProperties: true
-      description: Optional metadata for AI messages (e.g., tool calls, results)
-      x-nullable: true
-    aiMessage:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Message ID
-        conversationId:
-          type: string
-          format: uuid
-          description: ID of the conversation this message belongs to
-        senderType:
-          $ref: '#/components/schemas/senderType'
-        content:
-          type: string
-          description: Content of the message
-        isFavorited:
-          type: boolean
-          description: Whether the message is favorited by user
-          default: false
-        metadata:
-          $ref: '#/components/schemas/metadataObject'
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp of when the message was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp of when the message was last updated
-    aiMessageListResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/aiMessage'
-    chatRequest:
-      type: object
-      required:
-        - orgName
-        - clusterName
-        - sessionId
-        - query
-        - model
-      description: Chat message request
-      properties:
-        orgName:
-          type: string
-          description: Organization name
-        clusterName:
-          type: string
-          description: Cluster name
-        sessionId:
-          type: string
-          description: Session ID
-        messageID:
-          type: string
-          description: Message ID
-        query:
-          type: string
-          description: Query content
-        model:
-          type: string
-          description: LLM model
-          x-nullable: true
-        datasourceName:
-          type: string
-          description: Datasource name
-          x-nullable: true
-        database:
-          type: string
-          description: Database involved in the chat
-          x-nullable: true
-        schema:
-          type: string
-          description: Schema involved in the chat
-          x-nullable: true
-        tables:
-          type: array
-          description: Tables involved in the chat
-          items:
-            type: string
-            x-nullable: true
-    chatResponseType:
-      type: string
-      enum:
-        - Message
-        - Graph
-        - Finish
-        - DataInterpretation
-        - Error
-        - Think
-        - ToolResult
-        - SessionID
-        - ToolCall
-      description: Message type
-    chatResponse:
-      type: object
-      required:
-        - data
-        - type
-        - done
-        - sessionId
-      description: Chat message response
-      properties:
-        data:
-          description: Arbitrary event payload
-        done:
-          type: boolean
-          description: Whether the SSE stream is complete
-        type:
-          $ref: '#/components/schemas/chatResponseType'
-        messageID:
-          type: string
-          description: Message ID
-        sessionId:
-          type: string
-          description: Session ID
     encryptionAlgorithm:
       description: the encryption algorithm
       type: string
