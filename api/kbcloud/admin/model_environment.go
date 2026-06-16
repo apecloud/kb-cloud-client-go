@@ -58,6 +58,8 @@ type Environment struct {
 	Dns          *Dns                     `json:"dns,omitempty"`
 	// whether to enable calculate the cluster SLA for the environment
 	SlaEnabled *bool `json:"slaEnabled,omitempty"`
+	// Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
+	KoordinatorEnabled *bool `json:"koordinatorEnabled,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -87,6 +89,8 @@ func NewEnvironment(provider string, region string, availabilityZones []string, 
 	this.ClusterValidationPolicy = &clusterValidationPolicy
 	var slaEnabled bool = false
 	this.SlaEnabled = &slaEnabled
+	var koordinatorEnabled bool = false
+	this.KoordinatorEnabled = &koordinatorEnabled
 	return &this
 }
 
@@ -103,6 +107,8 @@ func NewEnvironmentWithDefaults() *Environment {
 	this.ClusterValidationPolicy = &clusterValidationPolicy
 	var slaEnabled bool = false
 	this.SlaEnabled = &slaEnabled
+	var koordinatorEnabled bool = false
+	this.KoordinatorEnabled = &koordinatorEnabled
 	return &this
 }
 
@@ -690,6 +696,34 @@ func (o *Environment) SetSlaEnabled(v bool) {
 	o.SlaEnabled = &v
 }
 
+// GetKoordinatorEnabled returns the KoordinatorEnabled field value if set, zero value otherwise.
+func (o *Environment) GetKoordinatorEnabled() bool {
+	if o == nil || o.KoordinatorEnabled == nil {
+		var ret bool
+		return ret
+	}
+	return *o.KoordinatorEnabled
+}
+
+// GetKoordinatorEnabledOk returns a tuple with the KoordinatorEnabled field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Environment) GetKoordinatorEnabledOk() (*bool, bool) {
+	if o == nil || o.KoordinatorEnabled == nil {
+		return nil, false
+	}
+	return o.KoordinatorEnabled, true
+}
+
+// HasKoordinatorEnabled returns a boolean if a field has been set.
+func (o *Environment) HasKoordinatorEnabled() bool {
+	return o != nil && o.KoordinatorEnabled != nil
+}
+
+// SetKoordinatorEnabled gets a reference to the given bool and assigns it to the KoordinatorEnabled field.
+func (o *Environment) SetKoordinatorEnabled(v bool) {
+	o.KoordinatorEnabled = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Environment) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -749,6 +783,9 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 	if o.SlaEnabled != nil {
 		toSerialize["slaEnabled"] = o.SlaEnabled
 	}
+	if o.KoordinatorEnabled != nil {
+		toSerialize["koordinatorEnabled"] = o.KoordinatorEnabled
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -782,6 +819,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 		Architecture            *EnvironmentArchitecture `json:"architecture,omitempty"`
 		Dns                     *Dns                     `json:"dns,omitempty"`
 		SlaEnabled              *bool                    `json:"slaEnabled,omitempty"`
+		KoordinatorEnabled      *bool                    `json:"koordinatorEnabled,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -824,7 +862,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "schedulingConfig", "networkConfig", "description", "displayName", "id", "name", "organizations", "metricsMonitorEnabled", "state", "type", "provisionConfig", "autohealingConfig", "createdAt", "updatedAt", "extraInfo", "deletePolicy", "clusterValidationPolicy", "architecture", "dns", "slaEnabled"})
+		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "schedulingConfig", "networkConfig", "description", "displayName", "id", "name", "organizations", "metricsMonitorEnabled", "state", "type", "provisionConfig", "autohealingConfig", "createdAt", "updatedAt", "extraInfo", "deletePolicy", "clusterValidationPolicy", "architecture", "dns", "slaEnabled", "koordinatorEnabled"})
 	} else {
 		return err
 	}
@@ -888,6 +926,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Dns = all.Dns
 	o.SlaEnabled = all.SlaEnabled
+	o.KoordinatorEnabled = all.KoordinatorEnabled
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

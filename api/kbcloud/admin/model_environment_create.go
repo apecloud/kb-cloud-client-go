@@ -43,6 +43,8 @@ type EnvironmentCreate struct {
 	Dns       *Dns  `json:"dns,omitempty"`
 	// whether to enable calculate the cluster SLA for the environment
 	Sla *bool `json:"sla,omitempty"`
+	// Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
+	KoordinatorEnabled *bool `json:"koordinatorEnabled,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -67,6 +69,8 @@ func NewEnvironmentCreate(name string, typeVar EnvironmentType, provisionConfig 
 	this.Overwrite = &overwrite
 	var sla bool = false
 	this.Sla = &sla
+	var koordinatorEnabled bool = false
+	this.KoordinatorEnabled = &koordinatorEnabled
 	return &this
 }
 
@@ -83,6 +87,8 @@ func NewEnvironmentCreateWithDefaults() *EnvironmentCreate {
 	this.Overwrite = &overwrite
 	var sla bool = false
 	this.Sla = &sla
+	var koordinatorEnabled bool = false
+	this.KoordinatorEnabled = &koordinatorEnabled
 	return &this
 }
 
@@ -499,6 +505,34 @@ func (o *EnvironmentCreate) SetSla(v bool) {
 	o.Sla = &v
 }
 
+// GetKoordinatorEnabled returns the KoordinatorEnabled field value if set, zero value otherwise.
+func (o *EnvironmentCreate) GetKoordinatorEnabled() bool {
+	if o == nil || o.KoordinatorEnabled == nil {
+		var ret bool
+		return ret
+	}
+	return *o.KoordinatorEnabled
+}
+
+// GetKoordinatorEnabledOk returns a tuple with the KoordinatorEnabled field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentCreate) GetKoordinatorEnabledOk() (*bool, bool) {
+	if o == nil || o.KoordinatorEnabled == nil {
+		return nil, false
+	}
+	return o.KoordinatorEnabled, true
+}
+
+// HasKoordinatorEnabled returns a boolean if a field has been set.
+func (o *EnvironmentCreate) HasKoordinatorEnabled() bool {
+	return o != nil && o.KoordinatorEnabled != nil
+}
+
+// SetKoordinatorEnabled gets a reference to the given bool and assigns it to the KoordinatorEnabled field.
+func (o *EnvironmentCreate) SetKoordinatorEnabled(v bool) {
+	o.KoordinatorEnabled = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -539,6 +573,9 @@ func (o EnvironmentCreate) MarshalJSON() ([]byte, error) {
 	if o.Sla != nil {
 		toSerialize["sla"] = o.Sla
 	}
+	if o.KoordinatorEnabled != nil {
+		toSerialize["koordinatorEnabled"] = o.KoordinatorEnabled
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -549,22 +586,23 @@ func (o EnvironmentCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name              *string                  `json:"name"`
-		Type              *EnvironmentType         `json:"type"`
-		SchedulingConfig  *SchedulingConfig        `json:"schedulingConfig,omitempty"`
-		ProvisionConfig   *ProvisionConfig         `json:"provisionConfig"`
-		Organizations     *[]string                `json:"organizations"`
-		Provider          *string                  `json:"provider"`
-		Region            *string                  `json:"region"`
-		AvailabilityZones []string                 `json:"availabilityZones,omitempty"`
-		Description       *string                  `json:"description,omitempty"`
-		DisplayName       *string                  `json:"displayName"`
-		Id                *uuid.UUID               `json:"id,omitempty"`
-		ExtraInfo         *string                  `json:"extraInfo,omitempty"`
-		DeletePolicy      *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
-		Overwrite         *bool                    `json:"overwrite,omitempty"`
-		Dns               *Dns                     `json:"dns,omitempty"`
-		Sla               *bool                    `json:"sla,omitempty"`
+		Name               *string                  `json:"name"`
+		Type               *EnvironmentType         `json:"type"`
+		SchedulingConfig   *SchedulingConfig        `json:"schedulingConfig,omitempty"`
+		ProvisionConfig    *ProvisionConfig         `json:"provisionConfig"`
+		Organizations      *[]string                `json:"organizations"`
+		Provider           *string                  `json:"provider"`
+		Region             *string                  `json:"region"`
+		AvailabilityZones  []string                 `json:"availabilityZones,omitempty"`
+		Description        *string                  `json:"description,omitempty"`
+		DisplayName        *string                  `json:"displayName"`
+		Id                 *uuid.UUID               `json:"id,omitempty"`
+		ExtraInfo          *string                  `json:"extraInfo,omitempty"`
+		DeletePolicy       *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
+		Overwrite          *bool                    `json:"overwrite,omitempty"`
+		Dns                *Dns                     `json:"dns,omitempty"`
+		Sla                *bool                    `json:"sla,omitempty"`
+		KoordinatorEnabled *bool                    `json:"koordinatorEnabled,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -592,7 +630,7 @@ func (o *EnvironmentCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "schedulingConfig", "provisionConfig", "organizations", "provider", "region", "availabilityZones", "description", "displayName", "id", "extraInfo", "deletePolicy", "overwrite", "dns", "sla"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "schedulingConfig", "provisionConfig", "organizations", "provider", "region", "availabilityZones", "description", "displayName", "id", "extraInfo", "deletePolicy", "overwrite", "dns", "sla", "koordinatorEnabled"})
 	} else {
 		return err
 	}
@@ -631,6 +669,7 @@ func (o *EnvironmentCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Dns = all.Dns
 	o.Sla = all.Sla
+	o.KoordinatorEnabled = all.KoordinatorEnabled
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

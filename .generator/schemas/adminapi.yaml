@@ -6732,38 +6732,22 @@ paths:
             format: int64
         - in: query
           name: dbName
-          schema:
-            type: string
-        - in: query
-          name: dbNameContains
+          description: Filter slow logs whose database name contains this value.
           schema:
             type: string
         - in: query
           name: userName
-          schema:
-            type: string
-        - in: query
-          name: userNameContains
+          description: Filter slow logs whose user name contains this value.
           schema:
             type: string
         - in: query
           name: clientIp
-          schema:
-            type: string
-        - in: query
-          name: clientIpContains
-          schema:
-            type: string
-        - in: query
-          name: clientIpCIDR
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
           schema:
             type: string
         - in: query
           name: appName
-          schema:
-            type: string
-        - in: query
-          name: appNameContains
+          description: Filter slow logs whose application name contains this value.
           schema:
             type: string
         - in: query
@@ -6930,38 +6914,22 @@ paths:
             format: int64
         - in: query
           name: dbName
-          schema:
-            type: string
-        - in: query
-          name: dbNameContains
+          description: Filter slow logs whose database name contains this value.
           schema:
             type: string
         - in: query
           name: userName
-          schema:
-            type: string
-        - in: query
-          name: userNameContains
+          description: Filter slow logs whose user name contains this value.
           schema:
             type: string
         - in: query
           name: clientIp
-          schema:
-            type: string
-        - in: query
-          name: clientIpContains
-          schema:
-            type: string
-        - in: query
-          name: clientIpCIDR
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
           schema:
             type: string
         - in: query
           name: appName
-          schema:
-            type: string
-        - in: query
-          name: appNameContains
+          description: Filter slow logs whose application name contains this value.
           schema:
             type: string
       responses:
@@ -7207,38 +7175,22 @@ paths:
             format: int64
         - in: query
           name: dbName
-          schema:
-            type: string
-        - in: query
-          name: dbNameContains
+          description: Filter slow logs whose database name contains this value.
           schema:
             type: string
         - in: query
           name: userName
-          schema:
-            type: string
-        - in: query
-          name: userNameContains
+          description: Filter slow logs whose user name contains this value.
           schema:
             type: string
         - in: query
           name: clientIp
-          schema:
-            type: string
-        - in: query
-          name: clientIpContains
-          schema:
-            type: string
-        - in: query
-          name: clientIpCIDR
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
           schema:
             type: string
         - in: query
           name: appName
-          schema:
-            type: string
-        - in: query
-          name: appNameContains
+          description: Filter slow logs whose application name contains this value.
           schema:
             type: string
         - in: query
@@ -7366,38 +7318,22 @@ paths:
             format: int64
         - in: query
           name: dbName
-          schema:
-            type: string
-        - in: query
-          name: dbNameContains
+          description: Filter slow logs whose database name contains this value.
           schema:
             type: string
         - in: query
           name: userName
-          schema:
-            type: string
-        - in: query
-          name: userNameContains
+          description: Filter slow logs whose user name contains this value.
           schema:
             type: string
         - in: query
           name: clientIp
-          schema:
-            type: string
-        - in: query
-          name: clientIpContains
-          schema:
-            type: string
-        - in: query
-          name: clientIpCIDR
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
           schema:
             type: string
         - in: query
           name: appName
-          schema:
-            type: string
-        - in: query
-          name: appNameContains
+          description: Filter slow logs whose application name contains this value.
           schema:
             type: string
         - in: query
@@ -7510,38 +7446,22 @@ paths:
             format: int64
         - in: query
           name: dbName
-          schema:
-            type: string
-        - in: query
-          name: dbNameContains
+          description: Filter slow logs whose database name contains this value.
           schema:
             type: string
         - in: query
           name: userName
-          schema:
-            type: string
-        - in: query
-          name: userNameContains
+          description: Filter slow logs whose user name contains this value.
           schema:
             type: string
         - in: query
           name: clientIp
-          schema:
-            type: string
-        - in: query
-          name: clientIpContains
-          schema:
-            type: string
-        - in: query
-          name: clientIpCIDR
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
           schema:
             type: string
         - in: query
           name: appName
-          schema:
-            type: string
-        - in: query
-          name: appNameContains
+          description: Filter slow logs whose application name contains this value.
           schema:
             type: string
         - in: query
@@ -7795,38 +7715,22 @@ paths:
             format: int64
         - in: query
           name: dbName
-          schema:
-            type: string
-        - in: query
-          name: dbNameContains
+          description: Filter slow logs whose database name contains this value.
           schema:
             type: string
         - in: query
           name: userName
-          schema:
-            type: string
-        - in: query
-          name: userNameContains
+          description: Filter slow logs whose user name contains this value.
           schema:
             type: string
         - in: query
           name: clientIp
-          schema:
-            type: string
-        - in: query
-          name: clientIpContains
-          schema:
-            type: string
-        - in: query
-          name: clientIpCIDR
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
           schema:
             type: string
         - in: query
           name: appName
-          schema:
-            type: string
-        - in: query
-          name: appNameContains
+          description: Filter slow logs whose application name contains this value.
           schema:
             type: string
         - in: query
@@ -22875,7 +22779,7 @@ components:
           title: Scheduler Name
           type: string
           nullable: true
-          description: Scheduler used by this cluster. If omitted, KBE uses the environment default. When KoordinatorColocation is enabled, the environment default is the globally configured Koordinator scheduler.
+          description: Scheduler used by this cluster. If omitted, KBE uses the environment default. When koordinatorEnabled is true for the target environment, the environment default is the globally configured Koordinator scheduler.
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -27428,6 +27332,10 @@ components:
           description: whether to enable calculate the cluster SLA for the environment
           type: boolean
           default: false
+        koordinatorEnabled:
+          description: Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
+          type: boolean
+          default: false
     environmentList:
       description: EnvironmentList is a list of Environments
       properties:
@@ -27505,6 +27413,10 @@ components:
           $ref: '#/components/schemas/dns'
         sla:
           description: whether to enable calculate the cluster SLA for the environment
+          type: boolean
+          default: false
+        koordinatorEnabled:
+          description: Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
           type: boolean
           default: false
     preflight:
@@ -27633,6 +27545,10 @@ components:
           nullable: true
         slaEnabled:
           description: whether to enable calculate the cluster SLA for the environment
+          type: boolean
+          default: false
+        koordinatorEnabled:
+          description: Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
           type: boolean
           default: false
         clusterSchedulingPolicy:

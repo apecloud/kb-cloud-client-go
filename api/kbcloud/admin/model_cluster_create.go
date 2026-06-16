@@ -64,7 +64,7 @@ type ClusterCreate struct {
 	// * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
 	//
 	SchedulingPolicy *SchedulingPolicyType `json:"schedulingPolicy,omitempty"`
-	// Scheduler used by this cluster. If omitted, KBE uses the environment default. When KoordinatorColocation is enabled, the environment default is the globally configured Koordinator scheduler.
+	// Scheduler used by this cluster. If omitted, KBE uses the environment default. When koordinatorEnabled is true for the target environment, the environment default is the globally configured Koordinator scheduler.
 	SchedulerName common.NullableString `json:"schedulerName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
