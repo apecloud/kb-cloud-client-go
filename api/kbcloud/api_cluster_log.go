@@ -206,14 +206,10 @@ type AggregateSlowLogsOptionalParameters struct {
 	MinRowsSent      *int64
 	MaxRowsSent      *int64
 	DbName           *string
-	DbNameContains   *string
 	UserName         *string
-	UserNameContains *string
 	ClientIp         *string
-	ClientIpContains *string
 	ClientIpCidr     *string
 	AppName          *string
-	AppNameContains  *string
 	TemplateId       *string
 	UnclassifiedOnly *bool
 }
@@ -320,33 +316,15 @@ func (r *AggregateSlowLogsOptionalParameters) WithDbName(dbName string) *Aggrega
 	return r
 }
 
-// WithDbNameContains sets the corresponding parameter name and returns the struct.
-func (r *AggregateSlowLogsOptionalParameters) WithDbNameContains(dbNameContains string) *AggregateSlowLogsOptionalParameters {
-	r.DbNameContains = &dbNameContains
-	return r
-}
-
 // WithUserName sets the corresponding parameter name and returns the struct.
 func (r *AggregateSlowLogsOptionalParameters) WithUserName(userName string) *AggregateSlowLogsOptionalParameters {
 	r.UserName = &userName
 	return r
 }
 
-// WithUserNameContains sets the corresponding parameter name and returns the struct.
-func (r *AggregateSlowLogsOptionalParameters) WithUserNameContains(userNameContains string) *AggregateSlowLogsOptionalParameters {
-	r.UserNameContains = &userNameContains
-	return r
-}
-
 // WithClientIp sets the corresponding parameter name and returns the struct.
 func (r *AggregateSlowLogsOptionalParameters) WithClientIp(clientIp string) *AggregateSlowLogsOptionalParameters {
 	r.ClientIp = &clientIp
-	return r
-}
-
-// WithClientIpContains sets the corresponding parameter name and returns the struct.
-func (r *AggregateSlowLogsOptionalParameters) WithClientIpContains(clientIpContains string) *AggregateSlowLogsOptionalParameters {
-	r.ClientIpContains = &clientIpContains
 	return r
 }
 
@@ -359,12 +337,6 @@ func (r *AggregateSlowLogsOptionalParameters) WithClientIpCidr(clientIpCidr stri
 // WithAppName sets the corresponding parameter name and returns the struct.
 func (r *AggregateSlowLogsOptionalParameters) WithAppName(appName string) *AggregateSlowLogsOptionalParameters {
 	r.AppName = &appName
-	return r
-}
-
-// WithAppNameContains sets the corresponding parameter name and returns the struct.
-func (r *AggregateSlowLogsOptionalParameters) WithAppNameContains(appNameContains string) *AggregateSlowLogsOptionalParameters {
-	r.AppNameContains = &appNameContains
 	return r
 }
 
@@ -468,29 +440,17 @@ func (a *ClusterLogApi) AggregateSlowLogs(ctx _context.Context, orgName string, 
 	if optionalParams.DbName != nil {
 		localVarQueryParams.Add("dbName", common.ParameterToString(*optionalParams.DbName, ""))
 	}
-	if optionalParams.DbNameContains != nil {
-		localVarQueryParams.Add("dbNameContains", common.ParameterToString(*optionalParams.DbNameContains, ""))
-	}
 	if optionalParams.UserName != nil {
 		localVarQueryParams.Add("userName", common.ParameterToString(*optionalParams.UserName, ""))
 	}
-	if optionalParams.UserNameContains != nil {
-		localVarQueryParams.Add("userNameContains", common.ParameterToString(*optionalParams.UserNameContains, ""))
-	}
 	if optionalParams.ClientIp != nil {
 		localVarQueryParams.Add("clientIp", common.ParameterToString(*optionalParams.ClientIp, ""))
-	}
-	if optionalParams.ClientIpContains != nil {
-		localVarQueryParams.Add("clientIpContains", common.ParameterToString(*optionalParams.ClientIpContains, ""))
 	}
 	if optionalParams.ClientIpCidr != nil {
 		localVarQueryParams.Add("clientIpCIDR", common.ParameterToString(*optionalParams.ClientIpCidr, ""))
 	}
 	if optionalParams.AppName != nil {
 		localVarQueryParams.Add("appName", common.ParameterToString(*optionalParams.AppName, ""))
-	}
-	if optionalParams.AppNameContains != nil {
-		localVarQueryParams.Add("appNameContains", common.ParameterToString(*optionalParams.AppNameContains, ""))
 	}
 	if optionalParams.TemplateId != nil {
 		localVarQueryParams.Add("templateId", common.ParameterToString(*optionalParams.TemplateId, ""))
@@ -780,14 +740,10 @@ type ExportClusterLogsOptionalParameters struct {
 	MinRowsSent      *int64
 	MaxRowsSent      *int64
 	DbName           *string
-	DbNameContains   *string
 	UserName         *string
-	UserNameContains *string
 	ClientIp         *string
-	ClientIpContains *string
 	ClientIpCidr     *string
 	AppName          *string
-	AppNameContains  *string
 	TemplateId       *string
 	UnclassifiedOnly *bool
 	MaxLines         *int64
@@ -895,33 +851,15 @@ func (r *ExportClusterLogsOptionalParameters) WithDbName(dbName string) *ExportC
 	return r
 }
 
-// WithDbNameContains sets the corresponding parameter name and returns the struct.
-func (r *ExportClusterLogsOptionalParameters) WithDbNameContains(dbNameContains string) *ExportClusterLogsOptionalParameters {
-	r.DbNameContains = &dbNameContains
-	return r
-}
-
 // WithUserName sets the corresponding parameter name and returns the struct.
 func (r *ExportClusterLogsOptionalParameters) WithUserName(userName string) *ExportClusterLogsOptionalParameters {
 	r.UserName = &userName
 	return r
 }
 
-// WithUserNameContains sets the corresponding parameter name and returns the struct.
-func (r *ExportClusterLogsOptionalParameters) WithUserNameContains(userNameContains string) *ExportClusterLogsOptionalParameters {
-	r.UserNameContains = &userNameContains
-	return r
-}
-
 // WithClientIp sets the corresponding parameter name and returns the struct.
 func (r *ExportClusterLogsOptionalParameters) WithClientIp(clientIp string) *ExportClusterLogsOptionalParameters {
 	r.ClientIp = &clientIp
-	return r
-}
-
-// WithClientIpContains sets the corresponding parameter name and returns the struct.
-func (r *ExportClusterLogsOptionalParameters) WithClientIpContains(clientIpContains string) *ExportClusterLogsOptionalParameters {
-	r.ClientIpContains = &clientIpContains
 	return r
 }
 
@@ -934,12 +872,6 @@ func (r *ExportClusterLogsOptionalParameters) WithClientIpCidr(clientIpCidr stri
 // WithAppName sets the corresponding parameter name and returns the struct.
 func (r *ExportClusterLogsOptionalParameters) WithAppName(appName string) *ExportClusterLogsOptionalParameters {
 	r.AppName = &appName
-	return r
-}
-
-// WithAppNameContains sets the corresponding parameter name and returns the struct.
-func (r *ExportClusterLogsOptionalParameters) WithAppNameContains(appNameContains string) *ExportClusterLogsOptionalParameters {
-	r.AppNameContains = &appNameContains
 	return r
 }
 
@@ -1048,29 +980,17 @@ func (a *ClusterLogApi) ExportClusterLogs(ctx _context.Context, orgName string, 
 	if optionalParams.DbName != nil {
 		localVarQueryParams.Add("dbName", common.ParameterToString(*optionalParams.DbName, ""))
 	}
-	if optionalParams.DbNameContains != nil {
-		localVarQueryParams.Add("dbNameContains", common.ParameterToString(*optionalParams.DbNameContains, ""))
-	}
 	if optionalParams.UserName != nil {
 		localVarQueryParams.Add("userName", common.ParameterToString(*optionalParams.UserName, ""))
 	}
-	if optionalParams.UserNameContains != nil {
-		localVarQueryParams.Add("userNameContains", common.ParameterToString(*optionalParams.UserNameContains, ""))
-	}
 	if optionalParams.ClientIp != nil {
 		localVarQueryParams.Add("clientIp", common.ParameterToString(*optionalParams.ClientIp, ""))
-	}
-	if optionalParams.ClientIpContains != nil {
-		localVarQueryParams.Add("clientIpContains", common.ParameterToString(*optionalParams.ClientIpContains, ""))
 	}
 	if optionalParams.ClientIpCidr != nil {
 		localVarQueryParams.Add("clientIpCIDR", common.ParameterToString(*optionalParams.ClientIpCidr, ""))
 	}
 	if optionalParams.AppName != nil {
 		localVarQueryParams.Add("appName", common.ParameterToString(*optionalParams.AppName, ""))
-	}
-	if optionalParams.AppNameContains != nil {
-		localVarQueryParams.Add("appNameContains", common.ParameterToString(*optionalParams.AppNameContains, ""))
 	}
 	if optionalParams.TemplateId != nil {
 		localVarQueryParams.Add("templateId", common.ParameterToString(*optionalParams.TemplateId, ""))
@@ -1137,14 +1057,10 @@ type GetSlowLogStatsOptionalParameters struct {
 	MinRowsSent      *int64
 	MaxRowsSent      *int64
 	DbName           *string
-	DbNameContains   *string
 	UserName         *string
-	UserNameContains *string
 	ClientIp         *string
-	ClientIpContains *string
 	ClientIpCidr     *string
 	AppName          *string
-	AppNameContains  *string
 	TemplateId       *string
 	UnclassifiedOnly *bool
 }
@@ -1227,33 +1143,15 @@ func (r *GetSlowLogStatsOptionalParameters) WithDbName(dbName string) *GetSlowLo
 	return r
 }
 
-// WithDbNameContains sets the corresponding parameter name and returns the struct.
-func (r *GetSlowLogStatsOptionalParameters) WithDbNameContains(dbNameContains string) *GetSlowLogStatsOptionalParameters {
-	r.DbNameContains = &dbNameContains
-	return r
-}
-
 // WithUserName sets the corresponding parameter name and returns the struct.
 func (r *GetSlowLogStatsOptionalParameters) WithUserName(userName string) *GetSlowLogStatsOptionalParameters {
 	r.UserName = &userName
 	return r
 }
 
-// WithUserNameContains sets the corresponding parameter name and returns the struct.
-func (r *GetSlowLogStatsOptionalParameters) WithUserNameContains(userNameContains string) *GetSlowLogStatsOptionalParameters {
-	r.UserNameContains = &userNameContains
-	return r
-}
-
 // WithClientIp sets the corresponding parameter name and returns the struct.
 func (r *GetSlowLogStatsOptionalParameters) WithClientIp(clientIp string) *GetSlowLogStatsOptionalParameters {
 	r.ClientIp = &clientIp
-	return r
-}
-
-// WithClientIpContains sets the corresponding parameter name and returns the struct.
-func (r *GetSlowLogStatsOptionalParameters) WithClientIpContains(clientIpContains string) *GetSlowLogStatsOptionalParameters {
-	r.ClientIpContains = &clientIpContains
 	return r
 }
 
@@ -1266,12 +1164,6 @@ func (r *GetSlowLogStatsOptionalParameters) WithClientIpCidr(clientIpCidr string
 // WithAppName sets the corresponding parameter name and returns the struct.
 func (r *GetSlowLogStatsOptionalParameters) WithAppName(appName string) *GetSlowLogStatsOptionalParameters {
 	r.AppName = &appName
-	return r
-}
-
-// WithAppNameContains sets the corresponding parameter name and returns the struct.
-func (r *GetSlowLogStatsOptionalParameters) WithAppNameContains(appNameContains string) *GetSlowLogStatsOptionalParameters {
-	r.AppNameContains = &appNameContains
 	return r
 }
 
@@ -1363,29 +1255,17 @@ func (a *ClusterLogApi) GetSlowLogStats(ctx _context.Context, orgName string, cl
 	if optionalParams.DbName != nil {
 		localVarQueryParams.Add("dbName", common.ParameterToString(*optionalParams.DbName, ""))
 	}
-	if optionalParams.DbNameContains != nil {
-		localVarQueryParams.Add("dbNameContains", common.ParameterToString(*optionalParams.DbNameContains, ""))
-	}
 	if optionalParams.UserName != nil {
 		localVarQueryParams.Add("userName", common.ParameterToString(*optionalParams.UserName, ""))
 	}
-	if optionalParams.UserNameContains != nil {
-		localVarQueryParams.Add("userNameContains", common.ParameterToString(*optionalParams.UserNameContains, ""))
-	}
 	if optionalParams.ClientIp != nil {
 		localVarQueryParams.Add("clientIp", common.ParameterToString(*optionalParams.ClientIp, ""))
-	}
-	if optionalParams.ClientIpContains != nil {
-		localVarQueryParams.Add("clientIpContains", common.ParameterToString(*optionalParams.ClientIpContains, ""))
 	}
 	if optionalParams.ClientIpCidr != nil {
 		localVarQueryParams.Add("clientIpCIDR", common.ParameterToString(*optionalParams.ClientIpCidr, ""))
 	}
 	if optionalParams.AppName != nil {
 		localVarQueryParams.Add("appName", common.ParameterToString(*optionalParams.AppName, ""))
-	}
-	if optionalParams.AppNameContains != nil {
-		localVarQueryParams.Add("appNameContains", common.ParameterToString(*optionalParams.AppNameContains, ""))
 	}
 	if optionalParams.TemplateId != nil {
 		localVarQueryParams.Add("templateId", common.ParameterToString(*optionalParams.TemplateId, ""))
@@ -1888,14 +1768,10 @@ type QueryLogHitsOptionalParameters struct {
 	MinRowsSent      *int64
 	MaxRowsSent      *int64
 	DbName           *string
-	DbNameContains   *string
 	UserName         *string
-	UserNameContains *string
 	ClientIp         *string
-	ClientIpContains *string
 	ClientIpCidr     *string
 	AppName          *string
-	AppNameContains  *string
 	TemplateId       *string
 	UnclassifiedOnly *bool
 }
@@ -1978,33 +1854,15 @@ func (r *QueryLogHitsOptionalParameters) WithDbName(dbName string) *QueryLogHits
 	return r
 }
 
-// WithDbNameContains sets the corresponding parameter name and returns the struct.
-func (r *QueryLogHitsOptionalParameters) WithDbNameContains(dbNameContains string) *QueryLogHitsOptionalParameters {
-	r.DbNameContains = &dbNameContains
-	return r
-}
-
 // WithUserName sets the corresponding parameter name and returns the struct.
 func (r *QueryLogHitsOptionalParameters) WithUserName(userName string) *QueryLogHitsOptionalParameters {
 	r.UserName = &userName
 	return r
 }
 
-// WithUserNameContains sets the corresponding parameter name and returns the struct.
-func (r *QueryLogHitsOptionalParameters) WithUserNameContains(userNameContains string) *QueryLogHitsOptionalParameters {
-	r.UserNameContains = &userNameContains
-	return r
-}
-
 // WithClientIp sets the corresponding parameter name and returns the struct.
 func (r *QueryLogHitsOptionalParameters) WithClientIp(clientIp string) *QueryLogHitsOptionalParameters {
 	r.ClientIp = &clientIp
-	return r
-}
-
-// WithClientIpContains sets the corresponding parameter name and returns the struct.
-func (r *QueryLogHitsOptionalParameters) WithClientIpContains(clientIpContains string) *QueryLogHitsOptionalParameters {
-	r.ClientIpContains = &clientIpContains
 	return r
 }
 
@@ -2017,12 +1875,6 @@ func (r *QueryLogHitsOptionalParameters) WithClientIpCidr(clientIpCidr string) *
 // WithAppName sets the corresponding parameter name and returns the struct.
 func (r *QueryLogHitsOptionalParameters) WithAppName(appName string) *QueryLogHitsOptionalParameters {
 	r.AppName = &appName
-	return r
-}
-
-// WithAppNameContains sets the corresponding parameter name and returns the struct.
-func (r *QueryLogHitsOptionalParameters) WithAppNameContains(appNameContains string) *QueryLogHitsOptionalParameters {
-	r.AppNameContains = &appNameContains
 	return r
 }
 
@@ -2116,29 +1968,17 @@ func (a *ClusterLogApi) QueryLogHits(ctx _context.Context, orgName string, clust
 	if optionalParams.DbName != nil {
 		localVarQueryParams.Add("dbName", common.ParameterToString(*optionalParams.DbName, ""))
 	}
-	if optionalParams.DbNameContains != nil {
-		localVarQueryParams.Add("dbNameContains", common.ParameterToString(*optionalParams.DbNameContains, ""))
-	}
 	if optionalParams.UserName != nil {
 		localVarQueryParams.Add("userName", common.ParameterToString(*optionalParams.UserName, ""))
 	}
-	if optionalParams.UserNameContains != nil {
-		localVarQueryParams.Add("userNameContains", common.ParameterToString(*optionalParams.UserNameContains, ""))
-	}
 	if optionalParams.ClientIp != nil {
 		localVarQueryParams.Add("clientIp", common.ParameterToString(*optionalParams.ClientIp, ""))
-	}
-	if optionalParams.ClientIpContains != nil {
-		localVarQueryParams.Add("clientIpContains", common.ParameterToString(*optionalParams.ClientIpContains, ""))
 	}
 	if optionalParams.ClientIpCidr != nil {
 		localVarQueryParams.Add("clientIpCIDR", common.ParameterToString(*optionalParams.ClientIpCidr, ""))
 	}
 	if optionalParams.AppName != nil {
 		localVarQueryParams.Add("appName", common.ParameterToString(*optionalParams.AppName, ""))
-	}
-	if optionalParams.AppNameContains != nil {
-		localVarQueryParams.Add("appNameContains", common.ParameterToString(*optionalParams.AppNameContains, ""))
 	}
 	if optionalParams.TemplateId != nil {
 		localVarQueryParams.Add("templateId", common.ParameterToString(*optionalParams.TemplateId, ""))
@@ -2522,14 +2362,10 @@ type QuerySlowLogTemplateSamplesOptionalParameters struct {
 	MinRowsSent      *int64
 	MaxRowsSent      *int64
 	DbName           *string
-	DbNameContains   *string
 	UserName         *string
-	UserNameContains *string
 	ClientIp         *string
-	ClientIpContains *string
 	ClientIpCidr     *string
 	AppName          *string
-	AppNameContains  *string
 	UnclassifiedOnly *bool
 }
 
@@ -2623,33 +2459,15 @@ func (r *QuerySlowLogTemplateSamplesOptionalParameters) WithDbName(dbName string
 	return r
 }
 
-// WithDbNameContains sets the corresponding parameter name and returns the struct.
-func (r *QuerySlowLogTemplateSamplesOptionalParameters) WithDbNameContains(dbNameContains string) *QuerySlowLogTemplateSamplesOptionalParameters {
-	r.DbNameContains = &dbNameContains
-	return r
-}
-
 // WithUserName sets the corresponding parameter name and returns the struct.
 func (r *QuerySlowLogTemplateSamplesOptionalParameters) WithUserName(userName string) *QuerySlowLogTemplateSamplesOptionalParameters {
 	r.UserName = &userName
 	return r
 }
 
-// WithUserNameContains sets the corresponding parameter name and returns the struct.
-func (r *QuerySlowLogTemplateSamplesOptionalParameters) WithUserNameContains(userNameContains string) *QuerySlowLogTemplateSamplesOptionalParameters {
-	r.UserNameContains = &userNameContains
-	return r
-}
-
 // WithClientIp sets the corresponding parameter name and returns the struct.
 func (r *QuerySlowLogTemplateSamplesOptionalParameters) WithClientIp(clientIp string) *QuerySlowLogTemplateSamplesOptionalParameters {
 	r.ClientIp = &clientIp
-	return r
-}
-
-// WithClientIpContains sets the corresponding parameter name and returns the struct.
-func (r *QuerySlowLogTemplateSamplesOptionalParameters) WithClientIpContains(clientIpContains string) *QuerySlowLogTemplateSamplesOptionalParameters {
-	r.ClientIpContains = &clientIpContains
 	return r
 }
 
@@ -2662,12 +2480,6 @@ func (r *QuerySlowLogTemplateSamplesOptionalParameters) WithClientIpCidr(clientI
 // WithAppName sets the corresponding parameter name and returns the struct.
 func (r *QuerySlowLogTemplateSamplesOptionalParameters) WithAppName(appName string) *QuerySlowLogTemplateSamplesOptionalParameters {
 	r.AppName = &appName
-	return r
-}
-
-// WithAppNameContains sets the corresponding parameter name and returns the struct.
-func (r *QuerySlowLogTemplateSamplesOptionalParameters) WithAppNameContains(appNameContains string) *QuerySlowLogTemplateSamplesOptionalParameters {
-	r.AppNameContains = &appNameContains
 	return r
 }
 
@@ -2760,29 +2572,17 @@ func (a *ClusterLogApi) QuerySlowLogTemplateSamples(ctx _context.Context, orgNam
 	if optionalParams.DbName != nil {
 		localVarQueryParams.Add("dbName", common.ParameterToString(*optionalParams.DbName, ""))
 	}
-	if optionalParams.DbNameContains != nil {
-		localVarQueryParams.Add("dbNameContains", common.ParameterToString(*optionalParams.DbNameContains, ""))
-	}
 	if optionalParams.UserName != nil {
 		localVarQueryParams.Add("userName", common.ParameterToString(*optionalParams.UserName, ""))
 	}
-	if optionalParams.UserNameContains != nil {
-		localVarQueryParams.Add("userNameContains", common.ParameterToString(*optionalParams.UserNameContains, ""))
-	}
 	if optionalParams.ClientIp != nil {
 		localVarQueryParams.Add("clientIp", common.ParameterToString(*optionalParams.ClientIp, ""))
-	}
-	if optionalParams.ClientIpContains != nil {
-		localVarQueryParams.Add("clientIpContains", common.ParameterToString(*optionalParams.ClientIpContains, ""))
 	}
 	if optionalParams.ClientIpCidr != nil {
 		localVarQueryParams.Add("clientIpCIDR", common.ParameterToString(*optionalParams.ClientIpCidr, ""))
 	}
 	if optionalParams.AppName != nil {
 		localVarQueryParams.Add("appName", common.ParameterToString(*optionalParams.AppName, ""))
-	}
-	if optionalParams.AppNameContains != nil {
-		localVarQueryParams.Add("appNameContains", common.ParameterToString(*optionalParams.AppNameContains, ""))
 	}
 	if optionalParams.UnclassifiedOnly != nil {
 		localVarQueryParams.Add("unclassifiedOnly", common.ParameterToString(*optionalParams.UnclassifiedOnly, ""))
@@ -2854,14 +2654,10 @@ type QuerySlowLogTemplatesOptionalParameters struct {
 	MinRowsSent      *int64
 	MaxRowsSent      *int64
 	DbName           *string
-	DbNameContains   *string
 	UserName         *string
-	UserNameContains *string
 	ClientIp         *string
-	ClientIpContains *string
 	ClientIpCidr     *string
 	AppName          *string
-	AppNameContains  *string
 }
 
 // NewQuerySlowLogTemplatesOptionalParameters creates an empty struct for parameters.
@@ -2960,33 +2756,15 @@ func (r *QuerySlowLogTemplatesOptionalParameters) WithDbName(dbName string) *Que
 	return r
 }
 
-// WithDbNameContains sets the corresponding parameter name and returns the struct.
-func (r *QuerySlowLogTemplatesOptionalParameters) WithDbNameContains(dbNameContains string) *QuerySlowLogTemplatesOptionalParameters {
-	r.DbNameContains = &dbNameContains
-	return r
-}
-
 // WithUserName sets the corresponding parameter name and returns the struct.
 func (r *QuerySlowLogTemplatesOptionalParameters) WithUserName(userName string) *QuerySlowLogTemplatesOptionalParameters {
 	r.UserName = &userName
 	return r
 }
 
-// WithUserNameContains sets the corresponding parameter name and returns the struct.
-func (r *QuerySlowLogTemplatesOptionalParameters) WithUserNameContains(userNameContains string) *QuerySlowLogTemplatesOptionalParameters {
-	r.UserNameContains = &userNameContains
-	return r
-}
-
 // WithClientIp sets the corresponding parameter name and returns the struct.
 func (r *QuerySlowLogTemplatesOptionalParameters) WithClientIp(clientIp string) *QuerySlowLogTemplatesOptionalParameters {
 	r.ClientIp = &clientIp
-	return r
-}
-
-// WithClientIpContains sets the corresponding parameter name and returns the struct.
-func (r *QuerySlowLogTemplatesOptionalParameters) WithClientIpContains(clientIpContains string) *QuerySlowLogTemplatesOptionalParameters {
-	r.ClientIpContains = &clientIpContains
 	return r
 }
 
@@ -2999,12 +2777,6 @@ func (r *QuerySlowLogTemplatesOptionalParameters) WithClientIpCidr(clientIpCidr 
 // WithAppName sets the corresponding parameter name and returns the struct.
 func (r *QuerySlowLogTemplatesOptionalParameters) WithAppName(appName string) *QuerySlowLogTemplatesOptionalParameters {
 	r.AppName = &appName
-	return r
-}
-
-// WithAppNameContains sets the corresponding parameter name and returns the struct.
-func (r *QuerySlowLogTemplatesOptionalParameters) WithAppNameContains(appNameContains string) *QuerySlowLogTemplatesOptionalParameters {
-	r.AppNameContains = &appNameContains
 	return r
 }
 
@@ -3093,29 +2865,17 @@ func (a *ClusterLogApi) QuerySlowLogTemplates(ctx _context.Context, orgName stri
 	if optionalParams.DbName != nil {
 		localVarQueryParams.Add("dbName", common.ParameterToString(*optionalParams.DbName, ""))
 	}
-	if optionalParams.DbNameContains != nil {
-		localVarQueryParams.Add("dbNameContains", common.ParameterToString(*optionalParams.DbNameContains, ""))
-	}
 	if optionalParams.UserName != nil {
 		localVarQueryParams.Add("userName", common.ParameterToString(*optionalParams.UserName, ""))
 	}
-	if optionalParams.UserNameContains != nil {
-		localVarQueryParams.Add("userNameContains", common.ParameterToString(*optionalParams.UserNameContains, ""))
-	}
 	if optionalParams.ClientIp != nil {
 		localVarQueryParams.Add("clientIp", common.ParameterToString(*optionalParams.ClientIp, ""))
-	}
-	if optionalParams.ClientIpContains != nil {
-		localVarQueryParams.Add("clientIpContains", common.ParameterToString(*optionalParams.ClientIpContains, ""))
 	}
 	if optionalParams.ClientIpCidr != nil {
 		localVarQueryParams.Add("clientIpCIDR", common.ParameterToString(*optionalParams.ClientIpCidr, ""))
 	}
 	if optionalParams.AppName != nil {
 		localVarQueryParams.Add("appName", common.ParameterToString(*optionalParams.AppName, ""))
-	}
-	if optionalParams.AppNameContains != nil {
-		localVarQueryParams.Add("appNameContains", common.ParameterToString(*optionalParams.AppNameContains, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -3183,14 +2943,10 @@ type QuerySlowLogsOptionalParameters struct {
 	MinRowsSent      *int64
 	MaxRowsSent      *int64
 	DbName           *string
-	DbNameContains   *string
 	UserName         *string
-	UserNameContains *string
 	ClientIp         *string
-	ClientIpContains *string
 	ClientIpCidr     *string
 	AppName          *string
-	AppNameContains  *string
 	TemplateId       *string
 	UnclassifiedOnly *bool
 }
@@ -3285,33 +3041,15 @@ func (r *QuerySlowLogsOptionalParameters) WithDbName(dbName string) *QuerySlowLo
 	return r
 }
 
-// WithDbNameContains sets the corresponding parameter name and returns the struct.
-func (r *QuerySlowLogsOptionalParameters) WithDbNameContains(dbNameContains string) *QuerySlowLogsOptionalParameters {
-	r.DbNameContains = &dbNameContains
-	return r
-}
-
 // WithUserName sets the corresponding parameter name and returns the struct.
 func (r *QuerySlowLogsOptionalParameters) WithUserName(userName string) *QuerySlowLogsOptionalParameters {
 	r.UserName = &userName
 	return r
 }
 
-// WithUserNameContains sets the corresponding parameter name and returns the struct.
-func (r *QuerySlowLogsOptionalParameters) WithUserNameContains(userNameContains string) *QuerySlowLogsOptionalParameters {
-	r.UserNameContains = &userNameContains
-	return r
-}
-
 // WithClientIp sets the corresponding parameter name and returns the struct.
 func (r *QuerySlowLogsOptionalParameters) WithClientIp(clientIp string) *QuerySlowLogsOptionalParameters {
 	r.ClientIp = &clientIp
-	return r
-}
-
-// WithClientIpContains sets the corresponding parameter name and returns the struct.
-func (r *QuerySlowLogsOptionalParameters) WithClientIpContains(clientIpContains string) *QuerySlowLogsOptionalParameters {
-	r.ClientIpContains = &clientIpContains
 	return r
 }
 
@@ -3324,12 +3062,6 @@ func (r *QuerySlowLogsOptionalParameters) WithClientIpCidr(clientIpCidr string) 
 // WithAppName sets the corresponding parameter name and returns the struct.
 func (r *QuerySlowLogsOptionalParameters) WithAppName(appName string) *QuerySlowLogsOptionalParameters {
 	r.AppName = &appName
-	return r
-}
-
-// WithAppNameContains sets the corresponding parameter name and returns the struct.
-func (r *QuerySlowLogsOptionalParameters) WithAppNameContains(appNameContains string) *QuerySlowLogsOptionalParameters {
-	r.AppNameContains = &appNameContains
 	return r
 }
 
@@ -3427,29 +3159,17 @@ func (a *ClusterLogApi) QuerySlowLogs(ctx _context.Context, orgName string, clus
 	if optionalParams.DbName != nil {
 		localVarQueryParams.Add("dbName", common.ParameterToString(*optionalParams.DbName, ""))
 	}
-	if optionalParams.DbNameContains != nil {
-		localVarQueryParams.Add("dbNameContains", common.ParameterToString(*optionalParams.DbNameContains, ""))
-	}
 	if optionalParams.UserName != nil {
 		localVarQueryParams.Add("userName", common.ParameterToString(*optionalParams.UserName, ""))
 	}
-	if optionalParams.UserNameContains != nil {
-		localVarQueryParams.Add("userNameContains", common.ParameterToString(*optionalParams.UserNameContains, ""))
-	}
 	if optionalParams.ClientIp != nil {
 		localVarQueryParams.Add("clientIp", common.ParameterToString(*optionalParams.ClientIp, ""))
-	}
-	if optionalParams.ClientIpContains != nil {
-		localVarQueryParams.Add("clientIpContains", common.ParameterToString(*optionalParams.ClientIpContains, ""))
 	}
 	if optionalParams.ClientIpCidr != nil {
 		localVarQueryParams.Add("clientIpCIDR", common.ParameterToString(*optionalParams.ClientIpCidr, ""))
 	}
 	if optionalParams.AppName != nil {
 		localVarQueryParams.Add("appName", common.ParameterToString(*optionalParams.AppName, ""))
-	}
-	if optionalParams.AppNameContains != nil {
-		localVarQueryParams.Add("appNameContains", common.ParameterToString(*optionalParams.AppNameContains, ""))
 	}
 	if optionalParams.TemplateId != nil {
 		localVarQueryParams.Add("templateId", common.ParameterToString(*optionalParams.TemplateId, ""))
