@@ -71,6 +71,8 @@ tags:
     description: Platform Component APIs
   - name: AI Agent
     description: Chat With AI Agent APIs
+  - name: diagnostics
+    description: Diagnostics APIs
 paths:
   /admin/v1/user:
     get:
@@ -4382,11 +4384,13 @@ paths:
         - description: engine Name
           in: query
           name: engineName
+          required: true
           schema:
             type: string
         - description: component type
           in: query
           name: component
+          required: true
           schema:
             type: string
       responses:
@@ -19146,6 +19150,49 @@ paths:
         - session
         - rdbms
         - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}:
+    get:
+      tags:
+        - diagnostics
+      summary: Get PostgreSQL session basic diagnostics
+      description: Get one PostgreSQL session basic diagnostics record by backend pid.
+      operationId: getDiagnosticsPostgresqlSession
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          description: PostgreSQL backend process id.
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postgresqlSession'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       description: list accounts in mongodb
@@ -35711,6 +35758,66 @@ components:
         - name
         - role
       type: object
+    postgresqlSession:
+      type: object
+      required:
+        - pid
+        - user
+        - database
+        - applicationName
+        - clientAddr
+        - clientPort
+        - state
+        - waitEventType
+        - waitEvent
+        - durationSeconds
+        - xactDurationSeconds
+        - queryDigest
+        - querySummary
+        - backendType
+      properties:
+        pid:
+          type: integer
+          format: int64
+        user:
+          type: string
+        database:
+          type: string
+        applicationName:
+          type: string
+        clientAddr:
+          type: string
+          description: Client address.
+        clientPort:
+          type: string
+          description: Client port.
+        state:
+          type: string
+        waitEventType:
+          type: string
+        waitEvent:
+          type: string
+        backendStart:
+          type: string
+          description: Backend start timestamp if available.
+        queryStart:
+          type: string
+          description: Query start timestamp if available.
+        xactStart:
+          type: string
+          description: Transaction start timestamp if available.
+        durationSeconds:
+          type: integer
+          format: int64
+        xactDurationSeconds:
+          type: integer
+          format: int64
+        queryDigest:
+          type: string
+        querySummary:
+          type: string
+        backendType:
+          type: string
     dbTDERequest:
       type: object
       properties:
@@ -37075,6 +37182,9 @@ x-tagGroups:
   - name: AI Agent
     tags:
       - AI Agent
+  - name: Diagnostics
+    tags:
+      - diagnostics
   - name: PlatformParameter
     tags:
       - platformParameter
