@@ -4666,6 +4666,49 @@ paths:
         - cluster
         - shared
       x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}:
+    get:
+      tags:
+        - diagnostics
+      summary: Get PostgreSQL session basic diagnostics
+      description: Get one PostgreSQL session basic diagnostics record by backend pid.
+      operationId: getDiagnosticsPostgresqlSession
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          description: PostgreSQL backend process id.
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postgresqlSession'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/metrics:
     get:
       description: Query cluster metrics by specified metric name and instance name, support instant and range query
@@ -21362,6 +21405,66 @@ components:
         taskId:
           type: string
           description: Task ID if the operation is asynchronous (e.g. reconfigure)
+    postgresqlSession:
+      type: object
+      required:
+        - pid
+        - user
+        - database
+        - applicationName
+        - clientAddr
+        - clientPort
+        - state
+        - waitEventType
+        - waitEvent
+        - durationSeconds
+        - xactDurationSeconds
+        - queryDigest
+        - querySummary
+        - backendType
+      properties:
+        pid:
+          type: integer
+          format: int64
+        user:
+          type: string
+        database:
+          type: string
+        applicationName:
+          type: string
+        clientAddr:
+          type: string
+          description: Client address.
+        clientPort:
+          type: string
+          description: Client port.
+        state:
+          type: string
+        waitEventType:
+          type: string
+        waitEvent:
+          type: string
+        backendStart:
+          type: string
+          description: Backend start timestamp if available.
+        queryStart:
+          type: string
+          description: Query start timestamp if available.
+        xactStart:
+          type: string
+          description: Transaction start timestamp if available.
+        durationSeconds:
+          type: integer
+          format: int64
+        xactDurationSeconds:
+          type: integer
+          format: int64
+        queryDigest:
+          type: string
+        querySummary:
+          type: string
+        backendType:
+          type: string
     metricsQueryType:
       type: string
       enum:
