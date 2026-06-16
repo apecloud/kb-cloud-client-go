@@ -4382,11 +4382,13 @@ paths:
         - description: engine Name
           in: query
           name: engineName
+          required: true
           schema:
             type: string
         - description: component type
           in: query
           name: component
+          required: true
           schema:
             type: string
       responses:
