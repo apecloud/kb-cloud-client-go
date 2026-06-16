@@ -6732,38 +6732,22 @@ paths:
             format: int64
         - in: query
           name: dbName
-          schema:
-            type: string
-        - in: query
-          name: dbNameContains
+          description: Filter slow logs whose database name contains this value.
           schema:
             type: string
         - in: query
           name: userName
-          schema:
-            type: string
-        - in: query
-          name: userNameContains
+          description: Filter slow logs whose user name contains this value.
           schema:
             type: string
         - in: query
           name: clientIp
-          schema:
-            type: string
-        - in: query
-          name: clientIpContains
-          schema:
-            type: string
-        - in: query
-          name: clientIpCIDR
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
           schema:
             type: string
         - in: query
           name: appName
-          schema:
-            type: string
-        - in: query
-          name: appNameContains
+          description: Filter slow logs whose application name contains this value.
           schema:
             type: string
         - in: query
@@ -6930,38 +6914,22 @@ paths:
             format: int64
         - in: query
           name: dbName
-          schema:
-            type: string
-        - in: query
-          name: dbNameContains
+          description: Filter slow logs whose database name contains this value.
           schema:
             type: string
         - in: query
           name: userName
-          schema:
-            type: string
-        - in: query
-          name: userNameContains
+          description: Filter slow logs whose user name contains this value.
           schema:
             type: string
         - in: query
           name: clientIp
-          schema:
-            type: string
-        - in: query
-          name: clientIpContains
-          schema:
-            type: string
-        - in: query
-          name: clientIpCIDR
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
           schema:
             type: string
         - in: query
           name: appName
-          schema:
-            type: string
-        - in: query
-          name: appNameContains
+          description: Filter slow logs whose application name contains this value.
           schema:
             type: string
       responses:
@@ -7207,38 +7175,22 @@ paths:
             format: int64
         - in: query
           name: dbName
-          schema:
-            type: string
-        - in: query
-          name: dbNameContains
+          description: Filter slow logs whose database name contains this value.
           schema:
             type: string
         - in: query
           name: userName
-          schema:
-            type: string
-        - in: query
-          name: userNameContains
+          description: Filter slow logs whose user name contains this value.
           schema:
             type: string
         - in: query
           name: clientIp
-          schema:
-            type: string
-        - in: query
-          name: clientIpContains
-          schema:
-            type: string
-        - in: query
-          name: clientIpCIDR
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
           schema:
             type: string
         - in: query
           name: appName
-          schema:
-            type: string
-        - in: query
-          name: appNameContains
+          description: Filter slow logs whose application name contains this value.
           schema:
             type: string
         - in: query
@@ -7366,38 +7318,22 @@ paths:
             format: int64
         - in: query
           name: dbName
-          schema:
-            type: string
-        - in: query
-          name: dbNameContains
+          description: Filter slow logs whose database name contains this value.
           schema:
             type: string
         - in: query
           name: userName
-          schema:
-            type: string
-        - in: query
-          name: userNameContains
+          description: Filter slow logs whose user name contains this value.
           schema:
             type: string
         - in: query
           name: clientIp
-          schema:
-            type: string
-        - in: query
-          name: clientIpContains
-          schema:
-            type: string
-        - in: query
-          name: clientIpCIDR
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
           schema:
             type: string
         - in: query
           name: appName
-          schema:
-            type: string
-        - in: query
-          name: appNameContains
+          description: Filter slow logs whose application name contains this value.
           schema:
             type: string
         - in: query
@@ -7510,38 +7446,22 @@ paths:
             format: int64
         - in: query
           name: dbName
-          schema:
-            type: string
-        - in: query
-          name: dbNameContains
+          description: Filter slow logs whose database name contains this value.
           schema:
             type: string
         - in: query
           name: userName
-          schema:
-            type: string
-        - in: query
-          name: userNameContains
+          description: Filter slow logs whose user name contains this value.
           schema:
             type: string
         - in: query
           name: clientIp
-          schema:
-            type: string
-        - in: query
-          name: clientIpContains
-          schema:
-            type: string
-        - in: query
-          name: clientIpCIDR
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
           schema:
             type: string
         - in: query
           name: appName
-          schema:
-            type: string
-        - in: query
-          name: appNameContains
+          description: Filter slow logs whose application name contains this value.
           schema:
             type: string
         - in: query
@@ -7795,38 +7715,22 @@ paths:
             format: int64
         - in: query
           name: dbName
-          schema:
-            type: string
-        - in: query
-          name: dbNameContains
+          description: Filter slow logs whose database name contains this value.
           schema:
             type: string
         - in: query
           name: userName
-          schema:
-            type: string
-        - in: query
-          name: userNameContains
+          description: Filter slow logs whose user name contains this value.
           schema:
             type: string
         - in: query
           name: clientIp
-          schema:
-            type: string
-        - in: query
-          name: clientIpContains
-          schema:
-            type: string
-        - in: query
-          name: clientIpCIDR
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
           schema:
             type: string
         - in: query
           name: appName
-          schema:
-            type: string
-        - in: query
-          name: appNameContains
+          description: Filter slow logs whose application name contains this value.
           schema:
             type: string
         - in: query
