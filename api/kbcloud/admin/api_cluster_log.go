@@ -37,7 +37,6 @@ type AggregateSlowLogsOptionalParameters struct {
 	DbName           *string
 	UserName         *string
 	ClientIp         *string
-	ClientIpCidr     *string
 	AppName          *string
 	TemplateId       *string
 	UnclassifiedOnly *bool
@@ -157,12 +156,6 @@ func (r *AggregateSlowLogsOptionalParameters) WithClientIp(clientIp string) *Agg
 	return r
 }
 
-// WithClientIpCidr sets the corresponding parameter name and returns the struct.
-func (r *AggregateSlowLogsOptionalParameters) WithClientIpCidr(clientIpCidr string) *AggregateSlowLogsOptionalParameters {
-	r.ClientIpCidr = &clientIpCidr
-	return r
-}
-
 // WithAppName sets the corresponding parameter name and returns the struct.
 func (r *AggregateSlowLogsOptionalParameters) WithAppName(appName string) *AggregateSlowLogsOptionalParameters {
 	r.AppName = &appName
@@ -274,9 +267,6 @@ func (a *ClusterLogApi) AggregateSlowLogs(ctx _context.Context, orgName string, 
 	}
 	if optionalParams.ClientIp != nil {
 		localVarQueryParams.Add("clientIp", common.ParameterToString(*optionalParams.ClientIp, ""))
-	}
-	if optionalParams.ClientIpCidr != nil {
-		localVarQueryParams.Add("clientIpCIDR", common.ParameterToString(*optionalParams.ClientIpCidr, ""))
 	}
 	if optionalParams.AppName != nil {
 		localVarQueryParams.Add("appName", common.ParameterToString(*optionalParams.AppName, ""))
@@ -567,7 +557,6 @@ type GetSlowLogStatsOptionalParameters struct {
 	DbName           *string
 	UserName         *string
 	ClientIp         *string
-	ClientIpCidr     *string
 	AppName          *string
 	TemplateId       *string
 	UnclassifiedOnly *bool
@@ -660,12 +649,6 @@ func (r *GetSlowLogStatsOptionalParameters) WithUserName(userName string) *GetSl
 // WithClientIp sets the corresponding parameter name and returns the struct.
 func (r *GetSlowLogStatsOptionalParameters) WithClientIp(clientIp string) *GetSlowLogStatsOptionalParameters {
 	r.ClientIp = &clientIp
-	return r
-}
-
-// WithClientIpCidr sets the corresponding parameter name and returns the struct.
-func (r *GetSlowLogStatsOptionalParameters) WithClientIpCidr(clientIpCidr string) *GetSlowLogStatsOptionalParameters {
-	r.ClientIpCidr = &clientIpCidr
 	return r
 }
 
@@ -768,9 +751,6 @@ func (a *ClusterLogApi) GetSlowLogStats(ctx _context.Context, orgName string, cl
 	}
 	if optionalParams.ClientIp != nil {
 		localVarQueryParams.Add("clientIp", common.ParameterToString(*optionalParams.ClientIp, ""))
-	}
-	if optionalParams.ClientIpCidr != nil {
-		localVarQueryParams.Add("clientIpCIDR", common.ParameterToString(*optionalParams.ClientIpCidr, ""))
 	}
 	if optionalParams.AppName != nil {
 		localVarQueryParams.Add("appName", common.ParameterToString(*optionalParams.AppName, ""))
@@ -1278,7 +1258,6 @@ type QueryLogHitsOptionalParameters struct {
 	DbName           *string
 	UserName         *string
 	ClientIp         *string
-	ClientIpCidr     *string
 	AppName          *string
 	TemplateId       *string
 	UnclassifiedOnly *bool
@@ -1371,12 +1350,6 @@ func (r *QueryLogHitsOptionalParameters) WithUserName(userName string) *QueryLog
 // WithClientIp sets the corresponding parameter name and returns the struct.
 func (r *QueryLogHitsOptionalParameters) WithClientIp(clientIp string) *QueryLogHitsOptionalParameters {
 	r.ClientIp = &clientIp
-	return r
-}
-
-// WithClientIpCidr sets the corresponding parameter name and returns the struct.
-func (r *QueryLogHitsOptionalParameters) WithClientIpCidr(clientIpCidr string) *QueryLogHitsOptionalParameters {
-	r.ClientIpCidr = &clientIpCidr
 	return r
 }
 
@@ -1481,9 +1454,6 @@ func (a *ClusterLogApi) QueryLogHits(ctx _context.Context, orgName string, clust
 	}
 	if optionalParams.ClientIp != nil {
 		localVarQueryParams.Add("clientIp", common.ParameterToString(*optionalParams.ClientIp, ""))
-	}
-	if optionalParams.ClientIpCidr != nil {
-		localVarQueryParams.Add("clientIpCIDR", common.ParameterToString(*optionalParams.ClientIpCidr, ""))
 	}
 	if optionalParams.AppName != nil {
 		localVarQueryParams.Add("appName", common.ParameterToString(*optionalParams.AppName, ""))
@@ -1872,7 +1842,6 @@ type QuerySlowLogTemplateSamplesOptionalParameters struct {
 	DbName           *string
 	UserName         *string
 	ClientIp         *string
-	ClientIpCidr     *string
 	AppName          *string
 	UnclassifiedOnly *bool
 }
@@ -1979,12 +1948,6 @@ func (r *QuerySlowLogTemplateSamplesOptionalParameters) WithClientIp(clientIp st
 	return r
 }
 
-// WithClientIpCidr sets the corresponding parameter name and returns the struct.
-func (r *QuerySlowLogTemplateSamplesOptionalParameters) WithClientIpCidr(clientIpCidr string) *QuerySlowLogTemplateSamplesOptionalParameters {
-	r.ClientIpCidr = &clientIpCidr
-	return r
-}
-
 // WithAppName sets the corresponding parameter name and returns the struct.
 func (r *QuerySlowLogTemplateSamplesOptionalParameters) WithAppName(appName string) *QuerySlowLogTemplateSamplesOptionalParameters {
 	r.AppName = &appName
@@ -2086,9 +2049,6 @@ func (a *ClusterLogApi) QuerySlowLogTemplateSamples(ctx _context.Context, orgNam
 	if optionalParams.ClientIp != nil {
 		localVarQueryParams.Add("clientIp", common.ParameterToString(*optionalParams.ClientIp, ""))
 	}
-	if optionalParams.ClientIpCidr != nil {
-		localVarQueryParams.Add("clientIpCIDR", common.ParameterToString(*optionalParams.ClientIpCidr, ""))
-	}
 	if optionalParams.AppName != nil {
 		localVarQueryParams.Add("appName", common.ParameterToString(*optionalParams.AppName, ""))
 	}
@@ -2164,7 +2124,6 @@ type QuerySlowLogTemplatesOptionalParameters struct {
 	DbName           *string
 	UserName         *string
 	ClientIp         *string
-	ClientIpCidr     *string
 	AppName          *string
 }
 
@@ -2276,12 +2235,6 @@ func (r *QuerySlowLogTemplatesOptionalParameters) WithClientIp(clientIp string) 
 	return r
 }
 
-// WithClientIpCidr sets the corresponding parameter name and returns the struct.
-func (r *QuerySlowLogTemplatesOptionalParameters) WithClientIpCidr(clientIpCidr string) *QuerySlowLogTemplatesOptionalParameters {
-	r.ClientIpCidr = &clientIpCidr
-	return r
-}
-
 // WithAppName sets the corresponding parameter name and returns the struct.
 func (r *QuerySlowLogTemplatesOptionalParameters) WithAppName(appName string) *QuerySlowLogTemplatesOptionalParameters {
 	r.AppName = &appName
@@ -2379,9 +2332,6 @@ func (a *ClusterLogApi) QuerySlowLogTemplates(ctx _context.Context, orgName stri
 	if optionalParams.ClientIp != nil {
 		localVarQueryParams.Add("clientIp", common.ParameterToString(*optionalParams.ClientIp, ""))
 	}
-	if optionalParams.ClientIpCidr != nil {
-		localVarQueryParams.Add("clientIpCIDR", common.ParameterToString(*optionalParams.ClientIpCidr, ""))
-	}
 	if optionalParams.AppName != nil {
 		localVarQueryParams.Add("appName", common.ParameterToString(*optionalParams.AppName, ""))
 	}
@@ -2453,7 +2403,6 @@ type QuerySlowLogsOptionalParameters struct {
 	DbName           *string
 	UserName         *string
 	ClientIp         *string
-	ClientIpCidr     *string
 	AppName          *string
 	TemplateId       *string
 	UnclassifiedOnly *bool
@@ -2558,12 +2507,6 @@ func (r *QuerySlowLogsOptionalParameters) WithUserName(userName string) *QuerySl
 // WithClientIp sets the corresponding parameter name and returns the struct.
 func (r *QuerySlowLogsOptionalParameters) WithClientIp(clientIp string) *QuerySlowLogsOptionalParameters {
 	r.ClientIp = &clientIp
-	return r
-}
-
-// WithClientIpCidr sets the corresponding parameter name and returns the struct.
-func (r *QuerySlowLogsOptionalParameters) WithClientIpCidr(clientIpCidr string) *QuerySlowLogsOptionalParameters {
-	r.ClientIpCidr = &clientIpCidr
 	return r
 }
 
@@ -2672,9 +2615,6 @@ func (a *ClusterLogApi) QuerySlowLogs(ctx _context.Context, orgName string, clus
 	}
 	if optionalParams.ClientIp != nil {
 		localVarQueryParams.Add("clientIp", common.ParameterToString(*optionalParams.ClientIp, ""))
-	}
-	if optionalParams.ClientIpCidr != nil {
-		localVarQueryParams.Add("clientIpCIDR", common.ParameterToString(*optionalParams.ClientIpCidr, ""))
 	}
 	if optionalParams.AppName != nil {
 		localVarQueryParams.Add("appName", common.ParameterToString(*optionalParams.AppName, ""))

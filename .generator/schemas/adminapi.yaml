@@ -6742,12 +6742,7 @@ paths:
             type: string
         - in: query
           name: clientIp
-          description: Filter slow logs whose client IP contains this value.
-          schema:
-            type: string
-        - in: query
-          name: clientIpCIDR
-          description: Filter slow logs whose client IP is within this CIDR range.
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
           schema:
             type: string
         - in: query
@@ -6929,12 +6924,7 @@ paths:
             type: string
         - in: query
           name: clientIp
-          description: Filter slow logs whose client IP contains this value.
-          schema:
-            type: string
-        - in: query
-          name: clientIpCIDR
-          description: Filter slow logs whose client IP is within this CIDR range.
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
           schema:
             type: string
         - in: query
@@ -7195,12 +7185,7 @@ paths:
             type: string
         - in: query
           name: clientIp
-          description: Filter slow logs whose client IP contains this value.
-          schema:
-            type: string
-        - in: query
-          name: clientIpCIDR
-          description: Filter slow logs whose client IP is within this CIDR range.
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
           schema:
             type: string
         - in: query
@@ -7343,12 +7328,7 @@ paths:
             type: string
         - in: query
           name: clientIp
-          description: Filter slow logs whose client IP contains this value.
-          schema:
-            type: string
-        - in: query
-          name: clientIpCIDR
-          description: Filter slow logs whose client IP is within this CIDR range.
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
           schema:
             type: string
         - in: query
@@ -7476,12 +7456,7 @@ paths:
             type: string
         - in: query
           name: clientIp
-          description: Filter slow logs whose client IP contains this value.
-          schema:
-            type: string
-        - in: query
-          name: clientIpCIDR
-          description: Filter slow logs whose client IP is within this CIDR range.
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
           schema:
             type: string
         - in: query
@@ -7750,12 +7725,7 @@ paths:
             type: string
         - in: query
           name: clientIp
-          description: Filter slow logs whose client IP contains this value.
-          schema:
-            type: string
-        - in: query
-          name: clientIpCIDR
-          description: Filter slow logs whose client IP is within this CIDR range.
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
           schema:
             type: string
         - in: query
