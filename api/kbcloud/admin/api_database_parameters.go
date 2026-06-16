@@ -166,45 +166,13 @@ func (a *DatabaseParametersApi) DeleteDatabaseParameter(ctx _context.Context, bo
 	return localVarHTTPResponse, nil
 }
 
-// ListDatabaseParametersOptionalParameters holds optional parameters for ListDatabaseParameters.
-type ListDatabaseParametersOptionalParameters struct {
-	EngineName *string
-	Component  *string
-}
-
-// NewListDatabaseParametersOptionalParameters creates an empty struct for parameters.
-func NewListDatabaseParametersOptionalParameters() *ListDatabaseParametersOptionalParameters {
-	this := ListDatabaseParametersOptionalParameters{}
-	return &this
-}
-
-// WithEngineName sets the corresponding parameter name and returns the struct.
-func (r *ListDatabaseParametersOptionalParameters) WithEngineName(engineName string) *ListDatabaseParametersOptionalParameters {
-	r.EngineName = &engineName
-	return r
-}
-
-// WithComponent sets the corresponding parameter name and returns the struct.
-func (r *ListDatabaseParametersOptionalParameters) WithComponent(component string) *ListDatabaseParametersOptionalParameters {
-	r.Component = &component
-	return r
-}
-
 // ListDatabaseParameters List database parameters.
-func (a *DatabaseParametersApi) ListDatabaseParameters(ctx _context.Context, o ...ListDatabaseParametersOptionalParameters) (DatabaseParameterList, *_nethttp.Response, error) {
+func (a *DatabaseParametersApi) ListDatabaseParameters(ctx _context.Context, engineName string, component string) (DatabaseParameterList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue DatabaseParameterList
-		optionalParams      ListDatabaseParametersOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListDatabaseParametersOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -225,12 +193,8 @@ func (a *DatabaseParametersApi) ListDatabaseParameters(ctx _context.Context, o .
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.EngineName != nil {
-		localVarQueryParams.Add("engineName", common.ParameterToString(*optionalParams.EngineName, ""))
-	}
-	if optionalParams.Component != nil {
-		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
-	}
+	localVarQueryParams.Add("engineName", common.ParameterToString(engineName, ""))
+	localVarQueryParams.Add("component", common.ParameterToString(component, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
