@@ -192,6 +192,7 @@
 //   - [databaseApi.updateDatabaseConfig]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlSession]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlSessionLockAnalysis]
+//   - [diagnosticsApi.listDiagnosticsPostgresqlSessions]
 //   - [disasterRecoveryApi.createDisasterRecovery]
 //   - [disasterRecoveryApi.deleteDisasterRecovery]
 //   - [disasterRecoveryApi.getDisasterRecoveryHistory]
