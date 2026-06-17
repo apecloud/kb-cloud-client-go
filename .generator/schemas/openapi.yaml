@@ -4666,6 +4666,49 @@ paths:
         - cluster
         - shared
       x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}/lockAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get PostgreSQL session lock analysis
+      description: Get read-only lock analysis for one PostgreSQL backend pid from the current DMS PostgreSQL lock snapshot.
+      operationId: getDiagnosticsPostgresqlSessionLockAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          description: PostgreSQL backend process id.
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postgresqlLockAnalysis'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}:
     get:
       tags:
@@ -16514,11 +16557,13 @@ paths:
         - description: The type of aggregation time
           in: query
           name: aggregationTime
+          required: true
           schema:
             $ref: '#/components/schemas/aggregationTimeType'
         - description: The type of aggregation group
           in: query
           name: aggregationGroup
+          required: true
           schema:
             $ref: '#/components/schemas/orgAggregationGroupType'
         - $ref: '#/components/parameters/startTime'
@@ -20815,7 +20860,6 @@ components:
       enum:
         - Restricted
         - Aligned
-      default: Restricted
     koordinatorReservationStatus:
       type: object
       properties:
@@ -20844,14 +20888,12 @@ components:
           $ref: '#/components/schemas/koordinatorReservationResources'
         ttl:
           type: string
-          default: '0'
-          description: Kubernetes duration string. Use "0" for no expiration.
+          default: 24h
+          description: Kubernetes duration string. Koordinator defaults omitted ttl to 24h.
         allocateOnce:
           type: boolean
-          default: false
         preAllocation:
           type: boolean
-          default: false
         allocatePolicy:
           $ref: '#/components/schemas/koordinatorReservationAllocatePolicy'
         status:
@@ -21539,6 +21581,141 @@ components:
           type: string
         backendType:
           type: string
+    postgresqlLockRow:
+      type: object
+      required:
+        - pid
+        - lockType
+        - mode
+        - granted
+      properties:
+        pid:
+          type: integer
+          format: int64
+        lockType:
+          type: string
+        mode:
+          type: string
+        granted:
+          type: boolean
+        relationOid:
+          type: string
+        relationName:
+          type: string
+        databaseName:
+          type: string
+        transactionID:
+          type: string
+        virtualTransaction:
+          type: string
+        virtualXID:
+          type: string
+        tuple:
+          type: string
+        page:
+          type: string
+        classID:
+          type: string
+        objID:
+          type: string
+        objSubID:
+          type: string
+    postgresqlWaitChainNode:
+      type: object
+      required:
+        - pid
+        - role
+      properties:
+        pid:
+          type: integer
+          format: int64
+        role:
+          type: string
+          description: Role in the selected session wait graph. Known values are selected, blocking, blocked, and related.
+        session:
+          $ref: '#/components/schemas/postgresqlSession'
+    postgresqlWaitChainEdge:
+      type: object
+      required:
+        - blockingPid
+        - blockedPid
+      properties:
+        blockingPid:
+          type: integer
+          format: int64
+          description: PID that blocks another session.
+        blockedPid:
+          type: integer
+          format: int64
+          description: PID that is blocked by another session.
+    postgresqlWaitChain:
+      type: object
+      required:
+        - nodes
+        - edges
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/postgresqlWaitChainNode'
+        edges:
+          type: array
+          items:
+            $ref: '#/components/schemas/postgresqlWaitChainEdge'
+    postgresqlDeadlockEvidence:
+      type: object
+      required:
+        - detected
+        - cyclePids
+      properties:
+        detected:
+          type: boolean
+        cyclePids:
+          type: array
+          items:
+            type: integer
+            format: int64
+    postgresqlLockAnalysis:
+      type: object
+      required:
+        - selectedSession
+        - blockingSessions
+        - blockedSessions
+        - lockRows
+        - waitChain
+        - deadlock
+        - cannotProve
+        - warnings
+        - capturedAt
+      properties:
+        selectedSession:
+          $ref: '#/components/schemas/postgresqlSession'
+        blockingSessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/postgresqlSession'
+        blockedSessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/postgresqlSession'
+        lockRows:
+          type: array
+          items:
+            $ref: '#/components/schemas/postgresqlLockRow'
+        waitChain:
+          $ref: '#/components/schemas/postgresqlWaitChain'
+        deadlock:
+          $ref: '#/components/schemas/postgresqlDeadlockEvidence'
+        cannotProve:
+          type: boolean
+          description: Whether the current snapshot cannot prove the lock relationship conclusively.
+        warnings:
+          type: array
+          items:
+            type: string
+        capturedAt:
+          type: string
+          description: Snapshot capture timestamp in UTC.
     metricsQueryType:
       type: string
       enum:

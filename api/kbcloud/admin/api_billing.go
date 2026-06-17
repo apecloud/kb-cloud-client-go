@@ -18,12 +18,10 @@ type BillingApi common.Service
 
 // ListBillsOptionalParameters holds optional parameters for ListBills.
 type ListBillsOptionalParameters struct {
-	BillId           *string
-	ClusterId        *string
-	OrgName          *string
-	ProjectName      *string
-	AggregationTime  *AggregationTimeType
-	AggregationGroup *AggregationGroupType
+	BillId      *string
+	ClusterId   *string
+	OrgName     *string
+	ProjectName *string
 }
 
 // NewListBillsOptionalParameters creates an empty struct for parameters.
@@ -56,20 +54,8 @@ func (r *ListBillsOptionalParameters) WithProjectName(projectName string) *ListB
 	return r
 }
 
-// WithAggregationTime sets the corresponding parameter name and returns the struct.
-func (r *ListBillsOptionalParameters) WithAggregationTime(aggregationTime AggregationTimeType) *ListBillsOptionalParameters {
-	r.AggregationTime = &aggregationTime
-	return r
-}
-
-// WithAggregationGroup sets the corresponding parameter name and returns the struct.
-func (r *ListBillsOptionalParameters) WithAggregationGroup(aggregationGroup AggregationGroupType) *ListBillsOptionalParameters {
-	r.AggregationGroup = &aggregationGroup
-	return r
-}
-
 // ListBills List bills.
-func (a *BillingApi) ListBills(ctx _context.Context, start int64, end int64, o ...ListBillsOptionalParameters) (BillList, *_nethttp.Response, error) {
+func (a *BillingApi) ListBills(ctx _context.Context, aggregationTime AggregationTimeType, aggregationGroup AggregationGroupType, start int64, end int64, o ...ListBillsOptionalParameters) (BillList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -103,6 +89,8 @@ func (a *BillingApi) ListBills(ctx _context.Context, start int64, end int64, o .
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("aggregationTime", common.ParameterToString(aggregationTime, ""))
+	localVarQueryParams.Add("aggregationGroup", common.ParameterToString(aggregationGroup, ""))
 	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
 	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
 	if optionalParams.BillId != nil {
@@ -116,12 +104,6 @@ func (a *BillingApi) ListBills(ctx _context.Context, start int64, end int64, o .
 	}
 	if optionalParams.ProjectName != nil {
 		localVarQueryParams.Add("projectName", common.ParameterToString(*optionalParams.ProjectName, ""))
-	}
-	if optionalParams.AggregationTime != nil {
-		localVarQueryParams.Add("aggregationTime", common.ParameterToString(*optionalParams.AggregationTime, ""))
-	}
-	if optionalParams.AggregationGroup != nil {
-		localVarQueryParams.Add("aggregationGroup", common.ParameterToString(*optionalParams.AggregationGroup, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

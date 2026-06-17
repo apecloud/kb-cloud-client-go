@@ -15,7 +15,7 @@ type KoordinatorNodeReservation struct {
 	ReservationName *string                             `json:"reservationName,omitempty"`
 	// Resource requests supported by KBE for Koordinator Reservations. Values are Kubernetes quantities and responses use Kubernetes canonical quantity strings.
 	Resources KoordinatorReservationResources `json:"resources"`
-	// Kubernetes duration string. Use "0" for no expiration.
+	// Kubernetes duration string. Koordinator defaults omitted ttl to 24h.
 	Ttl            *string                               `json:"ttl,omitempty"`
 	AllocateOnce   *bool                                 `json:"allocateOnce,omitempty"`
 	PreAllocation  *bool                                 `json:"preAllocation,omitempty"`
@@ -34,14 +34,8 @@ func NewKoordinatorNodeReservation(resourceClass KoordinatorReservationResourceC
 	this := KoordinatorNodeReservation{}
 	this.ResourceClass = resourceClass
 	this.Resources = resources
-	var ttl string = "0"
+	var ttl string = "24h"
 	this.Ttl = &ttl
-	var allocateOnce bool = false
-	this.AllocateOnce = &allocateOnce
-	var preAllocation bool = false
-	this.PreAllocation = &preAllocation
-	var allocatePolicy KoordinatorReservationAllocatePolicy = KoordinatorReservationAllocatePolicyRestricted
-	this.AllocatePolicy = &allocatePolicy
 	return &this
 }
 
@@ -50,14 +44,8 @@ func NewKoordinatorNodeReservation(resourceClass KoordinatorReservationResourceC
 // but it doesn't guarantee that properties required by API are set.
 func NewKoordinatorNodeReservationWithDefaults() *KoordinatorNodeReservation {
 	this := KoordinatorNodeReservation{}
-	var ttl string = "0"
+	var ttl string = "24h"
 	this.Ttl = &ttl
-	var allocateOnce bool = false
-	this.AllocateOnce = &allocateOnce
-	var preAllocation bool = false
-	this.PreAllocation = &preAllocation
-	var allocatePolicy KoordinatorReservationAllocatePolicy = KoordinatorReservationAllocatePolicyRestricted
-	this.AllocatePolicy = &allocatePolicy
 	return &this
 }
 
