@@ -190,6 +190,8 @@
 //   - [databaseApi.getDatabase]
 //   - [databaseApi.listDatabases]
 //   - [databaseApi.updateDatabaseConfig]
+//   - [diagnosticsApi.getDiagnosticsPostgresqlSession]
+//   - [diagnosticsApi.getDiagnosticsPostgresqlSessionLockAnalysis]
 //   - [disasterRecoveryApi.createDisasterRecovery]
 //   - [disasterRecoveryApi.deleteDisasterRecovery]
 //   - [disasterRecoveryApi.getDisasterRecoveryHistory]
