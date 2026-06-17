@@ -4666,6 +4666,49 @@ paths:
         - cluster
         - shared
       x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions:
+    get:
+      tags:
+        - diagnostics
+      summary: List PostgreSQL session basic diagnostics
+      description: List PostgreSQL session basic diagnostics records. The response includes waitEventType and waitEvent so clients can identify lock-waiting sessions without loading lock rows.
+      operationId: listDiagnosticsPostgresqlSessions
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of sessions to return. Defaults to the backend limit when omitted.
+          required: false
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postgresqlSessionList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}/lockAnalysis:
     get:
       tags:
@@ -21483,6 +21526,10 @@ components:
           type: string
         backendType:
           type: string
+    postgresqlSessionList:
+      type: array
+      items:
+        $ref: '#/components/schemas/postgresqlSession'
     postgresqlLockRow:
       type: object
       required:

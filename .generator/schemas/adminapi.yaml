@@ -18912,13 +18912,13 @@ paths:
         - session
         - rdbms
         - shared
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}:
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions:
     get:
       tags:
         - diagnostics
-      summary: Get PostgreSQL session basic diagnostics
-      description: Get one PostgreSQL session basic diagnostics record by backend pid.
-      operationId: getDiagnosticsPostgresqlSession
+      summary: List PostgreSQL session basic diagnostics
+      description: List PostgreSQL session basic diagnostics records. The response includes waitEventType and waitEvent so clients can identify lock-waiting sessions without loading lock rows.
+      operationId: listDiagnosticsPostgresqlSessions
       parameters:
         - name: orgName
           in: path
@@ -18932,10 +18932,10 @@ paths:
           required: true
           schema:
             type: string
-        - name: pid
-          in: path
-          description: PostgreSQL backend process id.
-          required: true
+        - name: limit
+          in: query
+          description: Maximum number of sessions to return. Defaults to the backend limit when omitted.
+          required: false
           schema:
             type: integer
             format: int64
@@ -18946,13 +18946,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/postgresqlSession'
+                $ref: '#/components/schemas/postgresqlSessionList'
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}/lockAnalysis:
@@ -18990,6 +18990,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/postgresqlLockAnalysis'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}:
+    get:
+      tags:
+        - diagnostics
+      summary: Get PostgreSQL session basic diagnostics
+      description: Get one PostgreSQL session basic diagnostics record by backend pid.
+      operationId: getDiagnosticsPostgresqlSession
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          description: PostgreSQL backend process id.
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postgresqlSession'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -35445,6 +35488,10 @@ components:
           type: string
         backendType:
           type: string
+    postgresqlSessionList:
+      type: array
+      items:
+        $ref: '#/components/schemas/postgresqlSession'
     postgresqlLockRow:
       type: object
       required:
