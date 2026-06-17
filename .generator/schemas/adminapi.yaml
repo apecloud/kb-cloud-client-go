@@ -17211,11 +17211,13 @@ paths:
         - description: The type of aggregation time
           in: query
           name: aggregationTime
+          required: true
           schema:
             $ref: '#/components/schemas/aggregationTimeType'
         - description: The type of aggregation group
           in: query
           name: aggregationGroup
+          required: true
           schema:
             $ref: '#/components/schemas/aggregationGroupType'
         - $ref: '#/components/parameters/startTime'
