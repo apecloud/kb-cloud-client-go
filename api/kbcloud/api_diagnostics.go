@@ -114,7 +114,7 @@ func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSessionLockAnalysis(ctx _contex
 	apiInfo := common.APIInfo{
 		Tag:         "diagnostics",
 		OperationID: "getDiagnosticsPostgresqlSessionLockAnalysis",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}/lock-analysis",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}/lockAnalysis",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -124,7 +124,7 @@ func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSessionLockAnalysis(ctx _contex
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}/lock-analysis"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}/lockAnalysis"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"pid"+"}", _neturl.PathEscape(common.ParameterToString(pid, "")), -1)

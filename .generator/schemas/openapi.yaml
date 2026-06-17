@@ -4666,7 +4666,7 @@ paths:
         - cluster
         - shared
       x-codegen-request-body-name: body
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}/lock-analysis:
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}/lockAnalysis:
     get:
       tags:
         - diagnostics
