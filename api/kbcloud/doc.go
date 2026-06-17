@@ -290,7 +290,6 @@
 //   - [inspectionApi.getAggregateTaskResult]
 //   - [inspectionApi.getAutoInspection]
 //   - [inspectionApi.getInspectionTaskByOrg]
-//   - [inspectionApi.listAutoInspections]
 //   - [inspectionApi.listInspectionScripts]
 //   - [inspectionApi.listInspectionTasksByOrg]
 //   - [inspectionApi.updateAutoInspection]
