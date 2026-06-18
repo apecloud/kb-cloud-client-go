@@ -11,12 +11,15 @@ import (
 )
 
 type PostgresqlLockAnalysis struct {
-	SelectedSession  PostgresqlSession          `json:"selectedSession"`
-	BlockingSessions []PostgresqlSession        `json:"blockingSessions"`
-	BlockedSessions  []PostgresqlSession        `json:"blockedSessions"`
-	LockRows         []PostgresqlLockRow        `json:"lockRows"`
-	WaitChain        PostgresqlWaitChain        `json:"waitChain"`
-	Deadlock         PostgresqlDeadlockEvidence `json:"deadlock"`
+	SelectedSession PostgresqlSession `json:"selectedSession"`
+	// Sessions that directly block the selected session in the current snapshot.
+	DirectBlockingSessions []PostgresqlSession `json:"directBlockingSessions"`
+	// Sessions that are directly blocked by the selected session in the current snapshot.
+	DirectBlockedSessions []PostgresqlSession `json:"directBlockedSessions"`
+	LockRows              []PostgresqlLockRow `json:"lockRows"`
+	// Wait graph related to the selected PID. It contains the selected session's ancestor and descendant wait edges that the backend can prove from the current snapshot; unrelated side branches are intentionally excluded.
+	WaitGraph PostgresqlWaitGraph        `json:"waitGraph"`
+	Deadlock  PostgresqlDeadlockEvidence `json:"deadlock"`
 	// Whether the current snapshot cannot prove the lock relationship conclusively.
 	CannotProve bool     `json:"cannotProve"`
 	Warnings    []string `json:"warnings"`
@@ -31,13 +34,13 @@ type PostgresqlLockAnalysis struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlLockAnalysis(selectedSession PostgresqlSession, blockingSessions []PostgresqlSession, blockedSessions []PostgresqlSession, lockRows []PostgresqlLockRow, waitChain PostgresqlWaitChain, deadlock PostgresqlDeadlockEvidence, cannotProve bool, warnings []string, capturedAt string) *PostgresqlLockAnalysis {
+func NewPostgresqlLockAnalysis(selectedSession PostgresqlSession, directBlockingSessions []PostgresqlSession, directBlockedSessions []PostgresqlSession, lockRows []PostgresqlLockRow, waitGraph PostgresqlWaitGraph, deadlock PostgresqlDeadlockEvidence, cannotProve bool, warnings []string, capturedAt string) *PostgresqlLockAnalysis {
 	this := PostgresqlLockAnalysis{}
 	this.SelectedSession = selectedSession
-	this.BlockingSessions = blockingSessions
-	this.BlockedSessions = blockedSessions
+	this.DirectBlockingSessions = directBlockingSessions
+	this.DirectBlockedSessions = directBlockedSessions
 	this.LockRows = lockRows
-	this.WaitChain = waitChain
+	this.WaitGraph = waitGraph
 	this.Deadlock = deadlock
 	this.CannotProve = cannotProve
 	this.Warnings = warnings
@@ -76,50 +79,50 @@ func (o *PostgresqlLockAnalysis) SetSelectedSession(v PostgresqlSession) {
 	o.SelectedSession = v
 }
 
-// GetBlockingSessions returns the BlockingSessions field value.
-func (o *PostgresqlLockAnalysis) GetBlockingSessions() []PostgresqlSession {
+// GetDirectBlockingSessions returns the DirectBlockingSessions field value.
+func (o *PostgresqlLockAnalysis) GetDirectBlockingSessions() []PostgresqlSession {
 	if o == nil {
 		var ret []PostgresqlSession
 		return ret
 	}
-	return o.BlockingSessions
+	return o.DirectBlockingSessions
 }
 
-// GetBlockingSessionsOk returns a tuple with the BlockingSessions field value
+// GetDirectBlockingSessionsOk returns a tuple with the DirectBlockingSessions field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlLockAnalysis) GetBlockingSessionsOk() (*[]PostgresqlSession, bool) {
+func (o *PostgresqlLockAnalysis) GetDirectBlockingSessionsOk() (*[]PostgresqlSession, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.BlockingSessions, true
+	return &o.DirectBlockingSessions, true
 }
 
-// SetBlockingSessions sets field value.
-func (o *PostgresqlLockAnalysis) SetBlockingSessions(v []PostgresqlSession) {
-	o.BlockingSessions = v
+// SetDirectBlockingSessions sets field value.
+func (o *PostgresqlLockAnalysis) SetDirectBlockingSessions(v []PostgresqlSession) {
+	o.DirectBlockingSessions = v
 }
 
-// GetBlockedSessions returns the BlockedSessions field value.
-func (o *PostgresqlLockAnalysis) GetBlockedSessions() []PostgresqlSession {
+// GetDirectBlockedSessions returns the DirectBlockedSessions field value.
+func (o *PostgresqlLockAnalysis) GetDirectBlockedSessions() []PostgresqlSession {
 	if o == nil {
 		var ret []PostgresqlSession
 		return ret
 	}
-	return o.BlockedSessions
+	return o.DirectBlockedSessions
 }
 
-// GetBlockedSessionsOk returns a tuple with the BlockedSessions field value
+// GetDirectBlockedSessionsOk returns a tuple with the DirectBlockedSessions field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlLockAnalysis) GetBlockedSessionsOk() (*[]PostgresqlSession, bool) {
+func (o *PostgresqlLockAnalysis) GetDirectBlockedSessionsOk() (*[]PostgresqlSession, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.BlockedSessions, true
+	return &o.DirectBlockedSessions, true
 }
 
-// SetBlockedSessions sets field value.
-func (o *PostgresqlLockAnalysis) SetBlockedSessions(v []PostgresqlSession) {
-	o.BlockedSessions = v
+// SetDirectBlockedSessions sets field value.
+func (o *PostgresqlLockAnalysis) SetDirectBlockedSessions(v []PostgresqlSession) {
+	o.DirectBlockedSessions = v
 }
 
 // GetLockRows returns the LockRows field value.
@@ -145,27 +148,27 @@ func (o *PostgresqlLockAnalysis) SetLockRows(v []PostgresqlLockRow) {
 	o.LockRows = v
 }
 
-// GetWaitChain returns the WaitChain field value.
-func (o *PostgresqlLockAnalysis) GetWaitChain() PostgresqlWaitChain {
+// GetWaitGraph returns the WaitGraph field value.
+func (o *PostgresqlLockAnalysis) GetWaitGraph() PostgresqlWaitGraph {
 	if o == nil {
-		var ret PostgresqlWaitChain
+		var ret PostgresqlWaitGraph
 		return ret
 	}
-	return o.WaitChain
+	return o.WaitGraph
 }
 
-// GetWaitChainOk returns a tuple with the WaitChain field value
+// GetWaitGraphOk returns a tuple with the WaitGraph field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlLockAnalysis) GetWaitChainOk() (*PostgresqlWaitChain, bool) {
+func (o *PostgresqlLockAnalysis) GetWaitGraphOk() (*PostgresqlWaitGraph, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.WaitChain, true
+	return &o.WaitGraph, true
 }
 
-// SetWaitChain sets field value.
-func (o *PostgresqlLockAnalysis) SetWaitChain(v PostgresqlWaitChain) {
-	o.WaitChain = v
+// SetWaitGraph sets field value.
+func (o *PostgresqlLockAnalysis) SetWaitGraph(v PostgresqlWaitGraph) {
+	o.WaitGraph = v
 }
 
 // GetDeadlock returns the Deadlock field value.
@@ -267,10 +270,10 @@ func (o PostgresqlLockAnalysis) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["selectedSession"] = o.SelectedSession
-	toSerialize["blockingSessions"] = o.BlockingSessions
-	toSerialize["blockedSessions"] = o.BlockedSessions
+	toSerialize["directBlockingSessions"] = o.DirectBlockingSessions
+	toSerialize["directBlockedSessions"] = o.DirectBlockedSessions
 	toSerialize["lockRows"] = o.LockRows
-	toSerialize["waitChain"] = o.WaitChain
+	toSerialize["waitGraph"] = o.WaitGraph
 	toSerialize["deadlock"] = o.Deadlock
 	toSerialize["cannotProve"] = o.CannotProve
 	toSerialize["warnings"] = o.Warnings
@@ -285,15 +288,15 @@ func (o PostgresqlLockAnalysis) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PostgresqlLockAnalysis) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		SelectedSession  *PostgresqlSession          `json:"selectedSession"`
-		BlockingSessions *[]PostgresqlSession        `json:"blockingSessions"`
-		BlockedSessions  *[]PostgresqlSession        `json:"blockedSessions"`
-		LockRows         *[]PostgresqlLockRow        `json:"lockRows"`
-		WaitChain        *PostgresqlWaitChain        `json:"waitChain"`
-		Deadlock         *PostgresqlDeadlockEvidence `json:"deadlock"`
-		CannotProve      *bool                       `json:"cannotProve"`
-		Warnings         *[]string                   `json:"warnings"`
-		CapturedAt       *string                     `json:"capturedAt"`
+		SelectedSession        *PostgresqlSession          `json:"selectedSession"`
+		DirectBlockingSessions *[]PostgresqlSession        `json:"directBlockingSessions"`
+		DirectBlockedSessions  *[]PostgresqlSession        `json:"directBlockedSessions"`
+		LockRows               *[]PostgresqlLockRow        `json:"lockRows"`
+		WaitGraph              *PostgresqlWaitGraph        `json:"waitGraph"`
+		Deadlock               *PostgresqlDeadlockEvidence `json:"deadlock"`
+		CannotProve            *bool                       `json:"cannotProve"`
+		Warnings               *[]string                   `json:"warnings"`
+		CapturedAt             *string                     `json:"capturedAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -301,17 +304,17 @@ func (o *PostgresqlLockAnalysis) UnmarshalJSON(bytes []byte) (err error) {
 	if all.SelectedSession == nil {
 		return fmt.Errorf("required field selectedSession missing")
 	}
-	if all.BlockingSessions == nil {
-		return fmt.Errorf("required field blockingSessions missing")
+	if all.DirectBlockingSessions == nil {
+		return fmt.Errorf("required field directBlockingSessions missing")
 	}
-	if all.BlockedSessions == nil {
-		return fmt.Errorf("required field blockedSessions missing")
+	if all.DirectBlockedSessions == nil {
+		return fmt.Errorf("required field directBlockedSessions missing")
 	}
 	if all.LockRows == nil {
 		return fmt.Errorf("required field lockRows missing")
 	}
-	if all.WaitChain == nil {
-		return fmt.Errorf("required field waitChain missing")
+	if all.WaitGraph == nil {
+		return fmt.Errorf("required field waitGraph missing")
 	}
 	if all.Deadlock == nil {
 		return fmt.Errorf("required field deadlock missing")
@@ -327,7 +330,7 @@ func (o *PostgresqlLockAnalysis) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"selectedSession", "blockingSessions", "blockedSessions", "lockRows", "waitChain", "deadlock", "cannotProve", "warnings", "capturedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"selectedSession", "directBlockingSessions", "directBlockedSessions", "lockRows", "waitGraph", "deadlock", "cannotProve", "warnings", "capturedAt"})
 	} else {
 		return err
 	}
@@ -337,13 +340,13 @@ func (o *PostgresqlLockAnalysis) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.SelectedSession = *all.SelectedSession
-	o.BlockingSessions = *all.BlockingSessions
-	o.BlockedSessions = *all.BlockedSessions
+	o.DirectBlockingSessions = *all.DirectBlockingSessions
+	o.DirectBlockedSessions = *all.DirectBlockedSessions
 	o.LockRows = *all.LockRows
-	if all.WaitChain.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.WaitGraph.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.WaitChain = *all.WaitChain
+	o.WaitGraph = *all.WaitGraph
 	if all.Deadlock.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

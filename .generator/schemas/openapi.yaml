@@ -21569,25 +21569,36 @@ components:
           type: string
         objSubID:
           type: string
-    postgresqlWaitChainNode:
+    postgresqlWaitGraphNode:
       type: object
       required:
         - pid
-        - role
       properties:
         pid:
           type: integer
           format: int64
-        role:
-          type: string
-          description: Role in the selected session wait graph. Known values are selected, blocking, blocked, and related.
         session:
           $ref: '#/components/schemas/postgresqlSession'
-    postgresqlWaitChainEdge:
+    postgresqlWaitGraphEdgeEvidence:
+      type: object
+      required:
+        - lockRows
+        - limitation
+      properties:
+        lockRows:
+          type: array
+          description: Lock rows the backend can associate with this wait edge.
+          items:
+            $ref: '#/components/schemas/postgresqlLockRow'
+        limitation:
+          type: string
+          description: Non-empty when the backend cannot associate precise lock rows with this edge.
+    postgresqlWaitGraphEdge:
       type: object
       required:
         - blockingPid
         - blockedPid
+        - evidence
       properties:
         blockingPid:
           type: integer
@@ -21597,8 +21608,11 @@ components:
           type: integer
           format: int64
           description: PID that is blocked by another session.
-    postgresqlWaitChain:
+        evidence:
+          $ref: '#/components/schemas/postgresqlWaitGraphEdgeEvidence'
+    postgresqlWaitGraph:
       type: object
+      description: Wait graph related to the selected PID. It contains the selected session's ancestor and descendant wait edges that the backend can prove from the current snapshot; unrelated side branches are intentionally excluded.
       required:
         - nodes
         - edges
@@ -21606,11 +21620,11 @@ components:
         nodes:
           type: array
           items:
-            $ref: '#/components/schemas/postgresqlWaitChainNode'
+            $ref: '#/components/schemas/postgresqlWaitGraphNode'
         edges:
           type: array
           items:
-            $ref: '#/components/schemas/postgresqlWaitChainEdge'
+            $ref: '#/components/schemas/postgresqlWaitGraphEdge'
     postgresqlDeadlockEvidence:
       type: object
       required:
@@ -21628,10 +21642,10 @@ components:
       type: object
       required:
         - selectedSession
-        - blockingSessions
-        - blockedSessions
+        - directBlockingSessions
+        - directBlockedSessions
         - lockRows
-        - waitChain
+        - waitGraph
         - deadlock
         - cannotProve
         - warnings
@@ -21639,20 +21653,22 @@ components:
       properties:
         selectedSession:
           $ref: '#/components/schemas/postgresqlSession'
-        blockingSessions:
+        directBlockingSessions:
           type: array
+          description: Sessions that directly block the selected session in the current snapshot.
           items:
             $ref: '#/components/schemas/postgresqlSession'
-        blockedSessions:
+        directBlockedSessions:
           type: array
+          description: Sessions that are directly blocked by the selected session in the current snapshot.
           items:
             $ref: '#/components/schemas/postgresqlSession'
         lockRows:
           type: array
           items:
             $ref: '#/components/schemas/postgresqlLockRow'
-        waitChain:
-          $ref: '#/components/schemas/postgresqlWaitChain'
+        waitGraph:
+          $ref: '#/components/schemas/postgresqlWaitGraph'
         deadlock:
           $ref: '#/components/schemas/postgresqlDeadlockEvidence'
         cannotProve:
