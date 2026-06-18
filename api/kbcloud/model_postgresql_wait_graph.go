@@ -10,37 +10,38 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type PostgresqlWaitChain struct {
-	Nodes []PostgresqlWaitChainNode `json:"nodes"`
-	Edges []PostgresqlWaitChainEdge `json:"edges"`
+// PostgresqlWaitGraph Wait graph related to the selected PID. It contains the selected session's ancestor and descendant wait edges that the backend can prove from the current snapshot; unrelated side branches are intentionally excluded.
+type PostgresqlWaitGraph struct {
+	Nodes []PostgresqlWaitGraphNode `json:"nodes"`
+	Edges []PostgresqlWaitGraphEdge `json:"edges"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewPostgresqlWaitChain instantiates a new PostgresqlWaitChain object.
+// NewPostgresqlWaitGraph instantiates a new PostgresqlWaitGraph object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlWaitChain(nodes []PostgresqlWaitChainNode, edges []PostgresqlWaitChainEdge) *PostgresqlWaitChain {
-	this := PostgresqlWaitChain{}
+func NewPostgresqlWaitGraph(nodes []PostgresqlWaitGraphNode, edges []PostgresqlWaitGraphEdge) *PostgresqlWaitGraph {
+	this := PostgresqlWaitGraph{}
 	this.Nodes = nodes
 	this.Edges = edges
 	return &this
 }
 
-// NewPostgresqlWaitChainWithDefaults instantiates a new PostgresqlWaitChain object.
+// NewPostgresqlWaitGraphWithDefaults instantiates a new PostgresqlWaitGraph object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewPostgresqlWaitChainWithDefaults() *PostgresqlWaitChain {
-	this := PostgresqlWaitChain{}
+func NewPostgresqlWaitGraphWithDefaults() *PostgresqlWaitGraph {
+	this := PostgresqlWaitGraph{}
 	return &this
 }
 
 // GetNodes returns the Nodes field value.
-func (o *PostgresqlWaitChain) GetNodes() []PostgresqlWaitChainNode {
+func (o *PostgresqlWaitGraph) GetNodes() []PostgresqlWaitGraphNode {
 	if o == nil {
-		var ret []PostgresqlWaitChainNode
+		var ret []PostgresqlWaitGraphNode
 		return ret
 	}
 	return o.Nodes
@@ -48,7 +49,7 @@ func (o *PostgresqlWaitChain) GetNodes() []PostgresqlWaitChainNode {
 
 // GetNodesOk returns a tuple with the Nodes field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlWaitChain) GetNodesOk() (*[]PostgresqlWaitChainNode, bool) {
+func (o *PostgresqlWaitGraph) GetNodesOk() (*[]PostgresqlWaitGraphNode, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -56,14 +57,14 @@ func (o *PostgresqlWaitChain) GetNodesOk() (*[]PostgresqlWaitChainNode, bool) {
 }
 
 // SetNodes sets field value.
-func (o *PostgresqlWaitChain) SetNodes(v []PostgresqlWaitChainNode) {
+func (o *PostgresqlWaitGraph) SetNodes(v []PostgresqlWaitGraphNode) {
 	o.Nodes = v
 }
 
 // GetEdges returns the Edges field value.
-func (o *PostgresqlWaitChain) GetEdges() []PostgresqlWaitChainEdge {
+func (o *PostgresqlWaitGraph) GetEdges() []PostgresqlWaitGraphEdge {
 	if o == nil {
-		var ret []PostgresqlWaitChainEdge
+		var ret []PostgresqlWaitGraphEdge
 		return ret
 	}
 	return o.Edges
@@ -71,7 +72,7 @@ func (o *PostgresqlWaitChain) GetEdges() []PostgresqlWaitChainEdge {
 
 // GetEdgesOk returns a tuple with the Edges field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlWaitChain) GetEdgesOk() (*[]PostgresqlWaitChainEdge, bool) {
+func (o *PostgresqlWaitGraph) GetEdgesOk() (*[]PostgresqlWaitGraphEdge, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -79,12 +80,12 @@ func (o *PostgresqlWaitChain) GetEdgesOk() (*[]PostgresqlWaitChainEdge, bool) {
 }
 
 // SetEdges sets field value.
-func (o *PostgresqlWaitChain) SetEdges(v []PostgresqlWaitChainEdge) {
+func (o *PostgresqlWaitGraph) SetEdges(v []PostgresqlWaitGraphEdge) {
 	o.Edges = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o PostgresqlWaitChain) MarshalJSON() ([]byte, error) {
+func (o PostgresqlWaitGraph) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -99,10 +100,10 @@ func (o PostgresqlWaitChain) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *PostgresqlWaitChain) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PostgresqlWaitGraph) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Nodes *[]PostgresqlWaitChainNode `json:"nodes"`
-		Edges *[]PostgresqlWaitChainEdge `json:"edges"`
+		Nodes *[]PostgresqlWaitGraphNode `json:"nodes"`
+		Edges *[]PostgresqlWaitGraphEdge `json:"edges"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

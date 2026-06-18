@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"fmt"
@@ -10,37 +10,39 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type PostgresqlWaitChainEdge struct {
+type PostgresqlWaitGraphEdge struct {
 	// PID that blocks another session.
 	BlockingPid int64 `json:"blockingPid"`
 	// PID that is blocked by another session.
-	BlockedPid int64 `json:"blockedPid"`
+	BlockedPid int64                           `json:"blockedPid"`
+	Evidence   PostgresqlWaitGraphEdgeEvidence `json:"evidence"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewPostgresqlWaitChainEdge instantiates a new PostgresqlWaitChainEdge object.
+// NewPostgresqlWaitGraphEdge instantiates a new PostgresqlWaitGraphEdge object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlWaitChainEdge(blockingPid int64, blockedPid int64) *PostgresqlWaitChainEdge {
-	this := PostgresqlWaitChainEdge{}
+func NewPostgresqlWaitGraphEdge(blockingPid int64, blockedPid int64, evidence PostgresqlWaitGraphEdgeEvidence) *PostgresqlWaitGraphEdge {
+	this := PostgresqlWaitGraphEdge{}
 	this.BlockingPid = blockingPid
 	this.BlockedPid = blockedPid
+	this.Evidence = evidence
 	return &this
 }
 
-// NewPostgresqlWaitChainEdgeWithDefaults instantiates a new PostgresqlWaitChainEdge object.
+// NewPostgresqlWaitGraphEdgeWithDefaults instantiates a new PostgresqlWaitGraphEdge object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewPostgresqlWaitChainEdgeWithDefaults() *PostgresqlWaitChainEdge {
-	this := PostgresqlWaitChainEdge{}
+func NewPostgresqlWaitGraphEdgeWithDefaults() *PostgresqlWaitGraphEdge {
+	this := PostgresqlWaitGraphEdge{}
 	return &this
 }
 
 // GetBlockingPid returns the BlockingPid field value.
-func (o *PostgresqlWaitChainEdge) GetBlockingPid() int64 {
+func (o *PostgresqlWaitGraphEdge) GetBlockingPid() int64 {
 	if o == nil {
 		var ret int64
 		return ret
@@ -50,7 +52,7 @@ func (o *PostgresqlWaitChainEdge) GetBlockingPid() int64 {
 
 // GetBlockingPidOk returns a tuple with the BlockingPid field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlWaitChainEdge) GetBlockingPidOk() (*int64, bool) {
+func (o *PostgresqlWaitGraphEdge) GetBlockingPidOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -58,12 +60,12 @@ func (o *PostgresqlWaitChainEdge) GetBlockingPidOk() (*int64, bool) {
 }
 
 // SetBlockingPid sets field value.
-func (o *PostgresqlWaitChainEdge) SetBlockingPid(v int64) {
+func (o *PostgresqlWaitGraphEdge) SetBlockingPid(v int64) {
 	o.BlockingPid = v
 }
 
 // GetBlockedPid returns the BlockedPid field value.
-func (o *PostgresqlWaitChainEdge) GetBlockedPid() int64 {
+func (o *PostgresqlWaitGraphEdge) GetBlockedPid() int64 {
 	if o == nil {
 		var ret int64
 		return ret
@@ -73,7 +75,7 @@ func (o *PostgresqlWaitChainEdge) GetBlockedPid() int64 {
 
 // GetBlockedPidOk returns a tuple with the BlockedPid field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlWaitChainEdge) GetBlockedPidOk() (*int64, bool) {
+func (o *PostgresqlWaitGraphEdge) GetBlockedPidOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -81,18 +83,42 @@ func (o *PostgresqlWaitChainEdge) GetBlockedPidOk() (*int64, bool) {
 }
 
 // SetBlockedPid sets field value.
-func (o *PostgresqlWaitChainEdge) SetBlockedPid(v int64) {
+func (o *PostgresqlWaitGraphEdge) SetBlockedPid(v int64) {
 	o.BlockedPid = v
 }
 
+// GetEvidence returns the Evidence field value.
+func (o *PostgresqlWaitGraphEdge) GetEvidence() PostgresqlWaitGraphEdgeEvidence {
+	if o == nil {
+		var ret PostgresqlWaitGraphEdgeEvidence
+		return ret
+	}
+	return o.Evidence
+}
+
+// GetEvidenceOk returns a tuple with the Evidence field value
+// and a boolean to check if the value has been set.
+func (o *PostgresqlWaitGraphEdge) GetEvidenceOk() (*PostgresqlWaitGraphEdgeEvidence, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Evidence, true
+}
+
+// SetEvidence sets field value.
+func (o *PostgresqlWaitGraphEdge) SetEvidence(v PostgresqlWaitGraphEdgeEvidence) {
+	o.Evidence = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
-func (o PostgresqlWaitChainEdge) MarshalJSON() ([]byte, error) {
+func (o PostgresqlWaitGraphEdge) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["blockingPid"] = o.BlockingPid
 	toSerialize["blockedPid"] = o.BlockedPid
+	toSerialize["evidence"] = o.Evidence
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -101,10 +127,11 @@ func (o PostgresqlWaitChainEdge) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *PostgresqlWaitChainEdge) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PostgresqlWaitGraphEdge) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		BlockingPid *int64 `json:"blockingPid"`
-		BlockedPid  *int64 `json:"blockedPid"`
+		BlockingPid *int64                           `json:"blockingPid"`
+		BlockedPid  *int64                           `json:"blockedPid"`
+		Evidence    *PostgresqlWaitGraphEdgeEvidence `json:"evidence"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -115,17 +142,30 @@ func (o *PostgresqlWaitChainEdge) UnmarshalJSON(bytes []byte) (err error) {
 	if all.BlockedPid == nil {
 		return fmt.Errorf("required field blockedPid missing")
 	}
+	if all.Evidence == nil {
+		return fmt.Errorf("required field evidence missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"blockingPid", "blockedPid"})
+		common.DeleteKeys(additionalProperties, &[]string{"blockingPid", "blockedPid", "evidence"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.BlockingPid = *all.BlockingPid
 	o.BlockedPid = *all.BlockedPid
+	if all.Evidence.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Evidence = *all.Evidence
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
