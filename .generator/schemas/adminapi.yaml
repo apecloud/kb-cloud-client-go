@@ -6999,6 +6999,70 @@ paths:
           name: query
           schema:
             type: string
+        - in: query
+          name: minExecutionTime
+          description: Minimum slow log execution time in seconds. Decimal values are supported, for example 0.5.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxExecutionTime
+          description: Maximum slow log execution time in seconds. Decimal values are supported, for example 0.5.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minLockTime
+          description: Minimum slow log lock time in seconds. Decimal values are supported, for example 0.001.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxLockTime
+          description: Maximum slow log lock time in seconds. Decimal values are supported, for example 0.001.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: minRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: dbName
+          description: Filter slow logs whose database name contains this value.
+          schema:
+            type: string
+        - in: query
+          name: userName
+          description: Filter slow logs whose user name contains this value.
+          schema:
+            type: string
+        - in: query
+          name: clientIp
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
+          schema:
+            type: string
+        - in: query
+          name: appName
+          description: Filter slow logs whose application name contains this value.
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -7060,6 +7124,70 @@ paths:
             type: string
         - in: query
           name: query
+          schema:
+            type: string
+        - in: query
+          name: minExecutionTime
+          description: Minimum slow log execution time in seconds. Decimal values are supported, for example 0.5.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxExecutionTime
+          description: Maximum slow log execution time in seconds. Decimal values are supported, for example 0.5.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minLockTime
+          description: Minimum slow log lock time in seconds. Decimal values are supported, for example 0.001.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: maxLockTime
+          description: Maximum slow log lock time in seconds. Decimal values are supported, for example 0.001.
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: minRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsExamined
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: minRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: maxRowsSent
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: dbName
+          description: Filter slow logs whose database name contains this value.
+          schema:
+            type: string
+        - in: query
+          name: userName
+          description: Filter slow logs whose user name contains this value.
+          schema:
+            type: string
+        - in: query
+          name: clientIp
+          description: Filter slow logs whose client IP contains this value, or is within this CIDR range when the value is valid CIDR.
+          schema:
+            type: string
+        - in: query
+          name: appName
+          description: Filter slow logs whose application name contains this value.
           schema:
             type: string
       responses:
@@ -7221,7 +7349,7 @@ paths:
         - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/aggregate:
     get:
-      description: Aggregate slow logs of a cluster (Victoria Logs backend only)
+      description: Aggregate slow logs of a cluster over the full requested time range (Victoria Logs backend only). The result is not limited by the slow log list page size.
       summary: Aggregate cluster slow logs
       operationId: aggregateSlowLogs
       parameters:
@@ -7366,7 +7494,7 @@ paths:
         - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/stats:
     get:
-      description: Get statistics summary for slow logs of a cluster
+      description: Get statistics summary for slow logs of a cluster. When the same slow log filters are supplied, totalSlowLogs can be used as the filtered list preview count.
       summary: Get cluster slow log statistics
       operationId: getSlowLogStats
       parameters:
@@ -7622,7 +7750,7 @@ paths:
         - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/hits:
     get:
-      description: Query log hits histogram for time-bucketed log counts (VictoriaLogs only)
+      description: Query log hits histogram for time-bucketed log counts (VictoriaLogs only). When logType=slow, buckets also include avgExecutionTime in seconds; templateId can be supplied for slow template trends.
       summary: Query log hits histogram
       operationId: queryLogHits
       parameters:
