@@ -196,6 +196,7 @@
 //   - [databaseParametersApi.updateDatabaseParameter]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlSession]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlSessionLockAnalysis]
+//   - [diagnosticsApi.getDiagnosticsPostgresqlSpaceAnalysis]
 //   - [diagnosticsApi.listDiagnosticsPostgresqlSessions]
 //   - [disasterRecoveryApi.createDisasterRecovery]
 //   - [disasterRecoveryApi.listDisasterRecovery]

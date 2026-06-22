@@ -4837,6 +4837,41 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/spaceAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get PostgreSQL space analysis
+      description: Get a read-only PostgreSQL space snapshot from DMS and fixed backend-owned storage metrics. The response does not expose SQL, PromQL, or remediation actions.
+      operationId: getDiagnosticsPostgresqlSpaceAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postgresqlSpaceAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}/lockAnalysis:
     get:
       tags:
@@ -21658,6 +21693,300 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/postgresqlSession'
+    postgresqlSpaceSummary:
+      type: object
+      required:
+        - tableCount
+        - indexCount
+        - toastRelationCount
+        - tableListTruncated
+        - indexListTruncated
+        - noHistoryYet
+        - cannotProveGrowth
+      properties:
+        databaseName:
+          type: string
+        databaseSizeBytes:
+          type: integer
+          format: int64
+        tableCount:
+          type: integer
+          format: int64
+        indexCount:
+          type: integer
+          format: int64
+        toastRelationCount:
+          type: integer
+          format: int64
+        largestTableBytes:
+          type: integer
+          format: int64
+        largestIndexBytes:
+          type: integer
+          format: int64
+        tableListTruncated:
+          type: boolean
+        indexListTruncated:
+          type: boolean
+        noHistoryYet:
+          type: boolean
+        cannotProveGrowth:
+          type: boolean
+    postgresqlSpacePVC:
+      type: object
+      required:
+        - noHistoryYet
+        - cannotProveGrowth
+        - source
+      properties:
+        currentUsedBytes:
+          type: integer
+          format: int64
+          description: Current PVC used bytes from backend-owned metrics when available.
+        noHistoryYet:
+          type: boolean
+        cannotProveGrowth:
+          type: boolean
+        source:
+          type: string
+    postgresqlDatabaseSpace:
+      type: object
+      required:
+        - noHistoryYet
+        - cannotProveGrowth
+      properties:
+        name:
+          type: string
+        sizeBytes:
+          type: integer
+          format: int64
+        noHistoryYet:
+          type: boolean
+        cannotProveGrowth:
+          type: boolean
+    postgresqlTableSpace:
+      type: object
+      required:
+        - noHistoryYet
+        - cannotProveGrowth
+      properties:
+        database:
+          type: string
+        schema:
+          type: string
+        name:
+          type: string
+        relationOid:
+          type: integer
+          format: int64
+        totalBytes:
+          type: integer
+          format: int64
+        tableBytes:
+          type: integer
+          format: int64
+        indexBytes:
+          type: integer
+          format: int64
+        toastBytes:
+          type: integer
+          format: int64
+        toastRelationOid:
+          type: integer
+          format: int64
+        liveTuples:
+          type: integer
+          format: int64
+        deadTuples:
+          type: integer
+          format: int64
+        seqScan:
+          type: integer
+          format: int64
+        indexScan:
+          type: integer
+          format: int64
+        lastVacuum:
+          type: string
+        lastAutoVacuum:
+          type: string
+        lastAnalyze:
+          type: string
+        lastAutoAnalyze:
+          type: string
+        noHistoryYet:
+          type: boolean
+        cannotProveGrowth:
+          type: boolean
+    postgresqlIndexSpace:
+      type: object
+      required:
+        - noHistoryYet
+        - cannotProveGrowth
+      properties:
+        database:
+          type: string
+        schema:
+          type: string
+        table:
+          type: string
+        name:
+          type: string
+        tableRelationOid:
+          type: integer
+          format: int64
+        relationOid:
+          type: integer
+          format: int64
+        sizeBytes:
+          type: integer
+          format: int64
+        isPrimary:
+          type: boolean
+        isUnique:
+          type: boolean
+        scanCount:
+          type: integer
+          format: int64
+        tuplesRead:
+          type: integer
+          format: int64
+        tuplesFetch:
+          type: integer
+          format: int64
+        noHistoryYet:
+          type: boolean
+        cannotProveGrowth:
+          type: boolean
+    postgresqlToastRelationSpace:
+      type: object
+      required:
+        - noHistoryYet
+        - cannotProveGrowth
+      properties:
+        database:
+          type: string
+        schema:
+          type: string
+        table:
+          type: string
+        tableRelationOid:
+          type: integer
+          format: int64
+        toastRelationOid:
+          type: integer
+          format: int64
+        toastBytes:
+          type: integer
+          format: int64
+        noHistoryYet:
+          type: boolean
+        cannotProveGrowth:
+          type: boolean
+    postgresqlSpaceRiskHint:
+      type: object
+      required:
+        - type
+        - severity
+        - message
+      properties:
+        type:
+          type: string
+        severity:
+          type: string
+        message:
+          type: string
+        objectKind:
+          type: string
+        schema:
+          type: string
+        objectName:
+          type: string
+        reason:
+          type: string
+    postgresqlSpaceCannotProve:
+      type: object
+      required:
+        - growth
+        - pvc
+        - objectHistory
+        - reasons
+      properties:
+        growth:
+          type: boolean
+        pvc:
+          type: boolean
+        objectHistory:
+          type: boolean
+        reasons:
+          type: array
+          items:
+            type: string
+    postgresqlSpaceSource:
+      type: object
+      required:
+        - name
+        - kind
+        - status
+        - collectedAt
+      properties:
+        name:
+          type: string
+        kind:
+          type: string
+        status:
+          type: string
+        collectedAt:
+          type: string
+        message:
+          type: string
+    postgresqlSpaceAnalysis:
+      type: object
+      required:
+        - summary
+        - pvc
+        - databases
+        - tables
+        - indexes
+        - toastRelations
+        - riskHints
+        - cannotProve
+        - sources
+        - collectedAt
+      properties:
+        summary:
+          $ref: '#/components/schemas/postgresqlSpaceSummary'
+        pvc:
+          $ref: '#/components/schemas/postgresqlSpacePVC'
+        databases:
+          type: array
+          items:
+            $ref: '#/components/schemas/postgresqlDatabaseSpace'
+        tables:
+          type: array
+          items:
+            $ref: '#/components/schemas/postgresqlTableSpace'
+        indexes:
+          type: array
+          items:
+            $ref: '#/components/schemas/postgresqlIndexSpace'
+        toastRelations:
+          type: array
+          items:
+            $ref: '#/components/schemas/postgresqlToastRelationSpace'
+        riskHints:
+          type: array
+          items:
+            $ref: '#/components/schemas/postgresqlSpaceRiskHint'
+        cannotProve:
+          $ref: '#/components/schemas/postgresqlSpaceCannotProve'
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/postgresqlSpaceSource'
+        collectedAt:
+          type: string
+          description: Backend collection timestamp in UTC.
     postgresqlLockRow:
       type: object
       required:
