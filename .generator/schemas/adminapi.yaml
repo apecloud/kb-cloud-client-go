@@ -30357,6 +30357,9 @@ components:
         supportLock:
           type: boolean
           description: Whether the engine supports account lock and unlock actions.
+        supportServiceAccount:
+          type: boolean
+          description: Whether the engine supports service account access-key management.
         protectedAccounts:
           type: array
           description: Account names that are protected from update, delete, lock, and unlock actions.
