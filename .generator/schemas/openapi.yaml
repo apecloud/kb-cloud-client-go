@@ -4842,7 +4842,7 @@ paths:
       tags:
         - diagnostics
       summary: Get PostgreSQL space analysis
-      description: Get a read-only PostgreSQL space snapshot from DMS and fixed backend-owned storage metrics. The response does not expose SQL, PromQL, or remediation actions.
+      description: Get a read-only PostgreSQL space snapshot from DMS and fixed backend-owned storage metrics. The response does not expose SQL, PromQL, storage history, or remediation actions.
       operationId: getDiagnosticsPostgresqlSpaceAnalysis
       parameters:
         - name: orgName
@@ -4855,11 +4855,6 @@ paths:
           in: path
           description: Cluster name
           required: true
-          schema:
-            type: string
-        - name: timeRange
-          in: query
-          description: Storage usage history range. Supported values are 24h and 7d. Defaults to 24h.
           schema:
             type: string
       responses:
@@ -5002,6 +4997,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/clusterMetrics'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/storageUsageHistory:
+    get:
+      description: Get cluster storage usage history from backend-owned fixed metrics.
+      operationId: getClusterStorageUsageHistory
+      summary: Get cluster storage usage history
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - name: timeRange
+          in: query
+          description: Requested history range. Supported values are 24h and 7d. Defaults to 24h.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterStorageUsageHistory'
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -21757,44 +21793,6 @@ components:
           description: Metrics collection timestamp in UTC.
         source:
           type: string
-    postgresqlStorageUsagePoint:
-      type: object
-      required:
-        - timestamp
-      properties:
-        timestamp:
-          type: string
-        usedBytes:
-          type: integer
-          format: int64
-        totalBytes:
-          type: integer
-          format: int64
-        usageRatio:
-          type: number
-          format: double
-    postgresqlStorageUsageHistory:
-      type: object
-      required:
-        - timeRange
-        - points
-        - source
-      properties:
-        timeRange:
-          type: string
-          description: Requested history range. Supported values are 24h and 7d.
-        start:
-          type: string
-          description: History query start timestamp in UTC.
-        end:
-          type: string
-          description: History query end timestamp in UTC.
-        points:
-          type: array
-          items:
-            $ref: '#/components/schemas/postgresqlStorageUsagePoint'
-        source:
-          type: string
     postgresqlDatabaseSpace:
       type: object
       properties:
@@ -21924,7 +21922,6 @@ components:
       required:
         - summary
         - storageOverview
-        - storageUsageHistory
         - databases
         - tables
         - indexes
@@ -21936,8 +21933,6 @@ components:
           $ref: '#/components/schemas/postgresqlSpaceSummary'
         storageOverview:
           $ref: '#/components/schemas/postgresqlStorageOverview'
-        storageUsageHistory:
-          $ref: '#/components/schemas/postgresqlStorageUsageHistory'
         databases:
           type: array
           items:
@@ -22131,6 +22126,55 @@ components:
             type: array
             items: {}
             nullable: true
+    clusterStorageUsageHistoryPoint:
+      type: object
+      required:
+        - timestamp
+        - usedBytes
+        - totalBytes
+        - usageRatio
+      properties:
+        timestamp:
+          type: string
+        usedBytes:
+          type: integer
+          format: int64
+        totalBytes:
+          type: integer
+          format: int64
+        usageRatio:
+          type: number
+          format: double
+    clusterStorageUsageHistory:
+      type: object
+      description: Cluster storage usage history collected from backend-owned fixed metrics.
+      required:
+        - timeRange
+        - start
+        - end
+        - points
+        - source
+        - collectedAt
+      properties:
+        timeRange:
+          type: string
+          description: Requested history range. Supported values are 24h and 7d.
+        start:
+          type: string
+          description: History query start timestamp in UTC.
+        end:
+          type: string
+          description: History query end timestamp in UTC.
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterStorageUsageHistoryPoint'
+        source:
+          type: string
+          description: Metrics source used to build the history.
+        collectedAt:
+          type: string
+          description: Backend collection timestamp in UTC.
     instanceDiskUsageItem:
       description: disk usage with volume name.
       properties:

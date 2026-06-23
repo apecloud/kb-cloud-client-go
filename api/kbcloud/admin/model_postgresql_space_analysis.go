@@ -11,14 +11,13 @@ import (
 )
 
 type PostgresqlSpaceAnalysis struct {
-	Summary             PostgresqlSpaceSummary         `json:"summary"`
-	StorageOverview     PostgresqlStorageOverview      `json:"storageOverview"`
-	StorageUsageHistory PostgresqlStorageUsageHistory  `json:"storageUsageHistory"`
-	Databases           []PostgresqlDatabaseSpace      `json:"databases"`
-	Tables              []PostgresqlTableSpace         `json:"tables"`
-	Indexes             []PostgresqlIndexSpace         `json:"indexes"`
-	ToastRelations      []PostgresqlToastRelationSpace `json:"toastRelations"`
-	Sources             []PostgresqlSpaceSource        `json:"sources"`
+	Summary         PostgresqlSpaceSummary         `json:"summary"`
+	StorageOverview PostgresqlStorageOverview      `json:"storageOverview"`
+	Databases       []PostgresqlDatabaseSpace      `json:"databases"`
+	Tables          []PostgresqlTableSpace         `json:"tables"`
+	Indexes         []PostgresqlIndexSpace         `json:"indexes"`
+	ToastRelations  []PostgresqlToastRelationSpace `json:"toastRelations"`
+	Sources         []PostgresqlSpaceSource        `json:"sources"`
 	// Backend collection timestamp in UTC.
 	CollectedAt string `json:"collectedAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -30,11 +29,10 @@ type PostgresqlSpaceAnalysis struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlSpaceAnalysis(summary PostgresqlSpaceSummary, storageOverview PostgresqlStorageOverview, storageUsageHistory PostgresqlStorageUsageHistory, databases []PostgresqlDatabaseSpace, tables []PostgresqlTableSpace, indexes []PostgresqlIndexSpace, toastRelations []PostgresqlToastRelationSpace, sources []PostgresqlSpaceSource, collectedAt string) *PostgresqlSpaceAnalysis {
+func NewPostgresqlSpaceAnalysis(summary PostgresqlSpaceSummary, storageOverview PostgresqlStorageOverview, databases []PostgresqlDatabaseSpace, tables []PostgresqlTableSpace, indexes []PostgresqlIndexSpace, toastRelations []PostgresqlToastRelationSpace, sources []PostgresqlSpaceSource, collectedAt string) *PostgresqlSpaceAnalysis {
 	this := PostgresqlSpaceAnalysis{}
 	this.Summary = summary
 	this.StorageOverview = storageOverview
-	this.StorageUsageHistory = storageUsageHistory
 	this.Databases = databases
 	this.Tables = tables
 	this.Indexes = indexes
@@ -96,29 +94,6 @@ func (o *PostgresqlSpaceAnalysis) GetStorageOverviewOk() (*PostgresqlStorageOver
 // SetStorageOverview sets field value.
 func (o *PostgresqlSpaceAnalysis) SetStorageOverview(v PostgresqlStorageOverview) {
 	o.StorageOverview = v
-}
-
-// GetStorageUsageHistory returns the StorageUsageHistory field value.
-func (o *PostgresqlSpaceAnalysis) GetStorageUsageHistory() PostgresqlStorageUsageHistory {
-	if o == nil {
-		var ret PostgresqlStorageUsageHistory
-		return ret
-	}
-	return o.StorageUsageHistory
-}
-
-// GetStorageUsageHistoryOk returns a tuple with the StorageUsageHistory field value
-// and a boolean to check if the value has been set.
-func (o *PostgresqlSpaceAnalysis) GetStorageUsageHistoryOk() (*PostgresqlStorageUsageHistory, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.StorageUsageHistory, true
-}
-
-// SetStorageUsageHistory sets field value.
-func (o *PostgresqlSpaceAnalysis) SetStorageUsageHistory(v PostgresqlStorageUsageHistory) {
-	o.StorageUsageHistory = v
 }
 
 // GetDatabases returns the Databases field value.
@@ -267,7 +242,6 @@ func (o PostgresqlSpaceAnalysis) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["summary"] = o.Summary
 	toSerialize["storageOverview"] = o.StorageOverview
-	toSerialize["storageUsageHistory"] = o.StorageUsageHistory
 	toSerialize["databases"] = o.Databases
 	toSerialize["tables"] = o.Tables
 	toSerialize["indexes"] = o.Indexes
@@ -284,15 +258,14 @@ func (o PostgresqlSpaceAnalysis) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PostgresqlSpaceAnalysis) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Summary             *PostgresqlSpaceSummary         `json:"summary"`
-		StorageOverview     *PostgresqlStorageOverview      `json:"storageOverview"`
-		StorageUsageHistory *PostgresqlStorageUsageHistory  `json:"storageUsageHistory"`
-		Databases           *[]PostgresqlDatabaseSpace      `json:"databases"`
-		Tables              *[]PostgresqlTableSpace         `json:"tables"`
-		Indexes             *[]PostgresqlIndexSpace         `json:"indexes"`
-		ToastRelations      *[]PostgresqlToastRelationSpace `json:"toastRelations"`
-		Sources             *[]PostgresqlSpaceSource        `json:"sources"`
-		CollectedAt         *string                         `json:"collectedAt"`
+		Summary         *PostgresqlSpaceSummary         `json:"summary"`
+		StorageOverview *PostgresqlStorageOverview      `json:"storageOverview"`
+		Databases       *[]PostgresqlDatabaseSpace      `json:"databases"`
+		Tables          *[]PostgresqlTableSpace         `json:"tables"`
+		Indexes         *[]PostgresqlIndexSpace         `json:"indexes"`
+		ToastRelations  *[]PostgresqlToastRelationSpace `json:"toastRelations"`
+		Sources         *[]PostgresqlSpaceSource        `json:"sources"`
+		CollectedAt     *string                         `json:"collectedAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -302,9 +275,6 @@ func (o *PostgresqlSpaceAnalysis) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.StorageOverview == nil {
 		return fmt.Errorf("required field storageOverview missing")
-	}
-	if all.StorageUsageHistory == nil {
-		return fmt.Errorf("required field storageUsageHistory missing")
 	}
 	if all.Databases == nil {
 		return fmt.Errorf("required field databases missing")
@@ -326,7 +296,7 @@ func (o *PostgresqlSpaceAnalysis) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"summary", "storageOverview", "storageUsageHistory", "databases", "tables", "indexes", "toastRelations", "sources", "collectedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"summary", "storageOverview", "databases", "tables", "indexes", "toastRelations", "sources", "collectedAt"})
 	} else {
 		return err
 	}
@@ -340,10 +310,6 @@ func (o *PostgresqlSpaceAnalysis) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.StorageOverview = *all.StorageOverview
-	if all.StorageUsageHistory.UnparsedObject != nil && o.UnparsedObject == nil {
-		hasInvalidField = true
-	}
-	o.StorageUsageHistory = *all.StorageUsageHistory
 	o.Databases = *all.Databases
 	o.Tables = *all.Tables
 	o.Indexes = *all.Indexes
