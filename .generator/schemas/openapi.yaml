@@ -4842,7 +4842,7 @@ paths:
       tags:
         - diagnostics
       summary: Get PostgreSQL space analysis
-      description: Get a read-only PostgreSQL space snapshot from DMS and fixed backend-owned storage metrics. The response does not expose SQL, PromQL, or remediation actions.
+      description: Get a read-only PostgreSQL space snapshot from DMS and fixed backend-owned storage metrics. The response does not expose SQL, PromQL, storage history, or remediation actions.
       operationId: getDiagnosticsPostgresqlSpaceAnalysis
       parameters:
         - name: orgName
@@ -4997,6 +4997,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/clusterMetrics'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/storageUsageHistory:
+    get:
+      description: Get cluster storage usage history from backend-owned fixed metrics.
+      operationId: getClusterStorageUsageHistory
+      summary: Get cluster storage usage history
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - name: timeRange
+          in: query
+          description: Requested history range. Supported values are 24h and 7d. Defaults to 24h.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterStorageUsageHistory'
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -21701,8 +21742,6 @@ components:
         - toastRelationCount
         - tableListTruncated
         - indexListTruncated
-        - noHistoryYet
-        - cannotProveGrowth
       properties:
         databaseName:
           type: string
@@ -21728,47 +21767,42 @@ components:
           type: boolean
         indexListTruncated:
           type: boolean
-        noHistoryYet:
-          type: boolean
-        cannotProveGrowth:
-          type: boolean
-    postgresqlSpacePVC:
+    postgresqlStorageOverview:
       type: object
       required:
-        - noHistoryYet
-        - cannotProveGrowth
         - source
       properties:
-        currentUsedBytes:
+        totalBytes:
           type: integer
           format: int64
-          description: Current PVC used bytes from backend-owned metrics when available.
-        noHistoryYet:
-          type: boolean
-        cannotProveGrowth:
-          type: boolean
+          description: Current total PVC capacity in bytes when backend-owned metrics are available.
+        usedBytes:
+          type: integer
+          format: int64
+          description: Current PVC used bytes when backend-owned metrics are available.
+        availableBytes:
+          type: integer
+          format: int64
+          description: Current available PVC bytes derived from totalBytes - usedBytes when both values are available.
+        usageRatio:
+          type: number
+          format: double
+          description: Current usedBytes / totalBytes ratio when both values are available.
+        updatedAt:
+          type: string
+          description: Metrics collection timestamp in UTC.
         source:
           type: string
     postgresqlDatabaseSpace:
       type: object
-      required:
-        - noHistoryYet
-        - cannotProveGrowth
       properties:
         name:
           type: string
         sizeBytes:
           type: integer
           format: int64
-        noHistoryYet:
-          type: boolean
-        cannotProveGrowth:
-          type: boolean
     postgresqlTableSpace:
       type: object
-      required:
-        - noHistoryYet
-        - cannotProveGrowth
       properties:
         database:
           type: string
@@ -21814,15 +21848,8 @@ components:
           type: string
         lastAutoAnalyze:
           type: string
-        noHistoryYet:
-          type: boolean
-        cannotProveGrowth:
-          type: boolean
     postgresqlIndexSpace:
       type: object
-      required:
-        - noHistoryYet
-        - cannotProveGrowth
       properties:
         database:
           type: string
@@ -21854,15 +21881,8 @@ components:
         tuplesFetch:
           type: integer
           format: int64
-        noHistoryYet:
-          type: boolean
-        cannotProveGrowth:
-          type: boolean
     postgresqlToastRelationSpace:
       type: object
-      required:
-        - noHistoryYet
-        - cannotProveGrowth
       properties:
         database:
           type: string
@@ -21879,49 +21899,6 @@ components:
         toastBytes:
           type: integer
           format: int64
-        noHistoryYet:
-          type: boolean
-        cannotProveGrowth:
-          type: boolean
-    postgresqlSpaceRiskHint:
-      type: object
-      required:
-        - type
-        - severity
-        - message
-      properties:
-        type:
-          type: string
-        severity:
-          type: string
-        message:
-          type: string
-        objectKind:
-          type: string
-        schema:
-          type: string
-        objectName:
-          type: string
-        reason:
-          type: string
-    postgresqlSpaceCannotProve:
-      type: object
-      required:
-        - growth
-        - pvc
-        - objectHistory
-        - reasons
-      properties:
-        growth:
-          type: boolean
-        pvc:
-          type: boolean
-        objectHistory:
-          type: boolean
-        reasons:
-          type: array
-          items:
-            type: string
     postgresqlSpaceSource:
       type: object
       required:
@@ -21944,20 +21921,18 @@ components:
       type: object
       required:
         - summary
-        - pvc
+        - storageOverview
         - databases
         - tables
         - indexes
         - toastRelations
-        - riskHints
-        - cannotProve
         - sources
         - collectedAt
       properties:
         summary:
           $ref: '#/components/schemas/postgresqlSpaceSummary'
-        pvc:
-          $ref: '#/components/schemas/postgresqlSpacePVC'
+        storageOverview:
+          $ref: '#/components/schemas/postgresqlStorageOverview'
         databases:
           type: array
           items:
@@ -21974,12 +21949,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/postgresqlToastRelationSpace'
-        riskHints:
-          type: array
-          items:
-            $ref: '#/components/schemas/postgresqlSpaceRiskHint'
-        cannotProve:
-          $ref: '#/components/schemas/postgresqlSpaceCannotProve'
         sources:
           type: array
           items:
@@ -22157,6 +22126,55 @@ components:
             type: array
             items: {}
             nullable: true
+    clusterStorageUsageHistoryPoint:
+      type: object
+      required:
+        - timestamp
+        - usedBytes
+        - totalBytes
+        - usageRatio
+      properties:
+        timestamp:
+          type: string
+        usedBytes:
+          type: integer
+          format: int64
+        totalBytes:
+          type: integer
+          format: int64
+        usageRatio:
+          type: number
+          format: double
+    clusterStorageUsageHistory:
+      type: object
+      description: Cluster storage usage history collected from backend-owned fixed metrics.
+      required:
+        - timeRange
+        - start
+        - end
+        - points
+        - source
+        - collectedAt
+      properties:
+        timeRange:
+          type: string
+          description: Requested history range. Supported values are 24h and 7d.
+        start:
+          type: string
+          description: History query start timestamp in UTC.
+        end:
+          type: string
+          description: History query end timestamp in UTC.
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterStorageUsageHistoryPoint'
+        source:
+          type: string
+          description: Metrics source used to build the history.
+        collectedAt:
+          type: string
+          description: Backend collection timestamp in UTC.
     instanceDiskUsageItem:
       description: disk usage with volume name.
       properties:

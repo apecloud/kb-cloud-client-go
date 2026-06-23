@@ -20,8 +20,6 @@ type PostgresqlSpaceSummary struct {
 	LargestIndexBytes  *int64  `json:"largestIndexBytes,omitempty"`
 	TableListTruncated bool    `json:"tableListTruncated"`
 	IndexListTruncated bool    `json:"indexListTruncated"`
-	NoHistoryYet       bool    `json:"noHistoryYet"`
-	CannotProveGrowth  bool    `json:"cannotProveGrowth"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -31,15 +29,13 @@ type PostgresqlSpaceSummary struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlSpaceSummary(tableCount int64, indexCount int64, toastRelationCount int64, tableListTruncated bool, indexListTruncated bool, noHistoryYet bool, cannotProveGrowth bool) *PostgresqlSpaceSummary {
+func NewPostgresqlSpaceSummary(tableCount int64, indexCount int64, toastRelationCount int64, tableListTruncated bool, indexListTruncated bool) *PostgresqlSpaceSummary {
 	this := PostgresqlSpaceSummary{}
 	this.TableCount = tableCount
 	this.IndexCount = indexCount
 	this.ToastRelationCount = toastRelationCount
 	this.TableListTruncated = tableListTruncated
 	this.IndexListTruncated = indexListTruncated
-	this.NoHistoryYet = noHistoryYet
-	this.CannotProveGrowth = cannotProveGrowth
 	return &this
 }
 
@@ -278,52 +274,6 @@ func (o *PostgresqlSpaceSummary) SetIndexListTruncated(v bool) {
 	o.IndexListTruncated = v
 }
 
-// GetNoHistoryYet returns the NoHistoryYet field value.
-func (o *PostgresqlSpaceSummary) GetNoHistoryYet() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-	return o.NoHistoryYet
-}
-
-// GetNoHistoryYetOk returns a tuple with the NoHistoryYet field value
-// and a boolean to check if the value has been set.
-func (o *PostgresqlSpaceSummary) GetNoHistoryYetOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.NoHistoryYet, true
-}
-
-// SetNoHistoryYet sets field value.
-func (o *PostgresqlSpaceSummary) SetNoHistoryYet(v bool) {
-	o.NoHistoryYet = v
-}
-
-// GetCannotProveGrowth returns the CannotProveGrowth field value.
-func (o *PostgresqlSpaceSummary) GetCannotProveGrowth() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-	return o.CannotProveGrowth
-}
-
-// GetCannotProveGrowthOk returns a tuple with the CannotProveGrowth field value
-// and a boolean to check if the value has been set.
-func (o *PostgresqlSpaceSummary) GetCannotProveGrowthOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.CannotProveGrowth, true
-}
-
-// SetCannotProveGrowth sets field value.
-func (o *PostgresqlSpaceSummary) SetCannotProveGrowth(v bool) {
-	o.CannotProveGrowth = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o PostgresqlSpaceSummary) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -347,8 +297,6 @@ func (o PostgresqlSpaceSummary) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["tableListTruncated"] = o.TableListTruncated
 	toSerialize["indexListTruncated"] = o.IndexListTruncated
-	toSerialize["noHistoryYet"] = o.NoHistoryYet
-	toSerialize["cannotProveGrowth"] = o.CannotProveGrowth
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -368,8 +316,6 @@ func (o *PostgresqlSpaceSummary) UnmarshalJSON(bytes []byte) (err error) {
 		LargestIndexBytes  *int64  `json:"largestIndexBytes,omitempty"`
 		TableListTruncated *bool   `json:"tableListTruncated"`
 		IndexListTruncated *bool   `json:"indexListTruncated"`
-		NoHistoryYet       *bool   `json:"noHistoryYet"`
-		CannotProveGrowth  *bool   `json:"cannotProveGrowth"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -389,15 +335,9 @@ func (o *PostgresqlSpaceSummary) UnmarshalJSON(bytes []byte) (err error) {
 	if all.IndexListTruncated == nil {
 		return fmt.Errorf("required field indexListTruncated missing")
 	}
-	if all.NoHistoryYet == nil {
-		return fmt.Errorf("required field noHistoryYet missing")
-	}
-	if all.CannotProveGrowth == nil {
-		return fmt.Errorf("required field cannotProveGrowth missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"databaseName", "databaseSizeBytes", "tableCount", "indexCount", "toastRelationCount", "largestTableBytes", "largestIndexBytes", "tableListTruncated", "indexListTruncated", "noHistoryYet", "cannotProveGrowth"})
+		common.DeleteKeys(additionalProperties, &[]string{"databaseName", "databaseSizeBytes", "tableCount", "indexCount", "toastRelationCount", "largestTableBytes", "largestIndexBytes", "tableListTruncated", "indexListTruncated"})
 	} else {
 		return err
 	}
@@ -410,8 +350,6 @@ func (o *PostgresqlSpaceSummary) UnmarshalJSON(bytes []byte) (err error) {
 	o.LargestIndexBytes = all.LargestIndexBytes
 	o.TableListTruncated = *all.TableListTruncated
 	o.IndexListTruncated = *all.IndexListTruncated
-	o.NoHistoryYet = *all.NoHistoryYet
-	o.CannotProveGrowth = *all.CannotProveGrowth
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
