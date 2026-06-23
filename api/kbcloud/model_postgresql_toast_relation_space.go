@@ -4,21 +4,15 @@
 
 package kbcloud
 
-import (
-	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type PostgresqlToastRelationSpace struct {
-	Database          *string `json:"database,omitempty"`
-	Schema            *string `json:"schema,omitempty"`
-	Table             *string `json:"table,omitempty"`
-	TableRelationOid  *int64  `json:"tableRelationOid,omitempty"`
-	ToastRelationOid  *int64  `json:"toastRelationOid,omitempty"`
-	ToastBytes        *int64  `json:"toastBytes,omitempty"`
-	NoHistoryYet      bool    `json:"noHistoryYet"`
-	CannotProveGrowth bool    `json:"cannotProveGrowth"`
+	Database         *string `json:"database,omitempty"`
+	Schema           *string `json:"schema,omitempty"`
+	Table            *string `json:"table,omitempty"`
+	TableRelationOid *int64  `json:"tableRelationOid,omitempty"`
+	ToastRelationOid *int64  `json:"toastRelationOid,omitempty"`
+	ToastBytes       *int64  `json:"toastBytes,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -28,10 +22,8 @@ type PostgresqlToastRelationSpace struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlToastRelationSpace(noHistoryYet bool, cannotProveGrowth bool) *PostgresqlToastRelationSpace {
+func NewPostgresqlToastRelationSpace() *PostgresqlToastRelationSpace {
 	this := PostgresqlToastRelationSpace{}
-	this.NoHistoryYet = noHistoryYet
-	this.CannotProveGrowth = cannotProveGrowth
 	return &this
 }
 
@@ -211,52 +203,6 @@ func (o *PostgresqlToastRelationSpace) SetToastBytes(v int64) {
 	o.ToastBytes = &v
 }
 
-// GetNoHistoryYet returns the NoHistoryYet field value.
-func (o *PostgresqlToastRelationSpace) GetNoHistoryYet() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-	return o.NoHistoryYet
-}
-
-// GetNoHistoryYetOk returns a tuple with the NoHistoryYet field value
-// and a boolean to check if the value has been set.
-func (o *PostgresqlToastRelationSpace) GetNoHistoryYetOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.NoHistoryYet, true
-}
-
-// SetNoHistoryYet sets field value.
-func (o *PostgresqlToastRelationSpace) SetNoHistoryYet(v bool) {
-	o.NoHistoryYet = v
-}
-
-// GetCannotProveGrowth returns the CannotProveGrowth field value.
-func (o *PostgresqlToastRelationSpace) GetCannotProveGrowth() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-	return o.CannotProveGrowth
-}
-
-// GetCannotProveGrowthOk returns a tuple with the CannotProveGrowth field value
-// and a boolean to check if the value has been set.
-func (o *PostgresqlToastRelationSpace) GetCannotProveGrowthOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.CannotProveGrowth, true
-}
-
-// SetCannotProveGrowth sets field value.
-func (o *PostgresqlToastRelationSpace) SetCannotProveGrowth(v bool) {
-	o.CannotProveGrowth = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o PostgresqlToastRelationSpace) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -281,8 +227,6 @@ func (o PostgresqlToastRelationSpace) MarshalJSON() ([]byte, error) {
 	if o.ToastBytes != nil {
 		toSerialize["toastBytes"] = o.ToastBytes
 	}
-	toSerialize["noHistoryYet"] = o.NoHistoryYet
-	toSerialize["cannotProveGrowth"] = o.CannotProveGrowth
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -293,27 +237,19 @@ func (o PostgresqlToastRelationSpace) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PostgresqlToastRelationSpace) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Database          *string `json:"database,omitempty"`
-		Schema            *string `json:"schema,omitempty"`
-		Table             *string `json:"table,omitempty"`
-		TableRelationOid  *int64  `json:"tableRelationOid,omitempty"`
-		ToastRelationOid  *int64  `json:"toastRelationOid,omitempty"`
-		ToastBytes        *int64  `json:"toastBytes,omitempty"`
-		NoHistoryYet      *bool   `json:"noHistoryYet"`
-		CannotProveGrowth *bool   `json:"cannotProveGrowth"`
+		Database         *string `json:"database,omitempty"`
+		Schema           *string `json:"schema,omitempty"`
+		Table            *string `json:"table,omitempty"`
+		TableRelationOid *int64  `json:"tableRelationOid,omitempty"`
+		ToastRelationOid *int64  `json:"toastRelationOid,omitempty"`
+		ToastBytes       *int64  `json:"toastBytes,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.NoHistoryYet == nil {
-		return fmt.Errorf("required field noHistoryYet missing")
-	}
-	if all.CannotProveGrowth == nil {
-		return fmt.Errorf("required field cannotProveGrowth missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"database", "schema", "table", "tableRelationOid", "toastRelationOid", "toastBytes", "noHistoryYet", "cannotProveGrowth"})
+		common.DeleteKeys(additionalProperties, &[]string{"database", "schema", "table", "tableRelationOid", "toastRelationOid", "toastBytes"})
 	} else {
 		return err
 	}
@@ -323,8 +259,6 @@ func (o *PostgresqlToastRelationSpace) UnmarshalJSON(bytes []byte) (err error) {
 	o.TableRelationOid = all.TableRelationOid
 	o.ToastRelationOid = all.ToastRelationOid
 	o.ToastBytes = all.ToastBytes
-	o.NoHistoryYet = *all.NoHistoryYet
-	o.CannotProveGrowth = *all.CannotProveGrowth
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

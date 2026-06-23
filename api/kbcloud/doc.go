@@ -122,6 +122,7 @@
 //   - [clusterApi.getCluster]
 //   - [clusterApi.getClusterByID]
 //   - [clusterApi.getClusterInstanceLog]
+//   - [clusterApi.getClusterStorageUsageHistory]
 //   - [clusterApi.getInstacesMetrics]
 //   - [clusterApi.getInstanceContainerLog]
 //   - [clusterApi.getSqlAudit]

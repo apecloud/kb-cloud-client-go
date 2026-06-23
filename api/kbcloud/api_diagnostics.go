@@ -304,7 +304,7 @@ func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSessionLockAnalysis(ctx _contex
 }
 
 // GetDiagnosticsPostgresqlSpaceAnalysis Get PostgreSQL space analysis.
-// Get a read-only PostgreSQL space snapshot from DMS and fixed backend-owned storage metrics. The response does not expose SQL, PromQL, or remediation actions.
+// Get a read-only PostgreSQL space snapshot from DMS and fixed backend-owned storage metrics. The response does not expose SQL, PromQL, storage history, or remediation actions.
 func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSpaceAnalysis(ctx _context.Context, orgName string, clusterName string) (PostgresqlSpaceAnalysis, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
