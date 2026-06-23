@@ -19103,6 +19103,11 @@ paths:
           required: true
           schema:
             type: string
+        - name: timeRange
+          in: query
+          description: Storage usage history range. Supported values are 24h and 7d. Defaults to 24h.
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -35663,8 +35668,6 @@ components:
         - toastRelationCount
         - tableListTruncated
         - indexListTruncated
-        - noHistoryYet
-        - cannotProveGrowth
       properties:
         databaseName:
           type: string
@@ -35690,47 +35693,80 @@ components:
           type: boolean
         indexListTruncated:
           type: boolean
-        noHistoryYet:
-          type: boolean
-        cannotProveGrowth:
-          type: boolean
-    postgresqlSpacePVC:
+    postgresqlStorageOverview:
       type: object
       required:
-        - noHistoryYet
-        - cannotProveGrowth
         - source
       properties:
-        currentUsedBytes:
+        totalBytes:
           type: integer
           format: int64
-          description: Current PVC used bytes from backend-owned metrics when available.
-        noHistoryYet:
-          type: boolean
-        cannotProveGrowth:
-          type: boolean
+          description: Current total PVC capacity in bytes when backend-owned metrics are available.
+        usedBytes:
+          type: integer
+          format: int64
+          description: Current PVC used bytes when backend-owned metrics are available.
+        availableBytes:
+          type: integer
+          format: int64
+          description: Current available PVC bytes derived from totalBytes - usedBytes when both values are available.
+        usageRatio:
+          type: number
+          format: double
+          description: Current usedBytes / totalBytes ratio when both values are available.
+        updatedAt:
+          type: string
+          description: Metrics collection timestamp in UTC.
+        source:
+          type: string
+    postgresqlStorageUsagePoint:
+      type: object
+      required:
+        - timestamp
+      properties:
+        timestamp:
+          type: string
+        usedBytes:
+          type: integer
+          format: int64
+        totalBytes:
+          type: integer
+          format: int64
+        usageRatio:
+          type: number
+          format: double
+    postgresqlStorageUsageHistory:
+      type: object
+      required:
+        - timeRange
+        - points
+        - source
+      properties:
+        timeRange:
+          type: string
+          description: Requested history range. Supported values are 24h and 7d.
+        start:
+          type: string
+          description: History query start timestamp in UTC.
+        end:
+          type: string
+          description: History query end timestamp in UTC.
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/postgresqlStorageUsagePoint'
         source:
           type: string
     postgresqlDatabaseSpace:
       type: object
-      required:
-        - noHistoryYet
-        - cannotProveGrowth
       properties:
         name:
           type: string
         sizeBytes:
           type: integer
           format: int64
-        noHistoryYet:
-          type: boolean
-        cannotProveGrowth:
-          type: boolean
     postgresqlTableSpace:
       type: object
-      required:
-        - noHistoryYet
-        - cannotProveGrowth
       properties:
         database:
           type: string
@@ -35776,15 +35812,8 @@ components:
           type: string
         lastAutoAnalyze:
           type: string
-        noHistoryYet:
-          type: boolean
-        cannotProveGrowth:
-          type: boolean
     postgresqlIndexSpace:
       type: object
-      required:
-        - noHistoryYet
-        - cannotProveGrowth
       properties:
         database:
           type: string
@@ -35816,15 +35845,8 @@ components:
         tuplesFetch:
           type: integer
           format: int64
-        noHistoryYet:
-          type: boolean
-        cannotProveGrowth:
-          type: boolean
     postgresqlToastRelationSpace:
       type: object
-      required:
-        - noHistoryYet
-        - cannotProveGrowth
       properties:
         database:
           type: string
@@ -35841,49 +35863,6 @@ components:
         toastBytes:
           type: integer
           format: int64
-        noHistoryYet:
-          type: boolean
-        cannotProveGrowth:
-          type: boolean
-    postgresqlSpaceRiskHint:
-      type: object
-      required:
-        - type
-        - severity
-        - message
-      properties:
-        type:
-          type: string
-        severity:
-          type: string
-        message:
-          type: string
-        objectKind:
-          type: string
-        schema:
-          type: string
-        objectName:
-          type: string
-        reason:
-          type: string
-    postgresqlSpaceCannotProve:
-      type: object
-      required:
-        - growth
-        - pvc
-        - objectHistory
-        - reasons
-      properties:
-        growth:
-          type: boolean
-        pvc:
-          type: boolean
-        objectHistory:
-          type: boolean
-        reasons:
-          type: array
-          items:
-            type: string
     postgresqlSpaceSource:
       type: object
       required:
@@ -35906,20 +35885,21 @@ components:
       type: object
       required:
         - summary
-        - pvc
+        - storageOverview
+        - storageUsageHistory
         - databases
         - tables
         - indexes
         - toastRelations
-        - riskHints
-        - cannotProve
         - sources
         - collectedAt
       properties:
         summary:
           $ref: '#/components/schemas/postgresqlSpaceSummary'
-        pvc:
-          $ref: '#/components/schemas/postgresqlSpacePVC'
+        storageOverview:
+          $ref: '#/components/schemas/postgresqlStorageOverview'
+        storageUsageHistory:
+          $ref: '#/components/schemas/postgresqlStorageUsageHistory'
         databases:
           type: array
           items:
@@ -35936,12 +35916,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/postgresqlToastRelationSpace'
-        riskHints:
-          type: array
-          items:
-            $ref: '#/components/schemas/postgresqlSpaceRiskHint'
-        cannotProve:
-          $ref: '#/components/schemas/postgresqlSpaceCannotProve'
         sources:
           type: array
           items:

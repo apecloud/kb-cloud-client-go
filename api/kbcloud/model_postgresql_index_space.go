@@ -4,27 +4,21 @@
 
 package kbcloud
 
-import (
-	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type PostgresqlIndexSpace struct {
-	Database          *string `json:"database,omitempty"`
-	Schema            *string `json:"schema,omitempty"`
-	Table             *string `json:"table,omitempty"`
-	Name              *string `json:"name,omitempty"`
-	TableRelationOid  *int64  `json:"tableRelationOid,omitempty"`
-	RelationOid       *int64  `json:"relationOid,omitempty"`
-	SizeBytes         *int64  `json:"sizeBytes,omitempty"`
-	IsPrimary         *bool   `json:"isPrimary,omitempty"`
-	IsUnique          *bool   `json:"isUnique,omitempty"`
-	ScanCount         *int64  `json:"scanCount,omitempty"`
-	TuplesRead        *int64  `json:"tuplesRead,omitempty"`
-	TuplesFetch       *int64  `json:"tuplesFetch,omitempty"`
-	NoHistoryYet      bool    `json:"noHistoryYet"`
-	CannotProveGrowth bool    `json:"cannotProveGrowth"`
+	Database         *string `json:"database,omitempty"`
+	Schema           *string `json:"schema,omitempty"`
+	Table            *string `json:"table,omitempty"`
+	Name             *string `json:"name,omitempty"`
+	TableRelationOid *int64  `json:"tableRelationOid,omitempty"`
+	RelationOid      *int64  `json:"relationOid,omitempty"`
+	SizeBytes        *int64  `json:"sizeBytes,omitempty"`
+	IsPrimary        *bool   `json:"isPrimary,omitempty"`
+	IsUnique         *bool   `json:"isUnique,omitempty"`
+	ScanCount        *int64  `json:"scanCount,omitempty"`
+	TuplesRead       *int64  `json:"tuplesRead,omitempty"`
+	TuplesFetch      *int64  `json:"tuplesFetch,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -34,10 +28,8 @@ type PostgresqlIndexSpace struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlIndexSpace(noHistoryYet bool, cannotProveGrowth bool) *PostgresqlIndexSpace {
+func NewPostgresqlIndexSpace() *PostgresqlIndexSpace {
 	this := PostgresqlIndexSpace{}
-	this.NoHistoryYet = noHistoryYet
-	this.CannotProveGrowth = cannotProveGrowth
 	return &this
 }
 
@@ -385,52 +377,6 @@ func (o *PostgresqlIndexSpace) SetTuplesFetch(v int64) {
 	o.TuplesFetch = &v
 }
 
-// GetNoHistoryYet returns the NoHistoryYet field value.
-func (o *PostgresqlIndexSpace) GetNoHistoryYet() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-	return o.NoHistoryYet
-}
-
-// GetNoHistoryYetOk returns a tuple with the NoHistoryYet field value
-// and a boolean to check if the value has been set.
-func (o *PostgresqlIndexSpace) GetNoHistoryYetOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.NoHistoryYet, true
-}
-
-// SetNoHistoryYet sets field value.
-func (o *PostgresqlIndexSpace) SetNoHistoryYet(v bool) {
-	o.NoHistoryYet = v
-}
-
-// GetCannotProveGrowth returns the CannotProveGrowth field value.
-func (o *PostgresqlIndexSpace) GetCannotProveGrowth() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-	return o.CannotProveGrowth
-}
-
-// GetCannotProveGrowthOk returns a tuple with the CannotProveGrowth field value
-// and a boolean to check if the value has been set.
-func (o *PostgresqlIndexSpace) GetCannotProveGrowthOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.CannotProveGrowth, true
-}
-
-// SetCannotProveGrowth sets field value.
-func (o *PostgresqlIndexSpace) SetCannotProveGrowth(v bool) {
-	o.CannotProveGrowth = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o PostgresqlIndexSpace) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -473,8 +419,6 @@ func (o PostgresqlIndexSpace) MarshalJSON() ([]byte, error) {
 	if o.TuplesFetch != nil {
 		toSerialize["tuplesFetch"] = o.TuplesFetch
 	}
-	toSerialize["noHistoryYet"] = o.NoHistoryYet
-	toSerialize["cannotProveGrowth"] = o.CannotProveGrowth
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -485,33 +429,25 @@ func (o PostgresqlIndexSpace) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PostgresqlIndexSpace) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Database          *string `json:"database,omitempty"`
-		Schema            *string `json:"schema,omitempty"`
-		Table             *string `json:"table,omitempty"`
-		Name              *string `json:"name,omitempty"`
-		TableRelationOid  *int64  `json:"tableRelationOid,omitempty"`
-		RelationOid       *int64  `json:"relationOid,omitempty"`
-		SizeBytes         *int64  `json:"sizeBytes,omitempty"`
-		IsPrimary         *bool   `json:"isPrimary,omitempty"`
-		IsUnique          *bool   `json:"isUnique,omitempty"`
-		ScanCount         *int64  `json:"scanCount,omitempty"`
-		TuplesRead        *int64  `json:"tuplesRead,omitempty"`
-		TuplesFetch       *int64  `json:"tuplesFetch,omitempty"`
-		NoHistoryYet      *bool   `json:"noHistoryYet"`
-		CannotProveGrowth *bool   `json:"cannotProveGrowth"`
+		Database         *string `json:"database,omitempty"`
+		Schema           *string `json:"schema,omitempty"`
+		Table            *string `json:"table,omitempty"`
+		Name             *string `json:"name,omitempty"`
+		TableRelationOid *int64  `json:"tableRelationOid,omitempty"`
+		RelationOid      *int64  `json:"relationOid,omitempty"`
+		SizeBytes        *int64  `json:"sizeBytes,omitempty"`
+		IsPrimary        *bool   `json:"isPrimary,omitempty"`
+		IsUnique         *bool   `json:"isUnique,omitempty"`
+		ScanCount        *int64  `json:"scanCount,omitempty"`
+		TuplesRead       *int64  `json:"tuplesRead,omitempty"`
+		TuplesFetch      *int64  `json:"tuplesFetch,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.NoHistoryYet == nil {
-		return fmt.Errorf("required field noHistoryYet missing")
-	}
-	if all.CannotProveGrowth == nil {
-		return fmt.Errorf("required field cannotProveGrowth missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"database", "schema", "table", "name", "tableRelationOid", "relationOid", "sizeBytes", "isPrimary", "isUnique", "scanCount", "tuplesRead", "tuplesFetch", "noHistoryYet", "cannotProveGrowth"})
+		common.DeleteKeys(additionalProperties, &[]string{"database", "schema", "table", "name", "tableRelationOid", "relationOid", "sizeBytes", "isPrimary", "isUnique", "scanCount", "tuplesRead", "tuplesFetch"})
 	} else {
 		return err
 	}
@@ -527,8 +463,6 @@ func (o *PostgresqlIndexSpace) UnmarshalJSON(bytes []byte) (err error) {
 	o.ScanCount = all.ScanCount
 	o.TuplesRead = all.TuplesRead
 	o.TuplesFetch = all.TuplesFetch
-	o.NoHistoryYet = *all.NoHistoryYet
-	o.CannotProveGrowth = *all.CannotProveGrowth
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
