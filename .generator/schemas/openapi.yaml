@@ -4857,6 +4857,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: databaseName
+          in: query
+          description: Optional database name for selected table, index, and TOAST details. When omitted, the backend selects the largest connectable non-template database.
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -4870,6 +4876,8 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}/lockAnalysis:
@@ -21923,6 +21931,7 @@ components:
         - summary
         - storageOverview
         - databases
+        - selectedDatabase
         - tables
         - indexes
         - toastRelations
@@ -21935,18 +21944,25 @@ components:
           $ref: '#/components/schemas/postgresqlStorageOverview'
         databases:
           type: array
+          description: Sizes of all connectable non-template databases in the PostgreSQL instance.
           items:
             $ref: '#/components/schemas/postgresqlDatabaseSpace'
+        selectedDatabase:
+          type: string
+          description: Database used for tables, indexes, and toastRelations in this response.
         tables:
           type: array
+          description: Top tables from selectedDatabase.
           items:
             $ref: '#/components/schemas/postgresqlTableSpace'
         indexes:
           type: array
+          description: Top indexes from selectedDatabase.
           items:
             $ref: '#/components/schemas/postgresqlIndexSpace'
         toastRelations:
           type: array
+          description: Toast relations derived from selectedDatabase table space data.
           items:
             $ref: '#/components/schemas/postgresqlToastRelationSpace'
         sources:
