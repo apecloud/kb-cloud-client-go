@@ -49,6 +49,7 @@
 //   - [accountApi.updateHiveAccount]
 //   - [accountApi.updateKafkaAccount]
 //   - [accountApi.updateMssqlAccount]
+//   - [accountApi.updateServiceAccount]
 //   - [alertApi.alertStatistic]
 //   - [alertApi.batchCheckURLConnectivity]
 //   - [alertConfigApi.getAlertConfig]

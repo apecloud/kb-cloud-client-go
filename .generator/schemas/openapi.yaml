@@ -14112,6 +14112,63 @@ paths:
         - account
         - rdbms
         - shared
+    patch:
+      description: update a MinIO service account access key
+      summary: Update MinIO access key
+      operationId: updateServiceAccount
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: MinIO access key
+          in: path
+          name: accessKey
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DmsServiceAccountUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: update MinIO access key success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsServiceAccount'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - rdbms
+        - shared
+      x-codegen-request-body-name: body
     delete:
       description: delete a MinIO service account access key
       summary: Delete MinIO access key
@@ -29570,6 +29627,23 @@ components:
           type: string
           format: date-time
           description: Optional service account expiration time.
+    DmsServiceAccountStatus:
+      description: MinIO service account status.
+      type: string
+      enum:
+        - enabled
+        - disabled
+    DmsServiceAccountUpdateRequest:
+      description: MinIO service account access-key update request
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/DmsServiceAccountStatus'
+          description: Optional service account status.
+        expiration:
+          type: string
+          format: date-time
+          description: Optional service account expiration time. Use the Unix epoch to clear expiration.
     dbTDERequest:
       type: object
       properties:
