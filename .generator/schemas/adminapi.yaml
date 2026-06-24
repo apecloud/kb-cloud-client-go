@@ -32579,9 +32579,15 @@ components:
         config:
           $ref: '#/components/schemas/cdcClusterConfig'
         account:
-          $ref: '#/components/schemas/cdcClusterAccount'
+          type: object
+          description: engine mode and account setting mappings. '_default' key means default mode setting
+          additionalProperties:
+            $ref: '#/components/schemas/cdcClusterAccount'
         endpoint:
-          $ref: '#/components/schemas/cdcClusterEndpoint'
+          type: object
+          description: engine mode and account setting mappings. '_default' key means default mode setting
+          additionalProperties:
+            $ref: '#/components/schemas/cdcClusterEndpoint'
         lifecycle:
           $ref: '#/components/schemas/cdcLifecycle'
     cdcConfigResourceType:
@@ -32791,6 +32797,11 @@ components:
           $ref: '#/components/schemas/engineDefinitionDetail'
         target:
           $ref: '#/components/schemas/engineDefinitionDetail'
+    selectModuleMode:
+      enum:
+        - single
+        - multiple
+      type: string
     eventType:
       enum:
         - dml
@@ -32865,6 +32876,9 @@ components:
           type: array
           items:
             type: string
+        moduleSelectMode:
+          $ref: '#/components/schemas/selectModuleMode'
+          nullable: true
         events:
           type: array
           items:
