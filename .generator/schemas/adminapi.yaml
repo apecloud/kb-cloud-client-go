@@ -23695,9 +23695,6 @@ components:
         instanceName:
           type: string
           description: Kubernetes pod name for this storage usage series.
-        podName:
-          type: string
-          description: Kubernetes pod name for compatibility with Kubernetes-level troubleshooting.
         pvcName:
           type: string
           description: PersistentVolumeClaim name when it can be read from metrics labels.
@@ -35825,9 +35822,6 @@ components:
         instanceName:
           type: string
           description: Kubernetes pod name for this PostgreSQL replica storage sample.
-        podName:
-          type: string
-          description: Kubernetes pod name for compatibility with Kubernetes-level troubleshooting.
         pvcName:
           type: string
           description: PersistentVolumeClaim name when it can be read from metrics labels.

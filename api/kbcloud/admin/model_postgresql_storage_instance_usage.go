@@ -11,8 +11,6 @@ import (
 type PostgresqlStorageInstanceUsage struct {
 	// Kubernetes pod name for this PostgreSQL replica storage sample.
 	InstanceName *string `json:"instanceName,omitempty"`
-	// Kubernetes pod name for compatibility with Kubernetes-level troubleshooting.
-	PodName *string `json:"podName,omitempty"`
 	// PersistentVolumeClaim name when it can be read from metrics labels.
 	PvcName *string `json:"pvcName,omitempty"`
 	// Raw PostgreSQL replica role value read from metrics labels, kept aligned with instance detail display.
@@ -78,34 +76,6 @@ func (o *PostgresqlStorageInstanceUsage) HasInstanceName() bool {
 // SetInstanceName gets a reference to the given string and assigns it to the InstanceName field.
 func (o *PostgresqlStorageInstanceUsage) SetInstanceName(v string) {
 	o.InstanceName = &v
-}
-
-// GetPodName returns the PodName field value if set, zero value otherwise.
-func (o *PostgresqlStorageInstanceUsage) GetPodName() string {
-	if o == nil || o.PodName == nil {
-		var ret string
-		return ret
-	}
-	return *o.PodName
-}
-
-// GetPodNameOk returns a tuple with the PodName field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *PostgresqlStorageInstanceUsage) GetPodNameOk() (*string, bool) {
-	if o == nil || o.PodName == nil {
-		return nil, false
-	}
-	return o.PodName, true
-}
-
-// HasPodName returns a boolean if a field has been set.
-func (o *PostgresqlStorageInstanceUsage) HasPodName() bool {
-	return o != nil && o.PodName != nil
-}
-
-// SetPodName gets a reference to the given string and assigns it to the PodName field.
-func (o *PostgresqlStorageInstanceUsage) SetPodName(v string) {
-	o.PodName = &v
 }
 
 // GetPvcName returns the PvcName field value if set, zero value otherwise.
@@ -380,9 +350,6 @@ func (o PostgresqlStorageInstanceUsage) MarshalJSON() ([]byte, error) {
 	if o.InstanceName != nil {
 		toSerialize["instanceName"] = o.InstanceName
 	}
-	if o.PodName != nil {
-		toSerialize["podName"] = o.PodName
-	}
 	if o.PvcName != nil {
 		toSerialize["pvcName"] = o.PvcName
 	}
@@ -421,7 +388,6 @@ func (o PostgresqlStorageInstanceUsage) MarshalJSON() ([]byte, error) {
 func (o *PostgresqlStorageInstanceUsage) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		InstanceName   *string                `json:"instanceName,omitempty"`
-		PodName        *string                `json:"podName,omitempty"`
 		PvcName        *string                `json:"pvcName,omitempty"`
 		Role           *string                `json:"role,omitempty"`
 		ComponentName  *string                `json:"componentName,omitempty"`
@@ -437,12 +403,11 @@ func (o *PostgresqlStorageInstanceUsage) UnmarshalJSON(bytes []byte) (err error)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"instanceName", "podName", "pvcName", "role", "componentName", "totalBytes", "usedBytes", "availableBytes", "usageRatio", "updatedAt", "source"})
+		common.DeleteKeys(additionalProperties, &[]string{"instanceName", "pvcName", "role", "componentName", "totalBytes", "usedBytes", "availableBytes", "usageRatio", "updatedAt", "source"})
 	} else {
 		return err
 	}
 	o.InstanceName = all.InstanceName
-	o.PodName = all.PodName
 	o.PvcName = all.PvcName
 	o.Role = all.Role
 	o.ComponentName = all.ComponentName
