@@ -64,6 +64,8 @@ type ClusterListItem struct {
 	Project *string `json:"project,omitempty"`
 	// Tags bound to the cluster
 	Tags []Tag `json:"tags,omitempty"`
+	// Runtime endpoints of the cluster
+	Endpoints []Endpoint `json:"endpoints,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -833,6 +835,34 @@ func (o *ClusterListItem) SetTags(v []Tag) {
 	o.Tags = v
 }
 
+// GetEndpoints returns the Endpoints field value if set, zero value otherwise.
+func (o *ClusterListItem) GetEndpoints() []Endpoint {
+	if o == nil || o.Endpoints == nil {
+		var ret []Endpoint
+		return ret
+	}
+	return o.Endpoints
+}
+
+// GetEndpointsOk returns a tuple with the Endpoints field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterListItem) GetEndpointsOk() (*[]Endpoint, bool) {
+	if o == nil || o.Endpoints == nil {
+		return nil, false
+	}
+	return &o.Endpoints, true
+}
+
+// HasEndpoints returns a boolean if a field has been set.
+func (o *ClusterListItem) HasEndpoints() bool {
+	return o != nil && o.Endpoints != nil
+}
+
+// SetEndpoints gets a reference to the given []Endpoint and assigns it to the Endpoints field.
+func (o *ClusterListItem) SetEndpoints(v []Endpoint) {
+	o.Endpoints = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterListItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -905,6 +935,9 @@ func (o ClusterListItem) MarshalJSON() ([]byte, error) {
 	if o.Tags != nil {
 		toSerialize["tags"] = o.Tags
 	}
+	if o.Endpoints != nil {
+		toSerialize["endpoints"] = o.Endpoints
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -941,6 +974,7 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 		OrgName                *string                `json:"orgName,omitempty"`
 		Project                *string                `json:"project,omitempty"`
 		Tags                   []Tag                  `json:"tags,omitempty"`
+		Endpoints              []Endpoint             `json:"endpoints,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -977,7 +1011,7 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "environmentDisplayName", "id", "name", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName", "project", "tags"})
+		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "environmentDisplayName", "id", "name", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName", "project", "tags", "endpoints"})
 	} else {
 		return err
 	}
@@ -1013,6 +1047,7 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.OrgName = all.OrgName
 	o.Project = all.Project
 	o.Tags = all.Tags
+	o.Endpoints = all.Endpoints
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

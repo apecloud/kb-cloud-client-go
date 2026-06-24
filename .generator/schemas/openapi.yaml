@@ -19634,6 +19634,72 @@ components:
       required:
         - id
       type: object
+    endpointType:
+      description: Type of endpoint
+      type: string
+      enum:
+        - ClusterIP
+        - NodePort
+        - LoadBalancer
+        - PodIP
+        - HostNetwork
+        - PodFQDN
+    endpointNetworkType:
+      description: Network type of endpoint
+      type: string
+      enum:
+        - Internet
+        - Intranet
+    endpoint:
+      description: Endpoint is the information of cluster endpoints
+      properties:
+        title:
+          description: title of the endpoint
+          type: string
+        component:
+          description: Component type name
+          type: string
+        hosts:
+          description: Endpoint hosts
+          type: array
+          items:
+            type: string
+        port:
+          description: Endpoint port
+          type: integer
+          format: int32
+        type:
+          $ref: '#/components/schemas/endpointType'
+        networkType:
+          $ref: '#/components/schemas/endpointNetworkType'
+        serviceName:
+          description: Service name of endpoint
+          type: string
+        podService:
+          description: Pod service name of endpoint
+          type: boolean
+        portName:
+          description: Port name of endpoint
+          type: string
+        instances:
+          description: Endpoint backend instances
+          type: array
+          items:
+            type: string
+        mutable:
+          description: Whether the endpoint is mutable
+          type: boolean
+      required:
+        - title
+        - component
+        - hosts
+        - port
+        - type
+        - networkType
+        - serviceName
+        - portName
+        - mutable
+      type: object
     clusterListItem:
       description: KubeBlocks cluster information
       properties:
@@ -19728,6 +19794,11 @@ components:
           description: Tags bound to the cluster
           items:
             $ref: '#/components/schemas/tag'
+          type: array
+        endpoints:
+          description: Runtime endpoints of the cluster
+          items:
+            $ref: '#/components/schemas/endpoint'
           type: array
       required:
         - cloudProvider
@@ -21784,72 +21855,6 @@ components:
       required:
         - clusterId
         - items
-      type: object
-    endpointType:
-      description: Type of endpoint
-      type: string
-      enum:
-        - ClusterIP
-        - NodePort
-        - LoadBalancer
-        - PodIP
-        - HostNetwork
-        - PodFQDN
-    endpointNetworkType:
-      description: Network type of endpoint
-      type: string
-      enum:
-        - Internet
-        - Intranet
-    endpoint:
-      description: Endpoint is the information of cluster endpoints
-      properties:
-        title:
-          description: title of the endpoint
-          type: string
-        component:
-          description: Component type name
-          type: string
-        hosts:
-          description: Endpoint hosts
-          type: array
-          items:
-            type: string
-        port:
-          description: Endpoint port
-          type: integer
-          format: int32
-        type:
-          $ref: '#/components/schemas/endpointType'
-        networkType:
-          $ref: '#/components/schemas/endpointNetworkType'
-        serviceName:
-          description: Service name of endpoint
-          type: string
-        podService:
-          description: Pod service name of endpoint
-          type: boolean
-        portName:
-          description: Port name of endpoint
-          type: string
-        instances:
-          description: Endpoint backend instances
-          type: array
-          items:
-            type: string
-        mutable:
-          description: Whether the endpoint is mutable
-          type: boolean
-      required:
-        - title
-        - component
-        - hosts
-        - port
-        - type
-        - networkType
-        - serviceName
-        - portName
-        - mutable
       type: object
     endpointList:
       required:
