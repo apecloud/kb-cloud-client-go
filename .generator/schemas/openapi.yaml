@@ -22059,6 +22059,7 @@ components:
         usageRatio:
           type: number
           format: double
+          nullable: true
           description: usedBytes / totalBytes for this replica storage sample when both values are available.
         updatedAt:
           type: string
@@ -22069,6 +22070,7 @@ components:
       type: object
       required:
         - source
+        - instances
       properties:
         source:
           type: string

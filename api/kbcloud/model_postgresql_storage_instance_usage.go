@@ -4,7 +4,9 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type PostgresqlStorageInstanceUsage struct {
 	// Kubernetes pod name for this PostgreSQL replica storage sample.
@@ -24,7 +26,7 @@ type PostgresqlStorageInstanceUsage struct {
 	// Available bytes derived from totalBytes - usedBytes when both values are available.
 	AvailableBytes *int64 `json:"availableBytes,omitempty"`
 	// usedBytes / totalBytes for this replica storage sample when both values are available.
-	UsageRatio *float64 `json:"usageRatio,omitempty"`
+	UsageRatio common.NullableFloat64 `json:"usageRatio,omitempty"`
 	// Metrics collection timestamp in UTC.
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 	Source    *string `json:"source,omitempty"`
@@ -274,32 +276,43 @@ func (o *PostgresqlStorageInstanceUsage) SetAvailableBytes(v int64) {
 	o.AvailableBytes = &v
 }
 
-// GetUsageRatio returns the UsageRatio field value if set, zero value otherwise.
+// GetUsageRatio returns the UsageRatio field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PostgresqlStorageInstanceUsage) GetUsageRatio() float64 {
-	if o == nil || o.UsageRatio == nil {
+	if o == nil || o.UsageRatio.Get() == nil {
 		var ret float64
 		return ret
 	}
-	return *o.UsageRatio
+	return *o.UsageRatio.Get()
 }
 
 // GetUsageRatioOk returns a tuple with the UsageRatio field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *PostgresqlStorageInstanceUsage) GetUsageRatioOk() (*float64, bool) {
-	if o == nil || o.UsageRatio == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.UsageRatio, true
+	return o.UsageRatio.Get(), o.UsageRatio.IsSet()
 }
 
 // HasUsageRatio returns a boolean if a field has been set.
 func (o *PostgresqlStorageInstanceUsage) HasUsageRatio() bool {
-	return o != nil && o.UsageRatio != nil
+	return o != nil && o.UsageRatio.IsSet()
 }
 
-// SetUsageRatio gets a reference to the given float64 and assigns it to the UsageRatio field.
+// SetUsageRatio gets a reference to the given common.NullableFloat64 and assigns it to the UsageRatio field.
 func (o *PostgresqlStorageInstanceUsage) SetUsageRatio(v float64) {
-	o.UsageRatio = &v
+	o.UsageRatio.Set(&v)
+}
+
+// SetUsageRatioNil sets the value for UsageRatio to be an explicit nil.
+func (o *PostgresqlStorageInstanceUsage) SetUsageRatioNil() {
+	o.UsageRatio.Set(nil)
+}
+
+// UnsetUsageRatio ensures that no value is present for UsageRatio, not even an explicit nil.
+func (o *PostgresqlStorageInstanceUsage) UnsetUsageRatio() {
+	o.UsageRatio.Unset()
 }
 
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
@@ -388,8 +401,8 @@ func (o PostgresqlStorageInstanceUsage) MarshalJSON() ([]byte, error) {
 	if o.AvailableBytes != nil {
 		toSerialize["availableBytes"] = o.AvailableBytes
 	}
-	if o.UsageRatio != nil {
-		toSerialize["usageRatio"] = o.UsageRatio
+	if o.UsageRatio.IsSet() {
+		toSerialize["usageRatio"] = o.UsageRatio.Get()
 	}
 	if o.UpdatedAt != nil {
 		toSerialize["updatedAt"] = o.UpdatedAt
@@ -407,17 +420,17 @@ func (o PostgresqlStorageInstanceUsage) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PostgresqlStorageInstanceUsage) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		InstanceName   *string  `json:"instanceName,omitempty"`
-		PodName        *string  `json:"podName,omitempty"`
-		PvcName        *string  `json:"pvcName,omitempty"`
-		Role           *string  `json:"role,omitempty"`
-		ComponentName  *string  `json:"componentName,omitempty"`
-		TotalBytes     *int64   `json:"totalBytes,omitempty"`
-		UsedBytes      *int64   `json:"usedBytes,omitempty"`
-		AvailableBytes *int64   `json:"availableBytes,omitempty"`
-		UsageRatio     *float64 `json:"usageRatio,omitempty"`
-		UpdatedAt      *string  `json:"updatedAt,omitempty"`
-		Source         *string  `json:"source,omitempty"`
+		InstanceName   *string                `json:"instanceName,omitempty"`
+		PodName        *string                `json:"podName,omitempty"`
+		PvcName        *string                `json:"pvcName,omitempty"`
+		Role           *string                `json:"role,omitempty"`
+		ComponentName  *string                `json:"componentName,omitempty"`
+		TotalBytes     *int64                 `json:"totalBytes,omitempty"`
+		UsedBytes      *int64                 `json:"usedBytes,omitempty"`
+		AvailableBytes *int64                 `json:"availableBytes,omitempty"`
+		UsageRatio     common.NullableFloat64 `json:"usageRatio,omitempty"`
+		UpdatedAt      *string                `json:"updatedAt,omitempty"`
+		Source         *string                `json:"source,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
