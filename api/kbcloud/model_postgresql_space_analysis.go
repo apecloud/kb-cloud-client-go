@@ -11,13 +11,19 @@ import (
 )
 
 type PostgresqlSpaceAnalysis struct {
-	Summary         PostgresqlSpaceSummary         `json:"summary"`
-	StorageOverview PostgresqlStorageOverview      `json:"storageOverview"`
-	Databases       []PostgresqlDatabaseSpace      `json:"databases"`
-	Tables          []PostgresqlTableSpace         `json:"tables"`
-	Indexes         []PostgresqlIndexSpace         `json:"indexes"`
-	ToastRelations  []PostgresqlToastRelationSpace `json:"toastRelations"`
-	Sources         []PostgresqlSpaceSource        `json:"sources"`
+	Summary         PostgresqlSpaceSummary    `json:"summary"`
+	StorageOverview PostgresqlStorageOverview `json:"storageOverview"`
+	// Sizes of all connectable non-template databases in the PostgreSQL instance.
+	Databases []PostgresqlDatabaseSpace `json:"databases"`
+	// Database used for tables, indexes, and toastRelations in this response.
+	SelectedDatabase string `json:"selectedDatabase"`
+	// Top tables from selectedDatabase.
+	Tables []PostgresqlTableSpace `json:"tables"`
+	// Top indexes from selectedDatabase.
+	Indexes []PostgresqlIndexSpace `json:"indexes"`
+	// Toast relations derived from selectedDatabase table space data.
+	ToastRelations []PostgresqlToastRelationSpace `json:"toastRelations"`
+	Sources        []PostgresqlSpaceSource        `json:"sources"`
 	// Backend collection timestamp in UTC.
 	CollectedAt string `json:"collectedAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -29,11 +35,12 @@ type PostgresqlSpaceAnalysis struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlSpaceAnalysis(summary PostgresqlSpaceSummary, storageOverview PostgresqlStorageOverview, databases []PostgresqlDatabaseSpace, tables []PostgresqlTableSpace, indexes []PostgresqlIndexSpace, toastRelations []PostgresqlToastRelationSpace, sources []PostgresqlSpaceSource, collectedAt string) *PostgresqlSpaceAnalysis {
+func NewPostgresqlSpaceAnalysis(summary PostgresqlSpaceSummary, storageOverview PostgresqlStorageOverview, databases []PostgresqlDatabaseSpace, selectedDatabase string, tables []PostgresqlTableSpace, indexes []PostgresqlIndexSpace, toastRelations []PostgresqlToastRelationSpace, sources []PostgresqlSpaceSource, collectedAt string) *PostgresqlSpaceAnalysis {
 	this := PostgresqlSpaceAnalysis{}
 	this.Summary = summary
 	this.StorageOverview = storageOverview
 	this.Databases = databases
+	this.SelectedDatabase = selectedDatabase
 	this.Tables = tables
 	this.Indexes = indexes
 	this.ToastRelations = toastRelations
@@ -117,6 +124,29 @@ func (o *PostgresqlSpaceAnalysis) GetDatabasesOk() (*[]PostgresqlDatabaseSpace, 
 // SetDatabases sets field value.
 func (o *PostgresqlSpaceAnalysis) SetDatabases(v []PostgresqlDatabaseSpace) {
 	o.Databases = v
+}
+
+// GetSelectedDatabase returns the SelectedDatabase field value.
+func (o *PostgresqlSpaceAnalysis) GetSelectedDatabase() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.SelectedDatabase
+}
+
+// GetSelectedDatabaseOk returns a tuple with the SelectedDatabase field value
+// and a boolean to check if the value has been set.
+func (o *PostgresqlSpaceAnalysis) GetSelectedDatabaseOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.SelectedDatabase, true
+}
+
+// SetSelectedDatabase sets field value.
+func (o *PostgresqlSpaceAnalysis) SetSelectedDatabase(v string) {
+	o.SelectedDatabase = v
 }
 
 // GetTables returns the Tables field value.
@@ -243,6 +273,7 @@ func (o PostgresqlSpaceAnalysis) MarshalJSON() ([]byte, error) {
 	toSerialize["summary"] = o.Summary
 	toSerialize["storageOverview"] = o.StorageOverview
 	toSerialize["databases"] = o.Databases
+	toSerialize["selectedDatabase"] = o.SelectedDatabase
 	toSerialize["tables"] = o.Tables
 	toSerialize["indexes"] = o.Indexes
 	toSerialize["toastRelations"] = o.ToastRelations
@@ -258,14 +289,15 @@ func (o PostgresqlSpaceAnalysis) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PostgresqlSpaceAnalysis) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Summary         *PostgresqlSpaceSummary         `json:"summary"`
-		StorageOverview *PostgresqlStorageOverview      `json:"storageOverview"`
-		Databases       *[]PostgresqlDatabaseSpace      `json:"databases"`
-		Tables          *[]PostgresqlTableSpace         `json:"tables"`
-		Indexes         *[]PostgresqlIndexSpace         `json:"indexes"`
-		ToastRelations  *[]PostgresqlToastRelationSpace `json:"toastRelations"`
-		Sources         *[]PostgresqlSpaceSource        `json:"sources"`
-		CollectedAt     *string                         `json:"collectedAt"`
+		Summary          *PostgresqlSpaceSummary         `json:"summary"`
+		StorageOverview  *PostgresqlStorageOverview      `json:"storageOverview"`
+		Databases        *[]PostgresqlDatabaseSpace      `json:"databases"`
+		SelectedDatabase *string                         `json:"selectedDatabase"`
+		Tables           *[]PostgresqlTableSpace         `json:"tables"`
+		Indexes          *[]PostgresqlIndexSpace         `json:"indexes"`
+		ToastRelations   *[]PostgresqlToastRelationSpace `json:"toastRelations"`
+		Sources          *[]PostgresqlSpaceSource        `json:"sources"`
+		CollectedAt      *string                         `json:"collectedAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -278,6 +310,9 @@ func (o *PostgresqlSpaceAnalysis) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.Databases == nil {
 		return fmt.Errorf("required field databases missing")
+	}
+	if all.SelectedDatabase == nil {
+		return fmt.Errorf("required field selectedDatabase missing")
 	}
 	if all.Tables == nil {
 		return fmt.Errorf("required field tables missing")
@@ -296,7 +331,7 @@ func (o *PostgresqlSpaceAnalysis) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"summary", "storageOverview", "databases", "tables", "indexes", "toastRelations", "sources", "collectedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"summary", "storageOverview", "databases", "selectedDatabase", "tables", "indexes", "toastRelations", "sources", "collectedAt"})
 	} else {
 		return err
 	}
@@ -311,6 +346,7 @@ func (o *PostgresqlSpaceAnalysis) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.StorageOverview = *all.StorageOverview
 	o.Databases = *all.Databases
+	o.SelectedDatabase = *all.SelectedDatabase
 	o.Tables = *all.Tables
 	o.Indexes = *all.Indexes
 	o.ToastRelations = *all.ToastRelations

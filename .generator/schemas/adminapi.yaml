@@ -19144,6 +19144,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: databaseName
+          in: query
+          description: Optional database name for selected table, index, and TOAST details. When omitted, the backend selects the largest connectable non-template database.
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -19157,6 +19163,8 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}/lockAnalysis:
@@ -23662,6 +23670,7 @@ components:
         - timestamp
         - usedBytes
         - totalBytes
+        - availableBytes
         - usageRatio
       properties:
         timestamp:
@@ -23672,17 +23681,43 @@ components:
         totalBytes:
           type: integer
           format: int64
+        availableBytes:
+          type: integer
+          format: int64
         usageRatio:
           type: number
           format: double
+    clusterStorageUsageHistoryInstance:
+      type: object
+      required:
+        - points
+      properties:
+        instanceName:
+          type: string
+          description: Kubernetes pod name for this storage usage series.
+        pvcName:
+          type: string
+          description: PersistentVolumeClaim name when it can be read from metrics labels.
+        role:
+          type: string
+          description: Raw database replica role value read from metrics labels, kept aligned with instance detail display.
+        componentName:
+          type: string
+          description: Optional KubeBlocks component name when it can be read from metrics labels.
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterStorageUsageHistoryPoint'
+        source:
+          type: string
     clusterStorageUsageHistory:
       type: object
-      description: Cluster storage usage history collected from backend-owned fixed metrics.
+      description: Per-instance cluster storage usage history collected from backend-owned fixed metrics.
       required:
         - timeRange
         - start
         - end
-        - points
+        - instances
         - source
         - collectedAt
       properties:
@@ -23695,10 +23730,10 @@ components:
         end:
           type: string
           description: History query end timestamp in UTC.
-        points:
+        instances:
           type: array
           items:
-            $ref: '#/components/schemas/clusterStorageUsageHistoryPoint'
+            $ref: '#/components/schemas/clusterStorageUsageHistoryInstance'
         source:
           type: string
           description: Metrics source used to build the history.
@@ -35781,32 +35816,56 @@ components:
           type: boolean
         indexListTruncated:
           type: boolean
-    postgresqlStorageOverview:
+    postgresqlStorageInstanceUsage:
       type: object
-      required:
-        - source
       properties:
+        instanceName:
+          type: string
+          description: Kubernetes pod name for this PostgreSQL replica storage sample.
+        pvcName:
+          type: string
+          description: PersistentVolumeClaim name when it can be read from metrics labels.
+        role:
+          type: string
+          description: Raw PostgreSQL replica role value read from metrics labels, kept aligned with instance detail display.
+        componentName:
+          type: string
+          description: Optional KubeBlocks component name when it can be read from metrics labels.
         totalBytes:
           type: integer
           format: int64
-          description: Current total PVC capacity in bytes when backend-owned metrics are available.
+          description: Physical PVC capacity in bytes for this replica storage sample.
         usedBytes:
           type: integer
           format: int64
-          description: Current PVC used bytes when backend-owned metrics are available.
+          description: Physical PVC used bytes for this replica storage sample.
         availableBytes:
           type: integer
           format: int64
-          description: Current available PVC bytes derived from totalBytes - usedBytes when both values are available.
+          description: Available bytes derived from totalBytes - usedBytes when both values are available.
         usageRatio:
           type: number
           format: double
-          description: Current usedBytes / totalBytes ratio when both values are available.
+          nullable: true
+          description: usedBytes / totalBytes for this replica storage sample when both values are available.
         updatedAt:
           type: string
           description: Metrics collection timestamp in UTC.
         source:
           type: string
+    postgresqlStorageOverview:
+      type: object
+      required:
+        - source
+        - instances
+      properties:
+        source:
+          type: string
+        instances:
+          type: array
+          description: Physical PostgreSQL replica storage usage split by pod/PVC/role.
+          items:
+            $ref: '#/components/schemas/postgresqlStorageInstanceUsage'
     postgresqlDatabaseSpace:
       type: object
       properties:
@@ -35937,6 +35996,7 @@ components:
         - summary
         - storageOverview
         - databases
+        - selectedDatabase
         - tables
         - indexes
         - toastRelations
@@ -35949,18 +36009,25 @@ components:
           $ref: '#/components/schemas/postgresqlStorageOverview'
         databases:
           type: array
+          description: Sizes of all connectable non-template databases in the PostgreSQL instance.
           items:
             $ref: '#/components/schemas/postgresqlDatabaseSpace'
+        selectedDatabase:
+          type: string
+          description: Database used for tables, indexes, and toastRelations in this response.
         tables:
           type: array
+          description: Top tables from selectedDatabase.
           items:
             $ref: '#/components/schemas/postgresqlTableSpace'
         indexes:
           type: array
+          description: Top indexes from selectedDatabase.
           items:
             $ref: '#/components/schemas/postgresqlIndexSpace'
         toastRelations:
           type: array
+          description: Toast relations derived from selectedDatabase table space data.
           items:
             $ref: '#/components/schemas/postgresqlToastRelationSpace'
         sources:

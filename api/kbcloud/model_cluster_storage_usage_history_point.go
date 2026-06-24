@@ -11,10 +11,11 @@ import (
 )
 
 type ClusterStorageUsageHistoryPoint struct {
-	Timestamp  string  `json:"timestamp"`
-	UsedBytes  int64   `json:"usedBytes"`
-	TotalBytes int64   `json:"totalBytes"`
-	UsageRatio float64 `json:"usageRatio"`
+	Timestamp      string  `json:"timestamp"`
+	UsedBytes      int64   `json:"usedBytes"`
+	TotalBytes     int64   `json:"totalBytes"`
+	AvailableBytes int64   `json:"availableBytes"`
+	UsageRatio     float64 `json:"usageRatio"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -24,11 +25,12 @@ type ClusterStorageUsageHistoryPoint struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewClusterStorageUsageHistoryPoint(timestamp string, usedBytes int64, totalBytes int64, usageRatio float64) *ClusterStorageUsageHistoryPoint {
+func NewClusterStorageUsageHistoryPoint(timestamp string, usedBytes int64, totalBytes int64, availableBytes int64, usageRatio float64) *ClusterStorageUsageHistoryPoint {
 	this := ClusterStorageUsageHistoryPoint{}
 	this.Timestamp = timestamp
 	this.UsedBytes = usedBytes
 	this.TotalBytes = totalBytes
+	this.AvailableBytes = availableBytes
 	this.UsageRatio = usageRatio
 	return &this
 }
@@ -110,6 +112,29 @@ func (o *ClusterStorageUsageHistoryPoint) SetTotalBytes(v int64) {
 	o.TotalBytes = v
 }
 
+// GetAvailableBytes returns the AvailableBytes field value.
+func (o *ClusterStorageUsageHistoryPoint) GetAvailableBytes() int64 {
+	if o == nil {
+		var ret int64
+		return ret
+	}
+	return o.AvailableBytes
+}
+
+// GetAvailableBytesOk returns a tuple with the AvailableBytes field value
+// and a boolean to check if the value has been set.
+func (o *ClusterStorageUsageHistoryPoint) GetAvailableBytesOk() (*int64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.AvailableBytes, true
+}
+
+// SetAvailableBytes sets field value.
+func (o *ClusterStorageUsageHistoryPoint) SetAvailableBytes(v int64) {
+	o.AvailableBytes = v
+}
+
 // GetUsageRatio returns the UsageRatio field value.
 func (o *ClusterStorageUsageHistoryPoint) GetUsageRatio() float64 {
 	if o == nil {
@@ -142,6 +167,7 @@ func (o ClusterStorageUsageHistoryPoint) MarshalJSON() ([]byte, error) {
 	toSerialize["timestamp"] = o.Timestamp
 	toSerialize["usedBytes"] = o.UsedBytes
 	toSerialize["totalBytes"] = o.TotalBytes
+	toSerialize["availableBytes"] = o.AvailableBytes
 	toSerialize["usageRatio"] = o.UsageRatio
 
 	for key, value := range o.AdditionalProperties {
@@ -153,10 +179,11 @@ func (o ClusterStorageUsageHistoryPoint) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterStorageUsageHistoryPoint) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Timestamp  *string  `json:"timestamp"`
-		UsedBytes  *int64   `json:"usedBytes"`
-		TotalBytes *int64   `json:"totalBytes"`
-		UsageRatio *float64 `json:"usageRatio"`
+		Timestamp      *string  `json:"timestamp"`
+		UsedBytes      *int64   `json:"usedBytes"`
+		TotalBytes     *int64   `json:"totalBytes"`
+		AvailableBytes *int64   `json:"availableBytes"`
+		UsageRatio     *float64 `json:"usageRatio"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -170,18 +197,22 @@ func (o *ClusterStorageUsageHistoryPoint) UnmarshalJSON(bytes []byte) (err error
 	if all.TotalBytes == nil {
 		return fmt.Errorf("required field totalBytes missing")
 	}
+	if all.AvailableBytes == nil {
+		return fmt.Errorf("required field availableBytes missing")
+	}
 	if all.UsageRatio == nil {
 		return fmt.Errorf("required field usageRatio missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"timestamp", "usedBytes", "totalBytes", "usageRatio"})
+		common.DeleteKeys(additionalProperties, &[]string{"timestamp", "usedBytes", "totalBytes", "availableBytes", "usageRatio"})
 	} else {
 		return err
 	}
 	o.Timestamp = *all.Timestamp
 	o.UsedBytes = *all.UsedBytes
 	o.TotalBytes = *all.TotalBytes
+	o.AvailableBytes = *all.AvailableBytes
 	o.UsageRatio = *all.UsageRatio
 
 	if len(additionalProperties) > 0 {
