@@ -13,8 +13,8 @@ type PostgresqlStorageInstanceUsage struct {
 	PodName *string `json:"podName,omitempty"`
 	// PersistentVolumeClaim name when it can be read from metrics labels.
 	PvcName *string `json:"pvcName,omitempty"`
-	// PostgreSQL replica role normalized from metrics labels.
-	Role *PostgresqlStorageInstanceRole `json:"role,omitempty"`
+	// Raw PostgreSQL replica role value read from metrics labels, kept aligned with instance detail display.
+	Role *string `json:"role,omitempty"`
 	// Optional KubeBlocks component name when it can be read from metrics labels.
 	ComponentName *string `json:"componentName,omitempty"`
 	// Physical PVC capacity in bytes for this replica storage sample.
@@ -135,9 +135,9 @@ func (o *PostgresqlStorageInstanceUsage) SetPvcName(v string) {
 }
 
 // GetRole returns the Role field value if set, zero value otherwise.
-func (o *PostgresqlStorageInstanceUsage) GetRole() PostgresqlStorageInstanceRole {
+func (o *PostgresqlStorageInstanceUsage) GetRole() string {
 	if o == nil || o.Role == nil {
-		var ret PostgresqlStorageInstanceRole
+		var ret string
 		return ret
 	}
 	return *o.Role
@@ -145,7 +145,7 @@ func (o *PostgresqlStorageInstanceUsage) GetRole() PostgresqlStorageInstanceRole
 
 // GetRoleOk returns a tuple with the Role field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PostgresqlStorageInstanceUsage) GetRoleOk() (*PostgresqlStorageInstanceRole, bool) {
+func (o *PostgresqlStorageInstanceUsage) GetRoleOk() (*string, bool) {
 	if o == nil || o.Role == nil {
 		return nil, false
 	}
@@ -157,8 +157,8 @@ func (o *PostgresqlStorageInstanceUsage) HasRole() bool {
 	return o != nil && o.Role != nil
 }
 
-// SetRole gets a reference to the given PostgresqlStorageInstanceRole and assigns it to the Role field.
-func (o *PostgresqlStorageInstanceUsage) SetRole(v PostgresqlStorageInstanceRole) {
+// SetRole gets a reference to the given string and assigns it to the Role field.
+func (o *PostgresqlStorageInstanceUsage) SetRole(v string) {
 	o.Role = &v
 }
 
@@ -407,17 +407,17 @@ func (o PostgresqlStorageInstanceUsage) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PostgresqlStorageInstanceUsage) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		InstanceName   *string                        `json:"instanceName,omitempty"`
-		PodName        *string                        `json:"podName,omitempty"`
-		PvcName        *string                        `json:"pvcName,omitempty"`
-		Role           *PostgresqlStorageInstanceRole `json:"role,omitempty"`
-		ComponentName  *string                        `json:"componentName,omitempty"`
-		TotalBytes     *int64                         `json:"totalBytes,omitempty"`
-		UsedBytes      *int64                         `json:"usedBytes,omitempty"`
-		AvailableBytes *int64                         `json:"availableBytes,omitempty"`
-		UsageRatio     *float64                       `json:"usageRatio,omitempty"`
-		UpdatedAt      *string                        `json:"updatedAt,omitempty"`
-		Source         *string                        `json:"source,omitempty"`
+		InstanceName   *string  `json:"instanceName,omitempty"`
+		PodName        *string  `json:"podName,omitempty"`
+		PvcName        *string  `json:"pvcName,omitempty"`
+		Role           *string  `json:"role,omitempty"`
+		ComponentName  *string  `json:"componentName,omitempty"`
+		TotalBytes     *int64   `json:"totalBytes,omitempty"`
+		UsedBytes      *int64   `json:"usedBytes,omitempty"`
+		AvailableBytes *int64   `json:"availableBytes,omitempty"`
+		UsageRatio     *float64 `json:"usageRatio,omitempty"`
+		UpdatedAt      *string  `json:"updatedAt,omitempty"`
+		Source         *string  `json:"source,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -428,16 +428,10 @@ func (o *PostgresqlStorageInstanceUsage) UnmarshalJSON(bytes []byte) (err error)
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
 	o.InstanceName = all.InstanceName
 	o.PodName = all.PodName
 	o.PvcName = all.PvcName
-	if all.Role != nil && !all.Role.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Role = all.Role
-	}
+	o.Role = all.Role
 	o.ComponentName = all.ComponentName
 	o.TotalBytes = all.TotalBytes
 	o.UsedBytes = all.UsedBytes
@@ -448,10 +442,6 @@ func (o *PostgresqlStorageInstanceUsage) UnmarshalJSON(bytes []byte) (err error)
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

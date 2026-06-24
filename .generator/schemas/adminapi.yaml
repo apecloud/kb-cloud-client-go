@@ -23664,13 +23664,6 @@ components:
             type: array
             items: {}
             nullable: true
-    clusterStorageUsageHistoryInstanceRole:
-      type: string
-      description: Database replica role normalized from metrics labels.
-      enum:
-        - primary
-        - standby
-        - unknown
     clusterStorageUsageHistoryPoint:
       type: object
       required:
@@ -23709,8 +23702,8 @@ components:
           type: string
           description: PersistentVolumeClaim name when it can be read from metrics labels.
         role:
-          $ref: '#/components/schemas/clusterStorageUsageHistoryInstanceRole'
-          description: Database replica role normalized from metrics labels.
+          type: string
+          description: Raw database replica role value read from metrics labels, kept aligned with instance detail display.
         componentName:
           type: string
           description: Optional KubeBlocks component name when it can be read from metrics labels.
@@ -35826,13 +35819,6 @@ components:
           type: boolean
         indexListTruncated:
           type: boolean
-    postgresqlStorageInstanceRole:
-      type: string
-      description: PostgreSQL replica role normalized from metrics labels.
-      enum:
-        - primary
-        - standby
-        - unknown
     postgresqlStorageInstanceUsage:
       type: object
       properties:
@@ -35846,8 +35832,8 @@ components:
           type: string
           description: PersistentVolumeClaim name when it can be read from metrics labels.
         role:
-          $ref: '#/components/schemas/postgresqlStorageInstanceRole'
-          description: PostgreSQL replica role normalized from metrics labels.
+          type: string
+          description: Raw PostgreSQL replica role value read from metrics labels, kept aligned with instance detail display.
         componentName:
           type: string
           description: Optional KubeBlocks component name when it can be read from metrics labels.

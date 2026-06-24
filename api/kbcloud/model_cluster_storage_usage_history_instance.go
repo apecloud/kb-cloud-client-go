@@ -17,8 +17,8 @@ type ClusterStorageUsageHistoryInstance struct {
 	PodName *string `json:"podName,omitempty"`
 	// PersistentVolumeClaim name when it can be read from metrics labels.
 	PvcName *string `json:"pvcName,omitempty"`
-	// Database replica role normalized from metrics labels.
-	Role *ClusterStorageUsageHistoryInstanceRole `json:"role,omitempty"`
+	// Raw database replica role value read from metrics labels, kept aligned with instance detail display.
+	Role *string `json:"role,omitempty"`
 	// Optional KubeBlocks component name when it can be read from metrics labels.
 	ComponentName *string                           `json:"componentName,omitempty"`
 	Points        []ClusterStorageUsageHistoryPoint `json:"points"`
@@ -131,9 +131,9 @@ func (o *ClusterStorageUsageHistoryInstance) SetPvcName(v string) {
 }
 
 // GetRole returns the Role field value if set, zero value otherwise.
-func (o *ClusterStorageUsageHistoryInstance) GetRole() ClusterStorageUsageHistoryInstanceRole {
+func (o *ClusterStorageUsageHistoryInstance) GetRole() string {
 	if o == nil || o.Role == nil {
-		var ret ClusterStorageUsageHistoryInstanceRole
+		var ret string
 		return ret
 	}
 	return *o.Role
@@ -141,7 +141,7 @@ func (o *ClusterStorageUsageHistoryInstance) GetRole() ClusterStorageUsageHistor
 
 // GetRoleOk returns a tuple with the Role field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterStorageUsageHistoryInstance) GetRoleOk() (*ClusterStorageUsageHistoryInstanceRole, bool) {
+func (o *ClusterStorageUsageHistoryInstance) GetRoleOk() (*string, bool) {
 	if o == nil || o.Role == nil {
 		return nil, false
 	}
@@ -153,8 +153,8 @@ func (o *ClusterStorageUsageHistoryInstance) HasRole() bool {
 	return o != nil && o.Role != nil
 }
 
-// SetRole gets a reference to the given ClusterStorageUsageHistoryInstanceRole and assigns it to the Role field.
-func (o *ClusterStorageUsageHistoryInstance) SetRole(v ClusterStorageUsageHistoryInstanceRole) {
+// SetRole gets a reference to the given string and assigns it to the Role field.
+func (o *ClusterStorageUsageHistoryInstance) SetRole(v string) {
 	o.Role = &v
 }
 
@@ -272,13 +272,13 @@ func (o ClusterStorageUsageHistoryInstance) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterStorageUsageHistoryInstance) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		InstanceName  *string                                 `json:"instanceName,omitempty"`
-		PodName       *string                                 `json:"podName,omitempty"`
-		PvcName       *string                                 `json:"pvcName,omitempty"`
-		Role          *ClusterStorageUsageHistoryInstanceRole `json:"role,omitempty"`
-		ComponentName *string                                 `json:"componentName,omitempty"`
-		Points        *[]ClusterStorageUsageHistoryPoint      `json:"points"`
-		Source        *string                                 `json:"source,omitempty"`
+		InstanceName  *string                            `json:"instanceName,omitempty"`
+		PodName       *string                            `json:"podName,omitempty"`
+		PvcName       *string                            `json:"pvcName,omitempty"`
+		Role          *string                            `json:"role,omitempty"`
+		ComponentName *string                            `json:"componentName,omitempty"`
+		Points        *[]ClusterStorageUsageHistoryPoint `json:"points"`
+		Source        *string                            `json:"source,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -292,26 +292,16 @@ func (o *ClusterStorageUsageHistoryInstance) UnmarshalJSON(bytes []byte) (err er
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
 	o.InstanceName = all.InstanceName
 	o.PodName = all.PodName
 	o.PvcName = all.PvcName
-	if all.Role != nil && !all.Role.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Role = all.Role
-	}
+	o.Role = all.Role
 	o.ComponentName = all.ComponentName
 	o.Points = *all.Points
 	o.Source = all.Source
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
