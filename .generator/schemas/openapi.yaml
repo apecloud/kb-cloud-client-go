@@ -19618,6 +19618,22 @@ components:
         - Normal
         - DisasterRecovery
         - BlueGreenDeployment
+    tag:
+      description: tag info
+      properties:
+        id:
+          description: The id of the tag
+          format: int64
+          type: string
+        key:
+          description: the key of the tag
+          type: string
+        value:
+          description: The value corresponding to the key
+          type: string
+      required:
+        - id
+      type: object
     clusterListItem:
       description: KubeBlocks cluster information
       properties:
@@ -19705,6 +19721,14 @@ components:
         orgName:
           description: Org Name
           type: string
+        project:
+          description: Name of project, it is the alias of environment namespace
+          type: string
+        tags:
+          description: Tags bound to the cluster
+          items:
+            $ref: '#/components/schemas/tag'
+          type: array
       required:
         - cloudProvider
         - createdAt
@@ -21697,22 +21721,6 @@ components:
             type: string
           rebuildInstanceOpsRequestName:
             type: string
-    tag:
-      description: tag info
-      properties:
-        id:
-          description: The id of the tag
-          format: int64
-          type: string
-        key:
-          description: the key of the tag
-          type: string
-        value:
-          description: The value corresponding to the key
-          type: string
-      required:
-        - id
-      type: object
     clusterTags:
       properties:
         clusterId:

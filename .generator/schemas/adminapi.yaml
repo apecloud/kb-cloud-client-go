@@ -18790,6 +18790,257 @@ paths:
         - rdbms
         - shared
       x-codegen-request-body-name: body
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/access-keys:
+    get:
+      description: list MinIO service account access keys
+      summary: List MinIO access keys
+      operationId: listServiceAccounts
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: MinIO user that owns the service accounts
+          in: query
+          name: userName
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list MinIO access keys success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsServiceAccountList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - rdbms
+        - shared
+    post:
+      description: create a MinIO service account access key
+      summary: Create MinIO access key
+      operationId: createServiceAccount
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DmsServiceAccountCreateRequest'
+        required: true
+      responses:
+        '201':
+          description: create MinIO access key success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsServiceAccount'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - rdbms
+        - shared
+      x-codegen-request-body-name: body
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/access-keys/{accessKey}:
+    get:
+      description: get a MinIO service account access key
+      summary: Get MinIO access key
+      operationId: getServiceAccount
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: MinIO access key
+          in: path
+          name: accessKey
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get MinIO access key success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsServiceAccount'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - rdbms
+        - shared
+    patch:
+      description: update a MinIO service account access key
+      summary: Update MinIO access key
+      operationId: updateServiceAccount
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: MinIO access key
+          in: path
+          name: accessKey
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DmsServiceAccountUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: update MinIO access key success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsServiceAccount'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - rdbms
+        - shared
+      x-codegen-request-body-name: body
+    delete:
+      description: delete a MinIO service account access key
+      summary: Delete MinIO access key
+      operationId: deleteServiceAccount
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: MinIO access key
+          in: path
+          name: accessKey
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when access key is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - rdbms
+        - shared
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/root-password:
     get:
       description: get root account password
@@ -22366,6 +22617,22 @@ components:
         - Normal
         - DisasterRecovery
         - BlueGreenDeployment
+    tag:
+      description: tag info
+      properties:
+        id:
+          description: The id of the tag
+          format: int64
+          type: string
+        key:
+          description: the key of the tag
+          type: string
+        value:
+          description: The value corresponding to the key
+          type: string
+      required:
+        - id
+      type: object
     clusterListItem:
       description: KubeBlocks cluster information
       properties:
@@ -22453,6 +22720,14 @@ components:
         orgName:
           description: Org Name
           type: string
+        project:
+          description: Name of project, it is the alias of environment namespace
+          type: string
+        tags:
+          description: Tags bound to the cluster
+          items:
+            $ref: '#/components/schemas/tag'
+          type: array
       required:
         - cloudProvider
         - createdAt
@@ -23524,22 +23799,6 @@ components:
         taskId:
           type: string
           description: Task ID if the operation is asynchronous (e.g. reconfigure)
-    tag:
-      description: tag info
-      properties:
-        id:
-          description: The id of the tag
-          format: int64
-          type: string
-        key:
-          description: the key of the tag
-          type: string
-        value:
-          description: The value corresponding to the key
-          type: string
-      required:
-        - id
-      type: object
     clusterTags:
       properties:
         clusterId:
@@ -35719,6 +35978,85 @@ components:
         - name
         - role
       type: object
+    DmsServiceAccount:
+      description: MinIO service account access-key
+      type: object
+      properties:
+        userName:
+          type: string
+          description: MinIO user that owns the service account.
+        accessKey:
+          type: string
+          description: Service account access key.
+        secretKey:
+          type: string
+          description: Secret key returned only by create.
+        status:
+          type: string
+          description: Service account status.
+        name:
+          type: string
+          description: Display name of the service account.
+        description:
+          type: string
+          description: Description of the service account.
+        expiration:
+          type: string
+          format: date-time
+          description: Service account expiration time.
+        policy:
+          type: string
+          description: Service account policy text.
+        impliedPolicy:
+          type: boolean
+          description: Whether the policy is implied from the parent user.
+    DmsServiceAccountList:
+      description: MinIO service account access-key list
+      type: array
+      items:
+        $ref: '#/components/schemas/DmsServiceAccount'
+    DmsServiceAccountCreateRequest:
+      description: MinIO service account access-key create request
+      type: object
+      required:
+        - userName
+      properties:
+        userName:
+          type: string
+          description: MinIO user that owns the service account.
+        accessKey:
+          type: string
+          description: Optional fixed access key. If omitted, MinIO generates it.
+        secretKey:
+          type: string
+          description: Optional fixed secret key. If omitted, MinIO generates it.
+        name:
+          type: string
+          description: Display name of the service account.
+        description:
+          type: string
+          description: Description of the service account.
+        expiration:
+          type: string
+          format: date-time
+          description: Optional service account expiration time.
+    DmsServiceAccountStatus:
+      description: MinIO service account status.
+      type: string
+      enum:
+        - enabled
+        - disabled
+    DmsServiceAccountUpdateRequest:
+      description: MinIO service account access-key update request
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/DmsServiceAccountStatus'
+          description: Optional service account status.
+        expiration:
+          type: string
+          format: date-time
+          description: Optional service account expiration time. Use the Unix epoch to clear expiration.
     postgresqlSession:
       type: object
       required:
