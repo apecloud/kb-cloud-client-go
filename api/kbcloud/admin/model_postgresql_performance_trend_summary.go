@@ -11,15 +11,19 @@ import (
 )
 
 type PostgresqlPerformanceTrendSummary struct {
-	Metric      string `json:"metric"`
-	DisplayName string `json:"displayName"`
+	Metric      string               `json:"metric"`
+	DisplayName LocalizedDescription `json:"displayName"`
 	// Metric category. Values are connectionsSessions, workload, resourcePressure, or storagePVC.
-	Category string  `json:"category"`
-	Unit     string  `json:"unit"`
-	Min      float64 `json:"min"`
-	Max      float64 `json:"max"`
-	Avg      float64 `json:"avg"`
-	Latest   float64 `json:"latest"`
+	Category string `json:"category"`
+	Unit     string `json:"unit"`
+	// Optional warning threshold in the same unit as this metric.
+	WarnThreshold *float64 `json:"warnThreshold,omitempty"`
+	// Optional critical threshold in the same unit as this metric.
+	CritThreshold *float64 `json:"critThreshold,omitempty"`
+	Min           float64  `json:"min"`
+	Max           float64  `json:"max"`
+	Avg           float64  `json:"avg"`
+	Latest        float64  `json:"latest"`
 	// Change direction when at least two samples exist. Values are increasing, decreasing, or stable.
 	ChangeDirection *string `json:"changeDirection,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -31,7 +35,7 @@ type PostgresqlPerformanceTrendSummary struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlPerformanceTrendSummary(metric string, displayName string, category string, unit string, min float64, max float64, avg float64, latest float64) *PostgresqlPerformanceTrendSummary {
+func NewPostgresqlPerformanceTrendSummary(metric string, displayName LocalizedDescription, category string, unit string, min float64, max float64, avg float64, latest float64) *PostgresqlPerformanceTrendSummary {
 	this := PostgresqlPerformanceTrendSummary{}
 	this.Metric = metric
 	this.DisplayName = displayName
@@ -76,9 +80,9 @@ func (o *PostgresqlPerformanceTrendSummary) SetMetric(v string) {
 }
 
 // GetDisplayName returns the DisplayName field value.
-func (o *PostgresqlPerformanceTrendSummary) GetDisplayName() string {
+func (o *PostgresqlPerformanceTrendSummary) GetDisplayName() LocalizedDescription {
 	if o == nil {
-		var ret string
+		var ret LocalizedDescription
 		return ret
 	}
 	return o.DisplayName
@@ -86,7 +90,7 @@ func (o *PostgresqlPerformanceTrendSummary) GetDisplayName() string {
 
 // GetDisplayNameOk returns a tuple with the DisplayName field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSummary) GetDisplayNameOk() (*string, bool) {
+func (o *PostgresqlPerformanceTrendSummary) GetDisplayNameOk() (*LocalizedDescription, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -94,7 +98,7 @@ func (o *PostgresqlPerformanceTrendSummary) GetDisplayNameOk() (*string, bool) {
 }
 
 // SetDisplayName sets field value.
-func (o *PostgresqlPerformanceTrendSummary) SetDisplayName(v string) {
+func (o *PostgresqlPerformanceTrendSummary) SetDisplayName(v LocalizedDescription) {
 	o.DisplayName = v
 }
 
@@ -142,6 +146,62 @@ func (o *PostgresqlPerformanceTrendSummary) GetUnitOk() (*string, bool) {
 // SetUnit sets field value.
 func (o *PostgresqlPerformanceTrendSummary) SetUnit(v string) {
 	o.Unit = v
+}
+
+// GetWarnThreshold returns the WarnThreshold field value if set, zero value otherwise.
+func (o *PostgresqlPerformanceTrendSummary) GetWarnThreshold() float64 {
+	if o == nil || o.WarnThreshold == nil {
+		var ret float64
+		return ret
+	}
+	return *o.WarnThreshold
+}
+
+// GetWarnThresholdOk returns a tuple with the WarnThreshold field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PostgresqlPerformanceTrendSummary) GetWarnThresholdOk() (*float64, bool) {
+	if o == nil || o.WarnThreshold == nil {
+		return nil, false
+	}
+	return o.WarnThreshold, true
+}
+
+// HasWarnThreshold returns a boolean if a field has been set.
+func (o *PostgresqlPerformanceTrendSummary) HasWarnThreshold() bool {
+	return o != nil && o.WarnThreshold != nil
+}
+
+// SetWarnThreshold gets a reference to the given float64 and assigns it to the WarnThreshold field.
+func (o *PostgresqlPerformanceTrendSummary) SetWarnThreshold(v float64) {
+	o.WarnThreshold = &v
+}
+
+// GetCritThreshold returns the CritThreshold field value if set, zero value otherwise.
+func (o *PostgresqlPerformanceTrendSummary) GetCritThreshold() float64 {
+	if o == nil || o.CritThreshold == nil {
+		var ret float64
+		return ret
+	}
+	return *o.CritThreshold
+}
+
+// GetCritThresholdOk returns a tuple with the CritThreshold field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PostgresqlPerformanceTrendSummary) GetCritThresholdOk() (*float64, bool) {
+	if o == nil || o.CritThreshold == nil {
+		return nil, false
+	}
+	return o.CritThreshold, true
+}
+
+// HasCritThreshold returns a boolean if a field has been set.
+func (o *PostgresqlPerformanceTrendSummary) HasCritThreshold() bool {
+	return o != nil && o.CritThreshold != nil
+}
+
+// SetCritThreshold gets a reference to the given float64 and assigns it to the CritThreshold field.
+func (o *PostgresqlPerformanceTrendSummary) SetCritThreshold(v float64) {
+	o.CritThreshold = &v
 }
 
 // GetMin returns the Min field value.
@@ -274,6 +334,12 @@ func (o PostgresqlPerformanceTrendSummary) MarshalJSON() ([]byte, error) {
 	toSerialize["displayName"] = o.DisplayName
 	toSerialize["category"] = o.Category
 	toSerialize["unit"] = o.Unit
+	if o.WarnThreshold != nil {
+		toSerialize["warnThreshold"] = o.WarnThreshold
+	}
+	if o.CritThreshold != nil {
+		toSerialize["critThreshold"] = o.CritThreshold
+	}
 	toSerialize["min"] = o.Min
 	toSerialize["max"] = o.Max
 	toSerialize["avg"] = o.Avg
@@ -291,15 +357,17 @@ func (o PostgresqlPerformanceTrendSummary) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PostgresqlPerformanceTrendSummary) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Metric          *string  `json:"metric"`
-		DisplayName     *string  `json:"displayName"`
-		Category        *string  `json:"category"`
-		Unit            *string  `json:"unit"`
-		Min             *float64 `json:"min"`
-		Max             *float64 `json:"max"`
-		Avg             *float64 `json:"avg"`
-		Latest          *float64 `json:"latest"`
-		ChangeDirection *string  `json:"changeDirection,omitempty"`
+		Metric          *string               `json:"metric"`
+		DisplayName     *LocalizedDescription `json:"displayName"`
+		Category        *string               `json:"category"`
+		Unit            *string               `json:"unit"`
+		WarnThreshold   *float64              `json:"warnThreshold,omitempty"`
+		CritThreshold   *float64              `json:"critThreshold,omitempty"`
+		Min             *float64              `json:"min"`
+		Max             *float64              `json:"max"`
+		Avg             *float64              `json:"avg"`
+		Latest          *float64              `json:"latest"`
+		ChangeDirection *string               `json:"changeDirection,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -330,14 +398,21 @@ func (o *PostgresqlPerformanceTrendSummary) UnmarshalJSON(bytes []byte) (err err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"metric", "displayName", "category", "unit", "min", "max", "avg", "latest", "changeDirection"})
+		common.DeleteKeys(additionalProperties, &[]string{"metric", "displayName", "category", "unit", "warnThreshold", "critThreshold", "min", "max", "avg", "latest", "changeDirection"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Metric = *all.Metric
+	if all.DisplayName.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
 	o.DisplayName = *all.DisplayName
 	o.Category = *all.Category
 	o.Unit = *all.Unit
+	o.WarnThreshold = all.WarnThreshold
+	o.CritThreshold = all.CritThreshold
 	o.Min = *all.Min
 	o.Max = *all.Max
 	o.Avg = *all.Avg
@@ -346,6 +421,10 @@ func (o *PostgresqlPerformanceTrendSummary) UnmarshalJSON(bytes []byte) (err err
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

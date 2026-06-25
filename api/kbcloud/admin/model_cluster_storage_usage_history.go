@@ -10,15 +10,15 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ClusterStorageUsageHistory Cluster storage usage history collected from backend-owned fixed metrics.
+// ClusterStorageUsageHistory Per-instance cluster storage usage history collected from backend-owned fixed metrics.
 type ClusterStorageUsageHistory struct {
 	// Requested history range. Supported values are 24h and 7d.
 	TimeRange string `json:"timeRange"`
 	// History query start timestamp in UTC.
 	Start string `json:"start"`
 	// History query end timestamp in UTC.
-	End    string                            `json:"end"`
-	Points []ClusterStorageUsageHistoryPoint `json:"points"`
+	End       string                               `json:"end"`
+	Instances []ClusterStorageUsageHistoryInstance `json:"instances"`
 	// Metrics source used to build the history.
 	Source string `json:"source"`
 	// Backend collection timestamp in UTC.
@@ -32,12 +32,12 @@ type ClusterStorageUsageHistory struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewClusterStorageUsageHistory(timeRange string, start string, end string, points []ClusterStorageUsageHistoryPoint, source string, collectedAt string) *ClusterStorageUsageHistory {
+func NewClusterStorageUsageHistory(timeRange string, start string, end string, instances []ClusterStorageUsageHistoryInstance, source string, collectedAt string) *ClusterStorageUsageHistory {
 	this := ClusterStorageUsageHistory{}
 	this.TimeRange = timeRange
 	this.Start = start
 	this.End = end
-	this.Points = points
+	this.Instances = instances
 	this.Source = source
 	this.CollectedAt = collectedAt
 	return &this
@@ -120,27 +120,27 @@ func (o *ClusterStorageUsageHistory) SetEnd(v string) {
 	o.End = v
 }
 
-// GetPoints returns the Points field value.
-func (o *ClusterStorageUsageHistory) GetPoints() []ClusterStorageUsageHistoryPoint {
+// GetInstances returns the Instances field value.
+func (o *ClusterStorageUsageHistory) GetInstances() []ClusterStorageUsageHistoryInstance {
 	if o == nil {
-		var ret []ClusterStorageUsageHistoryPoint
+		var ret []ClusterStorageUsageHistoryInstance
 		return ret
 	}
-	return o.Points
+	return o.Instances
 }
 
-// GetPointsOk returns a tuple with the Points field value
+// GetInstancesOk returns a tuple with the Instances field value
 // and a boolean to check if the value has been set.
-func (o *ClusterStorageUsageHistory) GetPointsOk() (*[]ClusterStorageUsageHistoryPoint, bool) {
+func (o *ClusterStorageUsageHistory) GetInstancesOk() (*[]ClusterStorageUsageHistoryInstance, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Points, true
+	return &o.Instances, true
 }
 
-// SetPoints sets field value.
-func (o *ClusterStorageUsageHistory) SetPoints(v []ClusterStorageUsageHistoryPoint) {
-	o.Points = v
+// SetInstances sets field value.
+func (o *ClusterStorageUsageHistory) SetInstances(v []ClusterStorageUsageHistoryInstance) {
+	o.Instances = v
 }
 
 // GetSource returns the Source field value.
@@ -198,7 +198,7 @@ func (o ClusterStorageUsageHistory) MarshalJSON() ([]byte, error) {
 	toSerialize["timeRange"] = o.TimeRange
 	toSerialize["start"] = o.Start
 	toSerialize["end"] = o.End
-	toSerialize["points"] = o.Points
+	toSerialize["instances"] = o.Instances
 	toSerialize["source"] = o.Source
 	toSerialize["collectedAt"] = o.CollectedAt
 
@@ -211,12 +211,12 @@ func (o ClusterStorageUsageHistory) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterStorageUsageHistory) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		TimeRange   *string                            `json:"timeRange"`
-		Start       *string                            `json:"start"`
-		End         *string                            `json:"end"`
-		Points      *[]ClusterStorageUsageHistoryPoint `json:"points"`
-		Source      *string                            `json:"source"`
-		CollectedAt *string                            `json:"collectedAt"`
+		TimeRange   *string                               `json:"timeRange"`
+		Start       *string                               `json:"start"`
+		End         *string                               `json:"end"`
+		Instances   *[]ClusterStorageUsageHistoryInstance `json:"instances"`
+		Source      *string                               `json:"source"`
+		CollectedAt *string                               `json:"collectedAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -230,8 +230,8 @@ func (o *ClusterStorageUsageHistory) UnmarshalJSON(bytes []byte) (err error) {
 	if all.End == nil {
 		return fmt.Errorf("required field end missing")
 	}
-	if all.Points == nil {
-		return fmt.Errorf("required field points missing")
+	if all.Instances == nil {
+		return fmt.Errorf("required field instances missing")
 	}
 	if all.Source == nil {
 		return fmt.Errorf("required field source missing")
@@ -241,14 +241,14 @@ func (o *ClusterStorageUsageHistory) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"timeRange", "start", "end", "points", "source", "collectedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"timeRange", "start", "end", "instances", "source", "collectedAt"})
 	} else {
 		return err
 	}
 	o.TimeRange = *all.TimeRange
 	o.Start = *all.Start
 	o.End = *all.End
-	o.Points = *all.Points
+	o.Instances = *all.Instances
 	o.Source = *all.Source
 	o.CollectedAt = *all.CollectedAt
 

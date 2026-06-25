@@ -4857,6 +4857,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: databaseName
+          in: query
+          description: Optional database name for selected table, index, and TOAST details. When omitted, the backend selects the largest connectable non-template database.
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -4870,6 +4876,8 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/performanceTrends:
@@ -8967,6 +8975,491 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DmsResult'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/context:
+    get:
+      tags:
+        - dms
+      operationId: getRedisContext
+      summary: get Redis datasource data-management context
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisDataContext'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/keys:
+    get:
+      tags:
+        - dms
+      operationId: listRedisKeys
+      summary: list Redis key summaries by SCAN cursor
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: pattern
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: separator
+          in: query
+          required: false
+          schema:
+            type: string
+            default: ':'
+        - name: nodeId
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisKeySummaryList'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/key/detail:
+    post:
+      tags:
+        - dms
+      operationId: getRedisKeyDetail
+      summary: get Redis key detail
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedisKeyDetailRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisKeyDetail'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/key/mutate:
+    post:
+      tags:
+        - dms
+      operationId: mutateRedisKey
+      summary: mutate Redis key data or metadata
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedisKeyMutateRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisKeyMutateResponse'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/workbench/execute:
+    post:
+      tags:
+        - dms
+      operationId: executeRedisWorkbenchCommand
+      summary: execute a Redis Workbench command
+      description: Executes a Redis command for the current datasource context. Follow-up implementation should record command history in datasource query_history with engine=redis; no Redis-specific history API is introduced by this contract.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedisWorkbenchExecuteRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisWorkbenchExecuteResponse'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/pubsub/publish:
+    post:
+      tags:
+        - dms
+      operationId: publishRedisMessage
+      summary: publish a Redis Pub/Sub message
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedisPubSubPublishRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisOperationSummary'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/pubsub/sessions:
+    post:
+      tags:
+        - dms
+      operationId: createRedisPubSubSession
+      summary: create a Redis Pub/Sub polling session
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedisPubSubSessionCreateRequest'
+        required: true
+      responses:
+        '201':
+          description: session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisPubSubSession'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/pubsub/sessions/{sessionId}/messages:
+    get:
+      tags:
+        - dms
+      operationId: listRedisPubSubMessages
+      summary: list messages from a Redis Pub/Sub polling session
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisPubSubMessageList'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/pubsub/sessions/{sessionId}:
+    delete:
+      tags:
+        - dms
+      operationId: closeRedisPubSubSession
+      summary: close a Redis Pub/Sub polling session
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: session closed
+          content: {}
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/slowlog:
+    get:
+      tags:
+        - dms
+      operationId: listRedisSlowLog
+      summary: list Redis slow log entries
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: nodeId
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisSlowLogList'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/slowlog/reset:
+    post:
+      tags:
+        - dms
+      operationId: resetRedisSlowLog
+      summary: reset Redis slow log
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedisDangerousOperationRequest'
+        required: false
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisOperationSummary'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/info:
+    get:
+      tags:
+        - dms
+      operationId: getRedisInfo
+      summary: get Redis INFO output by section
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: section
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: nodeId
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisInfoResponse'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/cluster/topology:
+    get:
+      tags:
+        - dms
+      operationId: getRedisClusterTopology
+      summary: get Redis Cluster topology
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisClusterTopology'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases:
     get:
       tags:
@@ -14006,6 +14499,257 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+      tags:
+        - account
+        - rdbms
+        - shared
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/access-keys:
+    get:
+      description: list MinIO service account access keys
+      summary: List MinIO access keys
+      operationId: listServiceAccounts
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: MinIO user that owns the service accounts
+          in: query
+          name: userName
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list MinIO access keys success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsServiceAccountList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - rdbms
+        - shared
+    post:
+      description: create a MinIO service account access key
+      summary: Create MinIO access key
+      operationId: createServiceAccount
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DmsServiceAccountCreateRequest'
+        required: true
+      responses:
+        '201':
+          description: create MinIO access key success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsServiceAccount'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - rdbms
+        - shared
+      x-codegen-request-body-name: body
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/access-keys/{accessKey}:
+    get:
+      description: get a MinIO service account access key
+      summary: Get MinIO access key
+      operationId: getServiceAccount
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: MinIO access key
+          in: path
+          name: accessKey
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get MinIO access key success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsServiceAccount'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - rdbms
+        - shared
+    patch:
+      description: update a MinIO service account access key
+      summary: Update MinIO access key
+      operationId: updateServiceAccount
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: MinIO access key
+          in: path
+          name: accessKey
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DmsServiceAccountUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: update MinIO access key success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsServiceAccount'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - rdbms
+        - shared
+      x-codegen-request-body-name: body
+    delete:
+      description: delete a MinIO service account access key
+      summary: Delete MinIO access key
+      operationId: deleteServiceAccount
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: MinIO access key
+          in: path
+          name: accessKey
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when access key is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - account
         - rdbms
@@ -21814,32 +22558,56 @@ components:
           type: boolean
         indexListTruncated:
           type: boolean
-    postgresqlStorageOverview:
+    postgresqlStorageInstanceUsage:
       type: object
-      required:
-        - source
       properties:
+        instanceName:
+          type: string
+          description: Kubernetes pod name for this PostgreSQL replica storage sample.
+        pvcName:
+          type: string
+          description: PersistentVolumeClaim name when it can be read from metrics labels.
+        role:
+          type: string
+          description: Raw PostgreSQL replica role value read from metrics labels, kept aligned with instance detail display.
+        componentName:
+          type: string
+          description: Optional KubeBlocks component name when it can be read from metrics labels.
         totalBytes:
           type: integer
           format: int64
-          description: Current total PVC capacity in bytes when backend-owned metrics are available.
+          description: Physical PVC capacity in bytes for this replica storage sample.
         usedBytes:
           type: integer
           format: int64
-          description: Current PVC used bytes when backend-owned metrics are available.
+          description: Physical PVC used bytes for this replica storage sample.
         availableBytes:
           type: integer
           format: int64
-          description: Current available PVC bytes derived from totalBytes - usedBytes when both values are available.
+          description: Available bytes derived from totalBytes - usedBytes when both values are available.
         usageRatio:
           type: number
           format: double
-          description: Current usedBytes / totalBytes ratio when both values are available.
+          nullable: true
+          description: usedBytes / totalBytes for this replica storage sample when both values are available.
         updatedAt:
           type: string
           description: Metrics collection timestamp in UTC.
         source:
           type: string
+    postgresqlStorageOverview:
+      type: object
+      required:
+        - source
+        - instances
+      properties:
+        source:
+          type: string
+        instances:
+          type: array
+          description: Physical PostgreSQL replica storage usage split by pod/PVC/role.
+          items:
+            $ref: '#/components/schemas/postgresqlStorageInstanceUsage'
     postgresqlDatabaseSpace:
       type: object
       properties:
@@ -21970,6 +22738,7 @@ components:
         - summary
         - storageOverview
         - databases
+        - selectedDatabase
         - tables
         - indexes
         - toastRelations
@@ -21982,18 +22751,25 @@ components:
           $ref: '#/components/schemas/postgresqlStorageOverview'
         databases:
           type: array
+          description: Sizes of all connectable non-template databases in the PostgreSQL instance.
           items:
             $ref: '#/components/schemas/postgresqlDatabaseSpace'
+        selectedDatabase:
+          type: string
+          description: Database used for tables, indexes, and toastRelations in this response.
         tables:
           type: array
+          description: Top tables from selectedDatabase.
           items:
             $ref: '#/components/schemas/postgresqlTableSpace'
         indexes:
           type: array
+          description: Top indexes from selectedDatabase.
           items:
             $ref: '#/components/schemas/postgresqlIndexSpace'
         toastRelations:
           type: array
+          description: Toast relations derived from selectedDatabase table space data.
           items:
             $ref: '#/components/schemas/postgresqlToastRelationSpace'
         sources:
@@ -22036,12 +22812,20 @@ components:
         metric:
           type: string
         displayName:
-          type: string
+          $ref: '#/components/schemas/localizedDescription'
         category:
           type: string
           description: Metric category. Values are connectionsSessions, workload, resourcePressure, or storagePVC.
         unit:
           type: string
+        warnThreshold:
+          type: number
+          format: double
+          description: Optional warning threshold in the same unit as this metric.
+        critThreshold:
+          type: number
+          format: double
+          description: Optional critical threshold in the same unit as this metric.
         min:
           type: number
           format: double
@@ -22080,12 +22864,20 @@ components:
         metric:
           type: string
         displayName:
-          type: string
+          $ref: '#/components/schemas/localizedDescription'
         category:
           type: string
           description: Metric category. Values are connectionsSessions, workload, resourcePressure, or storagePVC.
         unit:
           type: string
+        warnThreshold:
+          type: number
+          format: double
+          description: Optional warning threshold in the same unit as this metric.
+        critThreshold:
+          type: number
+          format: double
+          description: Optional critical threshold in the same unit as this metric.
         points:
           type: array
           items:
@@ -22323,6 +23115,7 @@ components:
         - timestamp
         - usedBytes
         - totalBytes
+        - availableBytes
         - usageRatio
       properties:
         timestamp:
@@ -22333,17 +23126,43 @@ components:
         totalBytes:
           type: integer
           format: int64
+        availableBytes:
+          type: integer
+          format: int64
         usageRatio:
           type: number
           format: double
+    clusterStorageUsageHistoryInstance:
+      type: object
+      required:
+        - points
+      properties:
+        instanceName:
+          type: string
+          description: Kubernetes pod name for this storage usage series.
+        pvcName:
+          type: string
+          description: PersistentVolumeClaim name when it can be read from metrics labels.
+        role:
+          type: string
+          description: Raw database replica role value read from metrics labels, kept aligned with instance detail display.
+        componentName:
+          type: string
+          description: Optional KubeBlocks component name when it can be read from metrics labels.
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterStorageUsageHistoryPoint'
+        source:
+          type: string
     clusterStorageUsageHistory:
       type: object
-      description: Cluster storage usage history collected from backend-owned fixed metrics.
+      description: Per-instance cluster storage usage history collected from backend-owned fixed metrics.
       required:
         - timeRange
         - start
         - end
-        - points
+        - instances
         - source
         - collectedAt
       properties:
@@ -22356,10 +23175,10 @@ components:
         end:
           type: string
           description: History query end timestamp in UTC.
-        points:
+        instances:
           type: array
           items:
-            $ref: '#/components/schemas/clusterStorageUsageHistoryPoint'
+            $ref: '#/components/schemas/clusterStorageUsageHistoryInstance'
         source:
           type: string
           description: Metrics source used to build the history.
@@ -24611,6 +25430,9 @@ components:
         supportLock:
           type: boolean
           description: Whether the engine supports account lock and unlock actions.
+        supportServiceAccount:
+          type: boolean
+          description: Whether the engine supports service account access-key management.
         protectedAccounts:
           type: array
           description: Account names that are protected from update, delete, lock, and unlock actions.
@@ -27261,6 +28083,473 @@ components:
           type: integer
           description: return limited number of data
           nullable: true
+    RedisACLContext:
+      type: object
+      properties:
+        user:
+          type: string
+          description: Redis ACL user bound to the datasource.
+        aclRules:
+          type: string
+          description: Raw ACL rule text returned by Redis ACL LIST/GETUSER when available.
+        keyPatterns:
+          type: array
+          description: Key patterns the datasource ACL user is allowed to access.
+          items:
+            type: string
+        channelPatterns:
+          type: array
+          description: Pub/Sub channel patterns the datasource ACL user is allowed to access.
+          items:
+            type: string
+        commandRules:
+          type: array
+          description: Command allow/deny rules for the datasource ACL user.
+          items:
+            type: string
+    RedisCapability:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          x-omitempty: false
+        reason:
+          type: string
+    RedisDataCapabilities:
+      type: object
+      properties:
+        browser:
+          $ref: '#/components/schemas/RedisCapability'
+        workbench:
+          $ref: '#/components/schemas/RedisCapability'
+        pubsub:
+          $ref: '#/components/schemas/RedisCapability'
+        slowLog:
+          $ref: '#/components/schemas/RedisCapability'
+        info:
+          $ref: '#/components/schemas/RedisCapability'
+        cluster:
+          $ref: '#/components/schemas/RedisCapability'
+        write:
+          $ref: '#/components/schemas/RedisCapability'
+        delete:
+          $ref: '#/components/schemas/RedisCapability'
+        json:
+          $ref: '#/components/schemas/RedisCapability'
+    RedisClusterNode:
+      type: object
+      properties:
+        nodeId:
+          type: string
+        address:
+          type: string
+        role:
+          type: string
+        shardId:
+          type: string
+        reachable:
+          type: boolean
+          x-omitempty: false
+    RedisClusterState:
+      type: object
+      properties:
+        ready:
+          type: boolean
+          x-omitempty: false
+        reason:
+          type: string
+          description: reason code when cluster data management is not ready, for example requires_redis_cluster_mirror
+        networkMode:
+          type: string
+        mirrorReady:
+          type: boolean
+          x-omitempty: false
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedisClusterNode'
+    RedisDataContext:
+      type: object
+      properties:
+        datasourceName:
+          type: string
+        aclUser:
+          type: string
+          description: Redis ACL user name. Prefer acl.user for new clients.
+        acl:
+          $ref: '#/components/schemas/RedisACLContext'
+        dbIndex:
+          type: integer
+          format: int64
+        mode:
+          type: string
+          description: Redis architecture mode, such as standalone, replication, sentinel, or cluster
+        readOnly:
+          type: boolean
+          x-omitempty: false
+        capabilities:
+          $ref: '#/components/schemas/RedisDataCapabilities'
+        cluster:
+          $ref: '#/components/schemas/RedisClusterState'
+    RedisKeySummary:
+      type: object
+      properties:
+        key:
+          type: string
+        type:
+          type: string
+        ttl:
+          type: integer
+          format: int64
+          description: key TTL in seconds; -1 means no expiration and -2 means missing key
+        memory:
+          type: integer
+          format: int64
+          description: memory usage in bytes when available
+        length:
+          type: integer
+          format: int64
+        encoding:
+          type: string
+        slot:
+          type: integer
+          format: int64
+        nodeId:
+          type: string
+        aclAccess:
+          type: string
+          description: datasource ACL access result for this key
+    RedisKeySummaryList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedisKeySummary'
+        nextCursor:
+          type: string
+          description: Cursor for the next SCAN page. Empty or "0" means the scan is complete.
+        hasMore:
+          type: boolean
+          description: Whether another key page should be requested.
+          x-omitempty: false
+    RedisKeyDetailRequest:
+      type: object
+      required:
+        - key
+      properties:
+        dbIndex:
+          type: integer
+          format: int64
+        key:
+          type: string
+        valueCursor:
+          type: string
+        offset:
+          type: integer
+          format: int64
+        limit:
+          type: integer
+          format: int64
+        jsonPath:
+          type: string
+    RedisKeyValueItem:
+      type: object
+      description: Stable Redis collection item shape. Fields are populated according to Redis value type.
+      properties:
+        field:
+          type: string
+          description: Hash field name.
+        value:
+          type: object
+          description: Hash/list/set/json item value.
+          additionalProperties: true
+        member:
+          type: string
+          description: Set or sorted-set member.
+        score:
+          type: number
+          format: double
+          description: Sorted-set score.
+        id:
+          type: string
+          description: Stream entry ID.
+        fields:
+          type: object
+          description: Stream entry field/value map.
+          additionalProperties:
+            type: string
+        index:
+          type: integer
+          format: int64
+          description: List item index when available.
+    RedisKeyValue:
+      type: object
+      description: Discriminated Redis key value payload for string, hash, list, set, zset, stream, and json editors.
+      properties:
+        type:
+          type: string
+          description: Redis value type, such as string, hash, list, set, zset, stream, or json.
+        text:
+          type: string
+          description: String or serialized scalar value for string/json previews.
+        items:
+          type: array
+          description: Paged collection items for hash, list, set, zset, stream, and json collection previews.
+          items:
+            $ref: '#/components/schemas/RedisKeyValueItem'
+        cursor:
+          type: string
+          description: Cursor for the next value page. Empty or "0" means the value page is complete.
+        offset:
+          type: integer
+          format: int64
+          description: Offset used by offset-based value pagination.
+        limit:
+          type: integer
+          format: int64
+          description: Maximum number of value items returned.
+        truncated:
+          type: boolean
+          description: Whether the returned value is truncated by size or item limit.
+          x-omitempty: false
+        jsonPath:
+          type: string
+          description: JSON path used for the returned JSON value.
+    RedisKeyDetail:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/RedisKeySummary'
+        value:
+          $ref: '#/components/schemas/RedisKeyValue'
+        nextCursor:
+          type: string
+    RedisKeyMutateRequest:
+      type: object
+      required:
+        - key
+        - operation
+      properties:
+        key:
+          type: string
+        expectedType:
+          type: string
+        operation:
+          type: string
+          description: Redis key mutation operation, such as set, hset, hdel, lset, lpush, rpush, sadd, srem, zadd, zrem, xadd, xtrim, json_set, json_del, expire, persist, rename, or delete
+        payload:
+          type: object
+          additionalProperties: true
+        confirm:
+          type: boolean
+          x-omitempty: false
+    RedisOperationStatus:
+      type: string
+      enum:
+        - success
+        - error
+        - blocked
+    RedisOperationGuard:
+      type: object
+      properties:
+        aclAllowed:
+          type: boolean
+          x-omitempty: false
+        crossSlot:
+          type: boolean
+          x-omitempty: false
+        dangerous:
+          type: boolean
+          x-omitempty: false
+        reason:
+          type: string
+    RedisOperationSummary:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/RedisOperationStatus'
+        message:
+          type: string
+        affected:
+          type: integer
+          format: int64
+        durationMs:
+          type: integer
+          format: int64
+        guard:
+          $ref: '#/components/schemas/RedisOperationGuard'
+    RedisKeyMutateResponse:
+      type: object
+      properties:
+        operationSummary:
+          $ref: '#/components/schemas/RedisOperationSummary'
+        metadata:
+          $ref: '#/components/schemas/RedisKeySummary'
+        valuePreview:
+          $ref: '#/components/schemas/RedisKeyValue'
+    RedisWorkbenchExecuteRequest:
+      type: object
+      required:
+        - command
+      properties:
+        command:
+          type: string
+        confirmDangerous:
+          type: boolean
+          x-omitempty: false
+    RedisWorkbenchExecuteResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/RedisOperationStatus'
+        durationMs:
+          type: integer
+          format: int64
+        result:
+          type: object
+          additionalProperties: true
+        guard:
+          $ref: '#/components/schemas/RedisOperationGuard'
+        nodeId:
+          type: string
+        slot:
+          type: integer
+          format: int64
+    RedisPubSubPublishRequest:
+      type: object
+      required:
+        - channel
+        - message
+      properties:
+        channel:
+          type: string
+        message:
+          type: string
+    RedisPubSubSessionCreateRequest:
+      type: object
+      properties:
+        channels:
+          type: array
+          items:
+            type: string
+        patterns:
+          type: array
+          items:
+            type: string
+    RedisPubSubSession:
+      type: object
+      properties:
+        sessionId:
+          type: string
+        channels:
+          type: array
+          items:
+            type: string
+        patterns:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+    RedisPubSubMessage:
+      type: object
+      properties:
+        channel:
+          type: string
+        pattern:
+          type: string
+        message:
+          type: string
+        receivedAt:
+          type: string
+          format: date-time
+    RedisPubSubMessageList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedisPubSubMessage'
+        nextCursor:
+          type: string
+    RedisSlowLogEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        timestamp:
+          type: integer
+          format: int64
+        durationMicros:
+          type: integer
+          format: int64
+        command:
+          type: string
+        clientAddr:
+          type: string
+        clientName:
+          type: string
+        nodeId:
+          type: string
+    RedisSlowLogList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedisSlowLogEntry'
+    RedisDangerousOperationRequest:
+      type: object
+      properties:
+        confirmDangerous:
+          type: boolean
+          x-omitempty: false
+    RedisInfoResponse:
+      type: object
+      properties:
+        section:
+          type: string
+        nodeId:
+          type: string
+        raw:
+          type: string
+        values:
+          type: object
+          additionalProperties: true
+    RedisClusterSlot:
+      type: object
+      properties:
+        start:
+          type: integer
+          format: int64
+        end:
+          type: integer
+          format: int64
+        primaryNodeId:
+          type: string
+        replicaNodeIds:
+          type: array
+          items:
+            type: string
+    RedisClusterTopology:
+      type: object
+      properties:
+        ready:
+          type: boolean
+          x-omitempty: false
+        reason:
+          type: string
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedisClusterNode'
+        slots:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedisClusterSlot'
     MongoDatabaseInfo:
       type: object
       properties:
@@ -29502,6 +30791,85 @@ components:
       required:
         - name
       type: object
+    DmsServiceAccount:
+      description: MinIO service account access-key
+      type: object
+      properties:
+        userName:
+          type: string
+          description: MinIO user that owns the service account.
+        accessKey:
+          type: string
+          description: Service account access key.
+        secretKey:
+          type: string
+          description: Secret key returned only by create.
+        status:
+          type: string
+          description: Service account status.
+        name:
+          type: string
+          description: Display name of the service account.
+        description:
+          type: string
+          description: Description of the service account.
+        expiration:
+          type: string
+          format: date-time
+          description: Service account expiration time.
+        policy:
+          type: string
+          description: Service account policy text.
+        impliedPolicy:
+          type: boolean
+          description: Whether the policy is implied from the parent user.
+    DmsServiceAccountList:
+      description: MinIO service account access-key list
+      type: array
+      items:
+        $ref: '#/components/schemas/DmsServiceAccount'
+    DmsServiceAccountCreateRequest:
+      description: MinIO service account access-key create request
+      type: object
+      required:
+        - userName
+      properties:
+        userName:
+          type: string
+          description: MinIO user that owns the service account.
+        accessKey:
+          type: string
+          description: Optional fixed access key. If omitted, MinIO generates it.
+        secretKey:
+          type: string
+          description: Optional fixed secret key. If omitted, MinIO generates it.
+        name:
+          type: string
+          description: Display name of the service account.
+        description:
+          type: string
+          description: Description of the service account.
+        expiration:
+          type: string
+          format: date-time
+          description: Optional service account expiration time.
+    DmsServiceAccountStatus:
+      description: MinIO service account status.
+      type: string
+      enum:
+        - enabled
+        - disabled
+    DmsServiceAccountUpdateRequest:
+      description: MinIO service account access-key update request
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/DmsServiceAccountStatus'
+          description: Optional service account status.
+        expiration:
+          type: string
+          format: date-time
+          description: Optional service account expiration time. Use the Unix epoch to clear expiration.
     dbTDERequest:
       type: object
       properties:

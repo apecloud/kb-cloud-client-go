@@ -303,14 +303,39 @@ func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSessionLockAnalysis(ctx _contex
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetDiagnosticsPostgresqlSpaceAnalysisOptionalParameters holds optional parameters for GetDiagnosticsPostgresqlSpaceAnalysis.
+type GetDiagnosticsPostgresqlSpaceAnalysisOptionalParameters struct {
+	DatabaseName *string
+}
+
+// NewGetDiagnosticsPostgresqlSpaceAnalysisOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsPostgresqlSpaceAnalysisOptionalParameters() *GetDiagnosticsPostgresqlSpaceAnalysisOptionalParameters {
+	this := GetDiagnosticsPostgresqlSpaceAnalysisOptionalParameters{}
+	return &this
+}
+
+// WithDatabaseName sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSpaceAnalysisOptionalParameters) WithDatabaseName(databaseName string) *GetDiagnosticsPostgresqlSpaceAnalysisOptionalParameters {
+	r.DatabaseName = &databaseName
+	return r
+}
+
 // GetDiagnosticsPostgresqlSpaceAnalysis Get PostgreSQL space analysis.
 // Get a read-only PostgreSQL space snapshot from DMS and fixed backend-owned storage metrics. The response does not expose SQL, PromQL, storage history, or remediation actions.
-func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSpaceAnalysis(ctx _context.Context, orgName string, clusterName string) (PostgresqlSpaceAnalysis, *_nethttp.Response, error) {
+func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSpaceAnalysis(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsPostgresqlSpaceAnalysisOptionalParameters) (PostgresqlSpaceAnalysis, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue PostgresqlSpaceAnalysis
+		optionalParams      GetDiagnosticsPostgresqlSpaceAnalysisOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsPostgresqlSpaceAnalysisOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -333,6 +358,9 @@ func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSpaceAnalysis(ctx _context.Cont
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.DatabaseName != nil {
+		localVarQueryParams.Add("databaseName", common.ParameterToString(*optionalParams.DatabaseName, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -360,7 +388,7 @@ func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSpaceAnalysis(ctx _context.Cont
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
