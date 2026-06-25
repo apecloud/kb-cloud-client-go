@@ -19941,7 +19941,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/postgresqlPerformanceTrends'
+                $ref: '#/components/schemas/performanceTrends'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -37370,7 +37370,7 @@ components:
         collectedAt:
           type: string
           description: Backend collection timestamp in UTC.
-    postgresqlPerformanceTrendRange:
+    performanceTrendRange:
       type: object
       required:
         - label
@@ -37388,7 +37388,7 @@ components:
         durationSeconds:
           type: integer
           format: int64
-    postgresqlPerformanceTrendSummary:
+    performanceTrendSummary:
       type: object
       required:
         - metric
@@ -37443,7 +37443,7 @@ components:
         changeDirection:
           type: string
           description: Change direction when at least two samples exist. Values are increasing, decreasing, or stable.
-    postgresqlPerformanceTrendPoint:
+    performanceTrendPoint:
       type: object
       required:
         - timestamp
@@ -37454,7 +37454,7 @@ components:
         value:
           type: number
           format: double
-    postgresqlPerformanceTrendSeries:
+    performanceTrendSeries:
       type: object
       required:
         - metric
@@ -37494,8 +37494,8 @@ components:
         points:
           type: array
           items:
-            $ref: '#/components/schemas/postgresqlPerformanceTrendPoint'
-    postgresqlPerformanceTrendSource:
+            $ref: '#/components/schemas/performanceTrendPoint'
+    performanceTrendSource:
       type: object
       required:
         - name
@@ -37514,7 +37514,7 @@ components:
           type: string
         message:
           type: string
-    postgresqlPerformanceTrends:
+    performanceTrends:
       type: object
       required:
         - range
@@ -37526,7 +37526,7 @@ components:
         - collectedAt
       properties:
         range:
-          $ref: '#/components/schemas/postgresqlPerformanceTrendRange'
+          $ref: '#/components/schemas/performanceTrendRange'
         granularity:
           type: string
           description: Controlled backend query step.
@@ -37534,17 +37534,17 @@ components:
           type: array
           description: Per-series numeric summary. changeDirection is present only when at least two points exist.
           items:
-            $ref: '#/components/schemas/postgresqlPerformanceTrendSummary'
+            $ref: '#/components/schemas/performanceTrendSummary'
         series:
           type: array
           description: Successfully collected and displayable metric series only. Unsupported, empty, or failed metrics are not represented as per-metric entries.
           items:
-            $ref: '#/components/schemas/postgresqlPerformanceTrendSeries'
+            $ref: '#/components/schemas/performanceTrendSeries'
         sources:
           type: array
           description: Coarse collection source status. Messages are sanitized and do not expose PromQL, endpoints, credentials, or raw internal errors.
           items:
-            $ref: '#/components/schemas/postgresqlPerformanceTrendSource'
+            $ref: '#/components/schemas/performanceTrendSource'
         warnings:
           type: array
           items:

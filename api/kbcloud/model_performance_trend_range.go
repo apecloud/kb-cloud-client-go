@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type PostgresqlPerformanceTrendRange struct {
+type PerformanceTrendRange struct {
 	// Controlled query range label. Values are 1h, 6h, or 24h.
 	Label           string `json:"label"`
 	Start           string `json:"start"`
@@ -21,12 +21,12 @@ type PostgresqlPerformanceTrendRange struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewPostgresqlPerformanceTrendRange instantiates a new PostgresqlPerformanceTrendRange object.
+// NewPerformanceTrendRange instantiates a new PerformanceTrendRange object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlPerformanceTrendRange(label string, start string, end string, durationSeconds int64) *PostgresqlPerformanceTrendRange {
-	this := PostgresqlPerformanceTrendRange{}
+func NewPerformanceTrendRange(label string, start string, end string, durationSeconds int64) *PerformanceTrendRange {
+	this := PerformanceTrendRange{}
 	this.Label = label
 	this.Start = start
 	this.End = end
@@ -34,16 +34,16 @@ func NewPostgresqlPerformanceTrendRange(label string, start string, end string, 
 	return &this
 }
 
-// NewPostgresqlPerformanceTrendRangeWithDefaults instantiates a new PostgresqlPerformanceTrendRange object.
+// NewPerformanceTrendRangeWithDefaults instantiates a new PerformanceTrendRange object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewPostgresqlPerformanceTrendRangeWithDefaults() *PostgresqlPerformanceTrendRange {
-	this := PostgresqlPerformanceTrendRange{}
+func NewPerformanceTrendRangeWithDefaults() *PerformanceTrendRange {
+	this := PerformanceTrendRange{}
 	return &this
 }
 
 // GetLabel returns the Label field value.
-func (o *PostgresqlPerformanceTrendRange) GetLabel() string {
+func (o *PerformanceTrendRange) GetLabel() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -53,7 +53,7 @@ func (o *PostgresqlPerformanceTrendRange) GetLabel() string {
 
 // GetLabelOk returns a tuple with the Label field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendRange) GetLabelOk() (*string, bool) {
+func (o *PerformanceTrendRange) GetLabelOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -61,12 +61,12 @@ func (o *PostgresqlPerformanceTrendRange) GetLabelOk() (*string, bool) {
 }
 
 // SetLabel sets field value.
-func (o *PostgresqlPerformanceTrendRange) SetLabel(v string) {
+func (o *PerformanceTrendRange) SetLabel(v string) {
 	o.Label = v
 }
 
 // GetStart returns the Start field value.
-func (o *PostgresqlPerformanceTrendRange) GetStart() string {
+func (o *PerformanceTrendRange) GetStart() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -76,7 +76,7 @@ func (o *PostgresqlPerformanceTrendRange) GetStart() string {
 
 // GetStartOk returns a tuple with the Start field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendRange) GetStartOk() (*string, bool) {
+func (o *PerformanceTrendRange) GetStartOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -84,12 +84,12 @@ func (o *PostgresqlPerformanceTrendRange) GetStartOk() (*string, bool) {
 }
 
 // SetStart sets field value.
-func (o *PostgresqlPerformanceTrendRange) SetStart(v string) {
+func (o *PerformanceTrendRange) SetStart(v string) {
 	o.Start = v
 }
 
 // GetEnd returns the End field value.
-func (o *PostgresqlPerformanceTrendRange) GetEnd() string {
+func (o *PerformanceTrendRange) GetEnd() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -99,7 +99,7 @@ func (o *PostgresqlPerformanceTrendRange) GetEnd() string {
 
 // GetEndOk returns a tuple with the End field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendRange) GetEndOk() (*string, bool) {
+func (o *PerformanceTrendRange) GetEndOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -107,12 +107,12 @@ func (o *PostgresqlPerformanceTrendRange) GetEndOk() (*string, bool) {
 }
 
 // SetEnd sets field value.
-func (o *PostgresqlPerformanceTrendRange) SetEnd(v string) {
+func (o *PerformanceTrendRange) SetEnd(v string) {
 	o.End = v
 }
 
 // GetDurationSeconds returns the DurationSeconds field value.
-func (o *PostgresqlPerformanceTrendRange) GetDurationSeconds() int64 {
+func (o *PerformanceTrendRange) GetDurationSeconds() int64 {
 	if o == nil {
 		var ret int64
 		return ret
@@ -122,7 +122,7 @@ func (o *PostgresqlPerformanceTrendRange) GetDurationSeconds() int64 {
 
 // GetDurationSecondsOk returns a tuple with the DurationSeconds field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendRange) GetDurationSecondsOk() (*int64, bool) {
+func (o *PerformanceTrendRange) GetDurationSecondsOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -130,12 +130,12 @@ func (o *PostgresqlPerformanceTrendRange) GetDurationSecondsOk() (*int64, bool) 
 }
 
 // SetDurationSeconds sets field value.
-func (o *PostgresqlPerformanceTrendRange) SetDurationSeconds(v int64) {
+func (o *PerformanceTrendRange) SetDurationSeconds(v int64) {
 	o.DurationSeconds = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o PostgresqlPerformanceTrendRange) MarshalJSON() ([]byte, error) {
+func (o PerformanceTrendRange) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -152,7 +152,7 @@ func (o PostgresqlPerformanceTrendRange) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *PostgresqlPerformanceTrendRange) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PerformanceTrendRange) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Label           *string `json:"label"`
 		Start           *string `json:"start"`

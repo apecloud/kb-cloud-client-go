@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"fmt"
@@ -10,17 +10,17 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type PostgresqlPerformanceTrends struct {
-	Range PostgresqlPerformanceTrendRange `json:"range"`
+type PerformanceTrends struct {
+	Range PerformanceTrendRange `json:"range"`
 	// Controlled backend query step.
 	Granularity string `json:"granularity"`
 	// Per-series numeric summary. changeDirection is present only when at least two points exist.
-	Summary []PostgresqlPerformanceTrendSummary `json:"summary"`
+	Summary []PerformanceTrendSummary `json:"summary"`
 	// Successfully collected and displayable metric series only. Unsupported, empty, or failed metrics are not represented as per-metric entries.
-	Series []PostgresqlPerformanceTrendSeries `json:"series"`
+	Series []PerformanceTrendSeries `json:"series"`
 	// Coarse collection source status. Messages are sanitized and do not expose PromQL, endpoints, credentials, or raw internal errors.
-	Sources  []PostgresqlPerformanceTrendSource `json:"sources"`
-	Warnings []string                           `json:"warnings"`
+	Sources  []PerformanceTrendSource `json:"sources"`
+	Warnings []string                 `json:"warnings"`
 	// Backend collection timestamp in UTC.
 	CollectedAt string `json:"collectedAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -28,12 +28,12 @@ type PostgresqlPerformanceTrends struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewPostgresqlPerformanceTrends instantiates a new PostgresqlPerformanceTrends object.
+// NewPerformanceTrends instantiates a new PerformanceTrends object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlPerformanceTrends(rangeVar PostgresqlPerformanceTrendRange, granularity string, summary []PostgresqlPerformanceTrendSummary, series []PostgresqlPerformanceTrendSeries, sources []PostgresqlPerformanceTrendSource, warnings []string, collectedAt string) *PostgresqlPerformanceTrends {
-	this := PostgresqlPerformanceTrends{}
+func NewPerformanceTrends(rangeVar PerformanceTrendRange, granularity string, summary []PerformanceTrendSummary, series []PerformanceTrendSeries, sources []PerformanceTrendSource, warnings []string, collectedAt string) *PerformanceTrends {
+	this := PerformanceTrends{}
 	this.Range = rangeVar
 	this.Granularity = granularity
 	this.Summary = summary
@@ -44,18 +44,18 @@ func NewPostgresqlPerformanceTrends(rangeVar PostgresqlPerformanceTrendRange, gr
 	return &this
 }
 
-// NewPostgresqlPerformanceTrendsWithDefaults instantiates a new PostgresqlPerformanceTrends object.
+// NewPerformanceTrendsWithDefaults instantiates a new PerformanceTrends object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewPostgresqlPerformanceTrendsWithDefaults() *PostgresqlPerformanceTrends {
-	this := PostgresqlPerformanceTrends{}
+func NewPerformanceTrendsWithDefaults() *PerformanceTrends {
+	this := PerformanceTrends{}
 	return &this
 }
 
 // GetRange returns the Range field value.
-func (o *PostgresqlPerformanceTrends) GetRange() PostgresqlPerformanceTrendRange {
+func (o *PerformanceTrends) GetRange() PerformanceTrendRange {
 	if o == nil {
-		var ret PostgresqlPerformanceTrendRange
+		var ret PerformanceTrendRange
 		return ret
 	}
 	return o.Range
@@ -63,7 +63,7 @@ func (o *PostgresqlPerformanceTrends) GetRange() PostgresqlPerformanceTrendRange
 
 // GetRangeOk returns a tuple with the Range field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrends) GetRangeOk() (*PostgresqlPerformanceTrendRange, bool) {
+func (o *PerformanceTrends) GetRangeOk() (*PerformanceTrendRange, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -71,12 +71,12 @@ func (o *PostgresqlPerformanceTrends) GetRangeOk() (*PostgresqlPerformanceTrendR
 }
 
 // SetRange sets field value.
-func (o *PostgresqlPerformanceTrends) SetRange(v PostgresqlPerformanceTrendRange) {
+func (o *PerformanceTrends) SetRange(v PerformanceTrendRange) {
 	o.Range = v
 }
 
 // GetGranularity returns the Granularity field value.
-func (o *PostgresqlPerformanceTrends) GetGranularity() string {
+func (o *PerformanceTrends) GetGranularity() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -86,7 +86,7 @@ func (o *PostgresqlPerformanceTrends) GetGranularity() string {
 
 // GetGranularityOk returns a tuple with the Granularity field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrends) GetGranularityOk() (*string, bool) {
+func (o *PerformanceTrends) GetGranularityOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -94,14 +94,14 @@ func (o *PostgresqlPerformanceTrends) GetGranularityOk() (*string, bool) {
 }
 
 // SetGranularity sets field value.
-func (o *PostgresqlPerformanceTrends) SetGranularity(v string) {
+func (o *PerformanceTrends) SetGranularity(v string) {
 	o.Granularity = v
 }
 
 // GetSummary returns the Summary field value.
-func (o *PostgresqlPerformanceTrends) GetSummary() []PostgresqlPerformanceTrendSummary {
+func (o *PerformanceTrends) GetSummary() []PerformanceTrendSummary {
 	if o == nil {
-		var ret []PostgresqlPerformanceTrendSummary
+		var ret []PerformanceTrendSummary
 		return ret
 	}
 	return o.Summary
@@ -109,7 +109,7 @@ func (o *PostgresqlPerformanceTrends) GetSummary() []PostgresqlPerformanceTrendS
 
 // GetSummaryOk returns a tuple with the Summary field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrends) GetSummaryOk() (*[]PostgresqlPerformanceTrendSummary, bool) {
+func (o *PerformanceTrends) GetSummaryOk() (*[]PerformanceTrendSummary, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -117,14 +117,14 @@ func (o *PostgresqlPerformanceTrends) GetSummaryOk() (*[]PostgresqlPerformanceTr
 }
 
 // SetSummary sets field value.
-func (o *PostgresqlPerformanceTrends) SetSummary(v []PostgresqlPerformanceTrendSummary) {
+func (o *PerformanceTrends) SetSummary(v []PerformanceTrendSummary) {
 	o.Summary = v
 }
 
 // GetSeries returns the Series field value.
-func (o *PostgresqlPerformanceTrends) GetSeries() []PostgresqlPerformanceTrendSeries {
+func (o *PerformanceTrends) GetSeries() []PerformanceTrendSeries {
 	if o == nil {
-		var ret []PostgresqlPerformanceTrendSeries
+		var ret []PerformanceTrendSeries
 		return ret
 	}
 	return o.Series
@@ -132,7 +132,7 @@ func (o *PostgresqlPerformanceTrends) GetSeries() []PostgresqlPerformanceTrendSe
 
 // GetSeriesOk returns a tuple with the Series field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrends) GetSeriesOk() (*[]PostgresqlPerformanceTrendSeries, bool) {
+func (o *PerformanceTrends) GetSeriesOk() (*[]PerformanceTrendSeries, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -140,14 +140,14 @@ func (o *PostgresqlPerformanceTrends) GetSeriesOk() (*[]PostgresqlPerformanceTre
 }
 
 // SetSeries sets field value.
-func (o *PostgresqlPerformanceTrends) SetSeries(v []PostgresqlPerformanceTrendSeries) {
+func (o *PerformanceTrends) SetSeries(v []PerformanceTrendSeries) {
 	o.Series = v
 }
 
 // GetSources returns the Sources field value.
-func (o *PostgresqlPerformanceTrends) GetSources() []PostgresqlPerformanceTrendSource {
+func (o *PerformanceTrends) GetSources() []PerformanceTrendSource {
 	if o == nil {
-		var ret []PostgresqlPerformanceTrendSource
+		var ret []PerformanceTrendSource
 		return ret
 	}
 	return o.Sources
@@ -155,7 +155,7 @@ func (o *PostgresqlPerformanceTrends) GetSources() []PostgresqlPerformanceTrendS
 
 // GetSourcesOk returns a tuple with the Sources field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrends) GetSourcesOk() (*[]PostgresqlPerformanceTrendSource, bool) {
+func (o *PerformanceTrends) GetSourcesOk() (*[]PerformanceTrendSource, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -163,12 +163,12 @@ func (o *PostgresqlPerformanceTrends) GetSourcesOk() (*[]PostgresqlPerformanceTr
 }
 
 // SetSources sets field value.
-func (o *PostgresqlPerformanceTrends) SetSources(v []PostgresqlPerformanceTrendSource) {
+func (o *PerformanceTrends) SetSources(v []PerformanceTrendSource) {
 	o.Sources = v
 }
 
 // GetWarnings returns the Warnings field value.
-func (o *PostgresqlPerformanceTrends) GetWarnings() []string {
+func (o *PerformanceTrends) GetWarnings() []string {
 	if o == nil {
 		var ret []string
 		return ret
@@ -178,7 +178,7 @@ func (o *PostgresqlPerformanceTrends) GetWarnings() []string {
 
 // GetWarningsOk returns a tuple with the Warnings field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrends) GetWarningsOk() (*[]string, bool) {
+func (o *PerformanceTrends) GetWarningsOk() (*[]string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -186,12 +186,12 @@ func (o *PostgresqlPerformanceTrends) GetWarningsOk() (*[]string, bool) {
 }
 
 // SetWarnings sets field value.
-func (o *PostgresqlPerformanceTrends) SetWarnings(v []string) {
+func (o *PerformanceTrends) SetWarnings(v []string) {
 	o.Warnings = v
 }
 
 // GetCollectedAt returns the CollectedAt field value.
-func (o *PostgresqlPerformanceTrends) GetCollectedAt() string {
+func (o *PerformanceTrends) GetCollectedAt() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -201,7 +201,7 @@ func (o *PostgresqlPerformanceTrends) GetCollectedAt() string {
 
 // GetCollectedAtOk returns a tuple with the CollectedAt field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrends) GetCollectedAtOk() (*string, bool) {
+func (o *PerformanceTrends) GetCollectedAtOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -209,12 +209,12 @@ func (o *PostgresqlPerformanceTrends) GetCollectedAtOk() (*string, bool) {
 }
 
 // SetCollectedAt sets field value.
-func (o *PostgresqlPerformanceTrends) SetCollectedAt(v string) {
+func (o *PerformanceTrends) SetCollectedAt(v string) {
 	o.CollectedAt = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o PostgresqlPerformanceTrends) MarshalJSON() ([]byte, error) {
+func (o PerformanceTrends) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -234,15 +234,15 @@ func (o PostgresqlPerformanceTrends) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *PostgresqlPerformanceTrends) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PerformanceTrends) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Range       *PostgresqlPerformanceTrendRange     `json:"range"`
-		Granularity *string                              `json:"granularity"`
-		Summary     *[]PostgresqlPerformanceTrendSummary `json:"summary"`
-		Series      *[]PostgresqlPerformanceTrendSeries  `json:"series"`
-		Sources     *[]PostgresqlPerformanceTrendSource  `json:"sources"`
-		Warnings    *[]string                            `json:"warnings"`
-		CollectedAt *string                              `json:"collectedAt"`
+		Range       *PerformanceTrendRange     `json:"range"`
+		Granularity *string                    `json:"granularity"`
+		Summary     *[]PerformanceTrendSummary `json:"summary"`
+		Series      *[]PerformanceTrendSeries  `json:"series"`
+		Sources     *[]PerformanceTrendSource  `json:"sources"`
+		Warnings    *[]string                  `json:"warnings"`
+		CollectedAt *string                    `json:"collectedAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

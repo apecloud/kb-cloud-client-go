@@ -43,11 +43,11 @@ func (r *GetDiagnosticsPostgresqlPerformanceTrendsOptionalParameters) WithStep(s
 
 // GetDiagnosticsPostgresqlPerformanceTrends Get PostgreSQL performance trends.
 // Get read-only PostgreSQL performance trends from backend-owned Prometheus queries. The response does not expose SQL, PromQL, internal endpoints, or remediation actions.
-func (a *DiagnosticsApi) GetDiagnosticsPostgresqlPerformanceTrends(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsPostgresqlPerformanceTrendsOptionalParameters) (PostgresqlPerformanceTrends, *_nethttp.Response, error) {
+func (a *DiagnosticsApi) GetDiagnosticsPostgresqlPerformanceTrends(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsPostgresqlPerformanceTrendsOptionalParameters) (PerformanceTrends, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue PostgresqlPerformanceTrends
+		localVarReturnValue PerformanceTrends
 		optionalParams      GetDiagnosticsPostgresqlPerformanceTrendsOptionalParameters
 	)
 

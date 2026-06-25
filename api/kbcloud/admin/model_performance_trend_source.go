@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type PostgresqlPerformanceTrendSource struct {
+type PerformanceTrendSource struct {
 	Name string `json:"name"`
 	Kind string `json:"kind"`
 	// Coarse source status. Values are success, partial, failed, skipped, or noData.
@@ -22,12 +22,12 @@ type PostgresqlPerformanceTrendSource struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewPostgresqlPerformanceTrendSource instantiates a new PostgresqlPerformanceTrendSource object.
+// NewPerformanceTrendSource instantiates a new PerformanceTrendSource object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlPerformanceTrendSource(name string, kind string, status string, collectedAt string) *PostgresqlPerformanceTrendSource {
-	this := PostgresqlPerformanceTrendSource{}
+func NewPerformanceTrendSource(name string, kind string, status string, collectedAt string) *PerformanceTrendSource {
+	this := PerformanceTrendSource{}
 	this.Name = name
 	this.Kind = kind
 	this.Status = status
@@ -35,16 +35,16 @@ func NewPostgresqlPerformanceTrendSource(name string, kind string, status string
 	return &this
 }
 
-// NewPostgresqlPerformanceTrendSourceWithDefaults instantiates a new PostgresqlPerformanceTrendSource object.
+// NewPerformanceTrendSourceWithDefaults instantiates a new PerformanceTrendSource object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewPostgresqlPerformanceTrendSourceWithDefaults() *PostgresqlPerformanceTrendSource {
-	this := PostgresqlPerformanceTrendSource{}
+func NewPerformanceTrendSourceWithDefaults() *PerformanceTrendSource {
+	this := PerformanceTrendSource{}
 	return &this
 }
 
 // GetName returns the Name field value.
-func (o *PostgresqlPerformanceTrendSource) GetName() string {
+func (o *PerformanceTrendSource) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -54,7 +54,7 @@ func (o *PostgresqlPerformanceTrendSource) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSource) GetNameOk() (*string, bool) {
+func (o *PerformanceTrendSource) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -62,12 +62,12 @@ func (o *PostgresqlPerformanceTrendSource) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value.
-func (o *PostgresqlPerformanceTrendSource) SetName(v string) {
+func (o *PerformanceTrendSource) SetName(v string) {
 	o.Name = v
 }
 
 // GetKind returns the Kind field value.
-func (o *PostgresqlPerformanceTrendSource) GetKind() string {
+func (o *PerformanceTrendSource) GetKind() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -77,7 +77,7 @@ func (o *PostgresqlPerformanceTrendSource) GetKind() string {
 
 // GetKindOk returns a tuple with the Kind field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSource) GetKindOk() (*string, bool) {
+func (o *PerformanceTrendSource) GetKindOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -85,12 +85,12 @@ func (o *PostgresqlPerformanceTrendSource) GetKindOk() (*string, bool) {
 }
 
 // SetKind sets field value.
-func (o *PostgresqlPerformanceTrendSource) SetKind(v string) {
+func (o *PerformanceTrendSource) SetKind(v string) {
 	o.Kind = v
 }
 
 // GetStatus returns the Status field value.
-func (o *PostgresqlPerformanceTrendSource) GetStatus() string {
+func (o *PerformanceTrendSource) GetStatus() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -100,7 +100,7 @@ func (o *PostgresqlPerformanceTrendSource) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSource) GetStatusOk() (*string, bool) {
+func (o *PerformanceTrendSource) GetStatusOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -108,12 +108,12 @@ func (o *PostgresqlPerformanceTrendSource) GetStatusOk() (*string, bool) {
 }
 
 // SetStatus sets field value.
-func (o *PostgresqlPerformanceTrendSource) SetStatus(v string) {
+func (o *PerformanceTrendSource) SetStatus(v string) {
 	o.Status = v
 }
 
 // GetCollectedAt returns the CollectedAt field value.
-func (o *PostgresqlPerformanceTrendSource) GetCollectedAt() string {
+func (o *PerformanceTrendSource) GetCollectedAt() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -123,7 +123,7 @@ func (o *PostgresqlPerformanceTrendSource) GetCollectedAt() string {
 
 // GetCollectedAtOk returns a tuple with the CollectedAt field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSource) GetCollectedAtOk() (*string, bool) {
+func (o *PerformanceTrendSource) GetCollectedAtOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -131,12 +131,12 @@ func (o *PostgresqlPerformanceTrendSource) GetCollectedAtOk() (*string, bool) {
 }
 
 // SetCollectedAt sets field value.
-func (o *PostgresqlPerformanceTrendSource) SetCollectedAt(v string) {
+func (o *PerformanceTrendSource) SetCollectedAt(v string) {
 	o.CollectedAt = v
 }
 
 // GetMessage returns the Message field value if set, zero value otherwise.
-func (o *PostgresqlPerformanceTrendSource) GetMessage() string {
+func (o *PerformanceTrendSource) GetMessage() string {
 	if o == nil || o.Message == nil {
 		var ret string
 		return ret
@@ -146,7 +146,7 @@ func (o *PostgresqlPerformanceTrendSource) GetMessage() string {
 
 // GetMessageOk returns a tuple with the Message field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSource) GetMessageOk() (*string, bool) {
+func (o *PerformanceTrendSource) GetMessageOk() (*string, bool) {
 	if o == nil || o.Message == nil {
 		return nil, false
 	}
@@ -154,17 +154,17 @@ func (o *PostgresqlPerformanceTrendSource) GetMessageOk() (*string, bool) {
 }
 
 // HasMessage returns a boolean if a field has been set.
-func (o *PostgresqlPerformanceTrendSource) HasMessage() bool {
+func (o *PerformanceTrendSource) HasMessage() bool {
 	return o != nil && o.Message != nil
 }
 
 // SetMessage gets a reference to the given string and assigns it to the Message field.
-func (o *PostgresqlPerformanceTrendSource) SetMessage(v string) {
+func (o *PerformanceTrendSource) SetMessage(v string) {
 	o.Message = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o PostgresqlPerformanceTrendSource) MarshalJSON() ([]byte, error) {
+func (o PerformanceTrendSource) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -184,7 +184,7 @@ func (o PostgresqlPerformanceTrendSource) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *PostgresqlPerformanceTrendSource) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PerformanceTrendSource) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name        *string `json:"name"`
 		Kind        *string `json:"kind"`

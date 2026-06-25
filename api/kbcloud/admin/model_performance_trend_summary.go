@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type PostgresqlPerformanceTrendSummary struct {
+type PerformanceTrendSummary struct {
 	Metric      string               `json:"metric"`
 	DisplayName LocalizedDescription `json:"displayName"`
 	// Metric category. Values are connectionsSessions, workload, resourcePressure, storagePVC, availability, maintenance, performance, or capacity.
@@ -37,12 +37,12 @@ type PostgresqlPerformanceTrendSummary struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewPostgresqlPerformanceTrendSummary instantiates a new PostgresqlPerformanceTrendSummary object.
+// NewPerformanceTrendSummary instantiates a new PerformanceTrendSummary object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlPerformanceTrendSummary(metric string, displayName LocalizedDescription, category string, unit string, min float64, max float64, avg float64, latest float64) *PostgresqlPerformanceTrendSummary {
-	this := PostgresqlPerformanceTrendSummary{}
+func NewPerformanceTrendSummary(metric string, displayName LocalizedDescription, category string, unit string, min float64, max float64, avg float64, latest float64) *PerformanceTrendSummary {
+	this := PerformanceTrendSummary{}
 	this.Metric = metric
 	this.DisplayName = displayName
 	this.Category = category
@@ -54,16 +54,16 @@ func NewPostgresqlPerformanceTrendSummary(metric string, displayName LocalizedDe
 	return &this
 }
 
-// NewPostgresqlPerformanceTrendSummaryWithDefaults instantiates a new PostgresqlPerformanceTrendSummary object.
+// NewPerformanceTrendSummaryWithDefaults instantiates a new PerformanceTrendSummary object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewPostgresqlPerformanceTrendSummaryWithDefaults() *PostgresqlPerformanceTrendSummary {
-	this := PostgresqlPerformanceTrendSummary{}
+func NewPerformanceTrendSummaryWithDefaults() *PerformanceTrendSummary {
+	this := PerformanceTrendSummary{}
 	return &this
 }
 
 // GetMetric returns the Metric field value.
-func (o *PostgresqlPerformanceTrendSummary) GetMetric() string {
+func (o *PerformanceTrendSummary) GetMetric() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -73,7 +73,7 @@ func (o *PostgresqlPerformanceTrendSummary) GetMetric() string {
 
 // GetMetricOk returns a tuple with the Metric field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSummary) GetMetricOk() (*string, bool) {
+func (o *PerformanceTrendSummary) GetMetricOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -81,12 +81,12 @@ func (o *PostgresqlPerformanceTrendSummary) GetMetricOk() (*string, bool) {
 }
 
 // SetMetric sets field value.
-func (o *PostgresqlPerformanceTrendSummary) SetMetric(v string) {
+func (o *PerformanceTrendSummary) SetMetric(v string) {
 	o.Metric = v
 }
 
 // GetDisplayName returns the DisplayName field value.
-func (o *PostgresqlPerformanceTrendSummary) GetDisplayName() LocalizedDescription {
+func (o *PerformanceTrendSummary) GetDisplayName() LocalizedDescription {
 	if o == nil {
 		var ret LocalizedDescription
 		return ret
@@ -96,7 +96,7 @@ func (o *PostgresqlPerformanceTrendSummary) GetDisplayName() LocalizedDescriptio
 
 // GetDisplayNameOk returns a tuple with the DisplayName field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSummary) GetDisplayNameOk() (*LocalizedDescription, bool) {
+func (o *PerformanceTrendSummary) GetDisplayNameOk() (*LocalizedDescription, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -104,12 +104,12 @@ func (o *PostgresqlPerformanceTrendSummary) GetDisplayNameOk() (*LocalizedDescri
 }
 
 // SetDisplayName sets field value.
-func (o *PostgresqlPerformanceTrendSummary) SetDisplayName(v LocalizedDescription) {
+func (o *PerformanceTrendSummary) SetDisplayName(v LocalizedDescription) {
 	o.DisplayName = v
 }
 
 // GetCategory returns the Category field value.
-func (o *PostgresqlPerformanceTrendSummary) GetCategory() string {
+func (o *PerformanceTrendSummary) GetCategory() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -119,7 +119,7 @@ func (o *PostgresqlPerformanceTrendSummary) GetCategory() string {
 
 // GetCategoryOk returns a tuple with the Category field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSummary) GetCategoryOk() (*string, bool) {
+func (o *PerformanceTrendSummary) GetCategoryOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -127,12 +127,12 @@ func (o *PostgresqlPerformanceTrendSummary) GetCategoryOk() (*string, bool) {
 }
 
 // SetCategory sets field value.
-func (o *PostgresqlPerformanceTrendSummary) SetCategory(v string) {
+func (o *PerformanceTrendSummary) SetCategory(v string) {
 	o.Category = v
 }
 
 // GetDimension returns the Dimension field value if set, zero value otherwise.
-func (o *PostgresqlPerformanceTrendSummary) GetDimension() string {
+func (o *PerformanceTrendSummary) GetDimension() string {
 	if o == nil || o.Dimension == nil {
 		var ret string
 		return ret
@@ -142,7 +142,7 @@ func (o *PostgresqlPerformanceTrendSummary) GetDimension() string {
 
 // GetDimensionOk returns a tuple with the Dimension field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSummary) GetDimensionOk() (*string, bool) {
+func (o *PerformanceTrendSummary) GetDimensionOk() (*string, bool) {
 	if o == nil || o.Dimension == nil {
 		return nil, false
 	}
@@ -150,17 +150,17 @@ func (o *PostgresqlPerformanceTrendSummary) GetDimensionOk() (*string, bool) {
 }
 
 // HasDimension returns a boolean if a field has been set.
-func (o *PostgresqlPerformanceTrendSummary) HasDimension() bool {
+func (o *PerformanceTrendSummary) HasDimension() bool {
 	return o != nil && o.Dimension != nil
 }
 
 // SetDimension gets a reference to the given string and assigns it to the Dimension field.
-func (o *PostgresqlPerformanceTrendSummary) SetDimension(v string) {
+func (o *PerformanceTrendSummary) SetDimension(v string) {
 	o.Dimension = &v
 }
 
 // GetLabels returns the Labels field value if set, zero value otherwise.
-func (o *PostgresqlPerformanceTrendSummary) GetLabels() map[string]string {
+func (o *PerformanceTrendSummary) GetLabels() map[string]string {
 	if o == nil || o.Labels == nil {
 		var ret map[string]string
 		return ret
@@ -170,7 +170,7 @@ func (o *PostgresqlPerformanceTrendSummary) GetLabels() map[string]string {
 
 // GetLabelsOk returns a tuple with the Labels field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSummary) GetLabelsOk() (*map[string]string, bool) {
+func (o *PerformanceTrendSummary) GetLabelsOk() (*map[string]string, bool) {
 	if o == nil || o.Labels == nil {
 		return nil, false
 	}
@@ -178,17 +178,17 @@ func (o *PostgresqlPerformanceTrendSummary) GetLabelsOk() (*map[string]string, b
 }
 
 // HasLabels returns a boolean if a field has been set.
-func (o *PostgresqlPerformanceTrendSummary) HasLabels() bool {
+func (o *PerformanceTrendSummary) HasLabels() bool {
 	return o != nil && o.Labels != nil
 }
 
 // SetLabels gets a reference to the given map[string]string and assigns it to the Labels field.
-func (o *PostgresqlPerformanceTrendSummary) SetLabels(v map[string]string) {
+func (o *PerformanceTrendSummary) SetLabels(v map[string]string) {
 	o.Labels = v
 }
 
 // GetUnit returns the Unit field value.
-func (o *PostgresqlPerformanceTrendSummary) GetUnit() string {
+func (o *PerformanceTrendSummary) GetUnit() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -198,7 +198,7 @@ func (o *PostgresqlPerformanceTrendSummary) GetUnit() string {
 
 // GetUnitOk returns a tuple with the Unit field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSummary) GetUnitOk() (*string, bool) {
+func (o *PerformanceTrendSummary) GetUnitOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -206,12 +206,12 @@ func (o *PostgresqlPerformanceTrendSummary) GetUnitOk() (*string, bool) {
 }
 
 // SetUnit sets field value.
-func (o *PostgresqlPerformanceTrendSummary) SetUnit(v string) {
+func (o *PerformanceTrendSummary) SetUnit(v string) {
 	o.Unit = v
 }
 
 // GetWarnThreshold returns the WarnThreshold field value if set, zero value otherwise.
-func (o *PostgresqlPerformanceTrendSummary) GetWarnThreshold() float64 {
+func (o *PerformanceTrendSummary) GetWarnThreshold() float64 {
 	if o == nil || o.WarnThreshold == nil {
 		var ret float64
 		return ret
@@ -221,7 +221,7 @@ func (o *PostgresqlPerformanceTrendSummary) GetWarnThreshold() float64 {
 
 // GetWarnThresholdOk returns a tuple with the WarnThreshold field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSummary) GetWarnThresholdOk() (*float64, bool) {
+func (o *PerformanceTrendSummary) GetWarnThresholdOk() (*float64, bool) {
 	if o == nil || o.WarnThreshold == nil {
 		return nil, false
 	}
@@ -229,17 +229,17 @@ func (o *PostgresqlPerformanceTrendSummary) GetWarnThresholdOk() (*float64, bool
 }
 
 // HasWarnThreshold returns a boolean if a field has been set.
-func (o *PostgresqlPerformanceTrendSummary) HasWarnThreshold() bool {
+func (o *PerformanceTrendSummary) HasWarnThreshold() bool {
 	return o != nil && o.WarnThreshold != nil
 }
 
 // SetWarnThreshold gets a reference to the given float64 and assigns it to the WarnThreshold field.
-func (o *PostgresqlPerformanceTrendSummary) SetWarnThreshold(v float64) {
+func (o *PerformanceTrendSummary) SetWarnThreshold(v float64) {
 	o.WarnThreshold = &v
 }
 
 // GetCritThreshold returns the CritThreshold field value if set, zero value otherwise.
-func (o *PostgresqlPerformanceTrendSummary) GetCritThreshold() float64 {
+func (o *PerformanceTrendSummary) GetCritThreshold() float64 {
 	if o == nil || o.CritThreshold == nil {
 		var ret float64
 		return ret
@@ -249,7 +249,7 @@ func (o *PostgresqlPerformanceTrendSummary) GetCritThreshold() float64 {
 
 // GetCritThresholdOk returns a tuple with the CritThreshold field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSummary) GetCritThresholdOk() (*float64, bool) {
+func (o *PerformanceTrendSummary) GetCritThresholdOk() (*float64, bool) {
 	if o == nil || o.CritThreshold == nil {
 		return nil, false
 	}
@@ -257,17 +257,17 @@ func (o *PostgresqlPerformanceTrendSummary) GetCritThresholdOk() (*float64, bool
 }
 
 // HasCritThreshold returns a boolean if a field has been set.
-func (o *PostgresqlPerformanceTrendSummary) HasCritThreshold() bool {
+func (o *PerformanceTrendSummary) HasCritThreshold() bool {
 	return o != nil && o.CritThreshold != nil
 }
 
 // SetCritThreshold gets a reference to the given float64 and assigns it to the CritThreshold field.
-func (o *PostgresqlPerformanceTrendSummary) SetCritThreshold(v float64) {
+func (o *PerformanceTrendSummary) SetCritThreshold(v float64) {
 	o.CritThreshold = &v
 }
 
 // GetThresholdDirection returns the ThresholdDirection field value if set, zero value otherwise.
-func (o *PostgresqlPerformanceTrendSummary) GetThresholdDirection() string {
+func (o *PerformanceTrendSummary) GetThresholdDirection() string {
 	if o == nil || o.ThresholdDirection == nil {
 		var ret string
 		return ret
@@ -277,7 +277,7 @@ func (o *PostgresqlPerformanceTrendSummary) GetThresholdDirection() string {
 
 // GetThresholdDirectionOk returns a tuple with the ThresholdDirection field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSummary) GetThresholdDirectionOk() (*string, bool) {
+func (o *PerformanceTrendSummary) GetThresholdDirectionOk() (*string, bool) {
 	if o == nil || o.ThresholdDirection == nil {
 		return nil, false
 	}
@@ -285,17 +285,17 @@ func (o *PostgresqlPerformanceTrendSummary) GetThresholdDirectionOk() (*string, 
 }
 
 // HasThresholdDirection returns a boolean if a field has been set.
-func (o *PostgresqlPerformanceTrendSummary) HasThresholdDirection() bool {
+func (o *PerformanceTrendSummary) HasThresholdDirection() bool {
 	return o != nil && o.ThresholdDirection != nil
 }
 
 // SetThresholdDirection gets a reference to the given string and assigns it to the ThresholdDirection field.
-func (o *PostgresqlPerformanceTrendSummary) SetThresholdDirection(v string) {
+func (o *PerformanceTrendSummary) SetThresholdDirection(v string) {
 	o.ThresholdDirection = &v
 }
 
 // GetMin returns the Min field value.
-func (o *PostgresqlPerformanceTrendSummary) GetMin() float64 {
+func (o *PerformanceTrendSummary) GetMin() float64 {
 	if o == nil {
 		var ret float64
 		return ret
@@ -305,7 +305,7 @@ func (o *PostgresqlPerformanceTrendSummary) GetMin() float64 {
 
 // GetMinOk returns a tuple with the Min field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSummary) GetMinOk() (*float64, bool) {
+func (o *PerformanceTrendSummary) GetMinOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -313,12 +313,12 @@ func (o *PostgresqlPerformanceTrendSummary) GetMinOk() (*float64, bool) {
 }
 
 // SetMin sets field value.
-func (o *PostgresqlPerformanceTrendSummary) SetMin(v float64) {
+func (o *PerformanceTrendSummary) SetMin(v float64) {
 	o.Min = v
 }
 
 // GetMax returns the Max field value.
-func (o *PostgresqlPerformanceTrendSummary) GetMax() float64 {
+func (o *PerformanceTrendSummary) GetMax() float64 {
 	if o == nil {
 		var ret float64
 		return ret
@@ -328,7 +328,7 @@ func (o *PostgresqlPerformanceTrendSummary) GetMax() float64 {
 
 // GetMaxOk returns a tuple with the Max field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSummary) GetMaxOk() (*float64, bool) {
+func (o *PerformanceTrendSummary) GetMaxOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -336,12 +336,12 @@ func (o *PostgresqlPerformanceTrendSummary) GetMaxOk() (*float64, bool) {
 }
 
 // SetMax sets field value.
-func (o *PostgresqlPerformanceTrendSummary) SetMax(v float64) {
+func (o *PerformanceTrendSummary) SetMax(v float64) {
 	o.Max = v
 }
 
 // GetAvg returns the Avg field value.
-func (o *PostgresqlPerformanceTrendSummary) GetAvg() float64 {
+func (o *PerformanceTrendSummary) GetAvg() float64 {
 	if o == nil {
 		var ret float64
 		return ret
@@ -351,7 +351,7 @@ func (o *PostgresqlPerformanceTrendSummary) GetAvg() float64 {
 
 // GetAvgOk returns a tuple with the Avg field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSummary) GetAvgOk() (*float64, bool) {
+func (o *PerformanceTrendSummary) GetAvgOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -359,12 +359,12 @@ func (o *PostgresqlPerformanceTrendSummary) GetAvgOk() (*float64, bool) {
 }
 
 // SetAvg sets field value.
-func (o *PostgresqlPerformanceTrendSummary) SetAvg(v float64) {
+func (o *PerformanceTrendSummary) SetAvg(v float64) {
 	o.Avg = v
 }
 
 // GetLatest returns the Latest field value.
-func (o *PostgresqlPerformanceTrendSummary) GetLatest() float64 {
+func (o *PerformanceTrendSummary) GetLatest() float64 {
 	if o == nil {
 		var ret float64
 		return ret
@@ -374,7 +374,7 @@ func (o *PostgresqlPerformanceTrendSummary) GetLatest() float64 {
 
 // GetLatestOk returns a tuple with the Latest field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSummary) GetLatestOk() (*float64, bool) {
+func (o *PerformanceTrendSummary) GetLatestOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -382,12 +382,12 @@ func (o *PostgresqlPerformanceTrendSummary) GetLatestOk() (*float64, bool) {
 }
 
 // SetLatest sets field value.
-func (o *PostgresqlPerformanceTrendSummary) SetLatest(v float64) {
+func (o *PerformanceTrendSummary) SetLatest(v float64) {
 	o.Latest = v
 }
 
 // GetChangeDirection returns the ChangeDirection field value if set, zero value otherwise.
-func (o *PostgresqlPerformanceTrendSummary) GetChangeDirection() string {
+func (o *PerformanceTrendSummary) GetChangeDirection() string {
 	if o == nil || o.ChangeDirection == nil {
 		var ret string
 		return ret
@@ -397,7 +397,7 @@ func (o *PostgresqlPerformanceTrendSummary) GetChangeDirection() string {
 
 // GetChangeDirectionOk returns a tuple with the ChangeDirection field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendSummary) GetChangeDirectionOk() (*string, bool) {
+func (o *PerformanceTrendSummary) GetChangeDirectionOk() (*string, bool) {
 	if o == nil || o.ChangeDirection == nil {
 		return nil, false
 	}
@@ -405,17 +405,17 @@ func (o *PostgresqlPerformanceTrendSummary) GetChangeDirectionOk() (*string, boo
 }
 
 // HasChangeDirection returns a boolean if a field has been set.
-func (o *PostgresqlPerformanceTrendSummary) HasChangeDirection() bool {
+func (o *PerformanceTrendSummary) HasChangeDirection() bool {
 	return o != nil && o.ChangeDirection != nil
 }
 
 // SetChangeDirection gets a reference to the given string and assigns it to the ChangeDirection field.
-func (o *PostgresqlPerformanceTrendSummary) SetChangeDirection(v string) {
+func (o *PerformanceTrendSummary) SetChangeDirection(v string) {
 	o.ChangeDirection = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o PostgresqlPerformanceTrendSummary) MarshalJSON() ([]byte, error) {
+func (o PerformanceTrendSummary) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -454,7 +454,7 @@ func (o PostgresqlPerformanceTrendSummary) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *PostgresqlPerformanceTrendSummary) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PerformanceTrendSummary) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Metric             *string               `json:"metric"`
 		DisplayName        *LocalizedDescription `json:"displayName"`

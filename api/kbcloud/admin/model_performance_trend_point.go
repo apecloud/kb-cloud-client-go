@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type PostgresqlPerformanceTrendPoint struct {
+type PerformanceTrendPoint struct {
 	Timestamp string  `json:"timestamp"`
 	Value     float64 `json:"value"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -18,27 +18,27 @@ type PostgresqlPerformanceTrendPoint struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewPostgresqlPerformanceTrendPoint instantiates a new PostgresqlPerformanceTrendPoint object.
+// NewPerformanceTrendPoint instantiates a new PerformanceTrendPoint object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlPerformanceTrendPoint(timestamp string, value float64) *PostgresqlPerformanceTrendPoint {
-	this := PostgresqlPerformanceTrendPoint{}
+func NewPerformanceTrendPoint(timestamp string, value float64) *PerformanceTrendPoint {
+	this := PerformanceTrendPoint{}
 	this.Timestamp = timestamp
 	this.Value = value
 	return &this
 }
 
-// NewPostgresqlPerformanceTrendPointWithDefaults instantiates a new PostgresqlPerformanceTrendPoint object.
+// NewPerformanceTrendPointWithDefaults instantiates a new PerformanceTrendPoint object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewPostgresqlPerformanceTrendPointWithDefaults() *PostgresqlPerformanceTrendPoint {
-	this := PostgresqlPerformanceTrendPoint{}
+func NewPerformanceTrendPointWithDefaults() *PerformanceTrendPoint {
+	this := PerformanceTrendPoint{}
 	return &this
 }
 
 // GetTimestamp returns the Timestamp field value.
-func (o *PostgresqlPerformanceTrendPoint) GetTimestamp() string {
+func (o *PerformanceTrendPoint) GetTimestamp() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -48,7 +48,7 @@ func (o *PostgresqlPerformanceTrendPoint) GetTimestamp() string {
 
 // GetTimestampOk returns a tuple with the Timestamp field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendPoint) GetTimestampOk() (*string, bool) {
+func (o *PerformanceTrendPoint) GetTimestampOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -56,12 +56,12 @@ func (o *PostgresqlPerformanceTrendPoint) GetTimestampOk() (*string, bool) {
 }
 
 // SetTimestamp sets field value.
-func (o *PostgresqlPerformanceTrendPoint) SetTimestamp(v string) {
+func (o *PerformanceTrendPoint) SetTimestamp(v string) {
 	o.Timestamp = v
 }
 
 // GetValue returns the Value field value.
-func (o *PostgresqlPerformanceTrendPoint) GetValue() float64 {
+func (o *PerformanceTrendPoint) GetValue() float64 {
 	if o == nil {
 		var ret float64
 		return ret
@@ -71,7 +71,7 @@ func (o *PostgresqlPerformanceTrendPoint) GetValue() float64 {
 
 // GetValueOk returns a tuple with the Value field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlPerformanceTrendPoint) GetValueOk() (*float64, bool) {
+func (o *PerformanceTrendPoint) GetValueOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -79,12 +79,12 @@ func (o *PostgresqlPerformanceTrendPoint) GetValueOk() (*float64, bool) {
 }
 
 // SetValue sets field value.
-func (o *PostgresqlPerformanceTrendPoint) SetValue(v float64) {
+func (o *PerformanceTrendPoint) SetValue(v float64) {
 	o.Value = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o PostgresqlPerformanceTrendPoint) MarshalJSON() ([]byte, error) {
+func (o PerformanceTrendPoint) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -99,7 +99,7 @@ func (o PostgresqlPerformanceTrendPoint) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *PostgresqlPerformanceTrendPoint) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PerformanceTrendPoint) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Timestamp *string  `json:"timestamp"`
 		Value     *float64 `json:"value"`
