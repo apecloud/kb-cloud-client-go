@@ -197,6 +197,7 @@
 //   - [databaseApi.listDatabases]
 //   - [databaseApi.updateDatabaseConfig]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlPerformanceTrends]
+//   - [diagnosticsApi.getDiagnosticsPostgresqlSQLAnalysis]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlSession]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlSessionLockAnalysis]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlSpaceAnalysis]

@@ -201,6 +201,7 @@
 //   - [databaseParametersApi.listDatabaseParameters]
 //   - [databaseParametersApi.updateDatabaseParameter]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlPerformanceTrends]
+//   - [diagnosticsApi.getDiagnosticsPostgresqlSQLAnalysis]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlSession]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlSessionLockAnalysis]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlSpaceAnalysis]
