@@ -11,8 +11,10 @@ import (
 )
 
 type DmsSession struct {
-	// session ID
-	Id int64 `json:"id"`
+	// numeric session ID, when the database exposes one that fits in int64
+	Id common.NullableInt64 `json:"id,omitempty"`
+	// native session ID used by the terminate API
+	SessionId common.NullableString `json:"sessionId,omitempty"`
 	// user name
 	User string `json:"user"`
 	// tenant name
@@ -44,9 +46,8 @@ type DmsSession struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewDmsSession(id int64, user string, host string) *DmsSession {
+func NewDmsSession(user string, host string) *DmsSession {
 	this := DmsSession{}
-	this.Id = id
 	this.User = user
 	this.Host = host
 	return &this
@@ -60,27 +61,82 @@ func NewDmsSessionWithDefaults() *DmsSession {
 	return &this
 }
 
-// GetId returns the Id field value.
+// GetId returns the Id field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DmsSession) GetId() int64 {
-	if o == nil {
+	if o == nil || o.Id.Get() == nil {
 		var ret int64
 		return ret
 	}
-	return o.Id
+	return *o.Id.Get()
 }
 
-// GetIdOk returns a tuple with the Id field value
+// GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *DmsSession) GetIdOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Id, true
+	return o.Id.Get(), o.Id.IsSet()
 }
 
-// SetId sets field value.
+// HasId returns a boolean if a field has been set.
+func (o *DmsSession) HasId() bool {
+	return o != nil && o.Id.IsSet()
+}
+
+// SetId gets a reference to the given common.NullableInt64 and assigns it to the Id field.
 func (o *DmsSession) SetId(v int64) {
-	o.Id = v
+	o.Id.Set(&v)
+}
+
+// SetIdNil sets the value for Id to be an explicit nil.
+func (o *DmsSession) SetIdNil() {
+	o.Id.Set(nil)
+}
+
+// UnsetId ensures that no value is present for Id, not even an explicit nil.
+func (o *DmsSession) UnsetId() {
+	o.Id.Unset()
+}
+
+// GetSessionId returns the SessionId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DmsSession) GetSessionId() string {
+	if o == nil || o.SessionId.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.SessionId.Get()
+}
+
+// GetSessionIdOk returns a tuple with the SessionId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *DmsSession) GetSessionIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SessionId.Get(), o.SessionId.IsSet()
+}
+
+// HasSessionId returns a boolean if a field has been set.
+func (o *DmsSession) HasSessionId() bool {
+	return o != nil && o.SessionId.IsSet()
+}
+
+// SetSessionId gets a reference to the given common.NullableString and assigns it to the SessionId field.
+func (o *DmsSession) SetSessionId(v string) {
+	o.SessionId.Set(&v)
+}
+
+// SetSessionIdNil sets the value for SessionId to be an explicit nil.
+func (o *DmsSession) SetSessionIdNil() {
+	o.SessionId.Set(nil)
+}
+
+// UnsetSessionId ensures that no value is present for SessionId, not even an explicit nil.
+func (o *DmsSession) UnsetSessionId() {
+	o.SessionId.Unset()
 }
 
 // GetUser returns the User field value.
@@ -475,7 +531,12 @@ func (o DmsSession) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["id"] = o.Id
+	if o.Id.IsSet() {
+		toSerialize["id"] = o.Id.Get()
+	}
+	if o.SessionId.IsSet() {
+		toSerialize["sessionId"] = o.SessionId.Get()
+	}
 	toSerialize["user"] = o.User
 	if o.Tenant.IsSet() {
 		toSerialize["tenant"] = o.Tenant.Get()
@@ -515,7 +576,8 @@ func (o DmsSession) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DmsSession) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id        *int64                `json:"id"`
+		Id        common.NullableInt64  `json:"id,omitempty"`
+		SessionId common.NullableString `json:"sessionId,omitempty"`
 		User      *string               `json:"user"`
 		Tenant    common.NullableString `json:"tenant,omitempty"`
 		Host      *string               `json:"host"`
@@ -531,9 +593,6 @@ func (o *DmsSession) UnmarshalJSON(bytes []byte) (err error) {
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Id == nil {
-		return fmt.Errorf("required field id missing")
-	}
 	if all.User == nil {
 		return fmt.Errorf("required field user missing")
 	}
@@ -542,11 +601,12 @@ func (o *DmsSession) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "user", "tenant", "host", "db", "command", "time", "state", "info", "ip", "port", "protected"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "sessionId", "user", "tenant", "host", "db", "command", "time", "state", "info", "ip", "port", "protected"})
 	} else {
 		return err
 	}
-	o.Id = *all.Id
+	o.Id = all.Id
+	o.SessionId = all.SessionId
 	o.User = *all.User
 	o.Tenant = all.Tenant
 	o.Host = *all.Host
