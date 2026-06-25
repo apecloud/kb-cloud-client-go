@@ -19903,6 +19903,56 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get PostgreSQL SQL analysis
+      description: Get a read-only PostgreSQL SQL fingerprint ranking from pg_stat_statements. The response does not expose full SQL text, time-window aggregation, summary cards, slow-log relation, execution plans, or remediation actions.
+      operationId: getDiagnosticsPostgresqlSQLAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of SQL fingerprints to return. The backend applies its own upper bound.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: orderBy
+          in: query
+          description: Sort key. Allowed values are totalTime, meanTime, maxTime, and calls. Defaults to totalTime.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postgresqlSQLAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}/lockAnalysis:
     get:
       tags:
@@ -37323,6 +37373,102 @@ components:
         collectedAt:
           type: string
           description: Backend collection timestamp in UTC.
+    postgresqlSQLFingerprint:
+      type: object
+      required:
+        - queryID
+        - fingerprint
+        - querySummary
+        - calls
+        - totalTimeMs
+        - meanTimeMs
+        - maxTimeMs
+        - rows
+        - database
+        - user
+      properties:
+        queryID:
+          type: string
+          description: PostgreSQL pg_stat_statements queryid represented as a string.
+        fingerprint:
+          type: string
+          description: Stable SQL fingerprint identifier for UI grouping. M1 uses queryID.
+        querySummary:
+          type: string
+          description: Redacted SQL summary. Full raw SQL is intentionally not returned.
+        calls:
+          type: integer
+          format: int64
+          description: Number of executions accumulated by pg_stat_statements since statsReset.
+        totalTimeMs:
+          type: number
+          format: double
+          description: Total execution time in milliseconds accumulated by pg_stat_statements since statsReset.
+        meanTimeMs:
+          type: number
+          format: double
+          description: Mean execution time in milliseconds.
+        maxTimeMs:
+          type: number
+          format: double
+          description: Max execution time in milliseconds.
+        rows:
+          type: integer
+          format: int64
+          description: Rows returned or affected by the fingerprint, as reported by pg_stat_statements.
+        database:
+          type: string
+          description: Database name resolved from pg_stat_statements.dbid when visible.
+        user:
+          type: string
+          description: Database user name resolved from pg_stat_statements.userid when visible.
+    postgresqlSQLAnalysis:
+      type: object
+      required:
+        - source
+        - status
+        - collectedAt
+        - limit
+        - orderBy
+        - items
+      properties:
+        source:
+          type: string
+          description: Data source. M1 uses pg_stat_statements only.
+        status:
+          type: string
+          description: Source status. Expected values are available or unavailable.
+        unavailableReason:
+          type: string
+          description: Reason when status is unavailable, such as extension_disabled, permission_denied, or query_failed.
+        statsReset:
+          type: string
+          description: UTC timestamp reported by pg_stat_statements_info.stats_reset when available. Empty means the source did not expose this timestamp.
+        collectedAt:
+          type: string
+          description: Backend collection timestamp in UTC. It is not a sampling-window end time.
+        limit:
+          type: integer
+          format: int64
+          description: Effective row limit after backend normalization.
+        orderBy:
+          type: string
+          description: Effective sort key. Expected values are totalTime, meanTime, maxTime, or calls.
+        totalTimeMsAll:
+          type: number
+          format: double
+          x-nullable: true
+          description: Total execution time in milliseconds across all visible pg_stat_statements rows, not limited to the returned top-N items. Present only when the source is available.
+        callsAll:
+          type: integer
+          format: int64
+          x-nullable: true
+          description: Total execution count across all visible pg_stat_statements rows, not limited to the returned top-N items. Present only when the source is available.
+        items:
+          type: array
+          description: SQL fingerprint ranking rows from pg_stat_statements. The list may be empty when no statement statistics exist.
+          items:
+            $ref: '#/components/schemas/postgresqlSQLFingerprint'
     postgresqlLockRow:
       type: object
       required:
