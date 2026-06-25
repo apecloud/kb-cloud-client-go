@@ -37454,6 +37454,16 @@ components:
         orderBy:
           type: string
           description: Effective sort key. Expected values are totalTime, meanTime, maxTime, or calls.
+        totalTimeMsAll:
+          type: number
+          format: double
+          x-nullable: true
+          description: Total execution time in milliseconds across all visible pg_stat_statements rows, not limited to the returned top-N items. Present only when the source is available.
+        callsAll:
+          type: integer
+          format: int64
+          x-nullable: true
+          description: Total execution count across all visible pg_stat_statements rows, not limited to the returned top-N items. Present only when the source is available.
         items:
           type: array
           description: SQL fingerprint ranking rows from pg_stat_statements. The list may be empty when no statement statistics exist.

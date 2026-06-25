@@ -25,6 +25,10 @@ type PostgresqlSQLAnalysis struct {
 	Limit int64 `json:"limit"`
 	// Effective sort key. Expected values are totalTime, meanTime, maxTime, or calls.
 	OrderBy string `json:"orderBy"`
+	// Total execution time in milliseconds across all visible pg_stat_statements rows, not limited to the returned top-N items. Present only when the source is available.
+	TotalTimeMsAll *float64 `json:"totalTimeMsAll,omitempty"`
+	// Total execution count across all visible pg_stat_statements rows, not limited to the returned top-N items. Present only when the source is available.
+	CallsAll *int64 `json:"callsAll,omitempty"`
 	// SQL fingerprint ranking rows from pg_stat_statements. The list may be empty when no statement statistics exist.
 	Items []PostgresqlSQLFingerprint `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -226,6 +230,62 @@ func (o *PostgresqlSQLAnalysis) SetOrderBy(v string) {
 	o.OrderBy = v
 }
 
+// GetTotalTimeMsAll returns the TotalTimeMsAll field value if set, zero value otherwise.
+func (o *PostgresqlSQLAnalysis) GetTotalTimeMsAll() float64 {
+	if o == nil || o.TotalTimeMsAll == nil {
+		var ret float64
+		return ret
+	}
+	return *o.TotalTimeMsAll
+}
+
+// GetTotalTimeMsAllOk returns a tuple with the TotalTimeMsAll field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PostgresqlSQLAnalysis) GetTotalTimeMsAllOk() (*float64, bool) {
+	if o == nil || o.TotalTimeMsAll == nil {
+		return nil, false
+	}
+	return o.TotalTimeMsAll, true
+}
+
+// HasTotalTimeMsAll returns a boolean if a field has been set.
+func (o *PostgresqlSQLAnalysis) HasTotalTimeMsAll() bool {
+	return o != nil && o.TotalTimeMsAll != nil
+}
+
+// SetTotalTimeMsAll gets a reference to the given float64 and assigns it to the TotalTimeMsAll field.
+func (o *PostgresqlSQLAnalysis) SetTotalTimeMsAll(v float64) {
+	o.TotalTimeMsAll = &v
+}
+
+// GetCallsAll returns the CallsAll field value if set, zero value otherwise.
+func (o *PostgresqlSQLAnalysis) GetCallsAll() int64 {
+	if o == nil || o.CallsAll == nil {
+		var ret int64
+		return ret
+	}
+	return *o.CallsAll
+}
+
+// GetCallsAllOk returns a tuple with the CallsAll field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PostgresqlSQLAnalysis) GetCallsAllOk() (*int64, bool) {
+	if o == nil || o.CallsAll == nil {
+		return nil, false
+	}
+	return o.CallsAll, true
+}
+
+// HasCallsAll returns a boolean if a field has been set.
+func (o *PostgresqlSQLAnalysis) HasCallsAll() bool {
+	return o != nil && o.CallsAll != nil
+}
+
+// SetCallsAll gets a reference to the given int64 and assigns it to the CallsAll field.
+func (o *PostgresqlSQLAnalysis) SetCallsAll(v int64) {
+	o.CallsAll = &v
+}
+
 // GetItems returns the Items field value.
 func (o *PostgresqlSQLAnalysis) GetItems() []PostgresqlSQLFingerprint {
 	if o == nil {
@@ -266,6 +326,12 @@ func (o PostgresqlSQLAnalysis) MarshalJSON() ([]byte, error) {
 	toSerialize["collectedAt"] = o.CollectedAt
 	toSerialize["limit"] = o.Limit
 	toSerialize["orderBy"] = o.OrderBy
+	if o.TotalTimeMsAll != nil {
+		toSerialize["totalTimeMsAll"] = o.TotalTimeMsAll
+	}
+	if o.CallsAll != nil {
+		toSerialize["callsAll"] = o.CallsAll
+	}
 	toSerialize["items"] = o.Items
 
 	for key, value := range o.AdditionalProperties {
@@ -284,6 +350,8 @@ func (o *PostgresqlSQLAnalysis) UnmarshalJSON(bytes []byte) (err error) {
 		CollectedAt       *string                     `json:"collectedAt"`
 		Limit             *int64                      `json:"limit"`
 		OrderBy           *string                     `json:"orderBy"`
+		TotalTimeMsAll    *float64                    `json:"totalTimeMsAll,omitempty"`
+		CallsAll          *int64                      `json:"callsAll,omitempty"`
 		Items             *[]PostgresqlSQLFingerprint `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -309,7 +377,7 @@ func (o *PostgresqlSQLAnalysis) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"source", "status", "unavailableReason", "statsReset", "collectedAt", "limit", "orderBy", "items"})
+		common.DeleteKeys(additionalProperties, &[]string{"source", "status", "unavailableReason", "statsReset", "collectedAt", "limit", "orderBy", "totalTimeMsAll", "callsAll", "items"})
 	} else {
 		return err
 	}
@@ -320,6 +388,8 @@ func (o *PostgresqlSQLAnalysis) UnmarshalJSON(bytes []byte) (err error) {
 	o.CollectedAt = *all.CollectedAt
 	o.Limit = *all.Limit
 	o.OrderBy = *all.OrderBy
+	o.TotalTimeMsAll = all.TotalTimeMsAll
+	o.CallsAll = all.CallsAll
 	o.Items = *all.Items
 
 	if len(additionalProperties) > 0 {
