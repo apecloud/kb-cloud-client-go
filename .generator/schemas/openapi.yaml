@@ -28966,14 +28966,18 @@ components:
     DmsSession:
       type: object
       required:
-        - id
         - user
         - host
       properties:
         id:
           type: integer
-          description: session ID
+          description: numeric session ID, when the database exposes one that fits in int64
           format: int64
+          nullable: true
+        sessionId:
+          type: string
+          description: native session ID used by the terminate API
+          nullable: true
         user:
           type: string
           description: user name
