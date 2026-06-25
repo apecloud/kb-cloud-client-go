@@ -13,14 +13,20 @@ import (
 type PostgresqlPerformanceTrendSeries struct {
 	Metric      string               `json:"metric"`
 	DisplayName LocalizedDescription `json:"displayName"`
-	// Metric category. Values are connectionsSessions, workload, resourcePressure, or storagePVC.
+	// Metric category. Values are connectionsSessions, workload, resourcePressure, storagePVC, availability, maintenance, performance, or capacity.
 	Category string `json:"category"`
-	Unit     string `json:"unit"`
+	// Optional series dimension. Values include cluster, instance, pvc, and database.
+	Dimension *string `json:"dimension,omitempty"`
+	// Optional dimension labels, for example instance, pvc, role, or datname.
+	Labels map[string]string `json:"labels,omitempty"`
+	Unit   string            `json:"unit"`
 	// Optional warning threshold in the same unit as this metric.
 	WarnThreshold *float64 `json:"warnThreshold,omitempty"`
 	// Optional critical threshold in the same unit as this metric.
-	CritThreshold *float64                          `json:"critThreshold,omitempty"`
-	Points        []PostgresqlPerformanceTrendPoint `json:"points"`
+	CritThreshold *float64 `json:"critThreshold,omitempty"`
+	// Optional threshold direction. Values are above, below, or boolean.
+	ThresholdDirection *string                           `json:"thresholdDirection,omitempty"`
+	Points             []PostgresqlPerformanceTrendPoint `json:"points"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -117,6 +123,62 @@ func (o *PostgresqlPerformanceTrendSeries) SetCategory(v string) {
 	o.Category = v
 }
 
+// GetDimension returns the Dimension field value if set, zero value otherwise.
+func (o *PostgresqlPerformanceTrendSeries) GetDimension() string {
+	if o == nil || o.Dimension == nil {
+		var ret string
+		return ret
+	}
+	return *o.Dimension
+}
+
+// GetDimensionOk returns a tuple with the Dimension field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PostgresqlPerformanceTrendSeries) GetDimensionOk() (*string, bool) {
+	if o == nil || o.Dimension == nil {
+		return nil, false
+	}
+	return o.Dimension, true
+}
+
+// HasDimension returns a boolean if a field has been set.
+func (o *PostgresqlPerformanceTrendSeries) HasDimension() bool {
+	return o != nil && o.Dimension != nil
+}
+
+// SetDimension gets a reference to the given string and assigns it to the Dimension field.
+func (o *PostgresqlPerformanceTrendSeries) SetDimension(v string) {
+	o.Dimension = &v
+}
+
+// GetLabels returns the Labels field value if set, zero value otherwise.
+func (o *PostgresqlPerformanceTrendSeries) GetLabels() map[string]string {
+	if o == nil || o.Labels == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.Labels
+}
+
+// GetLabelsOk returns a tuple with the Labels field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PostgresqlPerformanceTrendSeries) GetLabelsOk() (*map[string]string, bool) {
+	if o == nil || o.Labels == nil {
+		return nil, false
+	}
+	return &o.Labels, true
+}
+
+// HasLabels returns a boolean if a field has been set.
+func (o *PostgresqlPerformanceTrendSeries) HasLabels() bool {
+	return o != nil && o.Labels != nil
+}
+
+// SetLabels gets a reference to the given map[string]string and assigns it to the Labels field.
+func (o *PostgresqlPerformanceTrendSeries) SetLabels(v map[string]string) {
+	o.Labels = v
+}
+
 // GetUnit returns the Unit field value.
 func (o *PostgresqlPerformanceTrendSeries) GetUnit() string {
 	if o == nil {
@@ -196,6 +258,34 @@ func (o *PostgresqlPerformanceTrendSeries) SetCritThreshold(v float64) {
 	o.CritThreshold = &v
 }
 
+// GetThresholdDirection returns the ThresholdDirection field value if set, zero value otherwise.
+func (o *PostgresqlPerformanceTrendSeries) GetThresholdDirection() string {
+	if o == nil || o.ThresholdDirection == nil {
+		var ret string
+		return ret
+	}
+	return *o.ThresholdDirection
+}
+
+// GetThresholdDirectionOk returns a tuple with the ThresholdDirection field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PostgresqlPerformanceTrendSeries) GetThresholdDirectionOk() (*string, bool) {
+	if o == nil || o.ThresholdDirection == nil {
+		return nil, false
+	}
+	return o.ThresholdDirection, true
+}
+
+// HasThresholdDirection returns a boolean if a field has been set.
+func (o *PostgresqlPerformanceTrendSeries) HasThresholdDirection() bool {
+	return o != nil && o.ThresholdDirection != nil
+}
+
+// SetThresholdDirection gets a reference to the given string and assigns it to the ThresholdDirection field.
+func (o *PostgresqlPerformanceTrendSeries) SetThresholdDirection(v string) {
+	o.ThresholdDirection = &v
+}
+
 // GetPoints returns the Points field value.
 func (o *PostgresqlPerformanceTrendSeries) GetPoints() []PostgresqlPerformanceTrendPoint {
 	if o == nil {
@@ -228,12 +318,21 @@ func (o PostgresqlPerformanceTrendSeries) MarshalJSON() ([]byte, error) {
 	toSerialize["metric"] = o.Metric
 	toSerialize["displayName"] = o.DisplayName
 	toSerialize["category"] = o.Category
+	if o.Dimension != nil {
+		toSerialize["dimension"] = o.Dimension
+	}
+	if o.Labels != nil {
+		toSerialize["labels"] = o.Labels
+	}
 	toSerialize["unit"] = o.Unit
 	if o.WarnThreshold != nil {
 		toSerialize["warnThreshold"] = o.WarnThreshold
 	}
 	if o.CritThreshold != nil {
 		toSerialize["critThreshold"] = o.CritThreshold
+	}
+	if o.ThresholdDirection != nil {
+		toSerialize["thresholdDirection"] = o.ThresholdDirection
 	}
 	toSerialize["points"] = o.Points
 
@@ -246,13 +345,16 @@ func (o PostgresqlPerformanceTrendSeries) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PostgresqlPerformanceTrendSeries) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Metric        *string                            `json:"metric"`
-		DisplayName   *LocalizedDescription              `json:"displayName"`
-		Category      *string                            `json:"category"`
-		Unit          *string                            `json:"unit"`
-		WarnThreshold *float64                           `json:"warnThreshold,omitempty"`
-		CritThreshold *float64                           `json:"critThreshold,omitempty"`
-		Points        *[]PostgresqlPerformanceTrendPoint `json:"points"`
+		Metric             *string                            `json:"metric"`
+		DisplayName        *LocalizedDescription              `json:"displayName"`
+		Category           *string                            `json:"category"`
+		Dimension          *string                            `json:"dimension,omitempty"`
+		Labels             map[string]string                  `json:"labels,omitempty"`
+		Unit               *string                            `json:"unit"`
+		WarnThreshold      *float64                           `json:"warnThreshold,omitempty"`
+		CritThreshold      *float64                           `json:"critThreshold,omitempty"`
+		ThresholdDirection *string                            `json:"thresholdDirection,omitempty"`
+		Points             *[]PostgresqlPerformanceTrendPoint `json:"points"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -274,7 +376,7 @@ func (o *PostgresqlPerformanceTrendSeries) UnmarshalJSON(bytes []byte) (err erro
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"metric", "displayName", "category", "unit", "warnThreshold", "critThreshold", "points"})
+		common.DeleteKeys(additionalProperties, &[]string{"metric", "displayName", "category", "dimension", "labels", "unit", "warnThreshold", "critThreshold", "thresholdDirection", "points"})
 	} else {
 		return err
 	}
@@ -286,9 +388,12 @@ func (o *PostgresqlPerformanceTrendSeries) UnmarshalJSON(bytes []byte) (err erro
 	}
 	o.DisplayName = *all.DisplayName
 	o.Category = *all.Category
+	o.Dimension = all.Dimension
+	o.Labels = all.Labels
 	o.Unit = *all.Unit
 	o.WarnThreshold = all.WarnThreshold
 	o.CritThreshold = all.CritThreshold
+	o.ThresholdDirection = all.ThresholdDirection
 	o.Points = *all.Points
 
 	if len(additionalProperties) > 0 {
