@@ -27022,14 +27022,18 @@ components:
     DmsSession:
       type: object
       required:
-        - id
         - user
         - host
       properties:
         id:
           type: integer
-          description: session ID
+          description: numeric session ID, when the database exposes one that fits in int64
           format: int64
+          nullable: true
+        sessionId:
+          type: string
+          description: native session ID used by the terminate API
+          nullable: true
         user:
           type: string
           description: user name
@@ -32554,6 +32558,10 @@ components:
             type: string
         authDatabase:
           type: string
+          nullable: true
+        nameGroupExpression:
+          type: string
+          description: A regular expression containing named groups, used to extract the named groups from the SQL result and match them to the names defined in result
           nullable: true
     cdcLifecycleAction:
       type: object
