@@ -19953,6 +19953,53 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/performanceTrends:
+    get:
+      tags:
+        - diagnostics
+      summary: Get PostgreSQL performance trends
+      description: Get read-only PostgreSQL performance trends from backend-owned Prometheus queries. The response does not expose SQL, PromQL, internal endpoints, or remediation actions.
+      operationId: getDiagnosticsPostgresqlPerformanceTrends
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: range
+          in: query
+          description: Controlled query range. Allowed values are 1h, 6h, and 24h. Defaults to 1h.
+          required: false
+          schema:
+            type: string
+        - name: step
+          in: query
+          description: Controlled query granularity. Allowed values are 1m, 5m, and 15m. Defaults to 1m for 1h, 5m for 6h, and 15m for 24h.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/performanceTrends'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}/lockAnalysis:
     get:
       tags:
@@ -37487,6 +37534,188 @@ components:
           description: SQL fingerprint ranking rows from pg_stat_statements. The list may be empty when no statement statistics exist.
           items:
             $ref: '#/components/schemas/postgresqlSQLFingerprint'
+    performanceTrendRange:
+      type: object
+      required:
+        - label
+        - start
+        - end
+        - durationSeconds
+      properties:
+        label:
+          type: string
+          description: Controlled query range label. Values are 1h, 6h, or 24h.
+        start:
+          type: string
+        end:
+          type: string
+        durationSeconds:
+          type: integer
+          format: int64
+    performanceTrendSummary:
+      type: object
+      required:
+        - metric
+        - displayName
+        - category
+        - unit
+        - min
+        - max
+        - avg
+        - latest
+      properties:
+        metric:
+          type: string
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
+        category:
+          type: string
+          description: Metric category. Values are connectionsSessions, workload, resourcePressure, storagePVC, availability, maintenance, performance, or capacity.
+        dimension:
+          type: string
+          description: Optional series dimension. Values include cluster, instance, pvc, and database.
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          description: Optional dimension labels, for example instance, pvc, role, or datname.
+        unit:
+          type: string
+        warnThreshold:
+          type: number
+          format: double
+          description: Optional warning threshold in the same unit as this metric.
+        critThreshold:
+          type: number
+          format: double
+          description: Optional critical threshold in the same unit as this metric.
+        thresholdDirection:
+          type: string
+          description: Optional threshold direction. Values are above, below, or boolean.
+        min:
+          type: number
+          format: double
+        max:
+          type: number
+          format: double
+        avg:
+          type: number
+          format: double
+        latest:
+          type: number
+          format: double
+        changeDirection:
+          type: string
+          description: Change direction when at least two samples exist. Values are increasing, decreasing, or stable.
+    performanceTrendPoint:
+      type: object
+      required:
+        - timestamp
+        - value
+      properties:
+        timestamp:
+          type: string
+        value:
+          type: number
+          format: double
+    performanceTrendSeries:
+      type: object
+      required:
+        - metric
+        - displayName
+        - category
+        - unit
+        - points
+      properties:
+        metric:
+          type: string
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
+        category:
+          type: string
+          description: Metric category. Values are connectionsSessions, workload, resourcePressure, storagePVC, availability, maintenance, performance, or capacity.
+        dimension:
+          type: string
+          description: Optional series dimension. Values include cluster, instance, pvc, and database.
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          description: Optional dimension labels, for example instance, pvc, role, or datname.
+        unit:
+          type: string
+        warnThreshold:
+          type: number
+          format: double
+          description: Optional warning threshold in the same unit as this metric.
+        critThreshold:
+          type: number
+          format: double
+          description: Optional critical threshold in the same unit as this metric.
+        thresholdDirection:
+          type: string
+          description: Optional threshold direction. Values are above, below, or boolean.
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/performanceTrendPoint'
+    performanceTrendSource:
+      type: object
+      required:
+        - name
+        - kind
+        - status
+        - collectedAt
+      properties:
+        name:
+          type: string
+        kind:
+          type: string
+        status:
+          type: string
+          description: Coarse source status. Values are success, partial, failed, skipped, or noData.
+        collectedAt:
+          type: string
+        message:
+          type: string
+    performanceTrends:
+      type: object
+      required:
+        - range
+        - granularity
+        - summary
+        - series
+        - sources
+        - warnings
+        - collectedAt
+      properties:
+        range:
+          $ref: '#/components/schemas/performanceTrendRange'
+        granularity:
+          type: string
+          description: Controlled backend query step.
+        summary:
+          type: array
+          description: Per-series numeric summary. changeDirection is present only when at least two points exist.
+          items:
+            $ref: '#/components/schemas/performanceTrendSummary'
+        series:
+          type: array
+          description: Successfully collected and displayable metric series only. Unsupported, empty, or failed metrics are not represented as per-metric entries.
+          items:
+            $ref: '#/components/schemas/performanceTrendSeries'
+        sources:
+          type: array
+          description: Coarse collection source status. Messages are sanitized and do not expose PromQL, endpoints, credentials, or raw internal errors.
+          items:
+            $ref: '#/components/schemas/performanceTrendSource'
+        warnings:
+          type: array
+          items:
+            type: string
+        collectedAt:
+          type: string
+          description: Backend collection timestamp in UTC.
     postgresqlLockRow:
       type: object
       required:
