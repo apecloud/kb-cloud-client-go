@@ -9115,6 +9115,74 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RedisKeySummaryList'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/analysis:
+    get:
+      tags:
+        - dms
+      operationId: analyzeRedisKeys
+      summary: analyze Redis keys by bounded SCAN sampling
+      description: Returns an instant sample analysis for Redis keys. The result is not a persisted or full historical report; callers must use progress.complete, progress.processed, progress.sampleLimit, and generatedAt to present the sampling boundary.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: match
+          in: query
+          description: Redis SCAN match pattern.
+          required: false
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          description: Cursor returned by a previous analysis scan. Empty starts a new sample scan.
+          required: false
+          schema:
+            type: string
+        - name: sampleLimit
+          in: query
+          description: Maximum number of keys to sample in this analysis request.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: topN
+          in: query
+          description: Maximum number of top keys or namespaces to return.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: namespaceSeparator
+          in: query
+          description: Separator used to group key namespaces.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: analyze redis key sample success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisAnalysisResponse'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/key/detail:
     post:
       tags:
@@ -28304,6 +28372,8 @@ components:
     RedisDataCapabilities:
       type: object
       properties:
+        analysis:
+          $ref: '#/components/schemas/RedisCapability'
         browser:
           $ref: '#/components/schemas/RedisCapability'
         workbench:
@@ -28419,6 +28489,235 @@ components:
           type: boolean
           description: Whether another key page should be requested.
           x-omitempty: false
+    RedisAnalysisFilter:
+      type: object
+      properties:
+        match:
+          type: string
+        count:
+          type: integer
+          format: int64
+          x-omitempty: false
+    RedisAnalysisProgress:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int64
+          x-omitempty: false
+        scanned:
+          type: integer
+          format: int64
+          x-omitempty: false
+        processed:
+          type: integer
+          format: int64
+          x-omitempty: false
+        sampleLimit:
+          type: integer
+          format: int64
+          x-omitempty: false
+        cursor:
+          type: string
+        nextCursor:
+          type: string
+        scannedPercent:
+          type: number
+          format: double
+          x-omitempty: false
+        complete:
+          type: boolean
+          x-omitempty: false
+        sampled:
+          type: boolean
+          x-omitempty: false
+        extrapolationFactor:
+          type: number
+          format: double
+          x-omitempty: false
+        generatedAt:
+          type: string
+          format: date-time
+    RedisAnalysisSimpleTypeSummary:
+      type: object
+      properties:
+        type:
+          type: string
+        total:
+          type: integer
+          format: int64
+          x-omitempty: false
+        ratio:
+          type: number
+          format: double
+          x-omitempty: false
+    RedisAnalysisTypedSummary:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int64
+          x-omitempty: false
+        types:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedisAnalysisSimpleTypeSummary'
+            nullable: true
+    RedisAnalysisNamespaceTypeSummary:
+      type: object
+      properties:
+        type:
+          type: string
+        keys:
+          type: integer
+          format: int64
+          x-omitempty: false
+        memory:
+          type: integer
+          format: int64
+          x-omitempty: false
+        keyRatio:
+          type: number
+          format: double
+          x-omitempty: false
+        memoryRatio:
+          type: number
+          format: double
+          x-omitempty: false
+    RedisAnalysisNamespaceSummary:
+      type: object
+      properties:
+        nsp:
+          type: string
+        keys:
+          type: integer
+          format: int64
+          x-omitempty: false
+        memory:
+          type: integer
+          format: int64
+          x-omitempty: false
+        keyRatio:
+          type: number
+          format: double
+          x-omitempty: false
+        memoryRatio:
+          type: number
+          format: double
+          x-omitempty: false
+        types:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedisAnalysisNamespaceTypeSummary'
+            nullable: true
+    RedisAnalysisKey:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        nsp:
+          type: string
+        ttl:
+          type: integer
+          format: int64
+        memory:
+          type: integer
+          format: int64
+          x-omitempty: false
+        length:
+          type: integer
+          format: int64
+          x-omitempty: false
+        encoding:
+          type: string
+    RedisAnalysisExpirationGroup:
+      type: object
+      properties:
+        threshold:
+          type: integer
+          format: int64
+          x-omitempty: false
+        label:
+          type: string
+        total:
+          type: integer
+          format: int64
+          x-omitempty: false
+          description: Memory bytes likely to be freed in this TTL group.
+        keys:
+          type: integer
+          format: int64
+          x-omitempty: false
+        keyRatio:
+          type: number
+          format: double
+          x-omitempty: false
+        memoryRatio:
+          type: number
+          format: double
+          x-omitempty: false
+    RedisAnalysisResponse:
+      type: object
+      description: Instant Redis key analysis report sampled by bounded SCAN. This aligns with RedisInsight-style analysis dimensions but is not a persisted historical report.
+      properties:
+        db:
+          type: integer
+          format: int64
+          x-omitempty: false
+        filter:
+          $ref: '#/components/schemas/RedisAnalysisFilter'
+        delimiter:
+          type: string
+          description: Actual delimiter used to aggregate top namespaces.
+        progress:
+          $ref: '#/components/schemas/RedisAnalysisProgress'
+        createdAt:
+          type: string
+          format: date-time
+        connectedClients:
+          type: integer
+          format: int64
+          description: Connected client count from Redis INFO when available.
+          x-omitempty: false
+        totalKeys:
+          $ref: '#/components/schemas/RedisAnalysisTypedSummary'
+        totalMemory:
+          $ref: '#/components/schemas/RedisAnalysisTypedSummary'
+        topKeysNsp:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedisAnalysisNamespaceSummary'
+            nullable: true
+        topMemoryNsp:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedisAnalysisNamespaceSummary'
+            nullable: true
+        topKeysLength:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedisAnalysisKey'
+            nullable: true
+        topKeysMemory:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedisAnalysisKey'
+            nullable: true
+        expirationGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedisAnalysisExpirationGroup'
+            nullable: true
+        warnings:
+          type: array
+          items:
+            type: string
+        recommendations:
+          type: array
+          items:
+            type: string
     RedisKeyDetailRequest:
       type: object
       required:

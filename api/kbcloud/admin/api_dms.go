@@ -739,6 +739,149 @@ func (a *DmsApi) AlterParameter(ctx _context.Context, orgName string, clusterNam
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// AnalyzeRedisKeysOptionalParameters holds optional parameters for AnalyzeRedisKeys.
+type AnalyzeRedisKeysOptionalParameters struct {
+	Database           *int64
+	Match              *string
+	Cursor             *string
+	SampleLimit        *int64
+	TopN               *int64
+	NamespaceSeparator *string
+}
+
+// NewAnalyzeRedisKeysOptionalParameters creates an empty struct for parameters.
+func NewAnalyzeRedisKeysOptionalParameters() *AnalyzeRedisKeysOptionalParameters {
+	this := AnalyzeRedisKeysOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeRedisKeysOptionalParameters) WithDatabase(database int64) *AnalyzeRedisKeysOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// WithMatch sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeRedisKeysOptionalParameters) WithMatch(match string) *AnalyzeRedisKeysOptionalParameters {
+	r.Match = &match
+	return r
+}
+
+// WithCursor sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeRedisKeysOptionalParameters) WithCursor(cursor string) *AnalyzeRedisKeysOptionalParameters {
+	r.Cursor = &cursor
+	return r
+}
+
+// WithSampleLimit sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeRedisKeysOptionalParameters) WithSampleLimit(sampleLimit int64) *AnalyzeRedisKeysOptionalParameters {
+	r.SampleLimit = &sampleLimit
+	return r
+}
+
+// WithTopN sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeRedisKeysOptionalParameters) WithTopN(topN int64) *AnalyzeRedisKeysOptionalParameters {
+	r.TopN = &topN
+	return r
+}
+
+// WithNamespaceSeparator sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeRedisKeysOptionalParameters) WithNamespaceSeparator(namespaceSeparator string) *AnalyzeRedisKeysOptionalParameters {
+	r.NamespaceSeparator = &namespaceSeparator
+	return r
+}
+
+// AnalyzeRedisKeys analyze Redis keys by bounded SCAN sampling.
+// Returns an instant sample analysis for Redis keys. The result is not a persisted or full historical report; callers must use progress.complete, progress.processed, progress.sampleLimit, and generatedAt to present the sampling boundary.
+func (a *DmsApi) AnalyzeRedisKeys(ctx _context.Context, orgName string, clusterName string, id string, o ...AnalyzeRedisKeysOptionalParameters) (RedisAnalysisResponse, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue RedisAnalysisResponse
+		optionalParams      AnalyzeRedisKeysOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type AnalyzeRedisKeysOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "analyzeRedisKeys",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/analysis",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.AnalyzeRedisKeys")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/analysis"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	if optionalParams.Match != nil {
+		localVarQueryParams.Add("match", common.ParameterToString(*optionalParams.Match, ""))
+	}
+	if optionalParams.Cursor != nil {
+		localVarQueryParams.Add("cursor", common.ParameterToString(*optionalParams.Cursor, ""))
+	}
+	if optionalParams.SampleLimit != nil {
+		localVarQueryParams.Add("sampleLimit", common.ParameterToString(*optionalParams.SampleLimit, ""))
+	}
+	if optionalParams.TopN != nil {
+		localVarQueryParams.Add("topN", common.ParameterToString(*optionalParams.TopN, ""))
+	}
+	if optionalParams.NamespaceSeparator != nil {
+		localVarQueryParams.Add("namespaceSeparator", common.ParameterToString(*optionalParams.NamespaceSeparator, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // CloseRedisPubSubSession close a Redis Pub/Sub polling session.
 func (a *DmsApi) CloseRedisPubSubSession(ctx _context.Context, orgName string, clusterName string, id string, sessionId string) (*_nethttp.Response, error) {
 	var (

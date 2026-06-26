@@ -216,6 +216,7 @@
 //   - [dmsApi.ListObjectNamesByType]
 //   - [dmsApi.ListObjectTypesInSchema]
 //   - [dmsApi.alterParameter]
+//   - [dmsApi.analyzeRedisKeys]
 //   - [dmsApi.closeRedisPubSubSession]
 //   - [dmsApi.closeSessions]
 //   - [dmsApi.createDataSourceV2]
