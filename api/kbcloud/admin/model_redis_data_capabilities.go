@@ -7,6 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type RedisDataCapabilities struct {
+	Analysis  *RedisCapability `json:"analysis,omitempty"`
 	Browser   *RedisCapability `json:"browser,omitempty"`
 	Workbench *RedisCapability `json:"workbench,omitempty"`
 	Pubsub    *RedisCapability `json:"pubsub,omitempty"`
@@ -36,6 +37,34 @@ func NewRedisDataCapabilities() *RedisDataCapabilities {
 func NewRedisDataCapabilitiesWithDefaults() *RedisDataCapabilities {
 	this := RedisDataCapabilities{}
 	return &this
+}
+
+// GetAnalysis returns the Analysis field value if set, zero value otherwise.
+func (o *RedisDataCapabilities) GetAnalysis() RedisCapability {
+	if o == nil || o.Analysis == nil {
+		var ret RedisCapability
+		return ret
+	}
+	return *o.Analysis
+}
+
+// GetAnalysisOk returns a tuple with the Analysis field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RedisDataCapabilities) GetAnalysisOk() (*RedisCapability, bool) {
+	if o == nil || o.Analysis == nil {
+		return nil, false
+	}
+	return o.Analysis, true
+}
+
+// HasAnalysis returns a boolean if a field has been set.
+func (o *RedisDataCapabilities) HasAnalysis() bool {
+	return o != nil && o.Analysis != nil
+}
+
+// SetAnalysis gets a reference to the given RedisCapability and assigns it to the Analysis field.
+func (o *RedisDataCapabilities) SetAnalysis(v RedisCapability) {
+	o.Analysis = &v
 }
 
 // GetBrowser returns the Browser field value if set, zero value otherwise.
@@ -296,6 +325,9 @@ func (o RedisDataCapabilities) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Analysis != nil {
+		toSerialize["analysis"] = o.Analysis
+	}
 	if o.Browser != nil {
 		toSerialize["browser"] = o.Browser
 	}
@@ -333,6 +365,7 @@ func (o RedisDataCapabilities) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *RedisDataCapabilities) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		Analysis  *RedisCapability `json:"analysis,omitempty"`
 		Browser   *RedisCapability `json:"browser,omitempty"`
 		Workbench *RedisCapability `json:"workbench,omitempty"`
 		Pubsub    *RedisCapability `json:"pubsub,omitempty"`
@@ -348,12 +381,16 @@ func (o *RedisDataCapabilities) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"browser", "workbench", "pubsub", "slowLog", "info", "cluster", "write", "delete", "json"})
+		common.DeleteKeys(additionalProperties, &[]string{"analysis", "browser", "workbench", "pubsub", "slowLog", "info", "cluster", "write", "delete", "json"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	if all.Analysis != nil && all.Analysis.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Analysis = all.Analysis
 	if all.Browser != nil && all.Browser.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
