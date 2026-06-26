@@ -9,10 +9,12 @@ import (
 )
 
 type CdcSettings struct {
-	Config    *CdcClusterConfig   `json:"config,omitempty"`
-	Account   *CdcClusterAccount  `json:"account,omitempty"`
-	Endpoint  *CdcClusterEndpoint `json:"endpoint,omitempty"`
-	Lifecycle *CdcLifecycle       `json:"lifecycle,omitempty"`
+	Config *CdcClusterConfig `json:"config,omitempty"`
+	// engine mode and account setting mappings. '_default' key means default mode setting
+	Account map[string]CdcClusterAccount `json:"account,omitempty"`
+	// engine mode and account setting mappings. '_default' key means default mode setting
+	Endpoint  map[string]CdcClusterEndpoint `json:"endpoint,omitempty"`
+	Lifecycle *CdcLifecycle                 `json:"lifecycle,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -64,21 +66,21 @@ func (o *CdcSettings) SetConfig(v CdcClusterConfig) {
 }
 
 // GetAccount returns the Account field value if set, zero value otherwise.
-func (o *CdcSettings) GetAccount() CdcClusterAccount {
+func (o *CdcSettings) GetAccount() map[string]CdcClusterAccount {
 	if o == nil || o.Account == nil {
-		var ret CdcClusterAccount
+		var ret map[string]CdcClusterAccount
 		return ret
 	}
-	return *o.Account
+	return o.Account
 }
 
 // GetAccountOk returns a tuple with the Account field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CdcSettings) GetAccountOk() (*CdcClusterAccount, bool) {
+func (o *CdcSettings) GetAccountOk() (*map[string]CdcClusterAccount, bool) {
 	if o == nil || o.Account == nil {
 		return nil, false
 	}
-	return o.Account, true
+	return &o.Account, true
 }
 
 // HasAccount returns a boolean if a field has been set.
@@ -86,27 +88,27 @@ func (o *CdcSettings) HasAccount() bool {
 	return o != nil && o.Account != nil
 }
 
-// SetAccount gets a reference to the given CdcClusterAccount and assigns it to the Account field.
-func (o *CdcSettings) SetAccount(v CdcClusterAccount) {
-	o.Account = &v
+// SetAccount gets a reference to the given map[string]CdcClusterAccount and assigns it to the Account field.
+func (o *CdcSettings) SetAccount(v map[string]CdcClusterAccount) {
+	o.Account = v
 }
 
 // GetEndpoint returns the Endpoint field value if set, zero value otherwise.
-func (o *CdcSettings) GetEndpoint() CdcClusterEndpoint {
+func (o *CdcSettings) GetEndpoint() map[string]CdcClusterEndpoint {
 	if o == nil || o.Endpoint == nil {
-		var ret CdcClusterEndpoint
+		var ret map[string]CdcClusterEndpoint
 		return ret
 	}
-	return *o.Endpoint
+	return o.Endpoint
 }
 
 // GetEndpointOk returns a tuple with the Endpoint field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CdcSettings) GetEndpointOk() (*CdcClusterEndpoint, bool) {
+func (o *CdcSettings) GetEndpointOk() (*map[string]CdcClusterEndpoint, bool) {
 	if o == nil || o.Endpoint == nil {
 		return nil, false
 	}
-	return o.Endpoint, true
+	return &o.Endpoint, true
 }
 
 // HasEndpoint returns a boolean if a field has been set.
@@ -114,9 +116,9 @@ func (o *CdcSettings) HasEndpoint() bool {
 	return o != nil && o.Endpoint != nil
 }
 
-// SetEndpoint gets a reference to the given CdcClusterEndpoint and assigns it to the Endpoint field.
-func (o *CdcSettings) SetEndpoint(v CdcClusterEndpoint) {
-	o.Endpoint = &v
+// SetEndpoint gets a reference to the given map[string]CdcClusterEndpoint and assigns it to the Endpoint field.
+func (o *CdcSettings) SetEndpoint(v map[string]CdcClusterEndpoint) {
+	o.Endpoint = v
 }
 
 // GetLifecycle returns the Lifecycle field value if set, zero value otherwise.
@@ -175,10 +177,10 @@ func (o CdcSettings) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *CdcSettings) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Config    *CdcClusterConfig   `json:"config,omitempty"`
-		Account   *CdcClusterAccount  `json:"account,omitempty"`
-		Endpoint  *CdcClusterEndpoint `json:"endpoint,omitempty"`
-		Lifecycle *CdcLifecycle       `json:"lifecycle,omitempty"`
+		Config    *CdcClusterConfig             `json:"config,omitempty"`
+		Account   map[string]CdcClusterAccount  `json:"account,omitempty"`
+		Endpoint  map[string]CdcClusterEndpoint `json:"endpoint,omitempty"`
+		Lifecycle *CdcLifecycle                 `json:"lifecycle,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -195,13 +197,7 @@ func (o *CdcSettings) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Config = all.Config
-	if all.Account != nil && all.Account.UnparsedObject != nil && o.UnparsedObject == nil {
-		hasInvalidField = true
-	}
 	o.Account = all.Account
-	if all.Endpoint != nil && all.Endpoint.UnparsedObject != nil && o.UnparsedObject == nil {
-		hasInvalidField = true
-	}
 	o.Endpoint = all.Endpoint
 	if all.Lifecycle != nil && all.Lifecycle.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
