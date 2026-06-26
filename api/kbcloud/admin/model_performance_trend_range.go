@@ -11,7 +11,7 @@ import (
 )
 
 type PerformanceTrendRange struct {
-	// Controlled query range label. Values are 1h, 6h, or 24h.
+	// Controlled query range label. Values are 1h, 6h, 24h, or 7d.
 	Label           string `json:"label"`
 	Start           string `json:"start"`
 	End             string `json:"end"`

@@ -20043,13 +20043,13 @@ paths:
             type: string
         - name: range
           in: query
-          description: Controlled query range. Allowed values are 1h, 6h, and 24h. Defaults to 1h.
+          description: Controlled query range. Allowed values are 1h, 6h, 24h, and 7d. Defaults to 1h.
           required: false
           schema:
             type: string
         - name: step
           in: query
-          description: Controlled query granularity. Allowed values are 1m, 5m, and 15m. Defaults to 1m for 1h, 5m for 6h, and 15m for 24h.
+          description: Controlled query granularity. Allowed values are 1m, 5m, 15m, and 1h. Defaults to 1m for 1h, 5m for 6h, 15m for 24h, and 1h for 7d.
           required: false
           schema:
             type: string
@@ -37843,7 +37843,7 @@ components:
       properties:
         label:
           type: string
-          description: Controlled query range label. Values are 1h, 6h, or 24h.
+          description: Controlled query range label. Values are 1h, 6h, 24h, or 7d.
         start:
           type: string
         end:
@@ -37869,7 +37869,7 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         category:
           type: string
-          description: Metric category. Values are connectionsSessions, workload, resourcePressure, storagePVC, availability, maintenance, performance, or capacity.
+          description: Metric category. Values are availability, performance, connections, resource, capacity, or vacuumWraparound.
         dimension:
           type: string
           description: Optional series dimension. Values include cluster, instance, pvc, and database.
@@ -37932,7 +37932,7 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         category:
           type: string
-          description: Metric category. Values are connectionsSessions, workload, resourcePressure, storagePVC, availability, maintenance, performance, or capacity.
+          description: Metric category. Values are availability, performance, connections, resource, capacity, or vacuumWraparound.
         dimension:
           type: string
           description: Optional series dimension. Values include cluster, instance, pvc, and database.

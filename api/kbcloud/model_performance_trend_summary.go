@@ -13,7 +13,7 @@ import (
 type PerformanceTrendSummary struct {
 	Metric      string               `json:"metric"`
 	DisplayName LocalizedDescription `json:"displayName"`
-	// Metric category. Values are connectionsSessions, workload, resourcePressure, storagePVC, availability, maintenance, performance, or capacity.
+	// Metric category. Values are availability, performance, connections, resource, capacity, or vacuumWraparound.
 	Category string `json:"category"`
 	// Optional series dimension. Values include cluster, instance, pvc, and database.
 	Dimension *string `json:"dimension,omitempty"`
