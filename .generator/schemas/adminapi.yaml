@@ -34909,10 +34909,12 @@ components:
         warnThreshold:
           type: number
           format: double
+          x-nullable: true
           description: First-version warning threshold assumption. It documents the script contract and is not a permanent product conclusion.
         critThreshold:
           type: number
           format: double
+          x-nullable: true
           description: First-version critical threshold assumption. It documents the script contract and is not a permanent product conclusion.
         direction:
           $ref: '#/components/schemas/inspectionThresholdDirection'
@@ -35026,13 +35028,16 @@ components:
         valueNum:
           type: number
           format: double
+          x-nullable: true
           description: Numeric form of result when the result is parseable.
         warnThreshold:
           type: number
           format: double
+          x-nullable: true
         critThreshold:
           type: number
           format: double
+          x-nullable: true
         direction:
           $ref: '#/components/schemas/inspectionThresholdDirection'
         criticality:
