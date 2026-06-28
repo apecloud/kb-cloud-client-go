@@ -21,10 +21,19 @@ type InspectionTask struct {
 	EnvName     *string `json:"envName,omitempty"`
 	EnvId       *string `json:"envID,omitempty"`
 	// Node name(s) for inspection. Multiple nodes can be specified as a comma-separated string (e.g. "node1,node2,node3").
-	NodeName       *string              `json:"nodeName,omitempty"`
-	IsAuto         *bool                `json:"isAuto,omitempty"`
-	Score          *int32               `json:"score,omitempty"`
-	Result         *string              `json:"result,omitempty"`
+	NodeName *string `json:"nodeName,omitempty"`
+	IsAuto   *bool   `json:"isAuto,omitempty"`
+	Score    *int32  `json:"score,omitempty"`
+	// Backend truth derived from the worst item state and criticality-aware score caps. A red item makes the task red; a critical red item caps score at 40.
+	Result *string `json:"result,omitempty"`
+	// Last inspection execution timestamp used for freshness checks.
+	LatestRunAt *time.Time `json:"latestRunAt,omitempty"`
+	// Expected first-version inspection interval assumption, for example 1h.
+	ExpectedInterval *string `json:"expectedInterval,omitempty"`
+	// Expected next inspection time derived from latestRunAt and expectedInterval.
+	NextRunAt *time.Time `json:"nextRunAt,omitempty"`
+	// True when the latest inspection is older than the expected interval. Stale or missing inspection data must not be displayed as healthy.
+	IsStale        *bool                `json:"isStale,omitempty"`
 	Items          []InspectionTaskItem `json:"items,omitempty"`
 	CreatedAt      *time.Time           `json:"createdAt,omitempty"`
 	UpdatedAt      *time.Time           `json:"updatedAt,omitempty"`
@@ -416,6 +425,118 @@ func (o *InspectionTask) SetResult(v string) {
 	o.Result = &v
 }
 
+// GetLatestRunAt returns the LatestRunAt field value if set, zero value otherwise.
+func (o *InspectionTask) GetLatestRunAt() time.Time {
+	if o == nil || o.LatestRunAt == nil {
+		var ret time.Time
+		return ret
+	}
+	return *o.LatestRunAt
+}
+
+// GetLatestRunAtOk returns a tuple with the LatestRunAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionTask) GetLatestRunAtOk() (*time.Time, bool) {
+	if o == nil || o.LatestRunAt == nil {
+		return nil, false
+	}
+	return o.LatestRunAt, true
+}
+
+// HasLatestRunAt returns a boolean if a field has been set.
+func (o *InspectionTask) HasLatestRunAt() bool {
+	return o != nil && o.LatestRunAt != nil
+}
+
+// SetLatestRunAt gets a reference to the given time.Time and assigns it to the LatestRunAt field.
+func (o *InspectionTask) SetLatestRunAt(v time.Time) {
+	o.LatestRunAt = &v
+}
+
+// GetExpectedInterval returns the ExpectedInterval field value if set, zero value otherwise.
+func (o *InspectionTask) GetExpectedInterval() string {
+	if o == nil || o.ExpectedInterval == nil {
+		var ret string
+		return ret
+	}
+	return *o.ExpectedInterval
+}
+
+// GetExpectedIntervalOk returns a tuple with the ExpectedInterval field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionTask) GetExpectedIntervalOk() (*string, bool) {
+	if o == nil || o.ExpectedInterval == nil {
+		return nil, false
+	}
+	return o.ExpectedInterval, true
+}
+
+// HasExpectedInterval returns a boolean if a field has been set.
+func (o *InspectionTask) HasExpectedInterval() bool {
+	return o != nil && o.ExpectedInterval != nil
+}
+
+// SetExpectedInterval gets a reference to the given string and assigns it to the ExpectedInterval field.
+func (o *InspectionTask) SetExpectedInterval(v string) {
+	o.ExpectedInterval = &v
+}
+
+// GetNextRunAt returns the NextRunAt field value if set, zero value otherwise.
+func (o *InspectionTask) GetNextRunAt() time.Time {
+	if o == nil || o.NextRunAt == nil {
+		var ret time.Time
+		return ret
+	}
+	return *o.NextRunAt
+}
+
+// GetNextRunAtOk returns a tuple with the NextRunAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionTask) GetNextRunAtOk() (*time.Time, bool) {
+	if o == nil || o.NextRunAt == nil {
+		return nil, false
+	}
+	return o.NextRunAt, true
+}
+
+// HasNextRunAt returns a boolean if a field has been set.
+func (o *InspectionTask) HasNextRunAt() bool {
+	return o != nil && o.NextRunAt != nil
+}
+
+// SetNextRunAt gets a reference to the given time.Time and assigns it to the NextRunAt field.
+func (o *InspectionTask) SetNextRunAt(v time.Time) {
+	o.NextRunAt = &v
+}
+
+// GetIsStale returns the IsStale field value if set, zero value otherwise.
+func (o *InspectionTask) GetIsStale() bool {
+	if o == nil || o.IsStale == nil {
+		var ret bool
+		return ret
+	}
+	return *o.IsStale
+}
+
+// GetIsStaleOk returns a tuple with the IsStale field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionTask) GetIsStaleOk() (*bool, bool) {
+	if o == nil || o.IsStale == nil {
+		return nil, false
+	}
+	return o.IsStale, true
+}
+
+// HasIsStale returns a boolean if a field has been set.
+func (o *InspectionTask) HasIsStale() bool {
+	return o != nil && o.IsStale != nil
+}
+
+// SetIsStale gets a reference to the given bool and assigns it to the IsStale field.
+func (o *InspectionTask) SetIsStale(v bool) {
+	o.IsStale = &v
+}
+
 // GetItems returns the Items field value if set, zero value otherwise.
 func (o *InspectionTask) GetItems() []InspectionTaskItem {
 	if o == nil || o.Items == nil {
@@ -601,6 +722,26 @@ func (o InspectionTask) MarshalJSON() ([]byte, error) {
 	if o.Result != nil {
 		toSerialize["result"] = o.Result
 	}
+	if o.LatestRunAt != nil {
+		if o.LatestRunAt.Nanosecond() == 0 {
+			toSerialize["latestRunAt"] = o.LatestRunAt.Format("2006-01-02T15:04:05Z07:00")
+		} else {
+			toSerialize["latestRunAt"] = o.LatestRunAt.Format("2006-01-02T15:04:05.000Z07:00")
+		}
+	}
+	if o.ExpectedInterval != nil {
+		toSerialize["expectedInterval"] = o.ExpectedInterval
+	}
+	if o.NextRunAt != nil {
+		if o.NextRunAt.Nanosecond() == 0 {
+			toSerialize["nextRunAt"] = o.NextRunAt.Format("2006-01-02T15:04:05Z07:00")
+		} else {
+			toSerialize["nextRunAt"] = o.NextRunAt.Format("2006-01-02T15:04:05.000Z07:00")
+		}
+	}
+	if o.IsStale != nil {
+		toSerialize["isStale"] = o.IsStale
+	}
 	if o.Items != nil {
 		toSerialize["items"] = o.Items
 	}
@@ -642,31 +783,35 @@ func (o InspectionTask) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InspectionTask) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id             *string              `json:"id,omitempty"`
-		Creator        *string              `json:"creator,omitempty"`
-		Status         *string              `json:"status,omitempty"`
-		Engine         *string              `json:"engine,omitempty"`
-		OrgName        *string              `json:"orgName,omitempty"`
-		ClusterId      *string              `json:"clusterID,omitempty"`
-		ClusterName    *string              `json:"clusterName,omitempty"`
-		EnvName        *string              `json:"envName,omitempty"`
-		EnvId          *string              `json:"envID,omitempty"`
-		NodeName       *string              `json:"nodeName,omitempty"`
-		IsAuto         *bool                `json:"isAuto,omitempty"`
-		Score          *int32               `json:"score,omitempty"`
-		Result         *string              `json:"result,omitempty"`
-		Items          []InspectionTaskItem `json:"items,omitempty"`
-		CreatedAt      *time.Time           `json:"createdAt,omitempty"`
-		UpdatedAt      *time.Time           `json:"updatedAt,omitempty"`
-		TimeRangeStart *time.Time           `json:"timeRangeStart,omitempty"`
-		TimeRangeEnd   *time.Time           `json:"timeRangeEnd,omitempty"`
+		Id               *string              `json:"id,omitempty"`
+		Creator          *string              `json:"creator,omitempty"`
+		Status           *string              `json:"status,omitempty"`
+		Engine           *string              `json:"engine,omitempty"`
+		OrgName          *string              `json:"orgName,omitempty"`
+		ClusterId        *string              `json:"clusterID,omitempty"`
+		ClusterName      *string              `json:"clusterName,omitempty"`
+		EnvName          *string              `json:"envName,omitempty"`
+		EnvId            *string              `json:"envID,omitempty"`
+		NodeName         *string              `json:"nodeName,omitempty"`
+		IsAuto           *bool                `json:"isAuto,omitempty"`
+		Score            *int32               `json:"score,omitempty"`
+		Result           *string              `json:"result,omitempty"`
+		LatestRunAt      *time.Time           `json:"latestRunAt,omitempty"`
+		ExpectedInterval *string              `json:"expectedInterval,omitempty"`
+		NextRunAt        *time.Time           `json:"nextRunAt,omitempty"`
+		IsStale          *bool                `json:"isStale,omitempty"`
+		Items            []InspectionTaskItem `json:"items,omitempty"`
+		CreatedAt        *time.Time           `json:"createdAt,omitempty"`
+		UpdatedAt        *time.Time           `json:"updatedAt,omitempty"`
+		TimeRangeStart   *time.Time           `json:"timeRangeStart,omitempty"`
+		TimeRangeEnd     *time.Time           `json:"timeRangeEnd,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "creator", "status", "engine", "orgName", "clusterID", "clusterName", "envName", "envID", "nodeName", "isAuto", "score", "result", "items", "createdAt", "updatedAt", "timeRangeStart", "timeRangeEnd"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "creator", "status", "engine", "orgName", "clusterID", "clusterName", "envName", "envID", "nodeName", "isAuto", "score", "result", "latestRunAt", "expectedInterval", "nextRunAt", "isStale", "items", "createdAt", "updatedAt", "timeRangeStart", "timeRangeEnd"})
 	} else {
 		return err
 	}
@@ -683,6 +828,10 @@ func (o *InspectionTask) UnmarshalJSON(bytes []byte) (err error) {
 	o.IsAuto = all.IsAuto
 	o.Score = all.Score
 	o.Result = all.Result
+	o.LatestRunAt = all.LatestRunAt
+	o.ExpectedInterval = all.ExpectedInterval
+	o.NextRunAt = all.NextRunAt
+	o.IsStale = all.IsStale
 	o.Items = all.Items
 	o.CreatedAt = all.CreatedAt
 	o.UpdatedAt = all.UpdatedAt
