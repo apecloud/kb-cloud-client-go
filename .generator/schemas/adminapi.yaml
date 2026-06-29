@@ -35256,6 +35256,8 @@ components:
           type: string
         isAuto:
           type: boolean
+        savedDays:
+          type: integer
         score:
           type: integer
         result:

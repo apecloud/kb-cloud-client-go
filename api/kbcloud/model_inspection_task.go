@@ -21,9 +21,10 @@ type InspectionTask struct {
 	EnvName     *string `json:"envName,omitempty"`
 	EnvId       *string `json:"envID,omitempty"`
 	// Node name(s) for inspection. Multiple nodes can be specified as a comma-separated string (e.g. "node1,node2,node3").
-	NodeName *string `json:"nodeName,omitempty"`
-	IsAuto   *bool   `json:"isAuto,omitempty"`
-	Score    *int32  `json:"score,omitempty"`
+	NodeName  *string `json:"nodeName,omitempty"`
+	IsAuto    *bool   `json:"isAuto,omitempty"`
+	SavedDays *int32  `json:"savedDays,omitempty"`
+	Score     *int32  `json:"score,omitempty"`
 	// Backend truth derived from the worst item state and criticality-aware score caps. A red item makes the task red; a critical red item caps score at 40.
 	Result *string `json:"result,omitempty"`
 	// Last inspection execution timestamp used for freshness checks.
@@ -367,6 +368,34 @@ func (o *InspectionTask) HasIsAuto() bool {
 // SetIsAuto gets a reference to the given bool and assigns it to the IsAuto field.
 func (o *InspectionTask) SetIsAuto(v bool) {
 	o.IsAuto = &v
+}
+
+// GetSavedDays returns the SavedDays field value if set, zero value otherwise.
+func (o *InspectionTask) GetSavedDays() int32 {
+	if o == nil || o.SavedDays == nil {
+		var ret int32
+		return ret
+	}
+	return *o.SavedDays
+}
+
+// GetSavedDaysOk returns a tuple with the SavedDays field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionTask) GetSavedDaysOk() (*int32, bool) {
+	if o == nil || o.SavedDays == nil {
+		return nil, false
+	}
+	return o.SavedDays, true
+}
+
+// HasSavedDays returns a boolean if a field has been set.
+func (o *InspectionTask) HasSavedDays() bool {
+	return o != nil && o.SavedDays != nil
+}
+
+// SetSavedDays gets a reference to the given int32 and assigns it to the SavedDays field.
+func (o *InspectionTask) SetSavedDays(v int32) {
+	o.SavedDays = &v
 }
 
 // GetScore returns the Score field value if set, zero value otherwise.
@@ -716,6 +745,9 @@ func (o InspectionTask) MarshalJSON() ([]byte, error) {
 	if o.IsAuto != nil {
 		toSerialize["isAuto"] = o.IsAuto
 	}
+	if o.SavedDays != nil {
+		toSerialize["savedDays"] = o.SavedDays
+	}
 	if o.Score != nil {
 		toSerialize["score"] = o.Score
 	}
@@ -794,6 +826,7 @@ func (o *InspectionTask) UnmarshalJSON(bytes []byte) (err error) {
 		EnvId            *string              `json:"envID,omitempty"`
 		NodeName         *string              `json:"nodeName,omitempty"`
 		IsAuto           *bool                `json:"isAuto,omitempty"`
+		SavedDays        *int32               `json:"savedDays,omitempty"`
 		Score            *int32               `json:"score,omitempty"`
 		Result           *string              `json:"result,omitempty"`
 		LatestRunAt      *time.Time           `json:"latestRunAt,omitempty"`
@@ -811,7 +844,7 @@ func (o *InspectionTask) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "creator", "status", "engine", "orgName", "clusterID", "clusterName", "envName", "envID", "nodeName", "isAuto", "score", "result", "latestRunAt", "expectedInterval", "nextRunAt", "isStale", "items", "createdAt", "updatedAt", "timeRangeStart", "timeRangeEnd"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "creator", "status", "engine", "orgName", "clusterID", "clusterName", "envName", "envID", "nodeName", "isAuto", "savedDays", "score", "result", "latestRunAt", "expectedInterval", "nextRunAt", "isStale", "items", "createdAt", "updatedAt", "timeRangeStart", "timeRangeEnd"})
 	} else {
 		return err
 	}
@@ -826,6 +859,7 @@ func (o *InspectionTask) UnmarshalJSON(bytes []byte) (err error) {
 	o.EnvId = all.EnvId
 	o.NodeName = all.NodeName
 	o.IsAuto = all.IsAuto
+	o.SavedDays = all.SavedDays
 	o.Score = all.Score
 	o.Result = all.Result
 	o.LatestRunAt = all.LatestRunAt
