@@ -27,6 +27,8 @@ type ClusterSlowLogExplainResponse struct {
 	// Cluster execution log item represents a single log entry
 	Sample        *ClusterExecutionLogItem `json:"sample,omitempty"`
 	ExplainResult *DmsQueryResponse        `json:"explainResult,omitempty"`
+	// Primary rule-based diagnosis card for a slow log EXPLAIN result
+	Diagnosis *ClusterSlowLogDiagnosis `json:"diagnosis,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -301,6 +303,34 @@ func (o *ClusterSlowLogExplainResponse) SetExplainResult(v DmsQueryResponse) {
 	o.ExplainResult = &v
 }
 
+// GetDiagnosis returns the Diagnosis field value if set, zero value otherwise.
+func (o *ClusterSlowLogExplainResponse) GetDiagnosis() ClusterSlowLogDiagnosis {
+	if o == nil || o.Diagnosis == nil {
+		var ret ClusterSlowLogDiagnosis
+		return ret
+	}
+	return *o.Diagnosis
+}
+
+// GetDiagnosisOk returns a tuple with the Diagnosis field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterSlowLogExplainResponse) GetDiagnosisOk() (*ClusterSlowLogDiagnosis, bool) {
+	if o == nil || o.Diagnosis == nil {
+		return nil, false
+	}
+	return o.Diagnosis, true
+}
+
+// HasDiagnosis returns a boolean if a field has been set.
+func (o *ClusterSlowLogExplainResponse) HasDiagnosis() bool {
+	return o != nil && o.Diagnosis != nil
+}
+
+// SetDiagnosis gets a reference to the given ClusterSlowLogDiagnosis and assigns it to the Diagnosis field.
+func (o *ClusterSlowLogExplainResponse) SetDiagnosis(v ClusterSlowLogDiagnosis) {
+	o.Diagnosis = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterSlowLogExplainResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -334,6 +364,9 @@ func (o ClusterSlowLogExplainResponse) MarshalJSON() ([]byte, error) {
 	if o.ExplainResult != nil {
 		toSerialize["explainResult"] = o.ExplainResult
 	}
+	if o.Diagnosis != nil {
+		toSerialize["diagnosis"] = o.Diagnosis
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -353,13 +386,14 @@ func (o *ClusterSlowLogExplainResponse) UnmarshalJSON(bytes []byte) (err error) 
 		ExecutionTime   *float64                 `json:"executionTime,omitempty"`
 		Sample          *ClusterExecutionLogItem `json:"sample,omitempty"`
 		ExplainResult   *DmsQueryResponse        `json:"explainResult,omitempty"`
+		Diagnosis       *ClusterSlowLogDiagnosis `json:"diagnosis,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"templateId", "sql", "sqlType", "database", "normalizedQuery", "sampleTimestamp", "executionTime", "sample", "explainResult"})
+		common.DeleteKeys(additionalProperties, &[]string{"templateId", "sql", "sqlType", "database", "normalizedQuery", "sampleTimestamp", "executionTime", "sample", "explainResult", "diagnosis"})
 	} else {
 		return err
 	}
@@ -380,6 +414,10 @@ func (o *ClusterSlowLogExplainResponse) UnmarshalJSON(bytes []byte) (err error) 
 		hasInvalidField = true
 	}
 	o.ExplainResult = all.ExplainResult
+	if all.Diagnosis != nil && all.Diagnosis.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Diagnosis = all.Diagnosis
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
