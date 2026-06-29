@@ -24,7 +24,9 @@ type InspectionTask struct {
 	NodeName  *string `json:"nodeName,omitempty"`
 	IsAuto    *bool   `json:"isAuto,omitempty"`
 	SavedDays *int32  `json:"savedDays,omitempty"`
-	Score     *int32  `json:"score,omitempty"`
+	// Expiration timestamp fixed when the inspection report is created from savedDays.
+	ExpiredAt *time.Time `json:"expiredAt,omitempty"`
+	Score     *int32     `json:"score,omitempty"`
 	// Backend truth derived from the worst item state and criticality-aware score caps. A red item makes the task red; a critical red item caps score at 40.
 	Result *string `json:"result,omitempty"`
 	// Last inspection execution timestamp used for freshness checks.
@@ -398,6 +400,34 @@ func (o *InspectionTask) SetSavedDays(v int32) {
 	o.SavedDays = &v
 }
 
+// GetExpiredAt returns the ExpiredAt field value if set, zero value otherwise.
+func (o *InspectionTask) GetExpiredAt() time.Time {
+	if o == nil || o.ExpiredAt == nil {
+		var ret time.Time
+		return ret
+	}
+	return *o.ExpiredAt
+}
+
+// GetExpiredAtOk returns a tuple with the ExpiredAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionTask) GetExpiredAtOk() (*time.Time, bool) {
+	if o == nil || o.ExpiredAt == nil {
+		return nil, false
+	}
+	return o.ExpiredAt, true
+}
+
+// HasExpiredAt returns a boolean if a field has been set.
+func (o *InspectionTask) HasExpiredAt() bool {
+	return o != nil && o.ExpiredAt != nil
+}
+
+// SetExpiredAt gets a reference to the given time.Time and assigns it to the ExpiredAt field.
+func (o *InspectionTask) SetExpiredAt(v time.Time) {
+	o.ExpiredAt = &v
+}
+
 // GetScore returns the Score field value if set, zero value otherwise.
 func (o *InspectionTask) GetScore() int32 {
 	if o == nil || o.Score == nil {
@@ -748,6 +778,13 @@ func (o InspectionTask) MarshalJSON() ([]byte, error) {
 	if o.SavedDays != nil {
 		toSerialize["savedDays"] = o.SavedDays
 	}
+	if o.ExpiredAt != nil {
+		if o.ExpiredAt.Nanosecond() == 0 {
+			toSerialize["expiredAt"] = o.ExpiredAt.Format("2006-01-02T15:04:05Z07:00")
+		} else {
+			toSerialize["expiredAt"] = o.ExpiredAt.Format("2006-01-02T15:04:05.000Z07:00")
+		}
+	}
 	if o.Score != nil {
 		toSerialize["score"] = o.Score
 	}
@@ -827,6 +864,7 @@ func (o *InspectionTask) UnmarshalJSON(bytes []byte) (err error) {
 		NodeName         *string              `json:"nodeName,omitempty"`
 		IsAuto           *bool                `json:"isAuto,omitempty"`
 		SavedDays        *int32               `json:"savedDays,omitempty"`
+		ExpiredAt        *time.Time           `json:"expiredAt,omitempty"`
 		Score            *int32               `json:"score,omitempty"`
 		Result           *string              `json:"result,omitempty"`
 		LatestRunAt      *time.Time           `json:"latestRunAt,omitempty"`
@@ -844,7 +882,7 @@ func (o *InspectionTask) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "creator", "status", "engine", "orgName", "clusterID", "clusterName", "envName", "envID", "nodeName", "isAuto", "savedDays", "score", "result", "latestRunAt", "expectedInterval", "nextRunAt", "isStale", "items", "createdAt", "updatedAt", "timeRangeStart", "timeRangeEnd"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "creator", "status", "engine", "orgName", "clusterID", "clusterName", "envName", "envID", "nodeName", "isAuto", "savedDays", "expiredAt", "score", "result", "latestRunAt", "expectedInterval", "nextRunAt", "isStale", "items", "createdAt", "updatedAt", "timeRangeStart", "timeRangeEnd"})
 	} else {
 		return err
 	}
@@ -860,6 +898,7 @@ func (o *InspectionTask) UnmarshalJSON(bytes []byte) (err error) {
 	o.NodeName = all.NodeName
 	o.IsAuto = all.IsAuto
 	o.SavedDays = all.SavedDays
+	o.ExpiredAt = all.ExpiredAt
 	o.Score = all.Score
 	o.Result = all.Result
 	o.LatestRunAt = all.LatestRunAt

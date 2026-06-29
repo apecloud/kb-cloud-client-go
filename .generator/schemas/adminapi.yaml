@@ -35258,6 +35258,10 @@ components:
           type: boolean
         savedDays:
           type: integer
+        expiredAt:
+          type: string
+          format: date-time
+          description: Expiration timestamp fixed when the inspection report is created from savedDays.
         score:
           type: integer
         result:
