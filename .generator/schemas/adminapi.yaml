@@ -15494,6 +15494,12 @@ paths:
           required: false
           schema:
             type: string
+        - description: name of the cluster, must be used with orgName
+          in: query
+          name: clusterName
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: A successful response.
@@ -35132,6 +35138,8 @@ components:
         resourceID:
           type: string
         resourceName:
+          type: string
+        orgName:
           type: string
         creator:
           type: string

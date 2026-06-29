@@ -17,6 +17,7 @@ type AutoInspection struct {
 	ResourceType AutoInspectionResourceType `json:"resourceType"`
 	ResourceId   *string                    `json:"resourceID,omitempty"`
 	ResourceName string                     `json:"resourceName"`
+	OrgName      *string                    `json:"orgName,omitempty"`
 	Creator      string                     `json:"creator"`
 	Schedule     *string                    `json:"schedule,omitempty"`
 	// Specifies the unit of time for the auto inspection schedule.
@@ -154,6 +155,34 @@ func (o *AutoInspection) GetResourceNameOk() (*string, bool) {
 // SetResourceName sets field value.
 func (o *AutoInspection) SetResourceName(v string) {
 	o.ResourceName = v
+}
+
+// GetOrgName returns the OrgName field value if set, zero value otherwise.
+func (o *AutoInspection) GetOrgName() string {
+	if o == nil || o.OrgName == nil {
+		var ret string
+		return ret
+	}
+	return *o.OrgName
+}
+
+// GetOrgNameOk returns a tuple with the OrgName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AutoInspection) GetOrgNameOk() (*string, bool) {
+	if o == nil || o.OrgName == nil {
+		return nil, false
+	}
+	return o.OrgName, true
+}
+
+// HasOrgName returns a boolean if a field has been set.
+func (o *AutoInspection) HasOrgName() bool {
+	return o != nil && o.OrgName != nil
+}
+
+// SetOrgName gets a reference to the given string and assigns it to the OrgName field.
+func (o *AutoInspection) SetOrgName(v string) {
+	o.OrgName = &v
 }
 
 // GetCreator returns the Creator field value.
@@ -440,6 +469,9 @@ func (o AutoInspection) MarshalJSON() ([]byte, error) {
 		toSerialize["resourceID"] = o.ResourceId
 	}
 	toSerialize["resourceName"] = o.ResourceName
+	if o.OrgName != nil {
+		toSerialize["orgName"] = o.OrgName
+	}
 	toSerialize["creator"] = o.Creator
 	if o.Schedule != nil {
 		toSerialize["schedule"] = o.Schedule
@@ -484,6 +516,7 @@ func (o *AutoInspection) UnmarshalJSON(bytes []byte) (err error) {
 		ResourceType *AutoInspectionResourceType `json:"resourceType"`
 		ResourceId   *string                     `json:"resourceID,omitempty"`
 		ResourceName *string                     `json:"resourceName"`
+		OrgName      *string                     `json:"orgName,omitempty"`
 		Creator      *string                     `json:"creator"`
 		Schedule     *string                     `json:"schedule,omitempty"`
 		RunEvery     *AutoInspectionRunUnit      `json:"runEvery,omitempty"`
@@ -512,7 +545,7 @@ func (o *AutoInspection) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "resourceType", "resourceID", "resourceName", "creator", "schedule", "runEvery", "daysOfWeek", "daysOfMonth", "hour", "minute", "savedDays", "nextRunTime", "enabled"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "resourceType", "resourceID", "resourceName", "orgName", "creator", "schedule", "runEvery", "daysOfWeek", "daysOfMonth", "hour", "minute", "savedDays", "nextRunTime", "enabled"})
 	} else {
 		return err
 	}
@@ -526,6 +559,7 @@ func (o *AutoInspection) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.ResourceId = all.ResourceId
 	o.ResourceName = *all.ResourceName
+	o.OrgName = all.OrgName
 	o.Creator = *all.Creator
 	o.Schedule = all.Schedule
 	if all.RunEvery != nil && !all.RunEvery.IsValid() {
