@@ -1106,13 +1106,38 @@ func (a *DmsApi) CreateDataSourceV2(ctx _context.Context, orgName string, cluste
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// CreateRedisPubSubSessionOptionalParameters holds optional parameters for CreateRedisPubSubSession.
+type CreateRedisPubSubSessionOptionalParameters struct {
+	Database *int64
+}
+
+// NewCreateRedisPubSubSessionOptionalParameters creates an empty struct for parameters.
+func NewCreateRedisPubSubSessionOptionalParameters() *CreateRedisPubSubSessionOptionalParameters {
+	this := CreateRedisPubSubSessionOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *CreateRedisPubSubSessionOptionalParameters) WithDatabase(database int64) *CreateRedisPubSubSessionOptionalParameters {
+	r.Database = &database
+	return r
+}
+
 // CreateRedisPubSubSession create a Redis Pub/Sub polling session.
-func (a *DmsApi) CreateRedisPubSubSession(ctx _context.Context, orgName string, clusterName string, id string, body RedisPubSubSessionCreateRequest) (RedisPubSubSession, *_nethttp.Response, error) {
+func (a *DmsApi) CreateRedisPubSubSession(ctx _context.Context, orgName string, clusterName string, id string, body RedisPubSubSessionCreateRequest, o ...CreateRedisPubSubSessionOptionalParameters) (RedisPubSubSession, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue RedisPubSubSession
+		optionalParams      CreateRedisPubSubSessionOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateRedisPubSubSessionOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -1136,6 +1161,9 @@ func (a *DmsApi) CreateRedisPubSubSession(ctx _context.Context, orgName string, 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -1487,14 +1515,39 @@ func (a *DmsApi) EnableConsole(ctx _context.Context, engineName string, orgName 
 	return localVarHTTPResponse, nil
 }
 
+// ExecuteRedisWorkbenchCommandOptionalParameters holds optional parameters for ExecuteRedisWorkbenchCommand.
+type ExecuteRedisWorkbenchCommandOptionalParameters struct {
+	Database *int64
+}
+
+// NewExecuteRedisWorkbenchCommandOptionalParameters creates an empty struct for parameters.
+func NewExecuteRedisWorkbenchCommandOptionalParameters() *ExecuteRedisWorkbenchCommandOptionalParameters {
+	this := ExecuteRedisWorkbenchCommandOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *ExecuteRedisWorkbenchCommandOptionalParameters) WithDatabase(database int64) *ExecuteRedisWorkbenchCommandOptionalParameters {
+	r.Database = &database
+	return r
+}
+
 // ExecuteRedisWorkbenchCommand execute a Redis Workbench command.
 // Executes a Redis command for the current datasource context. Follow-up implementation should record command history in datasource query_history with engine=redis; no Redis-specific history API is introduced by this contract.
-func (a *DmsApi) ExecuteRedisWorkbenchCommand(ctx _context.Context, orgName string, clusterName string, id string, body RedisWorkbenchExecuteRequest) (RedisWorkbenchExecuteResponse, *_nethttp.Response, error) {
+func (a *DmsApi) ExecuteRedisWorkbenchCommand(ctx _context.Context, orgName string, clusterName string, id string, body RedisWorkbenchExecuteRequest, o ...ExecuteRedisWorkbenchCommandOptionalParameters) (RedisWorkbenchExecuteResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue RedisWorkbenchExecuteResponse
+		optionalParams      ExecuteRedisWorkbenchCommandOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ExecuteRedisWorkbenchCommandOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -1518,6 +1571,9 @@ func (a *DmsApi) ExecuteRedisWorkbenchCommand(ctx _context.Context, orgName stri
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -1860,13 +1916,38 @@ func (a *DmsApi) GetMongoCollection(ctx _context.Context, orgName string, cluste
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetRedisClusterTopologyOptionalParameters holds optional parameters for GetRedisClusterTopology.
+type GetRedisClusterTopologyOptionalParameters struct {
+	Database *int64
+}
+
+// NewGetRedisClusterTopologyOptionalParameters creates an empty struct for parameters.
+func NewGetRedisClusterTopologyOptionalParameters() *GetRedisClusterTopologyOptionalParameters {
+	this := GetRedisClusterTopologyOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *GetRedisClusterTopologyOptionalParameters) WithDatabase(database int64) *GetRedisClusterTopologyOptionalParameters {
+	r.Database = &database
+	return r
+}
+
 // GetRedisClusterTopology get Redis Cluster topology.
-func (a *DmsApi) GetRedisClusterTopology(ctx _context.Context, orgName string, clusterName string, id string) (RedisClusterTopology, *_nethttp.Response, error) {
+func (a *DmsApi) GetRedisClusterTopology(ctx _context.Context, orgName string, clusterName string, id string, o ...GetRedisClusterTopologyOptionalParameters) (RedisClusterTopology, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue RedisClusterTopology
+		optionalParams      GetRedisClusterTopologyOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetRedisClusterTopologyOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -1890,6 +1971,9 @@ func (a *DmsApi) GetRedisClusterTopology(ctx _context.Context, orgName string, c
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -1924,13 +2008,38 @@ func (a *DmsApi) GetRedisClusterTopology(ctx _context.Context, orgName string, c
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetRedisContextOptionalParameters holds optional parameters for GetRedisContext.
+type GetRedisContextOptionalParameters struct {
+	Database *int64
+}
+
+// NewGetRedisContextOptionalParameters creates an empty struct for parameters.
+func NewGetRedisContextOptionalParameters() *GetRedisContextOptionalParameters {
+	this := GetRedisContextOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *GetRedisContextOptionalParameters) WithDatabase(database int64) *GetRedisContextOptionalParameters {
+	r.Database = &database
+	return r
+}
+
 // GetRedisContext get Redis datasource data-management context.
-func (a *DmsApi) GetRedisContext(ctx _context.Context, orgName string, clusterName string, id string) (RedisDataContext, *_nethttp.Response, error) {
+func (a *DmsApi) GetRedisContext(ctx _context.Context, orgName string, clusterName string, id string, o ...GetRedisContextOptionalParameters) (RedisDataContext, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue RedisDataContext
+		optionalParams      GetRedisContextOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetRedisContextOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -1954,6 +2063,9 @@ func (a *DmsApi) GetRedisContext(ctx _context.Context, orgName string, clusterNa
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -1990,14 +2102,21 @@ func (a *DmsApi) GetRedisContext(ctx _context.Context, orgName string, clusterNa
 
 // GetRedisInfoOptionalParameters holds optional parameters for GetRedisInfo.
 type GetRedisInfoOptionalParameters struct {
-	Section *string
-	NodeId  *string
+	Database *int64
+	Section  *string
+	NodeId   *string
 }
 
 // NewGetRedisInfoOptionalParameters creates an empty struct for parameters.
 func NewGetRedisInfoOptionalParameters() *GetRedisInfoOptionalParameters {
 	this := GetRedisInfoOptionalParameters{}
 	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *GetRedisInfoOptionalParameters) WithDatabase(database int64) *GetRedisInfoOptionalParameters {
+	r.Database = &database
+	return r
 }
 
 // WithSection sets the corresponding parameter name and returns the struct.
@@ -2050,6 +2169,9 @@ func (a *DmsApi) GetRedisInfo(ctx _context.Context, orgName string, clusterName 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
 	if optionalParams.Section != nil {
 		localVarQueryParams.Add("section", common.ParameterToString(*optionalParams.Section, ""))
 	}
@@ -2090,13 +2212,38 @@ func (a *DmsApi) GetRedisInfo(ctx _context.Context, orgName string, clusterName 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetRedisKeyDetailOptionalParameters holds optional parameters for GetRedisKeyDetail.
+type GetRedisKeyDetailOptionalParameters struct {
+	Database *int64
+}
+
+// NewGetRedisKeyDetailOptionalParameters creates an empty struct for parameters.
+func NewGetRedisKeyDetailOptionalParameters() *GetRedisKeyDetailOptionalParameters {
+	this := GetRedisKeyDetailOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *GetRedisKeyDetailOptionalParameters) WithDatabase(database int64) *GetRedisKeyDetailOptionalParameters {
+	r.Database = &database
+	return r
+}
+
 // GetRedisKeyDetail get Redis key detail.
-func (a *DmsApi) GetRedisKeyDetail(ctx _context.Context, orgName string, clusterName string, id string, body RedisKeyDetailRequest) (RedisKeyDetail, *_nethttp.Response, error) {
+func (a *DmsApi) GetRedisKeyDetail(ctx _context.Context, orgName string, clusterName string, id string, body RedisKeyDetailRequest, o ...GetRedisKeyDetailOptionalParameters) (RedisKeyDetail, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue RedisKeyDetail
+		optionalParams      GetRedisKeyDetailOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetRedisKeyDetailOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -2120,6 +2267,9 @@ func (a *DmsApi) GetRedisKeyDetail(ctx _context.Context, orgName string, cluster
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -2744,6 +2894,7 @@ func (a *DmsApi) ListQueryHistory(ctx _context.Context, orgName string, clusterN
 
 // ListRedisKeysOptionalParameters holds optional parameters for ListRedisKeys.
 type ListRedisKeysOptionalParameters struct {
+	Database  *int64
 	Cursor    *string
 	Limit     *int64
 	Pattern   *string
@@ -2756,6 +2907,12 @@ type ListRedisKeysOptionalParameters struct {
 func NewListRedisKeysOptionalParameters() *ListRedisKeysOptionalParameters {
 	this := ListRedisKeysOptionalParameters{}
 	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *ListRedisKeysOptionalParameters) WithDatabase(database int64) *ListRedisKeysOptionalParameters {
+	r.Database = &database
+	return r
 }
 
 // WithCursor sets the corresponding parameter name and returns the struct.
@@ -2832,6 +2989,9 @@ func (a *DmsApi) ListRedisKeys(ctx _context.Context, orgName string, clusterName
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
 	if optionalParams.Cursor != nil {
 		localVarQueryParams.Add("cursor", common.ParameterToString(*optionalParams.Cursor, ""))
 	}
@@ -2989,14 +3149,21 @@ func (a *DmsApi) ListRedisPubSubMessages(ctx _context.Context, orgName string, c
 
 // ListRedisSlowLogOptionalParameters holds optional parameters for ListRedisSlowLog.
 type ListRedisSlowLogOptionalParameters struct {
-	Limit  *int64
-	NodeId *string
+	Database *int64
+	Limit    *int64
+	NodeId   *string
 }
 
 // NewListRedisSlowLogOptionalParameters creates an empty struct for parameters.
 func NewListRedisSlowLogOptionalParameters() *ListRedisSlowLogOptionalParameters {
 	this := ListRedisSlowLogOptionalParameters{}
 	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *ListRedisSlowLogOptionalParameters) WithDatabase(database int64) *ListRedisSlowLogOptionalParameters {
+	r.Database = &database
+	return r
 }
 
 // WithLimit sets the corresponding parameter name and returns the struct.
@@ -3049,6 +3216,9 @@ func (a *DmsApi) ListRedisSlowLog(ctx _context.Context, orgName string, clusterN
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
 	if optionalParams.Limit != nil {
 		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
 	}
@@ -4825,13 +4995,38 @@ func (a *DmsApi) MongoUpdate(ctx _context.Context, orgName string, clusterName s
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// MutateRedisKeyOptionalParameters holds optional parameters for MutateRedisKey.
+type MutateRedisKeyOptionalParameters struct {
+	Database *int64
+}
+
+// NewMutateRedisKeyOptionalParameters creates an empty struct for parameters.
+func NewMutateRedisKeyOptionalParameters() *MutateRedisKeyOptionalParameters {
+	this := MutateRedisKeyOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *MutateRedisKeyOptionalParameters) WithDatabase(database int64) *MutateRedisKeyOptionalParameters {
+	r.Database = &database
+	return r
+}
+
 // MutateRedisKey mutate Redis key data or metadata.
-func (a *DmsApi) MutateRedisKey(ctx _context.Context, orgName string, clusterName string, id string, body RedisKeyMutateRequest) (RedisKeyMutateResponse, *_nethttp.Response, error) {
+func (a *DmsApi) MutateRedisKey(ctx _context.Context, orgName string, clusterName string, id string, body RedisKeyMutateRequest, o ...MutateRedisKeyOptionalParameters) (RedisKeyMutateResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue RedisKeyMutateResponse
+		optionalParams      MutateRedisKeyOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type MutateRedisKeyOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -4855,6 +5050,9 @@ func (a *DmsApi) MutateRedisKey(ctx _context.Context, orgName string, clusterNam
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -4892,13 +5090,38 @@ func (a *DmsApi) MutateRedisKey(ctx _context.Context, orgName string, clusterNam
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// PublishRedisMessageOptionalParameters holds optional parameters for PublishRedisMessage.
+type PublishRedisMessageOptionalParameters struct {
+	Database *int64
+}
+
+// NewPublishRedisMessageOptionalParameters creates an empty struct for parameters.
+func NewPublishRedisMessageOptionalParameters() *PublishRedisMessageOptionalParameters {
+	this := PublishRedisMessageOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *PublishRedisMessageOptionalParameters) WithDatabase(database int64) *PublishRedisMessageOptionalParameters {
+	r.Database = &database
+	return r
+}
+
 // PublishRedisMessage publish a Redis Pub/Sub message.
-func (a *DmsApi) PublishRedisMessage(ctx _context.Context, orgName string, clusterName string, id string, body RedisPubSubPublishRequest) (RedisOperationSummary, *_nethttp.Response, error) {
+func (a *DmsApi) PublishRedisMessage(ctx _context.Context, orgName string, clusterName string, id string, body RedisPubSubPublishRequest, o ...PublishRedisMessageOptionalParameters) (RedisOperationSummary, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue RedisOperationSummary
+		optionalParams      PublishRedisMessageOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type PublishRedisMessageOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -4922,6 +5145,9 @@ func (a *DmsApi) PublishRedisMessage(ctx _context.Context, orgName string, clust
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -5028,7 +5254,8 @@ func (a *DmsApi) Query(ctx _context.Context, orgName string, clusterName string,
 
 // ResetRedisSlowLogOptionalParameters holds optional parameters for ResetRedisSlowLog.
 type ResetRedisSlowLogOptionalParameters struct {
-	Body *RedisDangerousOperationRequest
+	Body     *RedisDangerousOperationRequest
+	Database *int64
 }
 
 // NewResetRedisSlowLogOptionalParameters creates an empty struct for parameters.
@@ -5040,6 +5267,12 @@ func NewResetRedisSlowLogOptionalParameters() *ResetRedisSlowLogOptionalParamete
 // WithBody sets the corresponding parameter name and returns the struct.
 func (r *ResetRedisSlowLogOptionalParameters) WithBody(body RedisDangerousOperationRequest) *ResetRedisSlowLogOptionalParameters {
 	r.Body = &body
+	return r
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *ResetRedisSlowLogOptionalParameters) WithDatabase(database int64) *ResetRedisSlowLogOptionalParameters {
+	r.Database = &database
 	return r
 }
 
@@ -5081,6 +5314,9 @@ func (a *DmsApi) ResetRedisSlowLog(ctx _context.Context, orgName string, cluster
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
