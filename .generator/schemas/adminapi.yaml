@@ -27681,6 +27681,80 @@ components:
           type: array
         pagination:
           $ref: '#/components/schemas/clusterLogPagination'
+    clusterSlowLogLocalizedText:
+      type: object
+      description: Localized slow log diagnosis text with dynamic arguments
+      properties:
+        message:
+          $ref: '#/components/schemas/localizedDescription'
+        args:
+          type: object
+          additionalProperties:
+            type: string
+          description: Dynamic values used by the message
+    clusterSlowLogDiagnosisIssue:
+      type: object
+      description: A single detected slow log diagnosis issue
+      properties:
+        code:
+          type: string
+          x-omitempty: false
+        severity:
+          type: string
+          description: Issue severity. Current values are info, low, medium, and high.
+          x-omitempty: false
+        source:
+          type: string
+          description: Evidence source used by the local rule
+          x-omitempty: false
+        message:
+          $ref: '#/components/schemas/localizedDescription'
+        evidence:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterSlowLogLocalizedText'
+        nodeId:
+          type: string
+    clusterSlowLogRecommendation:
+      type: object
+      description: A rule-based recommendation for a slow log diagnosis
+      properties:
+        type:
+          type: string
+          description: Recommendation type. Current values are create_index, rewrite_sql, reduce_result_set, and investigate_lock.
+          x-omitempty: false
+        sql:
+          type: string
+        description:
+          $ref: '#/components/schemas/clusterSlowLogLocalizedText'
+        source:
+          type: string
+          description: Evidence source used by the local rule
+          x-omitempty: false
+        safety:
+          type: string
+          description: Recommendation safety level. Current values are manual_review_required and safe_hint_only.
+          x-omitempty: false
+    clusterSlowLogDiagnosis:
+      type: object
+      description: Primary rule-based diagnosis card for a slow log EXPLAIN result
+      properties:
+        engine:
+          type: string
+          description: Diagnosis engine. Current value is rule_based.
+          x-omitempty: false
+        summary:
+          $ref: '#/components/schemas/clusterSlowLogLocalizedText'
+        primaryIssue:
+          $ref: '#/components/schemas/clusterSlowLogDiagnosisIssue'
+        optimizationStrategy:
+          $ref: '#/components/schemas/clusterSlowLogLocalizedText'
+        recommendedAction:
+          $ref: '#/components/schemas/clusterSlowLogRecommendation'
+        expectedBenefit:
+          type: string
+          description: Expected optimization benefit. Current values are unknown, low, medium, and high.
+          x-omitempty: false
     clusterSlowLogExplainResponse:
       type: object
       description: Explain response for a selected slow log template sample
@@ -27718,6 +27792,8 @@ components:
           $ref: '#/components/schemas/clusterExecutionLogItem'
         explainResult:
           $ref: '#/components/schemas/DmsQueryResponse'
+        diagnosis:
+          $ref: '#/components/schemas/clusterSlowLogDiagnosis'
     clusterSlowLogTemplate:
       type: object
       description: Aggregated slow log query template
