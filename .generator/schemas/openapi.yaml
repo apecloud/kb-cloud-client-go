@@ -9047,6 +9047,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: database
+          in: query
+          required: false
+          description: Current logical Redis database index for this context. Omitted uses the datasource default; Redis Cluster only supports 0.
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: A successful response.
@@ -9076,6 +9083,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index. Redis Cluster only supports 0.
+          schema:
+            type: integer
+            format: int64
         - name: cursor
           in: query
           required: false
@@ -9205,6 +9219,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index. Redis Cluster only supports 0.
+          schema:
+            type: integer
+            format: int64
       requestBody:
         content:
           application/json:
@@ -9240,6 +9261,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index. Redis Cluster only supports 0.
+          schema:
+            type: integer
+            format: int64
       requestBody:
         content:
           application/json:
@@ -9276,6 +9304,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index for this command. Redis Cluster only supports 0.
+          schema:
+            type: integer
+            format: int64
       requestBody:
         content:
           application/json:
@@ -9311,6 +9346,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index for this Pub/Sub client. Redis Pub/Sub is server-level, but the client connection is still scoped to the selected DB for consistency.
+          schema:
+            type: integer
+            format: int64
       requestBody:
         content:
           application/json:
@@ -9346,6 +9388,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index for the polling client connection.
+          schema:
+            type: integer
+            format: int64
       requestBody:
         content:
           application/json:
@@ -9457,6 +9506,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index. SlowLog is server-level; the parameter is accepted for API consistency.
+          schema:
+            type: integer
+            format: int64
         - name: limit
           in: query
           required: false
@@ -9497,6 +9553,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index. SlowLog reset is server-level; the parameter is accepted for API consistency.
+          schema:
+            type: integer
+            format: int64
       requestBody:
         content:
           application/json:
@@ -9532,6 +9595,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index. INFO is server-level; the parameter is accepted for API consistency.
+          schema:
+            type: integer
+            format: int64
         - name: section
           in: query
           required: false
@@ -9571,6 +9641,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index. Redis Cluster topology only supports database 0.
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: A successful response.
@@ -28376,6 +28453,8 @@ components:
           $ref: '#/components/schemas/RedisCapability'
         browser:
           $ref: '#/components/schemas/RedisCapability'
+        database:
+          $ref: '#/components/schemas/RedisCapability'
         workbench:
           $ref: '#/components/schemas/RedisCapability'
         pubsub:
@@ -28437,6 +28516,12 @@ components:
         dbIndex:
           type: integer
           format: int64
+          description: Current logical Redis database index for this request context.
+        dbCount:
+          type: integer
+          format: int64
+          description: Available logical Redis database count. Non-cluster Redis defaults to 16 when the server does not expose a count; Redis Cluster is always 1.
+          x-omitempty: false
         mode:
           type: string
           description: Redis architecture mode, such as standalone, replication, sentinel, or cluster

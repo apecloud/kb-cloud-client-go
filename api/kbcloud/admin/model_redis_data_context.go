@@ -11,7 +11,10 @@ type RedisDataContext struct {
 	// Redis ACL user name. Prefer acl.user for new clients.
 	AclUser *string          `json:"aclUser,omitempty"`
 	Acl     *RedisACLContext `json:"acl,omitempty"`
-	DbIndex *int64           `json:"dbIndex,omitempty"`
+	// Current logical Redis database index for this request context.
+	DbIndex *int64 `json:"dbIndex,omitempty"`
+	// Available logical Redis database count. Non-cluster Redis defaults to 16 when the server does not expose a count; Redis Cluster is always 1.
+	DbCount *int64 `json:"dbCount,omitempty"`
 	// Redis architecture mode, such as standalone, replication, sentinel, or cluster
 	Mode         *string                `json:"mode,omitempty"`
 	ReadOnly     *bool                  `json:"readOnly,omitempty"`
@@ -151,6 +154,34 @@ func (o *RedisDataContext) SetDbIndex(v int64) {
 	o.DbIndex = &v
 }
 
+// GetDbCount returns the DbCount field value if set, zero value otherwise.
+func (o *RedisDataContext) GetDbCount() int64 {
+	if o == nil || o.DbCount == nil {
+		var ret int64
+		return ret
+	}
+	return *o.DbCount
+}
+
+// GetDbCountOk returns a tuple with the DbCount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RedisDataContext) GetDbCountOk() (*int64, bool) {
+	if o == nil || o.DbCount == nil {
+		return nil, false
+	}
+	return o.DbCount, true
+}
+
+// HasDbCount returns a boolean if a field has been set.
+func (o *RedisDataContext) HasDbCount() bool {
+	return o != nil && o.DbCount != nil
+}
+
+// SetDbCount gets a reference to the given int64 and assigns it to the DbCount field.
+func (o *RedisDataContext) SetDbCount(v int64) {
+	o.DbCount = &v
+}
+
 // GetMode returns the Mode field value if set, zero value otherwise.
 func (o *RedisDataContext) GetMode() string {
 	if o == nil || o.Mode == nil {
@@ -281,6 +312,9 @@ func (o RedisDataContext) MarshalJSON() ([]byte, error) {
 	if o.DbIndex != nil {
 		toSerialize["dbIndex"] = o.DbIndex
 	}
+	if o.DbCount != nil {
+		toSerialize["dbCount"] = o.DbCount
+	}
 	if o.Mode != nil {
 		toSerialize["mode"] = o.Mode
 	}
@@ -307,6 +341,7 @@ func (o *RedisDataContext) UnmarshalJSON(bytes []byte) (err error) {
 		AclUser        *string                `json:"aclUser,omitempty"`
 		Acl            *RedisACLContext       `json:"acl,omitempty"`
 		DbIndex        *int64                 `json:"dbIndex,omitempty"`
+		DbCount        *int64                 `json:"dbCount,omitempty"`
 		Mode           *string                `json:"mode,omitempty"`
 		ReadOnly       *bool                  `json:"readOnly,omitempty"`
 		Capabilities   *RedisDataCapabilities `json:"capabilities,omitempty"`
@@ -317,7 +352,7 @@ func (o *RedisDataContext) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"datasourceName", "aclUser", "acl", "dbIndex", "mode", "readOnly", "capabilities", "cluster"})
+		common.DeleteKeys(additionalProperties, &[]string{"datasourceName", "aclUser", "acl", "dbIndex", "dbCount", "mode", "readOnly", "capabilities", "cluster"})
 	} else {
 		return err
 	}
@@ -330,6 +365,7 @@ func (o *RedisDataContext) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Acl = all.Acl
 	o.DbIndex = all.DbIndex
+	o.DbCount = all.DbCount
 	o.Mode = all.Mode
 	o.ReadOnly = all.ReadOnly
 	if all.Capabilities != nil && all.Capabilities.UnparsedObject != nil && o.UnparsedObject == nil {
