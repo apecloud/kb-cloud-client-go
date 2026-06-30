@@ -178,7 +178,7 @@ func (a *InspectionApi) CreateInspectionScript(ctx _context.Context, body Inspec
 }
 
 // CreateInspectionTaskByOrg create inspection task by org.
-func (a *InspectionApi) CreateInspectionTaskByOrg(ctx _context.Context, orgName string, body InspectionTaskCreate) (*_nethttp.Response, error) {
+func (a *InspectionApi) CreateInspectionTaskByOrg(ctx _context.Context, orgName string, body InspectionTask) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
