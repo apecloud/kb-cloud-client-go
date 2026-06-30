@@ -22,10 +22,24 @@ type InspectionTaskItem struct {
 	ResourceName      *string               `json:"resourceName,omitempty"`
 	Status            *string               `json:"status,omitempty"`
 	Result            *string               `json:"result,omitempty"`
-	Severity          *string               `json:"severity,omitempty"`
-	Unit              *string               `json:"unit,omitempty"`
-	CreatedAt         *time.Time            `json:"createdAt,omitempty"`
-	UpdatedAt         *time.Time            `json:"updatedAt,omitempty"`
+	// Numeric form of result when the result is parseable.
+	ValueNum      *float64 `json:"valueNum,omitempty"`
+	WarnThreshold *float64 `json:"warnThreshold,omitempty"`
+	CritThreshold *float64 `json:"critThreshold,omitempty"`
+	// Direction used to interpret warnThreshold and critThreshold. asc means larger values are worse, desc means smaller values are worse, boolean means the check expression decides.
+	Direction *InspectionThresholdDirection `json:"direction,omitempty"`
+	// First-version criticality assumption for score weighting and red-item veto behavior. Missing legacy values are treated as medium.
+	Criticality *InspectionCriticality `json:"criticality,omitempty"`
+	// Structured evidence used to explain the item result. Prometheus/exporter no-data is reported here as no data or unknown instead of being converted into a healthy result.
+	Evidence map[string]interface{} `json:"evidence,omitempty"`
+	// Item-level timestamp for when this item's status was last evaluated or changed.
+	StatusChangedAt *time.Time            `json:"statusChangedAt,omitempty"`
+	Remediation     *LocalizedDescription `json:"remediation,omitempty"`
+	DocLink         *string               `json:"docLink,omitempty"`
+	Severity        *string               `json:"severity,omitempty"`
+	Unit            *string               `json:"unit,omitempty"`
+	CreatedAt       *time.Time            `json:"createdAt,omitempty"`
+	UpdatedAt       *time.Time            `json:"updatedAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -356,6 +370,258 @@ func (o *InspectionTaskItem) SetResult(v string) {
 	o.Result = &v
 }
 
+// GetValueNum returns the ValueNum field value if set, zero value otherwise.
+func (o *InspectionTaskItem) GetValueNum() float64 {
+	if o == nil || o.ValueNum == nil {
+		var ret float64
+		return ret
+	}
+	return *o.ValueNum
+}
+
+// GetValueNumOk returns a tuple with the ValueNum field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionTaskItem) GetValueNumOk() (*float64, bool) {
+	if o == nil || o.ValueNum == nil {
+		return nil, false
+	}
+	return o.ValueNum, true
+}
+
+// HasValueNum returns a boolean if a field has been set.
+func (o *InspectionTaskItem) HasValueNum() bool {
+	return o != nil && o.ValueNum != nil
+}
+
+// SetValueNum gets a reference to the given float64 and assigns it to the ValueNum field.
+func (o *InspectionTaskItem) SetValueNum(v float64) {
+	o.ValueNum = &v
+}
+
+// GetWarnThreshold returns the WarnThreshold field value if set, zero value otherwise.
+func (o *InspectionTaskItem) GetWarnThreshold() float64 {
+	if o == nil || o.WarnThreshold == nil {
+		var ret float64
+		return ret
+	}
+	return *o.WarnThreshold
+}
+
+// GetWarnThresholdOk returns a tuple with the WarnThreshold field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionTaskItem) GetWarnThresholdOk() (*float64, bool) {
+	if o == nil || o.WarnThreshold == nil {
+		return nil, false
+	}
+	return o.WarnThreshold, true
+}
+
+// HasWarnThreshold returns a boolean if a field has been set.
+func (o *InspectionTaskItem) HasWarnThreshold() bool {
+	return o != nil && o.WarnThreshold != nil
+}
+
+// SetWarnThreshold gets a reference to the given float64 and assigns it to the WarnThreshold field.
+func (o *InspectionTaskItem) SetWarnThreshold(v float64) {
+	o.WarnThreshold = &v
+}
+
+// GetCritThreshold returns the CritThreshold field value if set, zero value otherwise.
+func (o *InspectionTaskItem) GetCritThreshold() float64 {
+	if o == nil || o.CritThreshold == nil {
+		var ret float64
+		return ret
+	}
+	return *o.CritThreshold
+}
+
+// GetCritThresholdOk returns a tuple with the CritThreshold field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionTaskItem) GetCritThresholdOk() (*float64, bool) {
+	if o == nil || o.CritThreshold == nil {
+		return nil, false
+	}
+	return o.CritThreshold, true
+}
+
+// HasCritThreshold returns a boolean if a field has been set.
+func (o *InspectionTaskItem) HasCritThreshold() bool {
+	return o != nil && o.CritThreshold != nil
+}
+
+// SetCritThreshold gets a reference to the given float64 and assigns it to the CritThreshold field.
+func (o *InspectionTaskItem) SetCritThreshold(v float64) {
+	o.CritThreshold = &v
+}
+
+// GetDirection returns the Direction field value if set, zero value otherwise.
+func (o *InspectionTaskItem) GetDirection() InspectionThresholdDirection {
+	if o == nil || o.Direction == nil {
+		var ret InspectionThresholdDirection
+		return ret
+	}
+	return *o.Direction
+}
+
+// GetDirectionOk returns a tuple with the Direction field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionTaskItem) GetDirectionOk() (*InspectionThresholdDirection, bool) {
+	if o == nil || o.Direction == nil {
+		return nil, false
+	}
+	return o.Direction, true
+}
+
+// HasDirection returns a boolean if a field has been set.
+func (o *InspectionTaskItem) HasDirection() bool {
+	return o != nil && o.Direction != nil
+}
+
+// SetDirection gets a reference to the given InspectionThresholdDirection and assigns it to the Direction field.
+func (o *InspectionTaskItem) SetDirection(v InspectionThresholdDirection) {
+	o.Direction = &v
+}
+
+// GetCriticality returns the Criticality field value if set, zero value otherwise.
+func (o *InspectionTaskItem) GetCriticality() InspectionCriticality {
+	if o == nil || o.Criticality == nil {
+		var ret InspectionCriticality
+		return ret
+	}
+	return *o.Criticality
+}
+
+// GetCriticalityOk returns a tuple with the Criticality field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionTaskItem) GetCriticalityOk() (*InspectionCriticality, bool) {
+	if o == nil || o.Criticality == nil {
+		return nil, false
+	}
+	return o.Criticality, true
+}
+
+// HasCriticality returns a boolean if a field has been set.
+func (o *InspectionTaskItem) HasCriticality() bool {
+	return o != nil && o.Criticality != nil
+}
+
+// SetCriticality gets a reference to the given InspectionCriticality and assigns it to the Criticality field.
+func (o *InspectionTaskItem) SetCriticality(v InspectionCriticality) {
+	o.Criticality = &v
+}
+
+// GetEvidence returns the Evidence field value if set, zero value otherwise.
+func (o *InspectionTaskItem) GetEvidence() map[string]interface{} {
+	if o == nil || o.Evidence == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.Evidence
+}
+
+// GetEvidenceOk returns a tuple with the Evidence field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionTaskItem) GetEvidenceOk() (*map[string]interface{}, bool) {
+	if o == nil || o.Evidence == nil {
+		return nil, false
+	}
+	return &o.Evidence, true
+}
+
+// HasEvidence returns a boolean if a field has been set.
+func (o *InspectionTaskItem) HasEvidence() bool {
+	return o != nil && o.Evidence != nil
+}
+
+// SetEvidence gets a reference to the given map[string]interface{} and assigns it to the Evidence field.
+func (o *InspectionTaskItem) SetEvidence(v map[string]interface{}) {
+	o.Evidence = v
+}
+
+// GetStatusChangedAt returns the StatusChangedAt field value if set, zero value otherwise.
+func (o *InspectionTaskItem) GetStatusChangedAt() time.Time {
+	if o == nil || o.StatusChangedAt == nil {
+		var ret time.Time
+		return ret
+	}
+	return *o.StatusChangedAt
+}
+
+// GetStatusChangedAtOk returns a tuple with the StatusChangedAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionTaskItem) GetStatusChangedAtOk() (*time.Time, bool) {
+	if o == nil || o.StatusChangedAt == nil {
+		return nil, false
+	}
+	return o.StatusChangedAt, true
+}
+
+// HasStatusChangedAt returns a boolean if a field has been set.
+func (o *InspectionTaskItem) HasStatusChangedAt() bool {
+	return o != nil && o.StatusChangedAt != nil
+}
+
+// SetStatusChangedAt gets a reference to the given time.Time and assigns it to the StatusChangedAt field.
+func (o *InspectionTaskItem) SetStatusChangedAt(v time.Time) {
+	o.StatusChangedAt = &v
+}
+
+// GetRemediation returns the Remediation field value if set, zero value otherwise.
+func (o *InspectionTaskItem) GetRemediation() LocalizedDescription {
+	if o == nil || o.Remediation == nil {
+		var ret LocalizedDescription
+		return ret
+	}
+	return *o.Remediation
+}
+
+// GetRemediationOk returns a tuple with the Remediation field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionTaskItem) GetRemediationOk() (*LocalizedDescription, bool) {
+	if o == nil || o.Remediation == nil {
+		return nil, false
+	}
+	return o.Remediation, true
+}
+
+// HasRemediation returns a boolean if a field has been set.
+func (o *InspectionTaskItem) HasRemediation() bool {
+	return o != nil && o.Remediation != nil
+}
+
+// SetRemediation gets a reference to the given LocalizedDescription and assigns it to the Remediation field.
+func (o *InspectionTaskItem) SetRemediation(v LocalizedDescription) {
+	o.Remediation = &v
+}
+
+// GetDocLink returns the DocLink field value if set, zero value otherwise.
+func (o *InspectionTaskItem) GetDocLink() string {
+	if o == nil || o.DocLink == nil {
+		var ret string
+		return ret
+	}
+	return *o.DocLink
+}
+
+// GetDocLinkOk returns a tuple with the DocLink field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionTaskItem) GetDocLinkOk() (*string, bool) {
+	if o == nil || o.DocLink == nil {
+		return nil, false
+	}
+	return o.DocLink, true
+}
+
+// HasDocLink returns a boolean if a field has been set.
+func (o *InspectionTaskItem) HasDocLink() bool {
+	return o != nil && o.DocLink != nil
+}
+
+// SetDocLink gets a reference to the given string and assigns it to the DocLink field.
+func (o *InspectionTaskItem) SetDocLink(v string) {
+	o.DocLink = &v
+}
+
 // GetSeverity returns the Severity field value if set, zero value otherwise.
 func (o *InspectionTaskItem) GetSeverity() string {
 	if o == nil || o.Severity == nil {
@@ -507,6 +773,37 @@ func (o InspectionTaskItem) MarshalJSON() ([]byte, error) {
 	if o.Result != nil {
 		toSerialize["result"] = o.Result
 	}
+	if o.ValueNum != nil {
+		toSerialize["valueNum"] = o.ValueNum
+	}
+	if o.WarnThreshold != nil {
+		toSerialize["warnThreshold"] = o.WarnThreshold
+	}
+	if o.CritThreshold != nil {
+		toSerialize["critThreshold"] = o.CritThreshold
+	}
+	if o.Direction != nil {
+		toSerialize["direction"] = o.Direction
+	}
+	if o.Criticality != nil {
+		toSerialize["criticality"] = o.Criticality
+	}
+	if o.Evidence != nil {
+		toSerialize["evidence"] = o.Evidence
+	}
+	if o.StatusChangedAt != nil {
+		if o.StatusChangedAt.Nanosecond() == 0 {
+			toSerialize["statusChangedAt"] = o.StatusChangedAt.Format("2006-01-02T15:04:05Z07:00")
+		} else {
+			toSerialize["statusChangedAt"] = o.StatusChangedAt.Format("2006-01-02T15:04:05.000Z07:00")
+		}
+	}
+	if o.Remediation != nil {
+		toSerialize["remediation"] = o.Remediation
+	}
+	if o.DocLink != nil {
+		toSerialize["docLink"] = o.DocLink
+	}
 	if o.Severity != nil {
 		toSerialize["severity"] = o.Severity
 	}
@@ -537,28 +834,37 @@ func (o InspectionTaskItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InspectionTaskItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id                *string               `json:"id,omitempty"`
-		TaskId            *string               `json:"taskID,omitempty"`
-		ScriptId          *string               `json:"scriptID,omitempty"`
-		ScriptName        *LocalizedDescription `json:"scriptName,omitempty"`
-		ScriptDescription *LocalizedDescription `json:"scriptDescription,omitempty"`
-		ScriptCategory    *string               `json:"scriptCategory,omitempty"`
-		ResourceType      *string               `json:"resourceType,omitempty"`
-		ResourceId        *string               `json:"resourceID,omitempty"`
-		ResourceName      *string               `json:"resourceName,omitempty"`
-		Status            *string               `json:"status,omitempty"`
-		Result            *string               `json:"result,omitempty"`
-		Severity          *string               `json:"severity,omitempty"`
-		Unit              *string               `json:"unit,omitempty"`
-		CreatedAt         *time.Time            `json:"createdAt,omitempty"`
-		UpdatedAt         *time.Time            `json:"updatedAt,omitempty"`
+		Id                *string                       `json:"id,omitempty"`
+		TaskId            *string                       `json:"taskID,omitempty"`
+		ScriptId          *string                       `json:"scriptID,omitempty"`
+		ScriptName        *LocalizedDescription         `json:"scriptName,omitempty"`
+		ScriptDescription *LocalizedDescription         `json:"scriptDescription,omitempty"`
+		ScriptCategory    *string                       `json:"scriptCategory,omitempty"`
+		ResourceType      *string                       `json:"resourceType,omitempty"`
+		ResourceId        *string                       `json:"resourceID,omitempty"`
+		ResourceName      *string                       `json:"resourceName,omitempty"`
+		Status            *string                       `json:"status,omitempty"`
+		Result            *string                       `json:"result,omitempty"`
+		ValueNum          *float64                      `json:"valueNum,omitempty"`
+		WarnThreshold     *float64                      `json:"warnThreshold,omitempty"`
+		CritThreshold     *float64                      `json:"critThreshold,omitempty"`
+		Direction         *InspectionThresholdDirection `json:"direction,omitempty"`
+		Criticality       *InspectionCriticality        `json:"criticality,omitempty"`
+		Evidence          map[string]interface{}        `json:"evidence,omitempty"`
+		StatusChangedAt   *time.Time                    `json:"statusChangedAt,omitempty"`
+		Remediation       *LocalizedDescription         `json:"remediation,omitempty"`
+		DocLink           *string                       `json:"docLink,omitempty"`
+		Severity          *string                       `json:"severity,omitempty"`
+		Unit              *string                       `json:"unit,omitempty"`
+		CreatedAt         *time.Time                    `json:"createdAt,omitempty"`
+		UpdatedAt         *time.Time                    `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "taskID", "scriptID", "scriptName", "scriptDescription", "scriptCategory", "resourceType", "resourceID", "resourceName", "status", "result", "severity", "unit", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "taskID", "scriptID", "scriptName", "scriptDescription", "scriptCategory", "resourceType", "resourceID", "resourceName", "status", "result", "valueNum", "warnThreshold", "critThreshold", "direction", "criticality", "evidence", "statusChangedAt", "remediation", "docLink", "severity", "unit", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}
@@ -581,6 +887,26 @@ func (o *InspectionTaskItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.ResourceName = all.ResourceName
 	o.Status = all.Status
 	o.Result = all.Result
+	o.ValueNum = all.ValueNum
+	o.WarnThreshold = all.WarnThreshold
+	o.CritThreshold = all.CritThreshold
+	if all.Direction != nil && !all.Direction.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Direction = all.Direction
+	}
+	if all.Criticality != nil && !all.Criticality.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Criticality = all.Criticality
+	}
+	o.Evidence = all.Evidence
+	o.StatusChangedAt = all.StatusChangedAt
+	if all.Remediation != nil && all.Remediation.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Remediation = all.Remediation
+	o.DocLink = all.DocLink
 	o.Severity = all.Severity
 	o.Unit = all.Unit
 	o.CreatedAt = all.CreatedAt

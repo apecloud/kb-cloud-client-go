@@ -175,7 +175,7 @@ func (r *AggregateSlowLogsOptionalParameters) WithUnclassifiedOnly(unclassifiedO
 }
 
 // AggregateSlowLogs Aggregate cluster slow logs.
-// Aggregate slow logs of a cluster (Victoria Logs backend only)
+// Aggregate slow logs of a cluster over the full requested time range (Victoria Logs backend only). The result is not limited by the slow log list page size.
 func (a *ClusterLogApi) AggregateSlowLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...AggregateSlowLogsOptionalParameters) (ClusterExecutionLogAggregateResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -412,9 +412,21 @@ func (a *ClusterLogApi) ExplainSlowLog(ctx _context.Context, orgName string, clu
 
 // ExplainSlowLogTemplateOptionalParameters holds optional parameters for ExplainSlowLogTemplate.
 type ExplainSlowLogTemplateOptionalParameters struct {
-	ComponentName *string
-	InstanceName  *string
-	Query         *string
+	ComponentName    *string
+	InstanceName     *string
+	Query            *string
+	MinExecutionTime *float64
+	MaxExecutionTime *float64
+	MinLockTime      *float64
+	MaxLockTime      *float64
+	MinRowsExamined  *int64
+	MaxRowsExamined  *int64
+	MinRowsSent      *int64
+	MaxRowsSent      *int64
+	DbName           *string
+	UserName         *string
+	ClientIp         *string
+	AppName          *string
 }
 
 // NewExplainSlowLogTemplateOptionalParameters creates an empty struct for parameters.
@@ -438,6 +450,78 @@ func (r *ExplainSlowLogTemplateOptionalParameters) WithInstanceName(instanceName
 // WithQuery sets the corresponding parameter name and returns the struct.
 func (r *ExplainSlowLogTemplateOptionalParameters) WithQuery(query string) *ExplainSlowLogTemplateOptionalParameters {
 	r.Query = &query
+	return r
+}
+
+// WithMinExecutionTime sets the corresponding parameter name and returns the struct.
+func (r *ExplainSlowLogTemplateOptionalParameters) WithMinExecutionTime(minExecutionTime float64) *ExplainSlowLogTemplateOptionalParameters {
+	r.MinExecutionTime = &minExecutionTime
+	return r
+}
+
+// WithMaxExecutionTime sets the corresponding parameter name and returns the struct.
+func (r *ExplainSlowLogTemplateOptionalParameters) WithMaxExecutionTime(maxExecutionTime float64) *ExplainSlowLogTemplateOptionalParameters {
+	r.MaxExecutionTime = &maxExecutionTime
+	return r
+}
+
+// WithMinLockTime sets the corresponding parameter name and returns the struct.
+func (r *ExplainSlowLogTemplateOptionalParameters) WithMinLockTime(minLockTime float64) *ExplainSlowLogTemplateOptionalParameters {
+	r.MinLockTime = &minLockTime
+	return r
+}
+
+// WithMaxLockTime sets the corresponding parameter name and returns the struct.
+func (r *ExplainSlowLogTemplateOptionalParameters) WithMaxLockTime(maxLockTime float64) *ExplainSlowLogTemplateOptionalParameters {
+	r.MaxLockTime = &maxLockTime
+	return r
+}
+
+// WithMinRowsExamined sets the corresponding parameter name and returns the struct.
+func (r *ExplainSlowLogTemplateOptionalParameters) WithMinRowsExamined(minRowsExamined int64) *ExplainSlowLogTemplateOptionalParameters {
+	r.MinRowsExamined = &minRowsExamined
+	return r
+}
+
+// WithMaxRowsExamined sets the corresponding parameter name and returns the struct.
+func (r *ExplainSlowLogTemplateOptionalParameters) WithMaxRowsExamined(maxRowsExamined int64) *ExplainSlowLogTemplateOptionalParameters {
+	r.MaxRowsExamined = &maxRowsExamined
+	return r
+}
+
+// WithMinRowsSent sets the corresponding parameter name and returns the struct.
+func (r *ExplainSlowLogTemplateOptionalParameters) WithMinRowsSent(minRowsSent int64) *ExplainSlowLogTemplateOptionalParameters {
+	r.MinRowsSent = &minRowsSent
+	return r
+}
+
+// WithMaxRowsSent sets the corresponding parameter name and returns the struct.
+func (r *ExplainSlowLogTemplateOptionalParameters) WithMaxRowsSent(maxRowsSent int64) *ExplainSlowLogTemplateOptionalParameters {
+	r.MaxRowsSent = &maxRowsSent
+	return r
+}
+
+// WithDbName sets the corresponding parameter name and returns the struct.
+func (r *ExplainSlowLogTemplateOptionalParameters) WithDbName(dbName string) *ExplainSlowLogTemplateOptionalParameters {
+	r.DbName = &dbName
+	return r
+}
+
+// WithUserName sets the corresponding parameter name and returns the struct.
+func (r *ExplainSlowLogTemplateOptionalParameters) WithUserName(userName string) *ExplainSlowLogTemplateOptionalParameters {
+	r.UserName = &userName
+	return r
+}
+
+// WithClientIp sets the corresponding parameter name and returns the struct.
+func (r *ExplainSlowLogTemplateOptionalParameters) WithClientIp(clientIp string) *ExplainSlowLogTemplateOptionalParameters {
+	r.ClientIp = &clientIp
+	return r
+}
+
+// WithAppName sets the corresponding parameter name and returns the struct.
+func (r *ExplainSlowLogTemplateOptionalParameters) WithAppName(appName string) *ExplainSlowLogTemplateOptionalParameters {
+	r.AppName = &appName
 	return r
 }
 
@@ -490,6 +574,42 @@ func (a *ClusterLogApi) ExplainSlowLogTemplate(ctx _context.Context, orgName str
 	}
 	if optionalParams.Query != nil {
 		localVarQueryParams.Add("query", common.ParameterToString(*optionalParams.Query, ""))
+	}
+	if optionalParams.MinExecutionTime != nil {
+		localVarQueryParams.Add("minExecutionTime", common.ParameterToString(*optionalParams.MinExecutionTime, ""))
+	}
+	if optionalParams.MaxExecutionTime != nil {
+		localVarQueryParams.Add("maxExecutionTime", common.ParameterToString(*optionalParams.MaxExecutionTime, ""))
+	}
+	if optionalParams.MinLockTime != nil {
+		localVarQueryParams.Add("minLockTime", common.ParameterToString(*optionalParams.MinLockTime, ""))
+	}
+	if optionalParams.MaxLockTime != nil {
+		localVarQueryParams.Add("maxLockTime", common.ParameterToString(*optionalParams.MaxLockTime, ""))
+	}
+	if optionalParams.MinRowsExamined != nil {
+		localVarQueryParams.Add("minRowsExamined", common.ParameterToString(*optionalParams.MinRowsExamined, ""))
+	}
+	if optionalParams.MaxRowsExamined != nil {
+		localVarQueryParams.Add("maxRowsExamined", common.ParameterToString(*optionalParams.MaxRowsExamined, ""))
+	}
+	if optionalParams.MinRowsSent != nil {
+		localVarQueryParams.Add("minRowsSent", common.ParameterToString(*optionalParams.MinRowsSent, ""))
+	}
+	if optionalParams.MaxRowsSent != nil {
+		localVarQueryParams.Add("maxRowsSent", common.ParameterToString(*optionalParams.MaxRowsSent, ""))
+	}
+	if optionalParams.DbName != nil {
+		localVarQueryParams.Add("dbName", common.ParameterToString(*optionalParams.DbName, ""))
+	}
+	if optionalParams.UserName != nil {
+		localVarQueryParams.Add("userName", common.ParameterToString(*optionalParams.UserName, ""))
+	}
+	if optionalParams.ClientIp != nil {
+		localVarQueryParams.Add("clientIp", common.ParameterToString(*optionalParams.ClientIp, ""))
+	}
+	if optionalParams.AppName != nil {
+		localVarQueryParams.Add("appName", common.ParameterToString(*optionalParams.AppName, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -671,7 +791,7 @@ func (r *GetSlowLogStatsOptionalParameters) WithUnclassifiedOnly(unclassifiedOnl
 }
 
 // GetSlowLogStats Get cluster slow log statistics.
-// Get statistics summary for slow logs of a cluster
+// Get statistics summary for slow logs of a cluster. When the same slow log filters are supplied, totalSlowLogs can be used as the filtered list preview count.
 func (a *ClusterLogApi) GetSlowLogStats(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...GetSlowLogStatsOptionalParameters) (ClusterSlowLogStats, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -813,9 +933,21 @@ func (a *ClusterLogApi) GetSlowLogStats(ctx _context.Context, orgName string, cl
 
 // GetSlowLogTemplateOptionalParameters holds optional parameters for GetSlowLogTemplate.
 type GetSlowLogTemplateOptionalParameters struct {
-	ComponentName *string
-	InstanceName  *string
-	Query         *string
+	ComponentName    *string
+	InstanceName     *string
+	Query            *string
+	MinExecutionTime *float64
+	MaxExecutionTime *float64
+	MinLockTime      *float64
+	MaxLockTime      *float64
+	MinRowsExamined  *int64
+	MaxRowsExamined  *int64
+	MinRowsSent      *int64
+	MaxRowsSent      *int64
+	DbName           *string
+	UserName         *string
+	ClientIp         *string
+	AppName          *string
 }
 
 // NewGetSlowLogTemplateOptionalParameters creates an empty struct for parameters.
@@ -839,6 +971,78 @@ func (r *GetSlowLogTemplateOptionalParameters) WithInstanceName(instanceName str
 // WithQuery sets the corresponding parameter name and returns the struct.
 func (r *GetSlowLogTemplateOptionalParameters) WithQuery(query string) *GetSlowLogTemplateOptionalParameters {
 	r.Query = &query
+	return r
+}
+
+// WithMinExecutionTime sets the corresponding parameter name and returns the struct.
+func (r *GetSlowLogTemplateOptionalParameters) WithMinExecutionTime(minExecutionTime float64) *GetSlowLogTemplateOptionalParameters {
+	r.MinExecutionTime = &minExecutionTime
+	return r
+}
+
+// WithMaxExecutionTime sets the corresponding parameter name and returns the struct.
+func (r *GetSlowLogTemplateOptionalParameters) WithMaxExecutionTime(maxExecutionTime float64) *GetSlowLogTemplateOptionalParameters {
+	r.MaxExecutionTime = &maxExecutionTime
+	return r
+}
+
+// WithMinLockTime sets the corresponding parameter name and returns the struct.
+func (r *GetSlowLogTemplateOptionalParameters) WithMinLockTime(minLockTime float64) *GetSlowLogTemplateOptionalParameters {
+	r.MinLockTime = &minLockTime
+	return r
+}
+
+// WithMaxLockTime sets the corresponding parameter name and returns the struct.
+func (r *GetSlowLogTemplateOptionalParameters) WithMaxLockTime(maxLockTime float64) *GetSlowLogTemplateOptionalParameters {
+	r.MaxLockTime = &maxLockTime
+	return r
+}
+
+// WithMinRowsExamined sets the corresponding parameter name and returns the struct.
+func (r *GetSlowLogTemplateOptionalParameters) WithMinRowsExamined(minRowsExamined int64) *GetSlowLogTemplateOptionalParameters {
+	r.MinRowsExamined = &minRowsExamined
+	return r
+}
+
+// WithMaxRowsExamined sets the corresponding parameter name and returns the struct.
+func (r *GetSlowLogTemplateOptionalParameters) WithMaxRowsExamined(maxRowsExamined int64) *GetSlowLogTemplateOptionalParameters {
+	r.MaxRowsExamined = &maxRowsExamined
+	return r
+}
+
+// WithMinRowsSent sets the corresponding parameter name and returns the struct.
+func (r *GetSlowLogTemplateOptionalParameters) WithMinRowsSent(minRowsSent int64) *GetSlowLogTemplateOptionalParameters {
+	r.MinRowsSent = &minRowsSent
+	return r
+}
+
+// WithMaxRowsSent sets the corresponding parameter name and returns the struct.
+func (r *GetSlowLogTemplateOptionalParameters) WithMaxRowsSent(maxRowsSent int64) *GetSlowLogTemplateOptionalParameters {
+	r.MaxRowsSent = &maxRowsSent
+	return r
+}
+
+// WithDbName sets the corresponding parameter name and returns the struct.
+func (r *GetSlowLogTemplateOptionalParameters) WithDbName(dbName string) *GetSlowLogTemplateOptionalParameters {
+	r.DbName = &dbName
+	return r
+}
+
+// WithUserName sets the corresponding parameter name and returns the struct.
+func (r *GetSlowLogTemplateOptionalParameters) WithUserName(userName string) *GetSlowLogTemplateOptionalParameters {
+	r.UserName = &userName
+	return r
+}
+
+// WithClientIp sets the corresponding parameter name and returns the struct.
+func (r *GetSlowLogTemplateOptionalParameters) WithClientIp(clientIp string) *GetSlowLogTemplateOptionalParameters {
+	r.ClientIp = &clientIp
+	return r
+}
+
+// WithAppName sets the corresponding parameter name and returns the struct.
+func (r *GetSlowLogTemplateOptionalParameters) WithAppName(appName string) *GetSlowLogTemplateOptionalParameters {
+	r.AppName = &appName
 	return r
 }
 
@@ -891,6 +1095,42 @@ func (a *ClusterLogApi) GetSlowLogTemplate(ctx _context.Context, orgName string,
 	}
 	if optionalParams.Query != nil {
 		localVarQueryParams.Add("query", common.ParameterToString(*optionalParams.Query, ""))
+	}
+	if optionalParams.MinExecutionTime != nil {
+		localVarQueryParams.Add("minExecutionTime", common.ParameterToString(*optionalParams.MinExecutionTime, ""))
+	}
+	if optionalParams.MaxExecutionTime != nil {
+		localVarQueryParams.Add("maxExecutionTime", common.ParameterToString(*optionalParams.MaxExecutionTime, ""))
+	}
+	if optionalParams.MinLockTime != nil {
+		localVarQueryParams.Add("minLockTime", common.ParameterToString(*optionalParams.MinLockTime, ""))
+	}
+	if optionalParams.MaxLockTime != nil {
+		localVarQueryParams.Add("maxLockTime", common.ParameterToString(*optionalParams.MaxLockTime, ""))
+	}
+	if optionalParams.MinRowsExamined != nil {
+		localVarQueryParams.Add("minRowsExamined", common.ParameterToString(*optionalParams.MinRowsExamined, ""))
+	}
+	if optionalParams.MaxRowsExamined != nil {
+		localVarQueryParams.Add("maxRowsExamined", common.ParameterToString(*optionalParams.MaxRowsExamined, ""))
+	}
+	if optionalParams.MinRowsSent != nil {
+		localVarQueryParams.Add("minRowsSent", common.ParameterToString(*optionalParams.MinRowsSent, ""))
+	}
+	if optionalParams.MaxRowsSent != nil {
+		localVarQueryParams.Add("maxRowsSent", common.ParameterToString(*optionalParams.MaxRowsSent, ""))
+	}
+	if optionalParams.DbName != nil {
+		localVarQueryParams.Add("dbName", common.ParameterToString(*optionalParams.DbName, ""))
+	}
+	if optionalParams.UserName != nil {
+		localVarQueryParams.Add("userName", common.ParameterToString(*optionalParams.UserName, ""))
+	}
+	if optionalParams.ClientIp != nil {
+		localVarQueryParams.Add("clientIp", common.ParameterToString(*optionalParams.ClientIp, ""))
+	}
+	if optionalParams.AppName != nil {
+		localVarQueryParams.Add("appName", common.ParameterToString(*optionalParams.AppName, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -1372,7 +1612,7 @@ func (r *QueryLogHitsOptionalParameters) WithUnclassifiedOnly(unclassifiedOnly b
 }
 
 // QueryLogHits Query log hits histogram.
-// Query log hits histogram for time-bucketed log counts (VictoriaLogs only)
+// Query log hits histogram for time-bucketed log counts (VictoriaLogs only). When logType=slow, buckets also include avgExecutionTime in seconds; templateId can be supplied for slow template trends.
 func (a *ClusterLogApi) QueryLogHits(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, step string, logType string, o ...QueryLogHitsOptionalParameters) (ClusterLogHitsResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

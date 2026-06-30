@@ -10,37 +10,34 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type PostgresqlWaitChainNode struct {
-	Pid int64 `json:"pid"`
-	// Role in the selected session wait graph. Known values are selected, blocking, blocked, and related.
-	Role    string             `json:"role"`
+type PostgresqlWaitGraphNode struct {
+	Pid     int64              `json:"pid"`
 	Session *PostgresqlSession `json:"session,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewPostgresqlWaitChainNode instantiates a new PostgresqlWaitChainNode object.
+// NewPostgresqlWaitGraphNode instantiates a new PostgresqlWaitGraphNode object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlWaitChainNode(pid int64, role string) *PostgresqlWaitChainNode {
-	this := PostgresqlWaitChainNode{}
+func NewPostgresqlWaitGraphNode(pid int64) *PostgresqlWaitGraphNode {
+	this := PostgresqlWaitGraphNode{}
 	this.Pid = pid
-	this.Role = role
 	return &this
 }
 
-// NewPostgresqlWaitChainNodeWithDefaults instantiates a new PostgresqlWaitChainNode object.
+// NewPostgresqlWaitGraphNodeWithDefaults instantiates a new PostgresqlWaitGraphNode object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewPostgresqlWaitChainNodeWithDefaults() *PostgresqlWaitChainNode {
-	this := PostgresqlWaitChainNode{}
+func NewPostgresqlWaitGraphNodeWithDefaults() *PostgresqlWaitGraphNode {
+	this := PostgresqlWaitGraphNode{}
 	return &this
 }
 
 // GetPid returns the Pid field value.
-func (o *PostgresqlWaitChainNode) GetPid() int64 {
+func (o *PostgresqlWaitGraphNode) GetPid() int64 {
 	if o == nil {
 		var ret int64
 		return ret
@@ -50,7 +47,7 @@ func (o *PostgresqlWaitChainNode) GetPid() int64 {
 
 // GetPidOk returns a tuple with the Pid field value
 // and a boolean to check if the value has been set.
-func (o *PostgresqlWaitChainNode) GetPidOk() (*int64, bool) {
+func (o *PostgresqlWaitGraphNode) GetPidOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -58,35 +55,12 @@ func (o *PostgresqlWaitChainNode) GetPidOk() (*int64, bool) {
 }
 
 // SetPid sets field value.
-func (o *PostgresqlWaitChainNode) SetPid(v int64) {
+func (o *PostgresqlWaitGraphNode) SetPid(v int64) {
 	o.Pid = v
 }
 
-// GetRole returns the Role field value.
-func (o *PostgresqlWaitChainNode) GetRole() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.Role
-}
-
-// GetRoleOk returns a tuple with the Role field value
-// and a boolean to check if the value has been set.
-func (o *PostgresqlWaitChainNode) GetRoleOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Role, true
-}
-
-// SetRole sets field value.
-func (o *PostgresqlWaitChainNode) SetRole(v string) {
-	o.Role = v
-}
-
 // GetSession returns the Session field value if set, zero value otherwise.
-func (o *PostgresqlWaitChainNode) GetSession() PostgresqlSession {
+func (o *PostgresqlWaitGraphNode) GetSession() PostgresqlSession {
 	if o == nil || o.Session == nil {
 		var ret PostgresqlSession
 		return ret
@@ -96,7 +70,7 @@ func (o *PostgresqlWaitChainNode) GetSession() PostgresqlSession {
 
 // GetSessionOk returns a tuple with the Session field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PostgresqlWaitChainNode) GetSessionOk() (*PostgresqlSession, bool) {
+func (o *PostgresqlWaitGraphNode) GetSessionOk() (*PostgresqlSession, bool) {
 	if o == nil || o.Session == nil {
 		return nil, false
 	}
@@ -104,23 +78,22 @@ func (o *PostgresqlWaitChainNode) GetSessionOk() (*PostgresqlSession, bool) {
 }
 
 // HasSession returns a boolean if a field has been set.
-func (o *PostgresqlWaitChainNode) HasSession() bool {
+func (o *PostgresqlWaitGraphNode) HasSession() bool {
 	return o != nil && o.Session != nil
 }
 
 // SetSession gets a reference to the given PostgresqlSession and assigns it to the Session field.
-func (o *PostgresqlWaitChainNode) SetSession(v PostgresqlSession) {
+func (o *PostgresqlWaitGraphNode) SetSession(v PostgresqlSession) {
 	o.Session = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o PostgresqlWaitChainNode) MarshalJSON() ([]byte, error) {
+func (o PostgresqlWaitGraphNode) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["pid"] = o.Pid
-	toSerialize["role"] = o.Role
 	if o.Session != nil {
 		toSerialize["session"] = o.Session
 	}
@@ -132,10 +105,9 @@ func (o PostgresqlWaitChainNode) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *PostgresqlWaitChainNode) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PostgresqlWaitGraphNode) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Pid     *int64             `json:"pid"`
-		Role    *string            `json:"role"`
 		Session *PostgresqlSession `json:"session,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -144,19 +116,15 @@ func (o *PostgresqlWaitChainNode) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Pid == nil {
 		return fmt.Errorf("required field pid missing")
 	}
-	if all.Role == nil {
-		return fmt.Errorf("required field role missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"pid", "role", "session"})
+		common.DeleteKeys(additionalProperties, &[]string{"pid", "session"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Pid = *all.Pid
-	o.Role = *all.Role
 	if all.Session != nil && all.Session.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
