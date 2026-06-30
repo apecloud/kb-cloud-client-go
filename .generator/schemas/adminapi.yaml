@@ -15618,7 +15618,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/inspectionTask'
+              $ref: '#/components/schemas/inspectionTaskCreate'
         required: true
       responses:
         '204':
@@ -15719,7 +15719,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/inspectionTask'
+              $ref: '#/components/schemas/inspectionTaskCreate'
         required: true
       responses:
         '204':
@@ -35256,8 +35256,6 @@ components:
           type: string
         isAuto:
           type: boolean
-        savedDays:
-          type: integer
         expiredAt:
           type: string
           format: date-time
@@ -35291,6 +35289,35 @@ components:
         updatedAt:
           format: date-time
           type: string
+        timeRangeStart:
+          format: date-time
+          type: string
+        timeRangeEnd:
+          format: date-time
+          type: string
+    inspectionTaskCreate:
+      properties:
+        creator:
+          type: string
+        engine:
+          type: string
+        orgName:
+          type: string
+        clusterID:
+          type: string
+        clusterName:
+          type: string
+        envName:
+          type: string
+        envID:
+          type: string
+        nodeName:
+          description: Node name(s) for inspection. Multiple nodes can be specified as a comma-separated string (e.g. "node1,node2,node3").
+          type: string
+        isAuto:
+          type: boolean
+        savedDays:
+          type: integer
         timeRangeStart:
           format: date-time
           type: string
