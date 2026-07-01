@@ -28502,9 +28502,6 @@ components:
         user:
           type: string
           description: Redis ACL user bound to the datasource.
-        aclRules:
-          type: string
-          description: Raw ACL rule text returned by Redis ACL LIST/GETUSER when available.
         keyPatterns:
           type: array
           description: Key patterns the datasource ACL user is allowed to access.
