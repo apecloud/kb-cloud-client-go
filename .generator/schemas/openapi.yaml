@@ -7594,7 +7594,7 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/alerts/summary:
+  /api/v1/organizations/{orgName}/alerts/cluster/{clusterName}/summary:
     get:
       tags:
         - alertObject
