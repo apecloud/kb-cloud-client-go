@@ -95,6 +95,8 @@ tags:
     description: Cluster Disaster Recovery APIs
   - name: llm
     description: LLM APIs
+  - name: AI Agent
+    description: Chat With AI Agent APIs
   - name: organizationParameter
     description: Organization Parameter APIs
   - name: dataReplication
@@ -12303,106 +12305,128 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/ai/conversations:
+  /api/v1/organizations/{orgName}/ai-agent/status:
     get:
       tags:
-        - AI
-      summary: List conversations by user
-      description: Retrieves a list of conversations filtered by user.
-      operationId: listConversations
+        - AI Agent
+      operationId: getAIAgentStatus
+      summary: Get AI diagnosis agent status
       parameters:
-        - name: page
-          in: query
-          description: Page number for pagination
-          schema:
-            type: integer
-            default: 1
-        - name: pageSize
-          in: query
-          description: Number of items per page
-          schema:
-            type: integer
-            default: 10
-        - name: type
-          in: query
-          description: Type of conversations to filter, can be bi or analysis.
+        - name: orgName
+          in: path
+          required: true
           schema:
             type: string
       responses:
         '200':
-          description: A list of conversations
+          description: AI diagnosis agent runtime status
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/aiConversationListResponse'
-        '400':
-          $ref: '#/components/responses/400'
+                $ref: '#/components/schemas/aiAgentRuntimeStatus'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-agent/conversations:
+    get:
+      tags:
+        - AI Agent
+      operationId: listAIAgentConversations
+      summary: List AI diagnosis conversations
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 30
+        - name: after
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: clusterName
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI diagnosis conversations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentConversationList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
     post:
       tags:
-        - AI
-      summary: Create a new conversation
-      description: Creates a new conversation.
-      operationId: newAIConversation
+        - AI Agent
+      operationId: createAIAgentConversation
+      summary: Create an AI diagnosis conversation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AIConversationRequest'
+              $ref: '#/components/schemas/aiAgentCreateConversationRequest'
       responses:
         '200':
-          description: Successful operation
+          description: AI diagnosis conversation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/aiConversation'
+                $ref: '#/components/schemas/aiAgentConversation'
         '400':
           $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/ai/conversations/{conversationId}/messages:
+  /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}:
     get:
       tags:
-        - AI
-      summary: Get AI conversation messages
-      description: Retrieves ai messages for a specific conversation. If pre is not provided, returns the last 10 turn messages. If pre is provided, returns 10 turn messages after the pre message.
-      operationId: getConversationMessages
+        - AI Agent
+      operationId: getAIAgentConversation
+      summary: Get an AI diagnosis conversation
       parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
         - name: conversationId
           in: path
           required: true
-          description: ID of the conversation
-          schema:
-            type: string
-            format: uuid
-        - name: pre
-          in: query
-          description: Previous message ID
           schema:
             type: string
       responses:
         '200':
-          description: A list of messages for the conversation
+          description: AI diagnosis conversation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/aiMessageListResponse'
-        '400':
-          $ref: '#/components/responses/400'
+                $ref: '#/components/schemas/aiAgentConversation'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -12411,25 +12435,245 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/ai/conversations/{conversationId}:
     delete:
       tags:
-        - AI
-      summary: Delete a conversation
-      description: Deletes a specific conversation and all its associated messages.
-      operationId: deleteConversation
+        - AI Agent
+      operationId: deleteAIAgentConversation
+      summary: Delete an AI diagnosis conversation
       parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
         - name: conversationId
           in: path
           required: true
-          description: ID of the conversation to delete
           schema:
             type: string
-            format: uuid
       responses:
-        '204':
-          content: {}
-          description: Conversation deleted successfully
+        '200':
+          description: AI diagnosis conversation deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentDeleteConversationResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/messages:
+    get:
+      tags:
+        - AI Agent
+      operationId: listAIAgentMessages
+      summary: List AI diagnosis conversation messages
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: after
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 50
+      responses:
+        '200':
+          description: AI diagnosis messages
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentMessageList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - AI Agent
+      operationId: sendAIAgentMessage
+      summary: Send a user message and start or continue AI diagnosis
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiAgentSendMessageRequest'
+      responses:
+        '200':
+          description: AI diagnosis message accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentSendMessageResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+  /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions:
+    get:
+      tags:
+        - AI Agent
+      operationId: listAIAgentTurnActions
+      summary: List stable AI diagnosis turn process actions
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: turnId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: after
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+      responses:
+        '200':
+          description: Stable AI diagnosis process actions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentTurnActionList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}:
+    get:
+      tags:
+        - AI Agent
+      operationId: getAIAgentTurnAction
+      summary: Get one stable AI diagnosis turn process action
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: actionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI diagnosis process action detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentTurnAction'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/browse:
+    get:
+      tags:
+        - AI Agent
+      operationId: browseAIAgentTurnActionArtifact
+      summary: Browse a generated AI diagnosis report artifact
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: actionId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: artifactId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Generated report artifact content for browser preview
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -12440,26 +12684,43 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/ai/chatbi/v2:
-    post:
+        '503':
+          $ref: '#/components/responses/503'
+  /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/download:
+    get:
       tags:
-        - AI
-      summary: SSE endpoint for Chat BI V2
-      description: Establishes an SSE connection for AI BI conversation.
-      operationId: chatBIV2SSE
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/chatRequest'
+        - AI Agent
+      operationId: downloadAIAgentTurnActionArtifact
+      summary: Download a generated AI diagnosis report artifact
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: actionId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: artifactId
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         '200':
-          description: Successful operation, returns an event stream.
+          description: Generated report artifact content
           content:
-            text/event-stream:
+            application/octet-stream:
               schema:
-                $ref: '#/components/schemas/chatResponse'
+                type: string
+                format: binary
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -12470,28 +12731,159 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/ai/chatops/v2:
-    post:
+        '503':
+          $ref: '#/components/responses/503'
+  /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/events:
+    get:
       tags:
-        - AI
-      summary: SSE endpoint for Chat V2
-      description: Establishes an SSE connection for AI conversation.
-      operationId: chatV2SSE
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/chatRequest'
+        - AI Agent
+      operationId: subscribeAIAgentConversationEvents
+      summary: Subscribe to AI diagnosis conversation events
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: after
+          in: query
+          required: false
+          schema:
+            type: string
       responses:
         '200':
-          description: Successful operation, returns an event stream.
+          description: AI diagnosis event stream
           content:
             text/event-stream:
               schema:
-                $ref: '#/components/schemas/chatResponse'
-        '400':
-          $ref: '#/components/responses/400'
+                $ref: '#/components/schemas/aiAgentEvent'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/approve:
+    post:
+      tags:
+        - AI Agent
+      operationId: approveAIAgentToolConfirmation
+      summary: Approve one AI diagnosis tool confirmation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: confirmationId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiAgentToolConfirmationDecisionRequest'
+      responses:
+        '200':
+          description: Tool confirmation approved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentToolConfirmationDecisionResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/reject:
+    post:
+      tags:
+        - AI Agent
+      operationId: rejectAIAgentToolConfirmation
+      summary: Reject one AI diagnosis tool confirmation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: confirmationId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiAgentToolConfirmationDecisionRequest'
+      responses:
+        '200':
+          description: Tool confirmation rejected
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentToolConfirmationDecisionResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/stop:
+    post:
+      tags:
+        - AI Agent
+      operationId: stopAIAgentConversation
+      summary: Stop the current AI diagnosis turn
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI diagnosis conversation stopped
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiAgentStopConversationResponse'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -24956,7 +25348,13 @@ components:
           title: Enabled
           type: boolean
         config:
-          description: Config
+          description: |
+            Config.
+
+            For OpenAI-compatible providers, model entries under `available_models`
+            may include `max_tokens` as the maximum output token count and
+            `context_length` as the total context window. `context_window` is a
+            deprecated compatibility alias and should not be used by new clients.
           title: Config
           type: object
           additionalProperties:
@@ -25001,190 +25399,379 @@ components:
           x-omitempty: false
         message:
           type: string
-    aiConversation:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Conversation ID
-        userId:
-          type: string
-          description: User ID associated with the conversation
-        clusterName:
-          type: string
-          description: Name of the cluster associated with the conversation
-        orgName:
-          type: string
-          description: Name of the organization associated with the conversation
-        title:
-          type: string
-          description: Optional title for the conversation
-          x-nullable: true
-        type:
-          type: string
-          description: Type of the conversation, can be chatbi or chatops.
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp of when the conversation was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp of when the conversation was last updated
-    aiConversationListResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/aiConversation'
-        total:
-          type: integer
-          format: int64
-          description: Total number of conversations
-    AIChatType:
+    aiAgentRuntimeStatusCode:
+      x-generate-alias-as-model: true
       type: string
       enum:
-        - chatbi
-        - chatops
-      description: Query type
-    AIConversationRequest:
+        - ready
+        - missing_model_config
+        - unreachable
+        - unauthorized
+        - not_configured
+    aiAgentObjectRef:
       type: object
       properties:
-        type:
-          $ref: '#/components/schemas/AIChatType'
-    senderType:
+        kind:
+          type: string
+          x-nullable: true
+        name:
+          type: string
+          x-nullable: true
+    aiAgentScope:
+      type: object
+      properties:
+        orgName:
+          type: string
+          x-nullable: true
+        environmentName:
+          type: string
+          x-nullable: true
+        clusterName:
+          type: string
+        objectRef:
+          $ref: '#/components/schemas/aiAgentObjectRef'
+    aiAgentRuntimeStatus:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          $ref: '#/components/schemas/aiAgentRuntimeStatusCode'
+        message:
+          type: string
+          x-nullable: true
+        model:
+          type: string
+          x-nullable: true
+        scope:
+          $ref: '#/components/schemas/aiAgentScope'
+    aiAgentConversationStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - idle
+        - running
+        - waiting_for_approval
+        - failed
+        - cancelled
+    aiAgentMessageRole:
+      x-generate-alias-as-model: true
       type: string
       enum:
         - user
         - assistant
         - system
-      description: Type of the sender (user, assistant, or system)
-    metadataObject:
+    aiAgentMessagePartType:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - text
+        - reasoning_text
+        - diagnosis_summary
+        - tool_observation_summary
+    aiAgentMessagePart:
       type: object
-      additionalProperties: true
-      description: Optional metadata for AI messages (e.g., tool calls, results)
-      x-nullable: true
-    aiMessage:
-      type: object
+      required:
+        - type
       properties:
-        id:
+        type:
+          $ref: '#/components/schemas/aiAgentMessagePartType'
+        text:
           type: string
-          format: uuid
-          description: Message ID
+          x-nullable: true
+        summary:
+          type: string
+          x-nullable: true
+        payload:
+          type: object
+          additionalProperties: true
+          x-nullable: true
+    aiAgentMessage:
+      type: object
+      required:
+        - messageId
+        - conversationId
+        - role
+        - parts
+        - createdAt
+      properties:
+        messageId:
+          type: string
         conversationId:
           type: string
-          format: uuid
-          description: ID of the conversation this message belongs to
-        senderType:
-          $ref: '#/components/schemas/senderType'
-        content:
+        turnId:
           type: string
-          description: Content of the message
-        isFavorited:
-          type: boolean
-          description: Whether the message is favorited by user
-          default: false
-        metadata:
-          $ref: '#/components/schemas/metadataObject'
+          x-nullable: true
+        role:
+          $ref: '#/components/schemas/aiAgentMessageRole'
+        contexts:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentScope'
+        parts:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentMessagePart'
         createdAt:
           type: string
           format: date-time
-          description: Timestamp of when the message was created
+    aiAgentConversation:
+      type: object
+      required:
+        - conversationId
+        - status
+        - createdAt
+        - updatedAt
+      properties:
+        conversationId:
+          type: string
+        entryClusterName:
+          type: string
+          x-nullable: true
+        title:
+          type: string
+          x-nullable: true
+        status:
+          $ref: '#/components/schemas/aiAgentConversationStatus'
+        runtimeStatus:
+          $ref: '#/components/schemas/aiAgentRuntimeStatusCode'
+        model:
+          type: string
+          x-nullable: true
+        createdAt:
+          type: string
+          format: date-time
         updatedAt:
           type: string
           format: date-time
-          description: Timestamp of when the message was last updated
-    aiMessageListResponse:
+        lastMessage:
+          $ref: '#/components/schemas/aiAgentMessage'
+    aiAgentConversationList:
       type: object
+      required:
+        - items
       properties:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/aiMessage'
-    chatRequest:
+            $ref: '#/components/schemas/aiAgentConversation'
+    aiAgentCreateConversationRequest:
       type: object
-      required:
-        - orgName
-        - clusterName
-        - sessionId
-        - query
-        - model
-      description: Chat message request
       properties:
-        orgName:
+        title:
           type: string
-          description: Organization name
-        clusterName:
-          type: string
-          description: Cluster name
-        sessionId:
-          type: string
-          description: Session ID
-        messageID:
-          type: string
-          description: Message ID
-        query:
-          type: string
-          description: Query content
+          x-nullable: true
         model:
           type: string
-          description: LLM model
           x-nullable: true
-        datasourceName:
+        entryClusterName:
           type: string
-          description: Datasource name
           x-nullable: true
-        database:
-          type: string
-          description: Database involved in the chat
-          x-nullable: true
-        schema:
-          type: string
-          description: Schema involved in the chat
-          x-nullable: true
-        tables:
-          type: array
-          description: Tables involved in the chat
-          items:
-            type: string
-            x-nullable: true
-    chatResponseType:
-      type: string
-      enum:
-        - Message
-        - Graph
-        - Finish
-        - DataInterpretation
-        - Error
-        - Think
-        - ToolResult
-        - SessionID
-        - ToolCall
-      description: Message type
-    chatResponse:
+    aiAgentDeleteConversationResponse:
       type: object
       required:
-        - data
-        - type
-        - done
-        - sessionId
-      description: Chat message response
+        - conversationId
+        - status
       properties:
-        data:
-          description: Arbitrary event payload
-        done:
-          type: boolean
-          description: Whether the SSE stream is complete
+        conversationId:
+          type: string
+        status:
+          type: string
+    aiAgentMessageList:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentMessage'
+    aiAgentSendMessageRequest:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+        contexts:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentScope'
+    aiAgentTurnStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - running
+        - waiting_for_approval
+        - completed
+        - failed
+        - cancelled
+    aiAgentSendMessageResponse:
+      type: object
+      required:
+        - messageId
+        - turnId
+        - status
+      properties:
+        messageId:
+          type: string
+        turnId:
+          type: string
+        status:
+          $ref: '#/components/schemas/aiAgentTurnStatus'
+        eventsUrl:
+          type: string
+          x-nullable: true
+    aiAgentEventType:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - cloud.conversation.ready
+        - cloud.stream.connected
+        - cloud.turn.started
+        - message.delta
+        - cloud.assistant.message.completed
+        - reasoning.available
+        - agent.step
+        - tool.generating
+        - tool.started
+        - tool.completed
+        - approval.request
+        - approval.responded
+        - run.completed
+        - run.failed
+        - run.cancelled
+    aiAgentTurnAction:
+      type: object
+      required:
+        - actionId
+        - conversationId
+        - turnId
+        - type
+        - title
+        - hasDetail
+        - createdAt
+      properties:
+        actionId:
+          type: string
+        conversationId:
+          type: string
+        turnId:
+          type: string
+        messageId:
+          type: string
+          x-nullable: true
         type:
-          $ref: '#/components/schemas/chatResponseType'
-        messageID:
+          $ref: '#/components/schemas/aiAgentEventType'
+        status:
           type: string
-          description: Message ID
-        sessionId:
+          x-nullable: true
+        title:
           type: string
-          description: Session ID
+        summary:
+          type: string
+          x-nullable: true
+        toolName:
+          type: string
+          x-nullable: true
+        target:
+          type: string
+          x-nullable: true
+        confirmationId:
+          type: string
+          x-nullable: true
+        hasDetail:
+          type: boolean
+        detail:
+          type: object
+          description: |
+            Sanitized action detail. Warning states are returned as `warning.value`
+            with stable values such as `output_truncated`, `final_analysis_missing`,
+            `no_tool_evidence`, `model_no_tool_call`, or `tooling_unavailable`.
+            `model_no_tool_call` and `tooling_unavailable` are turn-completed
+            warnings and are not emitted on tool/check detail cards.
+            The legacy `warningReason` string may be present for compatibility.
+          additionalProperties: true
+          x-nullable: true
+        createdAt:
+          type: string
+          format: date-time
+    aiAgentTurnActionList:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiAgentTurnAction'
+    aiAgentEvent:
+      type: object
+      required:
+        - eventId
+        - conversationId
+        - type
+        - createdAt
+      properties:
+        eventId:
+          type: string
+        conversationId:
+          type: string
+        turnId:
+          type: string
+          x-nullable: true
+        type:
+          $ref: '#/components/schemas/aiAgentEventType'
+        status:
+          type: string
+          x-nullable: true
+        message:
+          type: string
+          x-nullable: true
+        payload:
+          type: object
+          additionalProperties: true
+          x-nullable: true
+        createdAt:
+          type: string
+          format: date-time
+    aiAgentToolConfirmationDecisionRequest:
+      type: object
+      properties:
+        comment:
+          type: string
+          x-nullable: true
+    aiAgentToolConfirmationStatus:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - pending
+        - approved
+        - rejected
+        - expired
+    aiAgentToolConfirmationDecisionResponse:
+      type: object
+      required:
+        - confirmationId
+        - status
+        - turnId
+      properties:
+        confirmationId:
+          type: string
+        status:
+          $ref: '#/components/schemas/aiAgentToolConfirmationStatus'
+        turnId:
+          type: string
+    aiAgentStopConversationResponse:
+      type: object
+      required:
+        - conversationId
+        - status
+      properties:
+        conversationId:
+          type: string
+        status:
+          $ref: '#/components/schemas/aiAgentConversationStatus'
     encryptionAlgorithm:
       description: the encryption algorithm
       type: string
@@ -26706,6 +27293,12 @@ components:
           schema:
             $ref: '#/components/schemas/APIErrorResponse'
       description: Not Implemented
+    '503':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIErrorResponse'
+      description: Service Unavailable
   parameters:
     startTime:
       name: start
