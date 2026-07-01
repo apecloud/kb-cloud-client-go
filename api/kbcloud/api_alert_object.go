@@ -68,7 +68,7 @@ func (a *AlertObjectApi) GetClusterAlertSummary(ctx _context.Context, orgName st
 	apiInfo := common.APIInfo{
 		Tag:         "alertObject",
 		OperationID: "getClusterAlertSummary",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/alerts/summary",
+		Path:        "/api/v1/organizations/{orgName}/alerts/cluster/{clusterName}/summary",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -78,7 +78,7 @@ func (a *AlertObjectApi) GetClusterAlertSummary(ctx _context.Context, orgName st
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/alerts/summary"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/alerts/cluster/{clusterName}/summary"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
