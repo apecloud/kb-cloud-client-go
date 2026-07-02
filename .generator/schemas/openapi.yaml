@@ -2541,6 +2541,40 @@ paths:
       tags:
         - clusterLog
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/template-subscriptions:
+    get:
+      description: List slow log template subscriptions of a cluster
+      summary: List slow log template subscriptions
+      operationId: listSlowLogTemplateSubscriptions
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterSlowLogTemplateSubscriptionList'
+          description: Successful operation
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/templates/{templateId}:
     get:
       description: Get a slow log template of a cluster (VictoriaLogs backend only)
@@ -2923,6 +2957,75 @@ paths:
               schema:
                 $ref: '#/components/schemas/clusterExecutionLog'
           description: Successful operation
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/templates/{templateId}/subscriptions:
+    post:
+      description: Subscribe to a slow log template. New matching slow logs trigger alerts.
+      summary: Create slow log template subscription
+      operationId: createSlowLogTemplateSubscription
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: templateId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Subscribed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
+    delete:
+      description: Delete a slow log template subscription
+      summary: Delete slow log template subscription
+      operationId: deleteSlowLogTemplateSubscription
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: templateId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Deleted
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -21795,6 +21898,10 @@ components:
           type: string
           description: Query template identifier
           x-omitempty: false
+        subscribed:
+          type: boolean
+          description: Whether slow-log template alerts are enabled for this template
+          x-omitempty: false
         normalizedQuery:
           type: string
           description: Normalized SQL or command template
@@ -21922,6 +22029,24 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/clusterSlowLogTemplate'
+    clusterSlowLogTemplateSubscription:
+      type: object
+      description: Slow log template subscription
+      required:
+        - templateId
+      properties:
+        templateId:
+          type: string
+          description: Slow log template identifier
+          x-omitempty: false
+    clusterSlowLogTemplateSubscriptionList:
+      type: object
+      description: Slow log template subscription list
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterSlowLogTemplateSubscription'
     clusterExecutionLogAggregateItem:
       type: object
       description: Aggregate item for grouped execution logs

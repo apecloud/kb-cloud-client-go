@@ -10,6 +10,8 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 type ClusterSlowLogTemplate struct {
 	// Query template identifier
 	TemplateId *string `json:"templateId,omitempty"`
+	// Whether slow-log template alerts are enabled for this template
+	Subscribed *bool `json:"subscribed,omitempty"`
 	// Normalized SQL or command template
 	NormalizedQuery *string `json:"normalizedQuery,omitempty"`
 	// Representative SQL sample for the template
@@ -103,6 +105,34 @@ func (o *ClusterSlowLogTemplate) HasTemplateId() bool {
 // SetTemplateId gets a reference to the given string and assigns it to the TemplateId field.
 func (o *ClusterSlowLogTemplate) SetTemplateId(v string) {
 	o.TemplateId = &v
+}
+
+// GetSubscribed returns the Subscribed field value if set, zero value otherwise.
+func (o *ClusterSlowLogTemplate) GetSubscribed() bool {
+	if o == nil || o.Subscribed == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Subscribed
+}
+
+// GetSubscribedOk returns a tuple with the Subscribed field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterSlowLogTemplate) GetSubscribedOk() (*bool, bool) {
+	if o == nil || o.Subscribed == nil {
+		return nil, false
+	}
+	return o.Subscribed, true
+}
+
+// HasSubscribed returns a boolean if a field has been set.
+func (o *ClusterSlowLogTemplate) HasSubscribed() bool {
+	return o != nil && o.Subscribed != nil
+}
+
+// SetSubscribed gets a reference to the given bool and assigns it to the Subscribed field.
+func (o *ClusterSlowLogTemplate) SetSubscribed(v bool) {
+	o.Subscribed = &v
 }
 
 // GetNormalizedQuery returns the NormalizedQuery field value if set, zero value otherwise.
@@ -758,6 +788,9 @@ func (o ClusterSlowLogTemplate) MarshalJSON() ([]byte, error) {
 	if o.TemplateId != nil {
 		toSerialize["templateId"] = o.TemplateId
 	}
+	if o.Subscribed != nil {
+		toSerialize["subscribed"] = o.Subscribed
+	}
 	if o.NormalizedQuery != nil {
 		toSerialize["normalizedQuery"] = o.NormalizedQuery
 	}
@@ -838,6 +871,7 @@ func (o ClusterSlowLogTemplate) MarshalJSON() ([]byte, error) {
 func (o *ClusterSlowLogTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		TemplateId          *string  `json:"templateId,omitempty"`
+		Subscribed          *bool    `json:"subscribed,omitempty"`
 		NormalizedQuery     *string  `json:"normalizedQuery,omitempty"`
 		SampleSql           *string  `json:"sampleSQL,omitempty"`
 		TotalCount          *int64   `json:"totalCount,omitempty"`
@@ -867,11 +901,12 @@ func (o *ClusterSlowLogTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"templateId", "normalizedQuery", "sampleSQL", "totalCount", "totalExecutionTime", "avgExecutionTime", "minExecutionTime", "maxExecutionTime", "stddevExecutionTime", "p50ExecutionTime", "p90ExecutionTime", "p95ExecutionTime", "p99ExecutionTime", "dbCount", "userCount", "clientIPCount", "appCount", "avgRowsExamined", "avgRowsSent", "avgLockTime", "dbNames", "users", "clientIPs", "apps"})
+		common.DeleteKeys(additionalProperties, &[]string{"templateId", "subscribed", "normalizedQuery", "sampleSQL", "totalCount", "totalExecutionTime", "avgExecutionTime", "minExecutionTime", "maxExecutionTime", "stddevExecutionTime", "p50ExecutionTime", "p90ExecutionTime", "p95ExecutionTime", "p99ExecutionTime", "dbCount", "userCount", "clientIPCount", "appCount", "avgRowsExamined", "avgRowsSent", "avgLockTime", "dbNames", "users", "clientIPs", "apps"})
 	} else {
 		return err
 	}
 	o.TemplateId = all.TemplateId
+	o.Subscribed = all.Subscribed
 	o.NormalizedQuery = all.NormalizedQuery
 	o.SampleSql = all.SampleSql
 	o.TotalCount = all.TotalCount
