@@ -7487,6 +7487,24 @@ paths:
           required: false
           schema:
             type: integer
+        - name: clusterName
+          in: query
+          description: filter by cluster name
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: filter by alert status
+          required: false
+          schema:
+            type: string
+        - name: severity
+          in: query
+          description: filter by alert severity
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: A successful response.
@@ -7570,6 +7588,58 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/alertObject'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/alerts/cluster/{clusterName}/summary:
+    get:
+      tags:
+        - alertObject
+      operationId: getClusterAlertSummary
+      summary: Get cluster alert summary
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: alert status filter, defaults to firing
+          required: false
+          schema:
+            type: string
+            default: firing
+        - name: severity
+          in: query
+          description: alert severity filter
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: max number of top alerts returned
+          required: false
+          schema:
+            type: integer
+            default: 3
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterAlertSummary'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -20755,6 +20825,11 @@ components:
         * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
         * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
         * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
+    koordinatorReservationResourceClass:
+      type: string
+      enum:
+        - database
+        - business
     clusterCreate:
       required:
         - engine
@@ -20859,6 +20934,9 @@ components:
           type: string
           nullable: true
           description: Scheduler used by this cluster. If omitted, KBE uses the environment default. When koordinatorEnabled is true for the target environment, the environment default is the globally configured Koordinator scheduler.
+        reservationResourceClass:
+          nullable: true
+          $ref: '#/components/schemas/koordinatorReservationResourceClass'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -21091,6 +21169,9 @@ components:
           type: string
           nullable: true
           description: Effective scheduler used when the cluster was created.
+        reservationResourceClass:
+          nullable: true
+          $ref: '#/components/schemas/koordinatorReservationResourceClass'
       description: KubeBlocks cluster details
     clusterBatchUpdateData:
       type: object
@@ -22129,11 +22210,6 @@ components:
         schedule:
           $ref: '#/components/schemas/taskSchedule'
       type: object
-    koordinatorReservationResourceClass:
-      type: string
-      enum:
-        - database
-        - business
     koordinatorReservationResources:
       type: object
       additionalProperties: false
@@ -25254,6 +25330,29 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertObjectList is a list of alert object
+    clusterAlertSummary:
+      type: object
+      properties:
+        activeCount:
+          type: integer
+          format: int64
+          description: number of active alerts after cluster/status/severity filters
+        severityCounts:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int64
+          description: active alert count grouped by severity
+        topAlerts:
+          type: array
+          description: top alerts for the cluster after filters
+          items:
+            $ref: '#/components/schemas/alertObject'
+        updatedAt:
+          type: string
+          format: date-time
+          description: response generation time
+      description: Cluster alert summary
     alertCluster:
       required:
         - disabled
@@ -28573,9 +28672,6 @@ components:
         user:
           type: string
           description: Redis ACL user bound to the datasource.
-        aclRules:
-          type: string
-          description: Raw ACL rule text returned by Redis ACL LIST/GETUSER when available.
         keyPatterns:
           type: array
           description: Key patterns the datasource ACL user is allowed to access.
@@ -33879,6 +33975,12 @@ components:
           type: string
         isAuto:
           type: boolean
+        savedDays:
+          type: integer
+        expiredAt:
+          type: string
+          format: date-time
+          description: Expiration timestamp fixed when the inspection report is created from savedDays.
         score:
           type: integer
         result:

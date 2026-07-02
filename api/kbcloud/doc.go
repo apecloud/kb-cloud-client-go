@@ -59,6 +59,7 @@
 //   - [alertInhibitApi.getAlertInhibit]
 //   - [alertInhibitApi.listAlertInhibits]
 //   - [alertInhibitApi.patchAlertInhibit]
+//   - [alertObjectApi.getClusterAlertSummary]
 //   - [alertObjectApi.listAlertObjects]
 //   - [alertObjectApi.setAlertObjectStatus]
 //   - [alertObjectApi.setAlertObjectsStatus]

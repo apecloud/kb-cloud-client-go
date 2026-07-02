@@ -23800,6 +23800,11 @@ components:
         * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
         * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
         * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
+    koordinatorReservationResourceClass:
+      type: string
+      enum:
+        - database
+        - business
     clusterCreate:
       required:
         - engine
@@ -23904,6 +23909,9 @@ components:
           type: string
           nullable: true
           description: Scheduler used by this cluster. If omitted, KBE uses the environment default. When koordinatorEnabled is true for the target environment, the environment default is the globally configured Koordinator scheduler.
+        reservationResourceClass:
+          nullable: true
+          $ref: '#/components/schemas/koordinatorReservationResourceClass'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -24136,6 +24144,9 @@ components:
           type: string
           nullable: true
           description: Effective scheduler used when the cluster was created.
+        reservationResourceClass:
+          nullable: true
+          $ref: '#/components/schemas/koordinatorReservationResourceClass'
       description: KubeBlocks cluster details
     clusterBatchUpdateData:
       type: object
@@ -26363,9 +26374,6 @@ components:
         user:
           type: string
           description: Redis ACL user bound to the datasource.
-        aclRules:
-          type: string
-          description: Raw ACL rule text returned by Redis ACL LIST/GETUSER when available.
         keyPatterns:
           type: array
           description: Key patterns the datasource ACL user is allowed to access.
@@ -28217,11 +28225,6 @@ components:
       required:
         - usage
       type: object
-    koordinatorReservationResourceClass:
-      type: string
-      enum:
-        - database
-        - business
     koordinatorReservationResources:
       type: object
       additionalProperties: false
@@ -35414,6 +35417,12 @@ components:
           type: string
         isAuto:
           type: boolean
+        savedDays:
+          type: integer
+        expiredAt:
+          type: string
+          format: date-time
+          description: Expiration timestamp fixed when the inspection report is created from savedDays.
         score:
           type: integer
         result:

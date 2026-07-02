@@ -9,8 +9,6 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 type RedisACLContext struct {
 	// Redis ACL user bound to the datasource.
 	User *string `json:"user,omitempty"`
-	// Raw ACL rule text returned by Redis ACL LIST/GETUSER when available.
-	AclRules *string `json:"aclRules,omitempty"`
 	// Key patterns the datasource ACL user is allowed to access.
 	KeyPatterns []string `json:"keyPatterns,omitempty"`
 	// Pub/Sub channel patterns the datasource ACL user is allowed to access.
@@ -65,34 +63,6 @@ func (o *RedisACLContext) HasUser() bool {
 // SetUser gets a reference to the given string and assigns it to the User field.
 func (o *RedisACLContext) SetUser(v string) {
 	o.User = &v
-}
-
-// GetAclRules returns the AclRules field value if set, zero value otherwise.
-func (o *RedisACLContext) GetAclRules() string {
-	if o == nil || o.AclRules == nil {
-		var ret string
-		return ret
-	}
-	return *o.AclRules
-}
-
-// GetAclRulesOk returns a tuple with the AclRules field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *RedisACLContext) GetAclRulesOk() (*string, bool) {
-	if o == nil || o.AclRules == nil {
-		return nil, false
-	}
-	return o.AclRules, true
-}
-
-// HasAclRules returns a boolean if a field has been set.
-func (o *RedisACLContext) HasAclRules() bool {
-	return o != nil && o.AclRules != nil
-}
-
-// SetAclRules gets a reference to the given string and assigns it to the AclRules field.
-func (o *RedisACLContext) SetAclRules(v string) {
-	o.AclRules = &v
 }
 
 // GetKeyPatterns returns the KeyPatterns field value if set, zero value otherwise.
@@ -188,9 +158,6 @@ func (o RedisACLContext) MarshalJSON() ([]byte, error) {
 	if o.User != nil {
 		toSerialize["user"] = o.User
 	}
-	if o.AclRules != nil {
-		toSerialize["aclRules"] = o.AclRules
-	}
 	if o.KeyPatterns != nil {
 		toSerialize["keyPatterns"] = o.KeyPatterns
 	}
@@ -211,7 +178,6 @@ func (o RedisACLContext) MarshalJSON() ([]byte, error) {
 func (o *RedisACLContext) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		User            *string  `json:"user,omitempty"`
-		AclRules        *string  `json:"aclRules,omitempty"`
 		KeyPatterns     []string `json:"keyPatterns,omitempty"`
 		ChannelPatterns []string `json:"channelPatterns,omitempty"`
 		CommandRules    []string `json:"commandRules,omitempty"`
@@ -221,12 +187,11 @@ func (o *RedisACLContext) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"user", "aclRules", "keyPatterns", "channelPatterns", "commandRules"})
+		common.DeleteKeys(additionalProperties, &[]string{"user", "keyPatterns", "channelPatterns", "commandRules"})
 	} else {
 		return err
 	}
 	o.User = all.User
-	o.AclRules = all.AclRules
 	o.KeyPatterns = all.KeyPatterns
 	o.ChannelPatterns = all.ChannelPatterns
 	o.CommandRules = all.CommandRules
