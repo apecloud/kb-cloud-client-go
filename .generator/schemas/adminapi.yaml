@@ -20109,7 +20109,7 @@ paths:
       tags:
         - diagnostics
       summary: Get PostgreSQL SQL fingerprint detail
-      description: Get one PostgreSQL SQL fingerprint detail from the current pg_stat_statements ranking scope. This endpoint is keyed by queryID, database, and user. It returns redacted SQL summary and current statistics only; it does not expose raw SQL, trends, slow-log relation, I/O analysis, suggestions, or execution plans.
+      description: Get one PostgreSQL SQL fingerprint detail from the current pg_stat_statements analysis result. This endpoint is keyed by queryID, database, and user. It returns current statistics, statistics scope, and explicit EXPLAIN capability only; it does not expose raw SQL, trends, slow-log relation, I/O analysis, suggestions, or execution plans.
       operationId: getDiagnosticsPostgresqlSQLFingerprintDetail
       parameters:
         - name: orgName
@@ -20144,7 +20144,7 @@ paths:
             type: string
         - name: fingerprint
           in: query
-          description: Optional fingerprint consistency guard. M1 uses queryID as the fingerprint.
+          description: Optional fingerprint consistency guard. Currently aligned with PostgreSQL pg_stat_statements queryid.
           required: false
           schema:
             type: string
@@ -20205,7 +20205,7 @@ paths:
             type: string
         - name: fingerprint
           in: query
-          description: Optional fingerprint consistency guard. M1 uses queryID as the fingerprint.
+          description: Optional fingerprint consistency guard. Currently aligned with PostgreSQL pg_stat_statements queryid.
           required: false
           schema:
             type: string
@@ -38132,7 +38132,7 @@ components:
           description: PostgreSQL pg_stat_statements queryid represented as a string.
         fingerprint:
           type: string
-          description: Stable SQL fingerprint identifier for UI grouping. M1 uses queryID.
+          description: Stable SQL fingerprint identifier for UI grouping. Currently aligned with PostgreSQL pg_stat_statements queryid.
         querySummary:
           type: string
           description: Redacted SQL summary. Full raw SQL is intentionally not returned.
@@ -38174,7 +38174,7 @@ components:
       properties:
         source:
           type: string
-          description: Data source. M1 uses pg_stat_statements only.
+          description: Statistics source for this response.
         status:
           type: string
           description: Source status. Expected values are available or unavailable.
@@ -38247,7 +38247,7 @@ components:
           description: PostgreSQL pg_stat_statements queryid represented as a string.
         fingerprint:
           type: string
-          description: Stable SQL fingerprint identifier for UI grouping. M1 uses queryID.
+          description: Stable SQL fingerprint identifier for UI grouping. Currently aligned with PostgreSQL pg_stat_statements queryid.
         querySummary:
           type: string
           description: Redacted SQL summary. Full raw SQL is intentionally not returned.
@@ -38284,7 +38284,7 @@ components:
           description: Database user name resolved from pg_stat_statements.userid when visible.
         source:
           type: string
-          description: Data source. M1 uses pg_stat_statements only.
+          description: Statistics source for this detail response.
         status:
           type: string
           description: Detail status. Expected values are available or unavailable.
@@ -38299,7 +38299,7 @@ components:
           description: Backend collection timestamp in UTC.
         statisticsScope:
           type: string
-          description: Statistics accumulation scope. M1 uses pg_stat_statements_since_stats_reset.
+          description: Statistics accumulation scope. pg_stat_statements values are accumulated since the last stats reset.
         explain:
           $ref: '#/components/schemas/postgresqlSQLExplainCapability'
     postgresqlSQLFingerprintExplainResponse:
@@ -38316,7 +38316,7 @@ components:
           description: PostgreSQL pg_stat_statements queryid represented as a string.
         fingerprint:
           type: string
-          description: Stable SQL fingerprint identifier for UI grouping. M1 uses queryID.
+          description: Stable SQL fingerprint identifier for UI grouping. Currently aligned with PostgreSQL pg_stat_statements queryid.
         database:
           type: string
           description: Database name from the ranking row.

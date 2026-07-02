@@ -382,7 +382,7 @@ func (r *GetDiagnosticsPostgresqlSQLFingerprintDetailOptionalParameters) WithFin
 }
 
 // GetDiagnosticsPostgresqlSQLFingerprintDetail Get PostgreSQL SQL fingerprint detail.
-// Get one PostgreSQL SQL fingerprint detail from the current pg_stat_statements ranking scope. This endpoint is keyed by queryID, database, and user. It returns redacted SQL summary and current statistics only; it does not expose raw SQL, trends, slow-log relation, I/O analysis, suggestions, or execution plans.
+// Get one PostgreSQL SQL fingerprint detail from the current pg_stat_statements analysis result. This endpoint is keyed by queryID, database, and user. It returns current statistics, statistics scope, and explicit EXPLAIN capability only; it does not expose raw SQL, trends, slow-log relation, I/O analysis, suggestions, or execution plans.
 func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLFingerprintDetail(ctx _context.Context, orgName string, clusterName string, queryId string, database string, user string, o ...GetDiagnosticsPostgresqlSQLFingerprintDetailOptionalParameters) (PostgresqlSQLFingerprintDetail, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

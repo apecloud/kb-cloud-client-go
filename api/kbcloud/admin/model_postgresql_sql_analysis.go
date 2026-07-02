@@ -11,7 +11,7 @@ import (
 )
 
 type PostgresqlSQLAnalysis struct {
-	// Data source. M1 uses pg_stat_statements only.
+	// Statistics source for this response.
 	Source string `json:"source"`
 	// Source status. Expected values are available or unavailable.
 	Status string `json:"status"`

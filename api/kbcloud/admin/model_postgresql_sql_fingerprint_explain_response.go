@@ -13,7 +13,7 @@ import (
 type PostgresqlSQLFingerprintExplainResponse struct {
 	// PostgreSQL pg_stat_statements queryid represented as a string.
 	QueryId string `json:"queryID"`
-	// Stable SQL fingerprint identifier for UI grouping. M1 uses queryID.
+	// Stable SQL fingerprint identifier for UI grouping. Currently aligned with PostgreSQL pg_stat_statements queryid.
 	Fingerprint string `json:"fingerprint"`
 	// Database name from the ranking row.
 	Database string `json:"database"`

@@ -13,7 +13,7 @@ import (
 type PostgresqlSQLFingerprintDetail struct {
 	// PostgreSQL pg_stat_statements queryid represented as a string.
 	QueryId string `json:"queryID"`
-	// Stable SQL fingerprint identifier for UI grouping. M1 uses queryID.
+	// Stable SQL fingerprint identifier for UI grouping. Currently aligned with PostgreSQL pg_stat_statements queryid.
 	Fingerprint string `json:"fingerprint"`
 	// Redacted SQL summary. Full raw SQL is intentionally not returned.
 	QuerySummary *string `json:"querySummary,omitempty"`
@@ -31,7 +31,7 @@ type PostgresqlSQLFingerprintDetail struct {
 	Database string `json:"database"`
 	// Database user name resolved from pg_stat_statements.userid when visible.
 	User string `json:"user"`
-	// Data source. M1 uses pg_stat_statements only.
+	// Statistics source for this detail response.
 	Source string `json:"source"`
 	// Detail status. Expected values are available or unavailable.
 	Status string `json:"status"`
@@ -41,7 +41,7 @@ type PostgresqlSQLFingerprintDetail struct {
 	StatsReset *string `json:"statsReset,omitempty"`
 	// Backend collection timestamp in UTC.
 	CollectedAt string `json:"collectedAt"`
-	// Statistics accumulation scope. M1 uses pg_stat_statements_since_stats_reset.
+	// Statistics accumulation scope. pg_stat_statements values are accumulated since the last stats reset.
 	StatisticsScope string                         `json:"statisticsScope"`
 	Explain         PostgresqlSQLExplainCapability `json:"explain"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
