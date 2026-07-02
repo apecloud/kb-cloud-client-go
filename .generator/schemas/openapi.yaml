@@ -7590,6 +7590,24 @@ paths:
           required: false
           schema:
             type: integer
+        - name: clusterName
+          in: query
+          description: filter by cluster name
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: filter by alert status
+          required: false
+          schema:
+            type: string
+        - name: severity
+          in: query
+          description: filter by alert severity
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: A successful response.
@@ -7673,6 +7691,58 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/alertObject'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/alerts/cluster/{clusterName}/summary:
+    get:
+      tags:
+        - alertObject
+      operationId: getClusterAlertSummary
+      summary: Get cluster alert summary
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: alert status filter, defaults to firing
+          required: false
+          schema:
+            type: string
+            default: firing
+        - name: severity
+          in: query
+          description: alert severity filter
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: max number of top alerts returned
+          required: false
+          schema:
+            type: integer
+            default: 3
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterAlertSummary'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -25308,6 +25378,29 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertObjectList is a list of alert object
+    clusterAlertSummary:
+      type: object
+      properties:
+        activeCount:
+          type: integer
+          format: int64
+          description: number of active alerts after cluster/status/severity filters
+        severityCounts:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int64
+          description: active alert count grouped by severity
+        topAlerts:
+          type: array
+          description: top alerts for the cluster after filters
+          items:
+            $ref: '#/components/schemas/alertObject'
+        updatedAt:
+          type: string
+          format: date-time
+          description: response generation time
+      description: Cluster alert summary
     alertCluster:
       required:
         - disabled
