@@ -20104,6 +20104,128 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/queries/{queryID}:
+    get:
+      tags:
+        - diagnostics
+      summary: Get PostgreSQL SQL fingerprint detail
+      description: Get one PostgreSQL SQL fingerprint detail from the current pg_stat_statements ranking scope. This endpoint is keyed by queryID, database, and user. It returns redacted SQL summary and current statistics only; it does not expose raw SQL, trends, slow-log relation, I/O analysis, suggestions, or execution plans.
+      operationId: getDiagnosticsPostgresqlSQLFingerprintDetail
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: queryID
+          in: path
+          description: PostgreSQL pg_stat_statements queryid represented as a string.
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: Database name from the ranking row. Required to disambiguate the queryID.
+          required: true
+          schema:
+            type: string
+        - name: user
+          in: query
+          description: Database user from the ranking row. Required to disambiguate the queryID.
+          required: true
+          schema:
+            type: string
+        - name: fingerprint
+          in: query
+          description: Optional fingerprint consistency guard. M1 uses queryID as the fingerprint.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postgresqlSQLFingerprintDetail'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/queries/{queryID}/explain:
+    post:
+      tags:
+        - diagnostics
+      summary: Explain PostgreSQL SQL fingerprint
+      description: Explicitly trigger a safe PostgreSQL EXPLAIN for one SQL fingerprint. The request does not accept raw SQL. The backend uses only a deterministic server-side SELECT sample when available, normalizes it with the same SELECT-only guard as slow-log EXPLAIN, and never runs EXPLAIN ANALYZE or original SQL.
+      operationId: explainDiagnosticsPostgresqlSQLFingerprint
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: queryID
+          in: path
+          description: PostgreSQL pg_stat_statements queryid represented as a string.
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: Database name from the ranking row. Required to disambiguate the queryID.
+          required: true
+          schema:
+            type: string
+        - name: user
+          in: query
+          description: Database user from the ranking row. Required to disambiguate the queryID.
+          required: true
+          schema:
+            type: string
+        - name: fingerprint
+          in: query
+          description: Optional fingerprint consistency guard. M1 uses queryID as the fingerprint.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postgresqlSQLFingerprintExplainResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/performanceTrends:
     get:
       tags:
@@ -38087,6 +38209,137 @@ components:
           description: SQL fingerprint ranking rows from pg_stat_statements. The list may be empty when no statement statistics exist.
           items:
             $ref: '#/components/schemas/postgresqlSQLFingerprint'
+    postgresqlSQLExplainCapability:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          description: Capability status for explicit EXPLAIN. Expected values are not_requested, available, unavailable, and unsupported.
+        unavailableReason:
+          type: string
+          description: Reason when status is unavailable or unsupported, such as no_explainable_sql_sample or non_select.
+        sampleSource:
+          type: string
+          description: Server-side sample source when available. Raw SQL is not returned.
+        sampleCollectedAt:
+          type: string
+          description: Sample collection timestamp when available.
+        sampleSQLSummary:
+          type: string
+          description: Redacted sample SQL summary when available. Full raw SQL is intentionally not returned.
+    postgresqlSQLFingerprintDetail:
+      type: object
+      required:
+        - queryID
+        - fingerprint
+        - database
+        - user
+        - source
+        - status
+        - collectedAt
+        - statisticsScope
+        - explain
+      properties:
+        queryID:
+          type: string
+          description: PostgreSQL pg_stat_statements queryid represented as a string.
+        fingerprint:
+          type: string
+          description: Stable SQL fingerprint identifier for UI grouping. M1 uses queryID.
+        querySummary:
+          type: string
+          description: Redacted SQL summary. Full raw SQL is intentionally not returned.
+        calls:
+          type: integer
+          format: int64
+          x-nullable: true
+          description: Number of executions accumulated by pg_stat_statements since statsReset.
+        totalTimeMs:
+          type: number
+          format: double
+          x-nullable: true
+          description: Total execution time in milliseconds accumulated by pg_stat_statements since statsReset.
+        meanTimeMs:
+          type: number
+          format: double
+          x-nullable: true
+          description: Mean execution time in milliseconds.
+        maxTimeMs:
+          type: number
+          format: double
+          x-nullable: true
+          description: Max execution time in milliseconds.
+        rows:
+          type: integer
+          format: int64
+          x-nullable: true
+          description: Rows returned or affected by the fingerprint, as reported by pg_stat_statements.
+        database:
+          type: string
+          description: Database name resolved from pg_stat_statements.dbid when visible.
+        user:
+          type: string
+          description: Database user name resolved from pg_stat_statements.userid when visible.
+        source:
+          type: string
+          description: Data source. M1 uses pg_stat_statements only.
+        status:
+          type: string
+          description: Detail status. Expected values are available or unavailable.
+        unavailableReason:
+          type: string
+          description: Reason when status is unavailable, such as not_found or fingerprint_mismatch.
+        statsReset:
+          type: string
+          description: UTC timestamp reported by pg_stat_statements_info.stats_reset when available.
+        collectedAt:
+          type: string
+          description: Backend collection timestamp in UTC.
+        statisticsScope:
+          type: string
+          description: Statistics accumulation scope. M1 uses pg_stat_statements_since_stats_reset.
+        explain:
+          $ref: '#/components/schemas/postgresqlSQLExplainCapability'
+    postgresqlSQLFingerprintExplainResponse:
+      type: object
+      required:
+        - queryID
+        - fingerprint
+        - database
+        - user
+        - status
+      properties:
+        queryID:
+          type: string
+          description: PostgreSQL pg_stat_statements queryid represented as a string.
+        fingerprint:
+          type: string
+          description: Stable SQL fingerprint identifier for UI grouping. M1 uses queryID.
+        database:
+          type: string
+          description: Database name from the ranking row.
+        user:
+          type: string
+          description: Database user from the ranking row.
+        status:
+          type: string
+          description: Terminal EXPLAIN status. Expected values are success, unavailable, unsupported, permission_denied, and failed.
+        unavailableReason:
+          type: string
+          description: Reason when status is not success, such as no_explainable_sql_sample, non_select, permission_denied, or dms_explain_failed.
+        sampleSource:
+          type: string
+          description: Server-side sample source when available. Raw SQL is not returned.
+        sampleCollectedAt:
+          type: string
+          description: Sample collection timestamp when available.
+        sampleSQLSummary:
+          type: string
+          description: Redacted sample SQL summary when available. Full raw SQL is intentionally not returned.
+        explainResult:
+          description: DMS SQLExplainV1 result when status is success.
     performanceTrendRange:
       type: object
       required:
