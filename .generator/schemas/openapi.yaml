@@ -15803,7 +15803,7 @@ paths:
           schema:
             type: string
       responses:
-        '201':
+        '200':
           description: LLM by ID
           content:
             application/json:
