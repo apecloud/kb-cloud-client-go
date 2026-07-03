@@ -200,7 +200,6 @@
 //   - [diagnosticsApi.explainDiagnosticsPostgresqlSQLFingerprint]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlPerformanceTrends]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlSQLAnalysis]
-//   - [diagnosticsApi.getDiagnosticsPostgresqlSQLFingerprintDetail]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlSession]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlSessionLockAnalysis]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlSpaceAnalysis]
