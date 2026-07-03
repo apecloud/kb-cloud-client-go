@@ -19,17 +19,13 @@ type PostgresqlSQLFingerprintExplainResponse struct {
 	Database string `json:"database"`
 	// Database user from the ranking row.
 	User string `json:"user"`
-	// Terminal EXPLAIN status. Expected values are success, unavailable, unsupported, permission_denied, and failed.
-	Status string `json:"status"`
-	// Reason when status is not success, such as no_explainable_sql_sample, non_select, permission_denied, or dms_explain_failed.
-	UnavailableReason *string `json:"unavailableReason,omitempty"`
 	// Server-side sample source when available. Raw SQL is not returned.
 	SampleSource *string `json:"sampleSource,omitempty"`
 	// Sample collection timestamp when available.
 	SampleCollectedAt *string `json:"sampleCollectedAt,omitempty"`
 	// Redacted sample SQL summary when available. Full raw SQL is intentionally not returned.
 	SampleSqlSummary *string `json:"sampleSQLSummary,omitempty"`
-	// DMS SQLExplainV1 result when status is success.
+	// DMS SQLExplainV1 result for a successful explicit EXPLAIN request.
 	ExplainResult interface{} `json:"explainResult,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -40,13 +36,12 @@ type PostgresqlSQLFingerprintExplainResponse struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlSQLFingerprintExplainResponse(queryId string, fingerprint string, database string, user string, status string) *PostgresqlSQLFingerprintExplainResponse {
+func NewPostgresqlSQLFingerprintExplainResponse(queryId string, fingerprint string, database string, user string) *PostgresqlSQLFingerprintExplainResponse {
 	this := PostgresqlSQLFingerprintExplainResponse{}
 	this.QueryId = queryId
 	this.Fingerprint = fingerprint
 	this.Database = database
 	this.User = user
-	this.Status = status
 	return &this
 }
 
@@ -148,57 +143,6 @@ func (o *PostgresqlSQLFingerprintExplainResponse) GetUserOk() (*string, bool) {
 // SetUser sets field value.
 func (o *PostgresqlSQLFingerprintExplainResponse) SetUser(v string) {
 	o.User = v
-}
-
-// GetStatus returns the Status field value.
-func (o *PostgresqlSQLFingerprintExplainResponse) GetStatus() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.Status
-}
-
-// GetStatusOk returns a tuple with the Status field value
-// and a boolean to check if the value has been set.
-func (o *PostgresqlSQLFingerprintExplainResponse) GetStatusOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Status, true
-}
-
-// SetStatus sets field value.
-func (o *PostgresqlSQLFingerprintExplainResponse) SetStatus(v string) {
-	o.Status = v
-}
-
-// GetUnavailableReason returns the UnavailableReason field value if set, zero value otherwise.
-func (o *PostgresqlSQLFingerprintExplainResponse) GetUnavailableReason() string {
-	if o == nil || o.UnavailableReason == nil {
-		var ret string
-		return ret
-	}
-	return *o.UnavailableReason
-}
-
-// GetUnavailableReasonOk returns a tuple with the UnavailableReason field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *PostgresqlSQLFingerprintExplainResponse) GetUnavailableReasonOk() (*string, bool) {
-	if o == nil || o.UnavailableReason == nil {
-		return nil, false
-	}
-	return o.UnavailableReason, true
-}
-
-// HasUnavailableReason returns a boolean if a field has been set.
-func (o *PostgresqlSQLFingerprintExplainResponse) HasUnavailableReason() bool {
-	return o != nil && o.UnavailableReason != nil
-}
-
-// SetUnavailableReason gets a reference to the given string and assigns it to the UnavailableReason field.
-func (o *PostgresqlSQLFingerprintExplainResponse) SetUnavailableReason(v string) {
-	o.UnavailableReason = &v
 }
 
 // GetSampleSource returns the SampleSource field value if set, zero value otherwise.
@@ -323,10 +267,6 @@ func (o PostgresqlSQLFingerprintExplainResponse) MarshalJSON() ([]byte, error) {
 	toSerialize["fingerprint"] = o.Fingerprint
 	toSerialize["database"] = o.Database
 	toSerialize["user"] = o.User
-	toSerialize["status"] = o.Status
-	if o.UnavailableReason != nil {
-		toSerialize["unavailableReason"] = o.UnavailableReason
-	}
 	if o.SampleSource != nil {
 		toSerialize["sampleSource"] = o.SampleSource
 	}
@@ -353,8 +293,6 @@ func (o *PostgresqlSQLFingerprintExplainResponse) UnmarshalJSON(bytes []byte) (e
 		Fingerprint       *string     `json:"fingerprint"`
 		Database          *string     `json:"database"`
 		User              *string     `json:"user"`
-		Status            *string     `json:"status"`
-		UnavailableReason *string     `json:"unavailableReason,omitempty"`
 		SampleSource      *string     `json:"sampleSource,omitempty"`
 		SampleCollectedAt *string     `json:"sampleCollectedAt,omitempty"`
 		SampleSqlSummary  *string     `json:"sampleSQLSummary,omitempty"`
@@ -375,12 +313,9 @@ func (o *PostgresqlSQLFingerprintExplainResponse) UnmarshalJSON(bytes []byte) (e
 	if all.User == nil {
 		return fmt.Errorf("required field user missing")
 	}
-	if all.Status == nil {
-		return fmt.Errorf("required field status missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"queryID", "fingerprint", "database", "user", "status", "unavailableReason", "sampleSource", "sampleCollectedAt", "sampleSQLSummary", "explainResult"})
+		common.DeleteKeys(additionalProperties, &[]string{"queryID", "fingerprint", "database", "user", "sampleSource", "sampleCollectedAt", "sampleSQLSummary", "explainResult"})
 	} else {
 		return err
 	}
@@ -388,8 +323,6 @@ func (o *PostgresqlSQLFingerprintExplainResponse) UnmarshalJSON(bytes []byte) (e
 	o.Fingerprint = *all.Fingerprint
 	o.Database = *all.Database
 	o.User = *all.User
-	o.Status = *all.Status
-	o.UnavailableReason = all.UnavailableReason
 	o.SampleSource = all.SampleSource
 	o.SampleCollectedAt = all.SampleCollectedAt
 	o.SampleSqlSummary = all.SampleSqlSummary
