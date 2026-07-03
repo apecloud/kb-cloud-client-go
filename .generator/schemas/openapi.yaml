@@ -15754,6 +15754,98 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/llm:
+    get:
+      tags:
+        - llm
+      deprecated: true
+      operationId: ListLLMForOrg
+      summary: List available LLM for org
+      description: available
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: available llm list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/llmList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/llm/{id}:
+    get:
+      tags:
+        - llm
+      deprecated: true
+      operationId: getLLMByIDInOrg
+      summary: Get LLM by ID in org
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: ID of the LLM
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: LLM by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/llm'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/llm/models:
+    get:
+      tags:
+        - llm
+      operationId: listAvailableModelInOrg
+      summary: List available model in org
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/ai-agent/status:
     get:
       tags:
@@ -31697,6 +31789,70 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/RbmqExchange'
+    AccessLevel:
+      type: string
+      enum:
+        - Platform
+        - Organization
+    llm:
+      description: llm
+      properties:
+        id:
+          description: ID of the llm
+          title: ID
+          type: string
+        name:
+          description: Name of the llm
+          title: Name
+          type: string
+        enabled:
+          description: Whether this LLM is enabled
+          title: Enabled
+          type: boolean
+        config:
+          description: |
+            Config.
+
+            For OpenAI-compatible providers, model entries under `available_models`
+            may include `max_tokens` as the maximum output token count and
+            `context_length` as the total context window. `context_window` is a
+            deprecated compatibility alias and should not be used by new clients.
+          title: Config
+          type: object
+          additionalProperties:
+            type: object
+        level:
+          $ref: '#/components/schemas/AccessLevel'
+        createdAt:
+          description: |-
+            CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
+
+            Populated by the system. Read-only. Null for lists
+          format: date-time
+          type: string
+        updatedAt:
+          description: |-
+            UpdatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
+
+            Populated by the system. Read-only. Null for lists
+          format: date-time
+          type: string
+      required:
+        - name
+        - config
+        - enabled
+      type: object
+    llmList:
+      required:
+        - items
+      type: object
+      properties:
+        items:
+          type: array
+          x-nullable: false
+          description: Items is the list of llm objects
+          items:
+            $ref: '#/components/schemas/llm'
     aiAgentRuntimeStatusCode:
       x-generate-alias-as-model: true
       type: string
