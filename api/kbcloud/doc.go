@@ -345,8 +345,6 @@
 //   - [kafkaApi.updateKafkaBrokerConfig]
 //   - [keyApi.listKeys]
 //   - [licenseApi.getLicense]
-//   - [llmApi.ListLLMForOrg]
-//   - [llmApi.getLLMByIDInOrg]
 //   - [llmApi.listAvailableModelInOrg]
 //   - [loadBalancerApi.getLoadBalancer]
 //   - [markClusterApi.markClusterRestoreCompleted]
