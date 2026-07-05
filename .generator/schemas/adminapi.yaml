@@ -15805,9 +15805,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/inspectionTaskItem'
+                $ref: '#/components/schemas/inspectionTask'
         '401':
           $ref: '#/components/responses/401'
         '403':
