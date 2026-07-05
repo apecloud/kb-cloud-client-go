@@ -163,6 +163,7 @@
 //   - [clusterApi.patchCluster]
 //   - [clusterApi.queryClusterMetrics]
 //   - [clusterApi.restartInstance]
+//   - [clusterApi.transitionClusterMode]
 //   - [clusterApi.updateSqlAudit]
 //   - [clusterApi.updateTDE]
 //   - [clusterApi.validateClusterCreation]
