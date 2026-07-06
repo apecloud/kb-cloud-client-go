@@ -346,6 +346,7 @@
 //   - [environmentApi.getEnvironmentProvisioningProgress]
 //   - [environmentApi.getEnvironmentStatus]
 //   - [environmentApi.getEnvironmentStatusHistory]
+//   - [environmentApi.getKoordinatorReservationSummary]
 //   - [environmentApi.getKubernetesDNS]
 //   - [environmentApi.getLatestEnvModuleVersion]
 //   - [environmentApi.getNode]

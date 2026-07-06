@@ -9929,6 +9929,37 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - environment
+  /admin/v1/environments/{environmentName}/koordinatorReservations/summary:
+    get:
+      description: Get Koordinator Reservation summary for the cluster creation page.
+      summary: Get Koordinator Reservation summary
+      operationId: getKoordinatorReservationSummary
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/koordinatorReservationSummary'
+          description: Koordinator Reservation summary.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
   /admin/v1/environments/{environmentName}/nodes/{nodeName}/cordon:
     patch:
       description: cordon the specified Environment node
@@ -23810,6 +23841,11 @@ components:
         * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
         * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
         * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
+    koordinatorReservationResourceClass:
+      type: string
+      enum:
+        - database
+        - business
     clusterCreate:
       required:
         - engine
@@ -23909,6 +23945,14 @@ components:
         schedulingPolicy:
           description: Scheduling policy for this cluster.
           $ref: '#/components/schemas/schedulingPolicyType'
+        schedulerName:
+          title: Scheduler Name
+          type: string
+          nullable: true
+          description: Scheduler used by this cluster. If omitted, KBE uses the environment default. When koordinatorEnabled is true for the target environment, the environment default is the globally configured Koordinator scheduler.
+        reservationResourceClass:
+          nullable: true
+          $ref: '#/components/schemas/koordinatorReservationResourceClass'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -24136,6 +24180,14 @@ components:
         schedulingPolicy:
           description: Scheduling policy for this cluster.
           $ref: '#/components/schemas/schedulingPolicyType'
+        schedulerName:
+          title: Scheduler Name
+          type: string
+          nullable: true
+          description: Effective scheduler used when the cluster was created.
+        reservationResourceClass:
+          nullable: true
+          $ref: '#/components/schemas/koordinatorReservationResourceClass'
       description: KubeBlocks cluster details
     clusterBatchUpdateData:
       type: object
@@ -28270,6 +28322,58 @@ components:
       required:
         - usage
       type: object
+    koordinatorReservationResources:
+      type: object
+      additionalProperties: false
+      description: Resource requests supported by KBE for Koordinator Reservations. Values are Kubernetes quantities and responses use Kubernetes canonical quantity strings.
+      properties:
+        cpu:
+          type: string
+        memory:
+          type: string
+    koordinatorReservationAllocatePolicy:
+      type: string
+      enum:
+        - Restricted
+        - Aligned
+    koordinatorReservationStatus:
+      type: object
+      properties:
+        phase:
+          type: string
+        nodeName:
+          type: string
+        allocatable:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        allocated:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        available:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+    koordinatorNodeReservation:
+      type: object
+      required:
+        - resourceClass
+        - resources
+      properties:
+        resourceClass:
+          $ref: '#/components/schemas/koordinatorReservationResourceClass'
+        reservationName:
+          type: string
+          readOnly: true
+        resources:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        ttl:
+          type: string
+          default: 24h
+          description: Kubernetes duration string. Koordinator defaults omitted ttl to 24h.
+        allocateOnce:
+          type: boolean
+        preAllocation:
+          type: boolean
+        allocatePolicy:
+          $ref: '#/components/schemas/koordinatorReservationAllocatePolicy'
+        status:
+          $ref: '#/components/schemas/koordinatorReservationStatus'
     nodeStatus:
       type: string
       description: Status of the node
@@ -28328,6 +28432,10 @@ components:
         managed:
           description: Whether the node is managed (has data-plane or control-plane label)
           type: boolean
+        koordinatorReservations:
+          type: array
+          items:
+            $ref: '#/components/schemas/koordinatorNodeReservation'
         status:
           $ref: '#/components/schemas/nodeStatus'
           description: Node status
@@ -29252,6 +29360,10 @@ components:
           description: whether to enable calculate the cluster SLA for the environment
           type: boolean
           default: false
+        koordinatorEnabled:
+          description: Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
+          type: boolean
+          default: false
     environmentList:
       description: EnvironmentList is a list of Environments
       properties:
@@ -29329,6 +29441,10 @@ components:
           $ref: '#/components/schemas/dns'
         sla:
           description: whether to enable calculate the cluster SLA for the environment
+          type: boolean
+          default: false
+        koordinatorEnabled:
+          description: Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
           type: boolean
           default: false
     preflight:
@@ -29457,6 +29573,10 @@ components:
           nullable: true
         slaEnabled:
           description: whether to enable calculate the cluster SLA for the environment
+          type: boolean
+          default: false
+        koordinatorEnabled:
+          description: Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
           type: boolean
           default: false
         clusterSchedulingPolicy:
@@ -29784,6 +29904,50 @@ components:
       required:
         - items
       type: object
+    schedulerOption:
+      type: object
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        default:
+          type: boolean
+    koordinatorReservationSummaryItem:
+      type: object
+      properties:
+        resourceClass:
+          $ref: '#/components/schemas/koordinatorReservationResourceClass'
+        nodeCount:
+          type: integer
+          format: int64
+        total:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        allocated:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        available:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+    koordinatorReservationSummary:
+      type: object
+      required:
+        - enabled
+        - schedulerOptions
+        - items
+      properties:
+        enabled:
+          type: boolean
+        schedulerName:
+          type: string
+        defaultSchedulerName:
+          type: string
+        schedulerOptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/schedulerOption'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/koordinatorReservationSummaryItem'
     listBody:
       description: Represents a list of JSON bodies.
       items:

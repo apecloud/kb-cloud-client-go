@@ -20635,6 +20635,11 @@ components:
         * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
         * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
         * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
+    koordinatorReservationResourceClass:
+      type: string
+      enum:
+        - database
+        - business
     clusterCreate:
       required:
         - engine
@@ -20734,6 +20739,14 @@ components:
         schedulingPolicy:
           description: Scheduling policy for this cluster.
           $ref: '#/components/schemas/schedulingPolicyType'
+        schedulerName:
+          title: Scheduler Name
+          type: string
+          nullable: true
+          description: Scheduler used by this cluster. If omitted, KBE uses the environment default. When koordinatorEnabled is true for the target environment, the environment default is the globally configured Koordinator scheduler.
+        reservationResourceClass:
+          nullable: true
+          $ref: '#/components/schemas/koordinatorReservationResourceClass'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -20961,6 +20974,14 @@ components:
         schedulingPolicy:
           description: Scheduling policy for this cluster.
           $ref: '#/components/schemas/schedulingPolicyType'
+        schedulerName:
+          title: Scheduler Name
+          type: string
+          nullable: true
+          description: Effective scheduler used when the cluster was created.
+        reservationResourceClass:
+          nullable: true
+          $ref: '#/components/schemas/koordinatorReservationResourceClass'
       description: KubeBlocks cluster details
     clusterBatchUpdateData:
       type: object
@@ -21999,6 +22020,58 @@ components:
         schedule:
           $ref: '#/components/schemas/taskSchedule'
       type: object
+    koordinatorReservationResources:
+      type: object
+      additionalProperties: false
+      description: Resource requests supported by KBE for Koordinator Reservations. Values are Kubernetes quantities and responses use Kubernetes canonical quantity strings.
+      properties:
+        cpu:
+          type: string
+        memory:
+          type: string
+    koordinatorReservationAllocatePolicy:
+      type: string
+      enum:
+        - Restricted
+        - Aligned
+    koordinatorReservationStatus:
+      type: object
+      properties:
+        phase:
+          type: string
+        nodeName:
+          type: string
+        allocatable:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        allocated:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        available:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+    koordinatorNodeReservation:
+      type: object
+      required:
+        - resourceClass
+        - resources
+      properties:
+        resourceClass:
+          $ref: '#/components/schemas/koordinatorReservationResourceClass'
+        reservationName:
+          type: string
+          readOnly: true
+        resources:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        ttl:
+          type: string
+          default: 24h
+          description: Kubernetes duration string. Koordinator defaults omitted ttl to 24h.
+        allocateOnce:
+          type: boolean
+        preAllocation:
+          type: boolean
+        allocatePolicy:
+          $ref: '#/components/schemas/koordinatorReservationAllocatePolicy'
+        status:
+          $ref: '#/components/schemas/koordinatorReservationStatus'
     nodeStatus:
       type: string
       description: Status of the node
@@ -22057,6 +22130,10 @@ components:
         managed:
           description: Whether the node is managed (has data-plane or control-plane label)
           type: boolean
+        koordinatorReservations:
+          type: array
+          items:
+            $ref: '#/components/schemas/koordinatorNodeReservation'
         status:
           $ref: '#/components/schemas/nodeStatus'
           description: Node status
