@@ -14,8 +14,6 @@ import (
 type StorageConfig struct {
 	// these storages will be created
 	Storages []EnvironmentStorage `json:"storages"`
-	// the storage config for log
-	Log StorageConfigLog `json:"log"`
 	// the storage config for backup
 	Backup StorageConfigBackup `json:"backup"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -27,10 +25,9 @@ type StorageConfig struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewStorageConfig(storages []EnvironmentStorage, log StorageConfigLog, backup StorageConfigBackup) *StorageConfig {
+func NewStorageConfig(storages []EnvironmentStorage, backup StorageConfigBackup) *StorageConfig {
 	this := StorageConfig{}
 	this.Storages = storages
-	this.Log = log
 	this.Backup = backup
 	return &this
 }
@@ -66,29 +63,6 @@ func (o *StorageConfig) SetStorages(v []EnvironmentStorage) {
 	o.Storages = v
 }
 
-// GetLog returns the Log field value.
-func (o *StorageConfig) GetLog() StorageConfigLog {
-	if o == nil {
-		var ret StorageConfigLog
-		return ret
-	}
-	return o.Log
-}
-
-// GetLogOk returns a tuple with the Log field value
-// and a boolean to check if the value has been set.
-func (o *StorageConfig) GetLogOk() (*StorageConfigLog, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Log, true
-}
-
-// SetLog sets field value.
-func (o *StorageConfig) SetLog(v StorageConfigLog) {
-	o.Log = v
-}
-
 // GetBackup returns the Backup field value.
 func (o *StorageConfig) GetBackup() StorageConfigBackup {
 	if o == nil {
@@ -119,7 +93,6 @@ func (o StorageConfig) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["storages"] = o.Storages
-	toSerialize["log"] = o.Log
 	toSerialize["backup"] = o.Backup
 
 	for key, value := range o.AdditionalProperties {
@@ -132,7 +105,6 @@ func (o StorageConfig) MarshalJSON() ([]byte, error) {
 func (o *StorageConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Storages *[]EnvironmentStorage `json:"storages"`
-		Log      *StorageConfigLog     `json:"log"`
 		Backup   *StorageConfigBackup  `json:"backup"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -141,25 +113,18 @@ func (o *StorageConfig) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Storages == nil {
 		return fmt.Errorf("required field storages missing")
 	}
-	if all.Log == nil {
-		return fmt.Errorf("required field log missing")
-	}
 	if all.Backup == nil {
 		return fmt.Errorf("required field backup missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"storages", "log", "backup"})
+		common.DeleteKeys(additionalProperties, &[]string{"storages", "backup"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Storages = *all.Storages
-	if all.Log.UnparsedObject != nil && o.UnparsedObject == nil {
-		hasInvalidField = true
-	}
-	o.Log = *all.Log
 	if all.Backup.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
