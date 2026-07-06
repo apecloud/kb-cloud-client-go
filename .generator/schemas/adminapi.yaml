@@ -29112,7 +29112,6 @@ components:
       type: object
       description: Storage config for environment
       required:
-        - log
         - backup
         - storages
       properties:
@@ -29121,15 +29120,6 @@ components:
           description: these storages will be created
           items:
             $ref: '#/components/schemas/environmentStorage'
-        log:
-          type: object
-          description: the storage config for log
-          required:
-            - storageName
-          properties:
-            storageName:
-              type: string
-              description: the name of storage
         backup:
           type: object
           description: the storage config for backup
