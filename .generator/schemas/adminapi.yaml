@@ -3735,6 +3735,49 @@ paths:
         - cluster
         - shared
       x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/modeTransition:
+    post:
+      operationId: transitionClusterMode
+      summary: Transition cluster engine mode
+      description: Validates the mode transition, updates the cluster spec, and creates an hscale task when required. Returns the resulting OpsRequest name and task ID.
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/clusterModeTransition'
+      responses:
+        '202':
+          description: Mode transition accepted. Returns the OpsRequest name and task ID when an hscale operation is created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opsRequestName'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
+        - shared
+      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery:
     get:
       operationId: listDisasterRecovery
@@ -15793,9 +15836,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/inspectionTaskItem'
+                $ref: '#/components/schemas/inspectionTask'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -25036,6 +25077,98 @@ components:
             $ref: '#/components/schemas/haHistory'
       required:
         - items
+    taskScheduleType:
+      type: string
+      enum:
+        - immediate
+        - scheduled
+        - maintenanceWindow
+      description: Schedule type for task execution
+    taskSchedule:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/taskScheduleType'
+        startTime:
+          type: string
+          format: date-time
+          description: Start time of the execution window (required for scheduled type)
+          x-nullable: true
+        endTime:
+          type: string
+          format: date-time
+          description: End time of the execution window (required for scheduled type)
+          x-nullable: true
+      required:
+        - type
+    opsHScale:
+      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
+      required:
+        - component
+      properties:
+        component:
+          description: component type
+          type: string
+          minLength: 1
+        backupName:
+          description: name of the backup to restore from
+          type: string
+          nullable: true
+        replicas:
+          description: number of replicas
+          type: integer
+          nullable: true
+        onlineInstancesToOffline:
+          type: array
+          items:
+            type: string
+          description: List of online instance names to be switched to offline during scaling in.
+          nullable: true
+        OfflineInstancesToOnline:
+          type: array
+          items:
+            type: string
+          description: List of offline instance names to be switched to online during scaling out.
+          nullable: true
+        shards:
+          description: number of shards, mutually exclusive with replicas.
+          type: integer
+          nullable: true
+        preConditionDeadlineSeconds:
+          description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
+          type: integer
+          nullable: true
+          minimum: 0
+        force:
+          type: boolean
+          description: force the scaling operation without pre-check
+          default: false
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
+      type: object
+    clusterModeTransition:
+      type: object
+      description: Parameters for switching the engine mode of a cluster.
+      required:
+        - mode
+      properties:
+        mode:
+          type: string
+          description: Target engine mode.
+        hScale:
+          $ref: '#/components/schemas/opsHScale'
+    opsRequestName:
+      description: OpsRequestName is the name of a KubeBlocks OpsRequest response
+      properties:
+        opsRequestName:
+          type: string
+        clusterTaskId:
+          type: string
+        taskId:
+          type: string
+      required:
+        - taskId
+      type: object
     taskSummary:
       type: object
       properties:
@@ -28086,30 +28219,6 @@ components:
           type: integer
           format: int64
           x-omitempty: false
-    taskScheduleType:
-      type: string
-      enum:
-        - immediate
-        - scheduled
-        - maintenanceWindow
-      description: Schedule type for task execution
-    taskSchedule:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/taskScheduleType'
-        startTime:
-          type: string
-          format: date-time
-          description: Start time of the execution window (required for scheduled type)
-          x-nullable: true
-        endTime:
-          type: string
-          format: date-time
-          description: End time of the execution window (required for scheduled type)
-          x-nullable: true
-      required:
-        - type
     reconfigureCreate:
       description: ReconfigureCreate is the payload to reconfigure a KubeBlocks cluster
       properties:
@@ -28132,18 +28241,6 @@ components:
           $ref: '#/components/schemas/taskSchedule'
       required:
         - component
-      type: object
-    opsRequestName:
-      description: OpsRequestName is the name of a KubeBlocks OpsRequest response
-      properties:
-        opsRequestName:
-          type: string
-        clusterTaskId:
-          type: string
-        taskId:
-          type: string
-      required:
-        - taskId
       type: object
     opsRestart:
       description: OpsRestart is the payload to restart a KubeBlocks cluster
@@ -28474,51 +28571,6 @@ components:
         classCode:
           description: class code of the cluster
           type: string
-        schedule:
-          $ref: '#/components/schemas/taskSchedule'
-      type: object
-    opsHScale:
-      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
-      required:
-        - component
-      properties:
-        component:
-          description: component type
-          type: string
-          minLength: 1
-        backupName:
-          description: name of the backup to restore from
-          type: string
-          nullable: true
-        replicas:
-          description: number of replicas
-          type: integer
-          nullable: true
-        onlineInstancesToOffline:
-          type: array
-          items:
-            type: string
-          description: List of online instance names to be switched to offline during scaling in.
-          nullable: true
-        OfflineInstancesToOnline:
-          type: array
-          items:
-            type: string
-          description: List of offline instance names to be switched to online during scaling out.
-          nullable: true
-        shards:
-          description: number of shards, mutually exclusive with replicas.
-          type: integer
-          nullable: true
-        preConditionDeadlineSeconds:
-          description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
-          type: integer
-          nullable: true
-          minimum: 0
-        force:
-          type: boolean
-          description: force the scaling operation without pre-check
-          default: false
         schedule:
           $ref: '#/components/schemas/taskSchedule'
       type: object
