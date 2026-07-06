@@ -726,11 +726,11 @@ func (r *GetInspectionTaskByEnvOptionalParameters) WithFormat(format InspectionT
 }
 
 // GetInspectionTaskByEnv get inspection task by env.
-func (a *InspectionApi) GetInspectionTaskByEnv(ctx _context.Context, environmentName string, taskId string, o ...GetInspectionTaskByEnvOptionalParameters) ([]InspectionTaskItem, *_nethttp.Response, error) {
+func (a *InspectionApi) GetInspectionTaskByEnv(ctx _context.Context, environmentName string, taskId string, o ...GetInspectionTaskByEnvOptionalParameters) (InspectionTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []InspectionTaskItem
+		localVarReturnValue InspectionTask
 		optionalParams      GetInspectionTaskByEnvOptionalParameters
 	)
 
