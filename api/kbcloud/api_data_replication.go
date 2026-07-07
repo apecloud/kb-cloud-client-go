@@ -925,11 +925,11 @@ func (r *QueryDataChannelContainersOptionalParameters) WithModuleName(moduleName
 
 // QueryDataChannelContainers Query data channel module pod containers.
 // Query containers of a data channel module pod
-func (a *DataReplicationApi) QueryDataChannelContainers(ctx _context.Context, orgName string, channelId string, o ...QueryDataChannelContainersOptionalParameters) (DataReplicationChannelContainer, *_nethttp.Response, error) {
+func (a *DataReplicationApi) QueryDataChannelContainers(ctx _context.Context, orgName string, channelId string, o ...QueryDataChannelContainersOptionalParameters) ([]DataReplicationChannelContainer, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue DataReplicationChannelContainer
+		localVarReturnValue []DataReplicationChannelContainer
 		optionalParams      QueryDataChannelContainersOptionalParameters
 	)
 

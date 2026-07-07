@@ -13472,7 +13472,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/dataReplicationChannelContainer'
+                type: array
+                items:
+                  $ref: '#/components/schemas/dataReplicationChannelContainer'
           description: A list of data channel module containers.
         '401':
           $ref: '#/components/responses/401'
