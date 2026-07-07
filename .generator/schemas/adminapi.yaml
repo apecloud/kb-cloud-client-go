@@ -25415,6 +25415,9 @@ components:
           description: The value options of the parameter
           type: array
           items: {}
+        unit:
+          description: The unit of the parameter value (e.g., seconds, bytes, ms, percentage)
+          type: string
     parameterItem:
       type: object
       description: With the list of parameter properties and the configuration file name
