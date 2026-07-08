@@ -292,6 +292,7 @@
 //   - [environmentApi.getEnvironmentModuleInfo]
 //   - [environmentApi.listEnvNodeZone]
 //   - [environmentApi.listEnvironment]
+//   - [environmentApi.listEnvironmentSpiderIPPools]
 //   - [environmentApi.listNodeGroup]
 //   - [eventApi.getEventFilter]
 //   - [eventApi.getOrgEvent]

@@ -46,6 +46,8 @@ type Environment struct {
 	ExtraInfo *string `json:"extraInfo,omitempty"`
 	// KubeBlocks version of the environment
 	KbVersion *string `json:"kbVersion,omitempty"`
+	// Whether this environment has Spiderpool installed and can use SpiderIPPool for Pod IP allocation.
+	SpiderpoolEnabled *bool `json:"spiderpoolEnabled,omitempty"`
 	// namespace info for environment
 	Namespaces []string `json:"namespaces,omitempty"`
 	// the default storageClass for the environment
@@ -75,6 +77,8 @@ func NewEnvironment(provider string, region string, availabilityZones []string, 
 	this.State = state
 	this.Type = typeVar
 	this.UpdatedAt = updatedAt
+	var spiderpoolEnabled bool = false
+	this.SpiderpoolEnabled = &spiderpoolEnabled
 	this.DefaultStorageClass = defaultStorageClass
 	var clusterValidationPolicy ClusterValidationPolicy = ClusterValidationPolicyValidateOnly
 	this.ClusterValidationPolicy = &clusterValidationPolicy
@@ -88,6 +92,8 @@ func NewEnvironmentWithDefaults() *Environment {
 	this := Environment{}
 	var typeVar EnvironmentType = EnvironmentTypePublic
 	this.Type = typeVar
+	var spiderpoolEnabled bool = false
+	this.SpiderpoolEnabled = &spiderpoolEnabled
 	var clusterValidationPolicy ClusterValidationPolicy = ClusterValidationPolicyValidateOnly
 	this.ClusterValidationPolicy = &clusterValidationPolicy
 	return &this
@@ -491,6 +497,34 @@ func (o *Environment) SetKbVersion(v string) {
 	o.KbVersion = &v
 }
 
+// GetSpiderpoolEnabled returns the SpiderpoolEnabled field value if set, zero value otherwise.
+func (o *Environment) GetSpiderpoolEnabled() bool {
+	if o == nil || o.SpiderpoolEnabled == nil {
+		var ret bool
+		return ret
+	}
+	return *o.SpiderpoolEnabled
+}
+
+// GetSpiderpoolEnabledOk returns a tuple with the SpiderpoolEnabled field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Environment) GetSpiderpoolEnabledOk() (*bool, bool) {
+	if o == nil || o.SpiderpoolEnabled == nil {
+		return nil, false
+	}
+	return o.SpiderpoolEnabled, true
+}
+
+// HasSpiderpoolEnabled returns a boolean if a field has been set.
+func (o *Environment) HasSpiderpoolEnabled() bool {
+	return o != nil && o.SpiderpoolEnabled != nil
+}
+
+// SetSpiderpoolEnabled gets a reference to the given bool and assigns it to the SpiderpoolEnabled field.
+func (o *Environment) SetSpiderpoolEnabled(v bool) {
+	o.SpiderpoolEnabled = &v
+}
+
 // GetNamespaces returns the Namespaces field value if set, zero value otherwise.
 func (o *Environment) GetNamespaces() []string {
 	if o == nil || o.Namespaces == nil {
@@ -640,6 +674,9 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 	if o.KbVersion != nil {
 		toSerialize["kbVersion"] = o.KbVersion
 	}
+	if o.SpiderpoolEnabled != nil {
+		toSerialize["spiderpoolEnabled"] = o.SpiderpoolEnabled
+	}
 	if o.Namespaces != nil {
 		toSerialize["namespaces"] = o.Namespaces
 	}
@@ -676,6 +713,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 		ImageRegistry           *string                  `json:"imageRegistry,omitempty"`
 		ExtraInfo               *string                  `json:"extraInfo,omitempty"`
 		KbVersion               *string                  `json:"kbVersion,omitempty"`
+		SpiderpoolEnabled       *bool                    `json:"spiderpoolEnabled,omitempty"`
 		Namespaces              []string                 `json:"namespaces,omitempty"`
 		DefaultStorageClass     *string                  `json:"defaultStorageClass"`
 		ClusterValidationPolicy *ClusterValidationPolicy `json:"clusterValidationPolicy,omitempty"`
@@ -719,7 +757,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "networkConfig", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "kbVersion", "namespaces", "defaultStorageClass", "clusterValidationPolicy", "architecture"})
+		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "networkConfig", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "kbVersion", "spiderpoolEnabled", "namespaces", "defaultStorageClass", "clusterValidationPolicy", "architecture"})
 	} else {
 		return err
 	}
@@ -752,6 +790,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	o.ImageRegistry = all.ImageRegistry
 	o.ExtraInfo = all.ExtraInfo
 	o.KbVersion = all.KbVersion
+	o.SpiderpoolEnabled = all.SpiderpoolEnabled
 	o.Namespaces = all.Namespaces
 	o.DefaultStorageClass = *all.DefaultStorageClass
 	if all.ClusterValidationPolicy != nil && !all.ClusterValidationPolicy.IsValid() {

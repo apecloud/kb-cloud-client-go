@@ -11011,6 +11011,34 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/environments/{environmentName}/network/spiderIPPool:
+    get:
+      tags:
+        - environment
+      operationId: listEnvironmentSpiderIPPools
+      summary: List SpiderIPPool resources in an environment
+      parameters:
+        - description: name of the Environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/spiderIPPoolList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/environmentObjectStorage:
     post:
       operationId: listEnvironmentObjectStorage
@@ -23634,6 +23662,22 @@ components:
           $ref: '#/components/schemas/ioQuantity'
         ioReserves:
           $ref: '#/components/schemas/ioQuantity'
+    spiderPoolConfig:
+      type: object
+      description: Spiderpool IPv4 IPPool selection for component pod IP allocation.
+      properties:
+        ipv4Pools:
+          type: array
+          minItems: 1
+          items:
+            type: string
+          description: IPv4 SpiderIPPool names used to generate ipam.spidernet.io/ippool.
+    componentNetwork:
+      type: object
+      description: Per-component network configuration.
+      properties:
+        spiderPool:
+          $ref: '#/components/schemas/spiderPoolConfig'
     componentItemCreate:
       type: object
       description: ComponentItem is the information of a component
@@ -23682,6 +23726,8 @@ components:
         systemAccountSecretName:
           description: The name of the secret that contains the system account credentials
           type: string
+        network:
+          $ref: '#/components/schemas/componentNetwork'
     componentsCreate:
       type: array
       description: Components is the list of components
@@ -23998,6 +24044,8 @@ components:
         systemAccountSecretName:
           description: The name of the secret that contains the system account credentials
           type: string
+        network:
+          $ref: '#/components/schemas/componentNetwork'
     components:
       type: array
       description: Components is the list of components
@@ -29367,6 +29415,10 @@ components:
           description: Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
           type: boolean
           default: false
+        spiderpoolEnabled:
+          description: Whether this environment has Spiderpool installed and can use SpiderIPPool for Pod IP allocation.
+          type: boolean
+          default: false
     environmentList:
       description: EnvironmentList is a list of Environments
       properties:
@@ -29448,6 +29500,10 @@ components:
           default: false
         koordinatorEnabled:
           description: Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
+          type: boolean
+          default: false
+        spiderpoolEnabled:
+          description: Whether this environment has Spiderpool installed and can use SpiderIPPool for Pod IP allocation.
           type: boolean
           default: false
     preflight:
@@ -29580,6 +29636,10 @@ components:
           default: false
         koordinatorEnabled:
           description: Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
+          type: boolean
+          default: false
+        spiderpoolEnabled:
+          description: Whether this environment has Spiderpool installed and can use SpiderIPPool for Pod IP allocation.
           type: boolean
           default: false
         clusterSchedulingPolicy:
@@ -30409,6 +30469,51 @@ components:
       items:
         type: string
       type: array
+    spiderIPPool:
+      type: object
+      description: Spiderpool IPv4 IPPool summary.
+      properties:
+        name:
+          type: string
+        ipVersion:
+          type: integer
+          format: int32
+        subnet:
+          type: string
+        disabled:
+          type: boolean
+        default:
+          type: boolean
+        allocatedIPCount:
+          type: integer
+          format: int64
+        totalIPCount:
+          type: integer
+          format: int64
+        availableIPCount:
+          type: integer
+          format: int64
+        capacityReliable:
+          type: boolean
+        affinitySummary:
+          type: array
+          items:
+            type: string
+    spiderIPPoolList:
+      type: object
+      description: SpiderIPPool list for an environment.
+      properties:
+        spiderpoolEnabled:
+          type: boolean
+          default: false
+          description: Whether Spiderpool is enabled for the environment.
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/spiderIPPool'
+      required:
+        - spiderpoolEnabled
+        - items
     rawCluster:
       type: object
       description: cluster info

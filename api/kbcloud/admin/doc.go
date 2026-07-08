@@ -355,6 +355,7 @@
 //   - [environmentApi.listEnvironment]
 //   - [environmentApi.listEnvironmentCredential]
 //   - [environmentApi.listEnvironmentObjectStorage]
+//   - [environmentApi.listEnvironmentSpiderIPPools]
 //   - [environmentApi.listKubernetesNode]
 //   - [environmentApi.listKubernetesStorageClass]
 //   - [environmentApi.listNodeGroups]
