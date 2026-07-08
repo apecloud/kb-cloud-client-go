@@ -26541,6 +26541,10 @@ components:
           type: boolean
           description: Whether slow log template is supported.
           x-omitempty: false
+        slowExplain:
+          type: boolean
+          description: Whether slow log SQL EXPLAIN is supported.
+          x-omitempty: false
         audit:
           type: boolean
         running:
