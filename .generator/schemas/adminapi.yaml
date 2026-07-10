@@ -27994,6 +27994,37 @@ components:
           type: string
           description: Expected optimization benefit. Current values are unknown, low, medium, and high.
           x-omitempty: false
+    clusterSlowLogPlanNode:
+      type: object
+      description: Best-effort visual execution plan node parsed from EXPLAIN.
+      properties:
+        id:
+          type: string
+          x-omitempty: false
+        parentId:
+          type: string
+        operation:
+          type: string
+          x-omitempty: false
+        table:
+          type: string
+        accessType:
+          type: string
+        detail:
+          type: string
+        costStart:
+          type: number
+          format: double
+        costEnd:
+          type: number
+          format: double
+        rows:
+          type: integer
+          format: int64
+        issueCode:
+          type: string
+        issueSeverity:
+          type: string
     clusterSlowLogExplainResponse:
       type: object
       description: Explain response for a selected slow log template sample
@@ -28033,6 +28064,11 @@ components:
           $ref: '#/components/schemas/DmsQueryResponse'
         diagnosis:
           $ref: '#/components/schemas/clusterSlowLogDiagnosis'
+        planNodes:
+          type: array
+          x-omitempty: true
+          items:
+            $ref: '#/components/schemas/clusterSlowLogPlanNode'
     clusterSlowLogTemplate:
       type: object
       description: Aggregated slow log query template
@@ -33167,6 +33203,10 @@ components:
         slowTemplate:
           type: boolean
           description: Whether slow log template is supported.
+          x-omitempty: false
+        slowExplain:
+          type: boolean
+          description: Whether slow log SQL EXPLAIN is supported.
           x-omitempty: false
         audit:
           type: boolean

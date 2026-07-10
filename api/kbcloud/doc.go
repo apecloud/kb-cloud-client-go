@@ -293,6 +293,7 @@
 //   - [environmentApi.listEnvNodeZone]
 //   - [environmentApi.listEnvironment]
 //   - [environmentApi.listEnvironmentSpiderIPPools]
+//   - [environmentApi.listKoordinatorReservations]
 //   - [environmentApi.listNodeGroup]
 //   - [eventApi.getEventFilter]
 //   - [eventApi.getOrgEvent]
