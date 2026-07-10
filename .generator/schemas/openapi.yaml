@@ -1112,6 +1112,43 @@ paths:
           description: Returned when the resource does not exist.
       tags:
         - storageClass
+  /api/v1/organizations/{orgName}/environments/{environmentName}/koordinatorReservations/summary:
+    get:
+      description: Get Koordinator Reservation summary for the cluster creation page.
+      summary: List Koordinator Reservations
+      operationId: listKoordinatorReservations
+      parameters:
+        - description: name of the Organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/koordinatorReservationSummary'
+          description: Koordinator Reservation summary.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
   /api/v1/organizations/{orgName}/environments/{environmentName}/loadbalancer:
     get:
       operationId: getLoadBalancer
@@ -19426,6 +19463,64 @@ components:
           items:
             $ref: '#/components/schemas/storageClassInfo'
       type: object
+    schedulerOption:
+      type: object
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        default:
+          type: boolean
+    koordinatorReservationResourceClass:
+      type: string
+      enum:
+        - database
+        - business
+    koordinatorReservationResources:
+      type: object
+      additionalProperties: false
+      description: Resource requests supported by KBE for Koordinator Reservations. Values are Kubernetes quantities and responses use Kubernetes canonical quantity strings.
+      properties:
+        cpu:
+          type: string
+        memory:
+          type: string
+    koordinatorReservationSummaryItem:
+      type: object
+      properties:
+        resourceClass:
+          $ref: '#/components/schemas/koordinatorReservationResourceClass'
+        nodeCount:
+          type: integer
+          format: int64
+        total:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        allocated:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+        available:
+          $ref: '#/components/schemas/koordinatorReservationResources'
+    koordinatorReservationSummary:
+      type: object
+      required:
+        - enabled
+        - schedulerOptions
+        - items
+      properties:
+        enabled:
+          type: boolean
+        schedulerName:
+          type: string
+        defaultSchedulerName:
+          type: string
+        schedulerOptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/schedulerOption'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/koordinatorReservationSummaryItem'
     loadBalancerStatus:
       description: Status of the load balancer
       type: string
@@ -20637,11 +20732,6 @@ components:
         * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
         * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
         * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
-    koordinatorReservationResourceClass:
-      type: string
-      enum:
-        - database
-        - business
     clusterCreate:
       required:
         - engine
@@ -22058,15 +22148,6 @@ components:
         schedule:
           $ref: '#/components/schemas/taskSchedule'
       type: object
-    koordinatorReservationResources:
-      type: object
-      additionalProperties: false
-      description: Resource requests supported by KBE for Koordinator Reservations. Values are Kubernetes quantities and responses use Kubernetes canonical quantity strings.
-      properties:
-        cpu:
-          type: string
-        memory:
-          type: string
     koordinatorReservationAllocatePolicy:
       type: string
       enum:
