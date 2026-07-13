@@ -25155,6 +25155,8 @@ components:
         mode:
           type: string
           description: Target engine mode.
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
         hScale:
           $ref: '#/components/schemas/opsHScale'
     opsRequestName:
