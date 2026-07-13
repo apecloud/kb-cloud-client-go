@@ -34574,6 +34574,7 @@ components:
           type: number
           description: The used count of the engine
           format: double
+          x-omitempty: false
     license:
       description: License info
       type: object
