@@ -15,15 +15,32 @@ type PrivilegeType string
 
 // List of PrivilegeType.
 const (
-	PrivilegeTypeDbadmin   PrivilegeType = "DBADMIN"
-	PrivilegeTypeReadwrite PrivilegeType = "READWRITE"
-	PrivilegeTypeReadonly  PrivilegeType = "READONLY"
-	PrivilegeTypeDdlonly   PrivilegeType = "DDLONLY"
-	PrivilegeTypeDmlonly   PrivilegeType = "DMLONLY"
-	PrivilegeTypeAdmin     PrivilegeType = "ADMIN"
-	PrivilegeTypeDba       PrivilegeType = "DBA"
-	PrivilegeTypeUser      PrivilegeType = "USER"
-	PrivilegeTypeGuest     PrivilegeType = "GUEST"
+	PrivilegeTypeDbadmin                   PrivilegeType = "DBADMIN"
+	PrivilegeTypeReadwrite                 PrivilegeType = "READWRITE"
+	PrivilegeTypeReadonly                  PrivilegeType = "READONLY"
+	PrivilegeTypeDdlonly                   PrivilegeType = "DDLONLY"
+	PrivilegeTypeDmlonly                   PrivilegeType = "DMLONLY"
+	PrivilegeTypeAdmin                     PrivilegeType = "ADMIN"
+	PrivilegeTypeDba                       PrivilegeType = "DBA"
+	PrivilegeTypeUser                      PrivilegeType = "USER"
+	PrivilegeTypeGuest                     PrivilegeType = "GUEST"
+	PrivilegeTypeMonitoringUser            PrivilegeType = "monitoring_user"
+	PrivilegeTypeKibanaAdmin               PrivilegeType = "kibana_admin"
+	PrivilegeTypeSnapshotUser              PrivilegeType = "snapshot_user"
+	PrivilegeTypeIngestAdmin               PrivilegeType = "ingest_admin"
+	PrivilegeTypeWatcherUser               PrivilegeType = "watcher_user"
+	PrivilegeTypeWatcherAdmin              PrivilegeType = "watcher_admin"
+	PrivilegeTypeMachineLearningUser       PrivilegeType = "machine_learning_user"
+	PrivilegeTypeMachineLearningAdmin      PrivilegeType = "machine_learning_admin"
+	PrivilegeTypeTransformUser             PrivilegeType = "transform_user"
+	PrivilegeTypeTransformAdmin            PrivilegeType = "transform_admin"
+	PrivilegeTypeRemoteMonitoringAgent     PrivilegeType = "remote_monitoring_agent"
+	PrivilegeTypeRemoteMonitoringCollector PrivilegeType = "remote_monitoring_collector"
+	PrivilegeTypeKibanaSystem              PrivilegeType = "kibana_system"
+	PrivilegeTypeLogstashSystem            PrivilegeType = "logstash_system"
+	PrivilegeTypeBeatsSystem               PrivilegeType = "beats_system"
+	PrivilegeTypeApmSystem                 PrivilegeType = "apm_system"
+	PrivilegeTypeRemoteMonitoringUser      PrivilegeType = "remote_monitoring_user"
 )
 
 var allowedPrivilegeTypeEnumValues = []PrivilegeType{
@@ -36,6 +53,23 @@ var allowedPrivilegeTypeEnumValues = []PrivilegeType{
 	PrivilegeTypeDba,
 	PrivilegeTypeUser,
 	PrivilegeTypeGuest,
+	PrivilegeTypeMonitoringUser,
+	PrivilegeTypeKibanaAdmin,
+	PrivilegeTypeSnapshotUser,
+	PrivilegeTypeIngestAdmin,
+	PrivilegeTypeWatcherUser,
+	PrivilegeTypeWatcherAdmin,
+	PrivilegeTypeMachineLearningUser,
+	PrivilegeTypeMachineLearningAdmin,
+	PrivilegeTypeTransformUser,
+	PrivilegeTypeTransformAdmin,
+	PrivilegeTypeRemoteMonitoringAgent,
+	PrivilegeTypeRemoteMonitoringCollector,
+	PrivilegeTypeKibanaSystem,
+	PrivilegeTypeLogstashSystem,
+	PrivilegeTypeBeatsSystem,
+	PrivilegeTypeApmSystem,
+	PrivilegeTypeRemoteMonitoringUser,
 }
 
 // GetAllowedValues returns the list of possible values.

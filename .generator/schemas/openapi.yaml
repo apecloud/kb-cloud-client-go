@@ -31222,6 +31222,23 @@ components:
         - DBA
         - USER
         - GUEST
+        - monitoring_user
+        - kibana_admin
+        - snapshot_user
+        - ingest_admin
+        - watcher_user
+        - watcher_admin
+        - machine_learning_user
+        - machine_learning_admin
+        - transform_user
+        - transform_admin
+        - remote_monitoring_agent
+        - remote_monitoring_collector
+        - kibana_system
+        - logstash_system
+        - beats_system
+        - apm_system
+        - remote_monitoring_user
     privilegeListItem:
       type: object
       description: Database and its assigned privileges.
