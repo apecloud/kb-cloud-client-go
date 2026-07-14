@@ -8468,7 +8468,7 @@ paths:
           content:
             application/json:
               schema:
-                type: boolean
+                $ref: '#/components/schemas/testConnectResponse'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/createDS:
     post:
       tags:
@@ -28070,6 +28070,19 @@ components:
       items:
         $ref: '#/components/schemas/datasource'
       type: array
+    testConnectResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+          description: whether the datasource connection test passed
+        message:
+          type: string
+          description: diagnostic message returned by DMS
+        extraInfo:
+          type: object
+          description: additional diagnostics returned by DMS
+          additionalProperties: true
     DmsQueryBaseRequest:
       type: object
       properties:
