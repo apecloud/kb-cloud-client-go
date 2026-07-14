@@ -386,8 +386,8 @@ func (o *AiAgentTurnAction) GetDetailOk() (*map[string]interface{}, bool) {
 	return &o.Detail, true
 }
 
-// HasDetailValue returns a boolean if the Detail field has been set.
-func (o *AiAgentTurnAction) HasDetailValue() bool {
+// HasDetailSet returns a boolean if a field has been set.
+func (o *AiAgentTurnAction) HasDetailSet() bool {
 	return o != nil && o.Detail != nil
 }
 
