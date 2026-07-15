@@ -13785,7 +13785,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SecurityUsers'
+                $ref: '#/components/schemas/ESSecurityUsers'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -13825,7 +13825,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SecurityUser'
+                $ref: '#/components/schemas/ESSecurityUser'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -13863,7 +13863,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PutSecurityUserRequest'
+              $ref: '#/components/schemas/ESPutSecurityUserRequest'
       responses:
         '204':
           content: {}
@@ -13906,7 +13906,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SecurityPasswordRequest'
+              $ref: '#/components/schemas/ESSecurityPasswordRequest'
       responses:
         '204':
           content: {}
@@ -14056,7 +14056,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SecurityRoles'
+                $ref: '#/components/schemas/ESSecurityRoles'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -14096,7 +14096,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SecurityRoleDescriptor'
+                $ref: '#/components/schemas/ESSecurityRoleDescriptor'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -14134,7 +14134,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SecurityRoleDescriptor'
+              $ref: '#/components/schemas/ESSecurityRoleDescriptor'
       responses:
         '204':
           content: {}
@@ -14210,7 +14210,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SecurityRoleMappings'
+                $ref: '#/components/schemas/ESSecurityRoleMappings'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -14250,7 +14250,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SecurityRoleMapping'
+                $ref: '#/components/schemas/ESSecurityRoleMapping'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -14288,7 +14288,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SecurityRoleMapping'
+              $ref: '#/components/schemas/ESSecurityRoleMapping'
       responses:
         '204':
           content: {}
@@ -14364,7 +14364,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BuiltinPrivileges'
+                $ref: '#/components/schemas/ESBuiltinPrivileges'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -31998,7 +31998,7 @@ components:
           items:
             $ref: '#/components/schemas/ACLUser'
             nullable: true
-    SecurityUser:
+    ESSecurityUser:
       type: object
       properties:
         roles:
@@ -32015,11 +32015,11 @@ components:
         enabled:
           type: boolean
           nullable: true
-    SecurityUsers:
+    ESSecurityUsers:
       type: object
       additionalProperties:
-        $ref: '#/components/schemas/SecurityUser'
-    PutSecurityUserRequest:
+        $ref: '#/components/schemas/ESSecurityUser'
+    ESPutSecurityUserRequest:
       type: object
       properties:
         password:
@@ -32042,14 +32042,14 @@ components:
           nullable: true
       required:
         - roles
-    SecurityPasswordRequest:
+    ESSecurityPasswordRequest:
       type: object
       properties:
         password:
           type: string
       required:
         - password
-    SecurityFieldSecurity:
+    ESSecurityFieldSecurity:
       type: object
       properties:
         grant:
@@ -32060,7 +32060,7 @@ components:
           type: array
           items:
             type: string
-    SecurityIndexPrivileges:
+    ESSecurityIndexPrivileges:
       type: object
       properties:
         names:
@@ -32072,7 +32072,7 @@ components:
           items:
             type: string
         field_security:
-          $ref: '#/components/schemas/SecurityFieldSecurity'
+          $ref: '#/components/schemas/ESSecurityFieldSecurity'
         query:
           type: string
         allow_restricted_indices:
@@ -32081,7 +32081,7 @@ components:
       required:
         - names
         - privileges
-    SecurityRemoteIndexPrivileges:
+    ESSecurityRemoteIndexPrivileges:
       type: object
       properties:
         clusters:
@@ -32097,7 +32097,7 @@ components:
           items:
             type: string
         field_security:
-          $ref: '#/components/schemas/SecurityFieldSecurity'
+          $ref: '#/components/schemas/ESSecurityFieldSecurity'
         query:
           type: string
         allow_restricted_indices:
@@ -32107,7 +32107,7 @@ components:
         - clusters
         - names
         - privileges
-    SecurityRemoteClusterPrivileges:
+    ESSecurityRemoteClusterPrivileges:
       type: object
       properties:
         clusters:
@@ -32121,7 +32121,7 @@ components:
       required:
         - clusters
         - privileges
-    SecurityApplicationPrivileges:
+    ESSecurityApplicationPrivileges:
       type: object
       properties:
         application:
@@ -32134,7 +32134,7 @@ components:
           type: array
           items:
             type: string
-    SecurityRoleDescriptor:
+    ESSecurityRoleDescriptor:
       type: object
       properties:
         description:
@@ -32149,19 +32149,19 @@ components:
         indices:
           type: array
           items:
-            $ref: '#/components/schemas/SecurityIndexPrivileges'
+            $ref: '#/components/schemas/ESSecurityIndexPrivileges'
         remote_indices:
           type: array
           items:
-            $ref: '#/components/schemas/SecurityRemoteIndexPrivileges'
+            $ref: '#/components/schemas/ESSecurityRemoteIndexPrivileges'
         remote_cluster:
           type: array
           items:
-            $ref: '#/components/schemas/SecurityRemoteClusterPrivileges'
+            $ref: '#/components/schemas/ESSecurityRemoteClusterPrivileges'
         applications:
           type: array
           items:
-            $ref: '#/components/schemas/SecurityApplicationPrivileges'
+            $ref: '#/components/schemas/ESSecurityApplicationPrivileges'
         run_as:
           type: array
           items:
@@ -32175,24 +32175,24 @@ components:
         transient_metadata:
           type: object
           additionalProperties: true
-    SecurityRoles:
+    ESSecurityRoles:
       type: object
       additionalProperties:
-        $ref: '#/components/schemas/SecurityRoleDescriptor'
-    SecurityRoleTemplateFormat:
+        $ref: '#/components/schemas/ESSecurityRoleDescriptor'
+    ESSecurityRoleTemplateFormat:
       type: string
       enum:
         - string
         - json
-    SecurityRoleTemplate:
+    ESSecurityRoleTemplate:
       type: object
       properties:
         template:
           type: object
           additionalProperties: true
         format:
-          $ref: '#/components/schemas/SecurityRoleTemplateFormat'
-    SecurityRoleMapping:
+          $ref: '#/components/schemas/ESSecurityRoleTemplateFormat'
+    ESSecurityRoleMapping:
       type: object
       properties:
         enabled:
@@ -32205,18 +32205,18 @@ components:
         role_templates:
           type: array
           items:
-            $ref: '#/components/schemas/SecurityRoleTemplate'
+            $ref: '#/components/schemas/ESSecurityRoleTemplate'
         rules:
           type: object
           additionalProperties: true
         metadata:
           type: object
           additionalProperties: true
-    SecurityRoleMappings:
+    ESSecurityRoleMappings:
       type: object
       additionalProperties:
-        $ref: '#/components/schemas/SecurityRoleMapping'
-    BuiltinPrivileges:
+        $ref: '#/components/schemas/ESSecurityRoleMapping'
+    ESBuiltinPrivileges:
       type: object
       additionalProperties:
         type: array

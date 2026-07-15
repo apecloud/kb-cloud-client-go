@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type PutSecurityUserRequest struct {
+type ESPutSecurityUserRequest struct {
 	Password     *string                `json:"password,omitempty"`
 	PasswordHash *string                `json:"password_hash,omitempty"`
 	Roles        []string               `json:"roles"`
@@ -23,26 +23,26 @@ type PutSecurityUserRequest struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewPutSecurityUserRequest instantiates a new PutSecurityUserRequest object.
+// NewESPutSecurityUserRequest instantiates a new ESPutSecurityUserRequest object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPutSecurityUserRequest(roles []string) *PutSecurityUserRequest {
-	this := PutSecurityUserRequest{}
+func NewESPutSecurityUserRequest(roles []string) *ESPutSecurityUserRequest {
+	this := ESPutSecurityUserRequest{}
 	this.Roles = roles
 	return &this
 }
 
-// NewPutSecurityUserRequestWithDefaults instantiates a new PutSecurityUserRequest object.
+// NewESPutSecurityUserRequestWithDefaults instantiates a new ESPutSecurityUserRequest object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewPutSecurityUserRequestWithDefaults() *PutSecurityUserRequest {
-	this := PutSecurityUserRequest{}
+func NewESPutSecurityUserRequestWithDefaults() *ESPutSecurityUserRequest {
+	this := ESPutSecurityUserRequest{}
 	return &this
 }
 
 // GetPassword returns the Password field value if set, zero value otherwise.
-func (o *PutSecurityUserRequest) GetPassword() string {
+func (o *ESPutSecurityUserRequest) GetPassword() string {
 	if o == nil || o.Password == nil {
 		var ret string
 		return ret
@@ -52,7 +52,7 @@ func (o *PutSecurityUserRequest) GetPassword() string {
 
 // GetPasswordOk returns a tuple with the Password field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PutSecurityUserRequest) GetPasswordOk() (*string, bool) {
+func (o *ESPutSecurityUserRequest) GetPasswordOk() (*string, bool) {
 	if o == nil || o.Password == nil {
 		return nil, false
 	}
@@ -60,17 +60,17 @@ func (o *PutSecurityUserRequest) GetPasswordOk() (*string, bool) {
 }
 
 // HasPassword returns a boolean if a field has been set.
-func (o *PutSecurityUserRequest) HasPassword() bool {
+func (o *ESPutSecurityUserRequest) HasPassword() bool {
 	return o != nil && o.Password != nil
 }
 
 // SetPassword gets a reference to the given string and assigns it to the Password field.
-func (o *PutSecurityUserRequest) SetPassword(v string) {
+func (o *ESPutSecurityUserRequest) SetPassword(v string) {
 	o.Password = &v
 }
 
 // GetPasswordHash returns the PasswordHash field value if set, zero value otherwise.
-func (o *PutSecurityUserRequest) GetPasswordHash() string {
+func (o *ESPutSecurityUserRequest) GetPasswordHash() string {
 	if o == nil || o.PasswordHash == nil {
 		var ret string
 		return ret
@@ -80,7 +80,7 @@ func (o *PutSecurityUserRequest) GetPasswordHash() string {
 
 // GetPasswordHashOk returns a tuple with the PasswordHash field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PutSecurityUserRequest) GetPasswordHashOk() (*string, bool) {
+func (o *ESPutSecurityUserRequest) GetPasswordHashOk() (*string, bool) {
 	if o == nil || o.PasswordHash == nil {
 		return nil, false
 	}
@@ -88,17 +88,17 @@ func (o *PutSecurityUserRequest) GetPasswordHashOk() (*string, bool) {
 }
 
 // HasPasswordHash returns a boolean if a field has been set.
-func (o *PutSecurityUserRequest) HasPasswordHash() bool {
+func (o *ESPutSecurityUserRequest) HasPasswordHash() bool {
 	return o != nil && o.PasswordHash != nil
 }
 
 // SetPasswordHash gets a reference to the given string and assigns it to the PasswordHash field.
-func (o *PutSecurityUserRequest) SetPasswordHash(v string) {
+func (o *ESPutSecurityUserRequest) SetPasswordHash(v string) {
 	o.PasswordHash = &v
 }
 
 // GetRoles returns the Roles field value.
-func (o *PutSecurityUserRequest) GetRoles() []string {
+func (o *ESPutSecurityUserRequest) GetRoles() []string {
 	if o == nil {
 		var ret []string
 		return ret
@@ -108,7 +108,7 @@ func (o *PutSecurityUserRequest) GetRoles() []string {
 
 // GetRolesOk returns a tuple with the Roles field value
 // and a boolean to check if the value has been set.
-func (o *PutSecurityUserRequest) GetRolesOk() (*[]string, bool) {
+func (o *ESPutSecurityUserRequest) GetRolesOk() (*[]string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -116,12 +116,12 @@ func (o *PutSecurityUserRequest) GetRolesOk() (*[]string, bool) {
 }
 
 // SetRoles sets field value.
-func (o *PutSecurityUserRequest) SetRoles(v []string) {
+func (o *ESPutSecurityUserRequest) SetRoles(v []string) {
 	o.Roles = v
 }
 
 // GetFullName returns the FullName field value if set, zero value otherwise.
-func (o *PutSecurityUserRequest) GetFullName() string {
+func (o *ESPutSecurityUserRequest) GetFullName() string {
 	if o == nil || o.FullName == nil {
 		var ret string
 		return ret
@@ -131,7 +131,7 @@ func (o *PutSecurityUserRequest) GetFullName() string {
 
 // GetFullNameOk returns a tuple with the FullName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PutSecurityUserRequest) GetFullNameOk() (*string, bool) {
+func (o *ESPutSecurityUserRequest) GetFullNameOk() (*string, bool) {
 	if o == nil || o.FullName == nil {
 		return nil, false
 	}
@@ -139,17 +139,17 @@ func (o *PutSecurityUserRequest) GetFullNameOk() (*string, bool) {
 }
 
 // HasFullName returns a boolean if a field has been set.
-func (o *PutSecurityUserRequest) HasFullName() bool {
+func (o *ESPutSecurityUserRequest) HasFullName() bool {
 	return o != nil && o.FullName != nil
 }
 
 // SetFullName gets a reference to the given string and assigns it to the FullName field.
-func (o *PutSecurityUserRequest) SetFullName(v string) {
+func (o *ESPutSecurityUserRequest) SetFullName(v string) {
 	o.FullName = &v
 }
 
 // GetEmail returns the Email field value if set, zero value otherwise.
-func (o *PutSecurityUserRequest) GetEmail() string {
+func (o *ESPutSecurityUserRequest) GetEmail() string {
 	if o == nil || o.Email == nil {
 		var ret string
 		return ret
@@ -159,7 +159,7 @@ func (o *PutSecurityUserRequest) GetEmail() string {
 
 // GetEmailOk returns a tuple with the Email field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PutSecurityUserRequest) GetEmailOk() (*string, bool) {
+func (o *ESPutSecurityUserRequest) GetEmailOk() (*string, bool) {
 	if o == nil || o.Email == nil {
 		return nil, false
 	}
@@ -167,17 +167,17 @@ func (o *PutSecurityUserRequest) GetEmailOk() (*string, bool) {
 }
 
 // HasEmail returns a boolean if a field has been set.
-func (o *PutSecurityUserRequest) HasEmail() bool {
+func (o *ESPutSecurityUserRequest) HasEmail() bool {
 	return o != nil && o.Email != nil
 }
 
 // SetEmail gets a reference to the given string and assigns it to the Email field.
-func (o *PutSecurityUserRequest) SetEmail(v string) {
+func (o *ESPutSecurityUserRequest) SetEmail(v string) {
 	o.Email = &v
 }
 
 // GetMetadata returns the Metadata field value if set, zero value otherwise.
-func (o *PutSecurityUserRequest) GetMetadata() map[string]interface{} {
+func (o *ESPutSecurityUserRequest) GetMetadata() map[string]interface{} {
 	if o == nil || o.Metadata == nil {
 		var ret map[string]interface{}
 		return ret
@@ -187,7 +187,7 @@ func (o *PutSecurityUserRequest) GetMetadata() map[string]interface{} {
 
 // GetMetadataOk returns a tuple with the Metadata field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PutSecurityUserRequest) GetMetadataOk() (*map[string]interface{}, bool) {
+func (o *ESPutSecurityUserRequest) GetMetadataOk() (*map[string]interface{}, bool) {
 	if o == nil || o.Metadata == nil {
 		return nil, false
 	}
@@ -195,17 +195,17 @@ func (o *PutSecurityUserRequest) GetMetadataOk() (*map[string]interface{}, bool)
 }
 
 // HasMetadata returns a boolean if a field has been set.
-func (o *PutSecurityUserRequest) HasMetadata() bool {
+func (o *ESPutSecurityUserRequest) HasMetadata() bool {
 	return o != nil && o.Metadata != nil
 }
 
 // SetMetadata gets a reference to the given map[string]interface{} and assigns it to the Metadata field.
-func (o *PutSecurityUserRequest) SetMetadata(v map[string]interface{}) {
+func (o *ESPutSecurityUserRequest) SetMetadata(v map[string]interface{}) {
 	o.Metadata = v
 }
 
 // GetEnabled returns the Enabled field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *PutSecurityUserRequest) GetEnabled() bool {
+func (o *ESPutSecurityUserRequest) GetEnabled() bool {
 	if o == nil || o.Enabled.Get() == nil {
 		var ret bool
 		return ret
@@ -216,7 +216,7 @@ func (o *PutSecurityUserRequest) GetEnabled() bool {
 // GetEnabledOk returns a tuple with the Enabled field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *PutSecurityUserRequest) GetEnabledOk() (*bool, bool) {
+func (o *ESPutSecurityUserRequest) GetEnabledOk() (*bool, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -224,27 +224,27 @@ func (o *PutSecurityUserRequest) GetEnabledOk() (*bool, bool) {
 }
 
 // HasEnabled returns a boolean if a field has been set.
-func (o *PutSecurityUserRequest) HasEnabled() bool {
+func (o *ESPutSecurityUserRequest) HasEnabled() bool {
 	return o != nil && o.Enabled.IsSet()
 }
 
 // SetEnabled gets a reference to the given common.NullableBool and assigns it to the Enabled field.
-func (o *PutSecurityUserRequest) SetEnabled(v bool) {
+func (o *ESPutSecurityUserRequest) SetEnabled(v bool) {
 	o.Enabled.Set(&v)
 }
 
 // SetEnabledNil sets the value for Enabled to be an explicit nil.
-func (o *PutSecurityUserRequest) SetEnabledNil() {
+func (o *ESPutSecurityUserRequest) SetEnabledNil() {
 	o.Enabled.Set(nil)
 }
 
 // UnsetEnabled ensures that no value is present for Enabled, not even an explicit nil.
-func (o *PutSecurityUserRequest) UnsetEnabled() {
+func (o *ESPutSecurityUserRequest) UnsetEnabled() {
 	o.Enabled.Unset()
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o PutSecurityUserRequest) MarshalJSON() ([]byte, error) {
+func (o ESPutSecurityUserRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -276,7 +276,7 @@ func (o PutSecurityUserRequest) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *PutSecurityUserRequest) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ESPutSecurityUserRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Password     *string                `json:"password,omitempty"`
 		PasswordHash *string                `json:"password_hash,omitempty"`

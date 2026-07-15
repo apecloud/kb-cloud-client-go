@@ -6,33 +6,33 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type SecurityRoleTemplate struct {
-	Template map[string]interface{}      `json:"template,omitempty"`
-	Format   *SecurityRoleTemplateFormat `json:"format,omitempty"`
+type ESSecurityRoleTemplate struct {
+	Template map[string]interface{}        `json:"template,omitempty"`
+	Format   *ESSecurityRoleTemplateFormat `json:"format,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewSecurityRoleTemplate instantiates a new SecurityRoleTemplate object.
+// NewESSecurityRoleTemplate instantiates a new ESSecurityRoleTemplate object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewSecurityRoleTemplate() *SecurityRoleTemplate {
-	this := SecurityRoleTemplate{}
+func NewESSecurityRoleTemplate() *ESSecurityRoleTemplate {
+	this := ESSecurityRoleTemplate{}
 	return &this
 }
 
-// NewSecurityRoleTemplateWithDefaults instantiates a new SecurityRoleTemplate object.
+// NewESSecurityRoleTemplateWithDefaults instantiates a new ESSecurityRoleTemplate object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewSecurityRoleTemplateWithDefaults() *SecurityRoleTemplate {
-	this := SecurityRoleTemplate{}
+func NewESSecurityRoleTemplateWithDefaults() *ESSecurityRoleTemplate {
+	this := ESSecurityRoleTemplate{}
 	return &this
 }
 
 // GetTemplate returns the Template field value if set, zero value otherwise.
-func (o *SecurityRoleTemplate) GetTemplate() map[string]interface{} {
+func (o *ESSecurityRoleTemplate) GetTemplate() map[string]interface{} {
 	if o == nil || o.Template == nil {
 		var ret map[string]interface{}
 		return ret
@@ -42,7 +42,7 @@ func (o *SecurityRoleTemplate) GetTemplate() map[string]interface{} {
 
 // GetTemplateOk returns a tuple with the Template field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecurityRoleTemplate) GetTemplateOk() (*map[string]interface{}, bool) {
+func (o *ESSecurityRoleTemplate) GetTemplateOk() (*map[string]interface{}, bool) {
 	if o == nil || o.Template == nil {
 		return nil, false
 	}
@@ -50,19 +50,19 @@ func (o *SecurityRoleTemplate) GetTemplateOk() (*map[string]interface{}, bool) {
 }
 
 // HasTemplate returns a boolean if a field has been set.
-func (o *SecurityRoleTemplate) HasTemplate() bool {
+func (o *ESSecurityRoleTemplate) HasTemplate() bool {
 	return o != nil && o.Template != nil
 }
 
 // SetTemplate gets a reference to the given map[string]interface{} and assigns it to the Template field.
-func (o *SecurityRoleTemplate) SetTemplate(v map[string]interface{}) {
+func (o *ESSecurityRoleTemplate) SetTemplate(v map[string]interface{}) {
 	o.Template = v
 }
 
 // GetFormat returns the Format field value if set, zero value otherwise.
-func (o *SecurityRoleTemplate) GetFormat() SecurityRoleTemplateFormat {
+func (o *ESSecurityRoleTemplate) GetFormat() ESSecurityRoleTemplateFormat {
 	if o == nil || o.Format == nil {
-		var ret SecurityRoleTemplateFormat
+		var ret ESSecurityRoleTemplateFormat
 		return ret
 	}
 	return *o.Format
@@ -70,7 +70,7 @@ func (o *SecurityRoleTemplate) GetFormat() SecurityRoleTemplateFormat {
 
 // GetFormatOk returns a tuple with the Format field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecurityRoleTemplate) GetFormatOk() (*SecurityRoleTemplateFormat, bool) {
+func (o *ESSecurityRoleTemplate) GetFormatOk() (*ESSecurityRoleTemplateFormat, bool) {
 	if o == nil || o.Format == nil {
 		return nil, false
 	}
@@ -78,17 +78,17 @@ func (o *SecurityRoleTemplate) GetFormatOk() (*SecurityRoleTemplateFormat, bool)
 }
 
 // HasFormat returns a boolean if a field has been set.
-func (o *SecurityRoleTemplate) HasFormat() bool {
+func (o *ESSecurityRoleTemplate) HasFormat() bool {
 	return o != nil && o.Format != nil
 }
 
-// SetFormat gets a reference to the given SecurityRoleTemplateFormat and assigns it to the Format field.
-func (o *SecurityRoleTemplate) SetFormat(v SecurityRoleTemplateFormat) {
+// SetFormat gets a reference to the given ESSecurityRoleTemplateFormat and assigns it to the Format field.
+func (o *ESSecurityRoleTemplate) SetFormat(v ESSecurityRoleTemplateFormat) {
 	o.Format = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o SecurityRoleTemplate) MarshalJSON() ([]byte, error) {
+func (o ESSecurityRoleTemplate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -107,10 +107,10 @@ func (o SecurityRoleTemplate) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *SecurityRoleTemplate) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ESSecurityRoleTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Template map[string]interface{}      `json:"template,omitempty"`
-		Format   *SecurityRoleTemplateFormat `json:"format,omitempty"`
+		Template map[string]interface{}        `json:"template,omitempty"`
+		Format   *ESSecurityRoleTemplateFormat `json:"format,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

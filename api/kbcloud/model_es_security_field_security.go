@@ -6,7 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type SecurityFieldSecurity struct {
+type ESSecurityFieldSecurity struct {
 	Grant  []string `json:"grant,omitempty"`
 	Except []string `json:"except,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -14,25 +14,25 @@ type SecurityFieldSecurity struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewSecurityFieldSecurity instantiates a new SecurityFieldSecurity object.
+// NewESSecurityFieldSecurity instantiates a new ESSecurityFieldSecurity object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewSecurityFieldSecurity() *SecurityFieldSecurity {
-	this := SecurityFieldSecurity{}
+func NewESSecurityFieldSecurity() *ESSecurityFieldSecurity {
+	this := ESSecurityFieldSecurity{}
 	return &this
 }
 
-// NewSecurityFieldSecurityWithDefaults instantiates a new SecurityFieldSecurity object.
+// NewESSecurityFieldSecurityWithDefaults instantiates a new ESSecurityFieldSecurity object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewSecurityFieldSecurityWithDefaults() *SecurityFieldSecurity {
-	this := SecurityFieldSecurity{}
+func NewESSecurityFieldSecurityWithDefaults() *ESSecurityFieldSecurity {
+	this := ESSecurityFieldSecurity{}
 	return &this
 }
 
 // GetGrant returns the Grant field value if set, zero value otherwise.
-func (o *SecurityFieldSecurity) GetGrant() []string {
+func (o *ESSecurityFieldSecurity) GetGrant() []string {
 	if o == nil || o.Grant == nil {
 		var ret []string
 		return ret
@@ -42,7 +42,7 @@ func (o *SecurityFieldSecurity) GetGrant() []string {
 
 // GetGrantOk returns a tuple with the Grant field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecurityFieldSecurity) GetGrantOk() (*[]string, bool) {
+func (o *ESSecurityFieldSecurity) GetGrantOk() (*[]string, bool) {
 	if o == nil || o.Grant == nil {
 		return nil, false
 	}
@@ -50,17 +50,17 @@ func (o *SecurityFieldSecurity) GetGrantOk() (*[]string, bool) {
 }
 
 // HasGrant returns a boolean if a field has been set.
-func (o *SecurityFieldSecurity) HasGrant() bool {
+func (o *ESSecurityFieldSecurity) HasGrant() bool {
 	return o != nil && o.Grant != nil
 }
 
 // SetGrant gets a reference to the given []string and assigns it to the Grant field.
-func (o *SecurityFieldSecurity) SetGrant(v []string) {
+func (o *ESSecurityFieldSecurity) SetGrant(v []string) {
 	o.Grant = v
 }
 
 // GetExcept returns the Except field value if set, zero value otherwise.
-func (o *SecurityFieldSecurity) GetExcept() []string {
+func (o *ESSecurityFieldSecurity) GetExcept() []string {
 	if o == nil || o.Except == nil {
 		var ret []string
 		return ret
@@ -70,7 +70,7 @@ func (o *SecurityFieldSecurity) GetExcept() []string {
 
 // GetExceptOk returns a tuple with the Except field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecurityFieldSecurity) GetExceptOk() (*[]string, bool) {
+func (o *ESSecurityFieldSecurity) GetExceptOk() (*[]string, bool) {
 	if o == nil || o.Except == nil {
 		return nil, false
 	}
@@ -78,17 +78,17 @@ func (o *SecurityFieldSecurity) GetExceptOk() (*[]string, bool) {
 }
 
 // HasExcept returns a boolean if a field has been set.
-func (o *SecurityFieldSecurity) HasExcept() bool {
+func (o *ESSecurityFieldSecurity) HasExcept() bool {
 	return o != nil && o.Except != nil
 }
 
 // SetExcept gets a reference to the given []string and assigns it to the Except field.
-func (o *SecurityFieldSecurity) SetExcept(v []string) {
+func (o *ESSecurityFieldSecurity) SetExcept(v []string) {
 	o.Except = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o SecurityFieldSecurity) MarshalJSON() ([]byte, error) {
+func (o ESSecurityFieldSecurity) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -107,7 +107,7 @@ func (o SecurityFieldSecurity) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *SecurityFieldSecurity) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ESSecurityFieldSecurity) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Grant  []string `json:"grant,omitempty"`
 		Except []string `json:"except,omitempty"`

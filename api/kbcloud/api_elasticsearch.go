@@ -18,7 +18,7 @@ import (
 type ElasticsearchApi common.Service
 
 // ChangeElasticsearchSecurityUserPassword Change Elasticsearch account password.
-func (a *ElasticsearchApi) ChangeElasticsearchSecurityUserPassword(ctx _context.Context, orgName string, clusterName string, username string, body SecurityPasswordRequest) (*_nethttp.Response, error) {
+func (a *ElasticsearchApi) ChangeElasticsearchSecurityUserPassword(ctx _context.Context, orgName string, clusterName string, username string, body ESSecurityPasswordRequest) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPatch
 		localVarPostBody   interface{}
@@ -380,11 +380,11 @@ func (a *ElasticsearchApi) GetElasticsearchBuiltinPrivileges(ctx _context.Contex
 }
 
 // GetElasticsearchSecurityRole Get Elasticsearch security role.
-func (a *ElasticsearchApi) GetElasticsearchSecurityRole(ctx _context.Context, orgName string, clusterName string, roleName string) (SecurityRoleDescriptor, *_nethttp.Response, error) {
+func (a *ElasticsearchApi) GetElasticsearchSecurityRole(ctx _context.Context, orgName string, clusterName string, roleName string) (ESSecurityRoleDescriptor, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue SecurityRoleDescriptor
+		localVarReturnValue ESSecurityRoleDescriptor
 	)
 
 	// Add api info to context
@@ -460,11 +460,11 @@ func (a *ElasticsearchApi) GetElasticsearchSecurityRole(ctx _context.Context, or
 }
 
 // GetElasticsearchSecurityRoleMapping Get Elasticsearch security role mapping.
-func (a *ElasticsearchApi) GetElasticsearchSecurityRoleMapping(ctx _context.Context, orgName string, clusterName string, mappingName string) (SecurityRoleMapping, *_nethttp.Response, error) {
+func (a *ElasticsearchApi) GetElasticsearchSecurityRoleMapping(ctx _context.Context, orgName string, clusterName string, mappingName string) (ESSecurityRoleMapping, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue SecurityRoleMapping
+		localVarReturnValue ESSecurityRoleMapping
 	)
 
 	// Add api info to context
@@ -540,11 +540,11 @@ func (a *ElasticsearchApi) GetElasticsearchSecurityRoleMapping(ctx _context.Cont
 }
 
 // GetElasticsearchSecurityUser Get Elasticsearch security user.
-func (a *ElasticsearchApi) GetElasticsearchSecurityUser(ctx _context.Context, orgName string, clusterName string, username string) (SecurityUser, *_nethttp.Response, error) {
+func (a *ElasticsearchApi) GetElasticsearchSecurityUser(ctx _context.Context, orgName string, clusterName string, username string) (ESSecurityUser, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue SecurityUser
+		localVarReturnValue ESSecurityUser
 	)
 
 	// Add api info to context
@@ -620,11 +620,11 @@ func (a *ElasticsearchApi) GetElasticsearchSecurityUser(ctx _context.Context, or
 }
 
 // ListElasticsearchSecurityRoleMappings List Elasticsearch security role mappings.
-func (a *ElasticsearchApi) ListElasticsearchSecurityRoleMappings(ctx _context.Context, orgName string, clusterName string) (map[string]SecurityRoleMapping, *_nethttp.Response, error) {
+func (a *ElasticsearchApi) ListElasticsearchSecurityRoleMappings(ctx _context.Context, orgName string, clusterName string) (map[string]ESSecurityRoleMapping, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue map[string]SecurityRoleMapping
+		localVarReturnValue map[string]ESSecurityRoleMapping
 	)
 
 	// Add api info to context
@@ -699,11 +699,11 @@ func (a *ElasticsearchApi) ListElasticsearchSecurityRoleMappings(ctx _context.Co
 }
 
 // ListElasticsearchSecurityRoles List Elasticsearch security roles.
-func (a *ElasticsearchApi) ListElasticsearchSecurityRoles(ctx _context.Context, orgName string, clusterName string) (map[string]SecurityRoleDescriptor, *_nethttp.Response, error) {
+func (a *ElasticsearchApi) ListElasticsearchSecurityRoles(ctx _context.Context, orgName string, clusterName string) (map[string]ESSecurityRoleDescriptor, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue map[string]SecurityRoleDescriptor
+		localVarReturnValue map[string]ESSecurityRoleDescriptor
 	)
 
 	// Add api info to context
@@ -778,11 +778,11 @@ func (a *ElasticsearchApi) ListElasticsearchSecurityRoles(ctx _context.Context, 
 }
 
 // ListElasticsearchSecurityUsers List Elasticsearch security users.
-func (a *ElasticsearchApi) ListElasticsearchSecurityUsers(ctx _context.Context, orgName string, clusterName string) (map[string]SecurityUser, *_nethttp.Response, error) {
+func (a *ElasticsearchApi) ListElasticsearchSecurityUsers(ctx _context.Context, orgName string, clusterName string) (map[string]ESSecurityUser, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue map[string]SecurityUser
+		localVarReturnValue map[string]ESSecurityUser
 	)
 
 	// Add api info to context
@@ -927,7 +927,7 @@ func (a *ElasticsearchApi) LockElasticsearchSecurityUser(ctx _context.Context, o
 }
 
 // PutElasticsearchSecurityRole Create or update Elasticsearch security role.
-func (a *ElasticsearchApi) PutElasticsearchSecurityRole(ctx _context.Context, orgName string, clusterName string, roleName string, body SecurityRoleDescriptor) (*_nethttp.Response, error) {
+func (a *ElasticsearchApi) PutElasticsearchSecurityRole(ctx _context.Context, orgName string, clusterName string, roleName string, body ESSecurityRoleDescriptor) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPut
 		localVarPostBody   interface{}
@@ -1000,7 +1000,7 @@ func (a *ElasticsearchApi) PutElasticsearchSecurityRole(ctx _context.Context, or
 }
 
 // PutElasticsearchSecurityRoleMapping Create or update Elasticsearch security role mapping.
-func (a *ElasticsearchApi) PutElasticsearchSecurityRoleMapping(ctx _context.Context, orgName string, clusterName string, mappingName string, body SecurityRoleMapping) (*_nethttp.Response, error) {
+func (a *ElasticsearchApi) PutElasticsearchSecurityRoleMapping(ctx _context.Context, orgName string, clusterName string, mappingName string, body ESSecurityRoleMapping) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPut
 		localVarPostBody   interface{}
@@ -1073,7 +1073,7 @@ func (a *ElasticsearchApi) PutElasticsearchSecurityRoleMapping(ctx _context.Cont
 }
 
 // PutElasticsearchSecurityUser Create or update Elasticsearch security user.
-func (a *ElasticsearchApi) PutElasticsearchSecurityUser(ctx _context.Context, orgName string, clusterName string, username string, body PutSecurityUserRequest) (*_nethttp.Response, error) {
+func (a *ElasticsearchApi) PutElasticsearchSecurityUser(ctx _context.Context, orgName string, clusterName string, username string, body ESPutSecurityUserRequest) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPut
 		localVarPostBody   interface{}
