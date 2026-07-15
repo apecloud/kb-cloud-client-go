@@ -20,7 +20,6 @@ const (
 	PrivilegeTypeReadonly  PrivilegeType = "READONLY"
 	PrivilegeTypeDdlonly   PrivilegeType = "DDLONLY"
 	PrivilegeTypeDmlonly   PrivilegeType = "DMLONLY"
-	PrivilegeTypeCustom    PrivilegeType = "CUSTOM"
 	PrivilegeTypeAdmin     PrivilegeType = "ADMIN"
 	PrivilegeTypeDba       PrivilegeType = "DBA"
 	PrivilegeTypeUser      PrivilegeType = "USER"
@@ -33,7 +32,6 @@ var allowedPrivilegeTypeEnumValues = []PrivilegeType{
 	PrivilegeTypeReadonly,
 	PrivilegeTypeDdlonly,
 	PrivilegeTypeDmlonly,
-	PrivilegeTypeCustom,
 	PrivilegeTypeAdmin,
 	PrivilegeTypeDba,
 	PrivilegeTypeUser,

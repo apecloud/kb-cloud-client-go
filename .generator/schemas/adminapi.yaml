@@ -37765,7 +37765,6 @@ components:
         - READONLY
         - DDLONLY
         - DMLONLY
-        - CUSTOM
         - ADMIN
         - DBA
         - USER
