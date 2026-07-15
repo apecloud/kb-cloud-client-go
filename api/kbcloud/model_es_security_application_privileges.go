@@ -6,7 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type SecurityApplicationPrivileges struct {
+type ESSecurityApplicationPrivileges struct {
 	Application *string  `json:"application,omitempty"`
 	Privileges  []string `json:"privileges,omitempty"`
 	Resources   []string `json:"resources,omitempty"`
@@ -15,25 +15,25 @@ type SecurityApplicationPrivileges struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewSecurityApplicationPrivileges instantiates a new SecurityApplicationPrivileges object.
+// NewESSecurityApplicationPrivileges instantiates a new ESSecurityApplicationPrivileges object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewSecurityApplicationPrivileges() *SecurityApplicationPrivileges {
-	this := SecurityApplicationPrivileges{}
+func NewESSecurityApplicationPrivileges() *ESSecurityApplicationPrivileges {
+	this := ESSecurityApplicationPrivileges{}
 	return &this
 }
 
-// NewSecurityApplicationPrivilegesWithDefaults instantiates a new SecurityApplicationPrivileges object.
+// NewESSecurityApplicationPrivilegesWithDefaults instantiates a new ESSecurityApplicationPrivileges object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewSecurityApplicationPrivilegesWithDefaults() *SecurityApplicationPrivileges {
-	this := SecurityApplicationPrivileges{}
+func NewESSecurityApplicationPrivilegesWithDefaults() *ESSecurityApplicationPrivileges {
+	this := ESSecurityApplicationPrivileges{}
 	return &this
 }
 
 // GetApplication returns the Application field value if set, zero value otherwise.
-func (o *SecurityApplicationPrivileges) GetApplication() string {
+func (o *ESSecurityApplicationPrivileges) GetApplication() string {
 	if o == nil || o.Application == nil {
 		var ret string
 		return ret
@@ -43,7 +43,7 @@ func (o *SecurityApplicationPrivileges) GetApplication() string {
 
 // GetApplicationOk returns a tuple with the Application field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecurityApplicationPrivileges) GetApplicationOk() (*string, bool) {
+func (o *ESSecurityApplicationPrivileges) GetApplicationOk() (*string, bool) {
 	if o == nil || o.Application == nil {
 		return nil, false
 	}
@@ -51,17 +51,17 @@ func (o *SecurityApplicationPrivileges) GetApplicationOk() (*string, bool) {
 }
 
 // HasApplication returns a boolean if a field has been set.
-func (o *SecurityApplicationPrivileges) HasApplication() bool {
+func (o *ESSecurityApplicationPrivileges) HasApplication() bool {
 	return o != nil && o.Application != nil
 }
 
 // SetApplication gets a reference to the given string and assigns it to the Application field.
-func (o *SecurityApplicationPrivileges) SetApplication(v string) {
+func (o *ESSecurityApplicationPrivileges) SetApplication(v string) {
 	o.Application = &v
 }
 
 // GetPrivileges returns the Privileges field value if set, zero value otherwise.
-func (o *SecurityApplicationPrivileges) GetPrivileges() []string {
+func (o *ESSecurityApplicationPrivileges) GetPrivileges() []string {
 	if o == nil || o.Privileges == nil {
 		var ret []string
 		return ret
@@ -71,7 +71,7 @@ func (o *SecurityApplicationPrivileges) GetPrivileges() []string {
 
 // GetPrivilegesOk returns a tuple with the Privileges field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecurityApplicationPrivileges) GetPrivilegesOk() (*[]string, bool) {
+func (o *ESSecurityApplicationPrivileges) GetPrivilegesOk() (*[]string, bool) {
 	if o == nil || o.Privileges == nil {
 		return nil, false
 	}
@@ -79,17 +79,17 @@ func (o *SecurityApplicationPrivileges) GetPrivilegesOk() (*[]string, bool) {
 }
 
 // HasPrivileges returns a boolean if a field has been set.
-func (o *SecurityApplicationPrivileges) HasPrivileges() bool {
+func (o *ESSecurityApplicationPrivileges) HasPrivileges() bool {
 	return o != nil && o.Privileges != nil
 }
 
 // SetPrivileges gets a reference to the given []string and assigns it to the Privileges field.
-func (o *SecurityApplicationPrivileges) SetPrivileges(v []string) {
+func (o *ESSecurityApplicationPrivileges) SetPrivileges(v []string) {
 	o.Privileges = v
 }
 
 // GetResources returns the Resources field value if set, zero value otherwise.
-func (o *SecurityApplicationPrivileges) GetResources() []string {
+func (o *ESSecurityApplicationPrivileges) GetResources() []string {
 	if o == nil || o.Resources == nil {
 		var ret []string
 		return ret
@@ -99,7 +99,7 @@ func (o *SecurityApplicationPrivileges) GetResources() []string {
 
 // GetResourcesOk returns a tuple with the Resources field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecurityApplicationPrivileges) GetResourcesOk() (*[]string, bool) {
+func (o *ESSecurityApplicationPrivileges) GetResourcesOk() (*[]string, bool) {
 	if o == nil || o.Resources == nil {
 		return nil, false
 	}
@@ -107,17 +107,17 @@ func (o *SecurityApplicationPrivileges) GetResourcesOk() (*[]string, bool) {
 }
 
 // HasResources returns a boolean if a field has been set.
-func (o *SecurityApplicationPrivileges) HasResources() bool {
+func (o *ESSecurityApplicationPrivileges) HasResources() bool {
 	return o != nil && o.Resources != nil
 }
 
 // SetResources gets a reference to the given []string and assigns it to the Resources field.
-func (o *SecurityApplicationPrivileges) SetResources(v []string) {
+func (o *ESSecurityApplicationPrivileges) SetResources(v []string) {
 	o.Resources = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o SecurityApplicationPrivileges) MarshalJSON() ([]byte, error) {
+func (o ESSecurityApplicationPrivileges) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -139,7 +139,7 @@ func (o SecurityApplicationPrivileges) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *SecurityApplicationPrivileges) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ESSecurityApplicationPrivileges) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Application *string  `json:"application,omitempty"`
 		Privileges  []string `json:"privileges,omitempty"`

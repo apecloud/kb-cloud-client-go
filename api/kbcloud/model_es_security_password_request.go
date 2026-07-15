@@ -10,33 +10,33 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type SecurityPasswordRequest struct {
+type ESSecurityPasswordRequest struct {
 	Password string `json:"password"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewSecurityPasswordRequest instantiates a new SecurityPasswordRequest object.
+// NewESSecurityPasswordRequest instantiates a new ESSecurityPasswordRequest object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewSecurityPasswordRequest(password string) *SecurityPasswordRequest {
-	this := SecurityPasswordRequest{}
+func NewESSecurityPasswordRequest(password string) *ESSecurityPasswordRequest {
+	this := ESSecurityPasswordRequest{}
 	this.Password = password
 	return &this
 }
 
-// NewSecurityPasswordRequestWithDefaults instantiates a new SecurityPasswordRequest object.
+// NewESSecurityPasswordRequestWithDefaults instantiates a new ESSecurityPasswordRequest object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewSecurityPasswordRequestWithDefaults() *SecurityPasswordRequest {
-	this := SecurityPasswordRequest{}
+func NewESSecurityPasswordRequestWithDefaults() *ESSecurityPasswordRequest {
+	this := ESSecurityPasswordRequest{}
 	return &this
 }
 
 // GetPassword returns the Password field value.
-func (o *SecurityPasswordRequest) GetPassword() string {
+func (o *ESSecurityPasswordRequest) GetPassword() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -46,7 +46,7 @@ func (o *SecurityPasswordRequest) GetPassword() string {
 
 // GetPasswordOk returns a tuple with the Password field value
 // and a boolean to check if the value has been set.
-func (o *SecurityPasswordRequest) GetPasswordOk() (*string, bool) {
+func (o *ESSecurityPasswordRequest) GetPasswordOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -54,12 +54,12 @@ func (o *SecurityPasswordRequest) GetPasswordOk() (*string, bool) {
 }
 
 // SetPassword sets field value.
-func (o *SecurityPasswordRequest) SetPassword(v string) {
+func (o *ESSecurityPasswordRequest) SetPassword(v string) {
 	o.Password = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o SecurityPasswordRequest) MarshalJSON() ([]byte, error) {
+func (o ESSecurityPasswordRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -73,7 +73,7 @@ func (o SecurityPasswordRequest) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *SecurityPasswordRequest) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ESSecurityPasswordRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Password *string `json:"password"`
 	}{}

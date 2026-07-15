@@ -8,70 +8,81 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type SecurityRoleDescriptor struct {
-	Description       *string                           `json:"description,omitempty"`
-	Cluster           []string                          `json:"cluster,omitempty"`
-	Global            map[string]interface{}            `json:"global,omitempty"`
-	Indices           []SecurityIndexPrivileges         `json:"indices,omitempty"`
-	RemoteIndices     []SecurityRemoteIndexPrivileges   `json:"remote_indices,omitempty"`
-	RemoteCluster     []SecurityRemoteClusterPrivileges `json:"remote_cluster,omitempty"`
-	Applications      []SecurityApplicationPrivileges   `json:"applications,omitempty"`
-	RunAs             []string                          `json:"run_as,omitempty"`
-	Metadata          map[string]interface{}            `json:"metadata,omitempty"`
-	Restriction       map[string]interface{}            `json:"restriction,omitempty"`
-	TransientMetadata map[string]interface{}            `json:"transient_metadata,omitempty"`
+type ESSecurityRoleDescriptor struct {
+	Description       common.NullableString               `json:"description,omitempty"`
+	Cluster           []string                            `json:"cluster,omitempty"`
+	Global            map[string]interface{}              `json:"global,omitempty"`
+	Indices           []ESSecurityIndexPrivileges         `json:"indices,omitempty"`
+	RemoteIndices     []ESSecurityRemoteIndexPrivileges   `json:"remote_indices,omitempty"`
+	RemoteCluster     []ESSecurityRemoteClusterPrivileges `json:"remote_cluster,omitempty"`
+	Applications      []ESSecurityApplicationPrivileges   `json:"applications,omitempty"`
+	RunAs             []string                            `json:"run_as,omitempty"`
+	Metadata          map[string]interface{}              `json:"metadata,omitempty"`
+	Restriction       map[string]interface{}              `json:"restriction,omitempty"`
+	TransientMetadata map[string]interface{}              `json:"transient_metadata,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewSecurityRoleDescriptor instantiates a new SecurityRoleDescriptor object.
+// NewESSecurityRoleDescriptor instantiates a new ESSecurityRoleDescriptor object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewSecurityRoleDescriptor() *SecurityRoleDescriptor {
-	this := SecurityRoleDescriptor{}
+func NewESSecurityRoleDescriptor() *ESSecurityRoleDescriptor {
+	this := ESSecurityRoleDescriptor{}
 	return &this
 }
 
-// NewSecurityRoleDescriptorWithDefaults instantiates a new SecurityRoleDescriptor object.
+// NewESSecurityRoleDescriptorWithDefaults instantiates a new ESSecurityRoleDescriptor object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewSecurityRoleDescriptorWithDefaults() *SecurityRoleDescriptor {
-	this := SecurityRoleDescriptor{}
+func NewESSecurityRoleDescriptorWithDefaults() *ESSecurityRoleDescriptor {
+	this := ESSecurityRoleDescriptor{}
 	return &this
 }
 
-// GetDescription returns the Description field value if set, zero value otherwise.
-func (o *SecurityRoleDescriptor) GetDescription() string {
-	if o == nil || o.Description == nil {
+// GetDescription returns the Description field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ESSecurityRoleDescriptor) GetDescription() string {
+	if o == nil || o.Description.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.Description
+	return *o.Description.Get()
 }
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecurityRoleDescriptor) GetDescriptionOk() (*string, bool) {
-	if o == nil || o.Description == nil {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ESSecurityRoleDescriptor) GetDescriptionOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Description, true
+	return o.Description.Get(), o.Description.IsSet()
 }
 
 // HasDescription returns a boolean if a field has been set.
-func (o *SecurityRoleDescriptor) HasDescription() bool {
-	return o != nil && o.Description != nil
+func (o *ESSecurityRoleDescriptor) HasDescription() bool {
+	return o != nil && o.Description.IsSet()
 }
 
-// SetDescription gets a reference to the given string and assigns it to the Description field.
-func (o *SecurityRoleDescriptor) SetDescription(v string) {
-	o.Description = &v
+// SetDescription gets a reference to the given common.NullableString and assigns it to the Description field.
+func (o *ESSecurityRoleDescriptor) SetDescription(v string) {
+	o.Description.Set(&v)
+}
+
+// SetDescriptionNil sets the value for Description to be an explicit nil.
+func (o *ESSecurityRoleDescriptor) SetDescriptionNil() {
+	o.Description.Set(nil)
+}
+
+// UnsetDescription ensures that no value is present for Description, not even an explicit nil.
+func (o *ESSecurityRoleDescriptor) UnsetDescription() {
+	o.Description.Unset()
 }
 
 // GetCluster returns the Cluster field value if set, zero value otherwise.
-func (o *SecurityRoleDescriptor) GetCluster() []string {
+func (o *ESSecurityRoleDescriptor) GetCluster() []string {
 	if o == nil || o.Cluster == nil {
 		var ret []string
 		return ret
@@ -81,7 +92,7 @@ func (o *SecurityRoleDescriptor) GetCluster() []string {
 
 // GetClusterOk returns a tuple with the Cluster field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecurityRoleDescriptor) GetClusterOk() (*[]string, bool) {
+func (o *ESSecurityRoleDescriptor) GetClusterOk() (*[]string, bool) {
 	if o == nil || o.Cluster == nil {
 		return nil, false
 	}
@@ -89,17 +100,17 @@ func (o *SecurityRoleDescriptor) GetClusterOk() (*[]string, bool) {
 }
 
 // HasCluster returns a boolean if a field has been set.
-func (o *SecurityRoleDescriptor) HasCluster() bool {
+func (o *ESSecurityRoleDescriptor) HasCluster() bool {
 	return o != nil && o.Cluster != nil
 }
 
 // SetCluster gets a reference to the given []string and assigns it to the Cluster field.
-func (o *SecurityRoleDescriptor) SetCluster(v []string) {
+func (o *ESSecurityRoleDescriptor) SetCluster(v []string) {
 	o.Cluster = v
 }
 
 // GetGlobal returns the Global field value if set, zero value otherwise.
-func (o *SecurityRoleDescriptor) GetGlobal() map[string]interface{} {
+func (o *ESSecurityRoleDescriptor) GetGlobal() map[string]interface{} {
 	if o == nil || o.Global == nil {
 		var ret map[string]interface{}
 		return ret
@@ -109,7 +120,7 @@ func (o *SecurityRoleDescriptor) GetGlobal() map[string]interface{} {
 
 // GetGlobalOk returns a tuple with the Global field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecurityRoleDescriptor) GetGlobalOk() (*map[string]interface{}, bool) {
+func (o *ESSecurityRoleDescriptor) GetGlobalOk() (*map[string]interface{}, bool) {
 	if o == nil || o.Global == nil {
 		return nil, false
 	}
@@ -117,19 +128,19 @@ func (o *SecurityRoleDescriptor) GetGlobalOk() (*map[string]interface{}, bool) {
 }
 
 // HasGlobal returns a boolean if a field has been set.
-func (o *SecurityRoleDescriptor) HasGlobal() bool {
+func (o *ESSecurityRoleDescriptor) HasGlobal() bool {
 	return o != nil && o.Global != nil
 }
 
 // SetGlobal gets a reference to the given map[string]interface{} and assigns it to the Global field.
-func (o *SecurityRoleDescriptor) SetGlobal(v map[string]interface{}) {
+func (o *ESSecurityRoleDescriptor) SetGlobal(v map[string]interface{}) {
 	o.Global = v
 }
 
 // GetIndices returns the Indices field value if set, zero value otherwise.
-func (o *SecurityRoleDescriptor) GetIndices() []SecurityIndexPrivileges {
+func (o *ESSecurityRoleDescriptor) GetIndices() []ESSecurityIndexPrivileges {
 	if o == nil || o.Indices == nil {
-		var ret []SecurityIndexPrivileges
+		var ret []ESSecurityIndexPrivileges
 		return ret
 	}
 	return o.Indices
@@ -137,7 +148,7 @@ func (o *SecurityRoleDescriptor) GetIndices() []SecurityIndexPrivileges {
 
 // GetIndicesOk returns a tuple with the Indices field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecurityRoleDescriptor) GetIndicesOk() (*[]SecurityIndexPrivileges, bool) {
+func (o *ESSecurityRoleDescriptor) GetIndicesOk() (*[]ESSecurityIndexPrivileges, bool) {
 	if o == nil || o.Indices == nil {
 		return nil, false
 	}
@@ -145,19 +156,19 @@ func (o *SecurityRoleDescriptor) GetIndicesOk() (*[]SecurityIndexPrivileges, boo
 }
 
 // HasIndices returns a boolean if a field has been set.
-func (o *SecurityRoleDescriptor) HasIndices() bool {
+func (o *ESSecurityRoleDescriptor) HasIndices() bool {
 	return o != nil && o.Indices != nil
 }
 
-// SetIndices gets a reference to the given []SecurityIndexPrivileges and assigns it to the Indices field.
-func (o *SecurityRoleDescriptor) SetIndices(v []SecurityIndexPrivileges) {
+// SetIndices gets a reference to the given []ESSecurityIndexPrivileges and assigns it to the Indices field.
+func (o *ESSecurityRoleDescriptor) SetIndices(v []ESSecurityIndexPrivileges) {
 	o.Indices = v
 }
 
 // GetRemoteIndices returns the RemoteIndices field value if set, zero value otherwise.
-func (o *SecurityRoleDescriptor) GetRemoteIndices() []SecurityRemoteIndexPrivileges {
+func (o *ESSecurityRoleDescriptor) GetRemoteIndices() []ESSecurityRemoteIndexPrivileges {
 	if o == nil || o.RemoteIndices == nil {
-		var ret []SecurityRemoteIndexPrivileges
+		var ret []ESSecurityRemoteIndexPrivileges
 		return ret
 	}
 	return o.RemoteIndices
@@ -165,7 +176,7 @@ func (o *SecurityRoleDescriptor) GetRemoteIndices() []SecurityRemoteIndexPrivile
 
 // GetRemoteIndicesOk returns a tuple with the RemoteIndices field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecurityRoleDescriptor) GetRemoteIndicesOk() (*[]SecurityRemoteIndexPrivileges, bool) {
+func (o *ESSecurityRoleDescriptor) GetRemoteIndicesOk() (*[]ESSecurityRemoteIndexPrivileges, bool) {
 	if o == nil || o.RemoteIndices == nil {
 		return nil, false
 	}
@@ -173,19 +184,19 @@ func (o *SecurityRoleDescriptor) GetRemoteIndicesOk() (*[]SecurityRemoteIndexPri
 }
 
 // HasRemoteIndices returns a boolean if a field has been set.
-func (o *SecurityRoleDescriptor) HasRemoteIndices() bool {
+func (o *ESSecurityRoleDescriptor) HasRemoteIndices() bool {
 	return o != nil && o.RemoteIndices != nil
 }
 
-// SetRemoteIndices gets a reference to the given []SecurityRemoteIndexPrivileges and assigns it to the RemoteIndices field.
-func (o *SecurityRoleDescriptor) SetRemoteIndices(v []SecurityRemoteIndexPrivileges) {
+// SetRemoteIndices gets a reference to the given []ESSecurityRemoteIndexPrivileges and assigns it to the RemoteIndices field.
+func (o *ESSecurityRoleDescriptor) SetRemoteIndices(v []ESSecurityRemoteIndexPrivileges) {
 	o.RemoteIndices = v
 }
 
 // GetRemoteCluster returns the RemoteCluster field value if set, zero value otherwise.
-func (o *SecurityRoleDescriptor) GetRemoteCluster() []SecurityRemoteClusterPrivileges {
+func (o *ESSecurityRoleDescriptor) GetRemoteCluster() []ESSecurityRemoteClusterPrivileges {
 	if o == nil || o.RemoteCluster == nil {
-		var ret []SecurityRemoteClusterPrivileges
+		var ret []ESSecurityRemoteClusterPrivileges
 		return ret
 	}
 	return o.RemoteCluster
@@ -193,7 +204,7 @@ func (o *SecurityRoleDescriptor) GetRemoteCluster() []SecurityRemoteClusterPrivi
 
 // GetRemoteClusterOk returns a tuple with the RemoteCluster field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecurityRoleDescriptor) GetRemoteClusterOk() (*[]SecurityRemoteClusterPrivileges, bool) {
+func (o *ESSecurityRoleDescriptor) GetRemoteClusterOk() (*[]ESSecurityRemoteClusterPrivileges, bool) {
 	if o == nil || o.RemoteCluster == nil {
 		return nil, false
 	}
@@ -201,19 +212,19 @@ func (o *SecurityRoleDescriptor) GetRemoteClusterOk() (*[]SecurityRemoteClusterP
 }
 
 // HasRemoteCluster returns a boolean if a field has been set.
-func (o *SecurityRoleDescriptor) HasRemoteCluster() bool {
+func (o *ESSecurityRoleDescriptor) HasRemoteCluster() bool {
 	return o != nil && o.RemoteCluster != nil
 }
 
-// SetRemoteCluster gets a reference to the given []SecurityRemoteClusterPrivileges and assigns it to the RemoteCluster field.
-func (o *SecurityRoleDescriptor) SetRemoteCluster(v []SecurityRemoteClusterPrivileges) {
+// SetRemoteCluster gets a reference to the given []ESSecurityRemoteClusterPrivileges and assigns it to the RemoteCluster field.
+func (o *ESSecurityRoleDescriptor) SetRemoteCluster(v []ESSecurityRemoteClusterPrivileges) {
 	o.RemoteCluster = v
 }
 
 // GetApplications returns the Applications field value if set, zero value otherwise.
-func (o *SecurityRoleDescriptor) GetApplications() []SecurityApplicationPrivileges {
+func (o *ESSecurityRoleDescriptor) GetApplications() []ESSecurityApplicationPrivileges {
 	if o == nil || o.Applications == nil {
-		var ret []SecurityApplicationPrivileges
+		var ret []ESSecurityApplicationPrivileges
 		return ret
 	}
 	return o.Applications
@@ -221,7 +232,7 @@ func (o *SecurityRoleDescriptor) GetApplications() []SecurityApplicationPrivileg
 
 // GetApplicationsOk returns a tuple with the Applications field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecurityRoleDescriptor) GetApplicationsOk() (*[]SecurityApplicationPrivileges, bool) {
+func (o *ESSecurityRoleDescriptor) GetApplicationsOk() (*[]ESSecurityApplicationPrivileges, bool) {
 	if o == nil || o.Applications == nil {
 		return nil, false
 	}
@@ -229,17 +240,17 @@ func (o *SecurityRoleDescriptor) GetApplicationsOk() (*[]SecurityApplicationPriv
 }
 
 // HasApplications returns a boolean if a field has been set.
-func (o *SecurityRoleDescriptor) HasApplications() bool {
+func (o *ESSecurityRoleDescriptor) HasApplications() bool {
 	return o != nil && o.Applications != nil
 }
 
-// SetApplications gets a reference to the given []SecurityApplicationPrivileges and assigns it to the Applications field.
-func (o *SecurityRoleDescriptor) SetApplications(v []SecurityApplicationPrivileges) {
+// SetApplications gets a reference to the given []ESSecurityApplicationPrivileges and assigns it to the Applications field.
+func (o *ESSecurityRoleDescriptor) SetApplications(v []ESSecurityApplicationPrivileges) {
 	o.Applications = v
 }
 
 // GetRunAs returns the RunAs field value if set, zero value otherwise.
-func (o *SecurityRoleDescriptor) GetRunAs() []string {
+func (o *ESSecurityRoleDescriptor) GetRunAs() []string {
 	if o == nil || o.RunAs == nil {
 		var ret []string
 		return ret
@@ -249,7 +260,7 @@ func (o *SecurityRoleDescriptor) GetRunAs() []string {
 
 // GetRunAsOk returns a tuple with the RunAs field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecurityRoleDescriptor) GetRunAsOk() (*[]string, bool) {
+func (o *ESSecurityRoleDescriptor) GetRunAsOk() (*[]string, bool) {
 	if o == nil || o.RunAs == nil {
 		return nil, false
 	}
@@ -257,17 +268,17 @@ func (o *SecurityRoleDescriptor) GetRunAsOk() (*[]string, bool) {
 }
 
 // HasRunAs returns a boolean if a field has been set.
-func (o *SecurityRoleDescriptor) HasRunAs() bool {
+func (o *ESSecurityRoleDescriptor) HasRunAs() bool {
 	return o != nil && o.RunAs != nil
 }
 
 // SetRunAs gets a reference to the given []string and assigns it to the RunAs field.
-func (o *SecurityRoleDescriptor) SetRunAs(v []string) {
+func (o *ESSecurityRoleDescriptor) SetRunAs(v []string) {
 	o.RunAs = v
 }
 
 // GetMetadata returns the Metadata field value if set, zero value otherwise.
-func (o *SecurityRoleDescriptor) GetMetadata() map[string]interface{} {
+func (o *ESSecurityRoleDescriptor) GetMetadata() map[string]interface{} {
 	if o == nil || o.Metadata == nil {
 		var ret map[string]interface{}
 		return ret
@@ -277,7 +288,7 @@ func (o *SecurityRoleDescriptor) GetMetadata() map[string]interface{} {
 
 // GetMetadataOk returns a tuple with the Metadata field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecurityRoleDescriptor) GetMetadataOk() (*map[string]interface{}, bool) {
+func (o *ESSecurityRoleDescriptor) GetMetadataOk() (*map[string]interface{}, bool) {
 	if o == nil || o.Metadata == nil {
 		return nil, false
 	}
@@ -285,17 +296,17 @@ func (o *SecurityRoleDescriptor) GetMetadataOk() (*map[string]interface{}, bool)
 }
 
 // HasMetadata returns a boolean if a field has been set.
-func (o *SecurityRoleDescriptor) HasMetadata() bool {
+func (o *ESSecurityRoleDescriptor) HasMetadata() bool {
 	return o != nil && o.Metadata != nil
 }
 
 // SetMetadata gets a reference to the given map[string]interface{} and assigns it to the Metadata field.
-func (o *SecurityRoleDescriptor) SetMetadata(v map[string]interface{}) {
+func (o *ESSecurityRoleDescriptor) SetMetadata(v map[string]interface{}) {
 	o.Metadata = v
 }
 
 // GetRestriction returns the Restriction field value if set, zero value otherwise.
-func (o *SecurityRoleDescriptor) GetRestriction() map[string]interface{} {
+func (o *ESSecurityRoleDescriptor) GetRestriction() map[string]interface{} {
 	if o == nil || o.Restriction == nil {
 		var ret map[string]interface{}
 		return ret
@@ -305,7 +316,7 @@ func (o *SecurityRoleDescriptor) GetRestriction() map[string]interface{} {
 
 // GetRestrictionOk returns a tuple with the Restriction field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecurityRoleDescriptor) GetRestrictionOk() (*map[string]interface{}, bool) {
+func (o *ESSecurityRoleDescriptor) GetRestrictionOk() (*map[string]interface{}, bool) {
 	if o == nil || o.Restriction == nil {
 		return nil, false
 	}
@@ -313,17 +324,17 @@ func (o *SecurityRoleDescriptor) GetRestrictionOk() (*map[string]interface{}, bo
 }
 
 // HasRestriction returns a boolean if a field has been set.
-func (o *SecurityRoleDescriptor) HasRestriction() bool {
+func (o *ESSecurityRoleDescriptor) HasRestriction() bool {
 	return o != nil && o.Restriction != nil
 }
 
 // SetRestriction gets a reference to the given map[string]interface{} and assigns it to the Restriction field.
-func (o *SecurityRoleDescriptor) SetRestriction(v map[string]interface{}) {
+func (o *ESSecurityRoleDescriptor) SetRestriction(v map[string]interface{}) {
 	o.Restriction = v
 }
 
 // GetTransientMetadata returns the TransientMetadata field value if set, zero value otherwise.
-func (o *SecurityRoleDescriptor) GetTransientMetadata() map[string]interface{} {
+func (o *ESSecurityRoleDescriptor) GetTransientMetadata() map[string]interface{} {
 	if o == nil || o.TransientMetadata == nil {
 		var ret map[string]interface{}
 		return ret
@@ -333,7 +344,7 @@ func (o *SecurityRoleDescriptor) GetTransientMetadata() map[string]interface{} {
 
 // GetTransientMetadataOk returns a tuple with the TransientMetadata field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecurityRoleDescriptor) GetTransientMetadataOk() (*map[string]interface{}, bool) {
+func (o *ESSecurityRoleDescriptor) GetTransientMetadataOk() (*map[string]interface{}, bool) {
 	if o == nil || o.TransientMetadata == nil {
 		return nil, false
 	}
@@ -341,23 +352,23 @@ func (o *SecurityRoleDescriptor) GetTransientMetadataOk() (*map[string]interface
 }
 
 // HasTransientMetadata returns a boolean if a field has been set.
-func (o *SecurityRoleDescriptor) HasTransientMetadata() bool {
+func (o *ESSecurityRoleDescriptor) HasTransientMetadata() bool {
 	return o != nil && o.TransientMetadata != nil
 }
 
 // SetTransientMetadata gets a reference to the given map[string]interface{} and assigns it to the TransientMetadata field.
-func (o *SecurityRoleDescriptor) SetTransientMetadata(v map[string]interface{}) {
+func (o *ESSecurityRoleDescriptor) SetTransientMetadata(v map[string]interface{}) {
 	o.TransientMetadata = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o SecurityRoleDescriptor) MarshalJSON() ([]byte, error) {
+func (o ESSecurityRoleDescriptor) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Description != nil {
-		toSerialize["description"] = o.Description
+	if o.Description.IsSet() {
+		toSerialize["description"] = o.Description.Get()
 	}
 	if o.Cluster != nil {
 		toSerialize["cluster"] = o.Cluster
@@ -397,19 +408,19 @@ func (o SecurityRoleDescriptor) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *SecurityRoleDescriptor) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ESSecurityRoleDescriptor) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Description       *string                           `json:"description,omitempty"`
-		Cluster           []string                          `json:"cluster,omitempty"`
-		Global            map[string]interface{}            `json:"global,omitempty"`
-		Indices           []SecurityIndexPrivileges         `json:"indices,omitempty"`
-		RemoteIndices     []SecurityRemoteIndexPrivileges   `json:"remote_indices,omitempty"`
-		RemoteCluster     []SecurityRemoteClusterPrivileges `json:"remote_cluster,omitempty"`
-		Applications      []SecurityApplicationPrivileges   `json:"applications,omitempty"`
-		RunAs             []string                          `json:"run_as,omitempty"`
-		Metadata          map[string]interface{}            `json:"metadata,omitempty"`
-		Restriction       map[string]interface{}            `json:"restriction,omitempty"`
-		TransientMetadata map[string]interface{}            `json:"transient_metadata,omitempty"`
+		Description       common.NullableString               `json:"description,omitempty"`
+		Cluster           []string                            `json:"cluster,omitempty"`
+		Global            map[string]interface{}              `json:"global,omitempty"`
+		Indices           []ESSecurityIndexPrivileges         `json:"indices,omitempty"`
+		RemoteIndices     []ESSecurityRemoteIndexPrivileges   `json:"remote_indices,omitempty"`
+		RemoteCluster     []ESSecurityRemoteClusterPrivileges `json:"remote_cluster,omitempty"`
+		Applications      []ESSecurityApplicationPrivileges   `json:"applications,omitempty"`
+		RunAs             []string                            `json:"run_as,omitempty"`
+		Metadata          map[string]interface{}              `json:"metadata,omitempty"`
+		Restriction       map[string]interface{}              `json:"restriction,omitempty"`
+		TransientMetadata map[string]interface{}              `json:"transient_metadata,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type SecurityRemoteClusterPrivileges struct {
+type ESSecurityRemoteClusterPrivileges struct {
 	Clusters   []string `json:"clusters"`
 	Privileges []string `json:"privileges"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -18,27 +18,27 @@ type SecurityRemoteClusterPrivileges struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewSecurityRemoteClusterPrivileges instantiates a new SecurityRemoteClusterPrivileges object.
+// NewESSecurityRemoteClusterPrivileges instantiates a new ESSecurityRemoteClusterPrivileges object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewSecurityRemoteClusterPrivileges(clusters []string, privileges []string) *SecurityRemoteClusterPrivileges {
-	this := SecurityRemoteClusterPrivileges{}
+func NewESSecurityRemoteClusterPrivileges(clusters []string, privileges []string) *ESSecurityRemoteClusterPrivileges {
+	this := ESSecurityRemoteClusterPrivileges{}
 	this.Clusters = clusters
 	this.Privileges = privileges
 	return &this
 }
 
-// NewSecurityRemoteClusterPrivilegesWithDefaults instantiates a new SecurityRemoteClusterPrivileges object.
+// NewESSecurityRemoteClusterPrivilegesWithDefaults instantiates a new ESSecurityRemoteClusterPrivileges object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewSecurityRemoteClusterPrivilegesWithDefaults() *SecurityRemoteClusterPrivileges {
-	this := SecurityRemoteClusterPrivileges{}
+func NewESSecurityRemoteClusterPrivilegesWithDefaults() *ESSecurityRemoteClusterPrivileges {
+	this := ESSecurityRemoteClusterPrivileges{}
 	return &this
 }
 
 // GetClusters returns the Clusters field value.
-func (o *SecurityRemoteClusterPrivileges) GetClusters() []string {
+func (o *ESSecurityRemoteClusterPrivileges) GetClusters() []string {
 	if o == nil {
 		var ret []string
 		return ret
@@ -48,7 +48,7 @@ func (o *SecurityRemoteClusterPrivileges) GetClusters() []string {
 
 // GetClustersOk returns a tuple with the Clusters field value
 // and a boolean to check if the value has been set.
-func (o *SecurityRemoteClusterPrivileges) GetClustersOk() (*[]string, bool) {
+func (o *ESSecurityRemoteClusterPrivileges) GetClustersOk() (*[]string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -56,12 +56,12 @@ func (o *SecurityRemoteClusterPrivileges) GetClustersOk() (*[]string, bool) {
 }
 
 // SetClusters sets field value.
-func (o *SecurityRemoteClusterPrivileges) SetClusters(v []string) {
+func (o *ESSecurityRemoteClusterPrivileges) SetClusters(v []string) {
 	o.Clusters = v
 }
 
 // GetPrivileges returns the Privileges field value.
-func (o *SecurityRemoteClusterPrivileges) GetPrivileges() []string {
+func (o *ESSecurityRemoteClusterPrivileges) GetPrivileges() []string {
 	if o == nil {
 		var ret []string
 		return ret
@@ -71,7 +71,7 @@ func (o *SecurityRemoteClusterPrivileges) GetPrivileges() []string {
 
 // GetPrivilegesOk returns a tuple with the Privileges field value
 // and a boolean to check if the value has been set.
-func (o *SecurityRemoteClusterPrivileges) GetPrivilegesOk() (*[]string, bool) {
+func (o *ESSecurityRemoteClusterPrivileges) GetPrivilegesOk() (*[]string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -79,12 +79,12 @@ func (o *SecurityRemoteClusterPrivileges) GetPrivilegesOk() (*[]string, bool) {
 }
 
 // SetPrivileges sets field value.
-func (o *SecurityRemoteClusterPrivileges) SetPrivileges(v []string) {
+func (o *ESSecurityRemoteClusterPrivileges) SetPrivileges(v []string) {
 	o.Privileges = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o SecurityRemoteClusterPrivileges) MarshalJSON() ([]byte, error) {
+func (o ESSecurityRemoteClusterPrivileges) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -99,7 +99,7 @@ func (o SecurityRemoteClusterPrivileges) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *SecurityRemoteClusterPrivileges) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ESSecurityRemoteClusterPrivileges) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Clusters   *[]string `json:"clusters"`
 		Privileges *[]string `json:"privileges"`

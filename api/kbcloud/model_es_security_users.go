@@ -8,31 +8,31 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type SecurityRoles struct {
+type ESSecurityUsers struct {
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{}            `json:"-"`
-	AdditionalProperties map[string]SecurityRoleDescriptor `json:"-"`
+	UnparsedObject       map[string]interface{}    `json:"-"`
+	AdditionalProperties map[string]ESSecurityUser `json:"-"`
 }
 
-// NewSecurityRoles instantiates a new SecurityRoles object.
+// NewESSecurityUsers instantiates a new ESSecurityUsers object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewSecurityRoles() *SecurityRoles {
-	this := SecurityRoles{}
+func NewESSecurityUsers() *ESSecurityUsers {
+	this := ESSecurityUsers{}
 	return &this
 }
 
-// NewSecurityRolesWithDefaults instantiates a new SecurityRoles object.
+// NewESSecurityUsersWithDefaults instantiates a new ESSecurityUsers object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewSecurityRolesWithDefaults() *SecurityRoles {
-	this := SecurityRoles{}
+func NewESSecurityUsersWithDefaults() *ESSecurityUsers {
+	this := ESSecurityUsers{}
 	return &this
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o SecurityRoles) MarshalJSON() ([]byte, error) {
+func (o ESSecurityUsers) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -45,13 +45,13 @@ func (o SecurityRoles) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *SecurityRoles) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ESSecurityUsers) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	additionalProperties := make(map[string]SecurityRoleDescriptor)
+	additionalProperties := make(map[string]ESSecurityUser)
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{})
 	} else {

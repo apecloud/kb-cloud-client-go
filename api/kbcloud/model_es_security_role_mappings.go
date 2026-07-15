@@ -4,33 +4,35 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
-type BuiltinPrivileges struct {
+type ESSecurityRoleMappings struct {
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
-	AdditionalProperties map[string][]string    `json:"-"`
+	UnparsedObject       map[string]interface{}           `json:"-"`
+	AdditionalProperties map[string]ESSecurityRoleMapping `json:"-"`
 }
 
-// NewBuiltinPrivileges instantiates a new BuiltinPrivileges object.
+// NewESSecurityRoleMappings instantiates a new ESSecurityRoleMappings object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBuiltinPrivileges() *BuiltinPrivileges {
-	this := BuiltinPrivileges{}
+func NewESSecurityRoleMappings() *ESSecurityRoleMappings {
+	this := ESSecurityRoleMappings{}
 	return &this
 }
 
-// NewBuiltinPrivilegesWithDefaults instantiates a new BuiltinPrivileges object.
+// NewESSecurityRoleMappingsWithDefaults instantiates a new ESSecurityRoleMappings object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewBuiltinPrivilegesWithDefaults() *BuiltinPrivileges {
-	this := BuiltinPrivileges{}
+func NewESSecurityRoleMappingsWithDefaults() *ESSecurityRoleMappings {
+	this := ESSecurityRoleMappings{}
 	return &this
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o BuiltinPrivileges) MarshalJSON() ([]byte, error) {
+func (o ESSecurityRoleMappings) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -43,13 +45,13 @@ func (o BuiltinPrivileges) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *BuiltinPrivileges) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ESSecurityRoleMappings) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	additionalProperties := make(map[string][]string)
+	additionalProperties := make(map[string]ESSecurityRoleMapping)
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{})
 	} else {
