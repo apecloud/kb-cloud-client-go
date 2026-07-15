@@ -32007,8 +32007,10 @@ components:
             type: string
         full_name:
           type: string
+          nullable: true
         email:
           type: string
+          nullable: true
         metadata:
           type: object
           additionalProperties: true
@@ -32024,16 +32026,20 @@ components:
       properties:
         password:
           type: string
+          nullable: true
         password_hash:
           type: string
+          nullable: true
         roles:
           type: array
           items:
             type: string
         full_name:
           type: string
+          nullable: true
         email:
           type: string
+          nullable: true
         metadata:
           type: object
           additionalProperties: true
@@ -32054,10 +32060,12 @@ components:
       properties:
         grant:
           type: array
+          x-omitempty: true
           items:
             type: string
         except:
           type: array
+          x-omitempty: true
           items:
             type: string
     ESSecurityIndexPrivileges:
@@ -32075,6 +32083,7 @@ components:
           $ref: '#/components/schemas/ESSecurityFieldSecurity'
         query:
           type: string
+          nullable: true
         allow_restricted_indices:
           type: boolean
           nullable: true
@@ -32100,6 +32109,7 @@ components:
           $ref: '#/components/schemas/ESSecurityFieldSecurity'
         query:
           type: string
+          nullable: true
         allow_restricted_indices:
           type: boolean
           nullable: true
@@ -32126,12 +32136,15 @@ components:
       properties:
         application:
           type: string
+          x-omitempty: true
         privileges:
           type: array
+          x-omitempty: true
           items:
             type: string
         resources:
           type: array
+          x-omitempty: true
           items:
             type: string
     ESSecurityRoleDescriptor:
@@ -32139,8 +32152,10 @@ components:
       properties:
         description:
           type: string
+          nullable: true
         cluster:
           type: array
+          x-omitempty: true
           items:
             type: string
         global:
@@ -32148,22 +32163,27 @@ components:
           additionalProperties: true
         indices:
           type: array
+          x-omitempty: true
           items:
             $ref: '#/components/schemas/ESSecurityIndexPrivileges'
         remote_indices:
           type: array
+          x-omitempty: true
           items:
             $ref: '#/components/schemas/ESSecurityRemoteIndexPrivileges'
         remote_cluster:
           type: array
+          x-omitempty: true
           items:
             $ref: '#/components/schemas/ESSecurityRemoteClusterPrivileges'
         applications:
           type: array
+          x-omitempty: true
           items:
             $ref: '#/components/schemas/ESSecurityApplicationPrivileges'
         run_as:
           type: array
+          x-omitempty: true
           items:
             type: string
         metadata:
@@ -32192,6 +32212,7 @@ components:
           additionalProperties: true
         format:
           $ref: '#/components/schemas/ESSecurityRoleTemplateFormat'
+          nullable: true
     ESSecurityRoleMapping:
       type: object
       properties:
@@ -32200,10 +32221,12 @@ components:
           nullable: true
         roles:
           type: array
+          x-omitempty: true
           items:
             type: string
         role_templates:
           type: array
+          x-omitempty: true
           items:
             $ref: '#/components/schemas/ESSecurityRoleTemplate'
         rules:

@@ -15,7 +15,7 @@ type ESSecurityRemoteIndexPrivileges struct {
 	Names                  []string                 `json:"names"`
 	Privileges             []string                 `json:"privileges"`
 	FieldSecurity          *ESSecurityFieldSecurity `json:"field_security,omitempty"`
-	Query                  *string                  `json:"query,omitempty"`
+	Query                  common.NullableString    `json:"query,omitempty"`
 	AllowRestrictedIndices common.NullableBool      `json:"allow_restricted_indices,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -139,32 +139,43 @@ func (o *ESSecurityRemoteIndexPrivileges) SetFieldSecurity(v ESSecurityFieldSecu
 	o.FieldSecurity = &v
 }
 
-// GetQuery returns the Query field value if set, zero value otherwise.
+// GetQuery returns the Query field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ESSecurityRemoteIndexPrivileges) GetQuery() string {
-	if o == nil || o.Query == nil {
+	if o == nil || o.Query.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.Query
+	return *o.Query.Get()
 }
 
 // GetQueryOk returns a tuple with the Query field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ESSecurityRemoteIndexPrivileges) GetQueryOk() (*string, bool) {
-	if o == nil || o.Query == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Query, true
+	return o.Query.Get(), o.Query.IsSet()
 }
 
 // HasQuery returns a boolean if a field has been set.
 func (o *ESSecurityRemoteIndexPrivileges) HasQuery() bool {
-	return o != nil && o.Query != nil
+	return o != nil && o.Query.IsSet()
 }
 
-// SetQuery gets a reference to the given string and assigns it to the Query field.
+// SetQuery gets a reference to the given common.NullableString and assigns it to the Query field.
 func (o *ESSecurityRemoteIndexPrivileges) SetQuery(v string) {
-	o.Query = &v
+	o.Query.Set(&v)
+}
+
+// SetQueryNil sets the value for Query to be an explicit nil.
+func (o *ESSecurityRemoteIndexPrivileges) SetQueryNil() {
+	o.Query.Set(nil)
+}
+
+// UnsetQuery ensures that no value is present for Query, not even an explicit nil.
+func (o *ESSecurityRemoteIndexPrivileges) UnsetQuery() {
+	o.Query.Unset()
 }
 
 // GetAllowRestrictedIndices returns the AllowRestrictedIndices field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -218,8 +229,8 @@ func (o ESSecurityRemoteIndexPrivileges) MarshalJSON() ([]byte, error) {
 	if o.FieldSecurity != nil {
 		toSerialize["field_security"] = o.FieldSecurity
 	}
-	if o.Query != nil {
-		toSerialize["query"] = o.Query
+	if o.Query.IsSet() {
+		toSerialize["query"] = o.Query.Get()
 	}
 	if o.AllowRestrictedIndices.IsSet() {
 		toSerialize["allow_restricted_indices"] = o.AllowRestrictedIndices.Get()
@@ -238,7 +249,7 @@ func (o *ESSecurityRemoteIndexPrivileges) UnmarshalJSON(bytes []byte) (err error
 		Names                  *[]string                `json:"names"`
 		Privileges             *[]string                `json:"privileges"`
 		FieldSecurity          *ESSecurityFieldSecurity `json:"field_security,omitempty"`
-		Query                  *string                  `json:"query,omitempty"`
+		Query                  common.NullableString    `json:"query,omitempty"`
 		AllowRestrictedIndices common.NullableBool      `json:"allow_restricted_indices,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {

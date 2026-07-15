@@ -11,11 +11,11 @@ import (
 )
 
 type ESPutSecurityUserRequest struct {
-	Password     *string                `json:"password,omitempty"`
-	PasswordHash *string                `json:"password_hash,omitempty"`
+	Password     common.NullableString  `json:"password,omitempty"`
+	PasswordHash common.NullableString  `json:"password_hash,omitempty"`
 	Roles        []string               `json:"roles"`
-	FullName     *string                `json:"full_name,omitempty"`
-	Email        *string                `json:"email,omitempty"`
+	FullName     common.NullableString  `json:"full_name,omitempty"`
+	Email        common.NullableString  `json:"email,omitempty"`
 	Metadata     map[string]interface{} `json:"metadata,omitempty"`
 	Enabled      common.NullableBool    `json:"enabled,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -41,60 +41,82 @@ func NewESPutSecurityUserRequestWithDefaults() *ESPutSecurityUserRequest {
 	return &this
 }
 
-// GetPassword returns the Password field value if set, zero value otherwise.
+// GetPassword returns the Password field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ESPutSecurityUserRequest) GetPassword() string {
-	if o == nil || o.Password == nil {
+	if o == nil || o.Password.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.Password
+	return *o.Password.Get()
 }
 
 // GetPasswordOk returns a tuple with the Password field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ESPutSecurityUserRequest) GetPasswordOk() (*string, bool) {
-	if o == nil || o.Password == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Password, true
+	return o.Password.Get(), o.Password.IsSet()
 }
 
 // HasPassword returns a boolean if a field has been set.
 func (o *ESPutSecurityUserRequest) HasPassword() bool {
-	return o != nil && o.Password != nil
+	return o != nil && o.Password.IsSet()
 }
 
-// SetPassword gets a reference to the given string and assigns it to the Password field.
+// SetPassword gets a reference to the given common.NullableString and assigns it to the Password field.
 func (o *ESPutSecurityUserRequest) SetPassword(v string) {
-	o.Password = &v
+	o.Password.Set(&v)
 }
 
-// GetPasswordHash returns the PasswordHash field value if set, zero value otherwise.
+// SetPasswordNil sets the value for Password to be an explicit nil.
+func (o *ESPutSecurityUserRequest) SetPasswordNil() {
+	o.Password.Set(nil)
+}
+
+// UnsetPassword ensures that no value is present for Password, not even an explicit nil.
+func (o *ESPutSecurityUserRequest) UnsetPassword() {
+	o.Password.Unset()
+}
+
+// GetPasswordHash returns the PasswordHash field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ESPutSecurityUserRequest) GetPasswordHash() string {
-	if o == nil || o.PasswordHash == nil {
+	if o == nil || o.PasswordHash.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.PasswordHash
+	return *o.PasswordHash.Get()
 }
 
 // GetPasswordHashOk returns a tuple with the PasswordHash field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ESPutSecurityUserRequest) GetPasswordHashOk() (*string, bool) {
-	if o == nil || o.PasswordHash == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.PasswordHash, true
+	return o.PasswordHash.Get(), o.PasswordHash.IsSet()
 }
 
 // HasPasswordHash returns a boolean if a field has been set.
 func (o *ESPutSecurityUserRequest) HasPasswordHash() bool {
-	return o != nil && o.PasswordHash != nil
+	return o != nil && o.PasswordHash.IsSet()
 }
 
-// SetPasswordHash gets a reference to the given string and assigns it to the PasswordHash field.
+// SetPasswordHash gets a reference to the given common.NullableString and assigns it to the PasswordHash field.
 func (o *ESPutSecurityUserRequest) SetPasswordHash(v string) {
-	o.PasswordHash = &v
+	o.PasswordHash.Set(&v)
+}
+
+// SetPasswordHashNil sets the value for PasswordHash to be an explicit nil.
+func (o *ESPutSecurityUserRequest) SetPasswordHashNil() {
+	o.PasswordHash.Set(nil)
+}
+
+// UnsetPasswordHash ensures that no value is present for PasswordHash, not even an explicit nil.
+func (o *ESPutSecurityUserRequest) UnsetPasswordHash() {
+	o.PasswordHash.Unset()
 }
 
 // GetRoles returns the Roles field value.
@@ -120,60 +142,82 @@ func (o *ESPutSecurityUserRequest) SetRoles(v []string) {
 	o.Roles = v
 }
 
-// GetFullName returns the FullName field value if set, zero value otherwise.
+// GetFullName returns the FullName field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ESPutSecurityUserRequest) GetFullName() string {
-	if o == nil || o.FullName == nil {
+	if o == nil || o.FullName.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.FullName
+	return *o.FullName.Get()
 }
 
 // GetFullNameOk returns a tuple with the FullName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ESPutSecurityUserRequest) GetFullNameOk() (*string, bool) {
-	if o == nil || o.FullName == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.FullName, true
+	return o.FullName.Get(), o.FullName.IsSet()
 }
 
 // HasFullName returns a boolean if a field has been set.
 func (o *ESPutSecurityUserRequest) HasFullName() bool {
-	return o != nil && o.FullName != nil
+	return o != nil && o.FullName.IsSet()
 }
 
-// SetFullName gets a reference to the given string and assigns it to the FullName field.
+// SetFullName gets a reference to the given common.NullableString and assigns it to the FullName field.
 func (o *ESPutSecurityUserRequest) SetFullName(v string) {
-	o.FullName = &v
+	o.FullName.Set(&v)
 }
 
-// GetEmail returns the Email field value if set, zero value otherwise.
+// SetFullNameNil sets the value for FullName to be an explicit nil.
+func (o *ESPutSecurityUserRequest) SetFullNameNil() {
+	o.FullName.Set(nil)
+}
+
+// UnsetFullName ensures that no value is present for FullName, not even an explicit nil.
+func (o *ESPutSecurityUserRequest) UnsetFullName() {
+	o.FullName.Unset()
+}
+
+// GetEmail returns the Email field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ESPutSecurityUserRequest) GetEmail() string {
-	if o == nil || o.Email == nil {
+	if o == nil || o.Email.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.Email
+	return *o.Email.Get()
 }
 
 // GetEmailOk returns a tuple with the Email field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ESPutSecurityUserRequest) GetEmailOk() (*string, bool) {
-	if o == nil || o.Email == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Email, true
+	return o.Email.Get(), o.Email.IsSet()
 }
 
 // HasEmail returns a boolean if a field has been set.
 func (o *ESPutSecurityUserRequest) HasEmail() bool {
-	return o != nil && o.Email != nil
+	return o != nil && o.Email.IsSet()
 }
 
-// SetEmail gets a reference to the given string and assigns it to the Email field.
+// SetEmail gets a reference to the given common.NullableString and assigns it to the Email field.
 func (o *ESPutSecurityUserRequest) SetEmail(v string) {
-	o.Email = &v
+	o.Email.Set(&v)
+}
+
+// SetEmailNil sets the value for Email to be an explicit nil.
+func (o *ESPutSecurityUserRequest) SetEmailNil() {
+	o.Email.Set(nil)
+}
+
+// UnsetEmail ensures that no value is present for Email, not even an explicit nil.
+func (o *ESPutSecurityUserRequest) UnsetEmail() {
+	o.Email.Unset()
 }
 
 // GetMetadata returns the Metadata field value if set, zero value otherwise.
@@ -249,18 +293,18 @@ func (o ESPutSecurityUserRequest) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Password != nil {
-		toSerialize["password"] = o.Password
+	if o.Password.IsSet() {
+		toSerialize["password"] = o.Password.Get()
 	}
-	if o.PasswordHash != nil {
-		toSerialize["password_hash"] = o.PasswordHash
+	if o.PasswordHash.IsSet() {
+		toSerialize["password_hash"] = o.PasswordHash.Get()
 	}
 	toSerialize["roles"] = o.Roles
-	if o.FullName != nil {
-		toSerialize["full_name"] = o.FullName
+	if o.FullName.IsSet() {
+		toSerialize["full_name"] = o.FullName.Get()
 	}
-	if o.Email != nil {
-		toSerialize["email"] = o.Email
+	if o.Email.IsSet() {
+		toSerialize["email"] = o.Email.Get()
 	}
 	if o.Metadata != nil {
 		toSerialize["metadata"] = o.Metadata
@@ -278,11 +322,11 @@ func (o ESPutSecurityUserRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ESPutSecurityUserRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Password     *string                `json:"password,omitempty"`
-		PasswordHash *string                `json:"password_hash,omitempty"`
+		Password     common.NullableString  `json:"password,omitempty"`
+		PasswordHash common.NullableString  `json:"password_hash,omitempty"`
 		Roles        *[]string              `json:"roles"`
-		FullName     *string                `json:"full_name,omitempty"`
-		Email        *string                `json:"email,omitempty"`
+		FullName     common.NullableString  `json:"full_name,omitempty"`
+		Email        common.NullableString  `json:"email,omitempty"`
 		Metadata     map[string]interface{} `json:"metadata,omitempty"`
 		Enabled      common.NullableBool    `json:"enabled,omitempty"`
 	}{}
