@@ -18172,6 +18172,356 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      description: list accounts in cluster
+      summary: List cluster accounts
+      operationId: listKafkaAccounts
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountList'
+          description: Success
+        '204':
+          content: {}
+          description: Returned when list accounts successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - account
+        - kafka
+        - shared
+      x-codegen-request-body-name: body
+    post:
+      description: create an account in cluster
+      summary: Create cluster account
+      operationId: createKafkaAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '201':
+          description: create kafka account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - account
+        - kafka
+        - shared
+      x-codegen-request-body-name: body
+  /admin/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    delete:
+      description: delete an account in cluster
+      summary: Delete cluster account
+      operationId: deleteKafkaAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when account is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - account
+        - kafka
+        - shared
+    patch:
+      description: update an account in cluster
+      summary: update cluster account
+      operationId: updateKafkaAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '200':
+          description: upadte kafka account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - account
+        - kafka
+        - shared
+      x-codegen-request-body-name: body
+  /admin/v1/data/hive/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      summary: Get Hive accounts
+      description: Get Hive accounts
+      operationId: getHiveAccounts
+      tags:
+        - hive
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The name of organization
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The name of cluster
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountList'
+          description: Success
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      description: create an hive account
+      summary: Create Hive account
+      operationId: createHiveAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '201':
+          description: create hive account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - hive
+        - shared
+      x-codegen-request-body-name: body
+  /admin/v1/data/hive/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    delete:
+      description: delete an hive account in cluster
+      summary: Delete hive account
+      operationId: deleteHiveAccount
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when account is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - hive
+        - shared
+    patch:
+      description: update an hive account in cluster
+      summary: update hive account
+      operationId: updateHiveAccount
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Update account password successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - hive
+        - shared
+      x-codegen-request-body-name: body
   /admin/v1/data/redis/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       tags:
@@ -18356,6 +18706,620 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/opsRequestName'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      tags:
+        - elasticsearch
+        - shared
+      summary: List Elasticsearch security users
+      operationId: listElasticsearchSecurityUsers
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List Elasticsearch security users successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ESSecurityUsers'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}:
+    get:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Get Elasticsearch security user
+      operationId: getElasticsearchSecurityUser
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get Elasticsearch security user successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ESSecurityUser'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Create or update Elasticsearch security user
+      operationId: putElasticsearchSecurityUser
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ESPutSecurityUserRequest'
+      responses:
+        '204':
+          content: {}
+          description: Create or update Elasticsearch security user successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+    patch:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Change Elasticsearch account password
+      operationId: changeElasticsearchSecurityUserPassword
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ESSecurityPasswordRequest'
+      responses:
+        '204':
+          content: {}
+          description: Change Elasticsearch account password successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Delete Elasticsearch security user
+      operationId: deleteElasticsearchSecurityUser
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Delete Elasticsearch security user successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}/lock:
+    patch:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Lock Elasticsearch account
+      operationId: lockElasticsearchSecurityUser
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Lock Elasticsearch account successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}/unlock:
+    patch:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Unlock Elasticsearch account
+      operationId: unlockElasticsearchSecurityUser
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Unlock Elasticsearch account successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/roles:
+    get:
+      tags:
+        - elasticsearch
+        - shared
+      summary: List Elasticsearch security roles
+      operationId: listElasticsearchSecurityRoles
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List Elasticsearch security roles successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ESSecurityRoles'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/roles/{roleName}:
+    get:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Get Elasticsearch security role
+      operationId: getElasticsearchSecurityRole
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get Elasticsearch security role successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ESSecurityRoleDescriptor'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Create or update Elasticsearch security role
+      operationId: putElasticsearchSecurityRole
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ESSecurityRoleDescriptor'
+      responses:
+        '204':
+          content: {}
+          description: Create or update Elasticsearch security role successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Delete Elasticsearch security role
+      operationId: deleteElasticsearchSecurityRole
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Delete Elasticsearch security role successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/role-mappings:
+    get:
+      tags:
+        - elasticsearch
+        - shared
+      summary: List Elasticsearch security role mappings
+      operationId: listElasticsearchSecurityRoleMappings
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List Elasticsearch security role mappings successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ESSecurityRoleMappings'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/role-mappings/{mappingName}:
+    get:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Get Elasticsearch security role mapping
+      operationId: getElasticsearchSecurityRoleMapping
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: mappingName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get Elasticsearch security role mapping successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ESSecurityRoleMapping'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Create or update Elasticsearch security role mapping
+      operationId: putElasticsearchSecurityRoleMapping
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: mappingName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ESSecurityRoleMapping'
+      responses:
+        '204':
+          content: {}
+          description: Create or update Elasticsearch security role mapping successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Delete Elasticsearch security role mapping
+      operationId: deleteElasticsearchSecurityRoleMapping
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: mappingName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Delete Elasticsearch security role mapping successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/privileges/builtin:
+    get:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Get Elasticsearch builtin privileges
+      operationId: getElasticsearchBuiltinPrivileges
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get Elasticsearch builtin privileges successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ESBuiltinPrivileges'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -37557,6 +38521,108 @@ components:
         - BASICUSER
         - ROOT
       type: string
+    privilegeType:
+      title: privilegeType
+      description: The type of privilege.
+      type: string
+      enum:
+        - DBADMIN
+        - READWRITE
+        - READONLY
+        - DDLONLY
+        - DMLONLY
+        - ADMIN
+        - DBA
+        - USER
+        - GUEST
+    privilegeListItem:
+      type: object
+      description: Database and its assigned privileges.
+      properties:
+        databaseName:
+          title: databaseName
+          type: string
+          description: The name of the database.
+        privileges:
+          $ref: '#/components/schemas/privilegeType'
+      required:
+        - privileges
+    privilegeList:
+      type: array
+      items:
+        $ref: '#/components/schemas/privilegeListItem'
+      description: A list of privileges and their databases.
+    accountListItem:
+      description: Cluster account information.
+      properties:
+        component:
+          description: Component type.
+          type: string
+        name:
+          description: The name of user.
+          type: string
+        password:
+          description: The password of user.
+          type: string
+        role:
+          $ref: '#/components/schemas/accountListRoleType'
+        privilegesList:
+          description: privileges of databases of cluster
+          title: privilegesList
+          $ref: '#/components/schemas/privilegeList'
+        extra:
+          description: extra information of account
+          type: object
+          additionalProperties: {}
+      required:
+        - name
+      type: object
+    accountList:
+      items:
+        $ref: '#/components/schemas/accountListItem'
+      type: array
+    accountRoleType:
+      default: SUPERUSER
+      description: Role name should be one of [BASICUSER, SUPERUSER, ROOT].
+      enum:
+        - SUPERUSER
+        - BASICUSER
+        - ROOT
+      title: role
+      type: string
+    account:
+      description: Cluster account information
+      properties:
+        privilegesList:
+          description: privileges of databases of cluster
+          title: privilegesList
+          $ref: '#/components/schemas/privilegeList'
+        component:
+          description: Specify the name of component to be connected. If not specified, pick the first one.
+          title: component
+          type: string
+        instance:
+          description: Specify the name of instance to be connected.
+          title: instance
+          type: string
+        name:
+          description: Specify the name of user, which must be unique.
+          title: name
+          type: string
+        password:
+          description: Specify the password of user. The default value is empty, which means a random password will be generated.
+          title: password
+          type: string
+        role:
+          $ref: '#/components/schemas/accountRoleType'
+        extra:
+          description: extra information of account
+          type: object
+          additionalProperties: {}
+      required:
+        - name
+        - role
+      type: object
     redisPrivilegeType:
       description: Redis user privileges
       enum:
@@ -37629,6 +38695,253 @@ components:
           items:
             $ref: '#/components/schemas/ACLUser'
             nullable: true
+    ESSecurityUser:
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            type: string
+        full_name:
+          type: string
+          nullable: true
+        email:
+          type: string
+          nullable: true
+        metadata:
+          type: object
+          additionalProperties: true
+        enabled:
+          type: boolean
+          nullable: true
+    ESSecurityUsers:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/ESSecurityUser'
+    ESPutSecurityUserRequest:
+      type: object
+      properties:
+        password:
+          type: string
+          nullable: true
+        password_hash:
+          type: string
+          nullable: true
+        roles:
+          type: array
+          items:
+            type: string
+        full_name:
+          type: string
+          nullable: true
+        email:
+          type: string
+          nullable: true
+        metadata:
+          type: object
+          additionalProperties: true
+        enabled:
+          type: boolean
+          nullable: true
+      required:
+        - roles
+    ESSecurityPasswordRequest:
+      type: object
+      properties:
+        password:
+          type: string
+      required:
+        - password
+    ESSecurityFieldSecurity:
+      type: object
+      properties:
+        grant:
+          type: array
+          x-omitempty: true
+          items:
+            type: string
+        except:
+          type: array
+          x-omitempty: true
+          items:
+            type: string
+    ESSecurityIndexPrivileges:
+      type: object
+      properties:
+        names:
+          type: array
+          items:
+            type: string
+        privileges:
+          type: array
+          items:
+            type: string
+        field_security:
+          $ref: '#/components/schemas/ESSecurityFieldSecurity'
+        query:
+          type: string
+          nullable: true
+        allow_restricted_indices:
+          type: boolean
+          nullable: true
+      required:
+        - names
+        - privileges
+    ESSecurityRemoteIndexPrivileges:
+      type: object
+      properties:
+        clusters:
+          type: array
+          items:
+            type: string
+        names:
+          type: array
+          items:
+            type: string
+        privileges:
+          type: array
+          items:
+            type: string
+        field_security:
+          $ref: '#/components/schemas/ESSecurityFieldSecurity'
+        query:
+          type: string
+          nullable: true
+        allow_restricted_indices:
+          type: boolean
+          nullable: true
+      required:
+        - clusters
+        - names
+        - privileges
+    ESSecurityRemoteClusterPrivileges:
+      type: object
+      properties:
+        clusters:
+          type: array
+          items:
+            type: string
+        privileges:
+          type: array
+          items:
+            type: string
+      required:
+        - clusters
+        - privileges
+    ESSecurityApplicationPrivileges:
+      type: object
+      properties:
+        application:
+          type: string
+          x-omitempty: true
+        privileges:
+          type: array
+          x-omitempty: true
+          items:
+            type: string
+        resources:
+          type: array
+          x-omitempty: true
+          items:
+            type: string
+    ESSecurityRoleDescriptor:
+      type: object
+      properties:
+        description:
+          type: string
+          nullable: true
+        cluster:
+          type: array
+          x-omitempty: true
+          items:
+            type: string
+        global:
+          type: object
+          additionalProperties: true
+        indices:
+          type: array
+          x-omitempty: true
+          items:
+            $ref: '#/components/schemas/ESSecurityIndexPrivileges'
+        remote_indices:
+          type: array
+          x-omitempty: true
+          items:
+            $ref: '#/components/schemas/ESSecurityRemoteIndexPrivileges'
+        remote_cluster:
+          type: array
+          x-omitempty: true
+          items:
+            $ref: '#/components/schemas/ESSecurityRemoteClusterPrivileges'
+        applications:
+          type: array
+          x-omitempty: true
+          items:
+            $ref: '#/components/schemas/ESSecurityApplicationPrivileges'
+        run_as:
+          type: array
+          x-omitempty: true
+          items:
+            type: string
+        metadata:
+          type: object
+          additionalProperties: true
+        restriction:
+          type: object
+          additionalProperties: true
+        transient_metadata:
+          type: object
+          additionalProperties: true
+    ESSecurityRoles:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/ESSecurityRoleDescriptor'
+    ESSecurityRoleTemplateFormat:
+      type: string
+      enum:
+        - string
+        - json
+    ESSecurityRoleTemplate:
+      type: object
+      properties:
+        template:
+          type: object
+          additionalProperties: true
+        format:
+          $ref: '#/components/schemas/ESSecurityRoleTemplateFormat'
+          nullable: true
+    ESSecurityRoleMapping:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          nullable: true
+        roles:
+          type: array
+          x-omitempty: true
+          items:
+            type: string
+        role_templates:
+          type: array
+          x-omitempty: true
+          items:
+            $ref: '#/components/schemas/ESSecurityRoleTemplate'
+        rules:
+          type: object
+          additionalProperties: true
+        metadata:
+          type: object
+          additionalProperties: true
+    ESSecurityRoleMappings:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/ESSecurityRoleMapping'
+    ESBuiltinPrivileges:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     RbmqUser:
       type: object
       properties:
@@ -38006,108 +39319,6 @@ components:
             type: string
       required:
         - name
-      type: object
-    privilegeType:
-      title: privilegeType
-      description: The type of privilege.
-      type: string
-      enum:
-        - DBADMIN
-        - READWRITE
-        - READONLY
-        - DDLONLY
-        - DMLONLY
-        - ADMIN
-        - DBA
-        - USER
-        - GUEST
-    privilegeListItem:
-      type: object
-      description: Database and its assigned privileges.
-      properties:
-        databaseName:
-          title: databaseName
-          type: string
-          description: The name of the database.
-        privileges:
-          $ref: '#/components/schemas/privilegeType'
-      required:
-        - privileges
-    privilegeList:
-      type: array
-      items:
-        $ref: '#/components/schemas/privilegeListItem'
-      description: A list of privileges and their databases.
-    accountListItem:
-      description: Cluster account information.
-      properties:
-        component:
-          description: Component type.
-          type: string
-        name:
-          description: The name of user.
-          type: string
-        password:
-          description: The password of user.
-          type: string
-        role:
-          $ref: '#/components/schemas/accountListRoleType'
-        privilegesList:
-          description: privileges of databases of cluster
-          title: privilegesList
-          $ref: '#/components/schemas/privilegeList'
-        extra:
-          description: extra information of account
-          type: object
-          additionalProperties: {}
-      required:
-        - name
-      type: object
-    accountList:
-      items:
-        $ref: '#/components/schemas/accountListItem'
-      type: array
-    accountRoleType:
-      default: SUPERUSER
-      description: Role name should be one of [BASICUSER, SUPERUSER, ROOT].
-      enum:
-        - SUPERUSER
-        - BASICUSER
-        - ROOT
-      title: role
-      type: string
-    account:
-      description: Cluster account information
-      properties:
-        privilegesList:
-          description: privileges of databases of cluster
-          title: privilegesList
-          $ref: '#/components/schemas/privilegeList'
-        component:
-          description: Specify the name of component to be connected. If not specified, pick the first one.
-          title: component
-          type: string
-        instance:
-          description: Specify the name of instance to be connected.
-          title: instance
-          type: string
-        name:
-          description: Specify the name of user, which must be unique.
-          title: name
-          type: string
-        password:
-          description: Specify the password of user. The default value is empty, which means a random password will be generated.
-          title: password
-          type: string
-        role:
-          $ref: '#/components/schemas/accountRoleType'
-        extra:
-          description: extra information of account
-          type: object
-          additionalProperties: {}
-      required:
-        - name
-        - role
       type: object
     DmsServiceAccount:
       description: MinIO service account access-key
