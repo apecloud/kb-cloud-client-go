@@ -17,10 +17,10 @@ import (
 // ElasticsearchApi service type
 type ElasticsearchApi common.Service
 
-// ChangeElasticsearchSecurityUserPassword Change Elasticsearch security user password.
+// ChangeElasticsearchSecurityUserPassword Change Elasticsearch account password.
 func (a *ElasticsearchApi) ChangeElasticsearchSecurityUserPassword(ctx _context.Context, orgName string, clusterName string, username string, body SecurityPasswordRequest) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodPost
+		localVarHTTPMethod = _nethttp.MethodPatch
 		localVarPostBody   interface{}
 	)
 
@@ -28,7 +28,7 @@ func (a *ElasticsearchApi) ChangeElasticsearchSecurityUserPassword(ctx _context.
 	apiInfo := common.APIInfo{
 		Tag:         "elasticsearch",
 		OperationID: "changeElasticsearchSecurityUserPassword",
-		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/users/{username}/password",
+		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -38,7 +38,7 @@ func (a *ElasticsearchApi) ChangeElasticsearchSecurityUserPassword(ctx _context.
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/users/{username}/password"
+	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(common.ParameterToString(username, "")), -1)
@@ -101,7 +101,7 @@ func (a *ElasticsearchApi) DeleteElasticsearchSecurityRole(ctx _context.Context,
 	apiInfo := common.APIInfo{
 		Tag:         "elasticsearch",
 		OperationID: "deleteElasticsearchSecurityRole",
-		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/roles/{roleName}",
+		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/roles/{roleName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -111,7 +111,7 @@ func (a *ElasticsearchApi) DeleteElasticsearchSecurityRole(ctx _context.Context,
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/roles/{roleName}"
+	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/roles/{roleName}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"roleName"+"}", _neturl.PathEscape(common.ParameterToString(roleName, "")), -1)
@@ -171,7 +171,7 @@ func (a *ElasticsearchApi) DeleteElasticsearchSecurityRoleMapping(ctx _context.C
 	apiInfo := common.APIInfo{
 		Tag:         "elasticsearch",
 		OperationID: "deleteElasticsearchSecurityRoleMapping",
-		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/role-mappings/{mappingName}",
+		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/role-mappings/{mappingName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -181,7 +181,7 @@ func (a *ElasticsearchApi) DeleteElasticsearchSecurityRoleMapping(ctx _context.C
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/role-mappings/{mappingName}"
+	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/role-mappings/{mappingName}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"mappingName"+"}", _neturl.PathEscape(common.ParameterToString(mappingName, "")), -1)
@@ -241,7 +241,7 @@ func (a *ElasticsearchApi) DeleteElasticsearchSecurityUser(ctx _context.Context,
 	apiInfo := common.APIInfo{
 		Tag:         "elasticsearch",
 		OperationID: "deleteElasticsearchSecurityUser",
-		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/users/{username}",
+		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -251,147 +251,7 @@ func (a *ElasticsearchApi) DeleteElasticsearchSecurityUser(ctx _context.Context,
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/users/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(common.ParameterToString(username, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"DigestAuth", "Authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
-}
-
-// DisableElasticsearchSecurityUser Disable Elasticsearch security user.
-func (a *ElasticsearchApi) DisableElasticsearchSecurityUser(ctx _context.Context, orgName string, clusterName string, username string) (*_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod = _nethttp.MethodPost
-		localVarPostBody   interface{}
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "elasticsearch",
-		OperationID: "disableElasticsearchSecurityUser",
-		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/users/{username}/disable",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ElasticsearchApi.DisableElasticsearchSecurityUser")
-	if err != nil {
-		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/users/{username}/disable"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(common.ParameterToString(username, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"DigestAuth", "Authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
-}
-
-// EnableElasticsearchSecurityUser Enable Elasticsearch security user.
-func (a *ElasticsearchApi) EnableElasticsearchSecurityUser(ctx _context.Context, orgName string, clusterName string, username string) (*_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod = _nethttp.MethodPost
-		localVarPostBody   interface{}
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "elasticsearch",
-		OperationID: "enableElasticsearchSecurityUser",
-		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/users/{username}/enable",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ElasticsearchApi.EnableElasticsearchSecurityUser")
-	if err != nil {
-		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/users/{username}/enable"
+	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(common.ParameterToString(username, "")), -1)
@@ -452,7 +312,7 @@ func (a *ElasticsearchApi) GetElasticsearchBuiltinPrivileges(ctx _context.Contex
 	apiInfo := common.APIInfo{
 		Tag:         "elasticsearch",
 		OperationID: "getElasticsearchBuiltinPrivileges",
-		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/privileges/builtin",
+		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/privileges/builtin",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -462,7 +322,7 @@ func (a *ElasticsearchApi) GetElasticsearchBuiltinPrivileges(ctx _context.Contex
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/privileges/builtin"
+	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/privileges/builtin"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -531,7 +391,7 @@ func (a *ElasticsearchApi) GetElasticsearchSecurityRole(ctx _context.Context, or
 	apiInfo := common.APIInfo{
 		Tag:         "elasticsearch",
 		OperationID: "getElasticsearchSecurityRole",
-		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/roles/{roleName}",
+		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/roles/{roleName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -541,7 +401,7 @@ func (a *ElasticsearchApi) GetElasticsearchSecurityRole(ctx _context.Context, or
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/roles/{roleName}"
+	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/roles/{roleName}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"roleName"+"}", _neturl.PathEscape(common.ParameterToString(roleName, "")), -1)
@@ -611,7 +471,7 @@ func (a *ElasticsearchApi) GetElasticsearchSecurityRoleMapping(ctx _context.Cont
 	apiInfo := common.APIInfo{
 		Tag:         "elasticsearch",
 		OperationID: "getElasticsearchSecurityRoleMapping",
-		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/role-mappings/{mappingName}",
+		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/role-mappings/{mappingName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -621,7 +481,7 @@ func (a *ElasticsearchApi) GetElasticsearchSecurityRoleMapping(ctx _context.Cont
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/role-mappings/{mappingName}"
+	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/role-mappings/{mappingName}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"mappingName"+"}", _neturl.PathEscape(common.ParameterToString(mappingName, "")), -1)
@@ -691,7 +551,7 @@ func (a *ElasticsearchApi) GetElasticsearchSecurityUser(ctx _context.Context, or
 	apiInfo := common.APIInfo{
 		Tag:         "elasticsearch",
 		OperationID: "getElasticsearchSecurityUser",
-		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/users/{username}",
+		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -701,7 +561,7 @@ func (a *ElasticsearchApi) GetElasticsearchSecurityUser(ctx _context.Context, or
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/users/{username}"
+	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(common.ParameterToString(username, "")), -1)
@@ -771,7 +631,7 @@ func (a *ElasticsearchApi) ListElasticsearchSecurityRoleMappings(ctx _context.Co
 	apiInfo := common.APIInfo{
 		Tag:         "elasticsearch",
 		OperationID: "listElasticsearchSecurityRoleMappings",
-		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/role-mappings",
+		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/role-mappings",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -781,7 +641,7 @@ func (a *ElasticsearchApi) ListElasticsearchSecurityRoleMappings(ctx _context.Co
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/role-mappings"
+	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/role-mappings"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -850,7 +710,7 @@ func (a *ElasticsearchApi) ListElasticsearchSecurityRoles(ctx _context.Context, 
 	apiInfo := common.APIInfo{
 		Tag:         "elasticsearch",
 		OperationID: "listElasticsearchSecurityRoles",
-		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/roles",
+		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/roles",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -860,7 +720,7 @@ func (a *ElasticsearchApi) ListElasticsearchSecurityRoles(ctx _context.Context, 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/roles"
+	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/roles"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -929,7 +789,7 @@ func (a *ElasticsearchApi) ListElasticsearchSecurityUsers(ctx _context.Context, 
 	apiInfo := common.APIInfo{
 		Tag:         "elasticsearch",
 		OperationID: "listElasticsearchSecurityUsers",
-		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/users",
+		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -939,7 +799,7 @@ func (a *ElasticsearchApi) ListElasticsearchSecurityUsers(ctx _context.Context, 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/users"
+	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -996,6 +856,76 @@ func (a *ElasticsearchApi) ListElasticsearchSecurityUsers(ctx _context.Context, 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// LockElasticsearchSecurityUser Lock Elasticsearch account.
+func (a *ElasticsearchApi) LockElasticsearchSecurityUser(ctx _context.Context, orgName string, clusterName string, username string) (*_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod = _nethttp.MethodPatch
+		localVarPostBody   interface{}
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "elasticsearch",
+		OperationID: "lockElasticsearchSecurityUser",
+		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}/lock",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ElasticsearchApi.LockElasticsearchSecurityUser")
+	if err != nil {
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}/lock"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(common.ParameterToString(username, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 // PutElasticsearchSecurityRole Create or update Elasticsearch security role.
 func (a *ElasticsearchApi) PutElasticsearchSecurityRole(ctx _context.Context, orgName string, clusterName string, roleName string, body SecurityRoleDescriptor) (*_nethttp.Response, error) {
 	var (
@@ -1007,7 +937,7 @@ func (a *ElasticsearchApi) PutElasticsearchSecurityRole(ctx _context.Context, or
 	apiInfo := common.APIInfo{
 		Tag:         "elasticsearch",
 		OperationID: "putElasticsearchSecurityRole",
-		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/roles/{roleName}",
+		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/roles/{roleName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1017,7 +947,7 @@ func (a *ElasticsearchApi) PutElasticsearchSecurityRole(ctx _context.Context, or
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/roles/{roleName}"
+	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/roles/{roleName}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"roleName"+"}", _neturl.PathEscape(common.ParameterToString(roleName, "")), -1)
@@ -1080,7 +1010,7 @@ func (a *ElasticsearchApi) PutElasticsearchSecurityRoleMapping(ctx _context.Cont
 	apiInfo := common.APIInfo{
 		Tag:         "elasticsearch",
 		OperationID: "putElasticsearchSecurityRoleMapping",
-		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/role-mappings/{mappingName}",
+		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/role-mappings/{mappingName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1090,7 +1020,7 @@ func (a *ElasticsearchApi) PutElasticsearchSecurityRoleMapping(ctx _context.Cont
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/role-mappings/{mappingName}"
+	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/role-mappings/{mappingName}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"mappingName"+"}", _neturl.PathEscape(common.ParameterToString(mappingName, "")), -1)
@@ -1153,7 +1083,7 @@ func (a *ElasticsearchApi) PutElasticsearchSecurityUser(ctx _context.Context, or
 	apiInfo := common.APIInfo{
 		Tag:         "elasticsearch",
 		OperationID: "putElasticsearchSecurityUser",
-		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/users/{username}",
+		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1163,7 +1093,7 @@ func (a *ElasticsearchApi) PutElasticsearchSecurityUser(ctx _context.Context, or
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/users/{username}"
+	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(common.ParameterToString(username, "")), -1)
@@ -1176,6 +1106,76 @@ func (a *ElasticsearchApi) PutElasticsearchSecurityUser(ctx _context.Context, or
 
 	// body params
 	localVarPostBody = &body
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+// UnlockElasticsearchSecurityUser Unlock Elasticsearch account.
+func (a *ElasticsearchApi) UnlockElasticsearchSecurityUser(ctx _context.Context, orgName string, clusterName string, username string) (*_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod = _nethttp.MethodPatch
+		localVarPostBody   interface{}
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "elasticsearch",
+		OperationID: "unlockElasticsearchSecurityUser",
+		Path:        "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}/unlock",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ElasticsearchApi.UnlockElasticsearchSecurityUser")
+	if err != nil {
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}/unlock"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(common.ParameterToString(username, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,

@@ -13761,7 +13761,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/users:
+  /api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       tags:
         - elasticsearch
@@ -13796,7 +13796,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/users/{username}:
+  /api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}:
     get:
       tags:
         - elasticsearch
@@ -13879,6 +13879,49 @@ paths:
         '500':
           $ref: '#/components/responses/500'
       x-codegen-request-body-name: body
+    patch:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Change Elasticsearch account password
+      operationId: changeElasticsearchSecurityUserPassword
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityPasswordRequest'
+      responses:
+        '204':
+          content: {}
+          description: Change Elasticsearch account password successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
     delete:
       tags:
         - elasticsearch
@@ -13915,57 +13958,13 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/users/{username}/password:
-    post:
+  /api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}/lock:
+    patch:
       tags:
         - elasticsearch
         - shared
-      summary: Change Elasticsearch security user password
-      operationId: changeElasticsearchSecurityUserPassword
-      parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: username
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SecurityPasswordRequest'
-      responses:
-        '204':
-          content: {}
-          description: Change Elasticsearch security user password successfully.
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-      x-codegen-request-body-name: body
-  /api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/users/{username}/enable:
-    post:
-      tags:
-        - elasticsearch
-        - shared
-      summary: Enable Elasticsearch security user
-      operationId: enableElasticsearchSecurityUser
+      summary: Lock Elasticsearch account
+      operationId: lockElasticsearchSecurityUser
       parameters:
         - name: orgName
           in: path
@@ -13985,7 +13984,7 @@ paths:
       responses:
         '204':
           content: {}
-          description: Enable Elasticsearch security user successfully.
+          description: Lock Elasticsearch account successfully.
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -13996,13 +13995,13 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/users/{username}/disable:
-    post:
+  /api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}/unlock:
+    patch:
       tags:
         - elasticsearch
         - shared
-      summary: Disable Elasticsearch security user
-      operationId: disableElasticsearchSecurityUser
+      summary: Unlock Elasticsearch account
+      operationId: unlockElasticsearchSecurityUser
       parameters:
         - name: orgName
           in: path
@@ -14022,7 +14021,7 @@ paths:
       responses:
         '204':
           content: {}
-          description: Disable Elasticsearch security user successfully.
+          description: Unlock Elasticsearch account successfully.
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -14033,7 +14032,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/roles:
+  /api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/roles:
     get:
       tags:
         - elasticsearch
@@ -14068,7 +14067,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/roles/{roleName}:
+  /api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/roles/{roleName}:
     get:
       tags:
         - elasticsearch
@@ -14187,7 +14186,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/role-mappings:
+  /api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/role-mappings:
     get:
       tags:
         - elasticsearch
@@ -14222,7 +14221,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/role-mappings/{mappingName}:
+  /api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/role-mappings/{mappingName}:
     get:
       tags:
         - elasticsearch
@@ -14341,7 +14340,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/security/privileges/builtin:
+  /api/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/privileges/builtin:
     get:
       tags:
         - elasticsearch
