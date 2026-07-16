@@ -16717,6 +16717,36 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - task
+  /admin/v1/tasks/{taskId}/events:
+    get:
+      summary: List operation events related to a task
+      description: List operation events whose recorded response contains the task ID.
+      operationId: listTaskEvents
+      parameters:
+        - description: ID of the task
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operation events related to the task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/eventList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - task
+        - event
   /admin/v1/tasks/{taskId}/stop:
     patch:
       summary: Stop a task
