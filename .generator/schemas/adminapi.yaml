@@ -21273,6 +21273,258 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/dameng/spaceAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Dameng space analysis
+      description: Get a read-only Dameng space snapshot including tablespace usage, schema sizes, top tables, and top indexes. Queries dba_free_space, dba_data_files, DBA_SEGMENTS, DBA_TABLES, DBA_INDEXES, and DBA_IND_COLUMNS.
+      operationId: getDiagnosticsDamengSpaceAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: tableLimit
+          in: query
+          description: Maximum number of top tables to return (0 or omitted = not collected)
+          required: false
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+            default: 0
+        - name: indexLimit
+          in: query
+          description: Maximum number of top indexes to return (0 or omitted = not collected)
+          required: false
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+            default: 0
+        - name: schema
+          in: query
+          description: Filter tables and indexes by schema (owner). Omit or empty = all schemas.
+          required: false
+          schema:
+            type: string
+        - name: skipBasic
+          in: query
+          description: Set to true to skip tablespace and schema queries, returning only tables and indexes.
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/damengSpaceAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/dameng/sqlAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Dameng SQL analysis
+      description: Get a read-only Dameng SQL analysis snapshot from V$SYSTEM_LONG_EXEC_SQLS (long-running SQL) and V$SYSTEM_LARGE_MEM_SQLS (high-memory SQL). The response does not expose execution plans or remediation actions.
+      operationId: getDiagnosticsDamengSQLAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of SQL entries per category. Defaults to 20.
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/damengSQLAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/dameng/sessions/{sessionId}/lockAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Dameng session lock analysis
+      description: Get lock and blocking analysis for a Dameng session. Queries V$LOCK and V$SESSIONS to identify blocking/blocked relationships and lock details.
+      operationId: getDiagnosticsDamengSessionLockAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: sessionId
+          in: path
+          description: Dameng session ID (SESS_ID)
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/damengLockAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/dameng/sessions/{sessionId}:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Dameng session detail
+      description: Get a single Dameng session detail by session ID from V$SESSIONS, including SQL text, transaction info, and client details.
+      operationId: getDiagnosticsDamengSession
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: sessionId
+          in: path
+          description: Dameng session ID (SESS_ID)
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/damengSessionDetail'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/dameng/sessions:
+    get:
+      tags:
+        - diagnostics
+      summary: List Dameng sessions
+      description: List Dameng sessions from V$SESSIONS with lock status from V$LOCK. Returns session ID, user, state, client IP, transaction ID, lock status, SQL text, schema, duration, and more.
+      operationId: listDiagnosticsDamengSessions
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of sessions to return. Defaults to 200.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: state
+          in: query
+          description: Filter sessions by state (e.g. ACTIVE, IDLE). Matches against V$SESSIONS.STATE.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/damengSessionListItem'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       description: list accounts in mongodb
@@ -39894,6 +40146,329 @@ components:
         capturedAt:
           type: string
           description: Snapshot capture timestamp in UTC.
+    damengTablespaceItem:
+      type: object
+      required:
+        - name
+        - totalMb
+        - freeMb
+        - usedMb
+        - usageRatio
+      properties:
+        name:
+          type: string
+          description: Tablespace name.
+        totalMb:
+          type: number
+          format: double
+          description: Total size in megabytes.
+        freeMb:
+          type: number
+          format: double
+          description: Free size in megabytes.
+        usedMb:
+          type: number
+          format: double
+          description: Used size in megabytes.
+        usageRatio:
+          type: number
+          format: double
+          description: Usage ratio as percentage (0-100).
+    damengSchemaItem:
+      type: object
+      required:
+        - name
+        - sizeBytes
+      properties:
+        name:
+          type: string
+          description: Schema (owner) name.
+        sizeBytes:
+          type: integer
+          format: int64
+          description: Total segment size in bytes across all objects owned by this schema.
+    damengTableSizeItem:
+      type: object
+      required:
+        - schema
+        - tableName
+        - sizeBytes
+      properties:
+        schema:
+          type: string
+          description: Schema (owner) name.
+        tableName:
+          type: string
+          description: Table name.
+        sizeBytes:
+          type: integer
+          format: int64
+          description: Total segment size in bytes for this table.
+        rowCount:
+          type: integer
+          format: int64
+          description: Estimated number of rows from DBA_TABLES.NUM_ROWS.
+    damengIndexItem:
+      type: object
+      required:
+        - schema
+        - indexName
+        - tableName
+        - sizeBytes
+        - isUnique
+      properties:
+        schema:
+          type: string
+          description: Schema (owner) name.
+        indexName:
+          type: string
+          description: Index name.
+        tableName:
+          type: string
+          description: Parent table name.
+        sizeBytes:
+          type: integer
+          format: int64
+          description: Segment size in bytes from DBA_SEGMENTS.
+        indexType:
+          type: string
+          description: Index type (e.g. NORMAL, BITMAP, CLUSTER).
+        isUnique:
+          type: boolean
+          description: Whether the index enforces uniqueness.
+    damengSpaceAnalysis:
+      type: object
+      required:
+        - tablespaces
+      properties:
+        tablespaces:
+          type: array
+          description: Tablespace size and usage information from dba_free_space and dba_data_files.
+          items:
+            $ref: '#/components/schemas/damengTablespaceItem'
+        schemas:
+          type: array
+          description: Schema-level size aggregation from DBA_SEGMENTS grouped by OWNER.
+          items:
+            $ref: '#/components/schemas/damengSchemaItem'
+        tables:
+          type: array
+          description: Top-N tables ordered by total size from DBA_SEGMENTS (SEGMENT_TYPE='TABLE').
+          items:
+            $ref: '#/components/schemas/damengTableSizeItem'
+        indexes:
+          type: array
+          description: Top-N indexes ordered by size from DBA_INDEXES joined with DBA_SEGMENTS.
+          items:
+            $ref: '#/components/schemas/damengIndexItem'
+    damengLongExecSQLEntry:
+      type: object
+      required:
+        - sqlText
+        - execTimeMs
+        - nRuns
+      properties:
+        sqlText:
+          type: string
+          description: SQL text from V$SYSTEM_LONG_EXEC_SQLS.
+        execTimeMs:
+          type: integer
+          format: int64
+          description: Execution time in milliseconds.
+        sessionId:
+          type: string
+          description: Session ID, when available.
+        sqlId:
+          type: string
+          description: SQL ID, when available.
+        nRuns:
+          type: integer
+          format: int64
+          description: Number of executions.
+        finishTime:
+          type: string
+          description: SQL finish time in UTC, when available.
+    damengLargeMemSQLEntry:
+      type: object
+      required:
+        - sqlText
+        - memUsedKb
+        - nRuns
+      properties:
+        sqlText:
+          type: string
+          description: SQL text from V$SYSTEM_LARGE_MEM_SQLS.
+        memUsedKb:
+          type: integer
+          format: int64
+          description: Memory used in kilobytes.
+        sessionId:
+          type: string
+          description: Session ID, when available.
+        sqlId:
+          type: string
+          description: SQL ID, when available.
+        finishTime:
+          type: string
+          description: SQL finish time in UTC, when available.
+        nRuns:
+          type: integer
+          format: int64
+          description: Number of executions.
+    damengSQLAnalysis:
+      type: object
+      required:
+        - topLongExecSql
+        - topLargeMemSql
+      properties:
+        topLongExecSql:
+          type: array
+          description: Top long-running SQL entries from V$SYSTEM_LONG_EXEC_SQLS ordered by execution time descending.
+          items:
+            $ref: '#/components/schemas/damengLongExecSQLEntry'
+        topLargeMemSql:
+          type: array
+          description: Top high-memory SQL entries from V$SYSTEM_LARGE_MEM_SQLS ordered by memory usage descending.
+          items:
+            $ref: '#/components/schemas/damengLargeMemSQLEntry'
+    damengSessionDetail:
+      type: object
+      required:
+        - sessId
+      properties:
+        sessId:
+          type: integer
+          format: int64
+          description: Dameng session ID from V$SESSIONS.
+        userName:
+          type: string
+          description: Database user name.
+        state:
+          type: string
+          description: Session state (ACTIVE, IDLE, etc.).
+        clientIp:
+          type: string
+          description: Client IP address.
+        clientType:
+          type: string
+          description: Client type.
+        createTime:
+          type: string
+          description: Session creation time.
+        lastSendTime:
+          type: string
+          description: Last SQL send time.
+        sqlText:
+          type: string
+          description: Current or last SQL text from V$SESSIONS.
+        fullSql:
+          type: string
+          description: Full SQL text via SF_GET_SESSION_SQL.
+        trxId:
+          type: string
+          description: Transaction ID.
+        trxDurationSec:
+          type: integer
+          format: int64
+          description: Seconds since last SQL send time.
+        appName:
+          type: string
+          description: Application name.
+        currSchema:
+          type: string
+          description: Current schema.
+        autoCommit:
+          type: string
+          description: Auto-commit status (Y/N).
+    damengLockRow:
+      type: object
+      required:
+        - trxId
+      properties:
+        trxId:
+          type: integer
+          format: int64
+          description: Transaction ID holding the lock.
+        lockType:
+          type: string
+          description: Lock type.
+        lockMode:
+          type: string
+          description: Lock mode.
+        sessId:
+          type: integer
+          format: int64
+          description: Session ID associated with this lock.
+        clientIp:
+          type: string
+          description: Client IP address for the session.
+        sqlText:
+          type: string
+          description: SQL text for the session.
+        userName:
+          type: string
+          description: User name for the session.
+    damengLockAnalysis:
+      type: object
+      required:
+        - selectedSession
+        - locks
+        - capturedAt
+      properties:
+        selectedSession:
+          $ref: '#/components/schemas/damengSessionDetail'
+        locks:
+          type: array
+          description: Lock records for the selected session's transaction.
+          items:
+            $ref: '#/components/schemas/damengLockRow'
+        capturedAt:
+          type: string
+          description: Backend collection timestamp in UTC.
+    damengSessionListItem:
+      type: object
+      required:
+        - sessId
+        - hasLock
+      properties:
+        sessId:
+          type: integer
+          format: int64
+          description: Dameng session ID from V$SESSIONS.
+        userName:
+          type: string
+          description: Database user name.
+        state:
+          type: string
+          description: Session state (ACTIVE, IDLE, etc.).
+        clientIp:
+          type: string
+          description: Client IP address.
+        trxId:
+          type: string
+          description: Transaction ID.
+        hasLock:
+          type: boolean
+          description: Whether this session has locks from V$LOCK.
+        sqlText:
+          type: string
+          description: Current SQL text from V$SESSIONS.
+        currSchema:
+          type: string
+          description: Current schema (database context).
+        appName:
+          type: string
+          description: Application name.
+        durationSec:
+          type: integer
+          format: int64
+          description: Session duration in seconds.
+        clientType:
+          type: string
+          description: Client type.
+        autoCommit:
+          type: string
+          description: Auto-commit status.
     dbTDERequest:
       type: object
       properties:
