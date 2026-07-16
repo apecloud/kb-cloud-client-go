@@ -35437,6 +35437,10 @@ components:
         deploymentName:
           description: The name of the blue-green deployment.
           type: string
+        blueClusterVersion:
+          type: string
+        greenClusterVersion:
+          type: string
         blueCluster:
           $ref: '#/components/schemas/clusterListItem'
         greenCluster:
