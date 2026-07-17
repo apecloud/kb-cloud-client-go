@@ -26922,7 +26922,14 @@ components:
             so that frontend can use it to get proper localized title.
         engineName:
           type: string
-          description: The engine to be used in serviceRef. This field is used to filter clusters.
+          description: The default engine to be used in serviceRef. This field is used as the fallback engine filter and default create entry.
+        engineNames:
+          type: array
+          items:
+            type: string
+          description: |
+            The engines that can be used in this serviceRef. Frontend should use this field to filter
+            referenced clusters when it is set, and fall back to engineName when it is empty.
         modes:
           type: array
           items:
