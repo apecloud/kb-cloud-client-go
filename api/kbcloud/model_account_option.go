@@ -25,11 +25,17 @@ type AccountOption struct {
 	// min length of account name.
 	// If not set, use default value.
 	//
-	MinLen                   *int32   `json:"minLen,omitempty"`
-	AccountNamePattern       string   `json:"accountNamePattern"`
-	Create                   bool     `json:"create"`
-	ResetPassword            bool     `json:"resetPassword"`
-	Delete                   bool     `json:"delete"`
+	MinLen             *int32 `json:"minLen,omitempty"`
+	AccountNamePattern string `json:"accountNamePattern"`
+	Create             bool   `json:"create"`
+	ResetPassword      bool   `json:"resetPassword"`
+	Delete             bool   `json:"delete"`
+	// Whether the engine supports account lock and unlock actions.
+	SupportLock *bool `json:"supportLock,omitempty"`
+	// Whether the engine supports service account access-key management.
+	SupportServiceAccount *bool `json:"supportServiceAccount,omitempty"`
+	// Account names that are protected from update, delete, lock, and unlock actions.
+	ProtectedAccounts        []string `json:"protectedAccounts,omitempty"`
 	DisplayRootAccount       *bool    `json:"displayRootAccount,omitempty"`
 	ResetRootPassword        *bool    `json:"resetRootPassword,omitempty"`
 	SupportMultipleComponent *bool    `json:"supportMultipleComponent,omitempty"`
@@ -315,6 +321,90 @@ func (o *AccountOption) SetDelete(v bool) {
 	o.Delete = v
 }
 
+// GetSupportLock returns the SupportLock field value if set, zero value otherwise.
+func (o *AccountOption) GetSupportLock() bool {
+	if o == nil || o.SupportLock == nil {
+		var ret bool
+		return ret
+	}
+	return *o.SupportLock
+}
+
+// GetSupportLockOk returns a tuple with the SupportLock field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AccountOption) GetSupportLockOk() (*bool, bool) {
+	if o == nil || o.SupportLock == nil {
+		return nil, false
+	}
+	return o.SupportLock, true
+}
+
+// HasSupportLock returns a boolean if a field has been set.
+func (o *AccountOption) HasSupportLock() bool {
+	return o != nil && o.SupportLock != nil
+}
+
+// SetSupportLock gets a reference to the given bool and assigns it to the SupportLock field.
+func (o *AccountOption) SetSupportLock(v bool) {
+	o.SupportLock = &v
+}
+
+// GetSupportServiceAccount returns the SupportServiceAccount field value if set, zero value otherwise.
+func (o *AccountOption) GetSupportServiceAccount() bool {
+	if o == nil || o.SupportServiceAccount == nil {
+		var ret bool
+		return ret
+	}
+	return *o.SupportServiceAccount
+}
+
+// GetSupportServiceAccountOk returns a tuple with the SupportServiceAccount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AccountOption) GetSupportServiceAccountOk() (*bool, bool) {
+	if o == nil || o.SupportServiceAccount == nil {
+		return nil, false
+	}
+	return o.SupportServiceAccount, true
+}
+
+// HasSupportServiceAccount returns a boolean if a field has been set.
+func (o *AccountOption) HasSupportServiceAccount() bool {
+	return o != nil && o.SupportServiceAccount != nil
+}
+
+// SetSupportServiceAccount gets a reference to the given bool and assigns it to the SupportServiceAccount field.
+func (o *AccountOption) SetSupportServiceAccount(v bool) {
+	o.SupportServiceAccount = &v
+}
+
+// GetProtectedAccounts returns the ProtectedAccounts field value if set, zero value otherwise.
+func (o *AccountOption) GetProtectedAccounts() []string {
+	if o == nil || o.ProtectedAccounts == nil {
+		var ret []string
+		return ret
+	}
+	return o.ProtectedAccounts
+}
+
+// GetProtectedAccountsOk returns a tuple with the ProtectedAccounts field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AccountOption) GetProtectedAccountsOk() (*[]string, bool) {
+	if o == nil || o.ProtectedAccounts == nil {
+		return nil, false
+	}
+	return &o.ProtectedAccounts, true
+}
+
+// HasProtectedAccounts returns a boolean if a field has been set.
+func (o *AccountOption) HasProtectedAccounts() bool {
+	return o != nil && o.ProtectedAccounts != nil
+}
+
+// SetProtectedAccounts gets a reference to the given []string and assigns it to the ProtectedAccounts field.
+func (o *AccountOption) SetProtectedAccounts(v []string) {
+	o.ProtectedAccounts = v
+}
+
 // GetDisplayRootAccount returns the DisplayRootAccount field value if set, zero value otherwise.
 func (o *AccountOption) GetDisplayRootAccount() bool {
 	if o == nil || o.DisplayRootAccount == nil {
@@ -450,6 +540,15 @@ func (o AccountOption) MarshalJSON() ([]byte, error) {
 	toSerialize["create"] = o.Create
 	toSerialize["resetPassword"] = o.ResetPassword
 	toSerialize["delete"] = o.Delete
+	if o.SupportLock != nil {
+		toSerialize["supportLock"] = o.SupportLock
+	}
+	if o.SupportServiceAccount != nil {
+		toSerialize["supportServiceAccount"] = o.SupportServiceAccount
+	}
+	if o.ProtectedAccounts != nil {
+		toSerialize["protectedAccounts"] = o.ProtectedAccounts
+	}
 	if o.DisplayRootAccount != nil {
 		toSerialize["displayRootAccount"] = o.DisplayRootAccount
 	}
@@ -481,6 +580,9 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 		Create                   *bool                `json:"create"`
 		ResetPassword            *bool                `json:"resetPassword"`
 		Delete                   *bool                `json:"delete"`
+		SupportLock              *bool                `json:"supportLock,omitempty"`
+		SupportServiceAccount    *bool                `json:"supportServiceAccount,omitempty"`
+		ProtectedAccounts        []string             `json:"protectedAccounts,omitempty"`
 		DisplayRootAccount       *bool                `json:"displayRootAccount,omitempty"`
 		ResetRootPassword        *bool                `json:"resetRootPassword,omitempty"`
 		SupportMultipleComponent *bool                `json:"supportMultipleComponent,omitempty"`
@@ -506,7 +608,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"maxSuperUserAccount", "enabled", "privileges", "maxLen", "minLen", "accountNamePattern", "create", "resetPassword", "delete", "displayRootAccount", "resetRootPassword", "supportMultipleComponent", "excludeRootAccounts"})
+		common.DeleteKeys(additionalProperties, &[]string{"maxSuperUserAccount", "enabled", "privileges", "maxLen", "minLen", "accountNamePattern", "create", "resetPassword", "delete", "supportLock", "supportServiceAccount", "protectedAccounts", "displayRootAccount", "resetRootPassword", "supportMultipleComponent", "excludeRootAccounts"})
 	} else {
 		return err
 	}
@@ -519,6 +621,9 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Create = *all.Create
 	o.ResetPassword = *all.ResetPassword
 	o.Delete = *all.Delete
+	o.SupportLock = all.SupportLock
+	o.SupportServiceAccount = all.SupportServiceAccount
+	o.ProtectedAccounts = all.ProtectedAccounts
 	o.DisplayRootAccount = all.DisplayRootAccount
 	o.ResetRootPassword = all.ResetRootPassword
 	o.SupportMultipleComponent = all.SupportMultipleComponent
