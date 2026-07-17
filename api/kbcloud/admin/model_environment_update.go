@@ -50,8 +50,8 @@ type EnvironmentUpdate struct {
 	SlaEnabled *bool `json:"slaEnabled,omitempty"`
 	// Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
 	KoordinatorEnabled *bool `json:"koordinatorEnabled,omitempty"`
-	// Whether this environment has Spiderpool installed and can use SpiderIPPool for Pod IP allocation.
-	SpiderpoolEnabled *bool `json:"spiderpoolEnabled,omitempty"`
+	// KBE Pod IP pool providers enabled for discovery and explicit pool selection. An empty array disables this capability.
+	IpPoolProviders []IpPoolProvider `json:"ipPoolProviders,omitempty"`
 	// * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
 	// * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
 	// * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
@@ -87,8 +87,6 @@ func NewEnvironmentUpdate() *EnvironmentUpdate {
 	this.SlaEnabled = &slaEnabled
 	var koordinatorEnabled bool = false
 	this.KoordinatorEnabled = &koordinatorEnabled
-	var spiderpoolEnabled bool = false
-	this.SpiderpoolEnabled = &spiderpoolEnabled
 	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicySoftAntiAffinity
 	this.ClusterSchedulingPolicy = &clusterSchedulingPolicy
 	return &this
@@ -117,8 +115,6 @@ func NewEnvironmentUpdateWithDefaults() *EnvironmentUpdate {
 	this.SlaEnabled = &slaEnabled
 	var koordinatorEnabled bool = false
 	this.KoordinatorEnabled = &koordinatorEnabled
-	var spiderpoolEnabled bool = false
-	this.SpiderpoolEnabled = &spiderpoolEnabled
 	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicySoftAntiAffinity
 	this.ClusterSchedulingPolicy = &clusterSchedulingPolicy
 	return &this
@@ -783,32 +779,32 @@ func (o *EnvironmentUpdate) SetKoordinatorEnabled(v bool) {
 	o.KoordinatorEnabled = &v
 }
 
-// GetSpiderpoolEnabled returns the SpiderpoolEnabled field value if set, zero value otherwise.
-func (o *EnvironmentUpdate) GetSpiderpoolEnabled() bool {
-	if o == nil || o.SpiderpoolEnabled == nil {
-		var ret bool
+// GetIpPoolProviders returns the IpPoolProviders field value if set, zero value otherwise.
+func (o *EnvironmentUpdate) GetIpPoolProviders() []IpPoolProvider {
+	if o == nil || o.IpPoolProviders == nil {
+		var ret []IpPoolProvider
 		return ret
 	}
-	return *o.SpiderpoolEnabled
+	return o.IpPoolProviders
 }
 
-// GetSpiderpoolEnabledOk returns a tuple with the SpiderpoolEnabled field value if set, nil otherwise
+// GetIpPoolProvidersOk returns a tuple with the IpPoolProviders field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentUpdate) GetSpiderpoolEnabledOk() (*bool, bool) {
-	if o == nil || o.SpiderpoolEnabled == nil {
+func (o *EnvironmentUpdate) GetIpPoolProvidersOk() (*[]IpPoolProvider, bool) {
+	if o == nil || o.IpPoolProviders == nil {
 		return nil, false
 	}
-	return o.SpiderpoolEnabled, true
+	return &o.IpPoolProviders, true
 }
 
-// HasSpiderpoolEnabled returns a boolean if a field has been set.
-func (o *EnvironmentUpdate) HasSpiderpoolEnabled() bool {
-	return o != nil && o.SpiderpoolEnabled != nil
+// HasIpPoolProviders returns a boolean if a field has been set.
+func (o *EnvironmentUpdate) HasIpPoolProviders() bool {
+	return o != nil && o.IpPoolProviders != nil
 }
 
-// SetSpiderpoolEnabled gets a reference to the given bool and assigns it to the SpiderpoolEnabled field.
-func (o *EnvironmentUpdate) SetSpiderpoolEnabled(v bool) {
-	o.SpiderpoolEnabled = &v
+// SetIpPoolProviders gets a reference to the given []IpPoolProvider and assigns it to the IpPoolProviders field.
+func (o *EnvironmentUpdate) SetIpPoolProviders(v []IpPoolProvider) {
+	o.IpPoolProviders = v
 }
 
 // GetClusterSchedulingPolicy returns the ClusterSchedulingPolicy field value if set, zero value otherwise.
@@ -905,8 +901,8 @@ func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 	if o.KoordinatorEnabled != nil {
 		toSerialize["koordinatorEnabled"] = o.KoordinatorEnabled
 	}
-	if o.SpiderpoolEnabled != nil {
-		toSerialize["spiderpoolEnabled"] = o.SpiderpoolEnabled
+	if o.IpPoolProviders != nil {
+		toSerialize["ipPoolProviders"] = o.IpPoolProviders
 	}
 	if o.ClusterSchedulingPolicy != nil {
 		toSerialize["clusterSchedulingPolicy"] = o.ClusterSchedulingPolicy
@@ -941,7 +937,7 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		Provider                common.NullableString       `json:"provider,omitempty"`
 		SlaEnabled              *bool                       `json:"slaEnabled,omitempty"`
 		KoordinatorEnabled      *bool                       `json:"koordinatorEnabled,omitempty"`
-		SpiderpoolEnabled       *bool                       `json:"spiderpoolEnabled,omitempty"`
+		IpPoolProviders         []IpPoolProvider            `json:"ipPoolProviders,omitempty"`
 		ClusterSchedulingPolicy *ClusterSchedulingPolicy    `json:"clusterSchedulingPolicy,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -949,7 +945,7 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "type", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "imageRegistry", "nodePortEnabled", "lbEnabled", "domainEnabled", "internetLBEnabled", "networkModes", "deletePolicy", "clusterValidationPolicy", "provider", "slaEnabled", "koordinatorEnabled", "spiderpoolEnabled", "clusterSchedulingPolicy"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "type", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "imageRegistry", "nodePortEnabled", "lbEnabled", "domainEnabled", "internetLBEnabled", "networkModes", "deletePolicy", "clusterValidationPolicy", "provider", "slaEnabled", "koordinatorEnabled", "ipPoolProviders", "clusterSchedulingPolicy"})
 	} else {
 		return err
 	}
@@ -990,7 +986,7 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	o.Provider = all.Provider
 	o.SlaEnabled = all.SlaEnabled
 	o.KoordinatorEnabled = all.KoordinatorEnabled
-	o.SpiderpoolEnabled = all.SpiderpoolEnabled
+	o.IpPoolProviders = all.IpPoolProviders
 	if all.ClusterSchedulingPolicy != nil && !all.ClusterSchedulingPolicy.IsValid() {
 		hasInvalidField = true
 	} else {

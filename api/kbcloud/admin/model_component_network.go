@@ -8,8 +8,8 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ComponentNetwork Per-component network configuration.
 type ComponentNetwork struct {
-	// Spiderpool IPv4 IPPool selection for component pod IP allocation.
-	SpiderPool *SpiderPoolConfig `json:"spiderPool,omitempty"`
+	// Provider-qualified Pod IP pool selection for component pod IP allocation.
+	IpPool *IpPoolSelection `json:"ipPool,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -32,32 +32,32 @@ func NewComponentNetworkWithDefaults() *ComponentNetwork {
 	return &this
 }
 
-// GetSpiderPool returns the SpiderPool field value if set, zero value otherwise.
-func (o *ComponentNetwork) GetSpiderPool() SpiderPoolConfig {
-	if o == nil || o.SpiderPool == nil {
-		var ret SpiderPoolConfig
+// GetIpPool returns the IpPool field value if set, zero value otherwise.
+func (o *ComponentNetwork) GetIpPool() IpPoolSelection {
+	if o == nil || o.IpPool == nil {
+		var ret IpPoolSelection
 		return ret
 	}
-	return *o.SpiderPool
+	return *o.IpPool
 }
 
-// GetSpiderPoolOk returns a tuple with the SpiderPool field value if set, nil otherwise
+// GetIpPoolOk returns a tuple with the IpPool field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentNetwork) GetSpiderPoolOk() (*SpiderPoolConfig, bool) {
-	if o == nil || o.SpiderPool == nil {
+func (o *ComponentNetwork) GetIpPoolOk() (*IpPoolSelection, bool) {
+	if o == nil || o.IpPool == nil {
 		return nil, false
 	}
-	return o.SpiderPool, true
+	return o.IpPool, true
 }
 
-// HasSpiderPool returns a boolean if a field has been set.
-func (o *ComponentNetwork) HasSpiderPool() bool {
-	return o != nil && o.SpiderPool != nil
+// HasIpPool returns a boolean if a field has been set.
+func (o *ComponentNetwork) HasIpPool() bool {
+	return o != nil && o.IpPool != nil
 }
 
-// SetSpiderPool gets a reference to the given SpiderPoolConfig and assigns it to the SpiderPool field.
-func (o *ComponentNetwork) SetSpiderPool(v SpiderPoolConfig) {
-	o.SpiderPool = &v
+// SetIpPool gets a reference to the given IpPoolSelection and assigns it to the IpPool field.
+func (o *ComponentNetwork) SetIpPool(v IpPoolSelection) {
+	o.IpPool = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -66,8 +66,8 @@ func (o ComponentNetwork) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.SpiderPool != nil {
-		toSerialize["spiderPool"] = o.SpiderPool
+	if o.IpPool != nil {
+		toSerialize["ipPool"] = o.IpPool
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -79,23 +79,23 @@ func (o ComponentNetwork) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentNetwork) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		SpiderPool *SpiderPoolConfig `json:"spiderPool,omitempty"`
+		IpPool *IpPoolSelection `json:"ipPool,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"spiderPool"})
+		common.DeleteKeys(additionalProperties, &[]string{"ipPool"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	if all.SpiderPool != nil && all.SpiderPool.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.IpPool != nil && all.IpPool.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.SpiderPool = all.SpiderPool
+	o.IpPool = all.IpPool
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

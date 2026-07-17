@@ -5599,11 +5599,11 @@ func (a *DmsApi) TenantParameterHistory(ctx _context.Context, orgName string, cl
 }
 
 // TestDataSourceV2 test the datasource.
-func (a *DmsApi) TestDataSourceV2(ctx _context.Context, orgName string, clusterName string, body Datasource) (bool, *_nethttp.Response, error) {
+func (a *DmsApi) TestDataSourceV2(ctx _context.Context, orgName string, clusterName string, body Datasource) (TestConnectResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue bool
+		localVarReturnValue TestConnectResponse
 	)
 
 	// Add api info to context

@@ -372,29 +372,29 @@ func (a *EnvironmentApi) ListEnvironment(ctx _context.Context, orgName string, o
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListEnvironmentSpiderIPPools List SpiderIPPool resources in an environment.
-func (a *EnvironmentApi) ListEnvironmentSpiderIPPools(ctx _context.Context, orgName string, environmentName string) (SpiderIPPoolList, *_nethttp.Response, error) {
+// ListEnvironmentIPPools Discover Pod IP pools and explicit selection policy in an environment.
+func (a *EnvironmentApi) ListEnvironmentIPPools(ctx _context.Context, orgName string, environmentName string) (IpPoolList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue SpiderIPPoolList
+		localVarReturnValue IpPoolList
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "environment",
-		OperationID: "listEnvironmentSpiderIPPools",
-		Path:        "/api/v1/organizations/{orgName}/environments/{environmentName}/network/spiderIPPool",
+		OperationID: "listEnvironmentIPPools",
+		Path:        "/api/v1/organizations/{orgName}/environments/{environmentName}/network/ipPools",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListEnvironmentSpiderIPPools")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListEnvironmentIPPools")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/environments/{environmentName}/network/spiderIPPool"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/environments/{environmentName}/network/ipPools"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 

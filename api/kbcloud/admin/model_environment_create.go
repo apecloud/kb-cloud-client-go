@@ -45,8 +45,8 @@ type EnvironmentCreate struct {
 	Sla *bool `json:"sla,omitempty"`
 	// Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
 	KoordinatorEnabled *bool `json:"koordinatorEnabled,omitempty"`
-	// Whether this environment has Spiderpool installed and can use SpiderIPPool for Pod IP allocation.
-	SpiderpoolEnabled *bool `json:"spiderpoolEnabled,omitempty"`
+	// KBE Pod IP pool providers enabled for discovery and explicit pool selection.
+	IpPoolProviders []IpPoolProvider `json:"ipPoolProviders,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -73,8 +73,6 @@ func NewEnvironmentCreate(name string, typeVar EnvironmentType, provisionConfig 
 	this.Sla = &sla
 	var koordinatorEnabled bool = false
 	this.KoordinatorEnabled = &koordinatorEnabled
-	var spiderpoolEnabled bool = false
-	this.SpiderpoolEnabled = &spiderpoolEnabled
 	return &this
 }
 
@@ -93,8 +91,6 @@ func NewEnvironmentCreateWithDefaults() *EnvironmentCreate {
 	this.Sla = &sla
 	var koordinatorEnabled bool = false
 	this.KoordinatorEnabled = &koordinatorEnabled
-	var spiderpoolEnabled bool = false
-	this.SpiderpoolEnabled = &spiderpoolEnabled
 	return &this
 }
 
@@ -539,32 +535,32 @@ func (o *EnvironmentCreate) SetKoordinatorEnabled(v bool) {
 	o.KoordinatorEnabled = &v
 }
 
-// GetSpiderpoolEnabled returns the SpiderpoolEnabled field value if set, zero value otherwise.
-func (o *EnvironmentCreate) GetSpiderpoolEnabled() bool {
-	if o == nil || o.SpiderpoolEnabled == nil {
-		var ret bool
+// GetIpPoolProviders returns the IpPoolProviders field value if set, zero value otherwise.
+func (o *EnvironmentCreate) GetIpPoolProviders() []IpPoolProvider {
+	if o == nil || o.IpPoolProviders == nil {
+		var ret []IpPoolProvider
 		return ret
 	}
-	return *o.SpiderpoolEnabled
+	return o.IpPoolProviders
 }
 
-// GetSpiderpoolEnabledOk returns a tuple with the SpiderpoolEnabled field value if set, nil otherwise
+// GetIpPoolProvidersOk returns a tuple with the IpPoolProviders field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentCreate) GetSpiderpoolEnabledOk() (*bool, bool) {
-	if o == nil || o.SpiderpoolEnabled == nil {
+func (o *EnvironmentCreate) GetIpPoolProvidersOk() (*[]IpPoolProvider, bool) {
+	if o == nil || o.IpPoolProviders == nil {
 		return nil, false
 	}
-	return o.SpiderpoolEnabled, true
+	return &o.IpPoolProviders, true
 }
 
-// HasSpiderpoolEnabled returns a boolean if a field has been set.
-func (o *EnvironmentCreate) HasSpiderpoolEnabled() bool {
-	return o != nil && o.SpiderpoolEnabled != nil
+// HasIpPoolProviders returns a boolean if a field has been set.
+func (o *EnvironmentCreate) HasIpPoolProviders() bool {
+	return o != nil && o.IpPoolProviders != nil
 }
 
-// SetSpiderpoolEnabled gets a reference to the given bool and assigns it to the SpiderpoolEnabled field.
-func (o *EnvironmentCreate) SetSpiderpoolEnabled(v bool) {
-	o.SpiderpoolEnabled = &v
+// SetIpPoolProviders gets a reference to the given []IpPoolProvider and assigns it to the IpPoolProviders field.
+func (o *EnvironmentCreate) SetIpPoolProviders(v []IpPoolProvider) {
+	o.IpPoolProviders = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -610,8 +606,8 @@ func (o EnvironmentCreate) MarshalJSON() ([]byte, error) {
 	if o.KoordinatorEnabled != nil {
 		toSerialize["koordinatorEnabled"] = o.KoordinatorEnabled
 	}
-	if o.SpiderpoolEnabled != nil {
-		toSerialize["spiderpoolEnabled"] = o.SpiderpoolEnabled
+	if o.IpPoolProviders != nil {
+		toSerialize["ipPoolProviders"] = o.IpPoolProviders
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -640,7 +636,7 @@ func (o *EnvironmentCreate) UnmarshalJSON(bytes []byte) (err error) {
 		Dns                *Dns                     `json:"dns,omitempty"`
 		Sla                *bool                    `json:"sla,omitempty"`
 		KoordinatorEnabled *bool                    `json:"koordinatorEnabled,omitempty"`
-		SpiderpoolEnabled  *bool                    `json:"spiderpoolEnabled,omitempty"`
+		IpPoolProviders    []IpPoolProvider         `json:"ipPoolProviders,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -668,7 +664,7 @@ func (o *EnvironmentCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "schedulingConfig", "provisionConfig", "organizations", "provider", "region", "availabilityZones", "description", "displayName", "id", "extraInfo", "deletePolicy", "overwrite", "dns", "sla", "koordinatorEnabled", "spiderpoolEnabled"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "schedulingConfig", "provisionConfig", "organizations", "provider", "region", "availabilityZones", "description", "displayName", "id", "extraInfo", "deletePolicy", "overwrite", "dns", "sla", "koordinatorEnabled", "ipPoolProviders"})
 	} else {
 		return err
 	}
@@ -708,7 +704,7 @@ func (o *EnvironmentCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.Dns = all.Dns
 	o.Sla = all.Sla
 	o.KoordinatorEnabled = all.KoordinatorEnabled
-	o.SpiderpoolEnabled = all.SpiderpoolEnabled
+	o.IpPoolProviders = all.IpPoolProviders
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

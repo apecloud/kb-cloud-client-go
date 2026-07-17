@@ -16,7 +16,9 @@ type BlueGreenDeploymentItem struct {
 	// The ID of the blue-green deployment.
 	DeploymentId string `json:"deploymentID"`
 	// The name of the blue-green deployment.
-	DeploymentName *string `json:"deploymentName,omitempty"`
+	DeploymentName      *string `json:"deploymentName,omitempty"`
+	BlueClusterVersion  *string `json:"blueClusterVersion,omitempty"`
+	GreenClusterVersion *string `json:"greenClusterVersion,omitempty"`
 	// KubeBlocks cluster information
 	BlueCluster *ClusterListItem `json:"blueCluster,omitempty"`
 	// KubeBlocks cluster information
@@ -101,6 +103,62 @@ func (o *BlueGreenDeploymentItem) HasDeploymentName() bool {
 // SetDeploymentName gets a reference to the given string and assigns it to the DeploymentName field.
 func (o *BlueGreenDeploymentItem) SetDeploymentName(v string) {
 	o.DeploymentName = &v
+}
+
+// GetBlueClusterVersion returns the BlueClusterVersion field value if set, zero value otherwise.
+func (o *BlueGreenDeploymentItem) GetBlueClusterVersion() string {
+	if o == nil || o.BlueClusterVersion == nil {
+		var ret string
+		return ret
+	}
+	return *o.BlueClusterVersion
+}
+
+// GetBlueClusterVersionOk returns a tuple with the BlueClusterVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BlueGreenDeploymentItem) GetBlueClusterVersionOk() (*string, bool) {
+	if o == nil || o.BlueClusterVersion == nil {
+		return nil, false
+	}
+	return o.BlueClusterVersion, true
+}
+
+// HasBlueClusterVersion returns a boolean if a field has been set.
+func (o *BlueGreenDeploymentItem) HasBlueClusterVersion() bool {
+	return o != nil && o.BlueClusterVersion != nil
+}
+
+// SetBlueClusterVersion gets a reference to the given string and assigns it to the BlueClusterVersion field.
+func (o *BlueGreenDeploymentItem) SetBlueClusterVersion(v string) {
+	o.BlueClusterVersion = &v
+}
+
+// GetGreenClusterVersion returns the GreenClusterVersion field value if set, zero value otherwise.
+func (o *BlueGreenDeploymentItem) GetGreenClusterVersion() string {
+	if o == nil || o.GreenClusterVersion == nil {
+		var ret string
+		return ret
+	}
+	return *o.GreenClusterVersion
+}
+
+// GetGreenClusterVersionOk returns a tuple with the GreenClusterVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BlueGreenDeploymentItem) GetGreenClusterVersionOk() (*string, bool) {
+	if o == nil || o.GreenClusterVersion == nil {
+		return nil, false
+	}
+	return o.GreenClusterVersion, true
+}
+
+// HasGreenClusterVersion returns a boolean if a field has been set.
+func (o *BlueGreenDeploymentItem) HasGreenClusterVersion() bool {
+	return o != nil && o.GreenClusterVersion != nil
+}
+
+// SetGreenClusterVersion gets a reference to the given string and assigns it to the GreenClusterVersion field.
+func (o *BlueGreenDeploymentItem) SetGreenClusterVersion(v string) {
+	o.GreenClusterVersion = &v
 }
 
 // GetBlueCluster returns the BlueCluster field value if set, zero value otherwise.
@@ -292,6 +350,12 @@ func (o BlueGreenDeploymentItem) MarshalJSON() ([]byte, error) {
 	if o.DeploymentName != nil {
 		toSerialize["deploymentName"] = o.DeploymentName
 	}
+	if o.BlueClusterVersion != nil {
+		toSerialize["blueClusterVersion"] = o.BlueClusterVersion
+	}
+	if o.GreenClusterVersion != nil {
+		toSerialize["greenClusterVersion"] = o.GreenClusterVersion
+	}
 	if o.BlueCluster != nil {
 		toSerialize["blueCluster"] = o.BlueCluster
 	}
@@ -328,14 +392,16 @@ func (o BlueGreenDeploymentItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BlueGreenDeploymentItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		DeploymentId     *string                    `json:"deploymentID"`
-		DeploymentName   *string                    `json:"deploymentName,omitempty"`
-		BlueCluster      *ClusterListItem           `json:"blueCluster,omitempty"`
-		GreenCluster     *ClusterListItem           `json:"greenCluster,omitempty"`
-		DeploymentStatus *BlueGreenDeploymentStatus `json:"deploymentStatus,omitempty"`
-		ReplicationLag   common.NullableString      `json:"replicationLag,omitempty"`
-		CreatedAt        *time.Time                 `json:"createdAt,omitempty"`
-		UpdatedAt        *time.Time                 `json:"updatedAt,omitempty"`
+		DeploymentId        *string                    `json:"deploymentID"`
+		DeploymentName      *string                    `json:"deploymentName,omitempty"`
+		BlueClusterVersion  *string                    `json:"blueClusterVersion,omitempty"`
+		GreenClusterVersion *string                    `json:"greenClusterVersion,omitempty"`
+		BlueCluster         *ClusterListItem           `json:"blueCluster,omitempty"`
+		GreenCluster        *ClusterListItem           `json:"greenCluster,omitempty"`
+		DeploymentStatus    *BlueGreenDeploymentStatus `json:"deploymentStatus,omitempty"`
+		ReplicationLag      common.NullableString      `json:"replicationLag,omitempty"`
+		CreatedAt           *time.Time                 `json:"createdAt,omitempty"`
+		UpdatedAt           *time.Time                 `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -345,7 +411,7 @@ func (o *BlueGreenDeploymentItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"deploymentID", "deploymentName", "blueCluster", "greenCluster", "deploymentStatus", "replicationLag", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"deploymentID", "deploymentName", "blueClusterVersion", "greenClusterVersion", "blueCluster", "greenCluster", "deploymentStatus", "replicationLag", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}
@@ -353,6 +419,8 @@ func (o *BlueGreenDeploymentItem) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.DeploymentId = *all.DeploymentId
 	o.DeploymentName = all.DeploymentName
+	o.BlueClusterVersion = all.BlueClusterVersion
+	o.GreenClusterVersion = all.GreenClusterVersion
 	if all.BlueCluster != nil && all.BlueCluster.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
