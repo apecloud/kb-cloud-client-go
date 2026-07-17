@@ -12,6 +12,8 @@ type CdcSqlExecutor struct {
 	Sql          []string              `json:"sql,omitempty"`
 	Result       []string              `json:"result,omitempty"`
 	AuthDatabase common.NullableString `json:"authDatabase,omitempty"`
+	// A regular expression containing named groups, used to extract the named groups from the SQL result and match them to the names defined in result
+	NameGroupExpression common.NullableString `json:"nameGroupExpression,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -129,6 +131,45 @@ func (o *CdcSqlExecutor) UnsetAuthDatabase() {
 	o.AuthDatabase.Unset()
 }
 
+// GetNameGroupExpression returns the NameGroupExpression field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CdcSqlExecutor) GetNameGroupExpression() string {
+	if o == nil || o.NameGroupExpression.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.NameGroupExpression.Get()
+}
+
+// GetNameGroupExpressionOk returns a tuple with the NameGroupExpression field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *CdcSqlExecutor) GetNameGroupExpressionOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.NameGroupExpression.Get(), o.NameGroupExpression.IsSet()
+}
+
+// HasNameGroupExpression returns a boolean if a field has been set.
+func (o *CdcSqlExecutor) HasNameGroupExpression() bool {
+	return o != nil && o.NameGroupExpression.IsSet()
+}
+
+// SetNameGroupExpression gets a reference to the given common.NullableString and assigns it to the NameGroupExpression field.
+func (o *CdcSqlExecutor) SetNameGroupExpression(v string) {
+	o.NameGroupExpression.Set(&v)
+}
+
+// SetNameGroupExpressionNil sets the value for NameGroupExpression to be an explicit nil.
+func (o *CdcSqlExecutor) SetNameGroupExpressionNil() {
+	o.NameGroupExpression.Set(nil)
+}
+
+// UnsetNameGroupExpression ensures that no value is present for NameGroupExpression, not even an explicit nil.
+func (o *CdcSqlExecutor) UnsetNameGroupExpression() {
+	o.NameGroupExpression.Unset()
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o CdcSqlExecutor) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -144,6 +185,9 @@ func (o CdcSqlExecutor) MarshalJSON() ([]byte, error) {
 	if o.AuthDatabase.IsSet() {
 		toSerialize["authDatabase"] = o.AuthDatabase.Get()
 	}
+	if o.NameGroupExpression.IsSet() {
+		toSerialize["nameGroupExpression"] = o.NameGroupExpression.Get()
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -154,22 +198,24 @@ func (o CdcSqlExecutor) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *CdcSqlExecutor) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Sql          []string              `json:"sql,omitempty"`
-		Result       []string              `json:"result,omitempty"`
-		AuthDatabase common.NullableString `json:"authDatabase,omitempty"`
+		Sql                 []string              `json:"sql,omitempty"`
+		Result              []string              `json:"result,omitempty"`
+		AuthDatabase        common.NullableString `json:"authDatabase,omitempty"`
+		NameGroupExpression common.NullableString `json:"nameGroupExpression,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"sql", "result", "authDatabase"})
+		common.DeleteKeys(additionalProperties, &[]string{"sql", "result", "authDatabase", "nameGroupExpression"})
 	} else {
 		return err
 	}
 	o.Sql = all.Sql
 	o.Result = all.Result
 	o.AuthDatabase = all.AuthDatabase
+	o.NameGroupExpression = all.NameGroupExpression
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

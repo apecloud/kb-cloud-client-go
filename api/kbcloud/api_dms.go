@@ -739,6 +739,198 @@ func (a *DmsApi) AlterParameter(ctx _context.Context, orgName string, clusterNam
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// AnalyzeRedisKeysOptionalParameters holds optional parameters for AnalyzeRedisKeys.
+type AnalyzeRedisKeysOptionalParameters struct {
+	Database           *int64
+	Match              *string
+	Cursor             *string
+	SampleLimit        *int64
+	TopN               *int64
+	NamespaceSeparator *string
+}
+
+// NewAnalyzeRedisKeysOptionalParameters creates an empty struct for parameters.
+func NewAnalyzeRedisKeysOptionalParameters() *AnalyzeRedisKeysOptionalParameters {
+	this := AnalyzeRedisKeysOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeRedisKeysOptionalParameters) WithDatabase(database int64) *AnalyzeRedisKeysOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// WithMatch sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeRedisKeysOptionalParameters) WithMatch(match string) *AnalyzeRedisKeysOptionalParameters {
+	r.Match = &match
+	return r
+}
+
+// WithCursor sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeRedisKeysOptionalParameters) WithCursor(cursor string) *AnalyzeRedisKeysOptionalParameters {
+	r.Cursor = &cursor
+	return r
+}
+
+// WithSampleLimit sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeRedisKeysOptionalParameters) WithSampleLimit(sampleLimit int64) *AnalyzeRedisKeysOptionalParameters {
+	r.SampleLimit = &sampleLimit
+	return r
+}
+
+// WithTopN sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeRedisKeysOptionalParameters) WithTopN(topN int64) *AnalyzeRedisKeysOptionalParameters {
+	r.TopN = &topN
+	return r
+}
+
+// WithNamespaceSeparator sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeRedisKeysOptionalParameters) WithNamespaceSeparator(namespaceSeparator string) *AnalyzeRedisKeysOptionalParameters {
+	r.NamespaceSeparator = &namespaceSeparator
+	return r
+}
+
+// AnalyzeRedisKeys analyze Redis keys by bounded SCAN sampling.
+// Returns an instant sample analysis for Redis keys. The result is not a persisted or full historical report; callers must use progress.complete, progress.processed, progress.sampleLimit, and generatedAt to present the sampling boundary.
+func (a *DmsApi) AnalyzeRedisKeys(ctx _context.Context, orgName string, clusterName string, id string, o ...AnalyzeRedisKeysOptionalParameters) (RedisAnalysisResponse, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue RedisAnalysisResponse
+		optionalParams      AnalyzeRedisKeysOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type AnalyzeRedisKeysOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "analyzeRedisKeys",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/analysis",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.AnalyzeRedisKeys")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/analysis"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	if optionalParams.Match != nil {
+		localVarQueryParams.Add("match", common.ParameterToString(*optionalParams.Match, ""))
+	}
+	if optionalParams.Cursor != nil {
+		localVarQueryParams.Add("cursor", common.ParameterToString(*optionalParams.Cursor, ""))
+	}
+	if optionalParams.SampleLimit != nil {
+		localVarQueryParams.Add("sampleLimit", common.ParameterToString(*optionalParams.SampleLimit, ""))
+	}
+	if optionalParams.TopN != nil {
+		localVarQueryParams.Add("topN", common.ParameterToString(*optionalParams.TopN, ""))
+	}
+	if optionalParams.NamespaceSeparator != nil {
+		localVarQueryParams.Add("namespaceSeparator", common.ParameterToString(*optionalParams.NamespaceSeparator, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// CloseRedisPubSubSession close a Redis Pub/Sub polling session.
+func (a *DmsApi) CloseRedisPubSubSession(ctx _context.Context, orgName string, clusterName string, id string, sessionId string) (*_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod = _nethttp.MethodDelete
+		localVarPostBody   interface{}
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "closeRedisPubSubSession",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/pubsub/sessions/{sessionId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.CloseRedisPubSubSession")
+	if err != nil {
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/pubsub/sessions/{sessionId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"sessionId"+"}", _neturl.PathEscape(common.ParameterToString(sessionId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 // CloseSessionsOptionalParameters holds optional parameters for CloseSessions.
 type CloseSessionsOptionalParameters struct {
 	Keep *string
@@ -877,6 +1069,101 @@ func (a *DmsApi) CreateDataSourceV2(ctx _context.Context, orgName string, cluste
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "application/json"
+
+	// body params
+	localVarPostBody = &body
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// CreateRedisPubSubSessionOptionalParameters holds optional parameters for CreateRedisPubSubSession.
+type CreateRedisPubSubSessionOptionalParameters struct {
+	Database *int64
+}
+
+// NewCreateRedisPubSubSessionOptionalParameters creates an empty struct for parameters.
+func NewCreateRedisPubSubSessionOptionalParameters() *CreateRedisPubSubSessionOptionalParameters {
+	this := CreateRedisPubSubSessionOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *CreateRedisPubSubSessionOptionalParameters) WithDatabase(database int64) *CreateRedisPubSubSessionOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// CreateRedisPubSubSession create a Redis Pub/Sub polling session.
+func (a *DmsApi) CreateRedisPubSubSession(ctx _context.Context, orgName string, clusterName string, id string, body RedisPubSubSessionCreateRequest, o ...CreateRedisPubSubSessionOptionalParameters) (RedisPubSubSession, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue RedisPubSubSession
+		optionalParams      CreateRedisPubSubSessionOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateRedisPubSubSessionOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "createRedisPubSubSession",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/pubsub/sessions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.CreateRedisPubSubSession")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/pubsub/sessions"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -1228,6 +1515,102 @@ func (a *DmsApi) EnableConsole(ctx _context.Context, engineName string, orgName 
 	return localVarHTTPResponse, nil
 }
 
+// ExecuteRedisWorkbenchCommandOptionalParameters holds optional parameters for ExecuteRedisWorkbenchCommand.
+type ExecuteRedisWorkbenchCommandOptionalParameters struct {
+	Database *int64
+}
+
+// NewExecuteRedisWorkbenchCommandOptionalParameters creates an empty struct for parameters.
+func NewExecuteRedisWorkbenchCommandOptionalParameters() *ExecuteRedisWorkbenchCommandOptionalParameters {
+	this := ExecuteRedisWorkbenchCommandOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *ExecuteRedisWorkbenchCommandOptionalParameters) WithDatabase(database int64) *ExecuteRedisWorkbenchCommandOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// ExecuteRedisWorkbenchCommand execute a Redis Workbench command.
+// Executes a Redis command for the current datasource context. Follow-up implementation should record command history in datasource query_history with engine=redis; no Redis-specific history API is introduced by this contract.
+func (a *DmsApi) ExecuteRedisWorkbenchCommand(ctx _context.Context, orgName string, clusterName string, id string, body RedisWorkbenchExecuteRequest, o ...ExecuteRedisWorkbenchCommandOptionalParameters) (RedisWorkbenchExecuteResponse, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue RedisWorkbenchExecuteResponse
+		optionalParams      ExecuteRedisWorkbenchCommandOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ExecuteRedisWorkbenchCommandOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "executeRedisWorkbenchCommand",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/workbench/execute",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ExecuteRedisWorkbenchCommand")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/workbench/execute"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "application/json"
+
+	// body params
+	localVarPostBody = &body
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // GenerateDDLOptionalParameters holds optional parameters for GenerateDDL.
 type GenerateDDLOptionalParameters struct {
 	Body *DmsGenerateDDLRequest
@@ -1501,6 +1884,397 @@ func (a *DmsApi) GetMongoCollection(ctx _context.Context, orgName string, cluste
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetRedisClusterTopologyOptionalParameters holds optional parameters for GetRedisClusterTopology.
+type GetRedisClusterTopologyOptionalParameters struct {
+	Database *int64
+}
+
+// NewGetRedisClusterTopologyOptionalParameters creates an empty struct for parameters.
+func NewGetRedisClusterTopologyOptionalParameters() *GetRedisClusterTopologyOptionalParameters {
+	this := GetRedisClusterTopologyOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *GetRedisClusterTopologyOptionalParameters) WithDatabase(database int64) *GetRedisClusterTopologyOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// GetRedisClusterTopology get Redis Cluster topology.
+func (a *DmsApi) GetRedisClusterTopology(ctx _context.Context, orgName string, clusterName string, id string, o ...GetRedisClusterTopologyOptionalParameters) (RedisClusterTopology, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue RedisClusterTopology
+		optionalParams      GetRedisClusterTopologyOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetRedisClusterTopologyOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "getRedisClusterTopology",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/cluster/topology",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.GetRedisClusterTopology")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/cluster/topology"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetRedisContextOptionalParameters holds optional parameters for GetRedisContext.
+type GetRedisContextOptionalParameters struct {
+	Database *int64
+}
+
+// NewGetRedisContextOptionalParameters creates an empty struct for parameters.
+func NewGetRedisContextOptionalParameters() *GetRedisContextOptionalParameters {
+	this := GetRedisContextOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *GetRedisContextOptionalParameters) WithDatabase(database int64) *GetRedisContextOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// GetRedisContext get Redis datasource data-management context.
+func (a *DmsApi) GetRedisContext(ctx _context.Context, orgName string, clusterName string, id string, o ...GetRedisContextOptionalParameters) (RedisDataContext, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue RedisDataContext
+		optionalParams      GetRedisContextOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetRedisContextOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "getRedisContext",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/context",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.GetRedisContext")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/context"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetRedisInfoOptionalParameters holds optional parameters for GetRedisInfo.
+type GetRedisInfoOptionalParameters struct {
+	Database *int64
+	Section  *string
+	NodeId   *string
+}
+
+// NewGetRedisInfoOptionalParameters creates an empty struct for parameters.
+func NewGetRedisInfoOptionalParameters() *GetRedisInfoOptionalParameters {
+	this := GetRedisInfoOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *GetRedisInfoOptionalParameters) WithDatabase(database int64) *GetRedisInfoOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// WithSection sets the corresponding parameter name and returns the struct.
+func (r *GetRedisInfoOptionalParameters) WithSection(section string) *GetRedisInfoOptionalParameters {
+	r.Section = &section
+	return r
+}
+
+// WithNodeId sets the corresponding parameter name and returns the struct.
+func (r *GetRedisInfoOptionalParameters) WithNodeId(nodeId string) *GetRedisInfoOptionalParameters {
+	r.NodeId = &nodeId
+	return r
+}
+
+// GetRedisInfo get Redis INFO output by section.
+func (a *DmsApi) GetRedisInfo(ctx _context.Context, orgName string, clusterName string, id string, o ...GetRedisInfoOptionalParameters) (RedisInfoResponse, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue RedisInfoResponse
+		optionalParams      GetRedisInfoOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetRedisInfoOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "getRedisInfo",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/info",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.GetRedisInfo")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/info"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	if optionalParams.Section != nil {
+		localVarQueryParams.Add("section", common.ParameterToString(*optionalParams.Section, ""))
+	}
+	if optionalParams.NodeId != nil {
+		localVarQueryParams.Add("nodeId", common.ParameterToString(*optionalParams.NodeId, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetRedisKeyDetailOptionalParameters holds optional parameters for GetRedisKeyDetail.
+type GetRedisKeyDetailOptionalParameters struct {
+	Database *int64
+}
+
+// NewGetRedisKeyDetailOptionalParameters creates an empty struct for parameters.
+func NewGetRedisKeyDetailOptionalParameters() *GetRedisKeyDetailOptionalParameters {
+	this := GetRedisKeyDetailOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *GetRedisKeyDetailOptionalParameters) WithDatabase(database int64) *GetRedisKeyDetailOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// GetRedisKeyDetail get Redis key detail.
+func (a *DmsApi) GetRedisKeyDetail(ctx _context.Context, orgName string, clusterName string, id string, body RedisKeyDetailRequest, o ...GetRedisKeyDetailOptionalParameters) (RedisKeyDetail, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue RedisKeyDetail
+		optionalParams      GetRedisKeyDetailOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetRedisKeyDetailOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "getRedisKeyDetail",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/key/detail",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.GetRedisKeyDetail")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/key/detail"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "application/json"
+
+	// body params
+	localVarPostBody = &body
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
@@ -2083,6 +2857,373 @@ func (a *DmsApi) ListQueryHistory(ctx _context.Context, orgName string, clusterN
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.Limit != nil {
 		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// ListRedisKeysOptionalParameters holds optional parameters for ListRedisKeys.
+type ListRedisKeysOptionalParameters struct {
+	Database  *int64
+	Cursor    *string
+	Limit     *int64
+	Pattern   *string
+	Type      *string
+	Separator *string
+	NodeId    *string
+}
+
+// NewListRedisKeysOptionalParameters creates an empty struct for parameters.
+func NewListRedisKeysOptionalParameters() *ListRedisKeysOptionalParameters {
+	this := ListRedisKeysOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *ListRedisKeysOptionalParameters) WithDatabase(database int64) *ListRedisKeysOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// WithCursor sets the corresponding parameter name and returns the struct.
+func (r *ListRedisKeysOptionalParameters) WithCursor(cursor string) *ListRedisKeysOptionalParameters {
+	r.Cursor = &cursor
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *ListRedisKeysOptionalParameters) WithLimit(limit int64) *ListRedisKeysOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// WithPattern sets the corresponding parameter name and returns the struct.
+func (r *ListRedisKeysOptionalParameters) WithPattern(pattern string) *ListRedisKeysOptionalParameters {
+	r.Pattern = &pattern
+	return r
+}
+
+// WithType sets the corresponding parameter name and returns the struct.
+func (r *ListRedisKeysOptionalParameters) WithType(typeVar string) *ListRedisKeysOptionalParameters {
+	r.Type = &typeVar
+	return r
+}
+
+// WithSeparator sets the corresponding parameter name and returns the struct.
+func (r *ListRedisKeysOptionalParameters) WithSeparator(separator string) *ListRedisKeysOptionalParameters {
+	r.Separator = &separator
+	return r
+}
+
+// WithNodeId sets the corresponding parameter name and returns the struct.
+func (r *ListRedisKeysOptionalParameters) WithNodeId(nodeId string) *ListRedisKeysOptionalParameters {
+	r.NodeId = &nodeId
+	return r
+}
+
+// ListRedisKeys list Redis key summaries by SCAN cursor.
+func (a *DmsApi) ListRedisKeys(ctx _context.Context, orgName string, clusterName string, id string, o ...ListRedisKeysOptionalParameters) (RedisKeySummaryList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue RedisKeySummaryList
+		optionalParams      ListRedisKeysOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListRedisKeysOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "listRedisKeys",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/keys",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListRedisKeys")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/keys"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	if optionalParams.Cursor != nil {
+		localVarQueryParams.Add("cursor", common.ParameterToString(*optionalParams.Cursor, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.Pattern != nil {
+		localVarQueryParams.Add("pattern", common.ParameterToString(*optionalParams.Pattern, ""))
+	}
+	if optionalParams.Type != nil {
+		localVarQueryParams.Add("type", common.ParameterToString(*optionalParams.Type, ""))
+	}
+	if optionalParams.Separator != nil {
+		localVarQueryParams.Add("separator", common.ParameterToString(*optionalParams.Separator, ""))
+	}
+	if optionalParams.NodeId != nil {
+		localVarQueryParams.Add("nodeId", common.ParameterToString(*optionalParams.NodeId, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// ListRedisPubSubMessagesOptionalParameters holds optional parameters for ListRedisPubSubMessages.
+type ListRedisPubSubMessagesOptionalParameters struct {
+	Cursor *string
+	Limit  *int64
+}
+
+// NewListRedisPubSubMessagesOptionalParameters creates an empty struct for parameters.
+func NewListRedisPubSubMessagesOptionalParameters() *ListRedisPubSubMessagesOptionalParameters {
+	this := ListRedisPubSubMessagesOptionalParameters{}
+	return &this
+}
+
+// WithCursor sets the corresponding parameter name and returns the struct.
+func (r *ListRedisPubSubMessagesOptionalParameters) WithCursor(cursor string) *ListRedisPubSubMessagesOptionalParameters {
+	r.Cursor = &cursor
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *ListRedisPubSubMessagesOptionalParameters) WithLimit(limit int64) *ListRedisPubSubMessagesOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// ListRedisPubSubMessages list messages from a Redis Pub/Sub polling session.
+func (a *DmsApi) ListRedisPubSubMessages(ctx _context.Context, orgName string, clusterName string, id string, sessionId string, o ...ListRedisPubSubMessagesOptionalParameters) (RedisPubSubMessageList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue RedisPubSubMessageList
+		optionalParams      ListRedisPubSubMessagesOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListRedisPubSubMessagesOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "listRedisPubSubMessages",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/pubsub/sessions/{sessionId}/messages",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListRedisPubSubMessages")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/pubsub/sessions/{sessionId}/messages"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"sessionId"+"}", _neturl.PathEscape(common.ParameterToString(sessionId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Cursor != nil {
+		localVarQueryParams.Add("cursor", common.ParameterToString(*optionalParams.Cursor, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// ListRedisSlowLogOptionalParameters holds optional parameters for ListRedisSlowLog.
+type ListRedisSlowLogOptionalParameters struct {
+	Database *int64
+	Limit    *int64
+	NodeId   *string
+}
+
+// NewListRedisSlowLogOptionalParameters creates an empty struct for parameters.
+func NewListRedisSlowLogOptionalParameters() *ListRedisSlowLogOptionalParameters {
+	this := ListRedisSlowLogOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *ListRedisSlowLogOptionalParameters) WithDatabase(database int64) *ListRedisSlowLogOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *ListRedisSlowLogOptionalParameters) WithLimit(limit int64) *ListRedisSlowLogOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// WithNodeId sets the corresponding parameter name and returns the struct.
+func (r *ListRedisSlowLogOptionalParameters) WithNodeId(nodeId string) *ListRedisSlowLogOptionalParameters {
+	r.NodeId = &nodeId
+	return r
+}
+
+// ListRedisSlowLog list Redis slow log entries.
+func (a *DmsApi) ListRedisSlowLog(ctx _context.Context, orgName string, clusterName string, id string, o ...ListRedisSlowLogOptionalParameters) (RedisSlowLogList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue RedisSlowLogList
+		optionalParams      ListRedisSlowLogOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListRedisSlowLogOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "listRedisSlowLog",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/slowlog",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListRedisSlowLog")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/slowlog"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.NodeId != nil {
+		localVarQueryParams.Add("nodeId", common.ParameterToString(*optionalParams.NodeId, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -3854,6 +4995,196 @@ func (a *DmsApi) MongoUpdate(ctx _context.Context, orgName string, clusterName s
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// MutateRedisKeyOptionalParameters holds optional parameters for MutateRedisKey.
+type MutateRedisKeyOptionalParameters struct {
+	Database *int64
+}
+
+// NewMutateRedisKeyOptionalParameters creates an empty struct for parameters.
+func NewMutateRedisKeyOptionalParameters() *MutateRedisKeyOptionalParameters {
+	this := MutateRedisKeyOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *MutateRedisKeyOptionalParameters) WithDatabase(database int64) *MutateRedisKeyOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// MutateRedisKey mutate Redis key data or metadata.
+func (a *DmsApi) MutateRedisKey(ctx _context.Context, orgName string, clusterName string, id string, body RedisKeyMutateRequest, o ...MutateRedisKeyOptionalParameters) (RedisKeyMutateResponse, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue RedisKeyMutateResponse
+		optionalParams      MutateRedisKeyOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type MutateRedisKeyOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "mutateRedisKey",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/key/mutate",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.MutateRedisKey")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/key/mutate"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "application/json"
+
+	// body params
+	localVarPostBody = &body
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// PublishRedisMessageOptionalParameters holds optional parameters for PublishRedisMessage.
+type PublishRedisMessageOptionalParameters struct {
+	Database *int64
+}
+
+// NewPublishRedisMessageOptionalParameters creates an empty struct for parameters.
+func NewPublishRedisMessageOptionalParameters() *PublishRedisMessageOptionalParameters {
+	this := PublishRedisMessageOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *PublishRedisMessageOptionalParameters) WithDatabase(database int64) *PublishRedisMessageOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// PublishRedisMessage publish a Redis Pub/Sub message.
+func (a *DmsApi) PublishRedisMessage(ctx _context.Context, orgName string, clusterName string, id string, body RedisPubSubPublishRequest, o ...PublishRedisMessageOptionalParameters) (RedisOperationSummary, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue RedisOperationSummary
+		optionalParams      PublishRedisMessageOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type PublishRedisMessageOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "publishRedisMessage",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/pubsub/publish",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.PublishRedisMessage")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/pubsub/publish"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "application/json"
+
+	// body params
+	localVarPostBody = &body
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // Query create a SQL query.
 func (a *DmsApi) Query(ctx _context.Context, orgName string, clusterName string, id string, body DmsQueryRequest) (DmsQueryResponse, *_nethttp.Response, error) {
 	var (
@@ -3889,6 +5220,110 @@ func (a *DmsApi) Query(ctx _context.Context, orgName string, clusterName string,
 
 	// body params
 	localVarPostBody = &body
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// ResetRedisSlowLogOptionalParameters holds optional parameters for ResetRedisSlowLog.
+type ResetRedisSlowLogOptionalParameters struct {
+	Body     *RedisDangerousOperationRequest
+	Database *int64
+}
+
+// NewResetRedisSlowLogOptionalParameters creates an empty struct for parameters.
+func NewResetRedisSlowLogOptionalParameters() *ResetRedisSlowLogOptionalParameters {
+	this := ResetRedisSlowLogOptionalParameters{}
+	return &this
+}
+
+// WithBody sets the corresponding parameter name and returns the struct.
+func (r *ResetRedisSlowLogOptionalParameters) WithBody(body RedisDangerousOperationRequest) *ResetRedisSlowLogOptionalParameters {
+	r.Body = &body
+	return r
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *ResetRedisSlowLogOptionalParameters) WithDatabase(database int64) *ResetRedisSlowLogOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// ResetRedisSlowLog reset Redis slow log.
+func (a *DmsApi) ResetRedisSlowLog(ctx _context.Context, orgName string, clusterName string, id string, o ...ResetRedisSlowLogOptionalParameters) (RedisOperationSummary, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue RedisOperationSummary
+		optionalParams      ResetRedisSlowLogOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ResetRedisSlowLogOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "resetRedisSlowLog",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/slowlog/reset",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ResetRedisSlowLog")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/slowlog/reset"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "application/json"
+
+	// body params
+	if optionalParams.Body != nil {
+		localVarPostBody = &optionalParams.Body
+	}
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
@@ -4164,11 +5599,11 @@ func (a *DmsApi) TenantParameterHistory(ctx _context.Context, orgName string, cl
 }
 
 // TestDataSourceV2 test the datasource.
-func (a *DmsApi) TestDataSourceV2(ctx _context.Context, orgName string, clusterName string, body Datasource) (bool, *_nethttp.Response, error) {
+func (a *DmsApi) TestDataSourceV2(ctx _context.Context, orgName string, clusterName string, body Datasource) (TestConnectResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue bool
+		localVarReturnValue TestConnectResponse
 	)
 
 	// Add api info to context

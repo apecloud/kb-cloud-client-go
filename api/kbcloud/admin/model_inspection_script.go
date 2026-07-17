@@ -18,11 +18,21 @@ type InspectionScript struct {
 	Engine string `json:"engine"`
 	// The type of the script, such as "promQL"
 	Type string `json:"type"`
-	// Specifies the category of the inspection script.
+	// Current inspection category vocabulary. Existing legacy categories are normalized by the backend before they are returned.
 	Category    InspectionScriptCategory `json:"category"`
 	Description *LocalizedDescription    `json:"description,omitempty"`
 	ScriptExpr  string                   `json:"scriptExpr"`
 	CheckExpr   *string                  `json:"checkExpr,omitempty"`
+	// First-version criticality assumption for score weighting and red-item veto behavior. Missing legacy values are treated as medium.
+	Criticality *InspectionCriticality `json:"criticality,omitempty"`
+	// First-version warning threshold assumption. It documents the script contract and is not a permanent product conclusion.
+	WarnThreshold *float64 `json:"warnThreshold,omitempty"`
+	// First-version critical threshold assumption. It documents the script contract and is not a permanent product conclusion.
+	CritThreshold *float64 `json:"critThreshold,omitempty"`
+	// Direction used to interpret warnThreshold and critThreshold. asc means larger values are worse, desc means smaller values are worse, boolean means the check expression decides.
+	Direction   *InspectionThresholdDirection `json:"direction,omitempty"`
+	Remediation *LocalizedDescription         `json:"remediation,omitempty"`
+	DocLink     *string                       `json:"docLink,omitempty"`
 	// scope type, such as "system"/"global"/"org"
 	ScopeType string `json:"scopeType"`
 	// The identifier of the scope, such as org_id
@@ -291,6 +301,174 @@ func (o *InspectionScript) SetCheckExpr(v string) {
 	o.CheckExpr = &v
 }
 
+// GetCriticality returns the Criticality field value if set, zero value otherwise.
+func (o *InspectionScript) GetCriticality() InspectionCriticality {
+	if o == nil || o.Criticality == nil {
+		var ret InspectionCriticality
+		return ret
+	}
+	return *o.Criticality
+}
+
+// GetCriticalityOk returns a tuple with the Criticality field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionScript) GetCriticalityOk() (*InspectionCriticality, bool) {
+	if o == nil || o.Criticality == nil {
+		return nil, false
+	}
+	return o.Criticality, true
+}
+
+// HasCriticality returns a boolean if a field has been set.
+func (o *InspectionScript) HasCriticality() bool {
+	return o != nil && o.Criticality != nil
+}
+
+// SetCriticality gets a reference to the given InspectionCriticality and assigns it to the Criticality field.
+func (o *InspectionScript) SetCriticality(v InspectionCriticality) {
+	o.Criticality = &v
+}
+
+// GetWarnThreshold returns the WarnThreshold field value if set, zero value otherwise.
+func (o *InspectionScript) GetWarnThreshold() float64 {
+	if o == nil || o.WarnThreshold == nil {
+		var ret float64
+		return ret
+	}
+	return *o.WarnThreshold
+}
+
+// GetWarnThresholdOk returns a tuple with the WarnThreshold field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionScript) GetWarnThresholdOk() (*float64, bool) {
+	if o == nil || o.WarnThreshold == nil {
+		return nil, false
+	}
+	return o.WarnThreshold, true
+}
+
+// HasWarnThreshold returns a boolean if a field has been set.
+func (o *InspectionScript) HasWarnThreshold() bool {
+	return o != nil && o.WarnThreshold != nil
+}
+
+// SetWarnThreshold gets a reference to the given float64 and assigns it to the WarnThreshold field.
+func (o *InspectionScript) SetWarnThreshold(v float64) {
+	o.WarnThreshold = &v
+}
+
+// GetCritThreshold returns the CritThreshold field value if set, zero value otherwise.
+func (o *InspectionScript) GetCritThreshold() float64 {
+	if o == nil || o.CritThreshold == nil {
+		var ret float64
+		return ret
+	}
+	return *o.CritThreshold
+}
+
+// GetCritThresholdOk returns a tuple with the CritThreshold field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionScript) GetCritThresholdOk() (*float64, bool) {
+	if o == nil || o.CritThreshold == nil {
+		return nil, false
+	}
+	return o.CritThreshold, true
+}
+
+// HasCritThreshold returns a boolean if a field has been set.
+func (o *InspectionScript) HasCritThreshold() bool {
+	return o != nil && o.CritThreshold != nil
+}
+
+// SetCritThreshold gets a reference to the given float64 and assigns it to the CritThreshold field.
+func (o *InspectionScript) SetCritThreshold(v float64) {
+	o.CritThreshold = &v
+}
+
+// GetDirection returns the Direction field value if set, zero value otherwise.
+func (o *InspectionScript) GetDirection() InspectionThresholdDirection {
+	if o == nil || o.Direction == nil {
+		var ret InspectionThresholdDirection
+		return ret
+	}
+	return *o.Direction
+}
+
+// GetDirectionOk returns a tuple with the Direction field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionScript) GetDirectionOk() (*InspectionThresholdDirection, bool) {
+	if o == nil || o.Direction == nil {
+		return nil, false
+	}
+	return o.Direction, true
+}
+
+// HasDirection returns a boolean if a field has been set.
+func (o *InspectionScript) HasDirection() bool {
+	return o != nil && o.Direction != nil
+}
+
+// SetDirection gets a reference to the given InspectionThresholdDirection and assigns it to the Direction field.
+func (o *InspectionScript) SetDirection(v InspectionThresholdDirection) {
+	o.Direction = &v
+}
+
+// GetRemediation returns the Remediation field value if set, zero value otherwise.
+func (o *InspectionScript) GetRemediation() LocalizedDescription {
+	if o == nil || o.Remediation == nil {
+		var ret LocalizedDescription
+		return ret
+	}
+	return *o.Remediation
+}
+
+// GetRemediationOk returns a tuple with the Remediation field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionScript) GetRemediationOk() (*LocalizedDescription, bool) {
+	if o == nil || o.Remediation == nil {
+		return nil, false
+	}
+	return o.Remediation, true
+}
+
+// HasRemediation returns a boolean if a field has been set.
+func (o *InspectionScript) HasRemediation() bool {
+	return o != nil && o.Remediation != nil
+}
+
+// SetRemediation gets a reference to the given LocalizedDescription and assigns it to the Remediation field.
+func (o *InspectionScript) SetRemediation(v LocalizedDescription) {
+	o.Remediation = &v
+}
+
+// GetDocLink returns the DocLink field value if set, zero value otherwise.
+func (o *InspectionScript) GetDocLink() string {
+	if o == nil || o.DocLink == nil {
+		var ret string
+		return ret
+	}
+	return *o.DocLink
+}
+
+// GetDocLinkOk returns a tuple with the DocLink field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionScript) GetDocLinkOk() (*string, bool) {
+	if o == nil || o.DocLink == nil {
+		return nil, false
+	}
+	return o.DocLink, true
+}
+
+// HasDocLink returns a boolean if a field has been set.
+func (o *InspectionScript) HasDocLink() bool {
+	return o != nil && o.DocLink != nil
+}
+
+// SetDocLink gets a reference to the given string and assigns it to the DocLink field.
+func (o *InspectionScript) SetDocLink(v string) {
+	o.DocLink = &v
+}
+
 // GetScopeType returns the ScopeType field value.
 func (o *InspectionScript) GetScopeType() string {
 	if o == nil {
@@ -500,6 +678,24 @@ func (o InspectionScript) MarshalJSON() ([]byte, error) {
 	if o.CheckExpr != nil {
 		toSerialize["checkExpr"] = o.CheckExpr
 	}
+	if o.Criticality != nil {
+		toSerialize["criticality"] = o.Criticality
+	}
+	if o.WarnThreshold != nil {
+		toSerialize["warnThreshold"] = o.WarnThreshold
+	}
+	if o.CritThreshold != nil {
+		toSerialize["critThreshold"] = o.CritThreshold
+	}
+	if o.Direction != nil {
+		toSerialize["direction"] = o.Direction
+	}
+	if o.Remediation != nil {
+		toSerialize["remediation"] = o.Remediation
+	}
+	if o.DocLink != nil {
+		toSerialize["docLink"] = o.DocLink
+	}
 	toSerialize["scopeType"] = o.ScopeType
 	if o.ScopeId != nil {
 		toSerialize["scopeID"] = o.ScopeId
@@ -527,22 +723,28 @@ func (o InspectionScript) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InspectionScript) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id          *string                   `json:"id,omitempty"`
-		Name        *string                   `json:"name"`
-		DisplayName *LocalizedDescription     `json:"displayName,omitempty"`
-		Engine      *string                   `json:"engine"`
-		Type        *string                   `json:"type"`
-		Category    *InspectionScriptCategory `json:"category"`
-		Description *LocalizedDescription     `json:"description,omitempty"`
-		ScriptExpr  *string                   `json:"scriptExpr"`
-		CheckExpr   *string                   `json:"checkExpr,omitempty"`
-		ScopeType   *string                   `json:"scopeType"`
-		ScopeId     *string                   `json:"scopeID,omitempty"`
-		ScopeName   *string                   `json:"scopeName,omitempty"`
-		Enabled     *bool                     `json:"enabled"`
-		Unit        *string                   `json:"unit,omitempty"`
-		CreatedAt   *int32                    `json:"createdAt,omitempty"`
-		UpdatedAt   *int32                    `json:"updatedAt,omitempty"`
+		Id            *string                       `json:"id,omitempty"`
+		Name          *string                       `json:"name"`
+		DisplayName   *LocalizedDescription         `json:"displayName,omitempty"`
+		Engine        *string                       `json:"engine"`
+		Type          *string                       `json:"type"`
+		Category      *InspectionScriptCategory     `json:"category"`
+		Description   *LocalizedDescription         `json:"description,omitempty"`
+		ScriptExpr    *string                       `json:"scriptExpr"`
+		CheckExpr     *string                       `json:"checkExpr,omitempty"`
+		Criticality   *InspectionCriticality        `json:"criticality,omitempty"`
+		WarnThreshold *float64                      `json:"warnThreshold,omitempty"`
+		CritThreshold *float64                      `json:"critThreshold,omitempty"`
+		Direction     *InspectionThresholdDirection `json:"direction,omitempty"`
+		Remediation   *LocalizedDescription         `json:"remediation,omitempty"`
+		DocLink       *string                       `json:"docLink,omitempty"`
+		ScopeType     *string                       `json:"scopeType"`
+		ScopeId       *string                       `json:"scopeID,omitempty"`
+		ScopeName     *string                       `json:"scopeName,omitempty"`
+		Enabled       *bool                         `json:"enabled"`
+		Unit          *string                       `json:"unit,omitempty"`
+		CreatedAt     *int32                        `json:"createdAt,omitempty"`
+		UpdatedAt     *int32                        `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -570,7 +772,7 @@ func (o *InspectionScript) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "displayName", "engine", "type", "category", "description", "scriptExpr", "checkExpr", "scopeType", "scopeID", "scopeName", "enabled", "unit", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "displayName", "engine", "type", "category", "description", "scriptExpr", "checkExpr", "criticality", "warnThreshold", "critThreshold", "direction", "remediation", "docLink", "scopeType", "scopeID", "scopeName", "enabled", "unit", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}
@@ -595,6 +797,23 @@ func (o *InspectionScript) UnmarshalJSON(bytes []byte) (err error) {
 	o.Description = all.Description
 	o.ScriptExpr = *all.ScriptExpr
 	o.CheckExpr = all.CheckExpr
+	if all.Criticality != nil && !all.Criticality.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Criticality = all.Criticality
+	}
+	o.WarnThreshold = all.WarnThreshold
+	o.CritThreshold = all.CritThreshold
+	if all.Direction != nil && !all.Direction.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Direction = all.Direction
+	}
+	if all.Remediation != nil && all.Remediation.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Remediation = all.Remediation
+	o.DocLink = all.DocLink
 	o.ScopeType = *all.ScopeType
 	o.ScopeId = all.ScopeId
 	o.ScopeName = all.ScopeName

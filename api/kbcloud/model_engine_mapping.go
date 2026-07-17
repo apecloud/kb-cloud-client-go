@@ -12,6 +12,7 @@ type EngineMapping struct {
 	Source              *string                    `json:"source,omitempty"`
 	Target              *string                    `json:"target,omitempty"`
 	Modules             []string                   `json:"modules,omitempty"`
+	ModuleSelectMode    *SelectModuleMode          `json:"moduleSelectMode,omitempty"`
 	Events              [][]EventObject            `json:"events,omitempty"`
 	ReplicationMetadata *ReplicationMetadataObject `json:"replicationMetadata,omitempty"`
 	Descriptions        *MappingDescription        `json:"descriptions,omitempty"`
@@ -122,6 +123,34 @@ func (o *EngineMapping) HasModules() bool {
 // SetModules gets a reference to the given []string and assigns it to the Modules field.
 func (o *EngineMapping) SetModules(v []string) {
 	o.Modules = v
+}
+
+// GetModuleSelectMode returns the ModuleSelectMode field value if set, zero value otherwise.
+func (o *EngineMapping) GetModuleSelectMode() SelectModuleMode {
+	if o == nil || o.ModuleSelectMode == nil {
+		var ret SelectModuleMode
+		return ret
+	}
+	return *o.ModuleSelectMode
+}
+
+// GetModuleSelectModeOk returns a tuple with the ModuleSelectMode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineMapping) GetModuleSelectModeOk() (*SelectModuleMode, bool) {
+	if o == nil || o.ModuleSelectMode == nil {
+		return nil, false
+	}
+	return o.ModuleSelectMode, true
+}
+
+// HasModuleSelectMode returns a boolean if a field has been set.
+func (o *EngineMapping) HasModuleSelectMode() bool {
+	return o != nil && o.ModuleSelectMode != nil
+}
+
+// SetModuleSelectMode gets a reference to the given SelectModuleMode and assigns it to the ModuleSelectMode field.
+func (o *EngineMapping) SetModuleSelectMode(v SelectModuleMode) {
+	o.ModuleSelectMode = &v
 }
 
 // GetEvents returns the Events field value if set, zero value otherwise.
@@ -279,6 +308,9 @@ func (o EngineMapping) MarshalJSON() ([]byte, error) {
 	if o.Modules != nil {
 		toSerialize["modules"] = o.Modules
 	}
+	if o.ModuleSelectMode != nil {
+		toSerialize["moduleSelectMode"] = o.ModuleSelectMode
+	}
 	if o.Events != nil {
 		toSerialize["events"] = o.Events
 	}
@@ -307,6 +339,7 @@ func (o *EngineMapping) UnmarshalJSON(bytes []byte) (err error) {
 		Source              *string                           `json:"source,omitempty"`
 		Target              *string                           `json:"target,omitempty"`
 		Modules             []string                          `json:"modules,omitempty"`
+		ModuleSelectMode    *SelectModuleMode                 `json:"moduleSelectMode,omitempty"`
 		Events              [][]EventObject                   `json:"events,omitempty"`
 		ReplicationMetadata *ReplicationMetadataObject        `json:"replicationMetadata,omitempty"`
 		Descriptions        *MappingDescription               `json:"descriptions,omitempty"`
@@ -318,7 +351,7 @@ func (o *EngineMapping) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"source", "target", "modules", "events", "replicationMetadata", "descriptions", "preCheckers", "parameterTemplate"})
+		common.DeleteKeys(additionalProperties, &[]string{"source", "target", "modules", "moduleSelectMode", "events", "replicationMetadata", "descriptions", "preCheckers", "parameterTemplate"})
 	} else {
 		return err
 	}
@@ -327,6 +360,11 @@ func (o *EngineMapping) UnmarshalJSON(bytes []byte) (err error) {
 	o.Source = all.Source
 	o.Target = all.Target
 	o.Modules = all.Modules
+	if all.ModuleSelectMode != nil && !all.ModuleSelectMode.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.ModuleSelectMode = all.ModuleSelectMode
+	}
 	o.Events = all.Events
 	if all.ReplicationMetadata != nil && all.ReplicationMetadata.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true

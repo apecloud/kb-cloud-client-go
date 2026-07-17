@@ -2,71 +2,40 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
-import (
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
-
-// StorageConfigLog the storage config for log
-type StorageConfigLog struct {
-	// the name of storage
-	StorageName string `json:"storageName"`
+// InspectionTaskItemEvidence Structured evidence used to explain the item result. Prometheus/exporter no-data is reported here as no data or unknown instead of being converted into a healthy result.
+type InspectionTaskItemEvidence struct {
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewStorageConfigLog instantiates a new StorageConfigLog object.
+// NewInspectionTaskItemEvidence instantiates a new InspectionTaskItemEvidence object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewStorageConfigLog(storageName string) *StorageConfigLog {
-	this := StorageConfigLog{}
-	this.StorageName = storageName
+func NewInspectionTaskItemEvidence() *InspectionTaskItemEvidence {
+	this := InspectionTaskItemEvidence{}
 	return &this
 }
 
-// NewStorageConfigLogWithDefaults instantiates a new StorageConfigLog object.
+// NewInspectionTaskItemEvidenceWithDefaults instantiates a new InspectionTaskItemEvidence object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewStorageConfigLogWithDefaults() *StorageConfigLog {
-	this := StorageConfigLog{}
+func NewInspectionTaskItemEvidenceWithDefaults() *InspectionTaskItemEvidence {
+	this := InspectionTaskItemEvidence{}
 	return &this
-}
-
-// GetStorageName returns the StorageName field value.
-func (o *StorageConfigLog) GetStorageName() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.StorageName
-}
-
-// GetStorageNameOk returns a tuple with the StorageName field value
-// and a boolean to check if the value has been set.
-func (o *StorageConfigLog) GetStorageNameOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.StorageName, true
-}
-
-// SetStorageName sets field value.
-func (o *StorageConfigLog) SetStorageName(v string) {
-	o.StorageName = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o StorageConfigLog) MarshalJSON() ([]byte, error) {
+func (o InspectionTaskItemEvidence) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["storageName"] = o.StorageName
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -75,23 +44,18 @@ func (o StorageConfigLog) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *StorageConfigLog) UnmarshalJSON(bytes []byte) (err error) {
+func (o *InspectionTaskItemEvidence) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		StorageName *string `json:"storageName"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.StorageName == nil {
-		return fmt.Errorf("required field storageName missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"storageName"})
+		common.DeleteKeys(additionalProperties, &[]string{})
 	} else {
 		return err
 	}
-	o.StorageName = *all.StorageName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

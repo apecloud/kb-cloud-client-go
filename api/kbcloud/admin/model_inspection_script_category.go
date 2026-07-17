@@ -10,24 +10,30 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// InspectionScriptCategory Specifies the category of the inspection script.
+// InspectionScriptCategory Current inspection category vocabulary. Existing legacy categories are normalized by the backend before they are returned.
 type InspectionScriptCategory string
 
 // List of InspectionScriptCategory.
 const (
-	InspectionScriptCategoryPerformance  InspectionScriptCategory = "performance"
-	InspectionScriptCategoryAvailability InspectionScriptCategory = "availability"
-	InspectionScriptCategorySecurity     InspectionScriptCategory = "security"
-	InspectionScriptCategoryBackup       InspectionScriptCategory = "backup"
-	InspectionScriptCategoryOther        InspectionScriptCategory = "other"
+	InspectionScriptCategoryAvailability     InspectionScriptCategory = "availability"
+	InspectionScriptCategoryPerformance      InspectionScriptCategory = "performance"
+	InspectionScriptCategoryConnections      InspectionScriptCategory = "connections"
+	InspectionScriptCategoryResource         InspectionScriptCategory = "resource"
+	InspectionScriptCategoryCapacity         InspectionScriptCategory = "capacity"
+	InspectionScriptCategoryVacuumWraparound InspectionScriptCategory = "vacuumWraparound"
+	InspectionScriptCategoryBackup           InspectionScriptCategory = "backup"
+	InspectionScriptCategorySecurity         InspectionScriptCategory = "security"
 )
 
 var allowedInspectionScriptCategoryEnumValues = []InspectionScriptCategory{
-	InspectionScriptCategoryPerformance,
 	InspectionScriptCategoryAvailability,
-	InspectionScriptCategorySecurity,
+	InspectionScriptCategoryPerformance,
+	InspectionScriptCategoryConnections,
+	InspectionScriptCategoryResource,
+	InspectionScriptCategoryCapacity,
+	InspectionScriptCategoryVacuumWraparound,
 	InspectionScriptCategoryBackup,
-	InspectionScriptCategoryOther,
+	InspectionScriptCategorySecurity,
 }
 
 // GetAllowedValues returns the list of possible values.

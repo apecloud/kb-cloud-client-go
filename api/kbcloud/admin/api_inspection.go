@@ -585,9 +585,10 @@ func (a *InspectionApi) GetAggregateTaskResult(ctx _context.Context, aggregateTy
 
 // GetAutoInspectionOptionalParameters holds optional parameters for GetAutoInspection.
 type GetAutoInspectionOptionalParameters struct {
-	Id      *string
-	OrgName *string
-	EnvName *string
+	Id          *string
+	OrgName     *string
+	EnvName     *string
+	ClusterName *string
 }
 
 // NewGetAutoInspectionOptionalParameters creates an empty struct for parameters.
@@ -611,6 +612,12 @@ func (r *GetAutoInspectionOptionalParameters) WithOrgName(orgName string) *GetAu
 // WithEnvName sets the corresponding parameter name and returns the struct.
 func (r *GetAutoInspectionOptionalParameters) WithEnvName(envName string) *GetAutoInspectionOptionalParameters {
 	r.EnvName = &envName
+	return r
+}
+
+// WithClusterName sets the corresponding parameter name and returns the struct.
+func (r *GetAutoInspectionOptionalParameters) WithClusterName(clusterName string) *GetAutoInspectionOptionalParameters {
+	r.ClusterName = &clusterName
 	return r
 }
 
@@ -657,6 +664,9 @@ func (a *InspectionApi) GetAutoInspection(ctx _context.Context, o ...GetAutoInsp
 	}
 	if optionalParams.EnvName != nil {
 		localVarQueryParams.Add("envName", common.ParameterToString(*optionalParams.EnvName, ""))
+	}
+	if optionalParams.ClusterName != nil {
+		localVarQueryParams.Add("clusterName", common.ParameterToString(*optionalParams.ClusterName, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -726,11 +736,11 @@ func (r *GetInspectionTaskByEnvOptionalParameters) WithFormat(format InspectionT
 }
 
 // GetInspectionTaskByEnv get inspection task by env.
-func (a *InspectionApi) GetInspectionTaskByEnv(ctx _context.Context, environmentName string, taskId string, o ...GetInspectionTaskByEnvOptionalParameters) ([]InspectionTaskItem, *_nethttp.Response, error) {
+func (a *InspectionApi) GetInspectionTaskByEnv(ctx _context.Context, environmentName string, taskId string, o ...GetInspectionTaskByEnvOptionalParameters) (InspectionTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []InspectionTaskItem
+		localVarReturnValue InspectionTask
 		optionalParams      GetInspectionTaskByEnvOptionalParameters
 	)
 

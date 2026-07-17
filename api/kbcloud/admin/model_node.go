@@ -42,7 +42,8 @@ type Node struct {
 	// node is in data plane
 	DataPlane *bool `json:"dataPlane,omitempty"`
 	// Whether the node is managed (has data-plane or control-plane label)
-	Managed *bool `json:"managed,omitempty"`
+	Managed                 *bool                        `json:"managed,omitempty"`
+	KoordinatorReservations []KoordinatorNodeReservation `json:"koordinatorReservations,omitempty"`
 	// Status of the node
 	Status NodeStatus `json:"status"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -448,6 +449,34 @@ func (o *Node) SetManaged(v bool) {
 	o.Managed = &v
 }
 
+// GetKoordinatorReservations returns the KoordinatorReservations field value if set, zero value otherwise.
+func (o *Node) GetKoordinatorReservations() []KoordinatorNodeReservation {
+	if o == nil || o.KoordinatorReservations == nil {
+		var ret []KoordinatorNodeReservation
+		return ret
+	}
+	return o.KoordinatorReservations
+}
+
+// GetKoordinatorReservationsOk returns a tuple with the KoordinatorReservations field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Node) GetKoordinatorReservationsOk() (*[]KoordinatorNodeReservation, bool) {
+	if o == nil || o.KoordinatorReservations == nil {
+		return nil, false
+	}
+	return &o.KoordinatorReservations, true
+}
+
+// HasKoordinatorReservations returns a boolean if a field has been set.
+func (o *Node) HasKoordinatorReservations() bool {
+	return o != nil && o.KoordinatorReservations != nil
+}
+
+// SetKoordinatorReservations gets a reference to the given []KoordinatorNodeReservation and assigns it to the KoordinatorReservations field.
+func (o *Node) SetKoordinatorReservations(v []KoordinatorNodeReservation) {
+	o.KoordinatorReservations = v
+}
+
 // GetStatus returns the Status field value.
 func (o *Node) GetStatus() NodeStatus {
 	if o == nil {
@@ -517,6 +546,9 @@ func (o Node) MarshalJSON() ([]byte, error) {
 	if o.Managed != nil {
 		toSerialize["managed"] = o.Managed
 	}
+	if o.KoordinatorReservations != nil {
+		toSerialize["koordinatorReservations"] = o.KoordinatorReservations
+	}
 	toSerialize["status"] = o.Status
 
 	for key, value := range o.AdditionalProperties {
@@ -528,21 +560,22 @@ func (o Node) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Node) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Cpu          *int64         `json:"cpu,omitempty"`
-		CpuStats     *ResourceStats `json:"cpuStats,omitempty"`
-		CreatedAt    *time.Time     `json:"createdAt"`
-		HostName     *string        `json:"hostName"`
-		InstanceType *string        `json:"instanceType,omitempty"`
-		Ip           *string        `json:"ip"`
-		Memory       *int64         `json:"memory,omitempty"`
-		MemoryStats  *ResourceStats `json:"memoryStats,omitempty"`
-		Zone         *string        `json:"zone,omitempty"`
-		Region       *string        `json:"region,omitempty"`
-		NodeGroup    *string        `json:"nodeGroup,omitempty"`
-		ControlPlane *bool          `json:"controlPlane,omitempty"`
-		DataPlane    *bool          `json:"dataPlane,omitempty"`
-		Managed      *bool          `json:"managed,omitempty"`
-		Status       *NodeStatus    `json:"status"`
+		Cpu                     *int64                       `json:"cpu,omitempty"`
+		CpuStats                *ResourceStats               `json:"cpuStats,omitempty"`
+		CreatedAt               *time.Time                   `json:"createdAt"`
+		HostName                *string                      `json:"hostName"`
+		InstanceType            *string                      `json:"instanceType,omitempty"`
+		Ip                      *string                      `json:"ip"`
+		Memory                  *int64                       `json:"memory,omitempty"`
+		MemoryStats             *ResourceStats               `json:"memoryStats,omitempty"`
+		Zone                    *string                      `json:"zone,omitempty"`
+		Region                  *string                      `json:"region,omitempty"`
+		NodeGroup               *string                      `json:"nodeGroup,omitempty"`
+		ControlPlane            *bool                        `json:"controlPlane,omitempty"`
+		DataPlane               *bool                        `json:"dataPlane,omitempty"`
+		Managed                 *bool                        `json:"managed,omitempty"`
+		KoordinatorReservations []KoordinatorNodeReservation `json:"koordinatorReservations,omitempty"`
+		Status                  *NodeStatus                  `json:"status"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -561,7 +594,7 @@ func (o *Node) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cpu", "cpuStats", "createdAt", "hostName", "instanceType", "ip", "memory", "memoryStats", "zone", "region", "nodeGroup", "controlPlane", "dataPlane", "managed", "status"})
+		common.DeleteKeys(additionalProperties, &[]string{"cpu", "cpuStats", "createdAt", "hostName", "instanceType", "ip", "memory", "memoryStats", "zone", "region", "nodeGroup", "controlPlane", "dataPlane", "managed", "koordinatorReservations", "status"})
 	} else {
 		return err
 	}
@@ -587,6 +620,7 @@ func (o *Node) UnmarshalJSON(bytes []byte) (err error) {
 	o.ControlPlane = all.ControlPlane
 	o.DataPlane = all.DataPlane
 	o.Managed = all.Managed
+	o.KoordinatorReservations = all.KoordinatorReservations
 	if !all.Status.IsValid() {
 		hasInvalidField = true
 	} else {
