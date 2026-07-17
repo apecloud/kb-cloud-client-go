@@ -2414,6 +2414,13 @@ paths:
           description: list clusters referenced by this cluster
           schema:
             type: string
+        - name: include
+          in: query
+          description: Optional data to include in each list item. Pass `endpoints` to compute per-cluster endpoints (which require live Kubernetes reads and are omitted by default to keep the list path fast).
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         '200':
           description: A successful response.
