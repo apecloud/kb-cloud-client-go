@@ -464,6 +464,7 @@
 //   - [storageClassApi.getStorageClassStats]
 //   - [taskApi.cancelTask]
 //   - [taskApi.getTask]
+//   - [taskApi.listTaskEvents]
 //   - [taskApi.listTaskTypes]
 //   - [taskApi.listTasks]
 //   - [tlsApi.getTLSCertificate]

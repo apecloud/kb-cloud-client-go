@@ -611,6 +611,7 @@
 //   - [taskApi.getTask]
 //   - [taskApi.getTaskLog]
 //   - [taskApi.getTaskStepLog]
+//   - [taskApi.listTaskEvents]
 //   - [taskApi.listTaskTypes]
 //   - [taskApi.listTasks]
 //   - [taskApi.retryTask]
