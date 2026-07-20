@@ -19,10 +19,6 @@ type ModeServiceRef struct {
 	Name string `json:"name"`
 	// The default engine to be used in serviceRef. This field is used as the fallback engine filter and default create entry.
 	EngineName string `json:"engineName"`
-	// The engines that can be used in this serviceRef. Frontend should use this field to filter
-	// referenced clusters when it is set, and fall back to engineName when it is empty.
-	//
-	EngineNames []string `json:"engineNames,omitempty"`
 	// The mode to be used in serviceRef. This field is used to filter clusters. If not set, it means all modes are supported.
 	Modes []string `json:"modes,omitempty"`
 	// specify the style that will be used in servicedescriptor.
@@ -110,34 +106,6 @@ func (o *ModeServiceRef) GetEngineNameOk() (*string, bool) {
 // SetEngineName sets field value.
 func (o *ModeServiceRef) SetEngineName(v string) {
 	o.EngineName = v
-}
-
-// GetEngineNames returns the EngineNames field value if set, zero value otherwise.
-func (o *ModeServiceRef) GetEngineNames() []string {
-	if o == nil || o.EngineNames == nil {
-		var ret []string
-		return ret
-	}
-	return o.EngineNames
-}
-
-// GetEngineNamesOk returns a tuple with the EngineNames field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ModeServiceRef) GetEngineNamesOk() (*[]string, bool) {
-	if o == nil || o.EngineNames == nil {
-		return nil, false
-	}
-	return &o.EngineNames, true
-}
-
-// HasEngineNames returns a boolean if a field has been set.
-func (o *ModeServiceRef) HasEngineNames() bool {
-	return o != nil && o.EngineNames != nil
-}
-
-// SetEngineNames gets a reference to the given []string and assigns it to the EngineNames field.
-func (o *ModeServiceRef) SetEngineNames(v []string) {
-	o.EngineNames = v
 }
 
 // GetModes returns the Modes field value if set, zero value otherwise.
@@ -278,9 +246,6 @@ func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["name"] = o.Name
 	toSerialize["engineName"] = o.EngineName
-	if o.EngineNames != nil {
-		toSerialize["engineNames"] = o.EngineNames
-	}
 	if o.Modes != nil {
 		toSerialize["modes"] = o.Modes
 	}
@@ -304,7 +269,6 @@ func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name               *string                        `json:"name"`
 		EngineName         *string                        `json:"engineName"`
-		EngineNames        []string                       `json:"engineNames,omitempty"`
 		Modes              []string                       `json:"modes,omitempty"`
 		AddressStyle       *ServiceDescriptorAddressStyle `json:"addressStyle"`
 		DisableManualInput *bool                          `json:"disableManualInput,omitempty"`
@@ -328,7 +292,7 @@ func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "engineName", "engineNames", "modes", "addressStyle", "disableManualInput", "helmValuePath", "serviceSelectors"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "engineName", "modes", "addressStyle", "disableManualInput", "helmValuePath", "serviceSelectors"})
 	} else {
 		return err
 	}
@@ -336,7 +300,6 @@ func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Name = *all.Name
 	o.EngineName = *all.EngineName
-	o.EngineNames = all.EngineNames
 	o.Modes = all.Modes
 	if !all.AddressStyle.IsValid() {
 		hasInvalidField = true

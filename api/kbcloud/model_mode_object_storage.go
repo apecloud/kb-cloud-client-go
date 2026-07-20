@@ -14,6 +14,11 @@ type ModeObjectStorage struct {
 	// Services provided by other Clusters. The defined serviceRef must be provided when creating cluster.
 	//
 	ServiceRef *ModeServiceRef `json:"serviceRef,omitempty"`
+	// Object storage serviceRef configs supported by this mode. Use this when different object
+	// storage engines may require different serviceRef or Helm value mappings. When it is set,
+	// the cluster create request selects one item by objectStorageConfig.serviceRef.name.
+	//
+	ServiceRefs []ModeObjectStorageServiceRef `json:"serviceRefs,omitempty"`
 	// The path in helm values that some object storage config will use. If empty, the values will not be set.
 	AdditionalHelmValuePath *ModeObjectStorageAdditionalHelmValuePath `json:"additionalHelmValuePath,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -94,6 +99,34 @@ func (o *ModeObjectStorage) SetServiceRef(v ModeServiceRef) {
 	o.ServiceRef = &v
 }
 
+// GetServiceRefs returns the ServiceRefs field value if set, zero value otherwise.
+func (o *ModeObjectStorage) GetServiceRefs() []ModeObjectStorageServiceRef {
+	if o == nil || o.ServiceRefs == nil {
+		var ret []ModeObjectStorageServiceRef
+		return ret
+	}
+	return o.ServiceRefs
+}
+
+// GetServiceRefsOk returns a tuple with the ServiceRefs field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeObjectStorage) GetServiceRefsOk() (*[]ModeObjectStorageServiceRef, bool) {
+	if o == nil || o.ServiceRefs == nil {
+		return nil, false
+	}
+	return &o.ServiceRefs, true
+}
+
+// HasServiceRefs returns a boolean if a field has been set.
+func (o *ModeObjectStorage) HasServiceRefs() bool {
+	return o != nil && o.ServiceRefs != nil
+}
+
+// SetServiceRefs gets a reference to the given []ModeObjectStorageServiceRef and assigns it to the ServiceRefs field.
+func (o *ModeObjectStorage) SetServiceRefs(v []ModeObjectStorageServiceRef) {
+	o.ServiceRefs = v
+}
+
 // GetAdditionalHelmValuePath returns the AdditionalHelmValuePath field value if set, zero value otherwise.
 func (o *ModeObjectStorage) GetAdditionalHelmValuePath() ModeObjectStorageAdditionalHelmValuePath {
 	if o == nil || o.AdditionalHelmValuePath == nil {
@@ -134,6 +167,9 @@ func (o ModeObjectStorage) MarshalJSON() ([]byte, error) {
 	if o.ServiceRef != nil {
 		toSerialize["serviceRef"] = o.ServiceRef
 	}
+	if o.ServiceRefs != nil {
+		toSerialize["serviceRefs"] = o.ServiceRefs
+	}
 	if o.AdditionalHelmValuePath != nil {
 		toSerialize["additionalHelmValuePath"] = o.AdditionalHelmValuePath
 	}
@@ -149,6 +185,7 @@ func (o *ModeObjectStorage) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Enabled                 *bool                                     `json:"enabled,omitempty"`
 		ServiceRef              *ModeServiceRef                           `json:"serviceRef,omitempty"`
+		ServiceRefs             []ModeObjectStorageServiceRef             `json:"serviceRefs,omitempty"`
 		AdditionalHelmValuePath *ModeObjectStorageAdditionalHelmValuePath `json:"additionalHelmValuePath,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -156,7 +193,7 @@ func (o *ModeObjectStorage) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"enabled", "serviceRef", "additionalHelmValuePath"})
+		common.DeleteKeys(additionalProperties, &[]string{"enabled", "serviceRef", "serviceRefs", "additionalHelmValuePath"})
 	} else {
 		return err
 	}
@@ -167,6 +204,7 @@ func (o *ModeObjectStorage) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.ServiceRef = all.ServiceRef
+	o.ServiceRefs = all.ServiceRefs
 	if all.AdditionalHelmValuePath != nil && all.AdditionalHelmValuePath.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

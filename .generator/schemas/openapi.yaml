@@ -26923,13 +26923,6 @@ components:
         engineName:
           type: string
           description: The default engine to be used in serviceRef. This field is used as the fallback engine filter and default create entry.
-        engineNames:
-          type: array
-          items:
-            type: string
-          description: |
-            The engines that can be used in this serviceRef. Frontend should use this field to filter
-            referenced clusters when it is set, and fall back to engineName when it is empty.
         modes:
           type: array
           items:
@@ -26985,6 +26978,41 @@ components:
             If no serviceSelector is matched, the corresponding helm value will not be set.
           items:
             $ref: '#/components/schemas/serviceSelector'
+    additionalHelmValuePath:
+      type: object
+      description: The path in helm values that some object storage config will use. If empty, the values will not be set.
+      required:
+        - bucket
+      properties:
+        bucket:
+          type: string
+          description: the bucket name for the object storage
+        path:
+          type: string
+          description: |
+            root path where cluster stores data in the bucket. This field is not user-provided.
+            It is always set to cluster id. If not set, it means the engine does not support specify a path.
+        usePathStyle:
+          type: string
+          description: |
+            whether the object storage is using path style or virtual host style.
+            If not set, it means the engine does not need this option.
+        region:
+          type: string
+          description: |
+            Region to use. If not set, it means the engine does not need this option.
+    modeObjectStorageServiceRef:
+      type: object
+      description: |
+        Defines one object storage dependency option for a mode.
+      required:
+        - serviceRef
+        - additionalHelmValuePath
+      properties:
+        serviceRef:
+          $ref: '#/components/schemas/modeServiceRef'
+        additionalHelmValuePath:
+          $ref: '#/components/schemas/additionalHelmValuePath'
     modeObjectStorage:
       type: object
       description: |
@@ -26995,6 +27023,14 @@ components:
           description: if object storage is enabled for this mode
         serviceRef:
           $ref: '#/components/schemas/modeServiceRef'
+        serviceRefs:
+          type: array
+          items:
+            $ref: '#/components/schemas/modeObjectStorageServiceRef'
+          description: |
+            Object storage serviceRef configs supported by this mode. Use this when different object
+            storage engines may require different serviceRef or Helm value mappings. When it is set,
+            the cluster create request selects one item by objectStorageConfig.serviceRef.name.
         additionalHelmValuePath:
           type: object
           description: The path in helm values that some object storage config will use. If empty, the values will not be set.
