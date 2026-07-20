@@ -20625,6 +20625,19 @@ components:
         orgName:
           type: string
           description: The organization name
+    environmentModuleInstallCheck:
+      type: object
+      description: A localized result item produced by an environment module installation check
+      properties:
+        code:
+          type: string
+          description: Identifier included with this check result. The localized message is returned directly and is not resolved from this value.
+        message:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Localized check result. Failed checks include remediation guidance suitable for direct display.
+      required:
+        - code
+        - message
     environmentModule:
       type: object
       description: Single environment module information
@@ -20658,6 +20671,25 @@ components:
         defaultEnabled:
           type: boolean
           description: indicate whether module is enabled by default when creating environment. Only effective when optional is true
+        installed:
+          type: boolean
+          nullable: true
+          x-omitempty: false
+          description: Whether quick installation has completed. False may include resources left by an active or failed installation task. Null means the module has no registered quick installer or its installation state could not be determined.
+        installable:
+          type: boolean
+          nullable: true
+          x-omitempty: false
+          description: True only when every common check and installer-specific check currently passes. False means blockingReasons explains why installation is blocked. Null means evaluation was not performed.
+        installWarning:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Localized business-impact warning shown in the confirmation dialog before running dry-run checks. It is absent for installed modules or modules without a warning.
+        blockingReasons:
+          type: array
+          x-omitempty: true
+          description: Failed common and installer-specific checks with localized remediation guidance. Empty when installation is currently allowed.
+          items:
+            $ref: '#/components/schemas/environmentModuleInstallCheck'
       required:
         - name
         - status

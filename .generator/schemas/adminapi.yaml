@@ -17135,6 +17135,53 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
+  /admin/v1/environments/{environmentName}/modules/{moduleName}/install:
+    post:
+      operationId: installEnvironmentModule
+      summary: Check or install an environment module
+      description: With dryRun=true, synchronously evaluates common and installer-specific checks without side effects. With dryRun=false, repeats the same real-time checks in the current request and submits an asynchronous installation task only when fail is empty.
+      parameters:
+        - name: environmentName
+          in: path
+          required: true
+          description: Environment Name
+          schema:
+            type: string
+        - name: moduleName
+          in: path
+          required: true
+          description: Environment module name
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/environmentModuleInstallRequest'
+      responses:
+        '200':
+          description: Checks completed, including business check failures. taskId is returned only for dryRun=false when every check passed and the asynchronous task was submitted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentModuleInstallResult'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
   /admin/v1/environments/{environmentName}/modules/{moduleName}/details:
     get:
       operationId: getEnvironmentModuleDetails
@@ -30457,6 +30504,19 @@ components:
         orgName:
           type: string
           description: The organization name
+    environmentModuleInstallCheck:
+      type: object
+      description: A localized result item produced by an environment module installation check
+      properties:
+        code:
+          type: string
+          description: Identifier included with this check result. The localized message is returned directly and is not resolved from this value.
+        message:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Localized check result. Failed checks include remediation guidance suitable for direct display.
+      required:
+        - code
+        - message
     environmentModule:
       type: object
       description: Single environment module information
@@ -30490,6 +30550,25 @@ components:
         defaultEnabled:
           type: boolean
           description: indicate whether module is enabled by default when creating environment. Only effective when optional is true
+        installed:
+          type: boolean
+          nullable: true
+          x-omitempty: false
+          description: Whether quick installation has completed. False may include resources left by an active or failed installation task. Null means the module has no registered quick installer or its installation state could not be determined.
+        installable:
+          type: boolean
+          nullable: true
+          x-omitempty: false
+          description: True only when every common check and installer-specific check currently passes. False means blockingReasons explains why installation is blocked. Null means evaluation was not performed.
+        installWarning:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Localized business-impact warning shown in the confirmation dialog before running dry-run checks. It is absent for installed modules or modules without a warning.
+        blockingReasons:
+          type: array
+          x-omitempty: true
+          description: Failed common and installer-specific checks with localized remediation guidance. Empty when installation is currently allowed.
+          items:
+            $ref: '#/components/schemas/environmentModuleInstallCheck'
       required:
         - name
         - status
@@ -37833,6 +37912,35 @@ components:
       required:
         - name
         - action
+    environmentModuleInstallRequest:
+      type: object
+      description: Request to check or install an environment module
+      properties:
+        dryRun:
+          type: boolean
+          description: When true, only run installation checks. When false, run the same checks and submit an installation task if all checks pass.
+      required:
+        - dryRun
+    environmentModuleInstallResult:
+      type: object
+      description: Environment module installation check results and optional submitted task
+      properties:
+        pass:
+          type: array
+          description: Checks that passed during this synchronous evaluation. These items are informational and do not block task submission.
+          items:
+            $ref: '#/components/schemas/environmentModuleInstallCheck'
+        fail:
+          type: array
+          description: Checks that failed during this synchronous evaluation. When non-empty, no asynchronous installation task is submitted.
+          items:
+            $ref: '#/components/schemas/environmentModuleInstallCheck'
+        taskId:
+          type: string
+          description: ID of the submitted asynchronous installation task. It is absent for dry runs or failed checks.
+      required:
+        - pass
+        - fail
     podResources:
       type: object
       description: Resource usage information for a pod

@@ -30,6 +30,13 @@ type EnvironmentModule struct {
 	Optional *bool `json:"optional,omitempty"`
 	// indicate whether module is enabled by default when creating environment. Only effective when optional is true
 	DefaultEnabled *bool `json:"defaultEnabled,omitempty"`
+	// Whether quick installation has completed. False may include resources left by an active or failed installation task. Null means the module has no registered quick installer or its installation state could not be determined.
+	Installed common.NullableBool `json:"installed,omitempty"`
+	// True only when every common check and installer-specific check currently passes. False means blockingReasons explains why installation is blocked. Null means evaluation was not performed.
+	Installable    common.NullableBool   `json:"installable,omitempty"`
+	InstallWarning *LocalizedDescription `json:"installWarning,omitempty"`
+	// Failed common and installer-specific checks with localized remediation guidance. Empty when installation is currently allowed.
+	BlockingReasons []EnvironmentModuleInstallCheck `json:"blockingReasons,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -324,6 +331,140 @@ func (o *EnvironmentModule) SetDefaultEnabled(v bool) {
 	o.DefaultEnabled = &v
 }
 
+// GetInstalled returns the Installed field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *EnvironmentModule) GetInstalled() bool {
+	if o == nil || o.Installed.Get() == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Installed.Get()
+}
+
+// GetInstalledOk returns a tuple with the Installed field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *EnvironmentModule) GetInstalledOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Installed.Get(), o.Installed.IsSet()
+}
+
+// HasInstalled returns a boolean if a field has been set.
+func (o *EnvironmentModule) HasInstalled() bool {
+	return o != nil && o.Installed.IsSet()
+}
+
+// SetInstalled gets a reference to the given common.NullableBool and assigns it to the Installed field.
+func (o *EnvironmentModule) SetInstalled(v bool) {
+	o.Installed.Set(&v)
+}
+
+// SetInstalledNil sets the value for Installed to be an explicit nil.
+func (o *EnvironmentModule) SetInstalledNil() {
+	o.Installed.Set(nil)
+}
+
+// UnsetInstalled ensures that no value is present for Installed, not even an explicit nil.
+func (o *EnvironmentModule) UnsetInstalled() {
+	o.Installed.Unset()
+}
+
+// GetInstallable returns the Installable field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *EnvironmentModule) GetInstallable() bool {
+	if o == nil || o.Installable.Get() == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Installable.Get()
+}
+
+// GetInstallableOk returns a tuple with the Installable field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *EnvironmentModule) GetInstallableOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Installable.Get(), o.Installable.IsSet()
+}
+
+// HasInstallable returns a boolean if a field has been set.
+func (o *EnvironmentModule) HasInstallable() bool {
+	return o != nil && o.Installable.IsSet()
+}
+
+// SetInstallable gets a reference to the given common.NullableBool and assigns it to the Installable field.
+func (o *EnvironmentModule) SetInstallable(v bool) {
+	o.Installable.Set(&v)
+}
+
+// SetInstallableNil sets the value for Installable to be an explicit nil.
+func (o *EnvironmentModule) SetInstallableNil() {
+	o.Installable.Set(nil)
+}
+
+// UnsetInstallable ensures that no value is present for Installable, not even an explicit nil.
+func (o *EnvironmentModule) UnsetInstallable() {
+	o.Installable.Unset()
+}
+
+// GetInstallWarning returns the InstallWarning field value if set, zero value otherwise.
+func (o *EnvironmentModule) GetInstallWarning() LocalizedDescription {
+	if o == nil || o.InstallWarning == nil {
+		var ret LocalizedDescription
+		return ret
+	}
+	return *o.InstallWarning
+}
+
+// GetInstallWarningOk returns a tuple with the InstallWarning field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentModule) GetInstallWarningOk() (*LocalizedDescription, bool) {
+	if o == nil || o.InstallWarning == nil {
+		return nil, false
+	}
+	return o.InstallWarning, true
+}
+
+// HasInstallWarning returns a boolean if a field has been set.
+func (o *EnvironmentModule) HasInstallWarning() bool {
+	return o != nil && o.InstallWarning != nil
+}
+
+// SetInstallWarning gets a reference to the given LocalizedDescription and assigns it to the InstallWarning field.
+func (o *EnvironmentModule) SetInstallWarning(v LocalizedDescription) {
+	o.InstallWarning = &v
+}
+
+// GetBlockingReasons returns the BlockingReasons field value if set, zero value otherwise.
+func (o *EnvironmentModule) GetBlockingReasons() []EnvironmentModuleInstallCheck {
+	if o == nil || o.BlockingReasons == nil {
+		var ret []EnvironmentModuleInstallCheck
+		return ret
+	}
+	return o.BlockingReasons
+}
+
+// GetBlockingReasonsOk returns a tuple with the BlockingReasons field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentModule) GetBlockingReasonsOk() (*[]EnvironmentModuleInstallCheck, bool) {
+	if o == nil || o.BlockingReasons == nil {
+		return nil, false
+	}
+	return &o.BlockingReasons, true
+}
+
+// HasBlockingReasons returns a boolean if a field has been set.
+func (o *EnvironmentModule) HasBlockingReasons() bool {
+	return o != nil && o.BlockingReasons != nil
+}
+
+// SetBlockingReasons gets a reference to the given []EnvironmentModuleInstallCheck and assigns it to the BlockingReasons field.
+func (o *EnvironmentModule) SetBlockingReasons(v []EnvironmentModuleInstallCheck) {
+	o.BlockingReasons = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -356,6 +497,18 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	if o.DefaultEnabled != nil {
 		toSerialize["defaultEnabled"] = o.DefaultEnabled
 	}
+	if o.Installed.IsSet() {
+		toSerialize["installed"] = o.Installed.Get()
+	}
+	if o.Installable.IsSet() {
+		toSerialize["installable"] = o.Installable.Get()
+	}
+	if o.InstallWarning != nil {
+		toSerialize["installWarning"] = o.InstallWarning
+	}
+	if o.BlockingReasons != nil {
+		toSerialize["blockingReasons"] = o.BlockingReasons
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -366,16 +519,20 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name           *string                  `json:"name"`
-		Version        *string                  `json:"version,omitempty"`
-		Status         *EnvironmentModuleStatus `json:"status"`
-		Replicas       *int32                   `json:"replicas,omitempty"`
-		Location       *string                  `json:"location,omitempty"`
-		ClusterInfo    *ClusterInfo             `json:"clusterInfo,omitempty"`
-		Description    *LocalizedDescription    `json:"description,omitempty"`
-		DisplayName    *LocalizedDescription    `json:"displayName,omitempty"`
-		Optional       *bool                    `json:"optional,omitempty"`
-		DefaultEnabled *bool                    `json:"defaultEnabled,omitempty"`
+		Name            *string                         `json:"name"`
+		Version         *string                         `json:"version,omitempty"`
+		Status          *EnvironmentModuleStatus        `json:"status"`
+		Replicas        *int32                          `json:"replicas,omitempty"`
+		Location        *string                         `json:"location,omitempty"`
+		ClusterInfo     *ClusterInfo                    `json:"clusterInfo,omitempty"`
+		Description     *LocalizedDescription           `json:"description,omitempty"`
+		DisplayName     *LocalizedDescription           `json:"displayName,omitempty"`
+		Optional        *bool                           `json:"optional,omitempty"`
+		DefaultEnabled  *bool                           `json:"defaultEnabled,omitempty"`
+		Installed       common.NullableBool             `json:"installed,omitempty"`
+		Installable     common.NullableBool             `json:"installable,omitempty"`
+		InstallWarning  *LocalizedDescription           `json:"installWarning,omitempty"`
+		BlockingReasons []EnvironmentModuleInstallCheck `json:"blockingReasons,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -388,7 +545,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "replicas", "location", "clusterInfo", "description", "displayName", "optional", "defaultEnabled"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "replicas", "location", "clusterInfo", "description", "displayName", "optional", "defaultEnabled", "installed", "installable", "installWarning", "blockingReasons"})
 	} else {
 		return err
 	}
@@ -417,6 +574,13 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	o.DisplayName = all.DisplayName
 	o.Optional = all.Optional
 	o.DefaultEnabled = all.DefaultEnabled
+	o.Installed = all.Installed
+	o.Installable = all.Installable
+	if all.InstallWarning != nil && all.InstallWarning.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.InstallWarning = all.InstallWarning
+	o.BlockingReasons = all.BlockingReasons
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
