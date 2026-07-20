@@ -17095,7 +17095,8 @@ paths:
         - environment
     patch:
       operationId: updateEnvironmentModule
-      summary: update environment module
+      summary: Update an environment module
+      description: Performs the requested module action. For quick-install modules, action=Enable with dryRun=true synchronously checks whether installation is allowed without making changes; dryRun=false or omitted repeats the checks and submits an asynchronous task only when all checks pass. Existing module actions that do not use the quick-install framework keep their original behavior.
       parameters:
         - name: environmentName
           in: path
@@ -17110,58 +17111,7 @@ paths:
               $ref: '#/components/schemas/environmentModuleUpdate'
       responses:
         '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  taskId:
-                    type: string
-                    description: the task id
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/409'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-      tags:
-        - environment
-  /admin/v1/environments/{environmentName}/modules/{moduleName}/install:
-    post:
-      operationId: installEnvironmentModule
-      summary: Check or install an environment module
-      description: With dryRun=true, synchronously evaluates common and installer-specific checks without side effects. With dryRun=false, repeats the same real-time checks in the current request and submits an asynchronous installation task only when fail is empty.
-      parameters:
-        - name: environmentName
-          in: path
-          required: true
-          description: Environment Name
-          schema:
-            type: string
-        - name: moduleName
-          in: path
-          required: true
-          description: Environment module name
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/environmentModuleInstallRequest'
-      responses:
-        '200':
-          description: Checks completed, including business check failures. taskId is returned only for dryRun=false when every check passed and the asynchronous task was submitted.
+          description: The module action was evaluated. For quick installation, fail contains blocking checks and taskId is returned only after a non-dry-run request passes all checks. Existing module actions return taskId after task submission.
           content:
             application/json:
               schema:
@@ -33510,7 +33460,7 @@ components:
             so that frontend can use it to get proper localized title.
         engineName:
           type: string
-          description: The engine to be used in serviceRef. This field is used to filter clusters.
+          description: The default engine to be used in serviceRef. This field is used as the fallback engine filter and default create entry.
         modes:
           type: array
           items:
@@ -33566,6 +33516,41 @@ components:
             If no serviceSelector is matched, the corresponding helm value will not be set.
           items:
             $ref: '#/components/schemas/serviceSelector'
+    modeObjectStorageAdditionalHelmValuePath:
+      type: object
+      description: The path in helm values that some object storage config will use. If empty, the values will not be set.
+      required:
+        - bucket
+      properties:
+        bucket:
+          type: string
+          description: the bucket name for the object storage
+        path:
+          type: string
+          description: |
+            root path where cluster stores data in the bucket. This field is not user-provided.
+            It is always set to cluster id. If not set, it means the engine does not support specify a path.
+        usePathStyle:
+          type: string
+          description: |
+            whether the object storage is using path style or virtual host style.
+            If not set, it means the engine does not need this option.
+        region:
+          type: string
+          description: |
+            Region to use. If not set, it means the engine does not need this option.
+    modeObjectStorageServiceRef:
+      type: object
+      description: |
+        Defines one object storage dependency option for a mode.
+      required:
+        - serviceRef
+        - additionalHelmValuePath
+      properties:
+        serviceRef:
+          $ref: '#/components/schemas/modeServiceRef'
+        additionalHelmValuePath:
+          $ref: '#/components/schemas/modeObjectStorageAdditionalHelmValuePath'
     modeObjectStorage:
       type: object
       description: |
@@ -33574,31 +33559,14 @@ components:
         enabled:
           type: boolean
           description: if object storage is enabled for this mode
-        serviceRef:
-          $ref: '#/components/schemas/modeServiceRef'
-        additionalHelmValuePath:
-          type: object
-          description: The path in helm values that some object storage config will use. If empty, the values will not be set.
-          required:
-            - bucket
-          properties:
-            bucket:
-              type: string
-              description: the bucket name for the object storage
-            path:
-              type: string
-              description: |
-                root path where cluster stores data in the bucket. This field is not user-provided.
-                It is always set to cluster id. If not set, it means the engine does not support specify a path.
-            usePathStyle:
-              type: string
-              description: |
-                whether the object storage is using path style or virtual host style.
-                If not set, it means the engine does not need this option.
-            region:
-              type: string
-              description: |
-                Region to use. If not set, it means the engine does not need this option.
+        serviceRefs:
+          type: array
+          items:
+            $ref: '#/components/schemas/modeObjectStorageServiceRef'
+          description: |
+            Object storage serviceRef configs supported by this mode. Use this when different object
+            storage engines may require different serviceRef or Helm value mappings. When it is set,
+            the cluster create request selects one item by objectStorageConfig.serviceRef.name.
     engineModeTransition:
       type: object
       required:
@@ -37909,21 +37877,16 @@ components:
         version:
           type: string
           description: Version of the environment module to upgrade to
+        dryRun:
+          type: boolean
+          default: false
+          description: For action=Enable on a quick-install module, only run synchronous installation checks when true. When false or omitted, repeat the checks and submit the installation task if all checks pass. Existing module actions ignore this field when false or omitted.
       required:
         - name
         - action
-    environmentModuleInstallRequest:
-      type: object
-      description: Request to check or install an environment module
-      properties:
-        dryRun:
-          type: boolean
-          description: When true, only run installation checks. When false, run the same checks and submit an installation task if all checks pass.
-      required:
-        - dryRun
     environmentModuleInstallResult:
       type: object
-      description: Environment module installation check results and optional submitted task
+      description: Result of an environment module action. Quick-install actions return synchronous check results; taskId is returned after an asynchronous task is submitted.
       properties:
         pass:
           type: array

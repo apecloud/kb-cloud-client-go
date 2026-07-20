@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// EnvironmentModuleInstallResult Environment module installation check results and optional submitted task
+// EnvironmentModuleInstallResult Result of an environment module action. Quick-install actions return synchronous check results; taskId is returned after an asynchronous task is submitted.
 type EnvironmentModuleInstallResult struct {
 	// Checks that passed during this synchronous evaluation. These items are informational and do not block task submission.
 	Pass []EnvironmentModuleInstallCheck `json:"pass"`

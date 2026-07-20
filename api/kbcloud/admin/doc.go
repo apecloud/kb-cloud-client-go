@@ -379,7 +379,6 @@
 //   - [environmentApi.getLatestEnvModuleVersion]
 //   - [environmentApi.getNode]
 //   - [environmentApi.getOptionalEnvironmentModules]
-//   - [environmentApi.installEnvironmentModule]
 //   - [environmentApi.listEnvNodeZone]
 //   - [environmentApi.listEnvironment]
 //   - [environmentApi.listEnvironmentCredential]
