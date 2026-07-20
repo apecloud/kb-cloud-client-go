@@ -10,17 +10,11 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 type ModeObjectStorage struct {
 	// if object storage is enabled for this mode
 	Enabled *bool `json:"enabled,omitempty"`
-	// Defines a ServiceRef for a cluster, enabling access to both external services and
-	// Services provided by other Clusters. The defined serviceRef must be provided when creating cluster.
-	//
-	ServiceRef *ModeServiceRef `json:"serviceRef,omitempty"`
 	// Object storage serviceRef configs supported by this mode. Use this when different object
 	// storage engines may require different serviceRef or Helm value mappings. When it is set,
 	// the cluster create request selects one item by objectStorageConfig.serviceRef.name.
 	//
 	ServiceRefs []ModeObjectStorageServiceRef `json:"serviceRefs,omitempty"`
-	// The path in helm values that some object storage config will use. If empty, the values will not be set.
-	AdditionalHelmValuePath *ModeObjectStorageAdditionalHelmValuePath `json:"additionalHelmValuePath,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -71,34 +65,6 @@ func (o *ModeObjectStorage) SetEnabled(v bool) {
 	o.Enabled = &v
 }
 
-// GetServiceRef returns the ServiceRef field value if set, zero value otherwise.
-func (o *ModeObjectStorage) GetServiceRef() ModeServiceRef {
-	if o == nil || o.ServiceRef == nil {
-		var ret ModeServiceRef
-		return ret
-	}
-	return *o.ServiceRef
-}
-
-// GetServiceRefOk returns a tuple with the ServiceRef field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ModeObjectStorage) GetServiceRefOk() (*ModeServiceRef, bool) {
-	if o == nil || o.ServiceRef == nil {
-		return nil, false
-	}
-	return o.ServiceRef, true
-}
-
-// HasServiceRef returns a boolean if a field has been set.
-func (o *ModeObjectStorage) HasServiceRef() bool {
-	return o != nil && o.ServiceRef != nil
-}
-
-// SetServiceRef gets a reference to the given ModeServiceRef and assigns it to the ServiceRef field.
-func (o *ModeObjectStorage) SetServiceRef(v ModeServiceRef) {
-	o.ServiceRef = &v
-}
-
 // GetServiceRefs returns the ServiceRefs field value if set, zero value otherwise.
 func (o *ModeObjectStorage) GetServiceRefs() []ModeObjectStorageServiceRef {
 	if o == nil || o.ServiceRefs == nil {
@@ -127,34 +93,6 @@ func (o *ModeObjectStorage) SetServiceRefs(v []ModeObjectStorageServiceRef) {
 	o.ServiceRefs = v
 }
 
-// GetAdditionalHelmValuePath returns the AdditionalHelmValuePath field value if set, zero value otherwise.
-func (o *ModeObjectStorage) GetAdditionalHelmValuePath() ModeObjectStorageAdditionalHelmValuePath {
-	if o == nil || o.AdditionalHelmValuePath == nil {
-		var ret ModeObjectStorageAdditionalHelmValuePath
-		return ret
-	}
-	return *o.AdditionalHelmValuePath
-}
-
-// GetAdditionalHelmValuePathOk returns a tuple with the AdditionalHelmValuePath field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ModeObjectStorage) GetAdditionalHelmValuePathOk() (*ModeObjectStorageAdditionalHelmValuePath, bool) {
-	if o == nil || o.AdditionalHelmValuePath == nil {
-		return nil, false
-	}
-	return o.AdditionalHelmValuePath, true
-}
-
-// HasAdditionalHelmValuePath returns a boolean if a field has been set.
-func (o *ModeObjectStorage) HasAdditionalHelmValuePath() bool {
-	return o != nil && o.AdditionalHelmValuePath != nil
-}
-
-// SetAdditionalHelmValuePath gets a reference to the given ModeObjectStorageAdditionalHelmValuePath and assigns it to the AdditionalHelmValuePath field.
-func (o *ModeObjectStorage) SetAdditionalHelmValuePath(v ModeObjectStorageAdditionalHelmValuePath) {
-	o.AdditionalHelmValuePath = &v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeObjectStorage) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -164,14 +102,8 @@ func (o ModeObjectStorage) MarshalJSON() ([]byte, error) {
 	if o.Enabled != nil {
 		toSerialize["enabled"] = o.Enabled
 	}
-	if o.ServiceRef != nil {
-		toSerialize["serviceRef"] = o.ServiceRef
-	}
 	if o.ServiceRefs != nil {
 		toSerialize["serviceRefs"] = o.ServiceRefs
-	}
-	if o.AdditionalHelmValuePath != nil {
-		toSerialize["additionalHelmValuePath"] = o.AdditionalHelmValuePath
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -183,39 +115,23 @@ func (o ModeObjectStorage) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeObjectStorage) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Enabled                 *bool                                     `json:"enabled,omitempty"`
-		ServiceRef              *ModeServiceRef                           `json:"serviceRef,omitempty"`
-		ServiceRefs             []ModeObjectStorageServiceRef             `json:"serviceRefs,omitempty"`
-		AdditionalHelmValuePath *ModeObjectStorageAdditionalHelmValuePath `json:"additionalHelmValuePath,omitempty"`
+		Enabled     *bool                         `json:"enabled,omitempty"`
+		ServiceRefs []ModeObjectStorageServiceRef `json:"serviceRefs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"enabled", "serviceRef", "serviceRefs", "additionalHelmValuePath"})
+		common.DeleteKeys(additionalProperties, &[]string{"enabled", "serviceRefs"})
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
 	o.Enabled = all.Enabled
-	if all.ServiceRef != nil && all.ServiceRef.UnparsedObject != nil && o.UnparsedObject == nil {
-		hasInvalidField = true
-	}
-	o.ServiceRef = all.ServiceRef
 	o.ServiceRefs = all.ServiceRefs
-	if all.AdditionalHelmValuePath != nil && all.AdditionalHelmValuePath.UnparsedObject != nil && o.UnparsedObject == nil {
-		hasInvalidField = true
-	}
-	o.AdditionalHelmValuePath = all.AdditionalHelmValuePath
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

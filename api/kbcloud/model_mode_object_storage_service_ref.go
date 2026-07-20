@@ -17,7 +17,7 @@ type ModeObjectStorageServiceRef struct {
 	//
 	ServiceRef ModeServiceRef `json:"serviceRef"`
 	// The path in helm values that some object storage config will use. If empty, the values will not be set.
-	AdditionalHelmValuePath AdditionalHelmValuePath `json:"additionalHelmValuePath"`
+	AdditionalHelmValuePath ModeObjectStorageAdditionalHelmValuePath `json:"additionalHelmValuePath"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -27,7 +27,7 @@ type ModeObjectStorageServiceRef struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewModeObjectStorageServiceRef(serviceRef ModeServiceRef, additionalHelmValuePath AdditionalHelmValuePath) *ModeObjectStorageServiceRef {
+func NewModeObjectStorageServiceRef(serviceRef ModeServiceRef, additionalHelmValuePath ModeObjectStorageAdditionalHelmValuePath) *ModeObjectStorageServiceRef {
 	this := ModeObjectStorageServiceRef{}
 	this.ServiceRef = serviceRef
 	this.AdditionalHelmValuePath = additionalHelmValuePath
@@ -66,9 +66,9 @@ func (o *ModeObjectStorageServiceRef) SetServiceRef(v ModeServiceRef) {
 }
 
 // GetAdditionalHelmValuePath returns the AdditionalHelmValuePath field value.
-func (o *ModeObjectStorageServiceRef) GetAdditionalHelmValuePath() AdditionalHelmValuePath {
+func (o *ModeObjectStorageServiceRef) GetAdditionalHelmValuePath() ModeObjectStorageAdditionalHelmValuePath {
 	if o == nil {
-		var ret AdditionalHelmValuePath
+		var ret ModeObjectStorageAdditionalHelmValuePath
 		return ret
 	}
 	return o.AdditionalHelmValuePath
@@ -76,7 +76,7 @@ func (o *ModeObjectStorageServiceRef) GetAdditionalHelmValuePath() AdditionalHel
 
 // GetAdditionalHelmValuePathOk returns a tuple with the AdditionalHelmValuePath field value
 // and a boolean to check if the value has been set.
-func (o *ModeObjectStorageServiceRef) GetAdditionalHelmValuePathOk() (*AdditionalHelmValuePath, bool) {
+func (o *ModeObjectStorageServiceRef) GetAdditionalHelmValuePathOk() (*ModeObjectStorageAdditionalHelmValuePath, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -84,7 +84,7 @@ func (o *ModeObjectStorageServiceRef) GetAdditionalHelmValuePathOk() (*Additiona
 }
 
 // SetAdditionalHelmValuePath sets field value.
-func (o *ModeObjectStorageServiceRef) SetAdditionalHelmValuePath(v AdditionalHelmValuePath) {
+func (o *ModeObjectStorageServiceRef) SetAdditionalHelmValuePath(v ModeObjectStorageAdditionalHelmValuePath) {
 	o.AdditionalHelmValuePath = v
 }
 
@@ -106,8 +106,8 @@ func (o ModeObjectStorageServiceRef) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeObjectStorageServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ServiceRef              *ModeServiceRef          `json:"serviceRef"`
-		AdditionalHelmValuePath *AdditionalHelmValuePath `json:"additionalHelmValuePath"`
+		ServiceRef              *ModeServiceRef                           `json:"serviceRef"`
+		AdditionalHelmValuePath *ModeObjectStorageAdditionalHelmValuePath `json:"additionalHelmValuePath"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
