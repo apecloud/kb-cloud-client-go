@@ -382,6 +382,7 @@
 //   - [environmentApi.listEnvNodeZone]
 //   - [environmentApi.listEnvironment]
 //   - [environmentApi.listEnvironmentCredential]
+//   - [environmentApi.listEnvironmentIPPools]
 //   - [environmentApi.listEnvironmentObjectStorage]
 //   - [environmentApi.listKubernetesNode]
 //   - [environmentApi.listKubernetesStorageClass]

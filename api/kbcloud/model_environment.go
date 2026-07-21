@@ -46,6 +46,8 @@ type Environment struct {
 	ExtraInfo *string `json:"extraInfo,omitempty"`
 	// KubeBlocks version of the environment
 	KbVersion *string `json:"kbVersion,omitempty"`
+	// KBE Pod IP pool providers enabled for discovery and explicit pool selection.
+	IpPoolProviders []IpPoolProvider `json:"ipPoolProviders"`
 	// namespace info for environment
 	Namespaces []string `json:"namespaces,omitempty"`
 	// the default storageClass for the environment
@@ -63,7 +65,7 @@ type Environment struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironment(provider string, region string, availabilityZones []string, createdAt time.Time, id uuid.UUID, name string, orgName string, state EnvironmentState, typeVar EnvironmentType, updatedAt time.Time, defaultStorageClass string) *Environment {
+func NewEnvironment(provider string, region string, availabilityZones []string, createdAt time.Time, id uuid.UUID, name string, orgName string, state EnvironmentState, typeVar EnvironmentType, updatedAt time.Time, ipPoolProviders []IpPoolProvider, defaultStorageClass string) *Environment {
 	this := Environment{}
 	this.Provider = provider
 	this.Region = region
@@ -75,6 +77,7 @@ func NewEnvironment(provider string, region string, availabilityZones []string, 
 	this.State = state
 	this.Type = typeVar
 	this.UpdatedAt = updatedAt
+	this.IpPoolProviders = ipPoolProviders
 	this.DefaultStorageClass = defaultStorageClass
 	var clusterValidationPolicy ClusterValidationPolicy = ClusterValidationPolicyValidateOnly
 	this.ClusterValidationPolicy = &clusterValidationPolicy
@@ -491,6 +494,29 @@ func (o *Environment) SetKbVersion(v string) {
 	o.KbVersion = &v
 }
 
+// GetIpPoolProviders returns the IpPoolProviders field value.
+func (o *Environment) GetIpPoolProviders() []IpPoolProvider {
+	if o == nil {
+		var ret []IpPoolProvider
+		return ret
+	}
+	return o.IpPoolProviders
+}
+
+// GetIpPoolProvidersOk returns a tuple with the IpPoolProviders field value
+// and a boolean to check if the value has been set.
+func (o *Environment) GetIpPoolProvidersOk() (*[]IpPoolProvider, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.IpPoolProviders, true
+}
+
+// SetIpPoolProviders sets field value.
+func (o *Environment) SetIpPoolProviders(v []IpPoolProvider) {
+	o.IpPoolProviders = v
+}
+
 // GetNamespaces returns the Namespaces field value if set, zero value otherwise.
 func (o *Environment) GetNamespaces() []string {
 	if o == nil || o.Namespaces == nil {
@@ -640,6 +666,7 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 	if o.KbVersion != nil {
 		toSerialize["kbVersion"] = o.KbVersion
 	}
+	toSerialize["ipPoolProviders"] = o.IpPoolProviders
 	if o.Namespaces != nil {
 		toSerialize["namespaces"] = o.Namespaces
 	}
@@ -676,6 +703,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 		ImageRegistry           *string                  `json:"imageRegistry,omitempty"`
 		ExtraInfo               *string                  `json:"extraInfo,omitempty"`
 		KbVersion               *string                  `json:"kbVersion,omitempty"`
+		IpPoolProviders         *[]IpPoolProvider        `json:"ipPoolProviders"`
 		Namespaces              []string                 `json:"namespaces,omitempty"`
 		DefaultStorageClass     *string                  `json:"defaultStorageClass"`
 		ClusterValidationPolicy *ClusterValidationPolicy `json:"clusterValidationPolicy,omitempty"`
@@ -714,12 +742,15 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	if all.UpdatedAt == nil {
 		return fmt.Errorf("required field updatedAt missing")
 	}
+	if all.IpPoolProviders == nil {
+		return fmt.Errorf("required field ipPoolProviders missing")
+	}
 	if all.DefaultStorageClass == nil {
 		return fmt.Errorf("required field defaultStorageClass missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "networkConfig", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "kbVersion", "namespaces", "defaultStorageClass", "clusterValidationPolicy", "architecture"})
+		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "networkConfig", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "kbVersion", "ipPoolProviders", "namespaces", "defaultStorageClass", "clusterValidationPolicy", "architecture"})
 	} else {
 		return err
 	}
@@ -752,6 +783,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	o.ImageRegistry = all.ImageRegistry
 	o.ExtraInfo = all.ExtraInfo
 	o.KbVersion = all.KbVersion
+	o.IpPoolProviders = *all.IpPoolProviders
 	o.Namespaces = all.Namespaces
 	o.DefaultStorageClass = *all.DefaultStorageClass
 	if all.ClusterValidationPolicy != nil && !all.ClusterValidationPolicy.IsValid() {

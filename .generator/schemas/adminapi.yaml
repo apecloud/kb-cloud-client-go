@@ -11011,6 +11011,34 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/environments/{environmentName}/network/ipPools:
+    get:
+      tags:
+        - environment
+      operationId: listEnvironmentIPPools
+      summary: Discover Pod IP pools and explicit selection policy in an environment
+      parameters:
+        - description: name of the Environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ipPoolList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/environmentObjectStorage:
     post:
       operationId: listEnvironmentObjectStorage
@@ -24880,6 +24908,35 @@ components:
           $ref: '#/components/schemas/ioQuantity'
         ioReserves:
           $ref: '#/components/schemas/ioQuantity'
+    ipPoolProvider:
+      type: string
+      description: KBE provider used for Pod IP pool discovery and explicit selection.
+      enum:
+        - spiderpool
+    ipPoolSelection:
+      type: object
+      description: Provider-qualified Pod IP pool selection for component pod IP allocation.
+      required:
+        - provider
+      properties:
+        provider:
+          $ref: '#/components/schemas/ipPoolProvider'
+        ipv4Pools:
+          type: array
+          items:
+            type: string
+          description: IPv4 pool names resolved within the selected provider.
+        ipv6Pools:
+          type: array
+          items:
+            type: string
+          description: IPv6 pool names resolved within the selected provider.
+    componentNetwork:
+      type: object
+      description: Per-component network configuration.
+      properties:
+        ipPool:
+          $ref: '#/components/schemas/ipPoolSelection'
     componentItemCreate:
       type: object
       description: ComponentItem is the information of a component
@@ -24928,6 +24985,8 @@ components:
         systemAccountSecretName:
           description: The name of the secret that contains the system account credentials
           type: string
+        network:
+          $ref: '#/components/schemas/componentNetwork'
     componentsCreate:
       type: array
       description: Components is the list of components
@@ -25244,6 +25303,8 @@ components:
         systemAccountSecretName:
           description: The name of the secret that contains the system account credentials
           type: string
+        network:
+          $ref: '#/components/schemas/componentNetwork'
     components:
       type: array
       description: Components is the list of components
@@ -30587,6 +30648,7 @@ components:
         - provisionConfig
         - createdAt
         - updatedAt
+        - ipPoolProviders
       properties:
         provider:
           description: Cloud Provider
@@ -30662,6 +30724,11 @@ components:
           description: Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
           type: boolean
           default: false
+        ipPoolProviders:
+          description: KBE Pod IP pool providers enabled for discovery and explicit pool selection.
+          type: array
+          items:
+            $ref: '#/components/schemas/ipPoolProvider'
     environmentList:
       description: EnvironmentList is a list of Environments
       properties:
@@ -30745,6 +30812,12 @@ components:
           description: Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
           type: boolean
           default: false
+        ipPoolProviders:
+          description: KBE Pod IP pool providers enabled for discovery and explicit pool selection.
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/ipPoolProvider'
     preflight:
       title: Preflight results
       description: The result of preflight check
@@ -30877,6 +30950,11 @@ components:
           description: Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
           type: boolean
           default: false
+        ipPoolProviders:
+          description: KBE Pod IP pool providers enabled for discovery and explicit pool selection. An empty array disables this capability.
+          type: array
+          items:
+            $ref: '#/components/schemas/ipPoolProvider'
         clusterSchedulingPolicy:
           $ref: '#/components/schemas/clusterSchedulingPolicy'
     environmentStateEvent:
@@ -31704,6 +31782,83 @@ components:
       items:
         type: string
       type: array
+    ipPoolSelectionRequirement:
+      type: string
+      enum:
+        - required
+        - optional
+        - unsupported
+    ipPoolSelectionPolicy:
+      type: object
+      description: Per-address-family requirements for explicit IP pool selection.
+      properties:
+        ipv4:
+          $ref: '#/components/schemas/ipPoolSelectionRequirement'
+        ipv6:
+          $ref: '#/components/schemas/ipPoolSelectionRequirement'
+      required:
+        - ipv4
+        - ipv6
+    ipPoolIPFamily:
+      type: string
+      enum:
+        - IPv4
+        - IPv6
+    ipPool:
+      type: object
+      description: Provider-neutral Pod IP pool summary.
+      properties:
+        name:
+          type: string
+        ipFamily:
+          $ref: '#/components/schemas/ipPoolIPFamily'
+        subnet:
+          type: string
+        disabled:
+          type: boolean
+        default:
+          type: boolean
+        allocatedIPCount:
+          type: integer
+          format: int64
+        totalIPCount:
+          type: integer
+          format: int64
+        availableIPCount:
+          type: integer
+          format: int64
+        capacityReliable:
+          type: boolean
+        affinitySummary:
+          type: array
+          items:
+            type: string
+    ipPoolProviderList:
+      type: object
+      description: Pod IP pools and selection policy reported by one provider.
+      properties:
+        name:
+          $ref: '#/components/schemas/ipPoolProvider'
+        selectionPolicy:
+          $ref: '#/components/schemas/ipPoolSelectionPolicy'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ipPool'
+      required:
+        - name
+        - selectionPolicy
+        - items
+    ipPoolList:
+      type: object
+      description: Pod IP pool discovery result for an environment.
+      properties:
+        providers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ipPoolProviderList'
+      required:
+        - providers
     rawCluster:
       type: object
       description: cluster info

@@ -313,6 +313,7 @@
 //   - [environmentApi.getEnvironmentModuleInfo]
 //   - [environmentApi.listEnvNodeZone]
 //   - [environmentApi.listEnvironment]
+//   - [environmentApi.listEnvironmentIPPools]
 //   - [environmentApi.listKoordinatorReservations]
 //   - [environmentApi.listNodeGroup]
 //   - [eventApi.getEventFilter]

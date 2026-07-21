@@ -1075,6 +1075,42 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/environments/{environmentName}/network/ipPools:
+    get:
+      tags:
+        - environment
+      operationId: listEnvironmentIPPools
+      summary: Discover Pod IP pools and explicit selection policy in an environment
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ipPoolList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/environments/{environmentName}/storageClasses:
     get:
       description: Provides a summary of storage class statistics, aggregated and organized by namespace.
@@ -1116,6 +1152,8 @@ paths:
         - storageClass
   /api/v1/organizations/{orgName}/environments/{environmentName}/koordinatorReservations/summary:
     get:
+      tags:
+        - environment
       description: Get Koordinator Reservation summary for the cluster creation page.
       summary: List Koordinator Reservations
       operationId: listKoordinatorReservations
@@ -1149,8 +1187,6 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-      tags:
-        - environment
   /api/v1/organizations/{orgName}/environments/{environmentName}/loadbalancer:
     get:
       operationId: getLoadBalancer
@@ -20138,6 +20174,11 @@ components:
         - public
         - private
       default: public
+    ipPoolProvider:
+      type: string
+      description: KBE provider used for Pod IP pool discovery and explicit selection.
+      enum:
+        - spiderpool
     clusterValidationPolicy:
       type: string
       description: Cluster operation validation policy, such as create, hscale, vscale, etc.
@@ -20212,6 +20253,11 @@ components:
         kbVersion:
           type: string
           description: KubeBlocks version of the environment
+        ipPoolProviders:
+          description: KBE Pod IP pool providers enabled for discovery and explicit pool selection.
+          type: array
+          items:
+            $ref: '#/components/schemas/ipPoolProvider'
         namespaces:
           items:
             type: string
@@ -20238,6 +20284,7 @@ components:
         - state
         - updatedAt
         - defaultStorageClass
+        - ipPoolProviders
       type: object
     environmentList:
       description: EnvironmentList is a list of Environments
@@ -20257,6 +20304,83 @@ components:
       items:
         type: string
       type: array
+    ipPoolSelectionRequirement:
+      type: string
+      enum:
+        - required
+        - optional
+        - unsupported
+    ipPoolSelectionPolicy:
+      type: object
+      description: Per-address-family requirements for explicit IP pool selection.
+      properties:
+        ipv4:
+          $ref: '#/components/schemas/ipPoolSelectionRequirement'
+        ipv6:
+          $ref: '#/components/schemas/ipPoolSelectionRequirement'
+      required:
+        - ipv4
+        - ipv6
+    ipPoolIPFamily:
+      type: string
+      enum:
+        - IPv4
+        - IPv6
+    ipPool:
+      type: object
+      description: Provider-neutral Pod IP pool summary.
+      properties:
+        name:
+          type: string
+        ipFamily:
+          $ref: '#/components/schemas/ipPoolIPFamily'
+        subnet:
+          type: string
+        disabled:
+          type: boolean
+        default:
+          type: boolean
+        allocatedIPCount:
+          type: integer
+          format: int64
+        totalIPCount:
+          type: integer
+          format: int64
+        availableIPCount:
+          type: integer
+          format: int64
+        capacityReliable:
+          type: boolean
+        affinitySummary:
+          type: array
+          items:
+            type: string
+    ipPoolProviderList:
+      type: object
+      description: Pod IP pools and selection policy reported by one provider.
+      properties:
+        name:
+          $ref: '#/components/schemas/ipPoolProvider'
+        selectionPolicy:
+          $ref: '#/components/schemas/ipPoolSelectionPolicy'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ipPool'
+      required:
+        - name
+        - selectionPolicy
+        - items
+    ipPoolList:
+      type: object
+      description: Pod IP pool discovery result for an environment.
+      properties:
+        providers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ipPoolProviderList'
+      required:
+        - providers
     storageClassInfo:
       description: StorageClassInfo provides detailed information about a specific storage class.
       properties:
@@ -21437,6 +21561,30 @@ components:
           $ref: '#/components/schemas/ioQuantity'
         ioReserves:
           $ref: '#/components/schemas/ioQuantity'
+    ipPoolSelection:
+      type: object
+      description: Provider-qualified Pod IP pool selection for component pod IP allocation.
+      required:
+        - provider
+      properties:
+        provider:
+          $ref: '#/components/schemas/ipPoolProvider'
+        ipv4Pools:
+          type: array
+          items:
+            type: string
+          description: IPv4 pool names resolved within the selected provider.
+        ipv6Pools:
+          type: array
+          items:
+            type: string
+          description: IPv6 pool names resolved within the selected provider.
+    componentNetwork:
+      type: object
+      description: Per-component network configuration.
+      properties:
+        ipPool:
+          $ref: '#/components/schemas/ipPoolSelection'
     componentItemCreate:
       type: object
       description: ComponentItem is the information of a component
@@ -21485,6 +21633,8 @@ components:
         systemAccountSecretName:
           description: The name of the secret that contains the system account credentials
           type: string
+        network:
+          $ref: '#/components/schemas/componentNetwork'
     componentsCreate:
       type: array
       description: Components is the list of components
@@ -21788,6 +21938,8 @@ components:
         systemAccountSecretName:
           description: The name of the secret that contains the system account credentials
           type: string
+        network:
+          $ref: '#/components/schemas/componentNetwork'
     components:
       type: array
       description: Components is the list of components
