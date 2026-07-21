@@ -33512,6 +33512,7 @@ components:
         extra:
           type: object
           additionalProperties: true
+          nullable: true
           description: |
             Engine-specific component metadata for clients. For example, a component can expose
             extra.dataVolumeCountMap as a map keyed by environment name or "default" to describe

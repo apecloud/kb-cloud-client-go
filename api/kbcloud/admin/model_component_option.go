@@ -319,9 +319,9 @@ func (o *ComponentOption) SetCustomSecret(v bool) {
 	o.CustomSecret = &v
 }
 
-// GetExtra returns the Extra field value if set, zero value otherwise.
+// GetExtra returns the Extra field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ComponentOption) GetExtra() map[string]interface{} {
-	if o == nil || o.Extra == nil {
+	if o == nil {
 		var ret map[string]interface{}
 		return ret
 	}
@@ -330,6 +330,7 @@ func (o *ComponentOption) GetExtra() map[string]interface{} {
 
 // GetExtraOk returns a tuple with the Extra field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ComponentOption) GetExtraOk() (*map[string]interface{}, bool) {
 	if o == nil || o.Extra == nil {
 		return nil, false
