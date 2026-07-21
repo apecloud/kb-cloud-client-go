@@ -33514,8 +33514,8 @@ components:
           additionalProperties: true
           description: |
             Engine-specific component metadata for clients. For example, a component can expose
-            extra.dataVolumeCount as an environment-keyed map to describe how many data volumes
-            its chart renders in each environment.
+            extra.dataVolumeCountMap as a map keyed by environment name or "default" to describe
+            how many data volumes its chart renders.
     modeCompatibleKubeblocksVersion:
       type: string
       description: |

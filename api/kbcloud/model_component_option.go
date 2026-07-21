@@ -29,8 +29,8 @@ type ComponentOption struct {
 	// whether the component supports custom secret
 	CustomSecret *bool `json:"customSecret,omitempty"`
 	// Engine-specific component metadata for clients. For example, a component can expose
-	// extra.dataVolumeCount as an environment-keyed map to describe how many data volumes
-	// its chart renders in each environment.
+	// extra.dataVolumeCountMap as a map keyed by environment name or "default" to describe
+	// how many data volumes its chart renders.
 	//
 	Extra map[string]interface{} `json:"extra,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
