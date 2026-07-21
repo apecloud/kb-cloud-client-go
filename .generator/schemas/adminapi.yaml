@@ -41787,7 +41787,6 @@ components:
         - id
         - engineName
         - mode
-        - networkModes
         - envId
         - envName
       properties:
@@ -41805,6 +41804,15 @@ components:
           items:
             type: string
           description: network modes configured for this engine+mode+env combination
+        dataVolumeCount:
+          type: integer
+          format: int64
+          minimum: 1
+          nullable: true
+          description: |
+            Number of data volume templates supported by this engine+mode in the environment.
+            For RustFS, this mirrors the addon installation value dataVolumeCount/maxDataVolumeCount
+            so the frontend can render data0..dataN volume inputs without changing installed addons.
         envId:
           type: string
           format: uuid
@@ -41829,7 +41837,6 @@ components:
       required:
         - engineName
         - mode
-        - networkModes
       properties:
         engineName:
           type: string
@@ -41842,16 +41849,30 @@ components:
           items:
             type: string
           description: network modes
+        dataVolumeCount:
+          type: integer
+          format: int64
+          minimum: 1
+          nullable: true
+          description: |
+            Number of data volume templates supported by this engine+mode in the environment.
+            At least one configurable field, such as networkModes or dataVolumeCount, must be provided.
     environmentEngineOptionUpdate:
       type: object
-      required:
-        - networkModes
       properties:
         networkModes:
           type: array
           items:
             type: string
           description: environment engine option to update
+        dataVolumeCount:
+          type: integer
+          format: int64
+          minimum: 1
+          nullable: true
+          description: |
+            Number of data volume templates supported by this engine+mode in the environment.
+            At least one configurable field, such as networkModes or dataVolumeCount, must be provided.
     engineNetworkModeSupported:
       type: object
       properties:
