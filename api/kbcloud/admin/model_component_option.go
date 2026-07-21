@@ -28,6 +28,11 @@ type ComponentOption struct {
 	Main *bool `json:"main,omitempty"`
 	// whether the component supports custom secret
 	CustomSecret *bool `json:"customSecret,omitempty"`
+	// Engine-specific component metadata for clients. For example, a component can expose
+	// extra.dataVolumeCount as an environment-keyed map to describe how many data volumes
+	// its chart renders in each environment.
+	//
+	Extra map[string]interface{} `json:"extra,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -314,6 +319,34 @@ func (o *ComponentOption) SetCustomSecret(v bool) {
 	o.CustomSecret = &v
 }
 
+// GetExtra returns the Extra field value if set, zero value otherwise.
+func (o *ComponentOption) GetExtra() map[string]interface{} {
+	if o == nil || o.Extra == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.Extra
+}
+
+// GetExtraOk returns a tuple with the Extra field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentOption) GetExtraOk() (*map[string]interface{}, bool) {
+	if o == nil || o.Extra == nil {
+		return nil, false
+	}
+	return &o.Extra, true
+}
+
+// HasExtra returns a boolean if a field has been set.
+func (o *ComponentOption) HasExtra() bool {
+	return o != nil && o.Extra != nil
+}
+
+// SetExtra gets a reference to the given map[string]interface{} and assigns it to the Extra field.
+func (o *ComponentOption) SetExtra(v map[string]interface{}) {
+	o.Extra = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ComponentOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -342,6 +375,9 @@ func (o ComponentOption) MarshalJSON() ([]byte, error) {
 	if o.CustomSecret != nil {
 		toSerialize["customSecret"] = o.CustomSecret
 	}
+	if o.Extra != nil {
+		toSerialize["extra"] = o.Extra
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -362,6 +398,7 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 		Version                   *ComponentOptionVersion `json:"version"`
 		Main                      *bool                   `json:"main,omitempty"`
 		CustomSecret              *bool                   `json:"customSecret,omitempty"`
+		Extra                     map[string]interface{}  `json:"extra,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -380,7 +417,7 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cloudShellType", "name", "matchRegex", "title", "order", "roleOrder", "disasterRecoveryRoleOrder", "version", "main", "customSecret"})
+		common.DeleteKeys(additionalProperties, &[]string{"cloudShellType", "name", "matchRegex", "title", "order", "roleOrder", "disasterRecoveryRoleOrder", "version", "main", "customSecret", "extra"})
 	} else {
 		return err
 	}
@@ -402,6 +439,7 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Version = *all.Version
 	o.Main = all.Main
 	o.CustomSecret = all.CustomSecret
+	o.Extra = all.Extra
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
