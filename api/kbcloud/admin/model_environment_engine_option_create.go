@@ -16,11 +16,7 @@ type EnvironmentEngineOptionCreate struct {
 	// engine mode
 	Mode string `json:"mode"`
 	// network modes
-	NetworkModes []string `json:"networkModes,omitempty"`
-	// Number of data volume templates supported by this engine+mode in the environment.
-	// At least one configurable field, such as networkModes or dataVolumeCount, must be provided.
-	//
-	DataVolumeCount common.NullableInt64 `json:"dataVolumeCount,omitempty"`
+	NetworkModes []string `json:"networkModes"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -30,10 +26,11 @@ type EnvironmentEngineOptionCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentEngineOptionCreate(engineName string, mode string) *EnvironmentEngineOptionCreate {
+func NewEnvironmentEngineOptionCreate(engineName string, mode string, networkModes []string) *EnvironmentEngineOptionCreate {
 	this := EnvironmentEngineOptionCreate{}
 	this.EngineName = engineName
 	this.Mode = mode
+	this.NetworkModes = networkModes
 	return &this
 }
 
@@ -91,71 +88,27 @@ func (o *EnvironmentEngineOptionCreate) SetMode(v string) {
 	o.Mode = v
 }
 
-// GetNetworkModes returns the NetworkModes field value if set, zero value otherwise.
+// GetNetworkModes returns the NetworkModes field value.
 func (o *EnvironmentEngineOptionCreate) GetNetworkModes() []string {
-	if o == nil || o.NetworkModes == nil {
+	if o == nil {
 		var ret []string
 		return ret
 	}
 	return o.NetworkModes
 }
 
-// GetNetworkModesOk returns a tuple with the NetworkModes field value if set, nil otherwise
+// GetNetworkModesOk returns a tuple with the NetworkModes field value
 // and a boolean to check if the value has been set.
 func (o *EnvironmentEngineOptionCreate) GetNetworkModesOk() (*[]string, bool) {
-	if o == nil || o.NetworkModes == nil {
+	if o == nil {
 		return nil, false
 	}
 	return &o.NetworkModes, true
 }
 
-// HasNetworkModes returns a boolean if a field has been set.
-func (o *EnvironmentEngineOptionCreate) HasNetworkModes() bool {
-	return o != nil && o.NetworkModes != nil
-}
-
-// SetNetworkModes gets a reference to the given []string and assigns it to the NetworkModes field.
+// SetNetworkModes sets field value.
 func (o *EnvironmentEngineOptionCreate) SetNetworkModes(v []string) {
 	o.NetworkModes = v
-}
-
-// GetDataVolumeCount returns the DataVolumeCount field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *EnvironmentEngineOptionCreate) GetDataVolumeCount() int64 {
-	if o == nil || o.DataVolumeCount.Get() == nil {
-		var ret int64
-		return ret
-	}
-	return *o.DataVolumeCount.Get()
-}
-
-// GetDataVolumeCountOk returns a tuple with the DataVolumeCount field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *EnvironmentEngineOptionCreate) GetDataVolumeCountOk() (*int64, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.DataVolumeCount.Get(), o.DataVolumeCount.IsSet()
-}
-
-// HasDataVolumeCount returns a boolean if a field has been set.
-func (o *EnvironmentEngineOptionCreate) HasDataVolumeCount() bool {
-	return o != nil && o.DataVolumeCount.IsSet()
-}
-
-// SetDataVolumeCount gets a reference to the given common.NullableInt64 and assigns it to the DataVolumeCount field.
-func (o *EnvironmentEngineOptionCreate) SetDataVolumeCount(v int64) {
-	o.DataVolumeCount.Set(&v)
-}
-
-// SetDataVolumeCountNil sets the value for DataVolumeCount to be an explicit nil.
-func (o *EnvironmentEngineOptionCreate) SetDataVolumeCountNil() {
-	o.DataVolumeCount.Set(nil)
-}
-
-// UnsetDataVolumeCount ensures that no value is present for DataVolumeCount, not even an explicit nil.
-func (o *EnvironmentEngineOptionCreate) UnsetDataVolumeCount() {
-	o.DataVolumeCount.Unset()
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -166,12 +119,7 @@ func (o EnvironmentEngineOptionCreate) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["engineName"] = o.EngineName
 	toSerialize["mode"] = o.Mode
-	if o.NetworkModes != nil {
-		toSerialize["networkModes"] = o.NetworkModes
-	}
-	if o.DataVolumeCount.IsSet() {
-		toSerialize["dataVolumeCount"] = o.DataVolumeCount.Get()
-	}
+	toSerialize["networkModes"] = o.NetworkModes
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -182,10 +130,9 @@ func (o EnvironmentEngineOptionCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentEngineOptionCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EngineName      *string              `json:"engineName"`
-		Mode            *string              `json:"mode"`
-		NetworkModes    []string             `json:"networkModes,omitempty"`
-		DataVolumeCount common.NullableInt64 `json:"dataVolumeCount,omitempty"`
+		EngineName   *string   `json:"engineName"`
+		Mode         *string   `json:"mode"`
+		NetworkModes *[]string `json:"networkModes"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -196,16 +143,18 @@ func (o *EnvironmentEngineOptionCreate) UnmarshalJSON(bytes []byte) (err error) 
 	if all.Mode == nil {
 		return fmt.Errorf("required field mode missing")
 	}
+	if all.NetworkModes == nil {
+		return fmt.Errorf("required field networkModes missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "mode", "networkModes", "dataVolumeCount"})
+		common.DeleteKeys(additionalProperties, &[]string{"engineName", "mode", "networkModes"})
 	} else {
 		return err
 	}
 	o.EngineName = *all.EngineName
 	o.Mode = *all.Mode
-	o.NetworkModes = all.NetworkModes
-	o.DataVolumeCount = all.DataVolumeCount
+	o.NetworkModes = *all.NetworkModes
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
