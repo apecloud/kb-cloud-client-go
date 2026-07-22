@@ -33509,14 +33509,6 @@ components:
           type: boolean
           description: whether the component supports custom secret
           x-nullable: false
-        extra:
-          type: object
-          additionalProperties: true
-          nullable: true
-          description: |
-            Engine-specific component metadata for clients. For example, a component can expose
-            extra.dataVolumeCountMap as a map keyed by environment name or "default" to describe
-            how many data volumes its chart renders.
     modeCompatibleKubeblocksVersion:
       type: string
       description: |
@@ -35879,6 +35871,11 @@ components:
           title: maturityLevel
           type: string
           description: engine maturity level
+        extra:
+          type: object
+          additionalProperties: true
+          nullable: true
+          description: engine-specific runtime metadata for clients
     engineList:
       items:
         $ref: '#/components/schemas/engine'

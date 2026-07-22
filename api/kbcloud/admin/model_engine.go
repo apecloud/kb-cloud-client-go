@@ -4,7 +4,9 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type Engine struct {
 	// engine ID
@@ -34,6 +36,8 @@ type Engine struct {
 	ClusterVersions []string `json:"clusterVersions,omitempty"`
 	// engine maturity level
 	MaturityLevel *string `json:"maturityLevel,omitempty"`
+	// engine-specific runtime metadata for clients
+	Extra map[string]interface{} `json:"extra,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -448,6 +452,35 @@ func (o *Engine) SetMaturityLevel(v string) {
 	o.MaturityLevel = &v
 }
 
+// GetExtra returns the Extra field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Engine) GetExtra() map[string]interface{} {
+	if o == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.Extra
+}
+
+// GetExtraOk returns a tuple with the Extra field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *Engine) GetExtraOk() (*map[string]interface{}, bool) {
+	if o == nil || o.Extra == nil {
+		return nil, false
+	}
+	return &o.Extra, true
+}
+
+// HasExtra returns a boolean if a field has been set.
+func (o *Engine) HasExtra() bool {
+	return o != nil && o.Extra != nil
+}
+
+// SetExtra gets a reference to the given map[string]interface{} and assigns it to the Extra field.
+func (o *Engine) SetExtra(v map[string]interface{}) {
+	o.Extra = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Engine) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -496,6 +529,9 @@ func (o Engine) MarshalJSON() ([]byte, error) {
 	if o.MaturityLevel != nil {
 		toSerialize["maturityLevel"] = o.MaturityLevel
 	}
+	if o.Extra != nil {
+		toSerialize["extra"] = o.Extra
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -506,27 +542,28 @@ func (o Engine) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Engine) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id                  *string       `json:"id,omitempty"`
-		Description         *string       `json:"description,omitempty"`
-		Name                *string       `json:"name,omitempty"`
-		Version             *string       `json:"version,omitempty"`
-		KbVersionConstraint *string       `json:"kbVersionConstraint,omitempty"`
-		Type                *string       `json:"type,omitempty"`
-		Installed           *bool         `json:"installed,omitempty"`
-		Provider            *string       `json:"provider,omitempty"`
-		Status              *EngineStatus `json:"status,omitempty"`
-		AvailableVersion    []string      `json:"availableVersion,omitempty"`
-		UpgradeHistory      *string       `json:"upgradeHistory,omitempty"`
-		ErrMsg              *string       `json:"errMsg,omitempty"`
-		ClusterVersions     []string      `json:"clusterVersions,omitempty"`
-		MaturityLevel       *string       `json:"maturityLevel,omitempty"`
+		Id                  *string                `json:"id,omitempty"`
+		Description         *string                `json:"description,omitempty"`
+		Name                *string                `json:"name,omitempty"`
+		Version             *string                `json:"version,omitempty"`
+		KbVersionConstraint *string                `json:"kbVersionConstraint,omitempty"`
+		Type                *string                `json:"type,omitempty"`
+		Installed           *bool                  `json:"installed,omitempty"`
+		Provider            *string                `json:"provider,omitempty"`
+		Status              *EngineStatus          `json:"status,omitempty"`
+		AvailableVersion    []string               `json:"availableVersion,omitempty"`
+		UpgradeHistory      *string                `json:"upgradeHistory,omitempty"`
+		ErrMsg              *string                `json:"errMsg,omitempty"`
+		ClusterVersions     []string               `json:"clusterVersions,omitempty"`
+		MaturityLevel       *string                `json:"maturityLevel,omitempty"`
+		Extra               map[string]interface{} `json:"extra,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "description", "name", "version", "kbVersionConstraint", "type", "installed", "provider", "status", "availableVersion", "upgradeHistory", "errMsg", "clusterVersions", "maturityLevel"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "description", "name", "version", "kbVersionConstraint", "type", "installed", "provider", "status", "availableVersion", "upgradeHistory", "errMsg", "clusterVersions", "maturityLevel", "extra"})
 	} else {
 		return err
 	}
@@ -550,6 +587,7 @@ func (o *Engine) UnmarshalJSON(bytes []byte) (err error) {
 	o.ErrMsg = all.ErrMsg
 	o.ClusterVersions = all.ClusterVersions
 	o.MaturityLevel = all.MaturityLevel
+	o.Extra = all.Extra
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
