@@ -35871,6 +35871,11 @@ components:
           title: maturityLevel
           type: string
           description: engine maturity level
+        extra:
+          type: object
+          additionalProperties: true
+          nullable: true
+          description: engine-specific runtime metadata for clients
     engineList:
       items:
         $ref: '#/components/schemas/engine'
