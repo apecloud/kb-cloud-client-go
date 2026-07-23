@@ -21195,6 +21195,56 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mysql/sqlAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get MySQL SQL analysis
+      description: Get a read-only MySQL SQL fingerprint ranking from Performance Schema statement digests. The response does not expose raw SQL text, time-window aggregation, execution plans, or remediation actions.
+      operationId: getDiagnosticsMysqlSQLAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of SQL fingerprints to return. The backend applies its own upper bound.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: orderBy
+          in: query
+          description: Sort key. Allowed values are totalTime, meanTime, maxTime, and calls. Defaults to totalTime.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mysqlSQLAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/performanceTrends:
     get:
       tags:
@@ -40036,6 +40086,162 @@ components:
           description: SQL fingerprint ranking rows from pg_stat_statements. The list may be empty when no statement statistics exist.
           items:
             $ref: '#/components/schemas/postgresqlSQLFingerprint'
+    mysqlSQLFingerprint:
+      type: object
+      required:
+        - queryID
+        - fingerprint
+        - querySummary
+        - calls
+        - totalTimeMs
+        - meanTimeMs
+        - maxTimeMs
+        - rows
+        - rowsSent
+        - rowsAffected
+        - rowsExamined
+        - lockTimeMs
+        - errors
+        - warnings
+        - tmpTables
+        - tmpDiskTables
+        - noIndexUsed
+        - noGoodIndexUsed
+        - database
+      properties:
+        queryID:
+          type: string
+          description: MySQL Performance Schema DIGEST value.
+        fingerprint:
+          type: string
+          description: Stable SQL fingerprint identifier. M1 uses DIGEST.
+        querySummary:
+          type: string
+          description: Normalized DIGEST_TEXT. Raw SQL text is intentionally not returned.
+        calls:
+          type: integer
+          format: int64
+          description: Number of executions accumulated in the current digest row.
+        totalTimeMs:
+          type: number
+          format: double
+          description: Total statement wait time in milliseconds.
+        meanTimeMs:
+          type: number
+          format: double
+          description: Mean statement wait time in milliseconds.
+        maxTimeMs:
+          type: number
+          format: double
+          description: Maximum statement wait time in milliseconds.
+        rows:
+          type: integer
+          format: int64
+          description: Sum of rows sent and rows affected.
+        rowsSent:
+          type: integer
+          format: int64
+          description: Total rows sent to clients.
+        rowsAffected:
+          type: integer
+          format: int64
+          description: Total rows affected by statements.
+        rowsExamined:
+          type: integer
+          format: int64
+          description: Total rows examined by statements.
+        lockTimeMs:
+          type: number
+          format: double
+          description: Total statement lock time in milliseconds.
+        errors:
+          type: integer
+          format: int64
+          description: Total statement errors.
+        warnings:
+          type: integer
+          format: int64
+          description: Total statement warnings.
+        tmpTables:
+          type: integer
+          format: int64
+          description: Total internal temporary tables created.
+        tmpDiskTables:
+          type: integer
+          format: int64
+          description: Total internal on-disk temporary tables created.
+        noIndexUsed:
+          type: integer
+          format: int64
+          description: Executions that used no index.
+        noGoodIndexUsed:
+          type: integer
+          format: int64
+          description: Executions for which no good index was found.
+        database:
+          type: string
+          description: Default schema name associated with the digest row.
+        firstSeen:
+          type: string
+          description: UTC timestamp when the digest was first observed.
+        lastSeen:
+          type: string
+          description: UTC timestamp when the digest was most recently observed.
+    mysqlSQLAnalysis:
+      type: object
+      required:
+        - source
+        - status
+        - collectedAt
+        - limit
+        - orderBy
+        - items
+      properties:
+        source:
+          type: string
+          description: Data source. M1 uses performance_schema.events_statements_summary_by_digest.
+        status:
+          type: string
+          description: Source status. Expected values are available or unavailable.
+        unavailableReason:
+          type: string
+          description: Reason when status is unavailable, such as performance_schema_disabled, digest_consumer_disabled, permission_denied, or query_failed.
+        collectedAt:
+          type: string
+          description: Backend collection timestamp in UTC. It is not a sampling-window end time.
+        firstSeen:
+          type: string
+          description: Earliest FIRST_SEEN timestamp across currently visible digest rows, when available.
+        lastSeen:
+          type: string
+          description: Latest LAST_SEEN timestamp across currently visible digest rows, when available.
+        limit:
+          type: integer
+          format: int64
+          description: Effective row limit after backend normalization.
+        orderBy:
+          type: string
+          description: Effective sort key. Expected values are totalTime, meanTime, maxTime, or calls.
+        totalTimeMsAll:
+          type: number
+          format: double
+          x-nullable: true
+          description: Total execution time in milliseconds across all visible digest rows, not limited to the returned top-N items.
+        callsAll:
+          type: integer
+          format: int64
+          x-nullable: true
+          description: Total execution count across all visible digest rows, not limited to the returned top-N items.
+        digestLost:
+          type: integer
+          format: int64
+          x-nullable: true
+          description: Number of statement digests not recorded because the digest table was full, when exposed by the server.
+        items:
+          type: array
+          description: SQL fingerprint ranking rows from Performance Schema. The list may be empty when no statement statistics exist.
+          items:
+            $ref: '#/components/schemas/mysqlSQLFingerprint'
     performanceTrendRange:
       type: object
       required:
