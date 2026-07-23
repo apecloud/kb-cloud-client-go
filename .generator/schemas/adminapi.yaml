@@ -4689,7 +4689,7 @@ paths:
           content:
             application/json:
               schema:
-                type: boolean
+                $ref: '#/components/schemas/testConnectResponse'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/createDS:
     post:
       tags:
@@ -11011,6 +11011,34 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/environments/{environmentName}/network/ipPools:
+    get:
+      tags:
+        - environment
+      operationId: listEnvironmentIPPools
+      summary: Discover Pod IP pools and explicit selection policy in an environment
+      parameters:
+        - description: name of the Environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ipPoolList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/environmentObjectStorage:
     post:
       operationId: listEnvironmentObjectStorage
@@ -16717,6 +16745,36 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - task
+  /admin/v1/tasks/{taskId}/events:
+    get:
+      summary: List operation events related to a task
+      description: List operation events whose recorded response contains the task ID.
+      operationId: listTaskEvents
+      parameters:
+        - description: ID of the task
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operation events related to the task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/eventList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - task
+        - event
   /admin/v1/tasks/{taskId}/stop:
     patch:
       summary: Stop a task
@@ -18172,6 +18230,356 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      description: list accounts in cluster
+      summary: List cluster accounts
+      operationId: listKafkaAccounts
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountList'
+          description: Success
+        '204':
+          content: {}
+          description: Returned when list accounts successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - account
+        - kafka
+        - shared
+      x-codegen-request-body-name: body
+    post:
+      description: create an account in cluster
+      summary: Create cluster account
+      operationId: createKafkaAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '201':
+          description: create kafka account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - account
+        - kafka
+        - shared
+      x-codegen-request-body-name: body
+  /admin/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    delete:
+      description: delete an account in cluster
+      summary: Delete cluster account
+      operationId: deleteKafkaAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when account is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - account
+        - kafka
+        - shared
+    patch:
+      description: update an account in cluster
+      summary: update cluster account
+      operationId: updateKafkaAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '200':
+          description: upadte kafka account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - account
+        - kafka
+        - shared
+      x-codegen-request-body-name: body
+  /admin/v1/data/hive/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      summary: Get Hive accounts
+      description: Get Hive accounts
+      operationId: getHiveAccounts
+      tags:
+        - hive
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The name of organization
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The name of cluster
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountList'
+          description: Success
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      description: create an hive account
+      summary: Create Hive account
+      operationId: createHiveAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '201':
+          description: create hive account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - hive
+        - shared
+      x-codegen-request-body-name: body
+  /admin/v1/data/hive/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    delete:
+      description: delete an hive account in cluster
+      summary: Delete hive account
+      operationId: deleteHiveAccount
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when account is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - hive
+        - shared
+    patch:
+      description: update an hive account in cluster
+      summary: update hive account
+      operationId: updateHiveAccount
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Update account password successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - hive
+        - shared
+      x-codegen-request-body-name: body
   /admin/v1/data/redis/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       tags:
@@ -18356,6 +18764,620 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/opsRequestName'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      tags:
+        - elasticsearch
+        - shared
+      summary: List Elasticsearch security users
+      operationId: listElasticsearchSecurityUsers
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List Elasticsearch security users successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ESSecurityUsers'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}:
+    get:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Get Elasticsearch security user
+      operationId: getElasticsearchSecurityUser
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get Elasticsearch security user successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ESSecurityUser'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Create or update Elasticsearch security user
+      operationId: putElasticsearchSecurityUser
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ESPutSecurityUserRequest'
+      responses:
+        '204':
+          content: {}
+          description: Create or update Elasticsearch security user successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+    patch:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Change Elasticsearch account password
+      operationId: changeElasticsearchSecurityUserPassword
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ESSecurityPasswordRequest'
+      responses:
+        '204':
+          content: {}
+          description: Change Elasticsearch account password successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Delete Elasticsearch security user
+      operationId: deleteElasticsearchSecurityUser
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Delete Elasticsearch security user successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}/lock:
+    patch:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Lock Elasticsearch account
+      operationId: lockElasticsearchSecurityUser
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Lock Elasticsearch account successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/{username}/unlock:
+    patch:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Unlock Elasticsearch account
+      operationId: unlockElasticsearchSecurityUser
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Unlock Elasticsearch account successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/roles:
+    get:
+      tags:
+        - elasticsearch
+        - shared
+      summary: List Elasticsearch security roles
+      operationId: listElasticsearchSecurityRoles
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List Elasticsearch security roles successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ESSecurityRoles'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/roles/{roleName}:
+    get:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Get Elasticsearch security role
+      operationId: getElasticsearchSecurityRole
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get Elasticsearch security role successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ESSecurityRoleDescriptor'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Create or update Elasticsearch security role
+      operationId: putElasticsearchSecurityRole
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ESSecurityRoleDescriptor'
+      responses:
+        '204':
+          content: {}
+          description: Create or update Elasticsearch security role successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Delete Elasticsearch security role
+      operationId: deleteElasticsearchSecurityRole
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Delete Elasticsearch security role successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/role-mappings:
+    get:
+      tags:
+        - elasticsearch
+        - shared
+      summary: List Elasticsearch security role mappings
+      operationId: listElasticsearchSecurityRoleMappings
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List Elasticsearch security role mappings successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ESSecurityRoleMappings'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/role-mappings/{mappingName}:
+    get:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Get Elasticsearch security role mapping
+      operationId: getElasticsearchSecurityRoleMapping
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: mappingName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get Elasticsearch security role mapping successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ESSecurityRoleMapping'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Create or update Elasticsearch security role mapping
+      operationId: putElasticsearchSecurityRoleMapping
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: mappingName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ESSecurityRoleMapping'
+      responses:
+        '204':
+          content: {}
+          description: Create or update Elasticsearch security role mapping successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Delete Elasticsearch security role mapping
+      operationId: deleteElasticsearchSecurityRoleMapping
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: mappingName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Delete Elasticsearch security role mapping successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/elasticsearch/organizations/{orgName}/clusters/{clusterName}/accounts/privileges/builtin:
+    get:
+      tags:
+        - elasticsearch
+        - shared
+      summary: Get Elasticsearch builtin privileges
+      operationId: getElasticsearchBuiltinPrivileges
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get Elasticsearch builtin privileges successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ESBuiltinPrivileges'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -20301,6 +21323,258 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/postgresqlSession'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/dameng/spaceAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Dameng space analysis
+      description: Get a read-only Dameng space snapshot including tablespace usage, schema sizes, top tables, and top indexes. Queries dba_free_space, dba_data_files, DBA_SEGMENTS, DBA_TABLES, DBA_INDEXES, and DBA_IND_COLUMNS.
+      operationId: getDiagnosticsDamengSpaceAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: tableLimit
+          in: query
+          description: Maximum number of top tables to return (0 or omitted = not collected)
+          required: false
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+            default: 0
+        - name: indexLimit
+          in: query
+          description: Maximum number of top indexes to return (0 or omitted = not collected)
+          required: false
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+            default: 0
+        - name: schema
+          in: query
+          description: Filter tables and indexes by schema (owner). Omit or empty = all schemas.
+          required: false
+          schema:
+            type: string
+        - name: skipBasic
+          in: query
+          description: Set to true to skip tablespace and schema queries, returning only tables and indexes.
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/damengSpaceAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/dameng/sqlAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Dameng SQL analysis
+      description: Get a read-only Dameng SQL analysis snapshot from V$SYSTEM_LONG_EXEC_SQLS (long-running SQL) and V$SYSTEM_LARGE_MEM_SQLS (high-memory SQL). The response does not expose execution plans or remediation actions.
+      operationId: getDiagnosticsDamengSQLAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of SQL entries per category. Defaults to 20.
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/damengSQLAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/dameng/sessions/{sessionId}/lockAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Dameng session lock analysis
+      description: Get lock and blocking analysis for a Dameng session. Queries V$LOCK and V$SESSIONS to identify blocking/blocked relationships and lock details.
+      operationId: getDiagnosticsDamengSessionLockAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: sessionId
+          in: path
+          description: Dameng session ID (SESS_ID)
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/damengLockAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/dameng/sessions/{sessionId}:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Dameng session detail
+      description: Get a single Dameng session detail by session ID from V$SESSIONS, including SQL text, transaction info, and client details.
+      operationId: getDiagnosticsDamengSession
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: sessionId
+          in: path
+          description: Dameng session ID (SESS_ID)
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/damengSessionDetail'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/dameng/sessions:
+    get:
+      tags:
+        - diagnostics
+      summary: List Dameng sessions
+      description: List Dameng sessions from V$SESSIONS with lock status from V$LOCK. Returns session ID, user, state, client IP, transaction ID, lock status, SQL text, schema, duration, and more.
+      operationId: listDiagnosticsDamengSessions
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of sessions to return. Defaults to 200.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: state
+          in: query
+          description: Filter sessions by state (e.g. ACTIVE, IDLE). Matches against V$SESSIONS.STATE.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/damengSessionListItem'
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -23634,6 +24908,35 @@ components:
           $ref: '#/components/schemas/ioQuantity'
         ioReserves:
           $ref: '#/components/schemas/ioQuantity'
+    ipPoolProvider:
+      type: string
+      description: KBE provider used for Pod IP pool discovery and explicit selection.
+      enum:
+        - spiderpool
+    ipPoolSelection:
+      type: object
+      description: Provider-qualified Pod IP pool selection for component pod IP allocation.
+      required:
+        - provider
+      properties:
+        provider:
+          $ref: '#/components/schemas/ipPoolProvider'
+        ipv4Pools:
+          type: array
+          items:
+            type: string
+          description: IPv4 pool names resolved within the selected provider.
+        ipv6Pools:
+          type: array
+          items:
+            type: string
+          description: IPv6 pool names resolved within the selected provider.
+    componentNetwork:
+      type: object
+      description: Per-component network configuration.
+      properties:
+        ipPool:
+          $ref: '#/components/schemas/ipPoolSelection'
     componentItemCreate:
       type: object
       description: ComponentItem is the information of a component
@@ -23682,6 +24985,8 @@ components:
         systemAccountSecretName:
           description: The name of the secret that contains the system account credentials
           type: string
+        network:
+          $ref: '#/components/schemas/componentNetwork'
     componentsCreate:
       type: array
       description: Components is the list of components
@@ -23998,6 +25303,8 @@ components:
         systemAccountSecretName:
           description: The name of the secret that contains the system account credentials
           type: string
+        network:
+          $ref: '#/components/schemas/componentNetwork'
     components:
       type: array
       description: Components is the list of components
@@ -25905,6 +27212,19 @@ components:
       items:
         $ref: '#/components/schemas/datasource'
       type: array
+    testConnectResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+          description: whether the datasource connection test passed
+        message:
+          type: string
+          description: diagnostic message returned by DMS
+        extraInfo:
+          type: object
+          description: additional diagnostics returned by DMS
+          additionalProperties: true
     DmsQueryBaseRequest:
       type: object
       properties:
@@ -29330,6 +30650,7 @@ components:
         - provisionConfig
         - createdAt
         - updatedAt
+        - ipPoolProviders
       properties:
         provider:
           description: Cloud Provider
@@ -29405,6 +30726,11 @@ components:
           description: Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
           type: boolean
           default: false
+        ipPoolProviders:
+          description: KBE Pod IP pool providers enabled for discovery and explicit pool selection.
+          type: array
+          items:
+            $ref: '#/components/schemas/ipPoolProvider'
     environmentList:
       description: EnvironmentList is a list of Environments
       properties:
@@ -29488,6 +30814,12 @@ components:
           description: Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
           type: boolean
           default: false
+        ipPoolProviders:
+          description: KBE Pod IP pool providers enabled for discovery and explicit pool selection.
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/ipPoolProvider'
     preflight:
       title: Preflight results
       description: The result of preflight check
@@ -29620,6 +30952,11 @@ components:
           description: Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
           type: boolean
           default: false
+        ipPoolProviders:
+          description: KBE Pod IP pool providers enabled for discovery and explicit pool selection. An empty array disables this capability.
+          type: array
+          items:
+            $ref: '#/components/schemas/ipPoolProvider'
         clusterSchedulingPolicy:
           $ref: '#/components/schemas/clusterSchedulingPolicy'
     environmentStateEvent:
@@ -30447,6 +31784,83 @@ components:
       items:
         type: string
       type: array
+    ipPoolSelectionRequirement:
+      type: string
+      enum:
+        - required
+        - optional
+        - unsupported
+    ipPoolSelectionPolicy:
+      type: object
+      description: Per-address-family requirements for explicit IP pool selection.
+      properties:
+        ipv4:
+          $ref: '#/components/schemas/ipPoolSelectionRequirement'
+        ipv6:
+          $ref: '#/components/schemas/ipPoolSelectionRequirement'
+      required:
+        - ipv4
+        - ipv6
+    ipPoolIPFamily:
+      type: string
+      enum:
+        - IPv4
+        - IPv6
+    ipPool:
+      type: object
+      description: Provider-neutral Pod IP pool summary.
+      properties:
+        name:
+          type: string
+        ipFamily:
+          $ref: '#/components/schemas/ipPoolIPFamily'
+        subnet:
+          type: string
+        disabled:
+          type: boolean
+        default:
+          type: boolean
+        allocatedIPCount:
+          type: integer
+          format: int64
+        totalIPCount:
+          type: integer
+          format: int64
+        availableIPCount:
+          type: integer
+          format: int64
+        capacityReliable:
+          type: boolean
+        affinitySummary:
+          type: array
+          items:
+            type: string
+    ipPoolProviderList:
+      type: object
+      description: Pod IP pools and selection policy reported by one provider.
+      properties:
+        name:
+          $ref: '#/components/schemas/ipPoolProvider'
+        selectionPolicy:
+          $ref: '#/components/schemas/ipPoolSelectionPolicy'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ipPool'
+      required:
+        - name
+        - selectionPolicy
+        - items
+    ipPoolList:
+      type: object
+      description: Pod IP pool discovery result for an environment.
+      properties:
+        providers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ipPoolProviderList'
+      required:
+        - providers
     rawCluster:
       type: object
       description: cluster info
@@ -32174,7 +33588,7 @@ components:
             so that frontend can use it to get proper localized title.
         engineName:
           type: string
-          description: The engine to be used in serviceRef. This field is used to filter clusters.
+          description: The default engine to be used in serviceRef. This field is used as the fallback engine filter and default create entry.
         modes:
           type: array
           items:
@@ -32230,6 +33644,41 @@ components:
             If no serviceSelector is matched, the corresponding helm value will not be set.
           items:
             $ref: '#/components/schemas/serviceSelector'
+    modeObjectStorageAdditionalHelmValuePath:
+      type: object
+      description: The path in helm values that some object storage config will use. If empty, the values will not be set.
+      required:
+        - bucket
+      properties:
+        bucket:
+          type: string
+          description: the bucket name for the object storage
+        path:
+          type: string
+          description: |
+            root path where cluster stores data in the bucket. This field is not user-provided.
+            It is always set to cluster id. If not set, it means the engine does not support specify a path.
+        usePathStyle:
+          type: string
+          description: |
+            whether the object storage is using path style or virtual host style.
+            If not set, it means the engine does not need this option.
+        region:
+          type: string
+          description: |
+            Region to use. If not set, it means the engine does not need this option.
+    modeObjectStorageServiceRef:
+      type: object
+      description: |
+        Defines one object storage dependency option for a mode.
+      required:
+        - serviceRef
+        - additionalHelmValuePath
+      properties:
+        serviceRef:
+          $ref: '#/components/schemas/modeServiceRef'
+        additionalHelmValuePath:
+          $ref: '#/components/schemas/modeObjectStorageAdditionalHelmValuePath'
     modeObjectStorage:
       type: object
       description: |
@@ -32238,31 +33687,14 @@ components:
         enabled:
           type: boolean
           description: if object storage is enabled for this mode
-        serviceRef:
-          $ref: '#/components/schemas/modeServiceRef'
-        additionalHelmValuePath:
-          type: object
-          description: The path in helm values that some object storage config will use. If empty, the values will not be set.
-          required:
-            - bucket
-          properties:
-            bucket:
-              type: string
-              description: the bucket name for the object storage
-            path:
-              type: string
-              description: |
-                root path where cluster stores data in the bucket. This field is not user-provided.
-                It is always set to cluster id. If not set, it means the engine does not support specify a path.
-            usePathStyle:
-              type: string
-              description: |
-                whether the object storage is using path style or virtual host style.
-                If not set, it means the engine does not need this option.
-            region:
-              type: string
-              description: |
-                Region to use. If not set, it means the engine does not need this option.
+        serviceRefs:
+          type: array
+          items:
+            $ref: '#/components/schemas/modeObjectStorageServiceRef'
+          description: |
+            Object storage serviceRef configs supported by this mode. Use this when different object
+            storage engines may require different serviceRef or Helm value mappings. When it is set,
+            the cluster create request selects one item by objectStorageConfig.serviceRef.name.
     engineModeTransition:
       type: object
       required:
@@ -34441,6 +35873,11 @@ components:
           title: maturityLevel
           type: string
           description: engine maturity level
+        extra:
+          type: object
+          additionalProperties: true
+          nullable: true
+          description: engine-specific runtime metadata for clients
     engineList:
       items:
         $ref: '#/components/schemas/engine'
@@ -34576,6 +36013,7 @@ components:
           type: number
           description: The used count of the engine
           format: double
+          x-omitempty: false
     license:
       description: License info
       type: object
@@ -37293,6 +38731,108 @@ components:
         - BASICUSER
         - ROOT
       type: string
+    privilegeType:
+      title: privilegeType
+      description: The type of privilege.
+      type: string
+      enum:
+        - DBADMIN
+        - READWRITE
+        - READONLY
+        - DDLONLY
+        - DMLONLY
+        - ADMIN
+        - DBA
+        - USER
+        - GUEST
+    privilegeListItem:
+      type: object
+      description: Database and its assigned privileges.
+      properties:
+        databaseName:
+          title: databaseName
+          type: string
+          description: The name of the database.
+        privileges:
+          $ref: '#/components/schemas/privilegeType'
+      required:
+        - privileges
+    privilegeList:
+      type: array
+      items:
+        $ref: '#/components/schemas/privilegeListItem'
+      description: A list of privileges and their databases.
+    accountListItem:
+      description: Cluster account information.
+      properties:
+        component:
+          description: Component type.
+          type: string
+        name:
+          description: The name of user.
+          type: string
+        password:
+          description: The password of user.
+          type: string
+        role:
+          $ref: '#/components/schemas/accountListRoleType'
+        privilegesList:
+          description: privileges of databases of cluster
+          title: privilegesList
+          $ref: '#/components/schemas/privilegeList'
+        extra:
+          description: extra information of account
+          type: object
+          additionalProperties: {}
+      required:
+        - name
+      type: object
+    accountList:
+      items:
+        $ref: '#/components/schemas/accountListItem'
+      type: array
+    accountRoleType:
+      default: SUPERUSER
+      description: Role name should be one of [BASICUSER, SUPERUSER, ROOT].
+      enum:
+        - SUPERUSER
+        - BASICUSER
+        - ROOT
+      title: role
+      type: string
+    account:
+      description: Cluster account information
+      properties:
+        privilegesList:
+          description: privileges of databases of cluster
+          title: privilegesList
+          $ref: '#/components/schemas/privilegeList'
+        component:
+          description: Specify the name of component to be connected. If not specified, pick the first one.
+          title: component
+          type: string
+        instance:
+          description: Specify the name of instance to be connected.
+          title: instance
+          type: string
+        name:
+          description: Specify the name of user, which must be unique.
+          title: name
+          type: string
+        password:
+          description: Specify the password of user. The default value is empty, which means a random password will be generated.
+          title: password
+          type: string
+        role:
+          $ref: '#/components/schemas/accountRoleType'
+        extra:
+          description: extra information of account
+          type: object
+          additionalProperties: {}
+      required:
+        - name
+        - role
+      type: object
     redisPrivilegeType:
       description: Redis user privileges
       enum:
@@ -37365,6 +38905,253 @@ components:
           items:
             $ref: '#/components/schemas/ACLUser'
             nullable: true
+    ESSecurityUser:
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            type: string
+        full_name:
+          type: string
+          nullable: true
+        email:
+          type: string
+          nullable: true
+        metadata:
+          type: object
+          additionalProperties: true
+        enabled:
+          type: boolean
+          nullable: true
+    ESSecurityUsers:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/ESSecurityUser'
+    ESPutSecurityUserRequest:
+      type: object
+      properties:
+        password:
+          type: string
+          nullable: true
+        password_hash:
+          type: string
+          nullable: true
+        roles:
+          type: array
+          items:
+            type: string
+        full_name:
+          type: string
+          nullable: true
+        email:
+          type: string
+          nullable: true
+        metadata:
+          type: object
+          additionalProperties: true
+        enabled:
+          type: boolean
+          nullable: true
+      required:
+        - roles
+    ESSecurityPasswordRequest:
+      type: object
+      properties:
+        password:
+          type: string
+      required:
+        - password
+    ESSecurityFieldSecurity:
+      type: object
+      properties:
+        grant:
+          type: array
+          x-omitempty: true
+          items:
+            type: string
+        except:
+          type: array
+          x-omitempty: true
+          items:
+            type: string
+    ESSecurityIndexPrivileges:
+      type: object
+      properties:
+        names:
+          type: array
+          items:
+            type: string
+        privileges:
+          type: array
+          items:
+            type: string
+        field_security:
+          $ref: '#/components/schemas/ESSecurityFieldSecurity'
+        query:
+          type: string
+          nullable: true
+        allow_restricted_indices:
+          type: boolean
+          nullable: true
+      required:
+        - names
+        - privileges
+    ESSecurityRemoteIndexPrivileges:
+      type: object
+      properties:
+        clusters:
+          type: array
+          items:
+            type: string
+        names:
+          type: array
+          items:
+            type: string
+        privileges:
+          type: array
+          items:
+            type: string
+        field_security:
+          $ref: '#/components/schemas/ESSecurityFieldSecurity'
+        query:
+          type: string
+          nullable: true
+        allow_restricted_indices:
+          type: boolean
+          nullable: true
+      required:
+        - clusters
+        - names
+        - privileges
+    ESSecurityRemoteClusterPrivileges:
+      type: object
+      properties:
+        clusters:
+          type: array
+          items:
+            type: string
+        privileges:
+          type: array
+          items:
+            type: string
+      required:
+        - clusters
+        - privileges
+    ESSecurityApplicationPrivileges:
+      type: object
+      properties:
+        application:
+          type: string
+          x-omitempty: true
+        privileges:
+          type: array
+          x-omitempty: true
+          items:
+            type: string
+        resources:
+          type: array
+          x-omitempty: true
+          items:
+            type: string
+    ESSecurityRoleDescriptor:
+      type: object
+      properties:
+        description:
+          type: string
+          nullable: true
+        cluster:
+          type: array
+          x-omitempty: true
+          items:
+            type: string
+        global:
+          type: object
+          additionalProperties: true
+        indices:
+          type: array
+          x-omitempty: true
+          items:
+            $ref: '#/components/schemas/ESSecurityIndexPrivileges'
+        remote_indices:
+          type: array
+          x-omitempty: true
+          items:
+            $ref: '#/components/schemas/ESSecurityRemoteIndexPrivileges'
+        remote_cluster:
+          type: array
+          x-omitempty: true
+          items:
+            $ref: '#/components/schemas/ESSecurityRemoteClusterPrivileges'
+        applications:
+          type: array
+          x-omitempty: true
+          items:
+            $ref: '#/components/schemas/ESSecurityApplicationPrivileges'
+        run_as:
+          type: array
+          x-omitempty: true
+          items:
+            type: string
+        metadata:
+          type: object
+          additionalProperties: true
+        restriction:
+          type: object
+          additionalProperties: true
+        transient_metadata:
+          type: object
+          additionalProperties: true
+    ESSecurityRoles:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/ESSecurityRoleDescriptor'
+    ESSecurityRoleTemplateFormat:
+      type: string
+      enum:
+        - string
+        - json
+    ESSecurityRoleTemplate:
+      type: object
+      properties:
+        template:
+          type: object
+          additionalProperties: true
+        format:
+          $ref: '#/components/schemas/ESSecurityRoleTemplateFormat'
+          nullable: true
+    ESSecurityRoleMapping:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          nullable: true
+        roles:
+          type: array
+          x-omitempty: true
+          items:
+            type: string
+        role_templates:
+          type: array
+          x-omitempty: true
+          items:
+            $ref: '#/components/schemas/ESSecurityRoleTemplate'
+        rules:
+          type: object
+          additionalProperties: true
+        metadata:
+          type: object
+          additionalProperties: true
+    ESSecurityRoleMappings:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/ESSecurityRoleMapping'
+    ESBuiltinPrivileges:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
     RbmqUser:
       type: object
       properties:
@@ -37742,108 +39529,6 @@ components:
             type: string
       required:
         - name
-      type: object
-    privilegeType:
-      title: privilegeType
-      description: The type of privilege.
-      type: string
-      enum:
-        - DBADMIN
-        - READWRITE
-        - READONLY
-        - DDLONLY
-        - DMLONLY
-        - ADMIN
-        - DBA
-        - USER
-        - GUEST
-    privilegeListItem:
-      type: object
-      description: Database and its assigned privileges.
-      properties:
-        databaseName:
-          title: databaseName
-          type: string
-          description: The name of the database.
-        privileges:
-          $ref: '#/components/schemas/privilegeType'
-      required:
-        - privileges
-    privilegeList:
-      type: array
-      items:
-        $ref: '#/components/schemas/privilegeListItem'
-      description: A list of privileges and their databases.
-    accountListItem:
-      description: Cluster account information.
-      properties:
-        component:
-          description: Component type.
-          type: string
-        name:
-          description: The name of user.
-          type: string
-        password:
-          description: The password of user.
-          type: string
-        role:
-          $ref: '#/components/schemas/accountListRoleType'
-        privilegesList:
-          description: privileges of databases of cluster
-          title: privilegesList
-          $ref: '#/components/schemas/privilegeList'
-        extra:
-          description: extra information of account
-          type: object
-          additionalProperties: {}
-      required:
-        - name
-      type: object
-    accountList:
-      items:
-        $ref: '#/components/schemas/accountListItem'
-      type: array
-    accountRoleType:
-      default: SUPERUSER
-      description: Role name should be one of [BASICUSER, SUPERUSER, ROOT].
-      enum:
-        - SUPERUSER
-        - BASICUSER
-        - ROOT
-      title: role
-      type: string
-    account:
-      description: Cluster account information
-      properties:
-        privilegesList:
-          description: privileges of databases of cluster
-          title: privilegesList
-          $ref: '#/components/schemas/privilegeList'
-        component:
-          description: Specify the name of component to be connected. If not specified, pick the first one.
-          title: component
-          type: string
-        instance:
-          description: Specify the name of instance to be connected.
-          title: instance
-          type: string
-        name:
-          description: Specify the name of user, which must be unique.
-          title: name
-          type: string
-        password:
-          description: Specify the password of user. The default value is empty, which means a random password will be generated.
-          title: password
-          type: string
-        role:
-          $ref: '#/components/schemas/accountRoleType'
-        extra:
-          description: extra information of account
-          type: object
-          additionalProperties: {}
-      required:
-        - name
-        - role
       type: object
     DmsServiceAccount:
       description: MinIO service account access-key
@@ -38671,6 +40356,329 @@ components:
         capturedAt:
           type: string
           description: Snapshot capture timestamp in UTC.
+    damengTablespaceItem:
+      type: object
+      required:
+        - name
+        - totalMb
+        - freeMb
+        - usedMb
+        - usageRatio
+      properties:
+        name:
+          type: string
+          description: Tablespace name.
+        totalMb:
+          type: number
+          format: double
+          description: Total size in megabytes.
+        freeMb:
+          type: number
+          format: double
+          description: Free size in megabytes.
+        usedMb:
+          type: number
+          format: double
+          description: Used size in megabytes.
+        usageRatio:
+          type: number
+          format: double
+          description: Usage ratio as percentage (0-100).
+    damengSchemaItem:
+      type: object
+      required:
+        - name
+        - sizeBytes
+      properties:
+        name:
+          type: string
+          description: Schema (owner) name.
+        sizeBytes:
+          type: integer
+          format: int64
+          description: Total segment size in bytes across all objects owned by this schema.
+    damengTableSizeItem:
+      type: object
+      required:
+        - schema
+        - tableName
+        - sizeBytes
+      properties:
+        schema:
+          type: string
+          description: Schema (owner) name.
+        tableName:
+          type: string
+          description: Table name.
+        sizeBytes:
+          type: integer
+          format: int64
+          description: Total segment size in bytes for this table.
+        rowCount:
+          type: integer
+          format: int64
+          description: Estimated number of rows from DBA_TABLES.NUM_ROWS.
+    damengIndexItem:
+      type: object
+      required:
+        - schema
+        - indexName
+        - tableName
+        - sizeBytes
+        - isUnique
+      properties:
+        schema:
+          type: string
+          description: Schema (owner) name.
+        indexName:
+          type: string
+          description: Index name.
+        tableName:
+          type: string
+          description: Parent table name.
+        sizeBytes:
+          type: integer
+          format: int64
+          description: Segment size in bytes from DBA_SEGMENTS.
+        indexType:
+          type: string
+          description: Index type (e.g. NORMAL, BITMAP, CLUSTER).
+        isUnique:
+          type: boolean
+          description: Whether the index enforces uniqueness.
+    damengSpaceAnalysis:
+      type: object
+      required:
+        - tablespaces
+      properties:
+        tablespaces:
+          type: array
+          description: Tablespace size and usage information from dba_free_space and dba_data_files.
+          items:
+            $ref: '#/components/schemas/damengTablespaceItem'
+        schemas:
+          type: array
+          description: Schema-level size aggregation from DBA_SEGMENTS grouped by OWNER.
+          items:
+            $ref: '#/components/schemas/damengSchemaItem'
+        tables:
+          type: array
+          description: Top-N tables ordered by total size from DBA_SEGMENTS (SEGMENT_TYPE='TABLE').
+          items:
+            $ref: '#/components/schemas/damengTableSizeItem'
+        indexes:
+          type: array
+          description: Top-N indexes ordered by size from DBA_INDEXES joined with DBA_SEGMENTS.
+          items:
+            $ref: '#/components/schemas/damengIndexItem'
+    damengLongExecSQLEntry:
+      type: object
+      required:
+        - sqlText
+        - execTimeMs
+        - nRuns
+      properties:
+        sqlText:
+          type: string
+          description: SQL text from V$SYSTEM_LONG_EXEC_SQLS.
+        execTimeMs:
+          type: integer
+          format: int64
+          description: Execution time in milliseconds.
+        sessionId:
+          type: string
+          description: Session ID, when available.
+        sqlId:
+          type: string
+          description: SQL ID, when available.
+        nRuns:
+          type: integer
+          format: int64
+          description: Number of executions.
+        finishTime:
+          type: string
+          description: SQL finish time in UTC, when available.
+    damengLargeMemSQLEntry:
+      type: object
+      required:
+        - sqlText
+        - memUsedKb
+        - nRuns
+      properties:
+        sqlText:
+          type: string
+          description: SQL text from V$SYSTEM_LARGE_MEM_SQLS.
+        memUsedKb:
+          type: integer
+          format: int64
+          description: Memory used in kilobytes.
+        sessionId:
+          type: string
+          description: Session ID, when available.
+        sqlId:
+          type: string
+          description: SQL ID, when available.
+        finishTime:
+          type: string
+          description: SQL finish time in UTC, when available.
+        nRuns:
+          type: integer
+          format: int64
+          description: Number of executions.
+    damengSQLAnalysis:
+      type: object
+      required:
+        - topLongExecSql
+        - topLargeMemSql
+      properties:
+        topLongExecSql:
+          type: array
+          description: Top long-running SQL entries from V$SYSTEM_LONG_EXEC_SQLS ordered by execution time descending.
+          items:
+            $ref: '#/components/schemas/damengLongExecSQLEntry'
+        topLargeMemSql:
+          type: array
+          description: Top high-memory SQL entries from V$SYSTEM_LARGE_MEM_SQLS ordered by memory usage descending.
+          items:
+            $ref: '#/components/schemas/damengLargeMemSQLEntry'
+    damengSessionDetail:
+      type: object
+      required:
+        - sessId
+      properties:
+        sessId:
+          type: integer
+          format: int64
+          description: Dameng session ID from V$SESSIONS.
+        userName:
+          type: string
+          description: Database user name.
+        state:
+          type: string
+          description: Session state (ACTIVE, IDLE, etc.).
+        clientIp:
+          type: string
+          description: Client IP address.
+        clientType:
+          type: string
+          description: Client type.
+        createTime:
+          type: string
+          description: Session creation time.
+        lastSendTime:
+          type: string
+          description: Last SQL send time.
+        sqlText:
+          type: string
+          description: Current or last SQL text from V$SESSIONS.
+        fullSql:
+          type: string
+          description: Full SQL text via SF_GET_SESSION_SQL.
+        trxId:
+          type: string
+          description: Transaction ID.
+        trxDurationSec:
+          type: integer
+          format: int64
+          description: Seconds since last SQL send time.
+        appName:
+          type: string
+          description: Application name.
+        currSchema:
+          type: string
+          description: Current schema.
+        autoCommit:
+          type: string
+          description: Auto-commit status (Y/N).
+    damengLockRow:
+      type: object
+      required:
+        - trxId
+      properties:
+        trxId:
+          type: integer
+          format: int64
+          description: Transaction ID holding the lock.
+        lockType:
+          type: string
+          description: Lock type.
+        lockMode:
+          type: string
+          description: Lock mode.
+        sessId:
+          type: integer
+          format: int64
+          description: Session ID associated with this lock.
+        clientIp:
+          type: string
+          description: Client IP address for the session.
+        sqlText:
+          type: string
+          description: SQL text for the session.
+        userName:
+          type: string
+          description: User name for the session.
+    damengLockAnalysis:
+      type: object
+      required:
+        - selectedSession
+        - locks
+        - capturedAt
+      properties:
+        selectedSession:
+          $ref: '#/components/schemas/damengSessionDetail'
+        locks:
+          type: array
+          description: Lock records for the selected session's transaction.
+          items:
+            $ref: '#/components/schemas/damengLockRow'
+        capturedAt:
+          type: string
+          description: Backend collection timestamp in UTC.
+    damengSessionListItem:
+      type: object
+      required:
+        - sessId
+        - hasLock
+      properties:
+        sessId:
+          type: integer
+          format: int64
+          description: Dameng session ID from V$SESSIONS.
+        userName:
+          type: string
+          description: Database user name.
+        state:
+          type: string
+          description: Session state (ACTIVE, IDLE, etc.).
+        clientIp:
+          type: string
+          description: Client IP address.
+        trxId:
+          type: string
+          description: Transaction ID.
+        hasLock:
+          type: boolean
+          description: Whether this session has locks from V$LOCK.
+        sqlText:
+          type: string
+          description: Current SQL text from V$SESSIONS.
+        currSchema:
+          type: string
+          description: Current schema (database context).
+        appName:
+          type: string
+          description: Application name.
+        durationSec:
+          type: integer
+          format: int64
+          description: Session duration in seconds.
+        clientType:
+          type: string
+          description: Client type.
+        autoCommit:
+          type: string
+          description: Auto-commit status.
     dbTDERequest:
       type: object
       properties:

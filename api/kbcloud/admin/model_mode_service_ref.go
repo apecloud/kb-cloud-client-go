@@ -17,7 +17,7 @@ type ModeServiceRef struct {
 	// so that frontend can use it to get proper localized title.
 	//
 	Name string `json:"name"`
-	// The engine to be used in serviceRef. This field is used to filter clusters.
+	// The default engine to be used in serviceRef. This field is used as the fallback engine filter and default create entry.
 	EngineName string `json:"engineName"`
 	// The mode to be used in serviceRef. This field is used to filter clusters. If not set, it means all modes are supported.
 	Modes []string `json:"modes,omitempty"`
