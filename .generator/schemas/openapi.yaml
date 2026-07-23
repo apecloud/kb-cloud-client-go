@@ -20729,13 +20729,17 @@ components:
       type: object
     environmentModuleStatus:
       type: string
-      description: Status of environment module
+      description: Status of an environment module. Enabled is only used as the desired state when creating an environment. NotInstalled, Installing, InstallationFailed, and Unknown are returned only for modules that support quick installation.
       enum:
         - Running
         - Updating
         - Error
         - Disabled
         - Enabled
+        - NotInstalled
+        - Installing
+        - InstallationFailed
+        - Unknown
     clusterInfo:
       type: object
       description: Cluster information
@@ -20782,6 +20786,9 @@ components:
         defaultEnabled:
           type: boolean
           description: indicate whether module is enabled by default when creating environment. Only effective when optional is true
+        actionWarning:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Localized business-impact warning shown before installing a NotInstalled module or retrying an InstallationFailed module.
       required:
         - name
         - status

@@ -16,7 +16,7 @@ type EnvironmentModule struct {
 	Name string `json:"name"`
 	// Environment module version
 	Version *string `json:"version,omitempty"`
-	// Status of environment module
+	// Status of an environment module. Enabled is only used as the desired state when creating an environment. NotInstalled, Installing, InstallationFailed, and Unknown are returned only for modules that support quick installation.
 	Status EnvironmentModuleStatus `json:"status"`
 	// Number of replicas
 	Replicas *int32 `json:"replicas,omitempty"`
@@ -29,7 +29,8 @@ type EnvironmentModule struct {
 	// indicate module is optional. If false, the module is required and must be installed
 	Optional *bool `json:"optional,omitempty"`
 	// indicate whether module is enabled by default when creating environment. Only effective when optional is true
-	DefaultEnabled *bool `json:"defaultEnabled,omitempty"`
+	DefaultEnabled *bool                 `json:"defaultEnabled,omitempty"`
+	ActionWarning  *LocalizedDescription `json:"actionWarning,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -324,6 +325,34 @@ func (o *EnvironmentModule) SetDefaultEnabled(v bool) {
 	o.DefaultEnabled = &v
 }
 
+// GetActionWarning returns the ActionWarning field value if set, zero value otherwise.
+func (o *EnvironmentModule) GetActionWarning() LocalizedDescription {
+	if o == nil || o.ActionWarning == nil {
+		var ret LocalizedDescription
+		return ret
+	}
+	return *o.ActionWarning
+}
+
+// GetActionWarningOk returns a tuple with the ActionWarning field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentModule) GetActionWarningOk() (*LocalizedDescription, bool) {
+	if o == nil || o.ActionWarning == nil {
+		return nil, false
+	}
+	return o.ActionWarning, true
+}
+
+// HasActionWarning returns a boolean if a field has been set.
+func (o *EnvironmentModule) HasActionWarning() bool {
+	return o != nil && o.ActionWarning != nil
+}
+
+// SetActionWarning gets a reference to the given LocalizedDescription and assigns it to the ActionWarning field.
+func (o *EnvironmentModule) SetActionWarning(v LocalizedDescription) {
+	o.ActionWarning = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -356,6 +385,9 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	if o.DefaultEnabled != nil {
 		toSerialize["defaultEnabled"] = o.DefaultEnabled
 	}
+	if o.ActionWarning != nil {
+		toSerialize["actionWarning"] = o.ActionWarning
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -376,6 +408,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 		DisplayName    *LocalizedDescription    `json:"displayName,omitempty"`
 		Optional       *bool                    `json:"optional,omitempty"`
 		DefaultEnabled *bool                    `json:"defaultEnabled,omitempty"`
+		ActionWarning  *LocalizedDescription    `json:"actionWarning,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -388,7 +421,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "replicas", "location", "clusterInfo", "description", "displayName", "optional", "defaultEnabled"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "replicas", "location", "clusterInfo", "description", "displayName", "optional", "defaultEnabled", "actionWarning"})
 	} else {
 		return err
 	}
@@ -417,6 +450,10 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	o.DisplayName = all.DisplayName
 	o.Optional = all.Optional
 	o.DefaultEnabled = all.DefaultEnabled
+	if all.ActionWarning != nil && all.ActionWarning.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ActionWarning = all.ActionWarning
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -17123,7 +17123,8 @@ paths:
         - environment
     patch:
       operationId: updateEnvironmentModule
-      summary: update environment module
+      summary: Update an environment module
+      description: Performs the requested module action. For quick-install modules, action=Enable with dryRun=true synchronously checks whether installation is allowed without making changes; dryRun=false or omitted repeats the checks and submits an asynchronous task only when all checks pass. Existing module actions that do not use the quick-install framework keep their original behavior.
       parameters:
         - name: environmentName
           in: path
@@ -17138,15 +17139,11 @@ paths:
               $ref: '#/components/schemas/environmentModuleUpdate'
       responses:
         '200':
-          description: Success
+          description: The module action succeeded. A successful dry run returns an empty object; an asynchronous action returns taskId.
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  taskId:
-                    type: string
-                    description: the task id
+                $ref: '#/components/schemas/environmentModuleActionResult'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -30498,13 +30495,17 @@ components:
               description: judge whether to set the backup is default which will be init
     environmentModuleStatus:
       type: string
-      description: Status of environment module
+      description: Status of an environment module. Enabled is only used as the desired state when creating an environment. NotInstalled, Installing, InstallationFailed, and Unknown are returned only for modules that support quick installation.
       enum:
         - Running
         - Updating
         - Error
         - Disabled
         - Enabled
+        - NotInstalled
+        - Installing
+        - InstallationFailed
+        - Unknown
     clusterInfo:
       type: object
       description: Cluster information
@@ -30551,6 +30552,9 @@ components:
         defaultEnabled:
           type: boolean
           description: indicate whether module is enabled by default when creating environment. Only effective when optional is true
+        actionWarning:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Localized business-impact warning shown before installing a NotInstalled module or retrying an InstallationFailed module.
       required:
         - name
         - status
@@ -38008,9 +38012,20 @@ components:
         version:
           type: string
           description: Version of the environment module to upgrade to
+        dryRun:
+          type: boolean
+          default: false
+          description: For action=Enable on a quick-install module, only run synchronous installation checks when true. When false or omitted, repeat the checks and submit the installation task if all checks pass. Existing module actions ignore this field when false or omitted.
       required:
         - name
         - action
+    environmentModuleActionResult:
+      type: object
+      description: Result of an environment module action. A successful dry run returns an empty object; an asynchronous action returns taskId; failed checks use the standard API error response.
+      properties:
+        taskId:
+          type: string
+          description: ID of the submitted asynchronous module action task. It is absent for successful dry runs; failed checks return an API error.
     podResources:
       type: object
       description: Resource usage information for a pod
