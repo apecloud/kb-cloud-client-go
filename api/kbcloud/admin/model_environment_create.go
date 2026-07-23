@@ -7,9 +7,8 @@ package admin
 import (
 	"fmt"
 
-	"github.com/google/uuid"
-
 	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/google/uuid"
 )
 
 // EnvironmentCreate Environment creation info
@@ -46,6 +45,8 @@ type EnvironmentCreate struct {
 	Sla *bool `json:"sla,omitempty"`
 	// Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
 	KoordinatorEnabled *bool `json:"koordinatorEnabled,omitempty"`
+	// KBE Pod IP pool providers enabled for discovery and explicit pool selection.
+	IpPoolProviders []IpPoolProvider `json:"ipPoolProviders,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -534,6 +535,34 @@ func (o *EnvironmentCreate) SetKoordinatorEnabled(v bool) {
 	o.KoordinatorEnabled = &v
 }
 
+// GetIpPoolProviders returns the IpPoolProviders field value if set, zero value otherwise.
+func (o *EnvironmentCreate) GetIpPoolProviders() []IpPoolProvider {
+	if o == nil || o.IpPoolProviders == nil {
+		var ret []IpPoolProvider
+		return ret
+	}
+	return o.IpPoolProviders
+}
+
+// GetIpPoolProvidersOk returns a tuple with the IpPoolProviders field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentCreate) GetIpPoolProvidersOk() (*[]IpPoolProvider, bool) {
+	if o == nil || o.IpPoolProviders == nil {
+		return nil, false
+	}
+	return &o.IpPoolProviders, true
+}
+
+// HasIpPoolProviders returns a boolean if a field has been set.
+func (o *EnvironmentCreate) HasIpPoolProviders() bool {
+	return o != nil && o.IpPoolProviders != nil
+}
+
+// SetIpPoolProviders gets a reference to the given []IpPoolProvider and assigns it to the IpPoolProviders field.
+func (o *EnvironmentCreate) SetIpPoolProviders(v []IpPoolProvider) {
+	o.IpPoolProviders = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -577,6 +606,9 @@ func (o EnvironmentCreate) MarshalJSON() ([]byte, error) {
 	if o.KoordinatorEnabled != nil {
 		toSerialize["koordinatorEnabled"] = o.KoordinatorEnabled
 	}
+	if o.IpPoolProviders != nil {
+		toSerialize["ipPoolProviders"] = o.IpPoolProviders
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -604,6 +636,7 @@ func (o *EnvironmentCreate) UnmarshalJSON(bytes []byte) (err error) {
 		Dns                *Dns                     `json:"dns,omitempty"`
 		Sla                *bool                    `json:"sla,omitempty"`
 		KoordinatorEnabled *bool                    `json:"koordinatorEnabled,omitempty"`
+		IpPoolProviders    []IpPoolProvider         `json:"ipPoolProviders,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -631,7 +664,7 @@ func (o *EnvironmentCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "schedulingConfig", "provisionConfig", "organizations", "provider", "region", "availabilityZones", "description", "displayName", "id", "extraInfo", "deletePolicy", "overwrite", "dns", "sla", "koordinatorEnabled"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "schedulingConfig", "provisionConfig", "organizations", "provider", "region", "availabilityZones", "description", "displayName", "id", "extraInfo", "deletePolicy", "overwrite", "dns", "sla", "koordinatorEnabled", "ipPoolProviders"})
 	} else {
 		return err
 	}
@@ -671,6 +704,7 @@ func (o *EnvironmentCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.Dns = all.Dns
 	o.Sla = all.Sla
 	o.KoordinatorEnabled = all.KoordinatorEnabled
+	o.IpPoolProviders = all.IpPoolProviders
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

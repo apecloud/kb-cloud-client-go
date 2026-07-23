@@ -8,9 +8,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/google/uuid"
-
 	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/google/uuid"
 )
 
 // Environment Environment info
@@ -61,6 +60,8 @@ type Environment struct {
 	SlaEnabled *bool `json:"slaEnabled,omitempty"`
 	// Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
 	KoordinatorEnabled *bool `json:"koordinatorEnabled,omitempty"`
+	// KBE Pod IP pool providers enabled for discovery and explicit pool selection.
+	IpPoolProviders []IpPoolProvider `json:"ipPoolProviders"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -70,7 +71,7 @@ type Environment struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironment(provider string, region string, availabilityZones []string, displayName string, id uuid.UUID, name string, organizations []string, state EnvironmentState, typeVar EnvironmentType, provisionConfig ProvisionConfig, createdAt time.Time, updatedAt time.Time) *Environment {
+func NewEnvironment(provider string, region string, availabilityZones []string, displayName string, id uuid.UUID, name string, organizations []string, state EnvironmentState, typeVar EnvironmentType, provisionConfig ProvisionConfig, createdAt time.Time, updatedAt time.Time, ipPoolProviders []IpPoolProvider) *Environment {
 	this := Environment{}
 	this.Provider = provider
 	this.Region = region
@@ -92,6 +93,7 @@ func NewEnvironment(provider string, region string, availabilityZones []string, 
 	this.SlaEnabled = &slaEnabled
 	var koordinatorEnabled bool = false
 	this.KoordinatorEnabled = &koordinatorEnabled
+	this.IpPoolProviders = ipPoolProviders
 	return &this
 }
 
@@ -725,6 +727,29 @@ func (o *Environment) SetKoordinatorEnabled(v bool) {
 	o.KoordinatorEnabled = &v
 }
 
+// GetIpPoolProviders returns the IpPoolProviders field value.
+func (o *Environment) GetIpPoolProviders() []IpPoolProvider {
+	if o == nil {
+		var ret []IpPoolProvider
+		return ret
+	}
+	return o.IpPoolProviders
+}
+
+// GetIpPoolProvidersOk returns a tuple with the IpPoolProviders field value
+// and a boolean to check if the value has been set.
+func (o *Environment) GetIpPoolProvidersOk() (*[]IpPoolProvider, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.IpPoolProviders, true
+}
+
+// SetIpPoolProviders sets field value.
+func (o *Environment) SetIpPoolProviders(v []IpPoolProvider) {
+	o.IpPoolProviders = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Environment) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -787,6 +812,7 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 	if o.KoordinatorEnabled != nil {
 		toSerialize["koordinatorEnabled"] = o.KoordinatorEnabled
 	}
+	toSerialize["ipPoolProviders"] = o.IpPoolProviders
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -821,6 +847,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 		Dns                     *Dns                     `json:"dns,omitempty"`
 		SlaEnabled              *bool                    `json:"slaEnabled,omitempty"`
 		KoordinatorEnabled      *bool                    `json:"koordinatorEnabled,omitempty"`
+		IpPoolProviders         *[]IpPoolProvider        `json:"ipPoolProviders"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -861,9 +888,12 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	if all.UpdatedAt == nil {
 		return fmt.Errorf("required field updatedAt missing")
 	}
+	if all.IpPoolProviders == nil {
+		return fmt.Errorf("required field ipPoolProviders missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "schedulingConfig", "networkConfig", "description", "displayName", "id", "name", "organizations", "metricsMonitorEnabled", "state", "type", "provisionConfig", "autohealingConfig", "createdAt", "updatedAt", "extraInfo", "deletePolicy", "clusterValidationPolicy", "architecture", "dns", "slaEnabled", "koordinatorEnabled"})
+		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "schedulingConfig", "networkConfig", "description", "displayName", "id", "name", "organizations", "metricsMonitorEnabled", "state", "type", "provisionConfig", "autohealingConfig", "createdAt", "updatedAt", "extraInfo", "deletePolicy", "clusterValidationPolicy", "architecture", "dns", "slaEnabled", "koordinatorEnabled", "ipPoolProviders"})
 	} else {
 		return err
 	}
@@ -928,6 +958,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	o.Dns = all.Dns
 	o.SlaEnabled = all.SlaEnabled
 	o.KoordinatorEnabled = all.KoordinatorEnabled
+	o.IpPoolProviders = *all.IpPoolProviders
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
