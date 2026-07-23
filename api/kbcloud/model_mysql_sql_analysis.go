@@ -17,6 +17,8 @@ type MysqlSQLAnalysis struct {
 	Status string `json:"status"`
 	// Reason when status is unavailable, such as performance_schema_disabled, digest_consumer_disabled, permission_denied, or query_failed.
 	UnavailableReason *string `json:"unavailableReason,omitempty"`
+	// User-facing recovery guidance when SQL analysis is unavailable.
+	Message *string `json:"message,omitempty"`
 	// Backend collection timestamp in UTC. It is not a sampling-window end time.
 	CollectedAt string `json:"collectedAt"`
 	// Earliest FIRST_SEEN timestamp across currently visible digest rows, when available.
@@ -135,6 +137,34 @@ func (o *MysqlSQLAnalysis) HasUnavailableReason() bool {
 // SetUnavailableReason gets a reference to the given string and assigns it to the UnavailableReason field.
 func (o *MysqlSQLAnalysis) SetUnavailableReason(v string) {
 	o.UnavailableReason = &v
+}
+
+// GetMessage returns the Message field value if set, zero value otherwise.
+func (o *MysqlSQLAnalysis) GetMessage() string {
+	if o == nil || o.Message == nil {
+		var ret string
+		return ret
+	}
+	return *o.Message
+}
+
+// GetMessageOk returns a tuple with the Message field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MysqlSQLAnalysis) GetMessageOk() (*string, bool) {
+	if o == nil || o.Message == nil {
+		return nil, false
+	}
+	return o.Message, true
+}
+
+// HasMessage returns a boolean if a field has been set.
+func (o *MysqlSQLAnalysis) HasMessage() bool {
+	return o != nil && o.Message != nil
+}
+
+// SetMessage gets a reference to the given string and assigns it to the Message field.
+func (o *MysqlSQLAnalysis) SetMessage(v string) {
+	o.Message = &v
 }
 
 // GetCollectedAt returns the CollectedAt field value.
@@ -380,6 +410,9 @@ func (o MysqlSQLAnalysis) MarshalJSON() ([]byte, error) {
 	if o.UnavailableReason != nil {
 		toSerialize["unavailableReason"] = o.UnavailableReason
 	}
+	if o.Message != nil {
+		toSerialize["message"] = o.Message
+	}
 	toSerialize["collectedAt"] = o.CollectedAt
 	if o.FirstSeen != nil {
 		toSerialize["firstSeen"] = o.FirstSeen
@@ -412,6 +445,7 @@ func (o *MysqlSQLAnalysis) UnmarshalJSON(bytes []byte) (err error) {
 		Source            *string                `json:"source"`
 		Status            *string                `json:"status"`
 		UnavailableReason *string                `json:"unavailableReason,omitempty"`
+		Message           *string                `json:"message,omitempty"`
 		CollectedAt       *string                `json:"collectedAt"`
 		FirstSeen         *string                `json:"firstSeen,omitempty"`
 		LastSeen          *string                `json:"lastSeen,omitempty"`
@@ -445,13 +479,14 @@ func (o *MysqlSQLAnalysis) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"source", "status", "unavailableReason", "collectedAt", "firstSeen", "lastSeen", "limit", "orderBy", "totalTimeMsAll", "callsAll", "digestLost", "items"})
+		common.DeleteKeys(additionalProperties, &[]string{"source", "status", "unavailableReason", "message", "collectedAt", "firstSeen", "lastSeen", "limit", "orderBy", "totalTimeMsAll", "callsAll", "digestLost", "items"})
 	} else {
 		return err
 	}
 	o.Source = *all.Source
 	o.Status = *all.Status
 	o.UnavailableReason = all.UnavailableReason
+	o.Message = all.Message
 	o.CollectedAt = *all.CollectedAt
 	o.FirstSeen = all.FirstSeen
 	o.LastSeen = all.LastSeen

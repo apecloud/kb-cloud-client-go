@@ -24461,6 +24461,9 @@ components:
         unavailableReason:
           type: string
           description: Reason when status is unavailable, such as performance_schema_disabled, digest_consumer_disabled, permission_denied, or query_failed.
+        message:
+          type: string
+          description: User-facing recovery guidance when SQL analysis is unavailable.
         collectedAt:
           type: string
           description: Backend collection timestamp in UTC. It is not a sampling-window end time.
