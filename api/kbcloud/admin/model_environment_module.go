@@ -22,6 +22,8 @@ type EnvironmentModule struct {
 	Replicas *int32 `json:"replicas,omitempty"`
 	// Deployment location
 	Location *string `json:"location,omitempty"`
+	// ID of the asynchronous task associated with the module's current operation state. It is omitted when the current state is not associated with a task.
+	OperationTaskId *string `json:"operationTaskId,omitempty"`
 	// Cluster information
 	ClusterInfo *ClusterInfo          `json:"clusterInfo,omitempty"`
 	Description *LocalizedDescription `json:"description,omitempty"`
@@ -183,6 +185,34 @@ func (o *EnvironmentModule) HasLocation() bool {
 // SetLocation gets a reference to the given string and assigns it to the Location field.
 func (o *EnvironmentModule) SetLocation(v string) {
 	o.Location = &v
+}
+
+// GetOperationTaskId returns the OperationTaskId field value if set, zero value otherwise.
+func (o *EnvironmentModule) GetOperationTaskId() string {
+	if o == nil || o.OperationTaskId == nil {
+		var ret string
+		return ret
+	}
+	return *o.OperationTaskId
+}
+
+// GetOperationTaskIdOk returns a tuple with the OperationTaskId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentModule) GetOperationTaskIdOk() (*string, bool) {
+	if o == nil || o.OperationTaskId == nil {
+		return nil, false
+	}
+	return o.OperationTaskId, true
+}
+
+// HasOperationTaskId returns a boolean if a field has been set.
+func (o *EnvironmentModule) HasOperationTaskId() bool {
+	return o != nil && o.OperationTaskId != nil
+}
+
+// SetOperationTaskId gets a reference to the given string and assigns it to the OperationTaskId field.
+func (o *EnvironmentModule) SetOperationTaskId(v string) {
+	o.OperationTaskId = &v
 }
 
 // GetClusterInfo returns the ClusterInfo field value if set, zero value otherwise.
@@ -370,6 +400,9 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	if o.Location != nil {
 		toSerialize["location"] = o.Location
 	}
+	if o.OperationTaskId != nil {
+		toSerialize["operationTaskId"] = o.OperationTaskId
+	}
 	if o.ClusterInfo != nil {
 		toSerialize["clusterInfo"] = o.ClusterInfo
 	}
@@ -398,17 +431,18 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name           *string                  `json:"name"`
-		Version        *string                  `json:"version,omitempty"`
-		Status         *EnvironmentModuleStatus `json:"status"`
-		Replicas       *int32                   `json:"replicas,omitempty"`
-		Location       *string                  `json:"location,omitempty"`
-		ClusterInfo    *ClusterInfo             `json:"clusterInfo,omitempty"`
-		Description    *LocalizedDescription    `json:"description,omitempty"`
-		DisplayName    *LocalizedDescription    `json:"displayName,omitempty"`
-		Optional       *bool                    `json:"optional,omitempty"`
-		DefaultEnabled *bool                    `json:"defaultEnabled,omitempty"`
-		ActionWarning  *LocalizedDescription    `json:"actionWarning,omitempty"`
+		Name            *string                  `json:"name"`
+		Version         *string                  `json:"version,omitempty"`
+		Status          *EnvironmentModuleStatus `json:"status"`
+		Replicas        *int32                   `json:"replicas,omitempty"`
+		Location        *string                  `json:"location,omitempty"`
+		OperationTaskId *string                  `json:"operationTaskId,omitempty"`
+		ClusterInfo     *ClusterInfo             `json:"clusterInfo,omitempty"`
+		Description     *LocalizedDescription    `json:"description,omitempty"`
+		DisplayName     *LocalizedDescription    `json:"displayName,omitempty"`
+		Optional        *bool                    `json:"optional,omitempty"`
+		DefaultEnabled  *bool                    `json:"defaultEnabled,omitempty"`
+		ActionWarning   *LocalizedDescription    `json:"actionWarning,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -421,7 +455,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "replicas", "location", "clusterInfo", "description", "displayName", "optional", "defaultEnabled", "actionWarning"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "replicas", "location", "operationTaskId", "clusterInfo", "description", "displayName", "optional", "defaultEnabled", "actionWarning"})
 	} else {
 		return err
 	}
@@ -436,6 +470,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Replicas = all.Replicas
 	o.Location = all.Location
+	o.OperationTaskId = all.OperationTaskId
 	if all.ClusterInfo != nil && all.ClusterInfo.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
