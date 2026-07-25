@@ -30537,6 +30537,9 @@ components:
         location:
           type: string
           description: Deployment location
+        operationTaskId:
+          type: string
+          description: ID of the asynchronous task associated with the module's current operation state. It is omitted when the current state is not associated with a task.
         clusterInfo:
           $ref: '#/components/schemas/clusterInfo'
           description: Cluster information
