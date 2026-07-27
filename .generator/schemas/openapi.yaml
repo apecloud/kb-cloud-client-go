@@ -4869,6 +4869,47 @@ paths:
         - cluster
         - shared
       x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mysql/spaceAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get MySQL space analysis
+      description: Get a read-only MySQL 5.7, 8.0, or 8.4 compatible space snapshot and fixed backend-owned storage metrics.
+      operationId: getDiagnosticsMysqlSpaceAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: databaseName
+          in: query
+          description: Optional database name for table and index details. When omitted, the largest non-system database is selected.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mysqlSpaceAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions:
     get:
       tags:
@@ -5005,6 +5046,56 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mysql/sqlAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get MySQL SQL analysis
+      description: Get a read-only MySQL SQL fingerprint ranking from Performance Schema statement digests. The response does not expose raw SQL text, time-window aggregation, execution plans, or remediation actions.
+      operationId: getDiagnosticsMysqlSQLAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of SQL fingerprints to return. The backend applies its own upper bound.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: orderBy
+          in: query
+          description: Sort key. Allowed values are totalTime, meanTime, maxTime, and calls. Defaults to totalTime.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mysqlSQLAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/performanceTrends:
     get:
       tags:
@@ -5034,6 +5125,53 @@ paths:
         - name: step
           in: query
           description: Controlled query granularity. Allowed values are 1m, 5m, 15m, and 1h. Defaults to 1m for 1h, 5m for 6h, 15m for 24h, and 1h for 7d.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/performanceTrends'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mysql/performanceTrends:
+    get:
+      tags:
+        - diagnostics
+      summary: Get MySQL performance trends
+      description: Get read-only MySQL 5.7, 8.0, and 8.4 performance trends from backend-owned metrics and database capability checks. The response does not expose SQL, PromQL, internal endpoints, or credentials.
+      operationId: getDiagnosticsMysqlPerformanceTrends
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: range
+          in: query
+          description: Controlled query range. Allowed values are 1h, 6h, 24h, and 7d. Defaults to 1h.
+          required: false
+          schema:
+            type: string
+        - name: step
+          in: query
+          description: Controlled query granularity. Allowed values are 1m, 5m, 15m, and 1h.
           required: false
           schema:
             type: string
@@ -20729,13 +20867,17 @@ components:
       type: object
     environmentModuleStatus:
       type: string
-      description: Status of environment module
+      description: Status of an environment module. Enabled is only used as the desired state when creating an environment. NotInstalled, Installing, InstallationFailed, and Unknown are returned only for modules that support quick installation.
       enum:
         - Running
         - Updating
         - Error
         - Disabled
         - Enabled
+        - NotInstalled
+        - Installing
+        - InstallationFailed
+        - Unknown
     clusterInfo:
       type: object
       description: Cluster information
@@ -20767,6 +20909,9 @@ components:
         location:
           type: string
           description: Deployment location
+        operationTaskId:
+          type: string
+          description: ID of the asynchronous task associated with the module's current operation state. It is omitted when the current state is not associated with a task.
         clusterInfo:
           $ref: '#/components/schemas/clusterInfo'
           description: Cluster information
@@ -20782,6 +20927,9 @@ components:
         defaultEnabled:
           type: boolean
           description: indicate whether module is enabled by default when creating environment. Only effective when optional is true
+        actionWarning:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Localized business-impact warning shown before installing a NotInstalled module or retrying an InstallationFailed module.
       required:
         - name
         - status
@@ -23872,6 +24020,264 @@ components:
         taskId:
           type: string
           description: Task ID if the operation is asynchronous (e.g. reconfigure)
+    mysqlSpaceSummary:
+      type: object
+      required:
+        - databaseName
+        - databaseSizeBytes
+        - dataBytes
+        - indexBytes
+        - freeBytes
+        - tableCount
+        - tableListTruncated
+        - indexListTruncated
+      properties:
+        databaseName:
+          type: string
+        databaseSizeBytes:
+          type: integer
+          format: int64
+        dataBytes:
+          type: integer
+          format: int64
+        indexBytes:
+          type: integer
+          format: int64
+        freeBytes:
+          type: integer
+          format: int64
+          description: DATA_FREE reported by information_schema. Its per-table meaning is most reliable with innodb_file_per_table.
+        tableCount:
+          type: integer
+          format: int64
+        tableListTruncated:
+          type: boolean
+        indexListTruncated:
+          type: boolean
+        indexSizeSource:
+          type: string
+    mysqlStorageInstanceUsage:
+      type: object
+      properties:
+        instanceName:
+          type: string
+        pvcName:
+          type: string
+        role:
+          type: string
+        componentName:
+          type: string
+        totalBytes:
+          type: integer
+          format: int64
+        usedBytes:
+          type: integer
+          format: int64
+        availableBytes:
+          type: integer
+          format: int64
+        usageRatio:
+          type: number
+          format: double
+          nullable: true
+        updatedAt:
+          type: string
+        source:
+          type: string
+    mysqlStorageOverview:
+      type: object
+      required:
+        - source
+        - instances
+      properties:
+        source:
+          type: string
+        instances:
+          type: array
+          items:
+            $ref: '#/components/schemas/mysqlStorageInstanceUsage'
+    mysqlDatabaseSpace:
+      type: object
+      required:
+        - name
+        - dataBytes
+        - indexBytes
+        - freeBytes
+        - totalBytes
+        - tableCount
+      properties:
+        name:
+          type: string
+        dataBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        indexBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        freeBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        totalBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        tableCount:
+          type: integer
+          format: int64
+          x-omitempty: false
+    mysqlTableSpace:
+      type: object
+      required:
+        - database
+        - name
+        - engine
+        - rows
+        - dataBytes
+        - indexBytes
+        - freeBytes
+        - totalBytes
+        - avgRowLength
+      properties:
+        database:
+          type: string
+        name:
+          type: string
+        engine:
+          type: string
+        rows:
+          type: integer
+          format: int64
+          x-omitempty: false
+          description: Estimated row count for InnoDB tables.
+        dataBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        indexBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        freeBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        totalBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        avgRowLength:
+          type: integer
+          format: int64
+          x-omitempty: false
+        fragmentationRatio:
+          type: number
+          format: double
+          nullable: true
+          description: freeBytes divided by totalBytes plus freeBytes when available.
+        createTime:
+          type: string
+        updateTime:
+          type: string
+    mysqlIndexSpace:
+      type: object
+      required:
+        - database
+        - table
+        - name
+        - isUnique
+        - isPrimary
+        - cardinality
+      properties:
+        database:
+          type: string
+        table:
+          type: string
+        name:
+          type: string
+        sizeBytes:
+          type: integer
+          format: int64
+          nullable: true
+          description: Estimated from mysql.innodb_index_stats pages multiplied by innodb_page_size.
+        isUnique:
+          type: boolean
+          x-omitempty: false
+        isPrimary:
+          type: boolean
+          x-omitempty: false
+        cardinality:
+          type: integer
+          format: int64
+          x-omitempty: false
+        scanCount:
+          type: integer
+          format: int64
+          nullable: true
+          description: COUNT_READ from performance_schema; resets with server statistics.
+        lastStatUpdate:
+          type: string
+    mysqlSpaceSource:
+      type: object
+      required:
+        - name
+        - kind
+        - status
+        - collectedAt
+      properties:
+        name:
+          type: string
+        kind:
+          type: string
+        status:
+          type: string
+        collectedAt:
+          type: string
+        message:
+          type: string
+    mysqlSpaceAnalysis:
+      type: object
+      required:
+        - summary
+        - storageOverview
+        - databases
+        - selectedDatabase
+        - tables
+        - indexes
+        - sources
+        - collectedAt
+      properties:
+        summary:
+          $ref: '#/components/schemas/mysqlSpaceSummary'
+        storageOverview:
+          $ref: '#/components/schemas/mysqlStorageOverview'
+        databases:
+          type: array
+          description: Sizes of all non-system MySQL databases.
+          items:
+            $ref: '#/components/schemas/mysqlDatabaseSpace'
+        selectedDatabase:
+          type: string
+          description: Database used for table and index details.
+        tables:
+          type: array
+          description: Top tables from selectedDatabase.
+          items:
+            $ref: '#/components/schemas/mysqlTableSpace'
+        indexes:
+          type: array
+          description: Top indexes from selectedDatabase. Individual index size can be unavailable when mysql.innodb_index_stats is inaccessible.
+          items:
+            $ref: '#/components/schemas/mysqlIndexSpace'
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/mysqlSpaceSource'
+        collectedAt:
+          type: string
+          description: Backend collection timestamp in UTC.
     postgresqlSession:
       type: object
       required:
@@ -24286,6 +24692,165 @@ components:
           description: SQL fingerprint ranking rows from pg_stat_statements. The list may be empty when no statement statistics exist.
           items:
             $ref: '#/components/schemas/postgresqlSQLFingerprint'
+    mysqlSQLFingerprint:
+      type: object
+      required:
+        - queryID
+        - fingerprint
+        - querySummary
+        - calls
+        - totalTimeMs
+        - meanTimeMs
+        - maxTimeMs
+        - rows
+        - rowsSent
+        - rowsAffected
+        - rowsExamined
+        - lockTimeMs
+        - errors
+        - warnings
+        - tmpTables
+        - tmpDiskTables
+        - noIndexUsed
+        - noGoodIndexUsed
+        - database
+      properties:
+        queryID:
+          type: string
+          description: MySQL Performance Schema DIGEST value.
+        fingerprint:
+          type: string
+          description: Stable SQL fingerprint identifier. M1 uses DIGEST.
+        querySummary:
+          type: string
+          description: Normalized DIGEST_TEXT. Raw SQL text is intentionally not returned.
+        calls:
+          type: integer
+          format: int64
+          description: Number of executions accumulated in the current digest row.
+        totalTimeMs:
+          type: number
+          format: double
+          description: Total statement wait time in milliseconds.
+        meanTimeMs:
+          type: number
+          format: double
+          description: Mean statement wait time in milliseconds.
+        maxTimeMs:
+          type: number
+          format: double
+          description: Maximum statement wait time in milliseconds.
+        rows:
+          type: integer
+          format: int64
+          description: Sum of rows sent and rows affected.
+        rowsSent:
+          type: integer
+          format: int64
+          description: Total rows sent to clients.
+        rowsAffected:
+          type: integer
+          format: int64
+          description: Total rows affected by statements.
+        rowsExamined:
+          type: integer
+          format: int64
+          description: Total rows examined by statements.
+        lockTimeMs:
+          type: number
+          format: double
+          description: Total statement lock time in milliseconds.
+        errors:
+          type: integer
+          format: int64
+          description: Total statement errors.
+        warnings:
+          type: integer
+          format: int64
+          description: Total statement warnings.
+        tmpTables:
+          type: integer
+          format: int64
+          description: Total internal temporary tables created.
+        tmpDiskTables:
+          type: integer
+          format: int64
+          description: Total internal on-disk temporary tables created.
+        noIndexUsed:
+          type: integer
+          format: int64
+          description: Executions that used no index.
+        noGoodIndexUsed:
+          type: integer
+          format: int64
+          description: Executions for which no good index was found.
+        database:
+          type: string
+          description: Default schema name associated with the digest row.
+        firstSeen:
+          type: string
+          description: UTC timestamp when the digest was first observed.
+        lastSeen:
+          type: string
+          description: UTC timestamp when the digest was most recently observed.
+    mysqlSQLAnalysis:
+      type: object
+      required:
+        - source
+        - status
+        - collectedAt
+        - limit
+        - orderBy
+        - items
+      properties:
+        source:
+          type: string
+          description: Data source. M1 uses performance_schema.events_statements_summary_by_digest.
+        status:
+          type: string
+          description: Source status. Expected values are available or unavailable.
+        unavailableReason:
+          type: string
+          description: Reason when status is unavailable, such as performance_schema_disabled, digest_consumer_disabled, permission_denied, or query_failed.
+        message:
+          type: string
+          description: User-facing recovery guidance when SQL analysis is unavailable.
+        collectedAt:
+          type: string
+          description: Backend collection timestamp in UTC. It is not a sampling-window end time.
+        firstSeen:
+          type: string
+          description: Earliest FIRST_SEEN timestamp across currently visible digest rows, when available.
+        lastSeen:
+          type: string
+          description: Latest LAST_SEEN timestamp across currently visible digest rows, when available.
+        limit:
+          type: integer
+          format: int64
+          description: Effective row limit after backend normalization.
+        orderBy:
+          type: string
+          description: Effective sort key. Expected values are totalTime, meanTime, maxTime, or calls.
+        totalTimeMsAll:
+          type: number
+          format: double
+          x-nullable: true
+          description: Total execution time in milliseconds across all visible digest rows, not limited to the returned top-N items.
+        callsAll:
+          type: integer
+          format: int64
+          x-nullable: true
+          description: Total execution count across all visible digest rows, not limited to the returned top-N items.
+        digestLost:
+          type: integer
+          format: int64
+          x-nullable: true
+          description: Number of statement digests not recorded because the digest table was full, when exposed by the server.
+        items:
+          type: array
+          description: SQL fingerprint ranking rows from Performance Schema. The list may be empty when no statement statistics exist.
+          items:
+            $ref: '#/components/schemas/mysqlSQLFingerprint'
     performanceTrendRange:
       type: object
       required:
@@ -24322,7 +24887,7 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         category:
           type: string
-          description: Metric category. Values are availability, performance, connections, resource, capacity, or vacuumWraparound.
+          description: Metric category. Values include availability, performance, connections, resource, capacity, innodb, and vacuumWraparound.
         dimension:
           type: string
           description: Optional series dimension. Values include cluster, instance, pvc, and database.
@@ -24385,7 +24950,7 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         category:
           type: string
-          description: Metric category. Values are availability, performance, connections, resource, capacity, or vacuumWraparound.
+          description: Metric category. Values include availability, performance, connections, resource, capacity, innodb, and vacuumWraparound.
         dimension:
           type: string
           description: Optional series dimension. Values include cluster, instance, pvc, and database.
@@ -27252,6 +27817,7 @@ components:
           properties:
             compatibleKBVersions:
               type: array
+              description: if omitted, all KB versions are compatible
               items:
                 type: string
             mappings:

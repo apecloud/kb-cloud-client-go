@@ -4112,12 +4112,13 @@ func (r *UpdateEnvironmentModuleOptionalParameters) WithBody(body EnvironmentMod
 	return r
 }
 
-// UpdateEnvironmentModule update environment module.
-func (a *EnvironmentApi) UpdateEnvironmentModule(ctx _context.Context, environmentName string, o ...UpdateEnvironmentModuleOptionalParameters) (interface{}, *_nethttp.Response, error) {
+// UpdateEnvironmentModule Update an environment module.
+// Performs the requested module action. For quick-install modules, action=Enable with dryRun=true synchronously checks whether installation is allowed without making changes; dryRun=false or omitted repeats the checks and submits an asynchronous task only when all checks pass. Existing module actions that do not use the quick-install framework keep their original behavior.
+func (a *EnvironmentApi) UpdateEnvironmentModule(ctx _context.Context, environmentName string, o ...UpdateEnvironmentModuleOptionalParameters) (EnvironmentModuleActionResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
-		localVarReturnValue interface{}
+		localVarReturnValue EnvironmentModuleActionResult
 		optionalParams      UpdateEnvironmentModuleOptionalParameters
 	)
 

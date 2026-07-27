@@ -10,16 +10,20 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// EnvironmentModuleStatus Status of environment module
+// EnvironmentModuleStatus Status of an environment module. Enabled is only used as the desired state when creating an environment. NotInstalled, Installing, InstallationFailed, and Unknown are returned only for modules that support quick installation.
 type EnvironmentModuleStatus string
 
 // List of EnvironmentModuleStatus.
 const (
-	EnvironmentModuleStatusRunning  EnvironmentModuleStatus = "Running"
-	EnvironmentModuleStatusUpdating EnvironmentModuleStatus = "Updating"
-	EnvironmentModuleStatusError    EnvironmentModuleStatus = "Error"
-	EnvironmentModuleStatusDisabled EnvironmentModuleStatus = "Disabled"
-	EnvironmentModuleStatusEnabled  EnvironmentModuleStatus = "Enabled"
+	EnvironmentModuleStatusRunning            EnvironmentModuleStatus = "Running"
+	EnvironmentModuleStatusUpdating           EnvironmentModuleStatus = "Updating"
+	EnvironmentModuleStatusError              EnvironmentModuleStatus = "Error"
+	EnvironmentModuleStatusDisabled           EnvironmentModuleStatus = "Disabled"
+	EnvironmentModuleStatusEnabled            EnvironmentModuleStatus = "Enabled"
+	EnvironmentModuleStatusNotInstalled       EnvironmentModuleStatus = "NotInstalled"
+	EnvironmentModuleStatusInstalling         EnvironmentModuleStatus = "Installing"
+	EnvironmentModuleStatusInstallationFailed EnvironmentModuleStatus = "InstallationFailed"
+	EnvironmentModuleStatusUnknown            EnvironmentModuleStatus = "Unknown"
 )
 
 var allowedEnvironmentModuleStatusEnumValues = []EnvironmentModuleStatus{
@@ -28,6 +32,10 @@ var allowedEnvironmentModuleStatusEnumValues = []EnvironmentModuleStatus{
 	EnvironmentModuleStatusError,
 	EnvironmentModuleStatusDisabled,
 	EnvironmentModuleStatusEnabled,
+	EnvironmentModuleStatusNotInstalled,
+	EnvironmentModuleStatusInstalling,
+	EnvironmentModuleStatusInstallationFailed,
+	EnvironmentModuleStatusUnknown,
 }
 
 // GetAllowedValues returns the list of possible values.
