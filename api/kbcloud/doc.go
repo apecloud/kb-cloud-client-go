@@ -203,6 +203,7 @@
 //   - [diagnosticsApi.getDiagnosticsDamengSpaceAnalysis]
 //   - [diagnosticsApi.getDiagnosticsMysqlPerformanceTrends]
 //   - [diagnosticsApi.getDiagnosticsMysqlSQLAnalysis]
+//   - [diagnosticsApi.getDiagnosticsMysqlSpaceAnalysis]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlPerformanceTrends]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlSQLAnalysis]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlSession]
