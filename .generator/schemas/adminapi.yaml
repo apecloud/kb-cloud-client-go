@@ -21292,6 +21292,53 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mysql/performanceTrends:
+    get:
+      tags:
+        - diagnostics
+      summary: Get MySQL performance trends
+      description: Get read-only MySQL 5.7, 8.0, and 8.4 performance trends from backend-owned metrics and database capability checks. The response does not expose SQL, PromQL, internal endpoints, or credentials.
+      operationId: getDiagnosticsMysqlPerformanceTrends
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: range
+          in: query
+          description: Controlled query range. Allowed values are 1h, 6h, 24h, and 7d. Defaults to 1h.
+          required: false
+          schema:
+            type: string
+        - name: step
+          in: query
+          description: Controlled query granularity. Allowed values are 1m, 5m, 15m, and 1h.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/performanceTrends'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}/lockAnalysis:
     get:
       tags:
@@ -40284,7 +40331,7 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         category:
           type: string
-          description: Metric category. Values are availability, performance, connections, resource, capacity, or vacuumWraparound.
+          description: Metric category. Values include availability, performance, connections, resource, capacity, innodb, and vacuumWraparound.
         dimension:
           type: string
           description: Optional series dimension. Values include cluster, instance, pvc, and database.
@@ -40347,7 +40394,7 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         category:
           type: string
-          description: Metric category. Values are availability, performance, connections, resource, capacity, or vacuumWraparound.
+          description: Metric category. Values include availability, performance, connections, resource, capacity, innodb, and vacuumWraparound.
         dimension:
           type: string
           description: Optional series dimension. Values include cluster, instance, pvc, and database.
