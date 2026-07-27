@@ -21059,6 +21059,47 @@ paths:
         - session
         - rdbms
         - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mysql/spaceAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get MySQL space analysis
+      description: Get a read-only MySQL 5.7, 8.0, or 8.4 compatible space snapshot and fixed backend-owned storage metrics.
+      operationId: getDiagnosticsMysqlSpaceAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: databaseName
+          in: query
+          description: Optional database name for table and index details. When omitted, the largest non-system database is selected.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mysqlSpaceAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions:
     get:
       tags:
@@ -39722,6 +39763,264 @@ components:
           type: string
           format: date-time
           description: Optional service account expiration time. Use the Unix epoch to clear expiration.
+    mysqlSpaceSummary:
+      type: object
+      required:
+        - databaseName
+        - databaseSizeBytes
+        - dataBytes
+        - indexBytes
+        - freeBytes
+        - tableCount
+        - tableListTruncated
+        - indexListTruncated
+      properties:
+        databaseName:
+          type: string
+        databaseSizeBytes:
+          type: integer
+          format: int64
+        dataBytes:
+          type: integer
+          format: int64
+        indexBytes:
+          type: integer
+          format: int64
+        freeBytes:
+          type: integer
+          format: int64
+          description: DATA_FREE reported by information_schema. Its per-table meaning is most reliable with innodb_file_per_table.
+        tableCount:
+          type: integer
+          format: int64
+        tableListTruncated:
+          type: boolean
+        indexListTruncated:
+          type: boolean
+        indexSizeSource:
+          type: string
+    mysqlStorageInstanceUsage:
+      type: object
+      properties:
+        instanceName:
+          type: string
+        pvcName:
+          type: string
+        role:
+          type: string
+        componentName:
+          type: string
+        totalBytes:
+          type: integer
+          format: int64
+        usedBytes:
+          type: integer
+          format: int64
+        availableBytes:
+          type: integer
+          format: int64
+        usageRatio:
+          type: number
+          format: double
+          nullable: true
+        updatedAt:
+          type: string
+        source:
+          type: string
+    mysqlStorageOverview:
+      type: object
+      required:
+        - source
+        - instances
+      properties:
+        source:
+          type: string
+        instances:
+          type: array
+          items:
+            $ref: '#/components/schemas/mysqlStorageInstanceUsage'
+    mysqlDatabaseSpace:
+      type: object
+      required:
+        - name
+        - dataBytes
+        - indexBytes
+        - freeBytes
+        - totalBytes
+        - tableCount
+      properties:
+        name:
+          type: string
+        dataBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        indexBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        freeBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        totalBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        tableCount:
+          type: integer
+          format: int64
+          x-omitempty: false
+    mysqlTableSpace:
+      type: object
+      required:
+        - database
+        - name
+        - engine
+        - rows
+        - dataBytes
+        - indexBytes
+        - freeBytes
+        - totalBytes
+        - avgRowLength
+      properties:
+        database:
+          type: string
+        name:
+          type: string
+        engine:
+          type: string
+        rows:
+          type: integer
+          format: int64
+          x-omitempty: false
+          description: Estimated row count for InnoDB tables.
+        dataBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        indexBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        freeBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        totalBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        avgRowLength:
+          type: integer
+          format: int64
+          x-omitempty: false
+        fragmentationRatio:
+          type: number
+          format: double
+          nullable: true
+          description: freeBytes divided by totalBytes plus freeBytes when available.
+        createTime:
+          type: string
+        updateTime:
+          type: string
+    mysqlIndexSpace:
+      type: object
+      required:
+        - database
+        - table
+        - name
+        - isUnique
+        - isPrimary
+        - cardinality
+      properties:
+        database:
+          type: string
+        table:
+          type: string
+        name:
+          type: string
+        sizeBytes:
+          type: integer
+          format: int64
+          nullable: true
+          description: Estimated from mysql.innodb_index_stats pages multiplied by innodb_page_size.
+        isUnique:
+          type: boolean
+          x-omitempty: false
+        isPrimary:
+          type: boolean
+          x-omitempty: false
+        cardinality:
+          type: integer
+          format: int64
+          x-omitempty: false
+        scanCount:
+          type: integer
+          format: int64
+          nullable: true
+          description: COUNT_READ from performance_schema; resets with server statistics.
+        lastStatUpdate:
+          type: string
+    mysqlSpaceSource:
+      type: object
+      required:
+        - name
+        - kind
+        - status
+        - collectedAt
+      properties:
+        name:
+          type: string
+        kind:
+          type: string
+        status:
+          type: string
+        collectedAt:
+          type: string
+        message:
+          type: string
+    mysqlSpaceAnalysis:
+      type: object
+      required:
+        - summary
+        - storageOverview
+        - databases
+        - selectedDatabase
+        - tables
+        - indexes
+        - sources
+        - collectedAt
+      properties:
+        summary:
+          $ref: '#/components/schemas/mysqlSpaceSummary'
+        storageOverview:
+          $ref: '#/components/schemas/mysqlStorageOverview'
+        databases:
+          type: array
+          description: Sizes of all non-system MySQL databases.
+          items:
+            $ref: '#/components/schemas/mysqlDatabaseSpace'
+        selectedDatabase:
+          type: string
+          description: Database used for table and index details.
+        tables:
+          type: array
+          description: Top tables from selectedDatabase.
+          items:
+            $ref: '#/components/schemas/mysqlTableSpace'
+        indexes:
+          type: array
+          description: Top indexes from selectedDatabase. Individual index size can be unavailable when mysql.innodb_index_stats is inaccessible.
+          items:
+            $ref: '#/components/schemas/mysqlIndexSpace'
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/mysqlSpaceSource'
+        collectedAt:
+          type: string
+          description: Backend collection timestamp in UTC.
     postgresqlSession:
       type: object
       required:
