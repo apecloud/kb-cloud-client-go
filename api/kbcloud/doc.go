@@ -201,6 +201,7 @@
 //   - [diagnosticsApi.getDiagnosticsDamengSession]
 //   - [diagnosticsApi.getDiagnosticsDamengSessionLockAnalysis]
 //   - [diagnosticsApi.getDiagnosticsDamengSpaceAnalysis]
+//   - [diagnosticsApi.getDiagnosticsMysqlSQLAnalysis]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlPerformanceTrends]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlSQLAnalysis]
 //   - [diagnosticsApi.getDiagnosticsPostgresqlSession]
