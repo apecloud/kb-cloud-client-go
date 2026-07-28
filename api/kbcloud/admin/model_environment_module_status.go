@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// EnvironmentModuleStatus Status of an environment module. Enabled is only used as the desired state when creating an environment. NotInstalled, Installing, InstallationFailed, and Unknown are returned only for modules that support quick installation.
+// EnvironmentModuleStatus Status of an environment module. Enabled is only used as the desired state when creating an environment. NotInstalled, Installing, and InstallationFailed describe quick installation; Upgradeable, Upgrading, and UpgradeFailed describe quick upgrade. Upgradeable means the component is running but an ApeCloud-bundled newer version is available. Unknown means the current state could not be determined.
 type EnvironmentModuleStatus string
 
 // List of EnvironmentModuleStatus.
@@ -23,6 +23,9 @@ const (
 	EnvironmentModuleStatusNotInstalled       EnvironmentModuleStatus = "NotInstalled"
 	EnvironmentModuleStatusInstalling         EnvironmentModuleStatus = "Installing"
 	EnvironmentModuleStatusInstallationFailed EnvironmentModuleStatus = "InstallationFailed"
+	EnvironmentModuleStatusUpgradeable        EnvironmentModuleStatus = "Upgradeable"
+	EnvironmentModuleStatusUpgrading          EnvironmentModuleStatus = "Upgrading"
+	EnvironmentModuleStatusUpgradeFailed      EnvironmentModuleStatus = "UpgradeFailed"
 	EnvironmentModuleStatusUnknown            EnvironmentModuleStatus = "Unknown"
 )
 
@@ -35,6 +38,9 @@ var allowedEnvironmentModuleStatusEnumValues = []EnvironmentModuleStatus{
 	EnvironmentModuleStatusNotInstalled,
 	EnvironmentModuleStatusInstalling,
 	EnvironmentModuleStatusInstallationFailed,
+	EnvironmentModuleStatusUpgradeable,
+	EnvironmentModuleStatusUpgrading,
+	EnvironmentModuleStatusUpgradeFailed,
 	EnvironmentModuleStatusUnknown,
 }
 

@@ -17,12 +17,10 @@ type EnvironmentModuleUpdate struct {
 	// Action to perform on the environment module:
 	// - Enable: Enable the module
 	// - Disable: Disable the module
-	// - Upgrade: Upgrade the module to specified version
+	// - Upgrade: Upgrade the module
 	//
 	Action EnvironmentModuleAction `json:"action"`
-	// Version of the environment module to upgrade to
-	Version *string `json:"version,omitempty"`
-	// For action=Enable on a quick-install module, only run synchronous installation checks when true. When false or omitted, repeat the checks and submit the installation task if all checks pass. Existing module actions ignore this field when false or omitted.
+	// For a supported quick install or upgrade action, only run synchronous checks when true. When false or omitted, repeat the checks and submit the asynchronous task if all checks pass.
 	DryRun *bool `json:"dryRun,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -98,34 +96,6 @@ func (o *EnvironmentModuleUpdate) SetAction(v EnvironmentModuleAction) {
 	o.Action = v
 }
 
-// GetVersion returns the Version field value if set, zero value otherwise.
-func (o *EnvironmentModuleUpdate) GetVersion() string {
-	if o == nil || o.Version == nil {
-		var ret string
-		return ret
-	}
-	return *o.Version
-}
-
-// GetVersionOk returns a tuple with the Version field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *EnvironmentModuleUpdate) GetVersionOk() (*string, bool) {
-	if o == nil || o.Version == nil {
-		return nil, false
-	}
-	return o.Version, true
-}
-
-// HasVersion returns a boolean if a field has been set.
-func (o *EnvironmentModuleUpdate) HasVersion() bool {
-	return o != nil && o.Version != nil
-}
-
-// SetVersion gets a reference to the given string and assigns it to the Version field.
-func (o *EnvironmentModuleUpdate) SetVersion(v string) {
-	o.Version = &v
-}
-
 // GetDryRun returns the DryRun field value if set, zero value otherwise.
 func (o *EnvironmentModuleUpdate) GetDryRun() bool {
 	if o == nil || o.DryRun == nil {
@@ -162,9 +132,6 @@ func (o EnvironmentModuleUpdate) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["name"] = o.Name
 	toSerialize["action"] = o.Action
-	if o.Version != nil {
-		toSerialize["version"] = o.Version
-	}
 	if o.DryRun != nil {
 		toSerialize["dryRun"] = o.DryRun
 	}
@@ -178,10 +145,9 @@ func (o EnvironmentModuleUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModuleUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name    *string                  `json:"name"`
-		Action  *EnvironmentModuleAction `json:"action"`
-		Version *string                  `json:"version,omitempty"`
-		DryRun  *bool                    `json:"dryRun,omitempty"`
+		Name   *string                  `json:"name"`
+		Action *EnvironmentModuleAction `json:"action"`
+		DryRun *bool                    `json:"dryRun,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -194,7 +160,7 @@ func (o *EnvironmentModuleUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "action", "version", "dryRun"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "action", "dryRun"})
 	} else {
 		return err
 	}
@@ -206,7 +172,6 @@ func (o *EnvironmentModuleUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.Action = *all.Action
 	}
-	o.Version = all.Version
 	o.DryRun = all.DryRun
 
 	if len(additionalProperties) > 0 {

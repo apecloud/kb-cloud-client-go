@@ -17124,7 +17124,7 @@ paths:
     patch:
       operationId: updateEnvironmentModule
       summary: Update an environment module
-      description: Performs the requested module action. For quick-install modules, action=Enable with dryRun=true synchronously checks whether installation is allowed without making changes; dryRun=false or omitted repeats the checks and submits an asynchronous task only when all checks pass. Existing module actions that do not use the quick-install framework keep their original behavior.
+      description: Performs the requested module action. Supported quick install and upgrade actions use dryRun=true for synchronous checks without changes; dryRun=false or omitted repeats the checks and submits an asynchronous task only when all checks pass. Other module actions keep their original behavior.
       parameters:
         - name: environmentName
           in: path
@@ -30635,7 +30635,7 @@ components:
               description: judge whether to set the backup is default which will be init
     environmentModuleStatus:
       type: string
-      description: Status of an environment module. Enabled is only used as the desired state when creating an environment. NotInstalled, Installing, InstallationFailed, and Unknown are returned only for modules that support quick installation.
+      description: Status of an environment module. Enabled is only used as the desired state when creating an environment. NotInstalled, Installing, and InstallationFailed describe quick installation; Upgradeable, Upgrading, and UpgradeFailed describe quick upgrade. Upgradeable means the component is running but an ApeCloud-bundled newer version is available. Unknown means the current state could not be determined.
       enum:
         - Running
         - Updating
@@ -30645,6 +30645,9 @@ components:
         - NotInstalled
         - Installing
         - InstallationFailed
+        - Upgradeable
+        - Upgrading
+        - UpgradeFailed
         - Unknown
     clusterInfo:
       type: object
@@ -30668,7 +30671,7 @@ components:
           description: Environment module name
         version:
           type: string
-          description: Environment module version
+          description: Currently installed environment module version
         status:
           $ref: '#/components/schemas/environmentModuleStatus'
         replicas:
@@ -30697,7 +30700,7 @@ components:
           description: indicate whether module is enabled by default when creating environment. Only effective when optional is true
         actionWarning:
           $ref: '#/components/schemas/localizedDescription'
-          description: Localized business-impact warning shown before installing a NotInstalled module or retrying an InstallationFailed module.
+          description: Localized business-impact warning for the component action represented by the current status.
       required:
         - name
         - status
@@ -38139,7 +38142,7 @@ components:
         Action to perform on the environment module:
         - Enable: Enable the module
         - Disable: Disable the module
-        - Upgrade: Upgrade the module to specified version
+        - Upgrade: Upgrade the module
       enum:
         - Enable
         - Disable
@@ -38153,13 +38156,10 @@ components:
           description: Name of the environment module to update
         action:
           $ref: '#/components/schemas/environmentModuleAction'
-        version:
-          type: string
-          description: Version of the environment module to upgrade to
         dryRun:
           type: boolean
           default: false
-          description: For action=Enable on a quick-install module, only run synchronous installation checks when true. When false or omitted, repeat the checks and submit the installation task if all checks pass. Existing module actions ignore this field when false or omitted.
+          description: For a supported quick install or upgrade action, only run synchronous checks when true. When false or omitted, repeat the checks and submit the asynchronous task if all checks pass.
       required:
         - name
         - action
