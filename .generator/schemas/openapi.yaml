@@ -20867,7 +20867,7 @@ components:
       type: object
     environmentModuleStatus:
       type: string
-      description: Status of an environment module. Enabled is only used as the desired state when creating an environment. NotInstalled, Installing, InstallationFailed, and Unknown are returned only for modules that support quick installation.
+      description: Status of an environment module. Enabled is only used as the desired state when creating an environment. NotInstalled, Installing, and InstallationFailed describe quick installation; Upgradeable, Upgrading, and UpgradeFailed describe quick upgrade. Upgradeable means the component is running but an ApeCloud-bundled newer version is available. Unknown means the current state could not be determined.
       enum:
         - Running
         - Updating
@@ -20877,6 +20877,9 @@ components:
         - NotInstalled
         - Installing
         - InstallationFailed
+        - Upgradeable
+        - Upgrading
+        - UpgradeFailed
         - Unknown
     clusterInfo:
       type: object
@@ -20900,7 +20903,7 @@ components:
           description: Environment module name
         version:
           type: string
-          description: Environment module version
+          description: Currently installed environment module version
         status:
           $ref: '#/components/schemas/environmentModuleStatus'
         replicas:
@@ -20929,7 +20932,7 @@ components:
           description: indicate whether module is enabled by default when creating environment. Only effective when optional is true
         actionWarning:
           $ref: '#/components/schemas/localizedDescription'
-          description: Localized business-impact warning shown before installing a NotInstalled module or retrying an InstallationFailed module.
+          description: Localized business-impact warning for the component action represented by the current status.
       required:
         - name
         - status
