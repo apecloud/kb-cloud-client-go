@@ -36,6 +36,11 @@ type ModeServiceRef struct {
 	// If no serviceSelector is matched, the corresponding helm value will not be set.
 	//
 	ServiceSelectors []ServiceSelector `json:"serviceSelectors,omitempty"`
+	// Service version compatibility rules for this serviceRef. The create API uses
+	// these rules to reject incompatible referenced clusters, and the frontend can
+	// use them to filter or explain selectable referenced clusters.
+	//
+	ServiceVersionCompatibility []ModeServiceRefVersionCompatibility `json:"serviceVersionCompatibility,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -238,6 +243,34 @@ func (o *ModeServiceRef) SetServiceSelectors(v []ServiceSelector) {
 	o.ServiceSelectors = v
 }
 
+// GetServiceVersionCompatibility returns the ServiceVersionCompatibility field value if set, zero value otherwise.
+func (o *ModeServiceRef) GetServiceVersionCompatibility() []ModeServiceRefVersionCompatibility {
+	if o == nil || o.ServiceVersionCompatibility == nil {
+		var ret []ModeServiceRefVersionCompatibility
+		return ret
+	}
+	return o.ServiceVersionCompatibility
+}
+
+// GetServiceVersionCompatibilityOk returns a tuple with the ServiceVersionCompatibility field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRef) GetServiceVersionCompatibilityOk() (*[]ModeServiceRefVersionCompatibility, bool) {
+	if o == nil || o.ServiceVersionCompatibility == nil {
+		return nil, false
+	}
+	return &o.ServiceVersionCompatibility, true
+}
+
+// HasServiceVersionCompatibility returns a boolean if a field has been set.
+func (o *ModeServiceRef) HasServiceVersionCompatibility() bool {
+	return o != nil && o.ServiceVersionCompatibility != nil
+}
+
+// SetServiceVersionCompatibility gets a reference to the given []ModeServiceRefVersionCompatibility and assigns it to the ServiceVersionCompatibility field.
+func (o *ModeServiceRef) SetServiceVersionCompatibility(v []ModeServiceRefVersionCompatibility) {
+	o.ServiceVersionCompatibility = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -257,6 +290,9 @@ func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 	if o.ServiceSelectors != nil {
 		toSerialize["serviceSelectors"] = o.ServiceSelectors
 	}
+	if o.ServiceVersionCompatibility != nil {
+		toSerialize["serviceVersionCompatibility"] = o.ServiceVersionCompatibility
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -267,13 +303,14 @@ func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name               *string                        `json:"name"`
-		EngineName         *string                        `json:"engineName"`
-		Modes              []string                       `json:"modes,omitempty"`
-		AddressStyle       *ServiceDescriptorAddressStyle `json:"addressStyle"`
-		DisableManualInput *bool                          `json:"disableManualInput,omitempty"`
-		HelmValuePath      *ModeServiceRefHelmValuePath   `json:"helmValuePath"`
-		ServiceSelectors   []ServiceSelector              `json:"serviceSelectors,omitempty"`
+		Name                        *string                              `json:"name"`
+		EngineName                  *string                              `json:"engineName"`
+		Modes                       []string                             `json:"modes,omitempty"`
+		AddressStyle                *ServiceDescriptorAddressStyle       `json:"addressStyle"`
+		DisableManualInput          *bool                                `json:"disableManualInput,omitempty"`
+		HelmValuePath               *ModeServiceRefHelmValuePath         `json:"helmValuePath"`
+		ServiceSelectors            []ServiceSelector                    `json:"serviceSelectors,omitempty"`
+		ServiceVersionCompatibility []ModeServiceRefVersionCompatibility `json:"serviceVersionCompatibility,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -292,7 +329,7 @@ func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "engineName", "modes", "addressStyle", "disableManualInput", "helmValuePath", "serviceSelectors"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "engineName", "modes", "addressStyle", "disableManualInput", "helmValuePath", "serviceSelectors", "serviceVersionCompatibility"})
 	} else {
 		return err
 	}
@@ -312,6 +349,7 @@ func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.HelmValuePath = *all.HelmValuePath
 	o.ServiceSelectors = all.ServiceSelectors
+	o.ServiceVersionCompatibility = all.ServiceVersionCompatibility
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

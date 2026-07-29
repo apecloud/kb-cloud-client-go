@@ -20989,6 +20989,27 @@ components:
           type: string
         credentialName:
           type: string
+    modeServiceRefVersionCompatibility:
+      type: object
+      description: |
+        Defines allowed source/ref service version combinations for a mode serviceRef.
+        Version patterns match semantic version segments, so "3", "3.0", and
+        "3.0.10" can match a whole major, minor, or patch family respectively.
+      properties:
+        version:
+          type: array
+          description: |
+            Source cluster version patterns. Empty means all source versions.
+          items:
+            type: string
+        refVersion:
+          type: array
+          description: |
+            Referenced cluster version patterns. Empty means all referenced versions.
+          items:
+            type: string
+        message:
+          $ref: '#/components/schemas/localizedDescription'
     modeServiceRef:
       type: object
       description: |
@@ -21063,6 +21084,14 @@ components:
             If no serviceSelector is matched, the corresponding helm value will not be set.
           items:
             $ref: '#/components/schemas/serviceSelector'
+        serviceVersionCompatibility:
+          type: array
+          description: |
+            Service version compatibility rules for this serviceRef. The create API uses
+            these rules to reject incompatible referenced clusters, and the frontend can
+            use them to filter or explain selectable referenced clusters.
+          items:
+            $ref: '#/components/schemas/modeServiceRefVersionCompatibility'
     modeObjectStorage:
       type: object
       description: |
