@@ -36227,6 +36227,11 @@ components:
           description: The supported engines and their quotas
           items:
             $ref: '#/components/schemas/engineQuota'
+        features:
+          type: array
+          description: The licensed enterprise features. An empty list means all features are unrestricted for backward compatibility.
+          items:
+            type: string
         notAfter:
           type: string
           format: date-time

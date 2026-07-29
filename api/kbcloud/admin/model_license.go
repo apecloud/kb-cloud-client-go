@@ -25,6 +25,8 @@ type License struct {
 	Quantity string `json:"quantity"`
 	// The supported engines and their quotas
 	Engines []EngineQuota `json:"engines"`
+	// The licensed enterprise features. An empty list means all features are unrestricted for backward compatibility.
+	Features []string `json:"features,omitempty"`
 	// The license expiration time
 	NotAfter time.Time `json:"notAfter"`
 	// The license start time
@@ -205,6 +207,34 @@ func (o *License) SetEngines(v []EngineQuota) {
 	o.Engines = v
 }
 
+// GetFeatures returns the Features field value if set, zero value otherwise.
+func (o *License) GetFeatures() []string {
+	if o == nil || o.Features == nil {
+		var ret []string
+		return ret
+	}
+	return o.Features
+}
+
+// GetFeaturesOk returns a tuple with the Features field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *License) GetFeaturesOk() (*[]string, bool) {
+	if o == nil || o.Features == nil {
+		return nil, false
+	}
+	return &o.Features, true
+}
+
+// HasFeatures returns a boolean if a field has been set.
+func (o *License) HasFeatures() bool {
+	return o != nil && o.Features != nil
+}
+
+// SetFeatures gets a reference to the given []string and assigns it to the Features field.
+func (o *License) SetFeatures(v []string) {
+	o.Features = v
+}
+
 // GetNotAfter returns the NotAfter field value.
 func (o *License) GetNotAfter() time.Time {
 	if o == nil {
@@ -337,6 +367,9 @@ func (o License) MarshalJSON() ([]byte, error) {
 	toSerialize["unit"] = o.Unit
 	toSerialize["quantity"] = o.Quantity
 	toSerialize["engines"] = o.Engines
+	if o.Features != nil {
+		toSerialize["features"] = o.Features
+	}
 	if o.NotAfter.Nanosecond() == 0 {
 		toSerialize["notAfter"] = o.NotAfter.Format("2006-01-02T15:04:05Z07:00")
 	} else {
@@ -368,6 +401,7 @@ func (o *License) UnmarshalJSON(bytes []byte) (err error) {
 		Unit      *string        `json:"unit"`
 		Quantity  *string        `json:"quantity"`
 		Engines   *[]EngineQuota `json:"engines"`
+		Features  []string       `json:"features,omitempty"`
 		NotAfter  *time.Time     `json:"notAfter"`
 		NotBefore *time.Time     `json:"notBefore"`
 		Used      *float64       `json:"used"`
@@ -409,7 +443,7 @@ func (o *License) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"clusterID", "email", "userName", "unit", "quantity", "engines", "notAfter", "notBefore", "used", "license", "mode"})
+		common.DeleteKeys(additionalProperties, &[]string{"clusterID", "email", "userName", "unit", "quantity", "engines", "features", "notAfter", "notBefore", "used", "license", "mode"})
 	} else {
 		return err
 	}
@@ -419,6 +453,7 @@ func (o *License) UnmarshalJSON(bytes []byte) (err error) {
 	o.Unit = *all.Unit
 	o.Quantity = *all.Quantity
 	o.Engines = *all.Engines
+	o.Features = all.Features
 	o.NotAfter = *all.NotAfter
 	o.NotBefore = *all.NotBefore
 	o.Used = *all.Used
