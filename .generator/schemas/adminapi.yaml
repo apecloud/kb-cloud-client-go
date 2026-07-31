@@ -36229,7 +36229,7 @@ components:
             $ref: '#/components/schemas/engineQuota'
         features:
           type: array
-          description: The licensed enterprise features. An empty list means all features are unrestricted for backward compatibility.
+          description: The licensed enterprise features. An empty list means all features are unrestricted for backward compatibility; a list containing `none` disables every enterprise feature.
           items:
             type: string
         notAfter:
