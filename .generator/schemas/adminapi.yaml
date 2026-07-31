@@ -41402,6 +41402,38 @@ components:
       enum:
         - encryption
       description: The intended usage of the key.
+    keyCluster:
+      description: a cluster which uses the key
+      type: object
+      properties:
+        clusterId:
+          type: string
+          description: the id of the cluster
+        name:
+          type: string
+          description: the name of the cluster
+        clusterDefinition:
+          type: string
+          description: the cluster definition (engine type) of the cluster
+        status:
+          type: string
+          description: the status of the cluster
+    keyBackup:
+      description: a backup which uses the key
+      type: object
+      properties:
+        id:
+          type: string
+          description: the id of the backup
+        engine:
+          type: string
+          description: the engine of the backup
+        name:
+          type: string
+          description: the name of the backup
+        status:
+          type: string
+          description: the status of the backup
     key:
       description: mutiple kv pair
       type: object
@@ -41419,12 +41451,12 @@ components:
         clusters:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/keyCluster'
           description: the clusters which use the key
         backups:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/keyBackup'
           description: the backups which use the key
         createdAt:
           type: string
