@@ -25,7 +25,7 @@ type License struct {
 	Quantity string `json:"quantity"`
 	// The supported engines and their quotas
 	Engines []EngineQuota `json:"engines"`
-	// The licensed enterprise features. An empty list means all features are unrestricted for backward compatibility.
+	// The licensed enterprise features. An empty list means all features are unrestricted for backward compatibility; a list containing `none` disables every enterprise feature.
 	Features []string `json:"features,omitempty"`
 	// The license expiration time
 	NotAfter time.Time `json:"notAfter"`
