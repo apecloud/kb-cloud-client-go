@@ -16348,134 +16348,7 @@ paths:
         - account
         - mongodb
         - shared
-  /api/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts:
-    get:
-      summary: List Milvus accounts
-      description: List Milvus accounts.
-      operationId: listMilvusAccounts
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      tags:
-        - account
-        - milvus
-        - shared
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/accountList'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-    post:
-      summary: Create Milvus account
-      description: Create a Milvus account.
-      operationId: createMilvusAccount
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      tags:
-        - account
-        - milvus
-        - shared
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MilvusAccount'
-      responses:
-        '201':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/accountListItem'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/409'
-        '500':
-          $ref: '#/components/responses/500'
-      x-codegen-request-body-name: body
   /api/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
-    delete:
-      summary: Delete Milvus account
-      description: Delete a Milvus account.
-      operationId: deleteMilvusAccount
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of the Account
-          in: path
-          name: accountName
-          required: true
-          schema:
-            type: string
-      tags:
-        - account
-        - milvus
-        - shared
-      responses:
-        '204':
-          description: A successful response.
-          content: {}
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
     patch:
       summary: Update Milvus account password
       description: Update a Milvus account password.
@@ -16529,57 +16402,6 @@ paths:
       summary: Update Milvus account roles
       description: Replace a Milvus account's role assignments.
       operationId: updateMilvusAccountRoles
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of the Account
-          in: path
-          name: accountName
-          required: true
-          schema:
-            type: string
-      tags:
-        - account
-        - milvus
-        - shared
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MilvusAccountRoles'
-      responses:
-        '204':
-          description: A successful response.
-          content: {}
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/409'
-        '500':
-          $ref: '#/components/responses/500'
-      x-codegen-request-body-name: body
-  /api/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/privileges:
-    patch:
-      summary: Update Milvus account database privileges
-      description: Replace a Milvus account's database-level privilege assignments.
-      operationId: updateMilvusAccountPrivileges
       parameters:
         - description: name of the Org
           in: path
@@ -34169,31 +33991,6 @@ components:
           type: string
           format: date-time
           description: Optional service account expiration time. Use the Unix epoch to clear expiration.
-    MilvusAccount:
-      type: object
-      description: Milvus account creation request.
-      required:
-        - password
-      properties:
-        name:
-          type: string
-          description: Account name. Kept for compatibility with the generic account model.
-        username:
-          type: string
-          description: Milvus username. When omitted, name is used.
-        password:
-          type: string
-          description: Account password.
-        role:
-          type: string
-          description: Generic account role. SUPERUSER maps to the Milvus admin role.
-        roles:
-          type: array
-          description: Milvus role names to assign to the user.
-          items:
-            type: string
-        privilegesList:
-          $ref: '#/components/schemas/privilegeList'
     MilvusAccountPassword:
       type: object
       description: Milvus account password update request.
@@ -34219,8 +34016,6 @@ components:
           description: Milvus role names to assign to the user. Existing roles are replaced.
           items:
             type: string
-        privilegesList:
-          $ref: '#/components/schemas/privilegeList'
     dbTDERequest:
       type: object
       properties:
