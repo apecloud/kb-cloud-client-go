@@ -22,6 +22,8 @@ type MilvusAccount struct {
 	Role *string `json:"role,omitempty"`
 	// Milvus role names to assign to the user.
 	Roles []string `json:"roles,omitempty"`
+	// A list of privileges and their databases.
+	PrivilegesList []PrivilegeListItem `json:"privilegesList,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -180,6 +182,34 @@ func (o *MilvusAccount) SetRoles(v []string) {
 	o.Roles = v
 }
 
+// GetPrivilegesList returns the PrivilegesList field value if set, zero value otherwise.
+func (o *MilvusAccount) GetPrivilegesList() []PrivilegeListItem {
+	if o == nil || o.PrivilegesList == nil {
+		var ret []PrivilegeListItem
+		return ret
+	}
+	return o.PrivilegesList
+}
+
+// GetPrivilegesListOk returns a tuple with the PrivilegesList field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MilvusAccount) GetPrivilegesListOk() (*[]PrivilegeListItem, bool) {
+	if o == nil || o.PrivilegesList == nil {
+		return nil, false
+	}
+	return &o.PrivilegesList, true
+}
+
+// HasPrivilegesList returns a boolean if a field has been set.
+func (o *MilvusAccount) HasPrivilegesList() bool {
+	return o != nil && o.PrivilegesList != nil
+}
+
+// SetPrivilegesList gets a reference to the given []PrivilegeListItem and assigns it to the PrivilegesList field.
+func (o *MilvusAccount) SetPrivilegesList(v []PrivilegeListItem) {
+	o.PrivilegesList = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o MilvusAccount) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -199,6 +229,9 @@ func (o MilvusAccount) MarshalJSON() ([]byte, error) {
 	if o.Roles != nil {
 		toSerialize["roles"] = o.Roles
 	}
+	if o.PrivilegesList != nil {
+		toSerialize["privilegesList"] = o.PrivilegesList
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -209,11 +242,12 @@ func (o MilvusAccount) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *MilvusAccount) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name     *string  `json:"name,omitempty"`
-		Username *string  `json:"username,omitempty"`
-		Password *string  `json:"password"`
-		Role     *string  `json:"role,omitempty"`
-		Roles    []string `json:"roles,omitempty"`
+		Name           *string             `json:"name,omitempty"`
+		Username       *string             `json:"username,omitempty"`
+		Password       *string             `json:"password"`
+		Role           *string             `json:"role,omitempty"`
+		Roles          []string            `json:"roles,omitempty"`
+		PrivilegesList []PrivilegeListItem `json:"privilegesList,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -223,7 +257,7 @@ func (o *MilvusAccount) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "username", "password", "role", "roles"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "username", "password", "role", "roles", "privilegesList"})
 	} else {
 		return err
 	}
@@ -232,6 +266,7 @@ func (o *MilvusAccount) UnmarshalJSON(bytes []byte) (err error) {
 	o.Password = *all.Password
 	o.Role = all.Role
 	o.Roles = all.Roles
+	o.PrivilegesList = all.PrivilegesList
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

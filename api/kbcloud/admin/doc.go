@@ -60,6 +60,7 @@
 //   - [accountApi.updateHiveAccount]
 //   - [accountApi.updateKafkaAccount]
 //   - [accountApi.updateMilvusAccountPassword]
+//   - [accountApi.updateMilvusAccountPrivileges]
 //   - [accountApi.updateMilvusAccountRoles]
 //   - [accountApi.updateMssqlAccount]
 //   - [accountApi.updateServiceAccount]

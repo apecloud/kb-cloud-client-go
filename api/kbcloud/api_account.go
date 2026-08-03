@@ -2163,6 +2163,80 @@ func (a *AccountApi) UpdateMilvusAccountPassword(ctx _context.Context, orgName s
 	return localVarHTTPResponse, nil
 }
 
+// UpdateMilvusAccountPrivileges Update Milvus account database privileges.
+// Replace a Milvus account's database-level privilege assignments.
+func (a *AccountApi) UpdateMilvusAccountPrivileges(ctx _context.Context, orgName string, clusterName string, accountName string, body MilvusAccountRoles) (*_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod = _nethttp.MethodPatch
+		localVarPostBody   interface{}
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "account",
+		OperationID: "updateMilvusAccountPrivileges",
+		Path:        "/api/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/privileges",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.UpdateMilvusAccountPrivileges")
+	if err != nil {
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/privileges"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"accountName"+"}", _neturl.PathEscape(common.ParameterToString(accountName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "application/json"
+
+	// body params
+	localVarPostBody = &body
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 409 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 // UpdateMilvusAccountRoles Update Milvus account roles.
 // Replace a Milvus account's role assignments.
 func (a *AccountApi) UpdateMilvusAccountRoles(ctx _context.Context, orgName string, clusterName string, accountName string, body MilvusAccountRoles) (*_nethttp.Response, error) {
