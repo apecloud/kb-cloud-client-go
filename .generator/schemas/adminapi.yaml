@@ -10440,6 +10440,62 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/loadbalancer/config:
+    get:
+      tags:
+        - loadBalancer
+      operationId: getLoadBalancerConfig
+      summary: Get the effective load balancer configuration of an environment
+      parameters:
+        - name: environmentName
+          in: path
+          description: name of the environment
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loadBalancerConfig'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      tags:
+        - loadBalancer
+      operationId: updateLoadBalancerConfig
+      summary: Save and immediately activate the load balancer configuration of an environment
+      parameters:
+        - name: environmentName
+          in: path
+          description: name of the environment
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loadBalancerConfigUpdate'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loadBalancerConfig'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      x-codegen-request-body-name: body
   /admin/v1/environments/{environmentName}/loadbalancer/vipPool:
     get:
       operationId: listVIPPool
@@ -31810,6 +31866,76 @@ components:
       required:
         - status
       type: object
+    loadBalancerAnnotations:
+      description: Provider-neutral annotations applied to load balancer Services by exposure type.
+      type: object
+      properties:
+        vpc:
+          description: Annotations used for load balancers exposed inside the VPC.
+          type: object
+          additionalProperties:
+            type: string
+        internet:
+          description: Annotations used for load balancers exposed to the Internet.
+          type: object
+          additionalProperties:
+            type: string
+      required:
+        - vpc
+        - internet
+    loadBalancerProviderOption:
+      description: A provider that can be selected for an environment load balancer.
+      type: object
+      properties:
+        name:
+          type: string
+        enabled:
+          type: boolean
+        annotations:
+          $ref: '#/components/schemas/loadBalancerAnnotations'
+      required:
+        - name
+        - enabled
+        - annotations
+    loadBalancerConfig:
+      description: Effective load balancer provider and annotations for an environment.
+      type: object
+      properties:
+        provider:
+          description: Effective provider name used by load balancers in this environment.
+          type: string
+        providerInherited:
+          description: Whether the load balancer follows admin_environment.provider.
+          type: boolean
+        annotations:
+          $ref: '#/components/schemas/loadBalancerAnnotations'
+        providerOptions:
+          description: Provider choices and their global annotation templates for the settings page.
+          type: array
+          items:
+            $ref: '#/components/schemas/loadBalancerProviderOption'
+      required:
+        - provider
+        - providerInherited
+        - annotations
+        - providerOptions
+    loadBalancerConfigUpdate:
+      description: Complete editable load balancer settings for an environment.
+      type: object
+      properties:
+        provider:
+          description: Provider selected for the load balancer.
+          type: string
+          minLength: 1
+        providerInherited:
+          description: Follow admin_environment.provider instead of pinning the selected provider.
+          type: boolean
+        annotations:
+          $ref: '#/components/schemas/loadBalancerAnnotations'
+      required:
+        - provider
+        - providerInherited
+        - annotations
     vipPool:
       description: VIP Pool
       properties:
