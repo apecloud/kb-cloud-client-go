@@ -24413,6 +24413,24 @@ components:
           x-nullable: true
         scope:
           $ref: '#/components/schemas/aiAgentScope'
+    aiAgentMode:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - global
+        - cluster_diagnosis
+    aiAgentProfile:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - global-entry
+        - cluster-diagnosis
+    aiAgentContextState:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - global
+        - cluster_bound
     aiAgentConversationStatus:
       x-generate-alias-as-model: true
       type: string
@@ -24496,6 +24514,16 @@ components:
         entryClusterName:
           type: string
           x-nullable: true
+        agentMode:
+          $ref: '#/components/schemas/aiAgentMode'
+        agent_profile:
+          $ref: '#/components/schemas/aiAgentProfile'
+        contextState:
+          $ref: '#/components/schemas/aiAgentContextState'
+        scopeLabel:
+          type: string
+          description: Safe display label for the conversation scope. It does not expose profile paths, skills paths, credentials, or endpoints.
+          x-nullable: true
         title:
           type: string
           x-nullable: true
@@ -24535,6 +24563,13 @@ components:
         entryClusterName:
           type: string
           x-nullable: true
+        contexts:
+          type: array
+          description: |
+            Optional creation-time context. When entryClusterName is omitted, the
+            first clusterName here binds the conversation to cluster diagnosis.
+          items:
+            $ref: '#/components/schemas/aiAgentScope'
     aiAgentDeleteConversationResponse:
       type: object
       required:
@@ -24589,6 +24624,16 @@ components:
           $ref: '#/components/schemas/aiAgentTurnStatus'
         eventsUrl:
           type: string
+          x-nullable: true
+        agentMode:
+          $ref: '#/components/schemas/aiAgentMode'
+        agent_profile:
+          $ref: '#/components/schemas/aiAgentProfile'
+        contextState:
+          $ref: '#/components/schemas/aiAgentContextState'
+        scopeLabel:
+          type: string
+          description: Safe display label for the run scope. It does not expose profile paths, skills paths, credentials, or endpoints.
           x-nullable: true
     aiAgentEventType:
       x-generate-alias-as-model: true
