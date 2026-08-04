@@ -16348,6 +16348,184 @@ paths:
         - account
         - mongodb
         - shared
+  /api/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts/roles:
+    get:
+      summary: List Milvus roles
+      description: List Milvus native roles and their privilege grants.
+      operationId: listMilvusRoles
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - account
+        - milvus
+        - shared
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MilvusRoleList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts/roles/{roleName}:
+    get:
+      summary: Get Milvus role
+      description: Get a Milvus native role and its privilege grants.
+      operationId: getMilvusRole
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Milvus role
+          in: path
+          name: roleName
+          required: true
+          schema:
+            type: string
+      tags:
+        - account
+        - milvus
+        - shared
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MilvusRole'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      summary: Put Milvus role
+      description: Create or update a Milvus native role and replace its privilege grants.
+      operationId: putMilvusRole
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Milvus role
+          in: path
+          name: roleName
+          required: true
+          schema:
+            type: string
+      tags:
+        - account
+        - milvus
+        - shared
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MilvusRoleRequest'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MilvusRole'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+    delete:
+      summary: Delete Milvus role
+      description: Delete a Milvus native role.
+      operationId: deleteMilvusRole
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Milvus role
+          in: path
+          name: roleName
+          required: true
+          schema:
+            type: string
+      tags:
+        - account
+        - milvus
+        - shared
+      responses:
+        '204':
+          description: A successful response.
+          content: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
     patch:
       summary: Update Milvus account password
@@ -33991,6 +34169,56 @@ components:
           type: string
           format: date-time
           description: Optional service account expiration time. Use the Unix epoch to clear expiration.
+    MilvusRoleGrant:
+      type: object
+      description: Native Milvus role privilege grant.
+      required:
+        - privilege
+      properties:
+        dbName:
+          type: string
+          description: Milvus database name. Empty means Milvus default/global scope.
+        collectionName:
+          type: string
+          description: Milvus collection name. Use '*' for all collections in the database.
+        privilege:
+          type: string
+          description: Native Milvus privilege name, such as DatabaseReadOnly, DatabaseReadWrite, DatabaseAdmin, Search, Insert, or Delete.
+    MilvusRole:
+      type: object
+      description: Milvus role with native privilege grants.
+      required:
+        - name
+        - grants
+      properties:
+        name:
+          type: string
+          description: Milvus role name.
+        grants:
+          type: array
+          description: Native Milvus privilege grants owned by this role.
+          items:
+            $ref: '#/components/schemas/MilvusRoleGrant'
+    MilvusRoleList:
+      type: object
+      description: Milvus role list.
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          description: Milvus roles.
+          items:
+            $ref: '#/components/schemas/MilvusRole'
+    MilvusRoleRequest:
+      type: object
+      description: Milvus role upsert request.
+      properties:
+        grants:
+          type: array
+          description: Native Milvus privilege grants owned by this role. Existing grants are replaced.
+          items:
+            $ref: '#/components/schemas/MilvusRoleGrant'
     MilvusAccountPassword:
       type: object
       description: Milvus account password update request.
