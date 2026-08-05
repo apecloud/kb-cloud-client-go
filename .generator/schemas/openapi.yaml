@@ -35423,6 +35423,10 @@ components:
           type: string
         project:
           type: string
+        source:
+          $ref: '#/components/schemas/dataChannelListEndpoint'
+        target:
+          $ref: '#/components/schemas/dataChannelListEndpoint'
         replicationObjects:
           $ref: '#/components/schemas/dataChannelObject'
         errorMessage:
@@ -35543,6 +35547,10 @@ components:
           type: string
         project:
           type: string
+        source:
+          $ref: '#/components/schemas/dataChannelListEndpoint'
+        target:
+          $ref: '#/components/schemas/dataChannelListEndpoint'
         replicationObjects:
           $ref: '#/components/schemas/dataChannelObject'
         errorMessage:
