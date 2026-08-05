@@ -217,6 +217,7 @@
 //   - [diagnosticsApi.getDiagnosticsPostgresqlSpaceAnalysis]
 //   - [diagnosticsApi.listDiagnosticsDamengSessions]
 //   - [diagnosticsApi.listDiagnosticsPostgresqlSessions]
+//   - [diagnosticsApi.resetDiagnosticsPostgresqlSQLAnalysis]
 //   - [disasterRecoveryApi.createDisasterRecovery]
 //   - [disasterRecoveryApi.deleteDisasterRecovery]
 //   - [disasterRecoveryApi.getDisasterRecoveryHistory]

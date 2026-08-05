@@ -21122,7 +21122,7 @@ paths:
             type: string
         - name: limit
           in: query
-          description: Maximum number of sessions to return. Defaults to the backend limit when omitted.
+          description: Maximum number of sessions to return. When omitted, the API returns the complete point-in-time session snapshot. When provided, the value must be positive.
           required: false
           schema:
             type: integer
@@ -21226,6 +21226,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/postgresqlSQLAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/reset:
+    post:
+      tags:
+        - diagnostics
+      summary: Reset PostgreSQL SQL analysis statistics
+      description: Reset pg_stat_statements statistics for the selected PostgreSQL cluster. This is a cluster write operation and does not change PostgreSQL configuration.
+      operationId: resetDiagnosticsPostgresqlSQLAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: PostgreSQL SQL analysis statistics were reset.
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -37457,7 +37490,7 @@ components:
           type: integer
         result:
           type: string
-          description: Backend truth derived from the worst item state and criticality-aware score caps. A red item makes the task red; a critical red item caps score at 40.
+          description: Task health conclusion derived from item states and criticality-aware score caps. Valid conclusions are red, yellow, and green. For PostgreSQL, unknown means no evaluable health conclusion is available and score may be omitted. If evaluable red or yellow findings coexist with unavailable items, result retains the known red or yellow conclusion.
         latestRunAt:
           format: date-time
           type: string
@@ -37516,6 +37549,8 @@ components:
         warning:
           type: integer
         normal:
+          type: integer
+        unknown:
           type: integer
     aggregateTaskResult:
       properties:

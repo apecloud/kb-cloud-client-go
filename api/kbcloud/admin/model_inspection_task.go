@@ -27,7 +27,7 @@ type InspectionTask struct {
 	// Expiration timestamp fixed when the inspection report is created from savedDays.
 	ExpiredAt *time.Time `json:"expiredAt,omitempty"`
 	Score     *int32     `json:"score,omitempty"`
-	// Backend truth derived from the worst item state and criticality-aware score caps. A red item makes the task red; a critical red item caps score at 40.
+	// Task health conclusion derived from item states and criticality-aware score caps. Valid conclusions are red, yellow, and green. For PostgreSQL, unknown means no evaluable health conclusion is available and score may be omitted. If evaluable red or yellow findings coexist with unavailable items, result retains the known red or yellow conclusion.
 	Result *string `json:"result,omitempty"`
 	// Last inspection execution timestamp used for freshness checks.
 	LatestRunAt *time.Time `json:"latestRunAt,omitempty"`
