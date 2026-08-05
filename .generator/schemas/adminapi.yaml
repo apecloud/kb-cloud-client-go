@@ -10496,6 +10496,29 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
+    delete:
+      tags:
+        - loadBalancer
+      operationId: resetLoadBalancerConfig
+      summary: Reset the environment load balancer configuration to the current provider defaults
+      parameters:
+        - name: environmentName
+          in: path
+          description: name of the environment
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The effective provider defaults after reset.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loadBalancerConfig'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/environments/{environmentName}/loadbalancer/vipPool:
     get:
       operationId: listVIPPool
@@ -21892,11 +21915,11 @@ paths:
         - account
         - mongodb
         - shared
-  /admin/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts:
+  /admin/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts/roles:
     get:
-      summary: List Milvus accounts
-      description: List Milvus accounts.
-      operationId: listMilvusAccounts
+      summary: List Milvus roles
+      description: List Milvus native roles and their privilege grants.
+      operationId: listMilvusRoles
       parameters:
         - description: name of the Org
           in: path
@@ -21920,7 +21943,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/accountList'
+                $ref: '#/components/schemas/MilvusRoleList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -21931,10 +21954,11 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-    post:
-      summary: Create Milvus account
-      description: Create a Milvus account.
-      operationId: createMilvusAccount
+  /admin/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts/roles/{roleName}:
+    get:
+      summary: Get Milvus role
+      description: Get a Milvus native role and its privilege grants.
+      operationId: getMilvusRole
       parameters:
         - description: name of the Org
           in: path
@@ -21948,6 +21972,56 @@ paths:
           required: true
           schema:
             type: string
+        - description: name of the Milvus role
+          in: path
+          name: roleName
+          required: true
+          schema:
+            type: string
+      tags:
+        - account
+        - milvus
+        - shared
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MilvusRole'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      summary: Put Milvus role
+      description: Create or update a Milvus native role and replace its privilege grants.
+      operationId: putMilvusRole
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Milvus role
+          in: path
+          name: roleName
+          required: true
+          schema:
+            type: string
       tags:
         - account
         - milvus
@@ -21957,14 +22031,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MilvusAccount'
+              $ref: '#/components/schemas/MilvusRoleRequest'
       responses:
-        '201':
+        '200':
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/accountListItem'
+                $ref: '#/components/schemas/MilvusRole'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -21978,11 +22052,10 @@ paths:
         '500':
           $ref: '#/components/responses/500'
       x-codegen-request-body-name: body
-  /admin/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
     delete:
-      summary: Delete Milvus account
-      description: Delete a Milvus account.
-      operationId: deleteMilvusAccount
+      summary: Delete Milvus role
+      description: Delete a Milvus native role.
+      operationId: deleteMilvusRole
       parameters:
         - description: name of the Org
           in: path
@@ -21996,9 +22069,9 @@ paths:
           required: true
           schema:
             type: string
-        - description: name of the Account
+        - description: name of the Milvus role
           in: path
-          name: accountName
+          name: roleName
           required: true
           schema:
             type: string
@@ -22020,6 +22093,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
     patch:
       summary: Update Milvus account password
       description: Update a Milvus account password.
@@ -24596,6 +24670,23 @@ components:
           x-nullable: true
         scope:
           $ref: '#/components/schemas/aiAgentScope'
+    aiAgentMode:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - global
+        - cluster_diagnosis
+    aiAgentProfile:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - cloud-ai-agent
+    aiAgentContextState:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - global
+        - cluster_bound
     aiAgentConversationStatus:
       x-generate-alias-as-model: true
       type: string
@@ -24679,6 +24770,16 @@ components:
         entryClusterName:
           type: string
           x-nullable: true
+        agentMode:
+          $ref: '#/components/schemas/aiAgentMode'
+        agent_profile:
+          $ref: '#/components/schemas/aiAgentProfile'
+        contextState:
+          $ref: '#/components/schemas/aiAgentContextState'
+        scopeLabel:
+          type: string
+          description: Safe display label for the conversation scope. It does not expose profile paths, skills paths, credentials, or endpoints.
+          x-nullable: true
         title:
           type: string
           x-nullable: true
@@ -24718,6 +24819,13 @@ components:
         entryClusterName:
           type: string
           x-nullable: true
+        contexts:
+          type: array
+          description: |
+            Optional creation-time context. When entryClusterName is omitted, the
+            first clusterName here binds the conversation to cluster diagnosis.
+          items:
+            $ref: '#/components/schemas/aiAgentScope'
     aiAgentDeleteConversationResponse:
       type: object
       required:
@@ -24772,6 +24880,16 @@ components:
           $ref: '#/components/schemas/aiAgentTurnStatus'
         eventsUrl:
           type: string
+          x-nullable: true
+        agentMode:
+          $ref: '#/components/schemas/aiAgentMode'
+        agent_profile:
+          $ref: '#/components/schemas/aiAgentProfile'
+        contextState:
+          $ref: '#/components/schemas/aiAgentContextState'
+        scopeLabel:
+          type: string
+          description: Safe display label for the run scope. It does not expose profile paths, skills paths, credentials, or endpoints.
           x-nullable: true
     aiAgentEventType:
       x-generate-alias-as-model: true
@@ -31883,58 +32001,25 @@ components:
       required:
         - vpc
         - internet
-    loadBalancerProviderOption:
-      description: A provider that can be selected for an environment load balancer.
-      type: object
-      properties:
-        name:
-          type: string
-        enabled:
-          type: boolean
-        annotations:
-          $ref: '#/components/schemas/loadBalancerAnnotations'
-      required:
-        - name
-        - enabled
-        - annotations
     loadBalancerConfig:
-      description: Effective load balancer provider and annotations for an environment.
+      description: Effective load balancer annotations for an environment.
       type: object
       properties:
         provider:
-          description: Effective provider name used by load balancers in this environment.
+          description: Current environment provider returned by the server.
           type: string
-        providerInherited:
-          description: Whether the load balancer follows admin_environment.provider.
-          type: boolean
         annotations:
           $ref: '#/components/schemas/loadBalancerAnnotations'
-        providerOptions:
-          description: Provider choices and their global annotation templates for the settings page.
-          type: array
-          items:
-            $ref: '#/components/schemas/loadBalancerProviderOption'
       required:
         - provider
-        - providerInherited
         - annotations
-        - providerOptions
     loadBalancerConfigUpdate:
-      description: Complete editable load balancer settings for an environment.
+      description: Complete editable load balancer annotations for an environment.
       type: object
       properties:
-        provider:
-          description: Provider selected for the load balancer.
-          type: string
-          minLength: 1
-        providerInherited:
-          description: Follow admin_environment.provider instead of pinning the selected provider.
-          type: boolean
         annotations:
           $ref: '#/components/schemas/loadBalancerAnnotations'
       required:
-        - provider
-        - providerInherited
         - annotations
     vipPool:
       description: VIP Pool
@@ -41640,29 +41725,56 @@ components:
         autoCommit:
           type: string
           description: Auto-commit status.
-    MilvusAccount:
+    MilvusRoleGrant:
       type: object
-      description: Milvus account creation request.
+      description: Native Milvus role privilege grant.
       required:
-        - password
+        - privilege
+      properties:
+        dbName:
+          type: string
+          description: Milvus database name. Empty means Milvus default/global scope.
+        collectionName:
+          type: string
+          description: Milvus collection name. Use '*' for all collections in the database.
+        privilege:
+          type: string
+          description: Native Milvus privilege name, such as DatabaseReadOnly, DatabaseReadWrite, DatabaseAdmin, Search, Insert, or Delete.
+    MilvusRole:
+      type: object
+      description: Milvus role with native privilege grants.
+      required:
+        - name
+        - grants
       properties:
         name:
           type: string
-          description: Account name. Kept for compatibility with the generic account model.
-        username:
-          type: string
-          description: Milvus username. When omitted, name is used.
-        password:
-          type: string
-          description: Account password.
-        role:
-          type: string
-          description: Generic account role. SUPERUSER maps to the Milvus admin role.
-        roles:
+          description: Milvus role name.
+        grants:
           type: array
-          description: Milvus role names to assign to the user.
+          description: Native Milvus privilege grants owned by this role.
           items:
-            type: string
+            $ref: '#/components/schemas/MilvusRoleGrant'
+    MilvusRoleList:
+      type: object
+      description: Milvus role list.
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          description: Milvus roles.
+          items:
+            $ref: '#/components/schemas/MilvusRole'
+    MilvusRoleRequest:
+      type: object
+      description: Milvus role upsert request.
+      properties:
+        grants:
+          type: array
+          description: Native Milvus privilege grants owned by this role. Existing grants are replaced.
+          items:
+            $ref: '#/components/schemas/MilvusRoleGrant'
     MilvusAccountPassword:
       type: object
       description: Milvus account password update request.

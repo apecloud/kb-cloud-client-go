@@ -10,16 +10,12 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// LoadBalancerConfig Effective load balancer provider and annotations for an environment.
+// LoadBalancerConfig Effective load balancer annotations for an environment.
 type LoadBalancerConfig struct {
-	// Effective provider name used by load balancers in this environment.
+	// Current environment provider returned by the server.
 	Provider string `json:"provider"`
-	// Whether the load balancer follows admin_environment.provider.
-	ProviderInherited bool `json:"providerInherited"`
 	// Provider-neutral annotations applied to load balancer Services by exposure type.
 	Annotations LoadBalancerAnnotations `json:"annotations"`
-	// Provider choices and their global annotation templates for the settings page.
-	ProviderOptions []LoadBalancerProviderOption `json:"providerOptions"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -29,12 +25,10 @@ type LoadBalancerConfig struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewLoadBalancerConfig(provider string, providerInherited bool, annotations LoadBalancerAnnotations, providerOptions []LoadBalancerProviderOption) *LoadBalancerConfig {
+func NewLoadBalancerConfig(provider string, annotations LoadBalancerAnnotations) *LoadBalancerConfig {
 	this := LoadBalancerConfig{}
 	this.Provider = provider
-	this.ProviderInherited = providerInherited
 	this.Annotations = annotations
-	this.ProviderOptions = providerOptions
 	return &this
 }
 
@@ -69,29 +63,6 @@ func (o *LoadBalancerConfig) SetProvider(v string) {
 	o.Provider = v
 }
 
-// GetProviderInherited returns the ProviderInherited field value.
-func (o *LoadBalancerConfig) GetProviderInherited() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-	return o.ProviderInherited
-}
-
-// GetProviderInheritedOk returns a tuple with the ProviderInherited field value
-// and a boolean to check if the value has been set.
-func (o *LoadBalancerConfig) GetProviderInheritedOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.ProviderInherited, true
-}
-
-// SetProviderInherited sets field value.
-func (o *LoadBalancerConfig) SetProviderInherited(v bool) {
-	o.ProviderInherited = v
-}
-
 // GetAnnotations returns the Annotations field value.
 func (o *LoadBalancerConfig) GetAnnotations() LoadBalancerAnnotations {
 	if o == nil {
@@ -115,29 +86,6 @@ func (o *LoadBalancerConfig) SetAnnotations(v LoadBalancerAnnotations) {
 	o.Annotations = v
 }
 
-// GetProviderOptions returns the ProviderOptions field value.
-func (o *LoadBalancerConfig) GetProviderOptions() []LoadBalancerProviderOption {
-	if o == nil {
-		var ret []LoadBalancerProviderOption
-		return ret
-	}
-	return o.ProviderOptions
-}
-
-// GetProviderOptionsOk returns a tuple with the ProviderOptions field value
-// and a boolean to check if the value has been set.
-func (o *LoadBalancerConfig) GetProviderOptionsOk() (*[]LoadBalancerProviderOption, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.ProviderOptions, true
-}
-
-// SetProviderOptions sets field value.
-func (o *LoadBalancerConfig) SetProviderOptions(v []LoadBalancerProviderOption) {
-	o.ProviderOptions = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o LoadBalancerConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -145,9 +93,7 @@ func (o LoadBalancerConfig) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["provider"] = o.Provider
-	toSerialize["providerInherited"] = o.ProviderInherited
 	toSerialize["annotations"] = o.Annotations
-	toSerialize["providerOptions"] = o.ProviderOptions
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -158,10 +104,8 @@ func (o LoadBalancerConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *LoadBalancerConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Provider          *string                       `json:"provider"`
-		ProviderInherited *bool                         `json:"providerInherited"`
-		Annotations       *LoadBalancerAnnotations      `json:"annotations"`
-		ProviderOptions   *[]LoadBalancerProviderOption `json:"providerOptions"`
+		Provider    *string                  `json:"provider"`
+		Annotations *LoadBalancerAnnotations `json:"annotations"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -169,30 +113,22 @@ func (o *LoadBalancerConfig) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Provider == nil {
 		return fmt.Errorf("required field provider missing")
 	}
-	if all.ProviderInherited == nil {
-		return fmt.Errorf("required field providerInherited missing")
-	}
 	if all.Annotations == nil {
 		return fmt.Errorf("required field annotations missing")
 	}
-	if all.ProviderOptions == nil {
-		return fmt.Errorf("required field providerOptions missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provider", "providerInherited", "annotations", "providerOptions"})
+		common.DeleteKeys(additionalProperties, &[]string{"provider", "annotations"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Provider = *all.Provider
-	o.ProviderInherited = *all.ProviderInherited
 	if all.Annotations.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Annotations = *all.Annotations
-	o.ProviderOptions = *all.ProviderOptions
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
