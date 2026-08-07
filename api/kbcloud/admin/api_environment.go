@@ -440,7 +440,7 @@ func (a *EnvironmentApi) CreateEnvironmentCredential(ctx _context.Context, envir
 }
 
 // CreateNodeGroup Create environment node group.
-func (a *EnvironmentApi) CreateNodeGroup(ctx _context.Context, environmentName string, body NodeGroup) (NodeGroup, *_nethttp.Response, error) {
+func (a *EnvironmentApi) CreateNodeGroup(ctx _context.Context, environmentName string, body NodeGroupCreate) (NodeGroup, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
