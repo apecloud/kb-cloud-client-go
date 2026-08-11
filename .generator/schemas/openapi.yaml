@@ -5528,6 +5528,130 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/kingbase/sessions:
+    get:
+      tags:
+        - diagnostics
+      summary: List Kingbase session diagnostics
+      operationId: listDiagnosticsKingbaseSessions
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of sessions to return. Defaults to 200.
+          required: false
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 200
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/kingbaseSessionList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/kingbase/sessions/{pid}/lockAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Kingbase session lock analysis
+      description: Returns the selected session and its direct lock rows from the current snapshot.
+      operationId: getDiagnosticsKingbaseSessionLockAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/kingbaseLockAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/kingbase/sessions/{pid}:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Kingbase session diagnostics
+      operationId: getDiagnosticsKingbaseSession
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/kingbaseSessionDetail'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/metrics:
     get:
       description: Query cluster metrics by specified metric name and instance name, support instant and range query
@@ -25788,6 +25912,186 @@ components:
         autoCommit:
           type: string
           description: Auto-commit status.
+    kingbaseSession:
+      type: object
+      required:
+        - pid
+        - state
+        - queryDigest
+        - querySummary
+      properties:
+        pid:
+          type: integer
+          format: int64
+        user:
+          type: string
+        database:
+          type: string
+        applicationName:
+          type: string
+        clientAddr:
+          type: string
+        clientPort:
+          type: integer
+          format: int32
+        state:
+          type: string
+        waitEventType:
+          type: string
+        waitEvent:
+          type: string
+        backendStart:
+          type: string
+        queryStart:
+          type: string
+        xactStart:
+          type: string
+        durationSeconds:
+          type: integer
+          format: int64
+          minimum: 0
+        xactDurationSeconds:
+          type: integer
+          format: int64
+          minimum: 0
+        queryDigest:
+          type: string
+        querySummary:
+          type: string
+        backendType:
+          type: string
+    kingbaseDiagnosticSourceStatus:
+      type: string
+      enum:
+        - success
+        - partial
+        - failed
+        - skipped
+        - noData
+    kingbaseDiagnosticSource:
+      type: object
+      required:
+        - name
+        - status
+        - collectedAt
+      properties:
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/kingbaseDiagnosticSourceStatus'
+        collectedAt:
+          type: string
+        message:
+          type: string
+    kingbaseSessionList:
+      type: object
+      required:
+        - items
+        - limit
+        - source
+        - warnings
+        - collectedAt
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/kingbaseSession'
+        limit:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 200
+        source:
+          $ref: '#/components/schemas/kingbaseDiagnosticSource'
+        warnings:
+          type: array
+          items:
+            type: string
+        collectedAt:
+          type: string
+    kingbaseLockRow:
+      type: object
+      required:
+        - pid
+        - lockType
+        - mode
+        - granted
+      properties:
+        pid:
+          type: integer
+          format: int64
+        lockType:
+          type: string
+        mode:
+          type: string
+        granted:
+          type: boolean
+        relationOid:
+          type: string
+        relationName:
+          type: string
+        databaseName:
+          type: string
+        transactionID:
+          type: string
+        virtualTransaction:
+          type: string
+        virtualXID:
+          type: string
+        tuple:
+          type: string
+        page:
+          type: string
+        classID:
+          type: string
+        objID:
+          type: string
+        objSubID:
+          type: string
+    kingbaseLockAnalysis:
+      type: object
+      required:
+        - selectedSession
+        - lockRows
+        - cannotProve
+        - warnings
+        - source
+        - capturedAt
+      properties:
+        selectedSession:
+          $ref: '#/components/schemas/kingbaseSession'
+        lockRows:
+          type: array
+          items:
+            $ref: '#/components/schemas/kingbaseLockRow'
+        cannotProve:
+          type: boolean
+        warnings:
+          type: array
+          items:
+            type: string
+        source:
+          $ref: '#/components/schemas/kingbaseDiagnosticSource'
+        capturedAt:
+          type: string
+    kingbaseSessionDetail:
+      type: object
+      required:
+        - session
+        - source
+        - warnings
+        - collectedAt
+      properties:
+        session:
+          $ref: '#/components/schemas/kingbaseSession'
+        source:
+          $ref: '#/components/schemas/kingbaseDiagnosticSource'
+        warnings:
+          type: array
+          items:
+            type: string
+        collectedAt:
+          type: string
     metricsQueryType:
       type: string
       enum:
