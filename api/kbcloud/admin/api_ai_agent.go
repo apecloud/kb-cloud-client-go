@@ -665,10 +665,8 @@ func (a *AIAgentApi) GetAIAgentTurnAction(ctx _context.Context, conversationId s
 
 // ListAIAgentConversationsOptionalParameters holds optional parameters for ListAIAgentConversations.
 type ListAIAgentConversationsOptionalParameters struct {
-	Limit       *int32
-	After       *string
-	OrgName     *string
-	ClusterName *string
+	Limit *int32
+	After *string
 }
 
 // NewListAIAgentConversationsOptionalParameters creates an empty struct for parameters.
@@ -689,22 +687,9 @@ func (r *ListAIAgentConversationsOptionalParameters) WithAfter(after string) *Li
 	return r
 }
 
-// WithOrgName sets the corresponding parameter name and returns the struct.
-func (r *ListAIAgentConversationsOptionalParameters) WithOrgName(orgName string) *ListAIAgentConversationsOptionalParameters {
-	r.OrgName = &orgName
-	return r
-}
-
-// WithClusterName sets the corresponding parameter name and returns the struct.
-func (r *ListAIAgentConversationsOptionalParameters) WithClusterName(clusterName string) *ListAIAgentConversationsOptionalParameters {
-	r.ClusterName = &clusterName
-	return r
-}
-
 // ListAIAgentConversations List AI diagnosis conversations.
-// Lists platform AI diagnosis conversations for the current admin user. Use
-// orgName together with clusterName when listing the history for one cluster
-// detail page, because cluster names are only unique within an organization.
+// Lists platform AI diagnosis conversations for the current admin user.
+// Admin global entry and admin cluster-detail entry share the same history.
 func (a *AIAgentApi) ListAIAgentConversations(ctx _context.Context, o ...ListAIAgentConversationsOptionalParameters) (AiAgentConversationList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -744,12 +729,6 @@ func (a *AIAgentApi) ListAIAgentConversations(ctx _context.Context, o ...ListAIA
 	}
 	if optionalParams.After != nil {
 		localVarQueryParams.Add("after", common.ParameterToString(*optionalParams.After, ""))
-	}
-	if optionalParams.OrgName != nil {
-		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
-	}
-	if optionalParams.ClusterName != nil {
-		localVarQueryParams.Add("clusterName", common.ParameterToString(*optionalParams.ClusterName, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

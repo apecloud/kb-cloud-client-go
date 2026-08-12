@@ -1111,9 +1111,8 @@ paths:
       operationId: listAIAgentConversations
       summary: List AI diagnosis conversations
       description: |
-        Lists platform AI diagnosis conversations for the current admin user. Use
-        orgName together with clusterName when listing the history for one cluster
-        detail page, because cluster names are only unique within an organization.
+        Lists platform AI diagnosis conversations for the current admin user.
+        Admin global entry and admin cluster-detail entry share the same history.
       parameters:
         - name: limit
           in: query
@@ -1122,16 +1121,6 @@ paths:
             type: integer
             default: 30
         - name: after
-          in: query
-          required: false
-          schema:
-            type: string
-        - name: orgName
-          in: query
-          required: false
-          schema:
-            type: string
-        - name: clusterName
           in: query
           required: false
           schema:
@@ -34431,6 +34420,14 @@ components:
           description: |
             The name will be referenced in clusterCreate request. The name should also be defined in `.components`
             so that frontend can use it to get proper localized title.
+        title:
+          type: object
+          additionalProperties:
+            type: string
+          description: The localized title of the serviceRef.
+        optional:
+          type: boolean
+          description: whether this serviceRef is optional. If set to true, the cluster can be created without providing this serviceRef.
         engineName:
           type: string
           description: The default engine to be used in serviceRef. This field is used as the fallback engine filter and default create entry.
@@ -34450,7 +34447,6 @@ components:
           required:
             - namespace
             - cluster
-            - serviceDescriptor
           properties:
             namespace:
               type: string

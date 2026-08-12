@@ -28250,6 +28250,14 @@ components:
           description: |
             The name will be referenced in clusterCreate request. The name should also be defined in `.components`
             so that frontend can use it to get proper localized title.
+        title:
+          type: object
+          additionalProperties:
+            type: string
+          description: The localized title of the serviceRef.
+        optional:
+          type: boolean
+          description: whether this serviceRef is optional. If set to true, the cluster can be created without providing this serviceRef.
         engineName:
           type: string
           description: The default engine to be used in serviceRef. This field is used as the fallback engine filter and default create entry.
@@ -28269,7 +28277,6 @@ components:
           required:
             - namespace
             - cluster
-            - serviceDescriptor
           properties:
             namespace:
               type: string
