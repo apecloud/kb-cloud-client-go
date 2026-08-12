@@ -26280,6 +26280,14 @@ components:
           nullable: true
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
+        newServiceRefs:
+          type: array
+          description: |
+            ServiceRefs to add to the cluster. Each serviceRef must be supported
+            by the current engine mode and must not duplicate the existing
+            serviceRefs of the cluster.
+          items:
+            $ref: '#/components/schemas/serviceRef'
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
     instanceStorageItem:
       description: Instance storage information
