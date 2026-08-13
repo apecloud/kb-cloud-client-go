@@ -1085,18 +1085,12 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organizationResourceQuota
-  /admin/v1/organizations/{orgName}/ai-agent/status:
+  /admin/v1/ai-agent/status:
     get:
       tags:
         - AI Agent
       operationId: getAIAgentStatus
       summary: Get AI diagnosis agent status
-      parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           description: AI diagnosis agent runtime status
@@ -1110,18 +1104,16 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations:
+  /admin/v1/ai-agent/conversations:
     get:
       tags:
         - AI Agent
       operationId: listAIAgentConversations
       summary: List AI diagnosis conversations
+      description: |
+        Lists platform AI diagnosis conversations for the current admin user.
+        Admin global entry and admin cluster-detail entry share the same history.
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: limit
           in: query
           required: false
@@ -1133,11 +1125,6 @@ paths:
           required: false
           schema:
             type: string
-        - name: clusterName
-          in: query
-          required: false
-          schema:
-            type: string
       responses:
         '200':
           description: AI diagnosis conversations
@@ -1145,6 +1132,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/aiAgentConversationList'
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -1156,12 +1145,6 @@ paths:
         - AI Agent
       operationId: createAIAgentConversation
       summary: Create an AI diagnosis conversation
-      parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
       requestBody:
         required: true
         content:
@@ -1183,18 +1166,13 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}:
+  /admin/v1/ai-agent/conversations/{conversationId}:
     get:
       tags:
         - AI Agent
       operationId: getAIAgentConversation
       summary: Get an AI diagnosis conversation
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1221,11 +1199,6 @@ paths:
       operationId: deleteAIAgentConversation
       summary: Delete an AI diagnosis conversation
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1248,18 +1221,13 @@ paths:
           $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/messages:
+  /admin/v1/ai-agent/conversations/{conversationId}/messages:
     get:
       tags:
         - AI Agent
       operationId: listAIAgentMessages
       summary: List AI diagnosis conversation messages
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1297,11 +1265,6 @@ paths:
       operationId: sendAIAgentMessage
       summary: Send a user message and start or continue AI diagnosis
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1334,18 +1297,13 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions:
+  /admin/v1/ai-agent/conversations/{conversationId}/turn-actions:
     get:
       tags:
         - AI Agent
       operationId: listAIAgentTurnActions
       summary: List stable AI diagnosis turn process actions
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1382,18 +1340,13 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}:
+  /admin/v1/ai-agent/conversations/{conversationId}/turn-actions/{actionId}:
     get:
       tags:
         - AI Agent
       operationId: getAIAgentTurnAction
       summary: Get one stable AI diagnosis turn process action
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1419,18 +1372,13 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/browse:
+  /admin/v1/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/browse:
     get:
       tags:
         - AI Agent
       operationId: browseAIAgentTurnActionArtifact
       summary: Browse a generated AI diagnosis report artifact
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1466,18 +1414,13 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/download:
+  /admin/v1/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/download:
     get:
       tags:
         - AI Agent
       operationId: downloadAIAgentTurnActionArtifact
       summary: Download a generated AI diagnosis report artifact
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1513,18 +1456,13 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/events:
+  /admin/v1/ai-agent/conversations/{conversationId}/events:
     get:
       tags:
         - AI Agent
       operationId: subscribeAIAgentConversationEvents
       summary: Subscribe to AI diagnosis conversation events
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1550,18 +1488,13 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/approve:
+  /admin/v1/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/approve:
     post:
       tags:
         - AI Agent
       operationId: approveAIAgentToolConfirmation
       summary: Approve one AI diagnosis tool confirmation
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1595,18 +1528,13 @@ paths:
           $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/reject:
+  /admin/v1/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/reject:
     post:
       tags:
         - AI Agent
       operationId: rejectAIAgentToolConfirmation
       summary: Reject one AI diagnosis tool confirmation
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1640,18 +1568,13 @@ paths:
           $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/stop:
+  /admin/v1/ai-agent/conversations/{conversationId}/stop:
     post:
       tags:
         - AI Agent
       operationId: stopAIAgentConversation
       summary: Stop the current AI diagnosis turn
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
