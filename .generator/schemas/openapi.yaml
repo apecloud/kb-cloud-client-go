@@ -9642,6 +9642,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DmsQueryResponse'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/sqlExplain/visual:
+    post:
+      tags:
+        - dms
+        - shared
+      operationId: visualSqlExplain
+      summary: explain a SQL as a normalized visual execution plan
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of the datasource
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DmsVisualExplainRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsExecutionPlanResult'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/generateDDL:
     post:
       tags:
@@ -30885,6 +30924,344 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/DmsQueryHistory'
+    DmsVisualExplainRequest:
+      type: object
+      properties:
+        query:
+          type: string
+          description: the sql string
+        database:
+          type: string
+          description: the database for explaining the SQL
+          default: ''
+        analyze:
+          type: boolean
+          description: whether to run an actual/analyze plan when the engine supports it
+          default: false
+    DmsExecutionPlanMode:
+      type: string
+      enum:
+        - estimate
+        - analyze
+        - actual
+        - autotrace
+    DmsExecutionPlanRawFormat:
+      type: string
+      enum:
+        - json
+        - xml
+        - text
+        - table
+    DmsExecutionPlanNodeCategory:
+      type: string
+      enum:
+        - result
+        - sort
+        - join
+        - table_scan
+        - index_scan
+        - lookup
+        - materialize
+        - aggregate
+        - exchange
+        - modify
+        - other
+    DmsExecutionPlanNodeCost:
+      type: object
+      properties:
+        startup:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        total:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        self:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        percent:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+    DmsExecutionPlanNodeRows:
+      type: object
+      properties:
+        estimated:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        actual:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        actualPerLoop:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        removedByFilter:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        mismatchRatio:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+    DmsExecutionPlanNodeTiming:
+      type: object
+      properties:
+        startupMs:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        totalMs:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        selfMs:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        loops:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+    DmsExecutionPlanNodeConditions:
+      type: object
+      properties:
+        filter:
+          type: string
+          nullable: true
+          x-omitempty: true
+        indexCond:
+          type: string
+          nullable: true
+          x-omitempty: true
+        joinCond:
+          type: string
+          nullable: true
+          x-omitempty: true
+        hashCond:
+          type: string
+          nullable: true
+          x-omitempty: true
+        sortKey:
+          type: array
+          items:
+            type: string
+    DmsExecutionPlanNode:
+      type: object
+      properties:
+        id:
+          type: string
+        parentIds:
+          type: array
+          items:
+            type: string
+        childIds:
+          type: array
+          items:
+            type: string
+        order:
+          type: integer
+          format: int64
+          nullable: true
+          x-omitempty: true
+        category:
+          $ref: '#/components/schemas/DmsExecutionPlanNodeCategory'
+        nodeType:
+          type: string
+        label:
+          type: string
+        relationName:
+          type: string
+          nullable: true
+          x-omitempty: true
+        schemaName:
+          type: string
+          nullable: true
+          x-omitempty: true
+        alias:
+          type: string
+          nullable: true
+          x-omitempty: true
+        indexName:
+          type: string
+          nullable: true
+          x-omitempty: true
+        cost:
+          $ref: '#/components/schemas/DmsExecutionPlanNodeCost'
+          nullable: true
+          x-omitempty: true
+        rows:
+          $ref: '#/components/schemas/DmsExecutionPlanNodeRows'
+          nullable: true
+          x-omitempty: true
+        timing:
+          $ref: '#/components/schemas/DmsExecutionPlanNodeTiming'
+          nullable: true
+          x-omitempty: true
+        conditions:
+          $ref: '#/components/schemas/DmsExecutionPlanNodeConditions'
+          nullable: true
+          x-omitempty: true
+        details:
+          type: object
+          additionalProperties: true
+          x-omitempty: true
+    DmsExecutionPlanEdgeRows:
+      type: object
+      properties:
+        estimated:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        actual:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+    DmsExecutionPlanEdge:
+      type: object
+      properties:
+        id:
+          type: string
+        source:
+          type: string
+        target:
+          type: string
+        rows:
+          $ref: '#/components/schemas/DmsExecutionPlanEdgeRows'
+          nullable: true
+          x-omitempty: true
+        widthWeight:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        label:
+          type: string
+          nullable: true
+          x-omitempty: true
+    DmsExecutionPlanSummary:
+      type: object
+      properties:
+        totalCost:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        totalActualTimeMs:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        planRows:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        actualRows:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        nodeCount:
+          type: integer
+          format: int64
+        maxCostNodeId:
+          type: string
+          nullable: true
+          x-omitempty: true
+        maxRowsNodeId:
+          type: string
+          nullable: true
+          x-omitempty: true
+        maxTimeNodeId:
+          type: string
+          nullable: true
+          x-omitempty: true
+    DmsExecutionPlanWarningSeverity:
+      type: string
+      enum:
+        - info
+        - warning
+        - critical
+    DmsExecutionPlanWarning:
+      type: object
+      properties:
+        code:
+          type: string
+        severity:
+          $ref: '#/components/schemas/DmsExecutionPlanWarningSeverity'
+        nodeId:
+          type: string
+          nullable: true
+          x-omitempty: true
+        message:
+          type: string
+    DmsExecutionPlanResult:
+      type: object
+      properties:
+        originSQL:
+          type: string
+        explainSQL:
+          type: string
+          nullable: true
+          x-omitempty: true
+        engineType:
+          type: string
+        mode:
+          $ref: '#/components/schemas/DmsExecutionPlanMode'
+        hasActualStats:
+          type: boolean
+          x-omitempty: false
+        rawFormat:
+          $ref: '#/components/schemas/DmsExecutionPlanRawFormat'
+        rawPlan:
+          type: object
+          description: Engine-native raw plan payload exposed for fallback display. SDKs model it as a free-form JSON object.
+          additionalProperties: true
+          x-omitempty: true
+        rootNodeIds:
+          type: array
+          items:
+            type: string
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DmsExecutionPlanNode'
+        edges:
+          type: array
+          items:
+            $ref: '#/components/schemas/DmsExecutionPlanEdge'
+        summary:
+          $ref: '#/components/schemas/DmsExecutionPlanSummary'
+          nullable: true
+          x-omitempty: true
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/DmsExecutionPlanWarning'
+        fallbackTable:
+          $ref: '#/components/schemas/DmsQueryResponse'
+          nullable: true
+          x-omitempty: true
     DmsGenerateDdlOperationType:
       type: string
       description: operation type

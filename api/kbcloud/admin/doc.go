@@ -305,6 +305,7 @@
 //   - [dmsApi.tenantParameterHistory]
 //   - [dmsApi.testDataSourceV2]
 //   - [dmsApi.updateDataSourceV2]
+//   - [dmsApi.visualSqlExplain]
 //   - [elasticsearchApi.changeElasticsearchSecurityUserPassword]
 //   - [elasticsearchApi.deleteElasticsearchSecurityRole]
 //   - [elasticsearchApi.deleteElasticsearchSecurityRoleMapping]
