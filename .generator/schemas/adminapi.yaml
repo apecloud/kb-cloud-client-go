@@ -34988,6 +34988,14 @@ components:
       enum:
         - '0.9'
         - '1.0'
+    modeReadonlyEndpoint:
+      type: object
+      required:
+        - role
+      properties:
+        role:
+          type: string
+          description: the component role selected by a readonly endpoint
     modeComponent:
       type: object
       required:
@@ -35006,6 +35014,8 @@ components:
           description: |
             the name of the serviceRef defined in mode's serviceRefs.
             If set, it means a serviceRef can be used to replace this component.
+        readonlyEndpoint:
+          $ref: '#/components/schemas/modeReadonlyEndpoint'
     serviceDescriptorAddressStyle:
       type: string
       description: |
@@ -35715,9 +35725,6 @@ components:
         supportsSystemUse:
           type: boolean
           description: whether the endpoint supports system use, such as health check, dms, databases & accounts management etc.
-        supportsReadonly:
-          type: boolean
-          description: whether the engine supports readonly endpoint
         servicePattern:
           $ref: '#/components/schemas/engineOptionsServicePattern'
         serviceNameRegex:
