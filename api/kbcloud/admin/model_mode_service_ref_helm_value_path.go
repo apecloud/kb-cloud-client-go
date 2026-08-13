@@ -27,7 +27,7 @@ type ModeServiceRefHelmValuePath struct {
 	// see serviceSelectors
 	CredentialName *string `json:"credentialName,omitempty"`
 	// the name of the referenced serviceDescriptor
-	ServiceDescriptor string `json:"serviceDescriptor"`
+	ServiceDescriptor *string `json:"serviceDescriptor,omitempty"`
 	// hints for addon to determine if we are using an integrated component or a serviceRef. Will be set to `serviceRef` or `component`.
 	// This field is required when a serviceRef can be replaced by a component.
 	//
@@ -41,11 +41,10 @@ type ModeServiceRefHelmValuePath struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewModeServiceRefHelmValuePath(namespace string, cluster string, serviceDescriptor string) *ModeServiceRefHelmValuePath {
+func NewModeServiceRefHelmValuePath(namespace string, cluster string) *ModeServiceRefHelmValuePath {
 	this := ModeServiceRefHelmValuePath{}
 	this.Namespace = namespace
 	this.Cluster = cluster
-	this.ServiceDescriptor = serviceDescriptor
 	return &this
 }
 
@@ -243,27 +242,32 @@ func (o *ModeServiceRefHelmValuePath) SetCredentialName(v string) {
 	o.CredentialName = &v
 }
 
-// GetServiceDescriptor returns the ServiceDescriptor field value.
+// GetServiceDescriptor returns the ServiceDescriptor field value if set, zero value otherwise.
 func (o *ModeServiceRefHelmValuePath) GetServiceDescriptor() string {
-	if o == nil {
+	if o == nil || o.ServiceDescriptor == nil {
 		var ret string
 		return ret
 	}
-	return o.ServiceDescriptor
+	return *o.ServiceDescriptor
 }
 
-// GetServiceDescriptorOk returns a tuple with the ServiceDescriptor field value
+// GetServiceDescriptorOk returns a tuple with the ServiceDescriptor field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ModeServiceRefHelmValuePath) GetServiceDescriptorOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.ServiceDescriptor == nil {
 		return nil, false
 	}
-	return &o.ServiceDescriptor, true
+	return o.ServiceDescriptor, true
 }
 
-// SetServiceDescriptor sets field value.
+// HasServiceDescriptor returns a boolean if a field has been set.
+func (o *ModeServiceRefHelmValuePath) HasServiceDescriptor() bool {
+	return o != nil && o.ServiceDescriptor != nil
+}
+
+// SetServiceDescriptor gets a reference to the given string and assigns it to the ServiceDescriptor field.
 func (o *ModeServiceRefHelmValuePath) SetServiceDescriptor(v string) {
-	o.ServiceDescriptor = v
+	o.ServiceDescriptor = &v
 }
 
 // GetMode returns the Mode field value if set, zero value otherwise.
@@ -317,7 +321,9 @@ func (o ModeServiceRefHelmValuePath) MarshalJSON() ([]byte, error) {
 	if o.CredentialName != nil {
 		toSerialize["credentialName"] = o.CredentialName
 	}
-	toSerialize["serviceDescriptor"] = o.ServiceDescriptor
+	if o.ServiceDescriptor != nil {
+		toSerialize["serviceDescriptor"] = o.ServiceDescriptor
+	}
 	if o.Mode != nil {
 		toSerialize["mode"] = o.Mode
 	}
@@ -338,7 +344,7 @@ func (o *ModeServiceRefHelmValuePath) UnmarshalJSON(bytes []byte) (err error) {
 		Port                *string `json:"port,omitempty"`
 		CredentialComponent *string `json:"credentialComponent,omitempty"`
 		CredentialName      *string `json:"credentialName,omitempty"`
-		ServiceDescriptor   *string `json:"serviceDescriptor"`
+		ServiceDescriptor   *string `json:"serviceDescriptor,omitempty"`
 		Mode                *string `json:"mode,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -349,9 +355,6 @@ func (o *ModeServiceRefHelmValuePath) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.Cluster == nil {
 		return fmt.Errorf("required field cluster missing")
-	}
-	if all.ServiceDescriptor == nil {
-		return fmt.Errorf("required field serviceDescriptor missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -366,7 +369,7 @@ func (o *ModeServiceRefHelmValuePath) UnmarshalJSON(bytes []byte) (err error) {
 	o.Port = all.Port
 	o.CredentialComponent = all.CredentialComponent
 	o.CredentialName = all.CredentialName
-	o.ServiceDescriptor = *all.ServiceDescriptor
+	o.ServiceDescriptor = all.ServiceDescriptor
 	o.Mode = all.Mode
 
 	if len(additionalProperties) > 0 {

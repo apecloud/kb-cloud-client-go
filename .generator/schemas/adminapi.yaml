@@ -73,6 +73,8 @@ tags:
     description: Chat With AI Agent APIs
   - name: diagnostics
     description: Diagnostics APIs
+  - name: disasterRecovery
+    description: Cluster Disaster Recovery APIs
 paths:
   /admin/v1/user:
     get:
@@ -1083,18 +1085,12 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organizationResourceQuota
-  /admin/v1/organizations/{orgName}/ai-agent/status:
+  /admin/v1/ai-agent/status:
     get:
       tags:
         - AI Agent
       operationId: getAIAgentStatus
       summary: Get AI diagnosis agent status
-      parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           description: AI diagnosis agent runtime status
@@ -1108,18 +1104,16 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations:
+  /admin/v1/ai-agent/conversations:
     get:
       tags:
         - AI Agent
       operationId: listAIAgentConversations
       summary: List AI diagnosis conversations
+      description: |
+        Lists platform AI diagnosis conversations for the current admin user.
+        Admin global entry and admin cluster-detail entry share the same history.
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: limit
           in: query
           required: false
@@ -1131,11 +1125,6 @@ paths:
           required: false
           schema:
             type: string
-        - name: clusterName
-          in: query
-          required: false
-          schema:
-            type: string
       responses:
         '200':
           description: AI diagnosis conversations
@@ -1143,6 +1132,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/aiAgentConversationList'
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -1154,12 +1145,6 @@ paths:
         - AI Agent
       operationId: createAIAgentConversation
       summary: Create an AI diagnosis conversation
-      parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
       requestBody:
         required: true
         content:
@@ -1181,18 +1166,13 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}:
+  /admin/v1/ai-agent/conversations/{conversationId}:
     get:
       tags:
         - AI Agent
       operationId: getAIAgentConversation
       summary: Get an AI diagnosis conversation
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1219,11 +1199,6 @@ paths:
       operationId: deleteAIAgentConversation
       summary: Delete an AI diagnosis conversation
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1246,18 +1221,13 @@ paths:
           $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/messages:
+  /admin/v1/ai-agent/conversations/{conversationId}/messages:
     get:
       tags:
         - AI Agent
       operationId: listAIAgentMessages
       summary: List AI diagnosis conversation messages
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1295,11 +1265,6 @@ paths:
       operationId: sendAIAgentMessage
       summary: Send a user message and start or continue AI diagnosis
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1332,18 +1297,13 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions:
+  /admin/v1/ai-agent/conversations/{conversationId}/turn-actions:
     get:
       tags:
         - AI Agent
       operationId: listAIAgentTurnActions
       summary: List stable AI diagnosis turn process actions
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1380,18 +1340,13 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}:
+  /admin/v1/ai-agent/conversations/{conversationId}/turn-actions/{actionId}:
     get:
       tags:
         - AI Agent
       operationId: getAIAgentTurnAction
       summary: Get one stable AI diagnosis turn process action
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1417,18 +1372,13 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/browse:
+  /admin/v1/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/browse:
     get:
       tags:
         - AI Agent
       operationId: browseAIAgentTurnActionArtifact
       summary: Browse a generated AI diagnosis report artifact
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1464,18 +1414,13 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/download:
+  /admin/v1/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/download:
     get:
       tags:
         - AI Agent
       operationId: downloadAIAgentTurnActionArtifact
       summary: Download a generated AI diagnosis report artifact
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1511,18 +1456,13 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/events:
+  /admin/v1/ai-agent/conversations/{conversationId}/events:
     get:
       tags:
         - AI Agent
       operationId: subscribeAIAgentConversationEvents
       summary: Subscribe to AI diagnosis conversation events
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1548,18 +1488,13 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/approve:
+  /admin/v1/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/approve:
     post:
       tags:
         - AI Agent
       operationId: approveAIAgentToolConfirmation
       summary: Approve one AI diagnosis tool confirmation
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1593,18 +1528,13 @@ paths:
           $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/reject:
+  /admin/v1/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/reject:
     post:
       tags:
         - AI Agent
       operationId: rejectAIAgentToolConfirmation
       summary: Reject one AI diagnosis tool confirmation
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1638,18 +1568,13 @@ paths:
           $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/stop:
+  /admin/v1/ai-agent/conversations/{conversationId}/stop:
     post:
       tags:
         - AI Agent
       operationId: stopAIAgentConversation
       summary: Stop the current AI diagnosis turn
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -3778,6 +3703,43 @@ paths:
         - cluster
         - shared
       x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/disasterRecovery:
+    delete:
+      operationId: deleteDisasterRecovery
+      summary: Delete a disaster recovery instance
+      description: Delete a specific disaster recovery instance
+      parameters:
+        - description: name of the org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the disaster recovery logical instance
+          in: query
+          name: logicalInstanceID
+          schema:
+            type: string
+        - description: The ID of the disaster recovery cluster
+          in: query
+          name: clusterID
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/disasterRecoveryTask'
+          description: Disaster recovery instance async job task information.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - disasterRecovery
   /admin/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery:
     get:
       operationId: listDisasterRecovery
@@ -3850,6 +3812,112 @@ paths:
       tags:
         - disasterRecovery
       x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/disasterRecovery/{clusterID}/promote:
+    post:
+      operationId: promoteDisasterRecovery
+      summary: Promote a disaster recovery instance to the main instance
+      description: Promote the disaster recovery instance to the primary database instance.
+      parameters:
+        - description: The ID of the disaster recovery instance
+          in: path
+          name: clusterID
+          required: true
+          schema:
+            type: string
+        - description: name of the org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/disasterRecoveryPromote'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/disasterRecoveryTask'
+          description: Disaster recovery instance async job task information.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - disasterRecovery
+      x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/disasterRecovery/{clusterID}/switchHistory:
+    get:
+      operationId: getDisasterRecoveryHistory
+      summary: Get switch history of a disaster recovery instance
+      description: Retrieve the history of failover and failback operations for a specific disaster recovery instance.
+      parameters:
+        - description: The ID of the disaster recovery instance
+          in: path
+          name: clusterID
+          required: true
+          schema:
+            type: string
+        - description: name of the org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/disasterRecoveryHistory'
+          description: Switch history retrieved successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - disasterRecovery
+  /admin/v1/organizations/{orgName}/disasterRecovery/{clusterID}/status:
+    get:
+      operationId: getDisasterRecoveryStatus
+      summary: Retrieve Disaster Recovery Instance Status
+      description: Get detailed information about the status of a specific disaster recovery instance, including delay and current replication point.
+      parameters:
+        - description: Unique identifier of the disaster recovery instance
+          in: path
+          name: clusterID
+          required: true
+          schema:
+            type: string
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/disasterRecoveryStatusResponse'
+          description: Status query successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - disasterRecovery
   /admin/v1/eventfilter/{filterType}:
     get:
       description: Query available filters for event listing
@@ -21797,6 +21865,130 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/kingbase/sessions:
+    get:
+      tags:
+        - diagnostics
+      summary: List Kingbase session diagnostics
+      operationId: listDiagnosticsKingbaseSessions
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of sessions to return. Defaults to 200.
+          required: false
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 200
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/kingbaseSessionList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/kingbase/sessions/{pid}/lockAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Kingbase session lock analysis
+      description: Returns the selected session and its direct lock rows from the current snapshot.
+      operationId: getDiagnosticsKingbaseSessionLockAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/kingbaseLockAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/kingbase/sessions/{pid}:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Kingbase session diagnostics
+      operationId: getDiagnosticsKingbaseSession
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/kingbaseSessionDetail'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       description: list accounts in mongodb
@@ -25287,6 +25479,25 @@ components:
           type: string
           nullable: true
           description: the display name of parent cluster
+        dependencyType:
+          title: DependencyType
+          type: string
+          nullable: true
+          description: |
+            the dependency relationship between the cluster and the refClusterName
+            query parameter. `Dependency` means the cluster is referenced by the
+            refClusterName cluster (the refClusterName depends on it); `Dependent`
+            means the cluster references the refClusterName cluster (it depends on
+            the refClusterName). Only set when list clusters with refClusterName.
+        dependencyLabel:
+          title: DependencyLabel
+          type: object
+          additionalProperties:
+            type: string
+          description: |
+            the localized title of the serviceRef through which the refClusterName
+            cluster depends on the returned cluster. Only set for clusters with
+            dependencyType `Dependency`.
         clusterType:
           $ref: '#/components/schemas/clusterType'
         delay:
@@ -26071,6 +26282,14 @@ components:
           nullable: true
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
+        newServiceRefs:
+          type: array
+          description: |
+            ServiceRefs to add to the cluster. Each serviceRef must be supported
+            by the current engine mode and must not duplicate the existing
+            serviceRefs of the cluster.
+          items:
+            $ref: '#/components/schemas/serviceRef'
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
     instanceStorageItem:
       description: Instance storage information
@@ -27014,6 +27233,24 @@ components:
       required:
         - taskId
       type: object
+    disasterRecoveryTask:
+      description: Task information of disasterRecovery job
+      properties:
+        logicalInstanceID:
+          description: Logical instance ID
+          type: string
+          nullable: true
+        taskId:
+          description: Task ID
+          type: string
+          nullable: true
+        clusterTaskId:
+          description: Cluster task ID
+          type: string
+          nullable: true
+      required:
+        - taskId
+      type: object
     taskSummary:
       type: object
       properties:
@@ -27061,23 +27298,156 @@ components:
       required:
         - cluster
       type: object
-    disasterRecoveryTask:
-      description: Task information of disasterRecovery job
+    disasterRecoveryPromote:
+      description: the Promote object for disasterRecovery instance
       properties:
-        logicalInstanceID:
-          description: Logical instance ID
+        mode:
+          description: the mode of cluster after promotion. default is the primary cluster's mode
           type: string
           nullable: true
-        taskId:
-          description: Task ID
+        reason:
+          description: the reason for promoting
+          type: string
+      type: object
+    disasterRecoveryEventType:
+      description: 'the event type of disasterRecovery history, support values: [CreateInstance, DeleteInstance, Promote]'
+      enum:
+        - CreateInstance
+        - DeleteInstance
+        - Promote
+      type: string
+      nullable: true
+    disasterRecoveryStatus:
+      default: Pending
+      description: 'the status of promote event, support values: [Pending, Succeed, Failed, Running, Unknown]'
+      enum:
+        - Pending
+        - Succeed
+        - Failed
+        - Running
+        - Unknown
+      type: string
+      nullable: true
+    disasterRecoveryHistoryItem:
+      description: DisasterRecovery history detail for Cluster
+      properties:
+        taskID:
+          description: the ID of disaster recovery task in TaskFlow
           type: string
           nullable: true
-        clusterTaskId:
-          description: Cluster task ID
+        parentClusterID:
+          description: the ID of parent cluster
           type: string
           nullable: true
+        parentClusterName:
+          description: the Name of parent cluster
+          type: string
+          nullable: true
+        parentEnvName:
+          description: parent env name
+          type: string
+          nullable: true
+        clusterID:
+          description: the ID of promote cluster
+          type: string
+          nullable: true
+        clusterName:
+          description: the Name of promote cluster
+          type: string
+          nullable: true
+        envName:
+          description: env name
+          type: string
+          nullable: true
+        eventType:
+          $ref: '#/components/schemas/disasterRecoveryEventType'
+        reason:
+          description: the reason of promote
+          type: string
+          nullable: true
+        operator:
+          description: the operator name
+          type: string
+        operatorId:
+          description: the user ID of the operator
+          type: string
+        createdAt:
+          description: the create time of promote event
+          type: string
+          format: date-time
+        updateAt:
+          description: the update time of promote event
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/disasterRecoveryStatus'
+      type: object
+    disasterRecoveryHistory:
+      description: DisasterRecovery history for Cluster
+      properties:
+        items:
+          description: Items is the list of DisasterRecovery logs
+          items:
+            $ref: '#/components/schemas/disasterRecoveryHistoryItem'
+          type: array
       required:
-        - taskId
+        - items
+      type: object
+    disasterRecoveryStatusResponse:
+      description: Status of the Disaster Recovery instance
+      properties:
+        clusterId:
+          title: Cluster ID
+          type: string
+          description: Unique identifier for the cluster
+        clusterName:
+          title: Cluster Name
+          type: string
+          nullable: true
+          description: Name of the cluster
+        displayName:
+          title: Display Name
+          type: string
+          nullable: true
+          description: User-friendly name of the cluster
+        status:
+          title: Status
+          type: string
+          nullable: true
+          description: Current operational status of the cluster
+        parentId:
+          title: Parent Cluster ID
+          type: string
+          description: ID of the parent cluster, if applicable; can be empty if there is no parent relationship
+        parentName:
+          title: Parent Cluster Name
+          type: string
+          nullable: true
+          description: Name of the parent cluster
+        parentDisplayName:
+          title: Parent Cluster Display Name
+          type: string
+          nullable: true
+          description: User-friendly name of the parent cluster
+        parentStatus:
+          title: Parent Cluster Status
+          type: string
+          nullable: true
+          description: Current operational status of the parent cluster
+        delay:
+          title: Delay
+          type: number
+          format: double
+          nullable: true
+          description: Delay time in seconds
+        currentReplicationPoint:
+          title: Current Replication Point
+          type: string
+          nullable: true
+          description: Current replication point for the disaster recovery instance
+      required:
+        - clusterId
+        - parentId
       type: object
     eventFilterType:
       description: Console do not support orgName.
@@ -34193,6 +34563,14 @@ components:
           description: |
             The name will be referenced in clusterCreate request. The name should also be defined in `.components`
             so that frontend can use it to get proper localized title.
+        title:
+          type: object
+          additionalProperties:
+            type: string
+          description: The localized title of the serviceRef.
+        optional:
+          type: boolean
+          description: whether this serviceRef is optional. If set to true, the cluster can be created without providing this serviceRef.
         engineName:
           type: string
           description: The default engine to be used in serviceRef. This field is used as the fallback engine filter and default create entry.
@@ -34212,7 +34590,6 @@ components:
           required:
             - namespace
             - cluster
-            - serviceDescriptor
           properties:
             namespace:
               type: string
@@ -41725,6 +42102,186 @@ components:
         autoCommit:
           type: string
           description: Auto-commit status.
+    kingbaseSession:
+      type: object
+      required:
+        - pid
+        - state
+        - queryDigest
+        - querySummary
+      properties:
+        pid:
+          type: integer
+          format: int64
+        user:
+          type: string
+        database:
+          type: string
+        applicationName:
+          type: string
+        clientAddr:
+          type: string
+        clientPort:
+          type: integer
+          format: int32
+        state:
+          type: string
+        waitEventType:
+          type: string
+        waitEvent:
+          type: string
+        backendStart:
+          type: string
+        queryStart:
+          type: string
+        xactStart:
+          type: string
+        durationSeconds:
+          type: integer
+          format: int64
+          minimum: 0
+        xactDurationSeconds:
+          type: integer
+          format: int64
+          minimum: 0
+        queryDigest:
+          type: string
+        querySummary:
+          type: string
+        backendType:
+          type: string
+    kingbaseDiagnosticSourceStatus:
+      type: string
+      enum:
+        - success
+        - partial
+        - failed
+        - skipped
+        - noData
+    kingbaseDiagnosticSource:
+      type: object
+      required:
+        - name
+        - status
+        - collectedAt
+      properties:
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/kingbaseDiagnosticSourceStatus'
+        collectedAt:
+          type: string
+        message:
+          type: string
+    kingbaseSessionList:
+      type: object
+      required:
+        - items
+        - limit
+        - source
+        - warnings
+        - collectedAt
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/kingbaseSession'
+        limit:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 200
+        source:
+          $ref: '#/components/schemas/kingbaseDiagnosticSource'
+        warnings:
+          type: array
+          items:
+            type: string
+        collectedAt:
+          type: string
+    kingbaseLockRow:
+      type: object
+      required:
+        - pid
+        - lockType
+        - mode
+        - granted
+      properties:
+        pid:
+          type: integer
+          format: int64
+        lockType:
+          type: string
+        mode:
+          type: string
+        granted:
+          type: boolean
+        relationOid:
+          type: string
+        relationName:
+          type: string
+        databaseName:
+          type: string
+        transactionID:
+          type: string
+        virtualTransaction:
+          type: string
+        virtualXID:
+          type: string
+        tuple:
+          type: string
+        page:
+          type: string
+        classID:
+          type: string
+        objID:
+          type: string
+        objSubID:
+          type: string
+    kingbaseLockAnalysis:
+      type: object
+      required:
+        - selectedSession
+        - lockRows
+        - cannotProve
+        - warnings
+        - source
+        - capturedAt
+      properties:
+        selectedSession:
+          $ref: '#/components/schemas/kingbaseSession'
+        lockRows:
+          type: array
+          items:
+            $ref: '#/components/schemas/kingbaseLockRow'
+        cannotProve:
+          type: boolean
+        warnings:
+          type: array
+          items:
+            type: string
+        source:
+          $ref: '#/components/schemas/kingbaseDiagnosticSource'
+        capturedAt:
+          type: string
+    kingbaseSessionDetail:
+      type: object
+      required:
+        - session
+        - source
+        - warnings
+        - collectedAt
+      properties:
+        session:
+          $ref: '#/components/schemas/kingbaseSession'
+        source:
+          $ref: '#/components/schemas/kingbaseDiagnosticSource'
+        warnings:
+          type: array
+          items:
+            type: string
+        collectedAt:
+          type: string
     MilvusRoleGrant:
       type: object
       description: Native Milvus role privilege grant.
@@ -43217,3 +43774,6 @@ x-tagGroups:
   - name: import
     tags:
       - import
+  - name: disasterRecovery
+    tags:
+      - disasterRecovery
