@@ -25400,6 +25400,25 @@ components:
           type: string
           nullable: true
           description: the display name of parent cluster
+        dependencyType:
+          title: DependencyType
+          type: string
+          nullable: true
+          description: |
+            the dependency relationship between the cluster and the refClusterName
+            query parameter. `Dependency` means the cluster is referenced by the
+            refClusterName cluster (the refClusterName depends on it); `Dependent`
+            means the cluster references the refClusterName cluster (it depends on
+            the refClusterName). Only set when list clusters with refClusterName.
+        dependencyLabel:
+          title: DependencyLabel
+          type: object
+          additionalProperties:
+            type: string
+          description: |
+            the localized title of the serviceRef through which the refClusterName
+            cluster depends on the returned cluster. Only set for clusters with
+            dependencyType `Dependency`.
         clusterType:
           $ref: '#/components/schemas/clusterType'
         delay:
@@ -26184,6 +26203,14 @@ components:
           nullable: true
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
+        newServiceRefs:
+          type: array
+          description: |
+            ServiceRefs to add to the cluster. Each serviceRef must be supported
+            by the current engine mode and must not duplicate the existing
+            serviceRefs of the cluster.
+          items:
+            $ref: '#/components/schemas/serviceRef'
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
     instanceStorageItem:
       description: Instance storage information

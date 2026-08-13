@@ -41,6 +41,18 @@ type ClusterListItem struct {
 	ParentName common.NullableString `json:"parentName,omitempty"`
 	// the display name of parent cluster
 	ParentDisplayName common.NullableString `json:"parentDisplayName,omitempty"`
+	// the dependency relationship between the cluster and the refClusterName
+	// query parameter. `Dependency` means the cluster is referenced by the
+	// refClusterName cluster (the refClusterName depends on it); `Dependent`
+	// means the cluster references the refClusterName cluster (it depends on
+	// the refClusterName). Only set when list clusters with refClusterName.
+	//
+	DependencyType common.NullableString `json:"dependencyType,omitempty"`
+	// the localized title of the serviceRef through which the refClusterName
+	// cluster depends on the returned cluster. Only set for clusters with
+	// dependencyType `Dependency`.
+	//
+	DependencyLabel map[string]string `json:"dependencyLabel,omitempty"`
 	// Describes the type of cluster
 	ClusterType NullableClusterType    `json:"clusterType,omitempty"`
 	Delay       common.NullableFloat64 `json:"delay,omitempty"`
@@ -491,6 +503,73 @@ func (o *ClusterListItem) UnsetParentDisplayName() {
 	o.ParentDisplayName.Unset()
 }
 
+// GetDependencyType returns the DependencyType field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ClusterListItem) GetDependencyType() string {
+	if o == nil || o.DependencyType.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.DependencyType.Get()
+}
+
+// GetDependencyTypeOk returns a tuple with the DependencyType field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ClusterListItem) GetDependencyTypeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.DependencyType.Get(), o.DependencyType.IsSet()
+}
+
+// HasDependencyType returns a boolean if a field has been set.
+func (o *ClusterListItem) HasDependencyType() bool {
+	return o != nil && o.DependencyType.IsSet()
+}
+
+// SetDependencyType gets a reference to the given common.NullableString and assigns it to the DependencyType field.
+func (o *ClusterListItem) SetDependencyType(v string) {
+	o.DependencyType.Set(&v)
+}
+
+// SetDependencyTypeNil sets the value for DependencyType to be an explicit nil.
+func (o *ClusterListItem) SetDependencyTypeNil() {
+	o.DependencyType.Set(nil)
+}
+
+// UnsetDependencyType ensures that no value is present for DependencyType, not even an explicit nil.
+func (o *ClusterListItem) UnsetDependencyType() {
+	o.DependencyType.Unset()
+}
+
+// GetDependencyLabel returns the DependencyLabel field value if set, zero value otherwise.
+func (o *ClusterListItem) GetDependencyLabel() map[string]string {
+	if o == nil || o.DependencyLabel == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.DependencyLabel
+}
+
+// GetDependencyLabelOk returns a tuple with the DependencyLabel field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterListItem) GetDependencyLabelOk() (*map[string]string, bool) {
+	if o == nil || o.DependencyLabel == nil {
+		return nil, false
+	}
+	return &o.DependencyLabel, true
+}
+
+// HasDependencyLabel returns a boolean if a field has been set.
+func (o *ClusterListItem) HasDependencyLabel() bool {
+	return o != nil && o.DependencyLabel != nil
+}
+
+// SetDependencyLabel gets a reference to the given map[string]string and assigns it to the DependencyLabel field.
+func (o *ClusterListItem) SetDependencyLabel(v map[string]string) {
+	o.DependencyLabel = v
+}
+
 // GetClusterType returns the ClusterType field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ClusterListItem) GetClusterType() ClusterType {
 	if o == nil || o.ClusterType.Get() == nil {
@@ -813,6 +892,12 @@ func (o ClusterListItem) MarshalJSON() ([]byte, error) {
 	if o.ParentDisplayName.IsSet() {
 		toSerialize["parentDisplayName"] = o.ParentDisplayName.Get()
 	}
+	if o.DependencyType.IsSet() {
+		toSerialize["dependencyType"] = o.DependencyType.Get()
+	}
+	if o.DependencyLabel != nil {
+		toSerialize["dependencyLabel"] = o.DependencyLabel
+	}
 	if o.ClusterType.IsSet() {
 		toSerialize["clusterType"] = o.ClusterType.Get()
 	}
@@ -863,6 +948,8 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 		ParentId               common.NullableString  `json:"parentId,omitempty"`
 		ParentName             common.NullableString  `json:"parentName,omitempty"`
 		ParentDisplayName      common.NullableString  `json:"parentDisplayName,omitempty"`
+		DependencyType         common.NullableString  `json:"dependencyType,omitempty"`
+		DependencyLabel        map[string]string      `json:"dependencyLabel,omitempty"`
 		ClusterType            NullableClusterType    `json:"clusterType,omitempty"`
 		Delay                  common.NullableFloat64 `json:"delay,omitempty"`
 		Status                 *string                `json:"status"`
@@ -909,7 +996,7 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "environmentDisplayName", "id", "name", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName"})
+		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "environmentDisplayName", "id", "name", "parentId", "parentName", "parentDisplayName", "dependencyType", "dependencyLabel", "clusterType", "delay", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName"})
 	} else {
 		return err
 	}
@@ -929,6 +1016,8 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.ParentId = all.ParentId
 	o.ParentName = all.ParentName
 	o.ParentDisplayName = all.ParentDisplayName
+	o.DependencyType = all.DependencyType
+	o.DependencyLabel = all.DependencyLabel
 	if all.ClusterType.Get() != nil && !all.ClusterType.Get().IsValid() {
 		hasInvalidField = true
 	} else {
