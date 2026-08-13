@@ -3847,6 +3847,251 @@ paths:
       tags:
         - clusterLog
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/loki/pod:
+    get:
+      description: Query pod logs through the Loki compatibility API.
+      summary: Query Loki pod logs
+      operationId: queryLokiPodLogs
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/clusterName'
+        - $ref: '#/components/parameters/componentName'
+        - $ref: '#/components/parameters/instanceName'
+        - $ref: '#/components/parameters/filename'
+        - $ref: '#/components/parameters/startTime-2'
+        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sortType'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterRawLogResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLokiLog
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/loki/running:
+    get:
+      description: Query running logs through the Loki compatibility API.
+      summary: Query Loki running logs
+      operationId: queryLokiRunningLogs
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/clusterName'
+        - $ref: '#/components/parameters/componentName'
+        - $ref: '#/components/parameters/instanceName'
+        - $ref: '#/components/parameters/filename'
+        - $ref: '#/components/parameters/startTime-2'
+        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/sortType'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterRawLogResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLokiLog
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/loki/error:
+    get:
+      description: Query error logs through the Loki compatibility API.
+      summary: Query Loki error logs
+      operationId: queryLokiErrorLogs
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/clusterName'
+        - $ref: '#/components/parameters/componentName'
+        - $ref: '#/components/parameters/instanceName'
+        - $ref: '#/components/parameters/filename'
+        - $ref: '#/components/parameters/startTime-2'
+        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sortType'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterRawLogResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLokiLog
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/loki/slow:
+    get:
+      description: Query slow logs through the Loki compatibility API.
+      summary: Query Loki slow logs
+      operationId: queryLokiSlowLogs
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/clusterName'
+        - $ref: '#/components/parameters/startTime-2'
+        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/componentName'
+        - $ref: '#/components/parameters/instanceName'
+        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sortType'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterExecutionLog'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLokiLog
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/loki/audit:
+    get:
+      description: Query audit logs through the Loki compatibility API.
+      summary: Query Loki audit logs
+      operationId: queryLokiAuditLogs
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/clusterName'
+        - $ref: '#/components/parameters/startTime-2'
+        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/componentName'
+        - $ref: '#/components/parameters/instanceName'
+        - $ref: '#/components/parameters/sortType'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterExecutionLog'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLokiLog
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/loki/slow/stats:
+    get:
+      description: Query slow-log statistics through the Loki compatibility API.
+      summary: Query Loki slow-log statistics
+      operationId: getLokiSlowLogStats
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/clusterName'
+        - $ref: '#/components/parameters/startTime-2'
+        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/componentName'
+        - $ref: '#/components/parameters/instanceName'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterSlowLogStats'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLokiLog
+        - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/loki/export:
+    get:
+      description: Export logs through the Loki compatibility API.
+      summary: Export Loki logs
+      operationId: exportLokiClusterLogs
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/clusterName'
+        - in: query
+          name: logType
+          required: true
+          description: 'Log type: runninglog, errorlog, slow, auditlog'
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          description: Start time in epoch nanoseconds. If omitted, exports from the earliest available log
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: endTime
+          description: End time in epoch nanoseconds. If omitted, exports up to the latest available log
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: format
+          description: 'Export format: csv, raw, jsonl'
+          schema:
+            type: string
+            default: csv
+        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/filename'
+        - $ref: '#/components/parameters/componentName'
+        - $ref: '#/components/parameters/instanceName'
+        - in: query
+          name: maxLines
+          description: Maximum number of lines to export. Defaults to 100000 if omitted
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: File download
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLokiLog
+        - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/reconfigure:
     post:
       operationId: reconfigureCluster
@@ -20732,6 +20977,12 @@ components:
           items:
             $ref: '#/components/schemas/networkMode'
           description: Network modes of the environment
+    logBackendType:
+      type: string
+      description: Log query backend configured for this environment.
+      enum:
+        - loki
+        - victoria-logs
     environmentState:
       type: string
       description: Output only. State of the Environment resource
@@ -20794,6 +21045,8 @@ components:
           type: array
         networkConfig:
           $ref: '#/components/schemas/networkConfig'
+        logBackend:
+          $ref: '#/components/schemas/logBackendType'
         createdAt:
           description: CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC. Populated by the system. Read-only. Null for lists
           format: date-time
@@ -37638,6 +37891,62 @@ components:
         type: boolean
       required: false
       default: true
+    orgName:
+      in: path
+      name: orgName
+      required: true
+      schema:
+        type: string
+    clusterName:
+      in: path
+      name: clusterName
+      required: true
+      schema:
+        type: string
+    componentName:
+      in: query
+      name: componentName
+      schema:
+        type: string
+    instanceName:
+      in: query
+      name: instanceName
+      schema:
+        type: string
+    filename:
+      in: query
+      name: filename
+      schema:
+        type: string
+    startTime-2:
+      in: query
+      name: startTime
+      description: Start time in epoch nanoseconds.
+      required: true
+      schema:
+        type: string
+    endTime-2:
+      in: query
+      name: endTime
+      description: End time in epoch nanoseconds.
+      required: true
+      schema:
+        type: string
+    limit:
+      in: query
+      name: limit
+      schema:
+        type: string
+    sortType:
+      in: query
+      name: sortType
+      schema:
+        $ref: '#/components/schemas/sortType'
+    query:
+      in: query
+      name: query
+      schema:
+        type: string
 x-tagGroups:
   - name: User
     tags:
