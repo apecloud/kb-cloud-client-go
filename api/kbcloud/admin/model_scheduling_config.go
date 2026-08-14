@@ -16,6 +16,9 @@ type SchedulingConfig struct {
 	ClusterSchedulingPolicy *ClusterSchedulingPolicy `json:"clusterSchedulingPolicy,omitempty"`
 	// When creating a cluster, add the default tolerations from the bootstrap node to the pods
 	TolerateDefaultTaints *TolerateDefaultTaints `json:"tolerateDefaultTaints,omitempty"`
+	// Scheduler used by internal system component clusters, including MinIO, VictoriaMetrics, and Victoria Logs. The value is persisted on the environment. Defaults to the Kubernetes default scheduler regardless of whether Koordinator is enabled.
+	SystemComponentSchedulerName            *string                              `json:"systemComponentSchedulerName,omitempty"`
+	SystemComponentReservationResourceClass *KoordinatorReservationResourceClass `json:"systemComponentReservationResourceClass,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -29,6 +32,8 @@ func NewSchedulingConfig() *SchedulingConfig {
 	this := SchedulingConfig{}
 	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicySoftAntiAffinity
 	this.ClusterSchedulingPolicy = &clusterSchedulingPolicy
+	var systemComponentSchedulerName string = "default-scheduler"
+	this.SystemComponentSchedulerName = &systemComponentSchedulerName
 	return &this
 }
 
@@ -39,6 +44,8 @@ func NewSchedulingConfigWithDefaults() *SchedulingConfig {
 	this := SchedulingConfig{}
 	var clusterSchedulingPolicy ClusterSchedulingPolicy = ClusterSchedulingPolicySoftAntiAffinity
 	this.ClusterSchedulingPolicy = &clusterSchedulingPolicy
+	var systemComponentSchedulerName string = "default-scheduler"
+	this.SystemComponentSchedulerName = &systemComponentSchedulerName
 	return &this
 }
 
@@ -98,6 +105,62 @@ func (o *SchedulingConfig) SetTolerateDefaultTaints(v TolerateDefaultTaints) {
 	o.TolerateDefaultTaints = &v
 }
 
+// GetSystemComponentSchedulerName returns the SystemComponentSchedulerName field value if set, zero value otherwise.
+func (o *SchedulingConfig) GetSystemComponentSchedulerName() string {
+	if o == nil || o.SystemComponentSchedulerName == nil {
+		var ret string
+		return ret
+	}
+	return *o.SystemComponentSchedulerName
+}
+
+// GetSystemComponentSchedulerNameOk returns a tuple with the SystemComponentSchedulerName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SchedulingConfig) GetSystemComponentSchedulerNameOk() (*string, bool) {
+	if o == nil || o.SystemComponentSchedulerName == nil {
+		return nil, false
+	}
+	return o.SystemComponentSchedulerName, true
+}
+
+// HasSystemComponentSchedulerName returns a boolean if a field has been set.
+func (o *SchedulingConfig) HasSystemComponentSchedulerName() bool {
+	return o != nil && o.SystemComponentSchedulerName != nil
+}
+
+// SetSystemComponentSchedulerName gets a reference to the given string and assigns it to the SystemComponentSchedulerName field.
+func (o *SchedulingConfig) SetSystemComponentSchedulerName(v string) {
+	o.SystemComponentSchedulerName = &v
+}
+
+// GetSystemComponentReservationResourceClass returns the SystemComponentReservationResourceClass field value if set, zero value otherwise.
+func (o *SchedulingConfig) GetSystemComponentReservationResourceClass() KoordinatorReservationResourceClass {
+	if o == nil || o.SystemComponentReservationResourceClass == nil {
+		var ret KoordinatorReservationResourceClass
+		return ret
+	}
+	return *o.SystemComponentReservationResourceClass
+}
+
+// GetSystemComponentReservationResourceClassOk returns a tuple with the SystemComponentReservationResourceClass field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SchedulingConfig) GetSystemComponentReservationResourceClassOk() (*KoordinatorReservationResourceClass, bool) {
+	if o == nil || o.SystemComponentReservationResourceClass == nil {
+		return nil, false
+	}
+	return o.SystemComponentReservationResourceClass, true
+}
+
+// HasSystemComponentReservationResourceClass returns a boolean if a field has been set.
+func (o *SchedulingConfig) HasSystemComponentReservationResourceClass() bool {
+	return o != nil && o.SystemComponentReservationResourceClass != nil
+}
+
+// SetSystemComponentReservationResourceClass gets a reference to the given KoordinatorReservationResourceClass and assigns it to the SystemComponentReservationResourceClass field.
+func (o *SchedulingConfig) SetSystemComponentReservationResourceClass(v KoordinatorReservationResourceClass) {
+	o.SystemComponentReservationResourceClass = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o SchedulingConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -110,6 +173,12 @@ func (o SchedulingConfig) MarshalJSON() ([]byte, error) {
 	if o.TolerateDefaultTaints != nil {
 		toSerialize["tolerateDefaultTaints"] = o.TolerateDefaultTaints
 	}
+	if o.SystemComponentSchedulerName != nil {
+		toSerialize["systemComponentSchedulerName"] = o.SystemComponentSchedulerName
+	}
+	if o.SystemComponentReservationResourceClass != nil {
+		toSerialize["systemComponentReservationResourceClass"] = o.SystemComponentReservationResourceClass
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -120,15 +189,17 @@ func (o SchedulingConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *SchedulingConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ClusterSchedulingPolicy *ClusterSchedulingPolicy `json:"clusterSchedulingPolicy,omitempty"`
-		TolerateDefaultTaints   *TolerateDefaultTaints   `json:"tolerateDefaultTaints,omitempty"`
+		ClusterSchedulingPolicy                 *ClusterSchedulingPolicy             `json:"clusterSchedulingPolicy,omitempty"`
+		TolerateDefaultTaints                   *TolerateDefaultTaints               `json:"tolerateDefaultTaints,omitempty"`
+		SystemComponentSchedulerName            *string                              `json:"systemComponentSchedulerName,omitempty"`
+		SystemComponentReservationResourceClass *KoordinatorReservationResourceClass `json:"systemComponentReservationResourceClass,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"clusterSchedulingPolicy", "tolerateDefaultTaints"})
+		common.DeleteKeys(additionalProperties, &[]string{"clusterSchedulingPolicy", "tolerateDefaultTaints", "systemComponentSchedulerName", "systemComponentReservationResourceClass"})
 	} else {
 		return err
 	}
@@ -143,6 +214,12 @@ func (o *SchedulingConfig) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.TolerateDefaultTaints = all.TolerateDefaultTaints
+	o.SystemComponentSchedulerName = all.SystemComponentSchedulerName
+	if all.SystemComponentReservationResourceClass != nil && !all.SystemComponentReservationResourceClass.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.SystemComponentReservationResourceClass = all.SystemComponentReservationResourceClass
+	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
