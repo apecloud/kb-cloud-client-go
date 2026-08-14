@@ -73,6 +73,8 @@ tags:
     description: Chat With AI Agent APIs
   - name: diagnostics
     description: Diagnostics APIs
+  - name: disasterRecovery
+    description: Cluster Disaster Recovery APIs
 paths:
   /admin/v1/user:
     get:
@@ -1083,18 +1085,12 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organizationResourceQuota
-  /admin/v1/organizations/{orgName}/ai-agent/status:
+  /admin/v1/ai-agent/status:
     get:
       tags:
         - AI Agent
       operationId: getAIAgentStatus
       summary: Get AI diagnosis agent status
-      parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           description: AI diagnosis agent runtime status
@@ -1108,18 +1104,16 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations:
+  /admin/v1/ai-agent/conversations:
     get:
       tags:
         - AI Agent
       operationId: listAIAgentConversations
       summary: List AI diagnosis conversations
+      description: |
+        Lists platform AI diagnosis conversations for the current admin user.
+        Admin global entry and admin cluster-detail entry share the same history.
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: limit
           in: query
           required: false
@@ -1131,11 +1125,6 @@ paths:
           required: false
           schema:
             type: string
-        - name: clusterName
-          in: query
-          required: false
-          schema:
-            type: string
       responses:
         '200':
           description: AI diagnosis conversations
@@ -1143,6 +1132,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/aiAgentConversationList'
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -1154,12 +1145,6 @@ paths:
         - AI Agent
       operationId: createAIAgentConversation
       summary: Create an AI diagnosis conversation
-      parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
       requestBody:
         required: true
         content:
@@ -1181,18 +1166,13 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}:
+  /admin/v1/ai-agent/conversations/{conversationId}:
     get:
       tags:
         - AI Agent
       operationId: getAIAgentConversation
       summary: Get an AI diagnosis conversation
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1219,11 +1199,6 @@ paths:
       operationId: deleteAIAgentConversation
       summary: Delete an AI diagnosis conversation
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1246,18 +1221,13 @@ paths:
           $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/messages:
+  /admin/v1/ai-agent/conversations/{conversationId}/messages:
     get:
       tags:
         - AI Agent
       operationId: listAIAgentMessages
       summary: List AI diagnosis conversation messages
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1295,11 +1265,6 @@ paths:
       operationId: sendAIAgentMessage
       summary: Send a user message and start or continue AI diagnosis
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1332,18 +1297,13 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions:
+  /admin/v1/ai-agent/conversations/{conversationId}/turn-actions:
     get:
       tags:
         - AI Agent
       operationId: listAIAgentTurnActions
       summary: List stable AI diagnosis turn process actions
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1380,18 +1340,13 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}:
+  /admin/v1/ai-agent/conversations/{conversationId}/turn-actions/{actionId}:
     get:
       tags:
         - AI Agent
       operationId: getAIAgentTurnAction
       summary: Get one stable AI diagnosis turn process action
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1417,18 +1372,13 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/browse:
+  /admin/v1/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/browse:
     get:
       tags:
         - AI Agent
       operationId: browseAIAgentTurnActionArtifact
       summary: Browse a generated AI diagnosis report artifact
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1464,18 +1414,13 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/download:
+  /admin/v1/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/download:
     get:
       tags:
         - AI Agent
       operationId: downloadAIAgentTurnActionArtifact
       summary: Download a generated AI diagnosis report artifact
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1511,18 +1456,13 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/events:
+  /admin/v1/ai-agent/conversations/{conversationId}/events:
     get:
       tags:
         - AI Agent
       operationId: subscribeAIAgentConversationEvents
       summary: Subscribe to AI diagnosis conversation events
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1548,18 +1488,13 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/approve:
+  /admin/v1/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/approve:
     post:
       tags:
         - AI Agent
       operationId: approveAIAgentToolConfirmation
       summary: Approve one AI diagnosis tool confirmation
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1593,18 +1528,13 @@ paths:
           $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/reject:
+  /admin/v1/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/reject:
     post:
       tags:
         - AI Agent
       operationId: rejectAIAgentToolConfirmation
       summary: Reject one AI diagnosis tool confirmation
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -1638,18 +1568,13 @@ paths:
           $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/stop:
+  /admin/v1/ai-agent/conversations/{conversationId}/stop:
     post:
       tags:
         - AI Agent
       operationId: stopAIAgentConversation
       summary: Stop the current AI diagnosis turn
       parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: conversationId
           in: path
           required: true
@@ -2414,13 +2339,6 @@ paths:
           description: list clusters referenced by this cluster
           schema:
             type: string
-        - name: include
-          in: query
-          description: Optional data to include in each list item. Pass `endpoints` to compute per-cluster endpoints (which require live Kubernetes reads and are omitted by default to keep the list path fast).
-          schema:
-            type: array
-            items:
-              type: string
       responses:
         '200':
           description: A successful response.
@@ -3785,6 +3703,43 @@ paths:
         - cluster
         - shared
       x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/disasterRecovery:
+    delete:
+      operationId: deleteDisasterRecovery
+      summary: Delete a disaster recovery instance
+      description: Delete a specific disaster recovery instance
+      parameters:
+        - description: name of the org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the disaster recovery logical instance
+          in: query
+          name: logicalInstanceID
+          schema:
+            type: string
+        - description: The ID of the disaster recovery cluster
+          in: query
+          name: clusterID
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/disasterRecoveryTask'
+          description: Disaster recovery instance async job task information.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - disasterRecovery
   /admin/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery:
     get:
       operationId: listDisasterRecovery
@@ -3857,6 +3812,112 @@ paths:
       tags:
         - disasterRecovery
       x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/disasterRecovery/{clusterID}/promote:
+    post:
+      operationId: promoteDisasterRecovery
+      summary: Promote a disaster recovery instance to the main instance
+      description: Promote the disaster recovery instance to the primary database instance.
+      parameters:
+        - description: The ID of the disaster recovery instance
+          in: path
+          name: clusterID
+          required: true
+          schema:
+            type: string
+        - description: name of the org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/disasterRecoveryPromote'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/disasterRecoveryTask'
+          description: Disaster recovery instance async job task information.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - disasterRecovery
+      x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/disasterRecovery/{clusterID}/switchHistory:
+    get:
+      operationId: getDisasterRecoveryHistory
+      summary: Get switch history of a disaster recovery instance
+      description: Retrieve the history of failover and failback operations for a specific disaster recovery instance.
+      parameters:
+        - description: The ID of the disaster recovery instance
+          in: path
+          name: clusterID
+          required: true
+          schema:
+            type: string
+        - description: name of the org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/disasterRecoveryHistory'
+          description: Switch history retrieved successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - disasterRecovery
+  /admin/v1/organizations/{orgName}/disasterRecovery/{clusterID}/status:
+    get:
+      operationId: getDisasterRecoveryStatus
+      summary: Retrieve Disaster Recovery Instance Status
+      description: Get detailed information about the status of a specific disaster recovery instance, including delay and current replication point.
+      parameters:
+        - description: Unique identifier of the disaster recovery instance
+          in: path
+          name: clusterID
+          required: true
+          schema:
+            type: string
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/disasterRecoveryStatusResponse'
+          description: Status query successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - disasterRecovery
   /admin/v1/eventfilter/{filterType}:
     get:
       description: Query available filters for event listing
@@ -5282,6 +5343,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DmsQueryResponse'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/sqlExplain/visual:
+    post:
+      tags:
+        - dms
+        - shared
+      operationId: visualSqlExplain
+      summary: explain a SQL as a normalized visual execution plan
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of the datasource
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DmsVisualExplainRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsExecutionPlanResult'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/generateDDL:
     post:
       tags:
@@ -8612,6 +8712,251 @@ paths:
       tags:
         - clusterLog
         - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/loki/pod:
+    get:
+      description: Query pod logs through the Loki compatibility API.
+      summary: Query Loki pod logs
+      operationId: queryLokiPodLogs
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/clusterName'
+        - $ref: '#/components/parameters/componentName'
+        - $ref: '#/components/parameters/instanceName'
+        - $ref: '#/components/parameters/filename'
+        - $ref: '#/components/parameters/startTime-2'
+        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sortType'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterRawLogResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLokiLog
+        - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/loki/running:
+    get:
+      description: Query running logs through the Loki compatibility API.
+      summary: Query Loki running logs
+      operationId: queryLokiRunningLogs
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/clusterName'
+        - $ref: '#/components/parameters/componentName'
+        - $ref: '#/components/parameters/instanceName'
+        - $ref: '#/components/parameters/filename'
+        - $ref: '#/components/parameters/startTime-2'
+        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/sortType'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterRawLogResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLokiLog
+        - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/loki/error:
+    get:
+      description: Query error logs through the Loki compatibility API.
+      summary: Query Loki error logs
+      operationId: queryLokiErrorLogs
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/clusterName'
+        - $ref: '#/components/parameters/componentName'
+        - $ref: '#/components/parameters/instanceName'
+        - $ref: '#/components/parameters/filename'
+        - $ref: '#/components/parameters/startTime-2'
+        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sortType'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterRawLogResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLokiLog
+        - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/loki/slow:
+    get:
+      description: Query slow logs through the Loki compatibility API.
+      summary: Query Loki slow logs
+      operationId: queryLokiSlowLogs
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/clusterName'
+        - $ref: '#/components/parameters/startTime-2'
+        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/componentName'
+        - $ref: '#/components/parameters/instanceName'
+        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sortType'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterExecutionLog'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLokiLog
+        - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/loki/audit:
+    get:
+      description: Query audit logs through the Loki compatibility API.
+      summary: Query Loki audit logs
+      operationId: queryLokiAuditLogs
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/clusterName'
+        - $ref: '#/components/parameters/startTime-2'
+        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/componentName'
+        - $ref: '#/components/parameters/instanceName'
+        - $ref: '#/components/parameters/sortType'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterExecutionLog'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLokiLog
+        - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/loki/slow/stats:
+    get:
+      description: Query slow-log statistics through the Loki compatibility API.
+      summary: Query Loki slow-log statistics
+      operationId: getLokiSlowLogStats
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/clusterName'
+        - $ref: '#/components/parameters/startTime-2'
+        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/componentName'
+        - $ref: '#/components/parameters/instanceName'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterSlowLogStats'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLokiLog
+        - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/loki/export:
+    get:
+      description: Export logs through the Loki compatibility API.
+      summary: Export Loki logs
+      operationId: exportLokiClusterLogs
+      parameters:
+        - $ref: '#/components/parameters/orgName'
+        - $ref: '#/components/parameters/clusterName'
+        - in: query
+          name: logType
+          required: true
+          description: 'Log type: runninglog, errorlog, slow, auditlog'
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          description: Start time in epoch nanoseconds. If omitted, exports from the earliest available log
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: endTime
+          description: End time in epoch nanoseconds. If omitted, exports up to the latest available log
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: format
+          description: 'Export format: csv, raw, jsonl'
+          schema:
+            type: string
+            default: csv
+        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/filename'
+        - $ref: '#/components/parameters/componentName'
+        - $ref: '#/components/parameters/instanceName'
+        - in: query
+          name: maxLines
+          description: Maximum number of lines to export. Defaults to 100000 if omitted
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: File download
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLokiLog
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/reconfigure:
     post:
       operationId: reconfigureCluster
@@ -11012,6 +11357,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/stringList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/environments/{environmentName}/network/ipPools:
+    get:
+      tags:
+        - environment
+      operationId: listEnvironmentIPPools
+      summary: Discover Pod IP pools and explicit selection policy in an environment
+      parameters:
+        - description: name of the Environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ipPoolList'
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -17102,7 +17475,8 @@ paths:
         - environment
     patch:
       operationId: updateEnvironmentModule
-      summary: update environment module
+      summary: Update an environment module
+      description: Performs the requested module action. Supported quick install and upgrade actions use dryRun=true for synchronous checks without changes; dryRun=false or omitted repeats the checks and submits an asynchronous task only when all checks pass. Other module actions keep their original behavior.
       parameters:
         - name: environmentName
           in: path
@@ -17117,15 +17491,11 @@ paths:
               $ref: '#/components/schemas/environmentModuleUpdate'
       responses:
         '200':
-          description: Success
+          description: The module action succeeded. A successful dry run returns an empty object; an asynchronous action returns taskId.
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  taskId:
-                    type: string
-                    description: the task id
+                $ref: '#/components/schemas/environmentModuleActionResult'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -21041,6 +21411,47 @@ paths:
         - session
         - rdbms
         - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mysql/spaceAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get MySQL space analysis
+      description: Get a read-only MySQL 5.7, 8.0, or 8.4 compatible space snapshot and fixed backend-owned storage metrics.
+      operationId: getDiagnosticsMysqlSpaceAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: databaseName
+          in: query
+          description: Optional database name for table and index details. When omitted, the largest non-system database is selected.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mysqlSpaceAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions:
     get:
       tags:
@@ -21177,6 +21588,56 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mysql/sqlAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get MySQL SQL analysis
+      description: Get a read-only MySQL SQL fingerprint ranking from Performance Schema statement digests. The response does not expose raw SQL text, time-window aggregation, execution plans, or remediation actions.
+      operationId: getDiagnosticsMysqlSQLAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of SQL fingerprints to return. The backend applies its own upper bound.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: orderBy
+          in: query
+          description: Sort key. Allowed values are totalTime, meanTime, maxTime, and calls. Defaults to totalTime.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mysqlSQLAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/performanceTrends:
     get:
       tags:
@@ -21206,6 +21667,53 @@ paths:
         - name: step
           in: query
           description: Controlled query granularity. Allowed values are 1m, 5m, 15m, and 1h. Defaults to 1m for 1h, 5m for 6h, 15m for 24h, and 1h for 7d.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/performanceTrends'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mysql/performanceTrends:
+    get:
+      tags:
+        - diagnostics
+      summary: Get MySQL performance trends
+      description: Get read-only MySQL 5.7, 8.0, and 8.4 performance trends from backend-owned metrics and database capability checks. The response does not expose SQL, PromQL, internal endpoints, or credentials.
+      operationId: getDiagnosticsMysqlPerformanceTrends
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: range
+          in: query
+          description: Controlled query range. Allowed values are 1h, 6h, 24h, and 7d. Defaults to 1h.
+          required: false
+          schema:
+            type: string
+        - name: step
+          in: query
+          description: Controlled query granularity. Allowed values are 1m, 5m, 15m, and 1h.
           required: false
           schema:
             type: string
@@ -21562,6 +22070,130 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/kingbase/sessions:
+    get:
+      tags:
+        - diagnostics
+      summary: List Kingbase session diagnostics
+      operationId: listDiagnosticsKingbaseSessions
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of sessions to return. Defaults to 200.
+          required: false
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 200
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/kingbaseSessionList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/kingbase/sessions/{pid}/lockAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Kingbase session lock analysis
+      description: Returns the selected session and its direct lock rows from the current snapshot.
+      operationId: getDiagnosticsKingbaseSessionLockAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/kingbaseLockAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/kingbase/sessions/{pid}:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Kingbase session diagnostics
+      operationId: getDiagnosticsKingbaseSession
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/kingbaseSessionDetail'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       description: list accounts in mongodb
@@ -21680,6 +22312,284 @@ paths:
         - account
         - mongodb
         - shared
+  /admin/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts/roles:
+    get:
+      summary: List Milvus roles
+      description: List Milvus native roles and their privilege grants.
+      operationId: listMilvusRoles
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - account
+        - milvus
+        - shared
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MilvusRoleList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts/roles/{roleName}:
+    get:
+      summary: Get Milvus role
+      description: Get a Milvus native role and its privilege grants.
+      operationId: getMilvusRole
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Milvus role
+          in: path
+          name: roleName
+          required: true
+          schema:
+            type: string
+      tags:
+        - account
+        - milvus
+        - shared
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MilvusRole'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      summary: Put Milvus role
+      description: Create or update a Milvus native role and replace its privilege grants.
+      operationId: putMilvusRole
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Milvus role
+          in: path
+          name: roleName
+          required: true
+          schema:
+            type: string
+      tags:
+        - account
+        - milvus
+        - shared
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MilvusRoleRequest'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MilvusRole'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+    delete:
+      summary: Delete Milvus role
+      description: Delete a Milvus native role.
+      operationId: deleteMilvusRole
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Milvus role
+          in: path
+          name: roleName
+          required: true
+          schema:
+            type: string
+      tags:
+        - account
+        - milvus
+        - shared
+      responses:
+        '204':
+          description: A successful response.
+          content: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    patch:
+      summary: Update Milvus account password
+      description: Update a Milvus account password.
+      operationId: updateMilvusAccountPassword
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      tags:
+        - account
+        - milvus
+        - shared
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MilvusAccountPassword'
+      responses:
+        '204':
+          description: A successful response.
+          content: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+  /admin/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/roles:
+    put:
+      summary: Update Milvus account roles
+      description: Replace a Milvus account's role assignments.
+      operationId: updateMilvusAccountRoles
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      tags:
+        - account
+        - milvus
+        - shared
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MilvusAccountRoles'
+      responses:
+        '204':
+          description: A successful response.
+          content: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
   /admin/v1/data/mssql/organizations/{orgName}/clusters/{clusterName}/accounts:
     delete:
       operationId: deleteMssqlAccount
@@ -24157,6 +25067,23 @@ components:
           x-nullable: true
         scope:
           $ref: '#/components/schemas/aiAgentScope'
+    aiAgentMode:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - global
+        - cluster_diagnosis
+    aiAgentProfile:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - cloud-ai-agent
+    aiAgentContextState:
+      x-generate-alias-as-model: true
+      type: string
+      enum:
+        - global
+        - cluster_bound
     aiAgentConversationStatus:
       x-generate-alias-as-model: true
       type: string
@@ -24240,6 +25167,16 @@ components:
         entryClusterName:
           type: string
           x-nullable: true
+        agentMode:
+          $ref: '#/components/schemas/aiAgentMode'
+        agent_profile:
+          $ref: '#/components/schemas/aiAgentProfile'
+        contextState:
+          $ref: '#/components/schemas/aiAgentContextState'
+        scopeLabel:
+          type: string
+          description: Safe display label for the conversation scope. It does not expose profile paths, skills paths, credentials, or endpoints.
+          x-nullable: true
         title:
           type: string
           x-nullable: true
@@ -24279,6 +25216,13 @@ components:
         entryClusterName:
           type: string
           x-nullable: true
+        contexts:
+          type: array
+          description: |
+            Optional creation-time context. When entryClusterName is omitted, the
+            first clusterName here binds the conversation to cluster diagnosis.
+          items:
+            $ref: '#/components/schemas/aiAgentScope'
     aiAgentDeleteConversationResponse:
       type: object
       required:
@@ -24333,6 +25277,16 @@ components:
           $ref: '#/components/schemas/aiAgentTurnStatus'
         eventsUrl:
           type: string
+          x-nullable: true
+        agentMode:
+          $ref: '#/components/schemas/aiAgentMode'
+        agent_profile:
+          $ref: '#/components/schemas/aiAgentProfile'
+        contextState:
+          $ref: '#/components/schemas/aiAgentContextState'
+        scopeLabel:
+          type: string
+          description: Safe display label for the run scope. It does not expose profile paths, skills paths, credentials, or endpoints.
           x-nullable: true
     aiAgentEventType:
       x-generate-alias-as-model: true
@@ -24812,6 +25766,25 @@ components:
           type: string
           nullable: true
           description: the display name of parent cluster
+        dependencyType:
+          title: DependencyType
+          type: string
+          nullable: true
+          description: |
+            the dependency relationship between the cluster and the refClusterName
+            query parameter. `Dependency` means the cluster is referenced by the
+            refClusterName cluster (the refClusterName depends on it); `Dependent`
+            means the cluster references the refClusterName cluster (it depends on
+            the refClusterName). Only set when list clusters with refClusterName.
+        dependencyLabel:
+          title: DependencyLabel
+          type: object
+          additionalProperties:
+            type: string
+          description: |
+            the localized title of the serviceRef through which the refClusterName
+            cluster depends on the returned cluster. Only set for clusters with
+            dependencyType `Dependency`.
         clusterType:
           $ref: '#/components/schemas/clusterType'
         delay:
@@ -24853,7 +25826,7 @@ components:
             $ref: '#/components/schemas/tag'
           type: array
         endpoints:
-          description: Runtime endpoints of the cluster
+          description: Cached user-visible endpoints of the cluster
           items:
             $ref: '#/components/schemas/endpoint'
           type: array
@@ -24982,6 +25955,35 @@ components:
           $ref: '#/components/schemas/ioQuantity'
         ioReserves:
           $ref: '#/components/schemas/ioQuantity'
+    ipPoolProvider:
+      type: string
+      description: KBE provider used for Pod IP pool discovery and explicit selection.
+      enum:
+        - spiderpool
+    ipPoolSelection:
+      type: object
+      description: Provider-qualified Pod IP pool selection for component pod IP allocation.
+      required:
+        - provider
+      properties:
+        provider:
+          $ref: '#/components/schemas/ipPoolProvider'
+        ipv4Pools:
+          type: array
+          items:
+            type: string
+          description: IPv4 pool names resolved within the selected provider.
+        ipv6Pools:
+          type: array
+          items:
+            type: string
+          description: IPv6 pool names resolved within the selected provider.
+    componentNetwork:
+      type: object
+      description: Per-component network configuration.
+      properties:
+        ipPool:
+          $ref: '#/components/schemas/ipPoolSelection'
     componentItemCreate:
       type: object
       description: ComponentItem is the information of a component
@@ -25030,6 +26032,8 @@ components:
         systemAccountSecretName:
           description: The name of the secret that contains the system account credentials
           type: string
+        network:
+          $ref: '#/components/schemas/componentNetwork'
     componentsCreate:
       type: array
       description: Components is the list of components
@@ -25346,6 +26350,8 @@ components:
         systemAccountSecretName:
           description: The name of the secret that contains the system account credentials
           type: string
+        network:
+          $ref: '#/components/schemas/componentNetwork'
     components:
       type: array
       description: Components is the list of components
@@ -25576,6 +26582,14 @@ components:
           nullable: true
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
+        newServiceRefs:
+          type: array
+          description: |
+            ServiceRefs to add to the cluster. Each serviceRef must be supported
+            by the current engine mode and must not duplicate the existing
+            serviceRefs of the cluster.
+          items:
+            $ref: '#/components/schemas/serviceRef'
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
     instanceStorageItem:
       description: Instance storage information
@@ -26421,6 +27435,8 @@ components:
         mode:
           type: string
           description: Target engine mode.
+        schedule:
+          $ref: '#/components/schemas/taskSchedule'
         hScale:
           $ref: '#/components/schemas/opsHScale'
     opsRequestName:
@@ -26432,6 +27448,24 @@ components:
           type: string
         taskId:
           type: string
+      required:
+        - taskId
+      type: object
+    disasterRecoveryTask:
+      description: Task information of disasterRecovery job
+      properties:
+        logicalInstanceID:
+          description: Logical instance ID
+          type: string
+          nullable: true
+        taskId:
+          description: Task ID
+          type: string
+          nullable: true
+        clusterTaskId:
+          description: Cluster task ID
+          type: string
+          nullable: true
       required:
         - taskId
       type: object
@@ -26482,23 +27516,156 @@ components:
       required:
         - cluster
       type: object
-    disasterRecoveryTask:
-      description: Task information of disasterRecovery job
+    disasterRecoveryPromote:
+      description: the Promote object for disasterRecovery instance
       properties:
-        logicalInstanceID:
-          description: Logical instance ID
+        mode:
+          description: the mode of cluster after promotion. default is the primary cluster's mode
           type: string
           nullable: true
-        taskId:
-          description: Task ID
+        reason:
+          description: the reason for promoting
+          type: string
+      type: object
+    disasterRecoveryEventType:
+      description: 'the event type of disasterRecovery history, support values: [CreateInstance, DeleteInstance, Promote]'
+      enum:
+        - CreateInstance
+        - DeleteInstance
+        - Promote
+      type: string
+      nullable: true
+    disasterRecoveryStatus:
+      default: Pending
+      description: 'the status of promote event, support values: [Pending, Succeed, Failed, Running, Unknown]'
+      enum:
+        - Pending
+        - Succeed
+        - Failed
+        - Running
+        - Unknown
+      type: string
+      nullable: true
+    disasterRecoveryHistoryItem:
+      description: DisasterRecovery history detail for Cluster
+      properties:
+        taskID:
+          description: the ID of disaster recovery task in TaskFlow
           type: string
           nullable: true
-        clusterTaskId:
-          description: Cluster task ID
+        parentClusterID:
+          description: the ID of parent cluster
           type: string
           nullable: true
+        parentClusterName:
+          description: the Name of parent cluster
+          type: string
+          nullable: true
+        parentEnvName:
+          description: parent env name
+          type: string
+          nullable: true
+        clusterID:
+          description: the ID of promote cluster
+          type: string
+          nullable: true
+        clusterName:
+          description: the Name of promote cluster
+          type: string
+          nullable: true
+        envName:
+          description: env name
+          type: string
+          nullable: true
+        eventType:
+          $ref: '#/components/schemas/disasterRecoveryEventType'
+        reason:
+          description: the reason of promote
+          type: string
+          nullable: true
+        operator:
+          description: the operator name
+          type: string
+        operatorId:
+          description: the user ID of the operator
+          type: string
+        createdAt:
+          description: the create time of promote event
+          type: string
+          format: date-time
+        updateAt:
+          description: the update time of promote event
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/disasterRecoveryStatus'
+      type: object
+    disasterRecoveryHistory:
+      description: DisasterRecovery history for Cluster
+      properties:
+        items:
+          description: Items is the list of DisasterRecovery logs
+          items:
+            $ref: '#/components/schemas/disasterRecoveryHistoryItem'
+          type: array
       required:
-        - taskId
+        - items
+      type: object
+    disasterRecoveryStatusResponse:
+      description: Status of the Disaster Recovery instance
+      properties:
+        clusterId:
+          title: Cluster ID
+          type: string
+          description: Unique identifier for the cluster
+        clusterName:
+          title: Cluster Name
+          type: string
+          nullable: true
+          description: Name of the cluster
+        displayName:
+          title: Display Name
+          type: string
+          nullable: true
+          description: User-friendly name of the cluster
+        status:
+          title: Status
+          type: string
+          nullable: true
+          description: Current operational status of the cluster
+        parentId:
+          title: Parent Cluster ID
+          type: string
+          description: ID of the parent cluster, if applicable; can be empty if there is no parent relationship
+        parentName:
+          title: Parent Cluster Name
+          type: string
+          nullable: true
+          description: Name of the parent cluster
+        parentDisplayName:
+          title: Parent Cluster Display Name
+          type: string
+          nullable: true
+          description: User-friendly name of the parent cluster
+        parentStatus:
+          title: Parent Cluster Status
+          type: string
+          nullable: true
+          description: Current operational status of the parent cluster
+        delay:
+          title: Delay
+          type: number
+          format: double
+          nullable: true
+          description: Delay time in seconds
+        currentReplicationPoint:
+          title: Current Replication Point
+          type: string
+          nullable: true
+          description: Current replication point for the disaster recovery instance
+      required:
+        - clusterId
+        - parentId
       type: object
     eventFilterType:
       description: Console do not support orgName.
@@ -27435,6 +28602,344 @@ components:
           type: string
           description: the database for explaining the SQL
           default: ''
+    DmsVisualExplainRequest:
+      type: object
+      properties:
+        query:
+          type: string
+          description: the sql string
+        database:
+          type: string
+          description: the database for explaining the SQL
+          default: ''
+        analyze:
+          type: boolean
+          description: whether to run an actual/analyze plan when the engine supports it
+          default: false
+    DmsExecutionPlanMode:
+      type: string
+      enum:
+        - estimate
+        - analyze
+        - actual
+        - autotrace
+    DmsExecutionPlanRawFormat:
+      type: string
+      enum:
+        - json
+        - xml
+        - text
+        - table
+    DmsExecutionPlanNodeCategory:
+      type: string
+      enum:
+        - result
+        - sort
+        - join
+        - table_scan
+        - index_scan
+        - lookup
+        - materialize
+        - aggregate
+        - exchange
+        - modify
+        - other
+    DmsExecutionPlanNodeCost:
+      type: object
+      properties:
+        startup:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        total:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        self:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        percent:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+    DmsExecutionPlanNodeRows:
+      type: object
+      properties:
+        estimated:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        actual:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        actualPerLoop:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        removedByFilter:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        mismatchRatio:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+    DmsExecutionPlanNodeTiming:
+      type: object
+      properties:
+        startupMs:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        totalMs:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        selfMs:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        loops:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+    DmsExecutionPlanNodeConditions:
+      type: object
+      properties:
+        filter:
+          type: string
+          nullable: true
+          x-omitempty: true
+        indexCond:
+          type: string
+          nullable: true
+          x-omitempty: true
+        joinCond:
+          type: string
+          nullable: true
+          x-omitempty: true
+        hashCond:
+          type: string
+          nullable: true
+          x-omitempty: true
+        sortKey:
+          type: array
+          items:
+            type: string
+    DmsExecutionPlanNode:
+      type: object
+      properties:
+        id:
+          type: string
+        parentIds:
+          type: array
+          items:
+            type: string
+        childIds:
+          type: array
+          items:
+            type: string
+        order:
+          type: integer
+          format: int64
+          nullable: true
+          x-omitempty: true
+        category:
+          $ref: '#/components/schemas/DmsExecutionPlanNodeCategory'
+        nodeType:
+          type: string
+        label:
+          type: string
+        relationName:
+          type: string
+          nullable: true
+          x-omitempty: true
+        schemaName:
+          type: string
+          nullable: true
+          x-omitempty: true
+        alias:
+          type: string
+          nullable: true
+          x-omitempty: true
+        indexName:
+          type: string
+          nullable: true
+          x-omitempty: true
+        cost:
+          $ref: '#/components/schemas/DmsExecutionPlanNodeCost'
+          nullable: true
+          x-omitempty: true
+        rows:
+          $ref: '#/components/schemas/DmsExecutionPlanNodeRows'
+          nullable: true
+          x-omitempty: true
+        timing:
+          $ref: '#/components/schemas/DmsExecutionPlanNodeTiming'
+          nullable: true
+          x-omitempty: true
+        conditions:
+          $ref: '#/components/schemas/DmsExecutionPlanNodeConditions'
+          nullable: true
+          x-omitempty: true
+        details:
+          type: object
+          additionalProperties: true
+          x-omitempty: true
+    DmsExecutionPlanEdgeRows:
+      type: object
+      properties:
+        estimated:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        actual:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+    DmsExecutionPlanEdge:
+      type: object
+      properties:
+        id:
+          type: string
+        source:
+          type: string
+        target:
+          type: string
+        rows:
+          $ref: '#/components/schemas/DmsExecutionPlanEdgeRows'
+          nullable: true
+          x-omitempty: true
+        widthWeight:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        label:
+          type: string
+          nullable: true
+          x-omitempty: true
+    DmsExecutionPlanSummary:
+      type: object
+      properties:
+        totalCost:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        totalActualTimeMs:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        planRows:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        actualRows:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        nodeCount:
+          type: integer
+          format: int64
+        maxCostNodeId:
+          type: string
+          nullable: true
+          x-omitempty: true
+        maxRowsNodeId:
+          type: string
+          nullable: true
+          x-omitempty: true
+        maxTimeNodeId:
+          type: string
+          nullable: true
+          x-omitempty: true
+    DmsExecutionPlanWarningSeverity:
+      type: string
+      enum:
+        - info
+        - warning
+        - critical
+    DmsExecutionPlanWarning:
+      type: object
+      properties:
+        code:
+          type: string
+        severity:
+          $ref: '#/components/schemas/DmsExecutionPlanWarningSeverity'
+        nodeId:
+          type: string
+          nullable: true
+          x-omitempty: true
+        message:
+          type: string
+    DmsExecutionPlanResult:
+      type: object
+      properties:
+        originSQL:
+          type: string
+        explainSQL:
+          type: string
+          nullable: true
+          x-omitempty: true
+        engineType:
+          type: string
+        mode:
+          $ref: '#/components/schemas/DmsExecutionPlanMode'
+        hasActualStats:
+          type: boolean
+          x-omitempty: false
+        rawFormat:
+          $ref: '#/components/schemas/DmsExecutionPlanRawFormat'
+        rawPlan:
+          type: object
+          description: Engine-native raw plan payload exposed for fallback display. SDKs model it as a free-form JSON object.
+          additionalProperties: true
+          x-omitempty: true
+        rootNodeIds:
+          type: array
+          items:
+            type: string
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DmsExecutionPlanNode'
+        edges:
+          type: array
+          items:
+            $ref: '#/components/schemas/DmsExecutionPlanEdge'
+        summary:
+          $ref: '#/components/schemas/DmsExecutionPlanSummary'
+          nullable: true
+          x-omitempty: true
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/DmsExecutionPlanWarning'
+        fallbackTable:
+          $ref: '#/components/schemas/DmsQueryResponse'
+          nullable: true
+          x-omitempty: true
     DmsGenerateDdlOperationType:
       type: string
       description: operation type
@@ -30197,6 +31702,12 @@ components:
       required:
         - serviceName
         - serviceNamespace
+    logBackendType:
+      type: string
+      description: Log query backend configured for this environment.
+      enum:
+        - loki
+        - victoria-logs
     clusterSchedulingPolicy:
       type: string
       enum:
@@ -30457,13 +31968,20 @@ components:
               description: judge whether to set the backup is default which will be init
     environmentModuleStatus:
       type: string
-      description: Status of environment module
+      description: Status of an environment module. Enabled is only used as the desired state when creating an environment. NotInstalled, Installing, and InstallationFailed describe quick installation; Upgradeable, Upgrading, and UpgradeFailed describe quick upgrade. Upgradeable means the component is running but an ApeCloud-bundled newer version is available. Unknown means the current state could not be determined.
       enum:
         - Running
         - Updating
         - Error
         - Disabled
         - Enabled
+        - NotInstalled
+        - Installing
+        - InstallationFailed
+        - Upgradeable
+        - Upgrading
+        - UpgradeFailed
+        - Unknown
     clusterInfo:
       type: object
       description: Cluster information
@@ -30486,7 +32004,7 @@ components:
           description: Environment module name
         version:
           type: string
-          description: Environment module version
+          description: Currently installed environment module version
         status:
           $ref: '#/components/schemas/environmentModuleStatus'
         replicas:
@@ -30495,6 +32013,9 @@ components:
         location:
           type: string
           description: Deployment location
+        operationTaskId:
+          type: string
+          description: ID of the asynchronous task associated with the module's current operation state. It is omitted when the current state is not associated with a task.
         clusterInfo:
           $ref: '#/components/schemas/clusterInfo'
           description: Cluster information
@@ -30510,6 +32031,9 @@ components:
         defaultEnabled:
           type: boolean
           description: indicate whether module is enabled by default when creating environment. Only effective when optional is true
+        actionWarning:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Localized business-impact warning for the component action represented by the current status.
       required:
         - name
         - status
@@ -30607,7 +32131,10 @@ components:
         - provisionConfig
         - createdAt
         - updatedAt
+        - ipPoolProviders
       properties:
+        logBackend:
+          $ref: '#/components/schemas/logBackendType'
         provider:
           description: Cloud Provider
           title: Cloud Provider
@@ -30682,6 +32209,11 @@ components:
           description: Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
           type: boolean
           default: false
+        ipPoolProviders:
+          description: KBE Pod IP pool providers enabled for discovery and explicit pool selection.
+          type: array
+          items:
+            $ref: '#/components/schemas/ipPoolProvider'
     environmentList:
       description: EnvironmentList is a list of Environments
       properties:
@@ -30765,6 +32297,12 @@ components:
           description: Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
           type: boolean
           default: false
+        ipPoolProviders:
+          description: KBE Pod IP pool providers enabled for discovery and explicit pool selection.
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/ipPoolProvider'
     preflight:
       title: Preflight results
       description: The result of preflight check
@@ -30897,6 +32435,11 @@ components:
           description: Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
           type: boolean
           default: false
+        ipPoolProviders:
+          description: KBE Pod IP pool providers enabled for discovery and explicit pool selection. An empty array disables this capability.
+          type: array
+          items:
+            $ref: '#/components/schemas/ipPoolProvider'
         clusterSchedulingPolicy:
           $ref: '#/components/schemas/clusterSchedulingPolicy'
     environmentStateEvent:
@@ -31724,6 +33267,83 @@ components:
       items:
         type: string
       type: array
+    ipPoolSelectionRequirement:
+      type: string
+      enum:
+        - required
+        - optional
+        - unsupported
+    ipPoolSelectionPolicy:
+      type: object
+      description: Per-address-family requirements for explicit IP pool selection.
+      properties:
+        ipv4:
+          $ref: '#/components/schemas/ipPoolSelectionRequirement'
+        ipv6:
+          $ref: '#/components/schemas/ipPoolSelectionRequirement'
+      required:
+        - ipv4
+        - ipv6
+    ipPoolIPFamily:
+      type: string
+      enum:
+        - IPv4
+        - IPv6
+    ipPool:
+      type: object
+      description: Provider-neutral Pod IP pool summary.
+      properties:
+        name:
+          type: string
+        ipFamily:
+          $ref: '#/components/schemas/ipPoolIPFamily'
+        subnet:
+          type: string
+        disabled:
+          type: boolean
+        default:
+          type: boolean
+        allocatedIPCount:
+          type: integer
+          format: int64
+        totalIPCount:
+          type: integer
+          format: int64
+        availableIPCount:
+          type: integer
+          format: int64
+        capacityReliable:
+          type: boolean
+        affinitySummary:
+          type: array
+          items:
+            type: string
+    ipPoolProviderList:
+      type: object
+      description: Pod IP pools and selection policy reported by one provider.
+      properties:
+        name:
+          $ref: '#/components/schemas/ipPoolProvider'
+        selectionPolicy:
+          $ref: '#/components/schemas/ipPoolSelectionPolicy'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ipPool'
+      required:
+        - name
+        - selectionPolicy
+        - items
+    ipPoolList:
+      type: object
+      description: Pod IP pool discovery result for an environment.
+      properties:
+        providers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ipPoolProviderList'
+      required:
+        - providers
     rawCluster:
       type: object
       description: cluster info
@@ -33381,6 +35001,14 @@ components:
       enum:
         - '0.9'
         - '1.0'
+    modeReadonlyEndpoint:
+      type: object
+      required:
+        - role
+      properties:
+        role:
+          type: string
+          description: the component role selected by a readonly endpoint
     modeComponent:
       type: object
       required:
@@ -33399,6 +35027,8 @@ components:
           description: |
             the name of the serviceRef defined in mode's serviceRefs.
             If set, it means a serviceRef can be used to replace this component.
+        readonlyEndpoint:
+          $ref: '#/components/schemas/modeReadonlyEndpoint'
     serviceDescriptorAddressStyle:
       type: string
       description: |
@@ -33433,6 +35063,27 @@ components:
           type: string
         credentialName:
           type: string
+    modeServiceRefVersionCompatibility:
+      type: object
+      description: |
+        Defines allowed source/ref service version combinations for a mode serviceRef.
+        Version patterns match semantic version segments, so "3", "3.0", and
+        "3.0.10" can match a whole major, minor, or patch family respectively.
+      properties:
+        version:
+          type: array
+          description: |
+            Source cluster version patterns. Empty means all source versions.
+          items:
+            type: string
+        refVersion:
+          type: array
+          description: |
+            Referenced cluster version patterns. Empty means all referenced versions.
+          items:
+            type: string
+        message:
+          $ref: '#/components/schemas/localizedDescription'
     modeServiceRef:
       type: object
       description: |
@@ -33449,9 +35100,17 @@ components:
           description: |
             The name will be referenced in clusterCreate request. The name should also be defined in `.components`
             so that frontend can use it to get proper localized title.
+        title:
+          type: object
+          additionalProperties:
+            type: string
+          description: The localized title of the serviceRef.
+        optional:
+          type: boolean
+          description: whether this serviceRef is optional. If set to true, the cluster can be created without providing this serviceRef.
         engineName:
           type: string
-          description: The engine to be used in serviceRef. This field is used to filter clusters.
+          description: The default engine to be used in serviceRef. This field is used as the fallback engine filter and default create entry.
         modes:
           type: array
           items:
@@ -33468,7 +35127,6 @@ components:
           required:
             - namespace
             - cluster
-            - serviceDescriptor
           properties:
             namespace:
               type: string
@@ -33507,6 +35165,49 @@ components:
             If no serviceSelector is matched, the corresponding helm value will not be set.
           items:
             $ref: '#/components/schemas/serviceSelector'
+        serviceVersionCompatibility:
+          type: array
+          description: |
+            Service version compatibility rules for this serviceRef. The create API uses
+            these rules to reject incompatible referenced clusters, and the frontend can
+            use them to filter or explain selectable referenced clusters.
+          items:
+            $ref: '#/components/schemas/modeServiceRefVersionCompatibility'
+    modeObjectStorageAdditionalHelmValuePath:
+      type: object
+      description: The path in helm values that some object storage config will use. If empty, the values will not be set.
+      required:
+        - bucket
+      properties:
+        bucket:
+          type: string
+          description: the bucket name for the object storage
+        path:
+          type: string
+          description: |
+            root path where cluster stores data in the bucket. This field is not user-provided.
+            It is always set to cluster id. If not set, it means the engine does not support specify a path.
+        usePathStyle:
+          type: string
+          description: |
+            whether the object storage is using path style or virtual host style.
+            If not set, it means the engine does not need this option.
+        region:
+          type: string
+          description: |
+            Region to use. If not set, it means the engine does not need this option.
+    modeObjectStorageServiceRef:
+      type: object
+      description: |
+        Defines one object storage dependency option for a mode.
+      required:
+        - serviceRef
+        - additionalHelmValuePath
+      properties:
+        serviceRef:
+          $ref: '#/components/schemas/modeServiceRef'
+        additionalHelmValuePath:
+          $ref: '#/components/schemas/modeObjectStorageAdditionalHelmValuePath'
     modeObjectStorage:
       type: object
       description: |
@@ -33515,31 +35216,14 @@ components:
         enabled:
           type: boolean
           description: if object storage is enabled for this mode
-        serviceRef:
-          $ref: '#/components/schemas/modeServiceRef'
-        additionalHelmValuePath:
-          type: object
-          description: The path in helm values that some object storage config will use. If empty, the values will not be set.
-          required:
-            - bucket
-          properties:
-            bucket:
-              type: string
-              description: the bucket name for the object storage
-            path:
-              type: string
-              description: |
-                root path where cluster stores data in the bucket. This field is not user-provided.
-                It is always set to cluster id. If not set, it means the engine does not support specify a path.
-            usePathStyle:
-              type: string
-              description: |
-                whether the object storage is using path style or virtual host style.
-                If not set, it means the engine does not need this option.
-            region:
-              type: string
-              description: |
-                Region to use. If not set, it means the engine does not need this option.
+        serviceRefs:
+          type: array
+          items:
+            $ref: '#/components/schemas/modeObjectStorageServiceRef'
+          description: |
+            Object storage serviceRef configs supported by this mode. Use this when different object
+            storage engines may require different serviceRef or Helm value mappings. When it is set,
+            the cluster create request selects one item by objectStorageConfig.serviceRef.name.
     engineModeTransition:
       type: object
       required:
@@ -33604,6 +35288,7 @@ components:
           properties:
             compatibleKBVersions:
               type: array
+              description: if omitted, all KB versions are compatible
               items:
                 type: string
             mappings:
@@ -34053,9 +35738,6 @@ components:
         supportsSystemUse:
           type: boolean
           description: whether the endpoint supports system use, such as health check, dms, databases & accounts management etc.
-        supportsReadonly:
-          type: boolean
-          description: whether the engine supports readonly endpoint
         servicePattern:
           $ref: '#/components/schemas/engineOptionsServicePattern'
         serviceNameRegex:
@@ -35718,6 +37400,11 @@ components:
           title: maturityLevel
           type: string
           description: engine maturity level
+        extra:
+          type: object
+          additionalProperties: true
+          nullable: true
+          description: engine-specific runtime metadata for clients
     engineList:
       items:
         $ref: '#/components/schemas/engine'
@@ -35889,6 +37576,11 @@ components:
           description: The supported engines and their quotas
           items:
             $ref: '#/components/schemas/engineQuota'
+        features:
+          type: array
+          description: The licensed enterprise features. An empty list means all features are unrestricted for backward compatibility; a list containing `none` disables every enterprise feature.
+          items:
+            type: string
         notAfter:
           type: string
           format: date-time
@@ -37833,7 +39525,7 @@ components:
         Action to perform on the environment module:
         - Enable: Enable the module
         - Disable: Disable the module
-        - Upgrade: Upgrade the module to specified version
+        - Upgrade: Upgrade the module
       enum:
         - Enable
         - Disable
@@ -37847,12 +39539,20 @@ components:
           description: Name of the environment module to update
         action:
           $ref: '#/components/schemas/environmentModuleAction'
-        version:
-          type: string
-          description: Version of the environment module to upgrade to
+        dryRun:
+          type: boolean
+          default: false
+          description: For a supported quick install or upgrade action, only run synchronous checks when true. When false or omitted, repeat the checks and submit the asynchronous task if all checks pass.
       required:
         - name
         - action
+    environmentModuleActionResult:
+      type: object
+      description: Result of an environment module action. A successful dry run returns an empty object; an asynchronous action returns taskId; failed checks use the standard API error response.
+      properties:
+        taskId:
+          type: string
+          description: ID of the submitted asynchronous module action task. It is absent for successful dry runs; failed checks return an API error.
     podResources:
       type: object
       description: Resource usage information for a pod
@@ -39449,6 +41149,264 @@ components:
           type: string
           format: date-time
           description: Optional service account expiration time. Use the Unix epoch to clear expiration.
+    mysqlSpaceSummary:
+      type: object
+      required:
+        - databaseName
+        - databaseSizeBytes
+        - dataBytes
+        - indexBytes
+        - freeBytes
+        - tableCount
+        - tableListTruncated
+        - indexListTruncated
+      properties:
+        databaseName:
+          type: string
+        databaseSizeBytes:
+          type: integer
+          format: int64
+        dataBytes:
+          type: integer
+          format: int64
+        indexBytes:
+          type: integer
+          format: int64
+        freeBytes:
+          type: integer
+          format: int64
+          description: DATA_FREE reported by information_schema. Its per-table meaning is most reliable with innodb_file_per_table.
+        tableCount:
+          type: integer
+          format: int64
+        tableListTruncated:
+          type: boolean
+        indexListTruncated:
+          type: boolean
+        indexSizeSource:
+          type: string
+    mysqlStorageInstanceUsage:
+      type: object
+      properties:
+        instanceName:
+          type: string
+        pvcName:
+          type: string
+        role:
+          type: string
+        componentName:
+          type: string
+        totalBytes:
+          type: integer
+          format: int64
+        usedBytes:
+          type: integer
+          format: int64
+        availableBytes:
+          type: integer
+          format: int64
+        usageRatio:
+          type: number
+          format: double
+          nullable: true
+        updatedAt:
+          type: string
+        source:
+          type: string
+    mysqlStorageOverview:
+      type: object
+      required:
+        - source
+        - instances
+      properties:
+        source:
+          type: string
+        instances:
+          type: array
+          items:
+            $ref: '#/components/schemas/mysqlStorageInstanceUsage'
+    mysqlDatabaseSpace:
+      type: object
+      required:
+        - name
+        - dataBytes
+        - indexBytes
+        - freeBytes
+        - totalBytes
+        - tableCount
+      properties:
+        name:
+          type: string
+        dataBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        indexBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        freeBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        totalBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        tableCount:
+          type: integer
+          format: int64
+          x-omitempty: false
+    mysqlTableSpace:
+      type: object
+      required:
+        - database
+        - name
+        - engine
+        - rows
+        - dataBytes
+        - indexBytes
+        - freeBytes
+        - totalBytes
+        - avgRowLength
+      properties:
+        database:
+          type: string
+        name:
+          type: string
+        engine:
+          type: string
+        rows:
+          type: integer
+          format: int64
+          x-omitempty: false
+          description: Estimated row count for InnoDB tables.
+        dataBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        indexBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        freeBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        totalBytes:
+          type: integer
+          format: int64
+          x-omitempty: false
+        avgRowLength:
+          type: integer
+          format: int64
+          x-omitempty: false
+        fragmentationRatio:
+          type: number
+          format: double
+          nullable: true
+          description: freeBytes divided by totalBytes plus freeBytes when available.
+        createTime:
+          type: string
+        updateTime:
+          type: string
+    mysqlIndexSpace:
+      type: object
+      required:
+        - database
+        - table
+        - name
+        - isUnique
+        - isPrimary
+        - cardinality
+      properties:
+        database:
+          type: string
+        table:
+          type: string
+        name:
+          type: string
+        sizeBytes:
+          type: integer
+          format: int64
+          nullable: true
+          description: Estimated from mysql.innodb_index_stats pages multiplied by innodb_page_size.
+        isUnique:
+          type: boolean
+          x-omitempty: false
+        isPrimary:
+          type: boolean
+          x-omitempty: false
+        cardinality:
+          type: integer
+          format: int64
+          x-omitempty: false
+        scanCount:
+          type: integer
+          format: int64
+          nullable: true
+          description: COUNT_READ from performance_schema; resets with server statistics.
+        lastStatUpdate:
+          type: string
+    mysqlSpaceSource:
+      type: object
+      required:
+        - name
+        - kind
+        - status
+        - collectedAt
+      properties:
+        name:
+          type: string
+        kind:
+          type: string
+        status:
+          type: string
+        collectedAt:
+          type: string
+        message:
+          type: string
+    mysqlSpaceAnalysis:
+      type: object
+      required:
+        - summary
+        - storageOverview
+        - databases
+        - selectedDatabase
+        - tables
+        - indexes
+        - sources
+        - collectedAt
+      properties:
+        summary:
+          $ref: '#/components/schemas/mysqlSpaceSummary'
+        storageOverview:
+          $ref: '#/components/schemas/mysqlStorageOverview'
+        databases:
+          type: array
+          description: Sizes of all non-system MySQL databases.
+          items:
+            $ref: '#/components/schemas/mysqlDatabaseSpace'
+        selectedDatabase:
+          type: string
+          description: Database used for table and index details.
+        tables:
+          type: array
+          description: Top tables from selectedDatabase.
+          items:
+            $ref: '#/components/schemas/mysqlTableSpace'
+        indexes:
+          type: array
+          description: Top indexes from selectedDatabase. Individual index size can be unavailable when mysql.innodb_index_stats is inaccessible.
+          items:
+            $ref: '#/components/schemas/mysqlIndexSpace'
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/mysqlSpaceSource'
+        collectedAt:
+          type: string
+          description: Backend collection timestamp in UTC.
     postgresqlSession:
       type: object
       required:
@@ -39863,6 +41821,165 @@ components:
           description: SQL fingerprint ranking rows from pg_stat_statements. The list may be empty when no statement statistics exist.
           items:
             $ref: '#/components/schemas/postgresqlSQLFingerprint'
+    mysqlSQLFingerprint:
+      type: object
+      required:
+        - queryID
+        - fingerprint
+        - querySummary
+        - calls
+        - totalTimeMs
+        - meanTimeMs
+        - maxTimeMs
+        - rows
+        - rowsSent
+        - rowsAffected
+        - rowsExamined
+        - lockTimeMs
+        - errors
+        - warnings
+        - tmpTables
+        - tmpDiskTables
+        - noIndexUsed
+        - noGoodIndexUsed
+        - database
+      properties:
+        queryID:
+          type: string
+          description: MySQL Performance Schema DIGEST value.
+        fingerprint:
+          type: string
+          description: Stable SQL fingerprint identifier. M1 uses DIGEST.
+        querySummary:
+          type: string
+          description: Normalized DIGEST_TEXT. Raw SQL text is intentionally not returned.
+        calls:
+          type: integer
+          format: int64
+          description: Number of executions accumulated in the current digest row.
+        totalTimeMs:
+          type: number
+          format: double
+          description: Total statement wait time in milliseconds.
+        meanTimeMs:
+          type: number
+          format: double
+          description: Mean statement wait time in milliseconds.
+        maxTimeMs:
+          type: number
+          format: double
+          description: Maximum statement wait time in milliseconds.
+        rows:
+          type: integer
+          format: int64
+          description: Sum of rows sent and rows affected.
+        rowsSent:
+          type: integer
+          format: int64
+          description: Total rows sent to clients.
+        rowsAffected:
+          type: integer
+          format: int64
+          description: Total rows affected by statements.
+        rowsExamined:
+          type: integer
+          format: int64
+          description: Total rows examined by statements.
+        lockTimeMs:
+          type: number
+          format: double
+          description: Total statement lock time in milliseconds.
+        errors:
+          type: integer
+          format: int64
+          description: Total statement errors.
+        warnings:
+          type: integer
+          format: int64
+          description: Total statement warnings.
+        tmpTables:
+          type: integer
+          format: int64
+          description: Total internal temporary tables created.
+        tmpDiskTables:
+          type: integer
+          format: int64
+          description: Total internal on-disk temporary tables created.
+        noIndexUsed:
+          type: integer
+          format: int64
+          description: Executions that used no index.
+        noGoodIndexUsed:
+          type: integer
+          format: int64
+          description: Executions for which no good index was found.
+        database:
+          type: string
+          description: Default schema name associated with the digest row.
+        firstSeen:
+          type: string
+          description: UTC timestamp when the digest was first observed.
+        lastSeen:
+          type: string
+          description: UTC timestamp when the digest was most recently observed.
+    mysqlSQLAnalysis:
+      type: object
+      required:
+        - source
+        - status
+        - collectedAt
+        - limit
+        - orderBy
+        - items
+      properties:
+        source:
+          type: string
+          description: Data source. M1 uses performance_schema.events_statements_summary_by_digest.
+        status:
+          type: string
+          description: Source status. Expected values are available or unavailable.
+        unavailableReason:
+          type: string
+          description: Reason when status is unavailable, such as performance_schema_disabled, digest_consumer_disabled, permission_denied, or query_failed.
+        message:
+          type: string
+          description: User-facing recovery guidance when SQL analysis is unavailable.
+        collectedAt:
+          type: string
+          description: Backend collection timestamp in UTC. It is not a sampling-window end time.
+        firstSeen:
+          type: string
+          description: Earliest FIRST_SEEN timestamp across currently visible digest rows, when available.
+        lastSeen:
+          type: string
+          description: Latest LAST_SEEN timestamp across currently visible digest rows, when available.
+        limit:
+          type: integer
+          format: int64
+          description: Effective row limit after backend normalization.
+        orderBy:
+          type: string
+          description: Effective sort key. Expected values are totalTime, meanTime, maxTime, or calls.
+        totalTimeMsAll:
+          type: number
+          format: double
+          x-nullable: true
+          description: Total execution time in milliseconds across all visible digest rows, not limited to the returned top-N items.
+        callsAll:
+          type: integer
+          format: int64
+          x-nullable: true
+          description: Total execution count across all visible digest rows, not limited to the returned top-N items.
+        digestLost:
+          type: integer
+          format: int64
+          x-nullable: true
+          description: Number of statement digests not recorded because the digest table was full, when exposed by the server.
+        items:
+          type: array
+          description: SQL fingerprint ranking rows from Performance Schema. The list may be empty when no statement statistics exist.
+          items:
+            $ref: '#/components/schemas/mysqlSQLFingerprint'
     performanceTrendRange:
       type: object
       required:
@@ -39899,7 +42016,7 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         category:
           type: string
-          description: Metric category. Values are availability, performance, connections, resource, capacity, or vacuumWraparound.
+          description: Metric category. Values include availability, performance, connections, resource, capacity, innodb, and vacuumWraparound.
         dimension:
           type: string
           description: Optional series dimension. Values include cluster, instance, pvc, and database.
@@ -39962,7 +42079,7 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         category:
           type: string
-          description: Metric category. Values are availability, performance, connections, resource, capacity, or vacuumWraparound.
+          description: Metric category. Values include availability, performance, connections, resource, capacity, innodb, and vacuumWraparound.
         dimension:
           type: string
           description: Optional series dimension. Values include cluster, instance, pvc, and database.
@@ -40519,6 +42636,261 @@ components:
         autoCommit:
           type: string
           description: Auto-commit status.
+    kingbaseSession:
+      type: object
+      required:
+        - pid
+        - state
+        - queryDigest
+        - querySummary
+      properties:
+        pid:
+          type: integer
+          format: int64
+        user:
+          type: string
+        database:
+          type: string
+        applicationName:
+          type: string
+        clientAddr:
+          type: string
+        clientPort:
+          type: integer
+          format: int32
+        state:
+          type: string
+        waitEventType:
+          type: string
+        waitEvent:
+          type: string
+        backendStart:
+          type: string
+        queryStart:
+          type: string
+        xactStart:
+          type: string
+        durationSeconds:
+          type: integer
+          format: int64
+          minimum: 0
+        xactDurationSeconds:
+          type: integer
+          format: int64
+          minimum: 0
+        queryDigest:
+          type: string
+        querySummary:
+          type: string
+        backendType:
+          type: string
+    kingbaseDiagnosticSourceStatus:
+      type: string
+      enum:
+        - success
+        - partial
+        - failed
+        - skipped
+        - noData
+    kingbaseDiagnosticSource:
+      type: object
+      required:
+        - name
+        - status
+        - collectedAt
+      properties:
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/kingbaseDiagnosticSourceStatus'
+        collectedAt:
+          type: string
+        message:
+          type: string
+    kingbaseSessionList:
+      type: object
+      required:
+        - items
+        - limit
+        - source
+        - warnings
+        - collectedAt
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/kingbaseSession'
+        limit:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 200
+        source:
+          $ref: '#/components/schemas/kingbaseDiagnosticSource'
+        warnings:
+          type: array
+          items:
+            type: string
+        collectedAt:
+          type: string
+    kingbaseLockRow:
+      type: object
+      required:
+        - pid
+        - lockType
+        - mode
+        - granted
+      properties:
+        pid:
+          type: integer
+          format: int64
+        lockType:
+          type: string
+        mode:
+          type: string
+        granted:
+          type: boolean
+        relationOid:
+          type: string
+        relationName:
+          type: string
+        databaseName:
+          type: string
+        transactionID:
+          type: string
+        virtualTransaction:
+          type: string
+        virtualXID:
+          type: string
+        tuple:
+          type: string
+        page:
+          type: string
+        classID:
+          type: string
+        objID:
+          type: string
+        objSubID:
+          type: string
+    kingbaseLockAnalysis:
+      type: object
+      required:
+        - selectedSession
+        - lockRows
+        - cannotProve
+        - warnings
+        - source
+        - capturedAt
+      properties:
+        selectedSession:
+          $ref: '#/components/schemas/kingbaseSession'
+        lockRows:
+          type: array
+          items:
+            $ref: '#/components/schemas/kingbaseLockRow'
+        cannotProve:
+          type: boolean
+        warnings:
+          type: array
+          items:
+            type: string
+        source:
+          $ref: '#/components/schemas/kingbaseDiagnosticSource'
+        capturedAt:
+          type: string
+    kingbaseSessionDetail:
+      type: object
+      required:
+        - session
+        - source
+        - warnings
+        - collectedAt
+      properties:
+        session:
+          $ref: '#/components/schemas/kingbaseSession'
+        source:
+          $ref: '#/components/schemas/kingbaseDiagnosticSource'
+        warnings:
+          type: array
+          items:
+            type: string
+        collectedAt:
+          type: string
+    MilvusRoleGrant:
+      type: object
+      description: Native Milvus role privilege grant.
+      required:
+        - privilege
+      properties:
+        dbName:
+          type: string
+          description: Milvus database name. Empty means Milvus default/global scope.
+        collectionName:
+          type: string
+          description: Milvus collection name. Use '*' for all collections in the database.
+        privilege:
+          type: string
+          description: Native Milvus privilege name, such as DatabaseReadOnly, DatabaseReadWrite, DatabaseAdmin, Search, Insert, or Delete.
+    MilvusRole:
+      type: object
+      description: Milvus role with native privilege grants.
+      required:
+        - name
+        - grants
+      properties:
+        name:
+          type: string
+          description: Milvus role name.
+        grants:
+          type: array
+          description: Native Milvus privilege grants owned by this role.
+          items:
+            $ref: '#/components/schemas/MilvusRoleGrant'
+    MilvusRoleList:
+      type: object
+      description: Milvus role list.
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          description: Milvus roles.
+          items:
+            $ref: '#/components/schemas/MilvusRole'
+    MilvusRoleRequest:
+      type: object
+      description: Milvus role upsert request.
+      properties:
+        grants:
+          type: array
+          description: Native Milvus privilege grants owned by this role. Existing grants are replaced.
+          items:
+            $ref: '#/components/schemas/MilvusRoleGrant'
+    MilvusAccountPassword:
+      type: object
+      description: Milvus account password update request.
+      required:
+        - oldPassword
+        - password
+      properties:
+        oldPassword:
+          type: string
+          description: Current account password. Required by Milvus.
+        password:
+          type: string
+          description: New account password.
+    MilvusAccountRoles:
+      type: object
+      description: Milvus account role update request.
+      properties:
+        role:
+          type: string
+          description: Generic account role. SUPERUSER maps to the Milvus admin role.
+        roles:
+          type: array
+          description: Milvus role names to assign to the user. Existing roles are replaced.
+          items:
+            type: string
     dbTDERequest:
       type: object
       properties:
@@ -40634,6 +43006,38 @@ components:
       enum:
         - encryption
       description: The intended usage of the key.
+    keyCluster:
+      description: a cluster which uses the key
+      type: object
+      properties:
+        clusterId:
+          type: string
+          description: the id of the cluster
+        name:
+          type: string
+          description: the name of the cluster
+        clusterDefinition:
+          type: string
+          description: the cluster definition (engine type) of the cluster
+        status:
+          type: string
+          description: the status of the cluster
+    keyBackup:
+      description: a backup which uses the key
+      type: object
+      properties:
+        id:
+          type: string
+          description: the id of the backup
+        engine:
+          type: string
+          description: the engine of the backup
+        name:
+          type: string
+          description: the name of the backup
+        status:
+          type: string
+          description: the status of the backup
     key:
       description: mutiple kv pair
       type: object
@@ -40651,12 +43055,12 @@ components:
         clusters:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/keyCluster'
           description: the clusters which use the key
         backups:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/keyBackup'
           description: the backups which use the key
         createdAt:
           type: string
@@ -41832,6 +44236,62 @@ components:
         type: boolean
       required: false
       default: true
+    orgName:
+      in: path
+      name: orgName
+      required: true
+      schema:
+        type: string
+    clusterName:
+      in: path
+      name: clusterName
+      required: true
+      schema:
+        type: string
+    componentName:
+      in: query
+      name: componentName
+      schema:
+        type: string
+    instanceName:
+      in: query
+      name: instanceName
+      schema:
+        type: string
+    filename:
+      in: query
+      name: filename
+      schema:
+        type: string
+    startTime-2:
+      in: query
+      name: startTime
+      description: Start time in epoch nanoseconds.
+      required: true
+      schema:
+        type: string
+    endTime-2:
+      in: query
+      name: endTime
+      description: End time in epoch nanoseconds.
+      required: true
+      schema:
+        type: string
+    limit:
+      in: query
+      name: limit
+      schema:
+        type: string
+    sortType:
+      in: query
+      name: sortType
+      schema:
+        $ref: '#/components/schemas/sortType'
+    query:
+      in: query
+      name: query
+      schema:
+        type: string
 x-tagGroups:
   - name: User
     tags:
@@ -41904,3 +44364,6 @@ x-tagGroups:
   - name: import
     tags:
       - import
+  - name: disasterRecovery
+    tags:
+      - disasterRecovery

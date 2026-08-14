@@ -17,7 +17,11 @@ type ModeServiceRef struct {
 	// so that frontend can use it to get proper localized title.
 	//
 	Name string `json:"name"`
-	// The engine to be used in serviceRef. This field is used to filter clusters.
+	// The localized title of the serviceRef.
+	Title map[string]string `json:"title,omitempty"`
+	// whether this serviceRef is optional. If set to true, the cluster can be created without providing this serviceRef.
+	Optional *bool `json:"optional,omitempty"`
+	// The default engine to be used in serviceRef. This field is used as the fallback engine filter and default create entry.
 	EngineName string `json:"engineName"`
 	// The mode to be used in serviceRef. This field is used to filter clusters. If not set, it means all modes are supported.
 	Modes []string `json:"modes,omitempty"`
@@ -36,6 +40,11 @@ type ModeServiceRef struct {
 	// If no serviceSelector is matched, the corresponding helm value will not be set.
 	//
 	ServiceSelectors []ServiceSelector `json:"serviceSelectors,omitempty"`
+	// Service version compatibility rules for this serviceRef. The create API uses
+	// these rules to reject incompatible referenced clusters, and the frontend can
+	// use them to filter or explain selectable referenced clusters.
+	//
+	ServiceVersionCompatibility []ModeServiceRefVersionCompatibility `json:"serviceVersionCompatibility,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -83,6 +92,62 @@ func (o *ModeServiceRef) GetNameOk() (*string, bool) {
 // SetName sets field value.
 func (o *ModeServiceRef) SetName(v string) {
 	o.Name = v
+}
+
+// GetTitle returns the Title field value if set, zero value otherwise.
+func (o *ModeServiceRef) GetTitle() map[string]string {
+	if o == nil || o.Title == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.Title
+}
+
+// GetTitleOk returns a tuple with the Title field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRef) GetTitleOk() (*map[string]string, bool) {
+	if o == nil || o.Title == nil {
+		return nil, false
+	}
+	return &o.Title, true
+}
+
+// HasTitle returns a boolean if a field has been set.
+func (o *ModeServiceRef) HasTitle() bool {
+	return o != nil && o.Title != nil
+}
+
+// SetTitle gets a reference to the given map[string]string and assigns it to the Title field.
+func (o *ModeServiceRef) SetTitle(v map[string]string) {
+	o.Title = v
+}
+
+// GetOptional returns the Optional field value if set, zero value otherwise.
+func (o *ModeServiceRef) GetOptional() bool {
+	if o == nil || o.Optional == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Optional
+}
+
+// GetOptionalOk returns a tuple with the Optional field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRef) GetOptionalOk() (*bool, bool) {
+	if o == nil || o.Optional == nil {
+		return nil, false
+	}
+	return o.Optional, true
+}
+
+// HasOptional returns a boolean if a field has been set.
+func (o *ModeServiceRef) HasOptional() bool {
+	return o != nil && o.Optional != nil
+}
+
+// SetOptional gets a reference to the given bool and assigns it to the Optional field.
+func (o *ModeServiceRef) SetOptional(v bool) {
+	o.Optional = &v
 }
 
 // GetEngineName returns the EngineName field value.
@@ -238,6 +303,34 @@ func (o *ModeServiceRef) SetServiceSelectors(v []ServiceSelector) {
 	o.ServiceSelectors = v
 }
 
+// GetServiceVersionCompatibility returns the ServiceVersionCompatibility field value if set, zero value otherwise.
+func (o *ModeServiceRef) GetServiceVersionCompatibility() []ModeServiceRefVersionCompatibility {
+	if o == nil || o.ServiceVersionCompatibility == nil {
+		var ret []ModeServiceRefVersionCompatibility
+		return ret
+	}
+	return o.ServiceVersionCompatibility
+}
+
+// GetServiceVersionCompatibilityOk returns a tuple with the ServiceVersionCompatibility field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRef) GetServiceVersionCompatibilityOk() (*[]ModeServiceRefVersionCompatibility, bool) {
+	if o == nil || o.ServiceVersionCompatibility == nil {
+		return nil, false
+	}
+	return &o.ServiceVersionCompatibility, true
+}
+
+// HasServiceVersionCompatibility returns a boolean if a field has been set.
+func (o *ModeServiceRef) HasServiceVersionCompatibility() bool {
+	return o != nil && o.ServiceVersionCompatibility != nil
+}
+
+// SetServiceVersionCompatibility gets a reference to the given []ModeServiceRefVersionCompatibility and assigns it to the ServiceVersionCompatibility field.
+func (o *ModeServiceRef) SetServiceVersionCompatibility(v []ModeServiceRefVersionCompatibility) {
+	o.ServiceVersionCompatibility = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -245,6 +338,12 @@ func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["name"] = o.Name
+	if o.Title != nil {
+		toSerialize["title"] = o.Title
+	}
+	if o.Optional != nil {
+		toSerialize["optional"] = o.Optional
+	}
 	toSerialize["engineName"] = o.EngineName
 	if o.Modes != nil {
 		toSerialize["modes"] = o.Modes
@@ -257,6 +356,9 @@ func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 	if o.ServiceSelectors != nil {
 		toSerialize["serviceSelectors"] = o.ServiceSelectors
 	}
+	if o.ServiceVersionCompatibility != nil {
+		toSerialize["serviceVersionCompatibility"] = o.ServiceVersionCompatibility
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -267,13 +369,16 @@ func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name               *string                        `json:"name"`
-		EngineName         *string                        `json:"engineName"`
-		Modes              []string                       `json:"modes,omitempty"`
-		AddressStyle       *ServiceDescriptorAddressStyle `json:"addressStyle"`
-		DisableManualInput *bool                          `json:"disableManualInput,omitempty"`
-		HelmValuePath      *ModeServiceRefHelmValuePath   `json:"helmValuePath"`
-		ServiceSelectors   []ServiceSelector              `json:"serviceSelectors,omitempty"`
+		Name                        *string                              `json:"name"`
+		Title                       map[string]string                    `json:"title,omitempty"`
+		Optional                    *bool                                `json:"optional,omitempty"`
+		EngineName                  *string                              `json:"engineName"`
+		Modes                       []string                             `json:"modes,omitempty"`
+		AddressStyle                *ServiceDescriptorAddressStyle       `json:"addressStyle"`
+		DisableManualInput          *bool                                `json:"disableManualInput,omitempty"`
+		HelmValuePath               *ModeServiceRefHelmValuePath         `json:"helmValuePath"`
+		ServiceSelectors            []ServiceSelector                    `json:"serviceSelectors,omitempty"`
+		ServiceVersionCompatibility []ModeServiceRefVersionCompatibility `json:"serviceVersionCompatibility,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -292,13 +397,15 @@ func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "engineName", "modes", "addressStyle", "disableManualInput", "helmValuePath", "serviceSelectors"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "optional", "engineName", "modes", "addressStyle", "disableManualInput", "helmValuePath", "serviceSelectors", "serviceVersionCompatibility"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Name = *all.Name
+	o.Title = all.Title
+	o.Optional = all.Optional
 	o.EngineName = *all.EngineName
 	o.Modes = all.Modes
 	if !all.AddressStyle.IsValid() {
@@ -312,6 +419,7 @@ func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.HelmValuePath = *all.HelmValuePath
 	o.ServiceSelectors = all.ServiceSelectors
+	o.ServiceVersionCompatibility = all.ServiceVersionCompatibility
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

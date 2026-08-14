@@ -14,17 +14,19 @@ type DataCheckListItem struct {
 	CheckId   *string `json:"checkID,omitempty"`
 	CheckName *string `json:"checkName,omitempty"`
 	// Type of check to run. A standalone check runs exactly one type.
-	CheckType          *DataCheckType        `json:"checkType,omitempty"`
-	CheckStatus        *DataCheckStatus      `json:"checkStatus,omitempty"`
-	CheckSummary       *DataCheckListSummary `json:"checkSummary,omitempty"`
-	EnvironmentId      *string               `json:"environmentID,omitempty"`
-	EnvironmentName    *string               `json:"environmentName,omitempty"`
-	Project            *string               `json:"project,omitempty"`
-	ReplicationObjects *DataChannelObject    `json:"replicationObjects,omitempty"`
-	ErrorMessage       common.NullableString `json:"errorMessage,omitempty"`
-	CreatedAt          *time.Time            `json:"createdAt,omitempty"`
-	UpdatedAt          *time.Time            `json:"updatedAt,omitempty"`
-	FinishedAt         common.NullableTime   `json:"finishedAt,omitempty"`
+	CheckType          *DataCheckType           `json:"checkType,omitempty"`
+	CheckStatus        *DataCheckStatus         `json:"checkStatus,omitempty"`
+	CheckSummary       *DataCheckListSummary    `json:"checkSummary,omitempty"`
+	EnvironmentId      *string                  `json:"environmentID,omitempty"`
+	EnvironmentName    *string                  `json:"environmentName,omitempty"`
+	Project            *string                  `json:"project,omitempty"`
+	Source             *DataChannelListEndpoint `json:"source,omitempty"`
+	Target             *DataChannelListEndpoint `json:"target,omitempty"`
+	ReplicationObjects *DataChannelObject       `json:"replicationObjects,omitempty"`
+	ErrorMessage       common.NullableString    `json:"errorMessage,omitempty"`
+	CreatedAt          *time.Time               `json:"createdAt,omitempty"`
+	UpdatedAt          *time.Time               `json:"updatedAt,omitempty"`
+	FinishedAt         common.NullableTime      `json:"finishedAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -271,6 +273,62 @@ func (o *DataCheckListItem) SetProject(v string) {
 	o.Project = &v
 }
 
+// GetSource returns the Source field value if set, zero value otherwise.
+func (o *DataCheckListItem) GetSource() DataChannelListEndpoint {
+	if o == nil || o.Source == nil {
+		var ret DataChannelListEndpoint
+		return ret
+	}
+	return *o.Source
+}
+
+// GetSourceOk returns a tuple with the Source field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DataCheckListItem) GetSourceOk() (*DataChannelListEndpoint, bool) {
+	if o == nil || o.Source == nil {
+		return nil, false
+	}
+	return o.Source, true
+}
+
+// HasSource returns a boolean if a field has been set.
+func (o *DataCheckListItem) HasSource() bool {
+	return o != nil && o.Source != nil
+}
+
+// SetSource gets a reference to the given DataChannelListEndpoint and assigns it to the Source field.
+func (o *DataCheckListItem) SetSource(v DataChannelListEndpoint) {
+	o.Source = &v
+}
+
+// GetTarget returns the Target field value if set, zero value otherwise.
+func (o *DataCheckListItem) GetTarget() DataChannelListEndpoint {
+	if o == nil || o.Target == nil {
+		var ret DataChannelListEndpoint
+		return ret
+	}
+	return *o.Target
+}
+
+// GetTargetOk returns a tuple with the Target field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DataCheckListItem) GetTargetOk() (*DataChannelListEndpoint, bool) {
+	if o == nil || o.Target == nil {
+		return nil, false
+	}
+	return o.Target, true
+}
+
+// HasTarget returns a boolean if a field has been set.
+func (o *DataCheckListItem) HasTarget() bool {
+	return o != nil && o.Target != nil
+}
+
+// SetTarget gets a reference to the given DataChannelListEndpoint and assigns it to the Target field.
+func (o *DataCheckListItem) SetTarget(v DataChannelListEndpoint) {
+	o.Target = &v
+}
+
 // GetReplicationObjects returns the ReplicationObjects field value if set, zero value otherwise.
 func (o *DataCheckListItem) GetReplicationObjects() DataChannelObject {
 	if o == nil || o.ReplicationObjects == nil {
@@ -463,6 +521,12 @@ func (o DataCheckListItem) MarshalJSON() ([]byte, error) {
 	if o.Project != nil {
 		toSerialize["project"] = o.Project
 	}
+	if o.Source != nil {
+		toSerialize["source"] = o.Source
+	}
+	if o.Target != nil {
+		toSerialize["target"] = o.Target
+	}
 	if o.ReplicationObjects != nil {
 		toSerialize["replicationObjects"] = o.ReplicationObjects
 	}
@@ -496,26 +560,28 @@ func (o DataCheckListItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DataCheckListItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CheckId            *string               `json:"checkID,omitempty"`
-		CheckName          *string               `json:"checkName,omitempty"`
-		CheckType          *DataCheckType        `json:"checkType,omitempty"`
-		CheckStatus        *DataCheckStatus      `json:"checkStatus,omitempty"`
-		CheckSummary       *DataCheckListSummary `json:"checkSummary,omitempty"`
-		EnvironmentId      *string               `json:"environmentID,omitempty"`
-		EnvironmentName    *string               `json:"environmentName,omitempty"`
-		Project            *string               `json:"project,omitempty"`
-		ReplicationObjects *DataChannelObject    `json:"replicationObjects,omitempty"`
-		ErrorMessage       common.NullableString `json:"errorMessage,omitempty"`
-		CreatedAt          *time.Time            `json:"createdAt,omitempty"`
-		UpdatedAt          *time.Time            `json:"updatedAt,omitempty"`
-		FinishedAt         common.NullableTime   `json:"finishedAt,omitempty"`
+		CheckId            *string                  `json:"checkID,omitempty"`
+		CheckName          *string                  `json:"checkName,omitempty"`
+		CheckType          *DataCheckType           `json:"checkType,omitempty"`
+		CheckStatus        *DataCheckStatus         `json:"checkStatus,omitempty"`
+		CheckSummary       *DataCheckListSummary    `json:"checkSummary,omitempty"`
+		EnvironmentId      *string                  `json:"environmentID,omitempty"`
+		EnvironmentName    *string                  `json:"environmentName,omitempty"`
+		Project            *string                  `json:"project,omitempty"`
+		Source             *DataChannelListEndpoint `json:"source,omitempty"`
+		Target             *DataChannelListEndpoint `json:"target,omitempty"`
+		ReplicationObjects *DataChannelObject       `json:"replicationObjects,omitempty"`
+		ErrorMessage       common.NullableString    `json:"errorMessage,omitempty"`
+		CreatedAt          *time.Time               `json:"createdAt,omitempty"`
+		UpdatedAt          *time.Time               `json:"updatedAt,omitempty"`
+		FinishedAt         common.NullableTime      `json:"finishedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"checkID", "checkName", "checkType", "checkStatus", "checkSummary", "environmentID", "environmentName", "project", "replicationObjects", "errorMessage", "createdAt", "updatedAt", "finishedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"checkID", "checkName", "checkType", "checkStatus", "checkSummary", "environmentID", "environmentName", "project", "source", "target", "replicationObjects", "errorMessage", "createdAt", "updatedAt", "finishedAt"})
 	} else {
 		return err
 	}
@@ -540,6 +606,14 @@ func (o *DataCheckListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.EnvironmentId = all.EnvironmentId
 	o.EnvironmentName = all.EnvironmentName
 	o.Project = all.Project
+	if all.Source != nil && all.Source.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Source = all.Source
+	if all.Target != nil && all.Target.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Target = all.Target
 	if all.ReplicationObjects != nil && all.ReplicationObjects.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

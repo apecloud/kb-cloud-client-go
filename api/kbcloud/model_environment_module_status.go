@@ -10,16 +10,23 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// EnvironmentModuleStatus Status of environment module
+// EnvironmentModuleStatus Status of an environment module. Enabled is only used as the desired state when creating an environment. NotInstalled, Installing, and InstallationFailed describe quick installation; Upgradeable, Upgrading, and UpgradeFailed describe quick upgrade. Upgradeable means the component is running but an ApeCloud-bundled newer version is available. Unknown means the current state could not be determined.
 type EnvironmentModuleStatus string
 
 // List of EnvironmentModuleStatus.
 const (
-	EnvironmentModuleStatusRunning  EnvironmentModuleStatus = "Running"
-	EnvironmentModuleStatusUpdating EnvironmentModuleStatus = "Updating"
-	EnvironmentModuleStatusError    EnvironmentModuleStatus = "Error"
-	EnvironmentModuleStatusDisabled EnvironmentModuleStatus = "Disabled"
-	EnvironmentModuleStatusEnabled  EnvironmentModuleStatus = "Enabled"
+	EnvironmentModuleStatusRunning            EnvironmentModuleStatus = "Running"
+	EnvironmentModuleStatusUpdating           EnvironmentModuleStatus = "Updating"
+	EnvironmentModuleStatusError              EnvironmentModuleStatus = "Error"
+	EnvironmentModuleStatusDisabled           EnvironmentModuleStatus = "Disabled"
+	EnvironmentModuleStatusEnabled            EnvironmentModuleStatus = "Enabled"
+	EnvironmentModuleStatusNotInstalled       EnvironmentModuleStatus = "NotInstalled"
+	EnvironmentModuleStatusInstalling         EnvironmentModuleStatus = "Installing"
+	EnvironmentModuleStatusInstallationFailed EnvironmentModuleStatus = "InstallationFailed"
+	EnvironmentModuleStatusUpgradeable        EnvironmentModuleStatus = "Upgradeable"
+	EnvironmentModuleStatusUpgrading          EnvironmentModuleStatus = "Upgrading"
+	EnvironmentModuleStatusUpgradeFailed      EnvironmentModuleStatus = "UpgradeFailed"
+	EnvironmentModuleStatusUnknown            EnvironmentModuleStatus = "Unknown"
 )
 
 var allowedEnvironmentModuleStatusEnumValues = []EnvironmentModuleStatus{
@@ -28,6 +35,13 @@ var allowedEnvironmentModuleStatusEnumValues = []EnvironmentModuleStatus{
 	EnvironmentModuleStatusError,
 	EnvironmentModuleStatusDisabled,
 	EnvironmentModuleStatusEnabled,
+	EnvironmentModuleStatusNotInstalled,
+	EnvironmentModuleStatusInstalling,
+	EnvironmentModuleStatusInstallationFailed,
+	EnvironmentModuleStatusUpgradeable,
+	EnvironmentModuleStatusUpgrading,
+	EnvironmentModuleStatusUpgradeFailed,
+	EnvironmentModuleStatusUnknown,
 }
 
 // GetAllowedValues returns the list of possible values.

@@ -21,9 +21,9 @@ type Key struct {
 	// The intended usage of the key.
 	KeyUsage *EncryptionKeyUsage `json:"keyUsage,omitempty"`
 	// the clusters which use the key
-	Clusters []string `json:"clusters,omitempty"`
+	Clusters []KeyCluster `json:"clusters,omitempty"`
 	// the backups which use the key
-	Backups []string `json:"backups,omitempty"`
+	Backups []KeyBackup `json:"backups,omitempty"`
 	// The creation timestamp of the key.
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	// The last update timestamp of the key.
@@ -165,9 +165,9 @@ func (o *Key) SetKeyUsage(v EncryptionKeyUsage) {
 }
 
 // GetClusters returns the Clusters field value if set, zero value otherwise.
-func (o *Key) GetClusters() []string {
+func (o *Key) GetClusters() []KeyCluster {
 	if o == nil || o.Clusters == nil {
-		var ret []string
+		var ret []KeyCluster
 		return ret
 	}
 	return o.Clusters
@@ -175,7 +175,7 @@ func (o *Key) GetClusters() []string {
 
 // GetClustersOk returns a tuple with the Clusters field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Key) GetClustersOk() (*[]string, bool) {
+func (o *Key) GetClustersOk() (*[]KeyCluster, bool) {
 	if o == nil || o.Clusters == nil {
 		return nil, false
 	}
@@ -187,15 +187,15 @@ func (o *Key) HasClusters() bool {
 	return o != nil && o.Clusters != nil
 }
 
-// SetClusters gets a reference to the given []string and assigns it to the Clusters field.
-func (o *Key) SetClusters(v []string) {
+// SetClusters gets a reference to the given []KeyCluster and assigns it to the Clusters field.
+func (o *Key) SetClusters(v []KeyCluster) {
 	o.Clusters = v
 }
 
 // GetBackups returns the Backups field value if set, zero value otherwise.
-func (o *Key) GetBackups() []string {
+func (o *Key) GetBackups() []KeyBackup {
 	if o == nil || o.Backups == nil {
-		var ret []string
+		var ret []KeyBackup
 		return ret
 	}
 	return o.Backups
@@ -203,7 +203,7 @@ func (o *Key) GetBackups() []string {
 
 // GetBackupsOk returns a tuple with the Backups field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Key) GetBackupsOk() (*[]string, bool) {
+func (o *Key) GetBackupsOk() (*[]KeyBackup, bool) {
 	if o == nil || o.Backups == nil {
 		return nil, false
 	}
@@ -215,8 +215,8 @@ func (o *Key) HasBackups() bool {
 	return o != nil && o.Backups != nil
 }
 
-// SetBackups gets a reference to the given []string and assigns it to the Backups field.
-func (o *Key) SetBackups(v []string) {
+// SetBackups gets a reference to the given []KeyBackup and assigns it to the Backups field.
+func (o *Key) SetBackups(v []KeyBackup) {
 	o.Backups = v
 }
 
@@ -359,8 +359,8 @@ func (o *Key) UnmarshalJSON(bytes []byte) (err error) {
 		Name      *string              `json:"name,omitempty"`
 		Algorithm *EncryptionAlgorithm `json:"algorithm,omitempty"`
 		KeyUsage  *EncryptionKeyUsage  `json:"keyUsage,omitempty"`
-		Clusters  []string             `json:"clusters,omitempty"`
-		Backups   []string             `json:"backups,omitempty"`
+		Clusters  []KeyCluster         `json:"clusters,omitempty"`
+		Backups   []KeyBackup          `json:"backups,omitempty"`
 		CreatedAt *time.Time           `json:"createdAt,omitempty"`
 		UpdatedAt *time.Time           `json:"updatedAt,omitempty"`
 		Key       *string              `json:"key,omitempty"`

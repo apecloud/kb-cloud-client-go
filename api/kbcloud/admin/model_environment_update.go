@@ -50,6 +50,8 @@ type EnvironmentUpdate struct {
 	SlaEnabled *bool `json:"slaEnabled,omitempty"`
 	// Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
 	KoordinatorEnabled *bool `json:"koordinatorEnabled,omitempty"`
+	// KBE Pod IP pool providers enabled for discovery and explicit pool selection. An empty array disables this capability.
+	IpPoolProviders []IpPoolProvider `json:"ipPoolProviders,omitempty"`
 	// * `HardAntiAffinity` - Strictly enforce pod anti-affinity across nodes. Pods will not be scheduled when the anti-affinity constraints cannot be satisfied.
 	// * `SoftAntiAffinity` - Prefer to spread pods across nodes using anti-affinity, but allow scheduling on the same node when constraints cannot be fully satisfied.
 	// * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
@@ -777,6 +779,34 @@ func (o *EnvironmentUpdate) SetKoordinatorEnabled(v bool) {
 	o.KoordinatorEnabled = &v
 }
 
+// GetIpPoolProviders returns the IpPoolProviders field value if set, zero value otherwise.
+func (o *EnvironmentUpdate) GetIpPoolProviders() []IpPoolProvider {
+	if o == nil || o.IpPoolProviders == nil {
+		var ret []IpPoolProvider
+		return ret
+	}
+	return o.IpPoolProviders
+}
+
+// GetIpPoolProvidersOk returns a tuple with the IpPoolProviders field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentUpdate) GetIpPoolProvidersOk() (*[]IpPoolProvider, bool) {
+	if o == nil || o.IpPoolProviders == nil {
+		return nil, false
+	}
+	return &o.IpPoolProviders, true
+}
+
+// HasIpPoolProviders returns a boolean if a field has been set.
+func (o *EnvironmentUpdate) HasIpPoolProviders() bool {
+	return o != nil && o.IpPoolProviders != nil
+}
+
+// SetIpPoolProviders gets a reference to the given []IpPoolProvider and assigns it to the IpPoolProviders field.
+func (o *EnvironmentUpdate) SetIpPoolProviders(v []IpPoolProvider) {
+	o.IpPoolProviders = v
+}
+
 // GetClusterSchedulingPolicy returns the ClusterSchedulingPolicy field value if set, zero value otherwise.
 func (o *EnvironmentUpdate) GetClusterSchedulingPolicy() ClusterSchedulingPolicy {
 	if o == nil || o.ClusterSchedulingPolicy == nil {
@@ -871,6 +901,9 @@ func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 	if o.KoordinatorEnabled != nil {
 		toSerialize["koordinatorEnabled"] = o.KoordinatorEnabled
 	}
+	if o.IpPoolProviders != nil {
+		toSerialize["ipPoolProviders"] = o.IpPoolProviders
+	}
 	if o.ClusterSchedulingPolicy != nil {
 		toSerialize["clusterSchedulingPolicy"] = o.ClusterSchedulingPolicy
 	}
@@ -904,6 +937,7 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		Provider                common.NullableString       `json:"provider,omitempty"`
 		SlaEnabled              *bool                       `json:"slaEnabled,omitempty"`
 		KoordinatorEnabled      *bool                       `json:"koordinatorEnabled,omitempty"`
+		IpPoolProviders         []IpPoolProvider            `json:"ipPoolProviders,omitempty"`
 		ClusterSchedulingPolicy *ClusterSchedulingPolicy    `json:"clusterSchedulingPolicy,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -911,7 +945,7 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "type", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "imageRegistry", "nodePortEnabled", "lbEnabled", "domainEnabled", "internetLBEnabled", "networkModes", "deletePolicy", "clusterValidationPolicy", "provider", "slaEnabled", "koordinatorEnabled", "clusterSchedulingPolicy"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "type", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "imageRegistry", "nodePortEnabled", "lbEnabled", "domainEnabled", "internetLBEnabled", "networkModes", "deletePolicy", "clusterValidationPolicy", "provider", "slaEnabled", "koordinatorEnabled", "ipPoolProviders", "clusterSchedulingPolicy"})
 	} else {
 		return err
 	}
@@ -952,6 +986,7 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	o.Provider = all.Provider
 	o.SlaEnabled = all.SlaEnabled
 	o.KoordinatorEnabled = all.KoordinatorEnabled
+	o.IpPoolProviders = all.IpPoolProviders
 	if all.ClusterSchedulingPolicy != nil && !all.ClusterSchedulingPolicy.IsValid() {
 		hasInvalidField = true
 	} else {
