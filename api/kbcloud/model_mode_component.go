@@ -17,7 +17,8 @@ type ModeComponent struct {
 	// the name of the serviceRef defined in mode's serviceRefs.
 	// If set, it means a serviceRef can be used to replace this component.
 	//
-	ServiceRef *string `json:"serviceRef,omitempty"`
+	ServiceRef       *string               `json:"serviceRef,omitempty"`
+	ReadonlyEndpoint *ModeReadonlyEndpoint `json:"readonlyEndpoint,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -140,6 +141,34 @@ func (o *ModeComponent) SetServiceRef(v string) {
 	o.ServiceRef = &v
 }
 
+// GetReadonlyEndpoint returns the ReadonlyEndpoint field value if set, zero value otherwise.
+func (o *ModeComponent) GetReadonlyEndpoint() ModeReadonlyEndpoint {
+	if o == nil || o.ReadonlyEndpoint == nil {
+		var ret ModeReadonlyEndpoint
+		return ret
+	}
+	return *o.ReadonlyEndpoint
+}
+
+// GetReadonlyEndpointOk returns a tuple with the ReadonlyEndpoint field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeComponent) GetReadonlyEndpointOk() (*ModeReadonlyEndpoint, bool) {
+	if o == nil || o.ReadonlyEndpoint == nil {
+		return nil, false
+	}
+	return o.ReadonlyEndpoint, true
+}
+
+// HasReadonlyEndpoint returns a boolean if a field has been set.
+func (o *ModeComponent) HasReadonlyEndpoint() bool {
+	return o != nil && o.ReadonlyEndpoint != nil
+}
+
+// SetReadonlyEndpoint gets a reference to the given ModeReadonlyEndpoint and assigns it to the ReadonlyEndpoint field.
+func (o *ModeComponent) SetReadonlyEndpoint(v ModeReadonlyEndpoint) {
+	o.ReadonlyEndpoint = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeComponent) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -152,6 +181,9 @@ func (o ModeComponent) MarshalJSON() ([]byte, error) {
 	if o.ServiceRef != nil {
 		toSerialize["serviceRef"] = o.ServiceRef
 	}
+	if o.ReadonlyEndpoint != nil {
+		toSerialize["readonlyEndpoint"] = o.ReadonlyEndpoint
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -162,10 +194,11 @@ func (o ModeComponent) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeComponent) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component    *string `json:"component"`
-		HideEnpoints *bool   `json:"hideEnpoints"`
-		HideOnCreate *bool   `json:"hideOnCreate"`
-		ServiceRef   *string `json:"serviceRef,omitempty"`
+		Component        *string               `json:"component"`
+		HideEnpoints     *bool                 `json:"hideEnpoints"`
+		HideOnCreate     *bool                 `json:"hideOnCreate"`
+		ServiceRef       *string               `json:"serviceRef,omitempty"`
+		ReadonlyEndpoint *ModeReadonlyEndpoint `json:"readonlyEndpoint,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -181,17 +214,27 @@ func (o *ModeComponent) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "hideEnpoints", "hideOnCreate", "serviceRef"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "hideEnpoints", "hideOnCreate", "serviceRef", "readonlyEndpoint"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Component = *all.Component
 	o.HideEnpoints = *all.HideEnpoints
 	o.HideOnCreate = *all.HideOnCreate
 	o.ServiceRef = all.ServiceRef
+	if all.ReadonlyEndpoint != nil && all.ReadonlyEndpoint.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ReadonlyEndpoint = all.ReadonlyEndpoint
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
