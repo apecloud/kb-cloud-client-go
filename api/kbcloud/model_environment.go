@@ -22,6 +22,8 @@ type Environment struct {
 	AvailabilityZones []string `json:"availabilityZones"`
 	// Configuration of networking for this environment
 	NetworkConfig *NetworkConfig `json:"networkConfig,omitempty"`
+	// Log query backend configured for this environment.
+	LogBackend *LogBackendType `json:"logBackend,omitempty"`
 	// CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC. Populated by the system. Read-only. Null for lists
 	CreatedAt time.Time `json:"createdAt"`
 	// The description of the organization
@@ -46,6 +48,8 @@ type Environment struct {
 	ExtraInfo *string `json:"extraInfo,omitempty"`
 	// KubeBlocks version of the environment
 	KbVersion *string `json:"kbVersion,omitempty"`
+	// KBE Pod IP pool providers enabled for discovery and explicit pool selection.
+	IpPoolProviders []IpPoolProvider `json:"ipPoolProviders"`
 	// namespace info for environment
 	Namespaces []string `json:"namespaces,omitempty"`
 	// the default storageClass for the environment
@@ -63,7 +67,7 @@ type Environment struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironment(provider string, region string, availabilityZones []string, createdAt time.Time, id uuid.UUID, name string, orgName string, state EnvironmentState, typeVar EnvironmentType, updatedAt time.Time, defaultStorageClass string) *Environment {
+func NewEnvironment(provider string, region string, availabilityZones []string, createdAt time.Time, id uuid.UUID, name string, orgName string, state EnvironmentState, typeVar EnvironmentType, updatedAt time.Time, ipPoolProviders []IpPoolProvider, defaultStorageClass string) *Environment {
 	this := Environment{}
 	this.Provider = provider
 	this.Region = region
@@ -75,6 +79,7 @@ func NewEnvironment(provider string, region string, availabilityZones []string, 
 	this.State = state
 	this.Type = typeVar
 	this.UpdatedAt = updatedAt
+	this.IpPoolProviders = ipPoolProviders
 	this.DefaultStorageClass = defaultStorageClass
 	var clusterValidationPolicy ClusterValidationPolicy = ClusterValidationPolicyValidateOnly
 	this.ClusterValidationPolicy = &clusterValidationPolicy
@@ -188,6 +193,34 @@ func (o *Environment) HasNetworkConfig() bool {
 // SetNetworkConfig gets a reference to the given NetworkConfig and assigns it to the NetworkConfig field.
 func (o *Environment) SetNetworkConfig(v NetworkConfig) {
 	o.NetworkConfig = &v
+}
+
+// GetLogBackend returns the LogBackend field value if set, zero value otherwise.
+func (o *Environment) GetLogBackend() LogBackendType {
+	if o == nil || o.LogBackend == nil {
+		var ret LogBackendType
+		return ret
+	}
+	return *o.LogBackend
+}
+
+// GetLogBackendOk returns a tuple with the LogBackend field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Environment) GetLogBackendOk() (*LogBackendType, bool) {
+	if o == nil || o.LogBackend == nil {
+		return nil, false
+	}
+	return o.LogBackend, true
+}
+
+// HasLogBackend returns a boolean if a field has been set.
+func (o *Environment) HasLogBackend() bool {
+	return o != nil && o.LogBackend != nil
+}
+
+// SetLogBackend gets a reference to the given LogBackendType and assigns it to the LogBackend field.
+func (o *Environment) SetLogBackend(v LogBackendType) {
+	o.LogBackend = &v
 }
 
 // GetCreatedAt returns the CreatedAt field value.
@@ -491,6 +524,29 @@ func (o *Environment) SetKbVersion(v string) {
 	o.KbVersion = &v
 }
 
+// GetIpPoolProviders returns the IpPoolProviders field value.
+func (o *Environment) GetIpPoolProviders() []IpPoolProvider {
+	if o == nil {
+		var ret []IpPoolProvider
+		return ret
+	}
+	return o.IpPoolProviders
+}
+
+// GetIpPoolProvidersOk returns a tuple with the IpPoolProviders field value
+// and a boolean to check if the value has been set.
+func (o *Environment) GetIpPoolProvidersOk() (*[]IpPoolProvider, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.IpPoolProviders, true
+}
+
+// SetIpPoolProviders sets field value.
+func (o *Environment) SetIpPoolProviders(v []IpPoolProvider) {
+	o.IpPoolProviders = v
+}
+
 // GetNamespaces returns the Namespaces field value if set, zero value otherwise.
 func (o *Environment) GetNamespaces() []string {
 	if o == nil || o.Namespaces == nil {
@@ -610,6 +666,9 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 	if o.NetworkConfig != nil {
 		toSerialize["networkConfig"] = o.NetworkConfig
 	}
+	if o.LogBackend != nil {
+		toSerialize["logBackend"] = o.LogBackend
+	}
 	if o.CreatedAt.Nanosecond() == 0 {
 		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
 	} else {
@@ -640,6 +699,7 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 	if o.KbVersion != nil {
 		toSerialize["kbVersion"] = o.KbVersion
 	}
+	toSerialize["ipPoolProviders"] = o.IpPoolProviders
 	if o.Namespaces != nil {
 		toSerialize["namespaces"] = o.Namespaces
 	}
@@ -664,6 +724,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 		Region                  *string                  `json:"region"`
 		AvailabilityZones       *[]string                `json:"availabilityZones"`
 		NetworkConfig           *NetworkConfig           `json:"networkConfig,omitempty"`
+		LogBackend              *LogBackendType          `json:"logBackend,omitempty"`
 		CreatedAt               *time.Time               `json:"createdAt"`
 		Description             *string                  `json:"description,omitempty"`
 		DisplayName             *string                  `json:"displayName,omitempty"`
@@ -676,6 +737,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 		ImageRegistry           *string                  `json:"imageRegistry,omitempty"`
 		ExtraInfo               *string                  `json:"extraInfo,omitempty"`
 		KbVersion               *string                  `json:"kbVersion,omitempty"`
+		IpPoolProviders         *[]IpPoolProvider        `json:"ipPoolProviders"`
 		Namespaces              []string                 `json:"namespaces,omitempty"`
 		DefaultStorageClass     *string                  `json:"defaultStorageClass"`
 		ClusterValidationPolicy *ClusterValidationPolicy `json:"clusterValidationPolicy,omitempty"`
@@ -714,12 +776,15 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	if all.UpdatedAt == nil {
 		return fmt.Errorf("required field updatedAt missing")
 	}
+	if all.IpPoolProviders == nil {
+		return fmt.Errorf("required field ipPoolProviders missing")
+	}
 	if all.DefaultStorageClass == nil {
 		return fmt.Errorf("required field defaultStorageClass missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "networkConfig", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "kbVersion", "namespaces", "defaultStorageClass", "clusterValidationPolicy", "architecture"})
+		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "networkConfig", "logBackend", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "kbVersion", "ipPoolProviders", "namespaces", "defaultStorageClass", "clusterValidationPolicy", "architecture"})
 	} else {
 		return err
 	}
@@ -732,6 +797,11 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.NetworkConfig = all.NetworkConfig
+	if all.LogBackend != nil && !all.LogBackend.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.LogBackend = all.LogBackend
+	}
 	o.CreatedAt = *all.CreatedAt
 	o.Description = all.Description
 	o.DisplayName = all.DisplayName
@@ -752,6 +822,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	o.ImageRegistry = all.ImageRegistry
 	o.ExtraInfo = all.ExtraInfo
 	o.KbVersion = all.KbVersion
+	o.IpPoolProviders = *all.IpPoolProviders
 	o.Namespaces = all.Namespaces
 	o.DefaultStorageClass = *all.DefaultStorageClass
 	if all.ClusterValidationPolicy != nil && !all.ClusterValidationPolicy.IsValid() {

@@ -31,6 +31,8 @@ type ParameterProp struct {
 	Minimum *string `json:"minimum,omitempty"`
 	// The value options of the parameter
 	Enum []interface{} `json:"enum,omitempty"`
+	// The unit of the parameter value (e.g., seconds, bytes, ms, percentage)
+	Unit *string `json:"unit,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -317,6 +319,34 @@ func (o *ParameterProp) SetEnum(v []interface{}) {
 	o.Enum = v
 }
 
+// GetUnit returns the Unit field value if set, zero value otherwise.
+func (o *ParameterProp) GetUnit() string {
+	if o == nil || o.Unit == nil {
+		var ret string
+		return ret
+	}
+	return *o.Unit
+}
+
+// GetUnitOk returns a tuple with the Unit field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterProp) GetUnitOk() (*string, bool) {
+	if o == nil || o.Unit == nil {
+		return nil, false
+	}
+	return o.Unit, true
+}
+
+// HasUnit returns a boolean if a field has been set.
+func (o *ParameterProp) HasUnit() bool {
+	return o != nil && o.Unit != nil
+}
+
+// SetUnit gets a reference to the given string and assigns it to the Unit field.
+func (o *ParameterProp) SetUnit(v string) {
+	o.Unit = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ParameterProp) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -345,6 +375,9 @@ func (o ParameterProp) MarshalJSON() ([]byte, error) {
 	if o.Enum != nil {
 		toSerialize["enum"] = o.Enum
 	}
+	if o.Unit != nil {
+		toSerialize["unit"] = o.Unit
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -365,6 +398,7 @@ func (o *ParameterProp) UnmarshalJSON(bytes []byte) (err error) {
 		Maximum     *string       `json:"maximum,omitempty"`
 		Minimum     *string       `json:"minimum,omitempty"`
 		Enum        []interface{} `json:"enum,omitempty"`
+		Unit        *string       `json:"unit,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -383,7 +417,7 @@ func (o *ParameterProp) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "type", "value", "default", "needRestart", "immutable", "maximum", "minimum", "enum"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "type", "value", "default", "needRestart", "immutable", "maximum", "minimum", "enum", "unit"})
 	} else {
 		return err
 	}
@@ -397,6 +431,7 @@ func (o *ParameterProp) UnmarshalJSON(bytes []byte) (err error) {
 	o.Maximum = all.Maximum
 	o.Minimum = all.Minimum
 	o.Enum = all.Enum
+	o.Unit = all.Unit
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

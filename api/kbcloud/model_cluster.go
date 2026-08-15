@@ -99,6 +99,9 @@ type Cluster struct {
 	// * `Disabled` - Do not apply pod anti-affinity constraints on nodes.
 	//
 	SchedulingPolicy *SchedulingPolicyType `json:"schedulingPolicy,omitempty"`
+	// Effective scheduler used when the cluster was created.
+	SchedulerName            common.NullableString                `json:"schedulerName,omitempty"`
+	ReservationResourceClass *KoordinatorReservationResourceClass `json:"reservationResourceClass,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -1415,6 +1418,73 @@ func (o *Cluster) SetSchedulingPolicy(v SchedulingPolicyType) {
 	o.SchedulingPolicy = &v
 }
 
+// GetSchedulerName returns the SchedulerName field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Cluster) GetSchedulerName() string {
+	if o == nil || o.SchedulerName.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.SchedulerName.Get()
+}
+
+// GetSchedulerNameOk returns a tuple with the SchedulerName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *Cluster) GetSchedulerNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SchedulerName.Get(), o.SchedulerName.IsSet()
+}
+
+// HasSchedulerName returns a boolean if a field has been set.
+func (o *Cluster) HasSchedulerName() bool {
+	return o != nil && o.SchedulerName.IsSet()
+}
+
+// SetSchedulerName gets a reference to the given common.NullableString and assigns it to the SchedulerName field.
+func (o *Cluster) SetSchedulerName(v string) {
+	o.SchedulerName.Set(&v)
+}
+
+// SetSchedulerNameNil sets the value for SchedulerName to be an explicit nil.
+func (o *Cluster) SetSchedulerNameNil() {
+	o.SchedulerName.Set(nil)
+}
+
+// UnsetSchedulerName ensures that no value is present for SchedulerName, not even an explicit nil.
+func (o *Cluster) UnsetSchedulerName() {
+	o.SchedulerName.Unset()
+}
+
+// GetReservationResourceClass returns the ReservationResourceClass field value if set, zero value otherwise.
+func (o *Cluster) GetReservationResourceClass() KoordinatorReservationResourceClass {
+	if o == nil || o.ReservationResourceClass == nil {
+		var ret KoordinatorReservationResourceClass
+		return ret
+	}
+	return *o.ReservationResourceClass
+}
+
+// GetReservationResourceClassOk returns a tuple with the ReservationResourceClass field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetReservationResourceClassOk() (*KoordinatorReservationResourceClass, bool) {
+	if o == nil || o.ReservationResourceClass == nil {
+		return nil, false
+	}
+	return o.ReservationResourceClass, true
+}
+
+// HasReservationResourceClass returns a boolean if a field has been set.
+func (o *Cluster) HasReservationResourceClass() bool {
+	return o != nil && o.ReservationResourceClass != nil
+}
+
+// SetReservationResourceClass gets a reference to the given KoordinatorReservationResourceClass and assigns it to the ReservationResourceClass field.
+func (o *Cluster) SetReservationResourceClass(v KoordinatorReservationResourceClass) {
+	o.ReservationResourceClass = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Cluster) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -1552,6 +1622,12 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 	if o.SchedulingPolicy != nil {
 		toSerialize["schedulingPolicy"] = o.SchedulingPolicy
 	}
+	if o.SchedulerName.IsSet() {
+		toSerialize["schedulerName"] = o.SchedulerName.Get()
+	}
+	if o.ReservationResourceClass != nil {
+		toSerialize["reservationResourceClass"] = o.ReservationResourceClass
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -1562,49 +1638,51 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id                     *string                     `json:"id,omitempty"`
-		ParentId               common.NullableString       `json:"parentId,omitempty"`
-		ParentName             common.NullableString       `json:"parentName,omitempty"`
-		ParentDisplayName      common.NullableString       `json:"parentDisplayName,omitempty"`
-		ClusterType            NullableClusterType         `json:"clusterType,omitempty"`
-		Delay                  common.NullableFloat64      `json:"delay,omitempty"`
-		OrgName                *string                     `json:"orgName,omitempty"`
-		CloudProvider          *string                     `json:"cloudProvider,omitempty"`
-		EnvironmentId          *string                     `json:"environmentId,omitempty"`
-		EnvironmentName        *string                     `json:"environmentName"`
-		CloudRegion            *string                     `json:"cloudRegion,omitempty"`
-		Project                *string                     `json:"project,omitempty"`
-		Name                   *string                     `json:"name"`
-		Hash                   *string                     `json:"hash,omitempty"`
-		Engine                 *string                     `json:"engine"`
-		License                *ClusterLicense             `json:"license,omitempty"`
-		ParamTpls              []ParamTplsItem             `json:"paramTpls,omitempty"`
-		Version                *string                     `json:"version,omitempty"`
-		TerminationPolicy      *ClusterTerminationPolicy   `json:"terminationPolicy,omitempty"`
-		TlsEnabled             *bool                       `json:"tlsEnabled,omitempty"`
-		NodePortEnabled        *bool                       `json:"nodePortEnabled,omitempty"`
-		Status                 *string                     `json:"status,omitempty"`
-		CreatedAt              *time.Time                  `json:"createdAt,omitempty"`
-		UpdatedAt              *time.Time                  `json:"updatedAt,omitempty"`
-		Mode                   *string                     `json:"mode,omitempty"`
-		ProxyEnabled           *bool                       `json:"proxyEnabled,omitempty"`
-		Components             []ComponentItem             `json:"components,omitempty"`
-		Extra                  map[string]interface{}      `json:"extra,omitempty"`
-		InitOptions            []InitOptionItem            `json:"initOptions,omitempty"`
-		SingleZone             *bool                       `json:"singleZone,omitempty"`
-		AvailabilityZones      []string                    `json:"availabilityZones,omitempty"`
-		PodAntiAffinityEnabled *bool                       `json:"podAntiAffinityEnabled,omitempty"`
-		Backup                 *ClusterBackup              `json:"backup,omitempty"`
-		NodeGroup              common.NullableString       `json:"nodeGroup,omitempty"`
-		CodeShort              *string                     `json:"codeShort,omitempty"`
-		DisplayName            *string                     `json:"displayName,omitempty"`
-		Static                 *bool                       `json:"static,omitempty"`
-		NetworkMode            *NetworkMode                `json:"networkMode,omitempty"`
-		ServiceRefs            []ServiceRef                `json:"serviceRefs,omitempty"`
-		ReferencedBy           []ServiceRef                `json:"referencedBy,omitempty"`
-		ObjectStorageConfig    *ClusterObjectStorageConfig `json:"objectStorageConfig,omitempty"`
-		MaintainceWindow       *ClusterMaintainceWindow    `json:"maintainceWindow,omitempty"`
-		SchedulingPolicy       *SchedulingPolicyType       `json:"schedulingPolicy,omitempty"`
+		Id                       *string                              `json:"id,omitempty"`
+		ParentId                 common.NullableString                `json:"parentId,omitempty"`
+		ParentName               common.NullableString                `json:"parentName,omitempty"`
+		ParentDisplayName        common.NullableString                `json:"parentDisplayName,omitempty"`
+		ClusterType              NullableClusterType                  `json:"clusterType,omitempty"`
+		Delay                    common.NullableFloat64               `json:"delay,omitempty"`
+		OrgName                  *string                              `json:"orgName,omitempty"`
+		CloudProvider            *string                              `json:"cloudProvider,omitempty"`
+		EnvironmentId            *string                              `json:"environmentId,omitempty"`
+		EnvironmentName          *string                              `json:"environmentName"`
+		CloudRegion              *string                              `json:"cloudRegion,omitempty"`
+		Project                  *string                              `json:"project,omitempty"`
+		Name                     *string                              `json:"name"`
+		Hash                     *string                              `json:"hash,omitempty"`
+		Engine                   *string                              `json:"engine"`
+		License                  *ClusterLicense                      `json:"license,omitempty"`
+		ParamTpls                []ParamTplsItem                      `json:"paramTpls,omitempty"`
+		Version                  *string                              `json:"version,omitempty"`
+		TerminationPolicy        *ClusterTerminationPolicy            `json:"terminationPolicy,omitempty"`
+		TlsEnabled               *bool                                `json:"tlsEnabled,omitempty"`
+		NodePortEnabled          *bool                                `json:"nodePortEnabled,omitempty"`
+		Status                   *string                              `json:"status,omitempty"`
+		CreatedAt                *time.Time                           `json:"createdAt,omitempty"`
+		UpdatedAt                *time.Time                           `json:"updatedAt,omitempty"`
+		Mode                     *string                              `json:"mode,omitempty"`
+		ProxyEnabled             *bool                                `json:"proxyEnabled,omitempty"`
+		Components               []ComponentItem                      `json:"components,omitempty"`
+		Extra                    map[string]interface{}               `json:"extra,omitempty"`
+		InitOptions              []InitOptionItem                     `json:"initOptions,omitempty"`
+		SingleZone               *bool                                `json:"singleZone,omitempty"`
+		AvailabilityZones        []string                             `json:"availabilityZones,omitempty"`
+		PodAntiAffinityEnabled   *bool                                `json:"podAntiAffinityEnabled,omitempty"`
+		Backup                   *ClusterBackup                       `json:"backup,omitempty"`
+		NodeGroup                common.NullableString                `json:"nodeGroup,omitempty"`
+		CodeShort                *string                              `json:"codeShort,omitempty"`
+		DisplayName              *string                              `json:"displayName,omitempty"`
+		Static                   *bool                                `json:"static,omitempty"`
+		NetworkMode              *NetworkMode                         `json:"networkMode,omitempty"`
+		ServiceRefs              []ServiceRef                         `json:"serviceRefs,omitempty"`
+		ReferencedBy             []ServiceRef                         `json:"referencedBy,omitempty"`
+		ObjectStorageConfig      *ClusterObjectStorageConfig          `json:"objectStorageConfig,omitempty"`
+		MaintainceWindow         *ClusterMaintainceWindow             `json:"maintainceWindow,omitempty"`
+		SchedulingPolicy         *SchedulingPolicyType                `json:"schedulingPolicy,omitempty"`
+		SchedulerName            common.NullableString                `json:"schedulerName,omitempty"`
+		ReservationResourceClass *KoordinatorReservationResourceClass `json:"reservationResourceClass,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1620,7 +1698,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "mode", "proxyEnabled", "components", "extra", "initOptions", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static", "networkMode", "serviceRefs", "referencedBy", "objectStorageConfig", "maintainceWindow", "schedulingPolicy"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "mode", "proxyEnabled", "components", "extra", "initOptions", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static", "networkMode", "serviceRefs", "referencedBy", "objectStorageConfig", "maintainceWindow", "schedulingPolicy", "schedulerName", "reservationResourceClass"})
 	} else {
 		return err
 	}
@@ -1696,6 +1774,12 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	} else {
 		o.SchedulingPolicy = all.SchedulingPolicy
+	}
+	o.SchedulerName = all.SchedulerName
+	if all.ReservationResourceClass != nil && !all.ReservationResourceClass.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.ReservationResourceClass = all.ReservationResourceClass
 	}
 
 	if len(additionalProperties) > 0 {

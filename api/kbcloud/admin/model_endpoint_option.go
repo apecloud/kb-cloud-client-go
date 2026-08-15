@@ -20,8 +20,6 @@ type EndpointOption struct {
 	Type       []string             `json:"type"`
 	// whether the endpoint supports system use, such as health check, dms, databases & accounts management etc.
 	SupportsSystemUse *bool `json:"supportsSystemUse,omitempty"`
-	// whether the engine supports readonly endpoint
-	SupportsReadonly *bool `json:"supportsReadonly,omitempty"`
 	// service name pattern, e.g. ClusterName-ComponentName or .ClusterName`
 	ServicePattern *EngineOptionsServicePattern `json:"servicePattern,omitempty"`
 	// ServiceName regular expression
@@ -262,34 +260,6 @@ func (o *EndpointOption) SetSupportsSystemUse(v bool) {
 	o.SupportsSystemUse = &v
 }
 
-// GetSupportsReadonly returns the SupportsReadonly field value if set, zero value otherwise.
-func (o *EndpointOption) GetSupportsReadonly() bool {
-	if o == nil || o.SupportsReadonly == nil {
-		var ret bool
-		return ret
-	}
-	return *o.SupportsReadonly
-}
-
-// GetSupportsReadonlyOk returns a tuple with the SupportsReadonly field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *EndpointOption) GetSupportsReadonlyOk() (*bool, bool) {
-	if o == nil || o.SupportsReadonly == nil {
-		return nil, false
-	}
-	return o.SupportsReadonly, true
-}
-
-// HasSupportsReadonly returns a boolean if a field has been set.
-func (o *EndpointOption) HasSupportsReadonly() bool {
-	return o != nil && o.SupportsReadonly != nil
-}
-
-// SetSupportsReadonly gets a reference to the given bool and assigns it to the SupportsReadonly field.
-func (o *EndpointOption) SetSupportsReadonly(v bool) {
-	o.SupportsReadonly = &v
-}
-
 // GetServicePattern returns the ServicePattern field value if set, zero value otherwise.
 func (o *EndpointOption) GetServicePattern() EngineOptionsServicePattern {
 	if o == nil || o.ServicePattern == nil {
@@ -513,9 +483,6 @@ func (o EndpointOption) MarshalJSON() ([]byte, error) {
 	if o.SupportsSystemUse != nil {
 		toSerialize["supportsSystemUse"] = o.SupportsSystemUse
 	}
-	if o.SupportsReadonly != nil {
-		toSerialize["supportsReadonly"] = o.SupportsReadonly
-	}
 	if o.ServicePattern != nil {
 		toSerialize["servicePattern"] = o.ServicePattern
 	}
@@ -555,7 +522,6 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 		TargetPort               *string                      `json:"targetPort"`
 		Type                     *[]string                    `json:"type"`
 		SupportsSystemUse        *bool                        `json:"supportsSystemUse,omitempty"`
-		SupportsReadonly         *bool                        `json:"supportsReadonly,omitempty"`
 		ServicePattern           *EngineOptionsServicePattern `json:"servicePattern,omitempty"`
 		ServiceNameRegex         *string                      `json:"serviceNameRegex,omitempty"`
 		ServiceName              *string                      `json:"serviceName,omitempty"`
@@ -590,7 +556,7 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "portName", "port", "protocol", "targetPort", "type", "supportsSystemUse", "supportsReadonly", "servicePattern", "serviceNameRegex", "serviceName", "selector", "disasterRecoverySelector", "followNetworkMode", "compatibleKBVersion"})
+		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "portName", "port", "protocol", "targetPort", "type", "supportsSystemUse", "servicePattern", "serviceNameRegex", "serviceName", "selector", "disasterRecoverySelector", "followNetworkMode", "compatibleKBVersion"})
 	} else {
 		return err
 	}
@@ -607,7 +573,6 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.TargetPort = *all.TargetPort
 	o.Type = *all.Type
 	o.SupportsSystemUse = all.SupportsSystemUse
-	o.SupportsReadonly = all.SupportsReadonly
 	if all.ServicePattern != nil && !all.ServicePattern.IsValid() {
 		hasInvalidField = true
 	} else {

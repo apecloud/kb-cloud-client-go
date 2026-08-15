@@ -11,10 +11,15 @@ import (
 )
 
 type AiAgentSendMessageResponse struct {
-	MessageId string            `json:"messageId"`
-	TurnId    string            `json:"turnId"`
-	Status    AiAgentTurnStatus `json:"status"`
-	EventsUrl *string           `json:"eventsUrl,omitempty"`
+	MessageId    string               `json:"messageId"`
+	TurnId       string               `json:"turnId"`
+	Status       AiAgentTurnStatus    `json:"status"`
+	EventsUrl    *string              `json:"eventsUrl,omitempty"`
+	AgentMode    *AiAgentMode         `json:"agentMode,omitempty"`
+	AgentProfile *AiAgentProfile      `json:"agent_profile,omitempty"`
+	ContextState *AiAgentContextState `json:"contextState,omitempty"`
+	// Safe display label for the run scope. It does not expose profile paths, skills paths, credentials, or endpoints.
+	ScopeLabel *string `json:"scopeLabel,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -137,6 +142,118 @@ func (o *AiAgentSendMessageResponse) SetEventsUrl(v string) {
 	o.EventsUrl = &v
 }
 
+// GetAgentMode returns the AgentMode field value if set, zero value otherwise.
+func (o *AiAgentSendMessageResponse) GetAgentMode() AiAgentMode {
+	if o == nil || o.AgentMode == nil {
+		var ret AiAgentMode
+		return ret
+	}
+	return *o.AgentMode
+}
+
+// GetAgentModeOk returns a tuple with the AgentMode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentSendMessageResponse) GetAgentModeOk() (*AiAgentMode, bool) {
+	if o == nil || o.AgentMode == nil {
+		return nil, false
+	}
+	return o.AgentMode, true
+}
+
+// HasAgentMode returns a boolean if a field has been set.
+func (o *AiAgentSendMessageResponse) HasAgentMode() bool {
+	return o != nil && o.AgentMode != nil
+}
+
+// SetAgentMode gets a reference to the given AiAgentMode and assigns it to the AgentMode field.
+func (o *AiAgentSendMessageResponse) SetAgentMode(v AiAgentMode) {
+	o.AgentMode = &v
+}
+
+// GetAgentProfile returns the AgentProfile field value if set, zero value otherwise.
+func (o *AiAgentSendMessageResponse) GetAgentProfile() AiAgentProfile {
+	if o == nil || o.AgentProfile == nil {
+		var ret AiAgentProfile
+		return ret
+	}
+	return *o.AgentProfile
+}
+
+// GetAgentProfileOk returns a tuple with the AgentProfile field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentSendMessageResponse) GetAgentProfileOk() (*AiAgentProfile, bool) {
+	if o == nil || o.AgentProfile == nil {
+		return nil, false
+	}
+	return o.AgentProfile, true
+}
+
+// HasAgentProfile returns a boolean if a field has been set.
+func (o *AiAgentSendMessageResponse) HasAgentProfile() bool {
+	return o != nil && o.AgentProfile != nil
+}
+
+// SetAgentProfile gets a reference to the given AiAgentProfile and assigns it to the AgentProfile field.
+func (o *AiAgentSendMessageResponse) SetAgentProfile(v AiAgentProfile) {
+	o.AgentProfile = &v
+}
+
+// GetContextState returns the ContextState field value if set, zero value otherwise.
+func (o *AiAgentSendMessageResponse) GetContextState() AiAgentContextState {
+	if o == nil || o.ContextState == nil {
+		var ret AiAgentContextState
+		return ret
+	}
+	return *o.ContextState
+}
+
+// GetContextStateOk returns a tuple with the ContextState field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentSendMessageResponse) GetContextStateOk() (*AiAgentContextState, bool) {
+	if o == nil || o.ContextState == nil {
+		return nil, false
+	}
+	return o.ContextState, true
+}
+
+// HasContextState returns a boolean if a field has been set.
+func (o *AiAgentSendMessageResponse) HasContextState() bool {
+	return o != nil && o.ContextState != nil
+}
+
+// SetContextState gets a reference to the given AiAgentContextState and assigns it to the ContextState field.
+func (o *AiAgentSendMessageResponse) SetContextState(v AiAgentContextState) {
+	o.ContextState = &v
+}
+
+// GetScopeLabel returns the ScopeLabel field value if set, zero value otherwise.
+func (o *AiAgentSendMessageResponse) GetScopeLabel() string {
+	if o == nil || o.ScopeLabel == nil {
+		var ret string
+		return ret
+	}
+	return *o.ScopeLabel
+}
+
+// GetScopeLabelOk returns a tuple with the ScopeLabel field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentSendMessageResponse) GetScopeLabelOk() (*string, bool) {
+	if o == nil || o.ScopeLabel == nil {
+		return nil, false
+	}
+	return o.ScopeLabel, true
+}
+
+// HasScopeLabel returns a boolean if a field has been set.
+func (o *AiAgentSendMessageResponse) HasScopeLabel() bool {
+	return o != nil && o.ScopeLabel != nil
+}
+
+// SetScopeLabel gets a reference to the given string and assigns it to the ScopeLabel field.
+func (o *AiAgentSendMessageResponse) SetScopeLabel(v string) {
+	o.ScopeLabel = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AiAgentSendMessageResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -149,6 +266,18 @@ func (o AiAgentSendMessageResponse) MarshalJSON() ([]byte, error) {
 	if o.EventsUrl != nil {
 		toSerialize["eventsUrl"] = o.EventsUrl
 	}
+	if o.AgentMode != nil {
+		toSerialize["agentMode"] = o.AgentMode
+	}
+	if o.AgentProfile != nil {
+		toSerialize["agent_profile"] = o.AgentProfile
+	}
+	if o.ContextState != nil {
+		toSerialize["contextState"] = o.ContextState
+	}
+	if o.ScopeLabel != nil {
+		toSerialize["scopeLabel"] = o.ScopeLabel
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -159,10 +288,14 @@ func (o AiAgentSendMessageResponse) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AiAgentSendMessageResponse) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		MessageId *string            `json:"messageId"`
-		TurnId    *string            `json:"turnId"`
-		Status    *AiAgentTurnStatus `json:"status"`
-		EventsUrl *string            `json:"eventsUrl,omitempty"`
+		MessageId    *string              `json:"messageId"`
+		TurnId       *string              `json:"turnId"`
+		Status       *AiAgentTurnStatus   `json:"status"`
+		EventsUrl    *string              `json:"eventsUrl,omitempty"`
+		AgentMode    *AiAgentMode         `json:"agentMode,omitempty"`
+		AgentProfile *AiAgentProfile      `json:"agent_profile,omitempty"`
+		ContextState *AiAgentContextState `json:"contextState,omitempty"`
+		ScopeLabel   *string              `json:"scopeLabel,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -178,7 +311,7 @@ func (o *AiAgentSendMessageResponse) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"messageId", "turnId", "status", "eventsUrl"})
+		common.DeleteKeys(additionalProperties, &[]string{"messageId", "turnId", "status", "eventsUrl", "agentMode", "agent_profile", "contextState", "scopeLabel"})
 	} else {
 		return err
 	}
@@ -192,6 +325,22 @@ func (o *AiAgentSendMessageResponse) UnmarshalJSON(bytes []byte) (err error) {
 		o.Status = *all.Status
 	}
 	o.EventsUrl = all.EventsUrl
+	if all.AgentMode != nil && !all.AgentMode.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.AgentMode = all.AgentMode
+	}
+	if all.AgentProfile != nil && !all.AgentProfile.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.AgentProfile = all.AgentProfile
+	}
+	if all.ContextState != nil && !all.ContextState.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.ContextState = all.ContextState
+	}
+	o.ScopeLabel = all.ScopeLabel
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

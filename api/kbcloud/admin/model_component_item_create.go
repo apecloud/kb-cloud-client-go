@@ -30,6 +30,8 @@ type ComponentItemCreate struct {
 	Volumes      []ComponentVolumeItem `json:"volumes,omitempty"`
 	// The name of the secret that contains the system account credentials
 	SystemAccountSecretName *string `json:"systemAccountSecretName,omitempty"`
+	// Per-component network configuration.
+	Network *ComponentNetwork `json:"network,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -332,6 +334,34 @@ func (o *ComponentItemCreate) SetSystemAccountSecretName(v string) {
 	o.SystemAccountSecretName = &v
 }
 
+// GetNetwork returns the Network field value if set, zero value otherwise.
+func (o *ComponentItemCreate) GetNetwork() ComponentNetwork {
+	if o == nil || o.Network == nil {
+		var ret ComponentNetwork
+		return ret
+	}
+	return *o.Network
+}
+
+// GetNetworkOk returns a tuple with the Network field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentItemCreate) GetNetworkOk() (*ComponentNetwork, bool) {
+	if o == nil || o.Network == nil {
+		return nil, false
+	}
+	return o.Network, true
+}
+
+// HasNetwork returns a boolean if a field has been set.
+func (o *ComponentItemCreate) HasNetwork() bool {
+	return o != nil && o.Network != nil
+}
+
+// SetNetwork gets a reference to the given ComponentNetwork and assigns it to the Network field.
+func (o *ComponentItemCreate) SetNetwork(v ComponentNetwork) {
+	o.Network = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ComponentItemCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -366,6 +396,9 @@ func (o ComponentItemCreate) MarshalJSON() ([]byte, error) {
 	if o.SystemAccountSecretName != nil {
 		toSerialize["systemAccountSecretName"] = o.SystemAccountSecretName
 	}
+	if o.Network != nil {
+		toSerialize["network"] = o.Network
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -386,6 +419,7 @@ func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 		StorageClass            *string               `json:"storageClass,omitempty"`
 		Volumes                 []ComponentVolumeItem `json:"volumes,omitempty"`
 		SystemAccountSecretName *string               `json:"systemAccountSecretName,omitempty"`
+		Network                 *ComponentNetwork     `json:"network,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -395,10 +429,12 @@ func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "compNum", "replicas", "skipResourceConstraints", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "compNum", "replicas", "skipResourceConstraints", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName", "network"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Component = *all.Component
 	o.CompNum = all.CompNum
 	o.Replicas = all.Replicas
@@ -409,9 +445,17 @@ func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.StorageClass = all.StorageClass
 	o.Volumes = all.Volumes
 	o.SystemAccountSecretName = all.SystemAccountSecretName
+	if all.Network != nil && all.Network.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Network = all.Network
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

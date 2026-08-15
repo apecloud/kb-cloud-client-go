@@ -5599,11 +5599,11 @@ func (a *DmsApi) TenantParameterHistory(ctx _context.Context, orgName string, cl
 }
 
 // TestDataSourceV2 test the datasource.
-func (a *DmsApi) TestDataSourceV2(ctx _context.Context, orgName string, clusterName string, body Datasource) (bool, *_nethttp.Response, error) {
+func (a *DmsApi) TestDataSourceV2(ctx _context.Context, orgName string, clusterName string, body Datasource) (TestConnectResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue bool
+		localVarReturnValue TestConnectResponse
 	)
 
 	// Add api info to context
@@ -5689,6 +5689,73 @@ func (a *DmsApi) UpdateDataSourceV2(ctx _context.Context, orgName string, cluste
 	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/updateDS"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "application/json"
+
+	// body params
+	localVarPostBody = &body
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// VisualSqlExplain explain a SQL as a normalized visual execution plan.
+func (a *DmsApi) VisualSqlExplain(ctx _context.Context, orgName string, clusterName string, id string, body DmsVisualExplainRequest) (DmsExecutionPlanResult, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue DmsExecutionPlanResult
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "visualSqlExplain",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/sqlExplain/visual",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.VisualSqlExplain")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/sqlExplain/visual"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}

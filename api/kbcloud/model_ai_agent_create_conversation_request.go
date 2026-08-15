@@ -10,6 +10,10 @@ type AiAgentCreateConversationRequest struct {
 	Title            *string `json:"title,omitempty"`
 	Model            *string `json:"model,omitempty"`
 	EntryClusterName *string `json:"entryClusterName,omitempty"`
+	// Optional creation-time context. When entryClusterName is omitted, the
+	// first clusterName here binds the conversation to cluster diagnosis.
+	//
+	Contexts []AiAgentScope `json:"contexts,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -116,6 +120,34 @@ func (o *AiAgentCreateConversationRequest) SetEntryClusterName(v string) {
 	o.EntryClusterName = &v
 }
 
+// GetContexts returns the Contexts field value if set, zero value otherwise.
+func (o *AiAgentCreateConversationRequest) GetContexts() []AiAgentScope {
+	if o == nil || o.Contexts == nil {
+		var ret []AiAgentScope
+		return ret
+	}
+	return o.Contexts
+}
+
+// GetContextsOk returns a tuple with the Contexts field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiAgentCreateConversationRequest) GetContextsOk() (*[]AiAgentScope, bool) {
+	if o == nil || o.Contexts == nil {
+		return nil, false
+	}
+	return &o.Contexts, true
+}
+
+// HasContexts returns a boolean if a field has been set.
+func (o *AiAgentCreateConversationRequest) HasContexts() bool {
+	return o != nil && o.Contexts != nil
+}
+
+// SetContexts gets a reference to the given []AiAgentScope and assigns it to the Contexts field.
+func (o *AiAgentCreateConversationRequest) SetContexts(v []AiAgentScope) {
+	o.Contexts = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AiAgentCreateConversationRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -131,6 +163,9 @@ func (o AiAgentCreateConversationRequest) MarshalJSON() ([]byte, error) {
 	if o.EntryClusterName != nil {
 		toSerialize["entryClusterName"] = o.EntryClusterName
 	}
+	if o.Contexts != nil {
+		toSerialize["contexts"] = o.Contexts
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -141,22 +176,24 @@ func (o AiAgentCreateConversationRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AiAgentCreateConversationRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Title            *string `json:"title,omitempty"`
-		Model            *string `json:"model,omitempty"`
-		EntryClusterName *string `json:"entryClusterName,omitempty"`
+		Title            *string        `json:"title,omitempty"`
+		Model            *string        `json:"model,omitempty"`
+		EntryClusterName *string        `json:"entryClusterName,omitempty"`
+		Contexts         []AiAgentScope `json:"contexts,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"title", "model", "entryClusterName"})
+		common.DeleteKeys(additionalProperties, &[]string{"title", "model", "entryClusterName", "contexts"})
 	} else {
 		return err
 	}
 	o.Title = all.Title
 	o.Model = all.Model
 	o.EntryClusterName = all.EntryClusterName
+	o.Contexts = all.Contexts
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

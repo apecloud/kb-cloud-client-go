@@ -14,6 +14,8 @@ import (
 
 // Environment Environment info
 type Environment struct {
+	// Log query backend configured for this environment.
+	LogBackend *LogBackendType `json:"logBackend,omitempty"`
 	// Cloud Provider
 	Provider string `json:"provider"`
 	// Cloud Region
@@ -58,6 +60,10 @@ type Environment struct {
 	Dns          *Dns                     `json:"dns,omitempty"`
 	// whether to enable calculate the cluster SLA for the environment
 	SlaEnabled *bool `json:"slaEnabled,omitempty"`
+	// Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
+	KoordinatorEnabled *bool `json:"koordinatorEnabled,omitempty"`
+	// KBE Pod IP pool providers enabled for discovery and explicit pool selection.
+	IpPoolProviders []IpPoolProvider `json:"ipPoolProviders"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -67,7 +73,7 @@ type Environment struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironment(provider string, region string, availabilityZones []string, displayName string, id uuid.UUID, name string, organizations []string, state EnvironmentState, typeVar EnvironmentType, provisionConfig ProvisionConfig, createdAt time.Time, updatedAt time.Time) *Environment {
+func NewEnvironment(provider string, region string, availabilityZones []string, displayName string, id uuid.UUID, name string, organizations []string, state EnvironmentState, typeVar EnvironmentType, provisionConfig ProvisionConfig, createdAt time.Time, updatedAt time.Time, ipPoolProviders []IpPoolProvider) *Environment {
 	this := Environment{}
 	this.Provider = provider
 	this.Region = region
@@ -87,6 +93,9 @@ func NewEnvironment(provider string, region string, availabilityZones []string, 
 	this.ClusterValidationPolicy = &clusterValidationPolicy
 	var slaEnabled bool = false
 	this.SlaEnabled = &slaEnabled
+	var koordinatorEnabled bool = false
+	this.KoordinatorEnabled = &koordinatorEnabled
+	this.IpPoolProviders = ipPoolProviders
 	return &this
 }
 
@@ -103,7 +112,37 @@ func NewEnvironmentWithDefaults() *Environment {
 	this.ClusterValidationPolicy = &clusterValidationPolicy
 	var slaEnabled bool = false
 	this.SlaEnabled = &slaEnabled
+	var koordinatorEnabled bool = false
+	this.KoordinatorEnabled = &koordinatorEnabled
 	return &this
+}
+
+// GetLogBackend returns the LogBackend field value if set, zero value otherwise.
+func (o *Environment) GetLogBackend() LogBackendType {
+	if o == nil || o.LogBackend == nil {
+		var ret LogBackendType
+		return ret
+	}
+	return *o.LogBackend
+}
+
+// GetLogBackendOk returns a tuple with the LogBackend field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Environment) GetLogBackendOk() (*LogBackendType, bool) {
+	if o == nil || o.LogBackend == nil {
+		return nil, false
+	}
+	return o.LogBackend, true
+}
+
+// HasLogBackend returns a boolean if a field has been set.
+func (o *Environment) HasLogBackend() bool {
+	return o != nil && o.LogBackend != nil
+}
+
+// SetLogBackend gets a reference to the given LogBackendType and assigns it to the LogBackend field.
+func (o *Environment) SetLogBackend(v LogBackendType) {
+	o.LogBackend = &v
 }
 
 // GetProvider returns the Provider field value.
@@ -690,11 +729,65 @@ func (o *Environment) SetSlaEnabled(v bool) {
 	o.SlaEnabled = &v
 }
 
+// GetKoordinatorEnabled returns the KoordinatorEnabled field value if set, zero value otherwise.
+func (o *Environment) GetKoordinatorEnabled() bool {
+	if o == nil || o.KoordinatorEnabled == nil {
+		var ret bool
+		return ret
+	}
+	return *o.KoordinatorEnabled
+}
+
+// GetKoordinatorEnabledOk returns a tuple with the KoordinatorEnabled field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Environment) GetKoordinatorEnabledOk() (*bool, bool) {
+	if o == nil || o.KoordinatorEnabled == nil {
+		return nil, false
+	}
+	return o.KoordinatorEnabled, true
+}
+
+// HasKoordinatorEnabled returns a boolean if a field has been set.
+func (o *Environment) HasKoordinatorEnabled() bool {
+	return o != nil && o.KoordinatorEnabled != nil
+}
+
+// SetKoordinatorEnabled gets a reference to the given bool and assigns it to the KoordinatorEnabled field.
+func (o *Environment) SetKoordinatorEnabled(v bool) {
+	o.KoordinatorEnabled = &v
+}
+
+// GetIpPoolProviders returns the IpPoolProviders field value.
+func (o *Environment) GetIpPoolProviders() []IpPoolProvider {
+	if o == nil {
+		var ret []IpPoolProvider
+		return ret
+	}
+	return o.IpPoolProviders
+}
+
+// GetIpPoolProvidersOk returns a tuple with the IpPoolProviders field value
+// and a boolean to check if the value has been set.
+func (o *Environment) GetIpPoolProvidersOk() (*[]IpPoolProvider, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.IpPoolProviders, true
+}
+
+// SetIpPoolProviders sets field value.
+func (o *Environment) SetIpPoolProviders(v []IpPoolProvider) {
+	o.IpPoolProviders = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Environment) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
+	}
+	if o.LogBackend != nil {
+		toSerialize["logBackend"] = o.LogBackend
 	}
 	toSerialize["provider"] = o.Provider
 	toSerialize["region"] = o.Region
@@ -749,6 +842,10 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 	if o.SlaEnabled != nil {
 		toSerialize["slaEnabled"] = o.SlaEnabled
 	}
+	if o.KoordinatorEnabled != nil {
+		toSerialize["koordinatorEnabled"] = o.KoordinatorEnabled
+	}
+	toSerialize["ipPoolProviders"] = o.IpPoolProviders
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -759,6 +856,7 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		LogBackend              *LogBackendType          `json:"logBackend,omitempty"`
 		Provider                *string                  `json:"provider"`
 		Region                  *string                  `json:"region"`
 		AvailabilityZones       *[]string                `json:"availabilityZones"`
@@ -782,6 +880,8 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 		Architecture            *EnvironmentArchitecture `json:"architecture,omitempty"`
 		Dns                     *Dns                     `json:"dns,omitempty"`
 		SlaEnabled              *bool                    `json:"slaEnabled,omitempty"`
+		KoordinatorEnabled      *bool                    `json:"koordinatorEnabled,omitempty"`
+		IpPoolProviders         *[]IpPoolProvider        `json:"ipPoolProviders"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -822,14 +922,22 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	if all.UpdatedAt == nil {
 		return fmt.Errorf("required field updatedAt missing")
 	}
+	if all.IpPoolProviders == nil {
+		return fmt.Errorf("required field ipPoolProviders missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "schedulingConfig", "networkConfig", "description", "displayName", "id", "name", "organizations", "metricsMonitorEnabled", "state", "type", "provisionConfig", "autohealingConfig", "createdAt", "updatedAt", "extraInfo", "deletePolicy", "clusterValidationPolicy", "architecture", "dns", "slaEnabled"})
+		common.DeleteKeys(additionalProperties, &[]string{"logBackend", "provider", "region", "availabilityZones", "schedulingConfig", "networkConfig", "description", "displayName", "id", "name", "organizations", "metricsMonitorEnabled", "state", "type", "provisionConfig", "autohealingConfig", "createdAt", "updatedAt", "extraInfo", "deletePolicy", "clusterValidationPolicy", "architecture", "dns", "slaEnabled", "koordinatorEnabled", "ipPoolProviders"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	if all.LogBackend != nil && !all.LogBackend.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.LogBackend = all.LogBackend
+	}
 	o.Provider = *all.Provider
 	o.Region = *all.Region
 	o.AvailabilityZones = *all.AvailabilityZones
@@ -888,6 +996,8 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Dns = all.Dns
 	o.SlaEnabled = all.SlaEnabled
+	o.KoordinatorEnabled = all.KoordinatorEnabled
+	o.IpPoolProviders = *all.IpPoolProviders
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

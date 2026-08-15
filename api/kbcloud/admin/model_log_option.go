@@ -16,8 +16,10 @@ type LogOption struct {
 	Slow      bool   `json:"slow"`
 	// Whether slow log template is supported.
 	SlowTemplate *bool `json:"slowTemplate,omitempty"`
-	Audit        bool  `json:"audit"`
-	Running      bool  `json:"running"`
+	// Whether slow log SQL EXPLAIN is supported.
+	SlowExplain *bool `json:"slowExplain,omitempty"`
+	Audit       bool  `json:"audit"`
+	Running     bool  `json:"running"`
 	// SQL audit switch configuration. Either sql or parameter must be provided.
 	SqlAuditSwitch *SqlAuditSwitchOption `json:"sqlAuditSwitch,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -144,6 +146,34 @@ func (o *LogOption) SetSlowTemplate(v bool) {
 	o.SlowTemplate = &v
 }
 
+// GetSlowExplain returns the SlowExplain field value if set, zero value otherwise.
+func (o *LogOption) GetSlowExplain() bool {
+	if o == nil || o.SlowExplain == nil {
+		var ret bool
+		return ret
+	}
+	return *o.SlowExplain
+}
+
+// GetSlowExplainOk returns a tuple with the SlowExplain field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *LogOption) GetSlowExplainOk() (*bool, bool) {
+	if o == nil || o.SlowExplain == nil {
+		return nil, false
+	}
+	return o.SlowExplain, true
+}
+
+// HasSlowExplain returns a boolean if a field has been set.
+func (o *LogOption) HasSlowExplain() bool {
+	return o != nil && o.SlowExplain != nil
+}
+
+// SetSlowExplain gets a reference to the given bool and assigns it to the SlowExplain field.
+func (o *LogOption) SetSlowExplain(v bool) {
+	o.SlowExplain = &v
+}
+
 // GetAudit returns the Audit field value.
 func (o *LogOption) GetAudit() bool {
 	if o == nil {
@@ -230,6 +260,9 @@ func (o LogOption) MarshalJSON() ([]byte, error) {
 	if o.SlowTemplate != nil {
 		toSerialize["slowTemplate"] = o.SlowTemplate
 	}
+	if o.SlowExplain != nil {
+		toSerialize["slowExplain"] = o.SlowExplain
+	}
 	toSerialize["audit"] = o.Audit
 	toSerialize["running"] = o.Running
 	if o.SqlAuditSwitch != nil {
@@ -249,6 +282,7 @@ func (o *LogOption) UnmarshalJSON(bytes []byte) (err error) {
 		Error          *bool                 `json:"error"`
 		Slow           *bool                 `json:"slow"`
 		SlowTemplate   *bool                 `json:"slowTemplate,omitempty"`
+		SlowExplain    *bool                 `json:"slowExplain,omitempty"`
 		Audit          *bool                 `json:"audit"`
 		Running        *bool                 `json:"running"`
 		SqlAuditSwitch *SqlAuditSwitchOption `json:"sqlAuditSwitch,omitempty"`
@@ -273,7 +307,7 @@ func (o *LogOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "error", "slow", "slowTemplate", "audit", "running", "sqlAuditSwitch"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "error", "slow", "slowTemplate", "slowExplain", "audit", "running", "sqlAuditSwitch"})
 	} else {
 		return err
 	}
@@ -283,6 +317,7 @@ func (o *LogOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Error = *all.Error
 	o.Slow = *all.Slow
 	o.SlowTemplate = all.SlowTemplate
+	o.SlowExplain = all.SlowExplain
 	o.Audit = *all.Audit
 	o.Running = *all.Running
 	if all.SqlAuditSwitch != nil && all.SqlAuditSwitch.UnparsedObject != nil && o.UnparsedObject == nil {

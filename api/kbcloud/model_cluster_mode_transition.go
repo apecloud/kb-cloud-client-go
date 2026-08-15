@@ -13,7 +13,8 @@ import (
 // ClusterModeTransition Parameters for switching the engine mode of a cluster.
 type ClusterModeTransition struct {
 	// Target engine mode.
-	Mode string `json:"mode"`
+	Mode     string        `json:"mode"`
+	Schedule *TaskSchedule `json:"schedule,omitempty"`
 	// OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
 	HScale *OpsHScale `json:"hScale,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -62,6 +63,34 @@ func (o *ClusterModeTransition) SetMode(v string) {
 	o.Mode = v
 }
 
+// GetSchedule returns the Schedule field value if set, zero value otherwise.
+func (o *ClusterModeTransition) GetSchedule() TaskSchedule {
+	if o == nil || o.Schedule == nil {
+		var ret TaskSchedule
+		return ret
+	}
+	return *o.Schedule
+}
+
+// GetScheduleOk returns a tuple with the Schedule field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterModeTransition) GetScheduleOk() (*TaskSchedule, bool) {
+	if o == nil || o.Schedule == nil {
+		return nil, false
+	}
+	return o.Schedule, true
+}
+
+// HasSchedule returns a boolean if a field has been set.
+func (o *ClusterModeTransition) HasSchedule() bool {
+	return o != nil && o.Schedule != nil
+}
+
+// SetSchedule gets a reference to the given TaskSchedule and assigns it to the Schedule field.
+func (o *ClusterModeTransition) SetSchedule(v TaskSchedule) {
+	o.Schedule = &v
+}
+
 // GetHScale returns the HScale field value if set, zero value otherwise.
 func (o *ClusterModeTransition) GetHScale() OpsHScale {
 	if o == nil || o.HScale == nil {
@@ -97,6 +126,9 @@ func (o ClusterModeTransition) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["mode"] = o.Mode
+	if o.Schedule != nil {
+		toSerialize["schedule"] = o.Schedule
+	}
 	if o.HScale != nil {
 		toSerialize["hScale"] = o.HScale
 	}
@@ -110,8 +142,9 @@ func (o ClusterModeTransition) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterModeTransition) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Mode   *string    `json:"mode"`
-		HScale *OpsHScale `json:"hScale,omitempty"`
+		Mode     *string       `json:"mode"`
+		Schedule *TaskSchedule `json:"schedule,omitempty"`
+		HScale   *OpsHScale    `json:"hScale,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -121,13 +154,17 @@ func (o *ClusterModeTransition) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"mode", "hScale"})
+		common.DeleteKeys(additionalProperties, &[]string{"mode", "schedule", "hScale"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Mode = *all.Mode
+	if all.Schedule != nil && all.Schedule.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Schedule = all.Schedule
 	if all.HScale != nil && all.HScale.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

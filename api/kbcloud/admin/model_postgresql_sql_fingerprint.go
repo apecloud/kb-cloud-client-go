@@ -13,7 +13,7 @@ import (
 type PostgresqlSQLFingerprint struct {
 	// PostgreSQL pg_stat_statements queryid represented as a string.
 	QueryId string `json:"queryID"`
-	// Stable SQL fingerprint identifier for UI grouping. Currently aligned with PostgreSQL pg_stat_statements queryid.
+	// Stable SQL fingerprint identifier for UI grouping. M1 uses queryID.
 	Fingerprint string `json:"fingerprint"`
 	// Redacted SQL summary. Full raw SQL is intentionally not returned.
 	QuerySummary string `json:"querySummary"`
@@ -31,6 +31,8 @@ type PostgresqlSQLFingerprint struct {
 	Database string `json:"database"`
 	// Database user name resolved from pg_stat_statements.userid when visible.
 	User string `json:"user"`
+	// Whether pg_stat_statements recorded the statement as top-level. Legacy PostgreSQL versions without the toplevel column report true.
+	TopLevel bool `json:"topLevel"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -40,7 +42,7 @@ type PostgresqlSQLFingerprint struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlSQLFingerprint(queryId string, fingerprint string, querySummary string, calls int64, totalTimeMs float64, meanTimeMs float64, maxTimeMs float64, rows int64, database string, user string) *PostgresqlSQLFingerprint {
+func NewPostgresqlSQLFingerprint(queryId string, fingerprint string, querySummary string, calls int64, totalTimeMs float64, meanTimeMs float64, maxTimeMs float64, rows int64, database string, user string, topLevel bool) *PostgresqlSQLFingerprint {
 	this := PostgresqlSQLFingerprint{}
 	this.QueryId = queryId
 	this.Fingerprint = fingerprint
@@ -52,6 +54,7 @@ func NewPostgresqlSQLFingerprint(queryId string, fingerprint string, querySummar
 	this.Rows = rows
 	this.Database = database
 	this.User = user
+	this.TopLevel = topLevel
 	return &this
 }
 
@@ -293,6 +296,29 @@ func (o *PostgresqlSQLFingerprint) SetUser(v string) {
 	o.User = v
 }
 
+// GetTopLevel returns the TopLevel field value.
+func (o *PostgresqlSQLFingerprint) GetTopLevel() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+	return o.TopLevel
+}
+
+// GetTopLevelOk returns a tuple with the TopLevel field value
+// and a boolean to check if the value has been set.
+func (o *PostgresqlSQLFingerprint) GetTopLevelOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.TopLevel, true
+}
+
+// SetTopLevel sets field value.
+func (o *PostgresqlSQLFingerprint) SetTopLevel(v bool) {
+	o.TopLevel = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o PostgresqlSQLFingerprint) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -309,6 +335,7 @@ func (o PostgresqlSQLFingerprint) MarshalJSON() ([]byte, error) {
 	toSerialize["rows"] = o.Rows
 	toSerialize["database"] = o.Database
 	toSerialize["user"] = o.User
+	toSerialize["topLevel"] = o.TopLevel
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -329,6 +356,7 @@ func (o *PostgresqlSQLFingerprint) UnmarshalJSON(bytes []byte) (err error) {
 		Rows         *int64   `json:"rows"`
 		Database     *string  `json:"database"`
 		User         *string  `json:"user"`
+		TopLevel     *bool    `json:"topLevel"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -363,9 +391,12 @@ func (o *PostgresqlSQLFingerprint) UnmarshalJSON(bytes []byte) (err error) {
 	if all.User == nil {
 		return fmt.Errorf("required field user missing")
 	}
+	if all.TopLevel == nil {
+		return fmt.Errorf("required field topLevel missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"queryID", "fingerprint", "querySummary", "calls", "totalTimeMs", "meanTimeMs", "maxTimeMs", "rows", "database", "user"})
+		common.DeleteKeys(additionalProperties, &[]string{"queryID", "fingerprint", "querySummary", "calls", "totalTimeMs", "meanTimeMs", "maxTimeMs", "rows", "database", "user", "topLevel"})
 	} else {
 		return err
 	}
@@ -379,6 +410,7 @@ func (o *PostgresqlSQLFingerprint) UnmarshalJSON(bytes []byte) (err error) {
 	o.Rows = *all.Rows
 	o.Database = *all.Database
 	o.User = *all.User
+	o.TopLevel = *all.TopLevel
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

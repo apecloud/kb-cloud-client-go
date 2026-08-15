@@ -19,11 +19,13 @@ type PostgresqlSQLFingerprintExplainResponse struct {
 	Database string `json:"database"`
 	// Database user from the ranking row.
 	User string `json:"user"`
+	// Top-level identity from the matched ranking row.
+	TopLevel bool `json:"topLevel"`
 	// Server-side sample source when available. Raw SQL is not returned.
 	SampleSource *string `json:"sampleSource,omitempty"`
 	// Sample collection timestamp when available.
 	SampleCollectedAt *string `json:"sampleCollectedAt,omitempty"`
-	// Redacted sample SQL summary when available. Full raw SQL is intentionally not returned.
+	// Redacted SQL summary from the matched ranking row. Full raw SQL is intentionally not returned.
 	SampleSqlSummary *string `json:"sampleSQLSummary,omitempty"`
 	// DMS SQLExplainV1 result for a successful explicit EXPLAIN request.
 	ExplainResult interface{} `json:"explainResult,omitempty"`
@@ -36,12 +38,13 @@ type PostgresqlSQLFingerprintExplainResponse struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPostgresqlSQLFingerprintExplainResponse(queryId string, fingerprint string, database string, user string) *PostgresqlSQLFingerprintExplainResponse {
+func NewPostgresqlSQLFingerprintExplainResponse(queryId string, fingerprint string, database string, user string, topLevel bool) *PostgresqlSQLFingerprintExplainResponse {
 	this := PostgresqlSQLFingerprintExplainResponse{}
 	this.QueryId = queryId
 	this.Fingerprint = fingerprint
 	this.Database = database
 	this.User = user
+	this.TopLevel = topLevel
 	return &this
 }
 
@@ -143,6 +146,29 @@ func (o *PostgresqlSQLFingerprintExplainResponse) GetUserOk() (*string, bool) {
 // SetUser sets field value.
 func (o *PostgresqlSQLFingerprintExplainResponse) SetUser(v string) {
 	o.User = v
+}
+
+// GetTopLevel returns the TopLevel field value.
+func (o *PostgresqlSQLFingerprintExplainResponse) GetTopLevel() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+	return o.TopLevel
+}
+
+// GetTopLevelOk returns a tuple with the TopLevel field value
+// and a boolean to check if the value has been set.
+func (o *PostgresqlSQLFingerprintExplainResponse) GetTopLevelOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.TopLevel, true
+}
+
+// SetTopLevel sets field value.
+func (o *PostgresqlSQLFingerprintExplainResponse) SetTopLevel(v bool) {
+	o.TopLevel = v
 }
 
 // GetSampleSource returns the SampleSource field value if set, zero value otherwise.
@@ -267,6 +293,7 @@ func (o PostgresqlSQLFingerprintExplainResponse) MarshalJSON() ([]byte, error) {
 	toSerialize["fingerprint"] = o.Fingerprint
 	toSerialize["database"] = o.Database
 	toSerialize["user"] = o.User
+	toSerialize["topLevel"] = o.TopLevel
 	if o.SampleSource != nil {
 		toSerialize["sampleSource"] = o.SampleSource
 	}
@@ -293,6 +320,7 @@ func (o *PostgresqlSQLFingerprintExplainResponse) UnmarshalJSON(bytes []byte) (e
 		Fingerprint       *string     `json:"fingerprint"`
 		Database          *string     `json:"database"`
 		User              *string     `json:"user"`
+		TopLevel          *bool       `json:"topLevel"`
 		SampleSource      *string     `json:"sampleSource,omitempty"`
 		SampleCollectedAt *string     `json:"sampleCollectedAt,omitempty"`
 		SampleSqlSummary  *string     `json:"sampleSQLSummary,omitempty"`
@@ -313,9 +341,12 @@ func (o *PostgresqlSQLFingerprintExplainResponse) UnmarshalJSON(bytes []byte) (e
 	if all.User == nil {
 		return fmt.Errorf("required field user missing")
 	}
+	if all.TopLevel == nil {
+		return fmt.Errorf("required field topLevel missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"queryID", "fingerprint", "database", "user", "sampleSource", "sampleCollectedAt", "sampleSQLSummary", "explainResult"})
+		common.DeleteKeys(additionalProperties, &[]string{"queryID", "fingerprint", "database", "user", "topLevel", "sampleSource", "sampleCollectedAt", "sampleSQLSummary", "explainResult"})
 	} else {
 		return err
 	}
@@ -323,6 +354,7 @@ func (o *PostgresqlSQLFingerprintExplainResponse) UnmarshalJSON(bytes []byte) (e
 	o.Fingerprint = *all.Fingerprint
 	o.Database = *all.Database
 	o.User = *all.User
+	o.TopLevel = *all.TopLevel
 	o.SampleSource = all.SampleSource
 	o.SampleCollectedAt = all.SampleCollectedAt
 	o.SampleSqlSummary = all.SampleSqlSummary
