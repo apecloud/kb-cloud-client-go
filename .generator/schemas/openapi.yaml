@@ -1629,6 +1629,17 @@ paths:
           description: list clusters referenced by this cluster
           schema:
             type: string
+        - name: endpointHost
+          in: query
+          description: Case-insensitive substring to match against the host part of cached cluster endpoints
+          schema:
+            type: string
+        - name: includeEndpoints
+          in: query
+          description: Whether to include cached user-visible endpoints in each cluster item
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: A successful response.
@@ -22398,10 +22409,11 @@ components:
             $ref: '#/components/schemas/tag'
           type: array
         endpoints:
-          description: Cached user-visible endpoints of the cluster
+          description: Cached user-visible endpoints of the cluster; omitted unless includeEndpoints is true
           items:
             $ref: '#/components/schemas/endpoint'
           type: array
+          x-omitempty: true
       required:
         - cloudProvider
         - createdAt

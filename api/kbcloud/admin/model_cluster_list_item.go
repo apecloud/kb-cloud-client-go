@@ -76,7 +76,7 @@ type ClusterListItem struct {
 	Project *string `json:"project,omitempty"`
 	// Tags bound to the cluster
 	Tags []Tag `json:"tags,omitempty"`
-	// Cached user-visible endpoints of the cluster
+	// Cached user-visible endpoints of the cluster; omitted unless includeEndpoints is true
 	Endpoints []Endpoint `json:"endpoints,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

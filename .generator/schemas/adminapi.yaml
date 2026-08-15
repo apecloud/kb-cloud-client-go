@@ -2263,6 +2263,19 @@ paths:
           required: false
           schema:
             type: boolean
+        - name: endpointHost
+          in: query
+          description: Case-insensitive substring to match against the host part of cached cluster endpoints
+          required: false
+          schema:
+            type: string
+        - name: includeEndpoints
+          in: query
+          description: Whether to include cached user-visible endpoints in each cluster item
+          required: false
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: OK
@@ -2339,6 +2352,17 @@ paths:
           description: list clusters referenced by this cluster
           schema:
             type: string
+        - name: endpointHost
+          in: query
+          description: Case-insensitive substring to match against the host part of cached cluster endpoints
+          schema:
+            type: string
+        - name: includeEndpoints
+          in: query
+          description: Whether to include cached user-visible endpoints in each cluster item
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: A successful response.
@@ -10792,6 +10816,85 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/loadbalancer/config:
+    get:
+      tags:
+        - loadBalancer
+      operationId: getLoadBalancerConfig
+      summary: Get the effective load balancer configuration of an environment
+      parameters:
+        - name: environmentName
+          in: path
+          description: name of the environment
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loadBalancerConfig'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      tags:
+        - loadBalancer
+      operationId: updateLoadBalancerConfig
+      summary: Save and immediately activate the load balancer configuration of an environment
+      parameters:
+        - name: environmentName
+          in: path
+          description: name of the environment
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loadBalancerConfigUpdate'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loadBalancerConfig'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - loadBalancer
+      operationId: resetLoadBalancerConfig
+      summary: Reset the environment load balancer configuration to the current provider defaults
+      parameters:
+        - name: environmentName
+          in: path
+          description: name of the environment
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The effective provider defaults after reset.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loadBalancerConfig'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/environments/{environmentName}/loadbalancer/vipPool:
     get:
       operationId: listVIPPool
@@ -25826,10 +25929,11 @@ components:
             $ref: '#/components/schemas/tag'
           type: array
         endpoints:
-          description: Cached user-visible endpoints of the cluster
+          description: Cached user-visible endpoints of the cluster; omitted unless includeEndpoints is true
           items:
             $ref: '#/components/schemas/endpoint'
           type: array
+          x-omitempty: true
       required:
         - cloudProvider
         - createdAt
@@ -32918,6 +33022,43 @@ components:
       required:
         - status
       type: object
+    loadBalancerAnnotations:
+      description: Provider-neutral annotations applied to load balancer Services by exposure type.
+      type: object
+      properties:
+        vpc:
+          description: Annotations used for load balancers exposed inside the VPC.
+          type: object
+          additionalProperties:
+            type: string
+        internet:
+          description: Annotations used for load balancers exposed to the Internet.
+          type: object
+          additionalProperties:
+            type: string
+      required:
+        - vpc
+        - internet
+    loadBalancerConfig:
+      description: Effective load balancer annotations for an environment.
+      type: object
+      properties:
+        provider:
+          description: Current environment provider returned by the server.
+          type: string
+        annotations:
+          $ref: '#/components/schemas/loadBalancerAnnotations'
+      required:
+        - provider
+        - annotations
+    loadBalancerConfigUpdate:
+      description: Complete editable load balancer annotations for an environment.
+      type: object
+      properties:
+        annotations:
+          $ref: '#/components/schemas/loadBalancerAnnotations'
+      required:
+        - annotations
     vipPool:
       description: VIP Pool
       properties:
