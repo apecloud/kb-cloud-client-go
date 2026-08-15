@@ -22,6 +22,8 @@ type Environment struct {
 	AvailabilityZones []string `json:"availabilityZones"`
 	// Configuration of networking for this environment
 	NetworkConfig *NetworkConfig `json:"networkConfig,omitempty"`
+	// Log query backend configured for this environment.
+	LogBackend *LogBackendType `json:"logBackend,omitempty"`
 	// CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC. Populated by the system. Read-only. Null for lists
 	CreatedAt time.Time `json:"createdAt"`
 	// The description of the organization
@@ -191,6 +193,34 @@ func (o *Environment) HasNetworkConfig() bool {
 // SetNetworkConfig gets a reference to the given NetworkConfig and assigns it to the NetworkConfig field.
 func (o *Environment) SetNetworkConfig(v NetworkConfig) {
 	o.NetworkConfig = &v
+}
+
+// GetLogBackend returns the LogBackend field value if set, zero value otherwise.
+func (o *Environment) GetLogBackend() LogBackendType {
+	if o == nil || o.LogBackend == nil {
+		var ret LogBackendType
+		return ret
+	}
+	return *o.LogBackend
+}
+
+// GetLogBackendOk returns a tuple with the LogBackend field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Environment) GetLogBackendOk() (*LogBackendType, bool) {
+	if o == nil || o.LogBackend == nil {
+		return nil, false
+	}
+	return o.LogBackend, true
+}
+
+// HasLogBackend returns a boolean if a field has been set.
+func (o *Environment) HasLogBackend() bool {
+	return o != nil && o.LogBackend != nil
+}
+
+// SetLogBackend gets a reference to the given LogBackendType and assigns it to the LogBackend field.
+func (o *Environment) SetLogBackend(v LogBackendType) {
+	o.LogBackend = &v
 }
 
 // GetCreatedAt returns the CreatedAt field value.
@@ -636,6 +666,9 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 	if o.NetworkConfig != nil {
 		toSerialize["networkConfig"] = o.NetworkConfig
 	}
+	if o.LogBackend != nil {
+		toSerialize["logBackend"] = o.LogBackend
+	}
 	if o.CreatedAt.Nanosecond() == 0 {
 		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
 	} else {
@@ -691,6 +724,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 		Region                  *string                  `json:"region"`
 		AvailabilityZones       *[]string                `json:"availabilityZones"`
 		NetworkConfig           *NetworkConfig           `json:"networkConfig,omitempty"`
+		LogBackend              *LogBackendType          `json:"logBackend,omitempty"`
 		CreatedAt               *time.Time               `json:"createdAt"`
 		Description             *string                  `json:"description,omitempty"`
 		DisplayName             *string                  `json:"displayName,omitempty"`
@@ -750,7 +784,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "networkConfig", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "kbVersion", "ipPoolProviders", "namespaces", "defaultStorageClass", "clusterValidationPolicy", "architecture"})
+		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "networkConfig", "logBackend", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "kbVersion", "ipPoolProviders", "namespaces", "defaultStorageClass", "clusterValidationPolicy", "architecture"})
 	} else {
 		return err
 	}
@@ -763,6 +797,11 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.NetworkConfig = all.NetworkConfig
+	if all.LogBackend != nil && !all.LogBackend.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.LogBackend = all.LogBackend
+	}
 	o.CreatedAt = *all.CreatedAt
 	o.Description = all.Description
 	o.DisplayName = all.DisplayName

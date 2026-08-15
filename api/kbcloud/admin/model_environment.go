@@ -14,6 +14,8 @@ import (
 
 // Environment Environment info
 type Environment struct {
+	// Log query backend configured for this environment.
+	LogBackend *LogBackendType `json:"logBackend,omitempty"`
 	// Cloud Provider
 	Provider string `json:"provider"`
 	// Cloud Region
@@ -113,6 +115,34 @@ func NewEnvironmentWithDefaults() *Environment {
 	var koordinatorEnabled bool = false
 	this.KoordinatorEnabled = &koordinatorEnabled
 	return &this
+}
+
+// GetLogBackend returns the LogBackend field value if set, zero value otherwise.
+func (o *Environment) GetLogBackend() LogBackendType {
+	if o == nil || o.LogBackend == nil {
+		var ret LogBackendType
+		return ret
+	}
+	return *o.LogBackend
+}
+
+// GetLogBackendOk returns a tuple with the LogBackend field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Environment) GetLogBackendOk() (*LogBackendType, bool) {
+	if o == nil || o.LogBackend == nil {
+		return nil, false
+	}
+	return o.LogBackend, true
+}
+
+// HasLogBackend returns a boolean if a field has been set.
+func (o *Environment) HasLogBackend() bool {
+	return o != nil && o.LogBackend != nil
+}
+
+// SetLogBackend gets a reference to the given LogBackendType and assigns it to the LogBackend field.
+func (o *Environment) SetLogBackend(v LogBackendType) {
+	o.LogBackend = &v
 }
 
 // GetProvider returns the Provider field value.
@@ -756,6 +786,9 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.LogBackend != nil {
+		toSerialize["logBackend"] = o.LogBackend
+	}
 	toSerialize["provider"] = o.Provider
 	toSerialize["region"] = o.Region
 	toSerialize["availabilityZones"] = o.AvailabilityZones
@@ -823,6 +856,7 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		LogBackend              *LogBackendType          `json:"logBackend,omitempty"`
 		Provider                *string                  `json:"provider"`
 		Region                  *string                  `json:"region"`
 		AvailabilityZones       *[]string                `json:"availabilityZones"`
@@ -893,12 +927,17 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "schedulingConfig", "networkConfig", "description", "displayName", "id", "name", "organizations", "metricsMonitorEnabled", "state", "type", "provisionConfig", "autohealingConfig", "createdAt", "updatedAt", "extraInfo", "deletePolicy", "clusterValidationPolicy", "architecture", "dns", "slaEnabled", "koordinatorEnabled", "ipPoolProviders"})
+		common.DeleteKeys(additionalProperties, &[]string{"logBackend", "provider", "region", "availabilityZones", "schedulingConfig", "networkConfig", "description", "displayName", "id", "name", "organizations", "metricsMonitorEnabled", "state", "type", "provisionConfig", "autohealingConfig", "createdAt", "updatedAt", "extraInfo", "deletePolicy", "clusterValidationPolicy", "architecture", "dns", "slaEnabled", "koordinatorEnabled", "ipPoolProviders"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	if all.LogBackend != nil && !all.LogBackend.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.LogBackend = all.LogBackend
+	}
 	o.Provider = *all.Provider
 	o.Region = *all.Region
 	o.AvailabilityZones = *all.AvailabilityZones

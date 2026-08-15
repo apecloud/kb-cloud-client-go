@@ -36,7 +36,7 @@ func (r *ApproveAIAgentToolConfirmationOptionalParameters) WithBody(body AiAgent
 }
 
 // ApproveAIAgentToolConfirmation Approve one AI diagnosis tool confirmation.
-func (a *AIAgentApi) ApproveAIAgentToolConfirmation(ctx _context.Context, orgName string, conversationId string, confirmationId string, o ...ApproveAIAgentToolConfirmationOptionalParameters) (AiAgentToolConfirmationDecisionResponse, *_nethttp.Response, error) {
+func (a *AIAgentApi) ApproveAIAgentToolConfirmation(ctx _context.Context, conversationId string, confirmationId string, o ...ApproveAIAgentToolConfirmationOptionalParameters) (AiAgentToolConfirmationDecisionResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -55,7 +55,7 @@ func (a *AIAgentApi) ApproveAIAgentToolConfirmation(ctx _context.Context, orgNam
 	apiInfo := common.APIInfo{
 		Tag:         "AI Agent",
 		OperationID: "approveAIAgentToolConfirmation",
-		Path:        "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/approve",
+		Path:        "/admin/v1/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/approve",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -65,8 +65,7 @@ func (a *AIAgentApi) ApproveAIAgentToolConfirmation(ctx _context.Context, orgNam
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/approve"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/approve"
 	localVarPath = strings.Replace(localVarPath, "{"+"conversationId"+"}", _neturl.PathEscape(common.ParameterToString(conversationId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"confirmationId"+"}", _neturl.PathEscape(common.ParameterToString(confirmationId, "")), -1)
 
@@ -129,7 +128,7 @@ func (a *AIAgentApi) ApproveAIAgentToolConfirmation(ctx _context.Context, orgNam
 }
 
 // BrowseAIAgentTurnActionArtifact Browse a generated AI diagnosis report artifact.
-func (a *AIAgentApi) BrowseAIAgentTurnActionArtifact(ctx _context.Context, orgName string, conversationId string, actionId string, artifactId string) (_io.Reader, *_nethttp.Response, error) {
+func (a *AIAgentApi) BrowseAIAgentTurnActionArtifact(ctx _context.Context, conversationId string, actionId string, artifactId string) (_io.Reader, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -140,7 +139,7 @@ func (a *AIAgentApi) BrowseAIAgentTurnActionArtifact(ctx _context.Context, orgNa
 	apiInfo := common.APIInfo{
 		Tag:         "AI Agent",
 		OperationID: "browseAIAgentTurnActionArtifact",
-		Path:        "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/browse",
+		Path:        "/admin/v1/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/browse",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -150,8 +149,7 @@ func (a *AIAgentApi) BrowseAIAgentTurnActionArtifact(ctx _context.Context, orgNa
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/browse"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/browse"
 	localVarPath = strings.Replace(localVarPath, "{"+"conversationId"+"}", _neturl.PathEscape(common.ParameterToString(conversationId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"actionId"+"}", _neturl.PathEscape(common.ParameterToString(actionId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"artifactId"+"}", _neturl.PathEscape(common.ParameterToString(artifactId, "")), -1)
@@ -202,7 +200,7 @@ func (a *AIAgentApi) BrowseAIAgentTurnActionArtifact(ctx _context.Context, orgNa
 }
 
 // CreateAIAgentConversation Create an AI diagnosis conversation.
-func (a *AIAgentApi) CreateAIAgentConversation(ctx _context.Context, orgName string, body AiAgentCreateConversationRequest) (AiAgentConversation, *_nethttp.Response, error) {
+func (a *AIAgentApi) CreateAIAgentConversation(ctx _context.Context, body AiAgentCreateConversationRequest) (AiAgentConversation, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -213,7 +211,7 @@ func (a *AIAgentApi) CreateAIAgentConversation(ctx _context.Context, orgName str
 	apiInfo := common.APIInfo{
 		Tag:         "AI Agent",
 		OperationID: "createAIAgentConversation",
-		Path:        "/admin/v1/organizations/{orgName}/ai-agent/conversations",
+		Path:        "/admin/v1/ai-agent/conversations",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -223,8 +221,7 @@ func (a *AIAgentApi) CreateAIAgentConversation(ctx _context.Context, orgName str
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/ai-agent/conversations"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/ai-agent/conversations"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -283,7 +280,7 @@ func (a *AIAgentApi) CreateAIAgentConversation(ctx _context.Context, orgName str
 }
 
 // DeleteAIAgentConversation Delete an AI diagnosis conversation.
-func (a *AIAgentApi) DeleteAIAgentConversation(ctx _context.Context, orgName string, conversationId string) (AiAgentDeleteConversationResponse, *_nethttp.Response, error) {
+func (a *AIAgentApi) DeleteAIAgentConversation(ctx _context.Context, conversationId string) (AiAgentDeleteConversationResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
 		localVarPostBody    interface{}
@@ -294,7 +291,7 @@ func (a *AIAgentApi) DeleteAIAgentConversation(ctx _context.Context, orgName str
 	apiInfo := common.APIInfo{
 		Tag:         "AI Agent",
 		OperationID: "deleteAIAgentConversation",
-		Path:        "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}",
+		Path:        "/admin/v1/ai-agent/conversations/{conversationId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -304,8 +301,7 @@ func (a *AIAgentApi) DeleteAIAgentConversation(ctx _context.Context, orgName str
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/ai-agent/conversations/{conversationId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"conversationId"+"}", _neturl.PathEscape(common.ParameterToString(conversationId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -362,7 +358,7 @@ func (a *AIAgentApi) DeleteAIAgentConversation(ctx _context.Context, orgName str
 }
 
 // DownloadAIAgentTurnActionArtifact Download a generated AI diagnosis report artifact.
-func (a *AIAgentApi) DownloadAIAgentTurnActionArtifact(ctx _context.Context, orgName string, conversationId string, actionId string, artifactId string) (_io.Reader, *_nethttp.Response, error) {
+func (a *AIAgentApi) DownloadAIAgentTurnActionArtifact(ctx _context.Context, conversationId string, actionId string, artifactId string) (_io.Reader, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -373,7 +369,7 @@ func (a *AIAgentApi) DownloadAIAgentTurnActionArtifact(ctx _context.Context, org
 	apiInfo := common.APIInfo{
 		Tag:         "AI Agent",
 		OperationID: "downloadAIAgentTurnActionArtifact",
-		Path:        "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/download",
+		Path:        "/admin/v1/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/download",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -383,8 +379,7 @@ func (a *AIAgentApi) DownloadAIAgentTurnActionArtifact(ctx _context.Context, org
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/download"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/ai-agent/conversations/{conversationId}/turn-actions/{actionId}/artifacts/{artifactId}/download"
 	localVarPath = strings.Replace(localVarPath, "{"+"conversationId"+"}", _neturl.PathEscape(common.ParameterToString(conversationId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"actionId"+"}", _neturl.PathEscape(common.ParameterToString(actionId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"artifactId"+"}", _neturl.PathEscape(common.ParameterToString(artifactId, "")), -1)
@@ -435,7 +430,7 @@ func (a *AIAgentApi) DownloadAIAgentTurnActionArtifact(ctx _context.Context, org
 }
 
 // GetAIAgentConversation Get an AI diagnosis conversation.
-func (a *AIAgentApi) GetAIAgentConversation(ctx _context.Context, orgName string, conversationId string) (AiAgentConversation, *_nethttp.Response, error) {
+func (a *AIAgentApi) GetAIAgentConversation(ctx _context.Context, conversationId string) (AiAgentConversation, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -446,7 +441,7 @@ func (a *AIAgentApi) GetAIAgentConversation(ctx _context.Context, orgName string
 	apiInfo := common.APIInfo{
 		Tag:         "AI Agent",
 		OperationID: "getAIAgentConversation",
-		Path:        "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}",
+		Path:        "/admin/v1/ai-agent/conversations/{conversationId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -456,8 +451,7 @@ func (a *AIAgentApi) GetAIAgentConversation(ctx _context.Context, orgName string
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/ai-agent/conversations/{conversationId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"conversationId"+"}", _neturl.PathEscape(common.ParameterToString(conversationId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -514,7 +508,7 @@ func (a *AIAgentApi) GetAIAgentConversation(ctx _context.Context, orgName string
 }
 
 // GetAIAgentStatus Get AI diagnosis agent status.
-func (a *AIAgentApi) GetAIAgentStatus(ctx _context.Context, orgName string) (AiAgentRuntimeStatus, *_nethttp.Response, error) {
+func (a *AIAgentApi) GetAIAgentStatus(ctx _context.Context) (AiAgentRuntimeStatus, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -525,7 +519,7 @@ func (a *AIAgentApi) GetAIAgentStatus(ctx _context.Context, orgName string) (AiA
 	apiInfo := common.APIInfo{
 		Tag:         "AI Agent",
 		OperationID: "getAIAgentStatus",
-		Path:        "/admin/v1/organizations/{orgName}/ai-agent/status",
+		Path:        "/admin/v1/ai-agent/status",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -535,8 +529,7 @@ func (a *AIAgentApi) GetAIAgentStatus(ctx _context.Context, orgName string) (AiA
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/ai-agent/status"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/ai-agent/status"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -592,7 +585,7 @@ func (a *AIAgentApi) GetAIAgentStatus(ctx _context.Context, orgName string) (AiA
 }
 
 // GetAIAgentTurnAction Get one stable AI diagnosis turn process action.
-func (a *AIAgentApi) GetAIAgentTurnAction(ctx _context.Context, orgName string, conversationId string, actionId string) (AiAgentTurnAction, *_nethttp.Response, error) {
+func (a *AIAgentApi) GetAIAgentTurnAction(ctx _context.Context, conversationId string, actionId string) (AiAgentTurnAction, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -603,7 +596,7 @@ func (a *AIAgentApi) GetAIAgentTurnAction(ctx _context.Context, orgName string, 
 	apiInfo := common.APIInfo{
 		Tag:         "AI Agent",
 		OperationID: "getAIAgentTurnAction",
-		Path:        "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}",
+		Path:        "/admin/v1/ai-agent/conversations/{conversationId}/turn-actions/{actionId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -613,8 +606,7 @@ func (a *AIAgentApi) GetAIAgentTurnAction(ctx _context.Context, orgName string, 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions/{actionId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/ai-agent/conversations/{conversationId}/turn-actions/{actionId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"conversationId"+"}", _neturl.PathEscape(common.ParameterToString(conversationId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"actionId"+"}", _neturl.PathEscape(common.ParameterToString(actionId, "")), -1)
 
@@ -673,9 +665,8 @@ func (a *AIAgentApi) GetAIAgentTurnAction(ctx _context.Context, orgName string, 
 
 // ListAIAgentConversationsOptionalParameters holds optional parameters for ListAIAgentConversations.
 type ListAIAgentConversationsOptionalParameters struct {
-	Limit       *int32
-	After       *string
-	ClusterName *string
+	Limit *int32
+	After *string
 }
 
 // NewListAIAgentConversationsOptionalParameters creates an empty struct for parameters.
@@ -696,14 +687,10 @@ func (r *ListAIAgentConversationsOptionalParameters) WithAfter(after string) *Li
 	return r
 }
 
-// WithClusterName sets the corresponding parameter name and returns the struct.
-func (r *ListAIAgentConversationsOptionalParameters) WithClusterName(clusterName string) *ListAIAgentConversationsOptionalParameters {
-	r.ClusterName = &clusterName
-	return r
-}
-
 // ListAIAgentConversations List AI diagnosis conversations.
-func (a *AIAgentApi) ListAIAgentConversations(ctx _context.Context, orgName string, o ...ListAIAgentConversationsOptionalParameters) (AiAgentConversationList, *_nethttp.Response, error) {
+// Lists platform AI diagnosis conversations for the current admin user.
+// Admin global entry and admin cluster-detail entry share the same history.
+func (a *AIAgentApi) ListAIAgentConversations(ctx _context.Context, o ...ListAIAgentConversationsOptionalParameters) (AiAgentConversationList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -722,7 +709,7 @@ func (a *AIAgentApi) ListAIAgentConversations(ctx _context.Context, orgName stri
 	apiInfo := common.APIInfo{
 		Tag:         "AI Agent",
 		OperationID: "listAIAgentConversations",
-		Path:        "/admin/v1/organizations/{orgName}/ai-agent/conversations",
+		Path:        "/admin/v1/ai-agent/conversations",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -732,8 +719,7 @@ func (a *AIAgentApi) ListAIAgentConversations(ctx _context.Context, orgName stri
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/ai-agent/conversations"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/ai-agent/conversations"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -743,9 +729,6 @@ func (a *AIAgentApi) ListAIAgentConversations(ctx _context.Context, orgName stri
 	}
 	if optionalParams.After != nil {
 		localVarQueryParams.Add("after", common.ParameterToString(*optionalParams.After, ""))
-	}
-	if optionalParams.ClusterName != nil {
-		localVarQueryParams.Add("clusterName", common.ParameterToString(*optionalParams.ClusterName, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -774,7 +757,7 @@ func (a *AIAgentApi) ListAIAgentConversations(ctx _context.Context, orgName stri
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -822,7 +805,7 @@ func (r *ListAIAgentMessagesOptionalParameters) WithLimit(limit int32) *ListAIAg
 }
 
 // ListAIAgentMessages List AI diagnosis conversation messages.
-func (a *AIAgentApi) ListAIAgentMessages(ctx _context.Context, orgName string, conversationId string, o ...ListAIAgentMessagesOptionalParameters) (AiAgentMessageList, *_nethttp.Response, error) {
+func (a *AIAgentApi) ListAIAgentMessages(ctx _context.Context, conversationId string, o ...ListAIAgentMessagesOptionalParameters) (AiAgentMessageList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -841,7 +824,7 @@ func (a *AIAgentApi) ListAIAgentMessages(ctx _context.Context, orgName string, c
 	apiInfo := common.APIInfo{
 		Tag:         "AI Agent",
 		OperationID: "listAIAgentMessages",
-		Path:        "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/messages",
+		Path:        "/admin/v1/ai-agent/conversations/{conversationId}/messages",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -851,8 +834,7 @@ func (a *AIAgentApi) ListAIAgentMessages(ctx _context.Context, orgName string, c
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/messages"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/ai-agent/conversations/{conversationId}/messages"
 	localVarPath = strings.Replace(localVarPath, "{"+"conversationId"+"}", _neturl.PathEscape(common.ParameterToString(conversationId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -946,7 +928,7 @@ func (r *ListAIAgentTurnActionsOptionalParameters) WithLimit(limit int32) *ListA
 }
 
 // ListAIAgentTurnActions List stable AI diagnosis turn process actions.
-func (a *AIAgentApi) ListAIAgentTurnActions(ctx _context.Context, orgName string, conversationId string, o ...ListAIAgentTurnActionsOptionalParameters) (AiAgentTurnActionList, *_nethttp.Response, error) {
+func (a *AIAgentApi) ListAIAgentTurnActions(ctx _context.Context, conversationId string, o ...ListAIAgentTurnActionsOptionalParameters) (AiAgentTurnActionList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -965,7 +947,7 @@ func (a *AIAgentApi) ListAIAgentTurnActions(ctx _context.Context, orgName string
 	apiInfo := common.APIInfo{
 		Tag:         "AI Agent",
 		OperationID: "listAIAgentTurnActions",
-		Path:        "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions",
+		Path:        "/admin/v1/ai-agent/conversations/{conversationId}/turn-actions",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -975,8 +957,7 @@ func (a *AIAgentApi) ListAIAgentTurnActions(ctx _context.Context, orgName string
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/turn-actions"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/ai-agent/conversations/{conversationId}/turn-actions"
 	localVarPath = strings.Replace(localVarPath, "{"+"conversationId"+"}", _neturl.PathEscape(common.ParameterToString(conversationId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -1059,7 +1040,7 @@ func (r *RejectAIAgentToolConfirmationOptionalParameters) WithBody(body AiAgentT
 }
 
 // RejectAIAgentToolConfirmation Reject one AI diagnosis tool confirmation.
-func (a *AIAgentApi) RejectAIAgentToolConfirmation(ctx _context.Context, orgName string, conversationId string, confirmationId string, o ...RejectAIAgentToolConfirmationOptionalParameters) (AiAgentToolConfirmationDecisionResponse, *_nethttp.Response, error) {
+func (a *AIAgentApi) RejectAIAgentToolConfirmation(ctx _context.Context, conversationId string, confirmationId string, o ...RejectAIAgentToolConfirmationOptionalParameters) (AiAgentToolConfirmationDecisionResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -1078,7 +1059,7 @@ func (a *AIAgentApi) RejectAIAgentToolConfirmation(ctx _context.Context, orgName
 	apiInfo := common.APIInfo{
 		Tag:         "AI Agent",
 		OperationID: "rejectAIAgentToolConfirmation",
-		Path:        "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/reject",
+		Path:        "/admin/v1/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/reject",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1088,8 +1069,7 @@ func (a *AIAgentApi) RejectAIAgentToolConfirmation(ctx _context.Context, orgName
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/reject"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/ai-agent/conversations/{conversationId}/tool-confirmations/{confirmationId}/reject"
 	localVarPath = strings.Replace(localVarPath, "{"+"conversationId"+"}", _neturl.PathEscape(common.ParameterToString(conversationId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"confirmationId"+"}", _neturl.PathEscape(common.ParameterToString(confirmationId, "")), -1)
 
@@ -1152,7 +1132,7 @@ func (a *AIAgentApi) RejectAIAgentToolConfirmation(ctx _context.Context, orgName
 }
 
 // SendAIAgentMessage Send a user message and start or continue AI diagnosis.
-func (a *AIAgentApi) SendAIAgentMessage(ctx _context.Context, orgName string, conversationId string, body AiAgentSendMessageRequest) (AiAgentSendMessageResponse, *_nethttp.Response, error) {
+func (a *AIAgentApi) SendAIAgentMessage(ctx _context.Context, conversationId string, body AiAgentSendMessageRequest) (AiAgentSendMessageResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -1163,7 +1143,7 @@ func (a *AIAgentApi) SendAIAgentMessage(ctx _context.Context, orgName string, co
 	apiInfo := common.APIInfo{
 		Tag:         "AI Agent",
 		OperationID: "sendAIAgentMessage",
-		Path:        "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/messages",
+		Path:        "/admin/v1/ai-agent/conversations/{conversationId}/messages",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1173,8 +1153,7 @@ func (a *AIAgentApi) SendAIAgentMessage(ctx _context.Context, orgName string, co
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/messages"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/ai-agent/conversations/{conversationId}/messages"
 	localVarPath = strings.Replace(localVarPath, "{"+"conversationId"+"}", _neturl.PathEscape(common.ParameterToString(conversationId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -1234,7 +1213,7 @@ func (a *AIAgentApi) SendAIAgentMessage(ctx _context.Context, orgName string, co
 }
 
 // StopAIAgentConversation Stop the current AI diagnosis turn.
-func (a *AIAgentApi) StopAIAgentConversation(ctx _context.Context, orgName string, conversationId string) (AiAgentStopConversationResponse, *_nethttp.Response, error) {
+func (a *AIAgentApi) StopAIAgentConversation(ctx _context.Context, conversationId string) (AiAgentStopConversationResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -1245,7 +1224,7 @@ func (a *AIAgentApi) StopAIAgentConversation(ctx _context.Context, orgName strin
 	apiInfo := common.APIInfo{
 		Tag:         "AI Agent",
 		OperationID: "stopAIAgentConversation",
-		Path:        "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/stop",
+		Path:        "/admin/v1/ai-agent/conversations/{conversationId}/stop",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1255,8 +1234,7 @@ func (a *AIAgentApi) StopAIAgentConversation(ctx _context.Context, orgName strin
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/stop"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/ai-agent/conversations/{conversationId}/stop"
 	localVarPath = strings.Replace(localVarPath, "{"+"conversationId"+"}", _neturl.PathEscape(common.ParameterToString(conversationId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -1330,7 +1308,7 @@ func (r *SubscribeAIAgentConversationEventsOptionalParameters) WithAfter(after s
 }
 
 // SubscribeAIAgentConversationEvents Subscribe to AI diagnosis conversation events.
-func (a *AIAgentApi) SubscribeAIAgentConversationEvents(ctx _context.Context, orgName string, conversationId string, o ...SubscribeAIAgentConversationEventsOptionalParameters) (AiAgentEvent, *_nethttp.Response, error) {
+func (a *AIAgentApi) SubscribeAIAgentConversationEvents(ctx _context.Context, conversationId string, o ...SubscribeAIAgentConversationEventsOptionalParameters) (AiAgentEvent, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -1349,7 +1327,7 @@ func (a *AIAgentApi) SubscribeAIAgentConversationEvents(ctx _context.Context, or
 	apiInfo := common.APIInfo{
 		Tag:         "AI Agent",
 		OperationID: "subscribeAIAgentConversationEvents",
-		Path:        "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/events",
+		Path:        "/admin/v1/ai-agent/conversations/{conversationId}/events",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1359,8 +1337,7 @@ func (a *AIAgentApi) SubscribeAIAgentConversationEvents(ctx _context.Context, or
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/ai-agent/conversations/{conversationId}/events"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/ai-agent/conversations/{conversationId}/events"
 	localVarPath = strings.Replace(localVarPath, "{"+"conversationId"+"}", _neturl.PathEscape(common.ParameterToString(conversationId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)

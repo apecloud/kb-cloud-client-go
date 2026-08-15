@@ -1,0 +1,100 @@
+// Unless explicitly stated otherwise all files in this repository are licensed under the Apache-2.0 License.
+// This product includes software developed at ApeCloud (https://www.apecloud.com/).
+// Copyright 2022-Present ApeCloud Co., Ltd
+
+package kbcloud
+
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
+
+type ModeReadonlyEndpoint struct {
+	// the component role selected by a readonly endpoint
+	Role string `json:"role"`
+	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
+	UnparsedObject       map[string]interface{} `json:"-"`
+	AdditionalProperties map[string]interface{} `json:"-"`
+}
+
+// NewModeReadonlyEndpoint instantiates a new ModeReadonlyEndpoint object.
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed.
+func NewModeReadonlyEndpoint(role string) *ModeReadonlyEndpoint {
+	this := ModeReadonlyEndpoint{}
+	this.Role = role
+	return &this
+}
+
+// NewModeReadonlyEndpointWithDefaults instantiates a new ModeReadonlyEndpoint object.
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set.
+func NewModeReadonlyEndpointWithDefaults() *ModeReadonlyEndpoint {
+	this := ModeReadonlyEndpoint{}
+	return &this
+}
+
+// GetRole returns the Role field value.
+func (o *ModeReadonlyEndpoint) GetRole() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.Role
+}
+
+// GetRoleOk returns a tuple with the Role field value
+// and a boolean to check if the value has been set.
+func (o *ModeReadonlyEndpoint) GetRoleOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Role, true
+}
+
+// SetRole sets field value.
+func (o *ModeReadonlyEndpoint) SetRole(v string) {
+	o.Role = v
+}
+
+// MarshalJSON serializes the struct using spec logic.
+func (o ModeReadonlyEndpoint) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.UnparsedObject != nil {
+		return common.Marshal(o.UnparsedObject)
+	}
+	toSerialize["role"] = o.Role
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+	return common.Marshal(toSerialize)
+}
+
+// UnmarshalJSON deserializes the given payload.
+func (o *ModeReadonlyEndpoint) UnmarshalJSON(bytes []byte) (err error) {
+	all := struct {
+		Role *string `json:"role"`
+	}{}
+	if err = common.Unmarshal(bytes, &all); err != nil {
+		return err
+	}
+	if all.Role == nil {
+		return fmt.Errorf("required field role missing")
+	}
+	additionalProperties := make(map[string]interface{})
+	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
+		common.DeleteKeys(additionalProperties, &[]string{"role"})
+	} else {
+		return err
+	}
+	o.Role = *all.Role
+
+	if len(additionalProperties) > 0 {
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return nil
+}
