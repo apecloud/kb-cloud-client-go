@@ -28764,6 +28764,11 @@ components:
         - analyze
         - actual
         - autotrace
+    DmsExecutionPlanPlanningMode:
+      type: string
+      enum:
+        - standard
+        - generic
     DmsExecutionPlanRawFormat:
       type: string
       enum:
@@ -29047,6 +29052,16 @@ components:
           type: string
         mode:
           $ref: '#/components/schemas/DmsExecutionPlanMode'
+        planMode:
+          $ref: '#/components/schemas/DmsExecutionPlanPlanningMode'
+        parameterized:
+          type: boolean
+          x-omitempty: false
+        parameterCount:
+          type: integer
+          format: int64
+          nullable: true
+          x-omitempty: true
         hasActualStats:
           type: boolean
           x-omitempty: false
@@ -42011,6 +42026,9 @@ components:
         - database
         - user
         - topLevel
+        - planMode
+        - parameterized
+        - explainResult
       properties:
         queryID:
           type: string
@@ -42036,8 +42054,22 @@ components:
         sampleSQLSummary:
           type: string
           description: Redacted SQL summary from the matched ranking row. Full raw SQL is intentionally not returned.
+        planMode:
+          $ref: '#/components/schemas/DmsExecutionPlanPlanningMode'
+          description: Whether DMS produced a standard estimated plan or a generic parameterized estimated plan.
+        parameterized:
+          type: boolean
+          description: Whether the estimated plan was produced without concrete parameter values.
+          x-omitempty: false
+        parameterCount:
+          type: integer
+          format: int64
+          nullable: true
+          x-omitempty: true
+          description: Number of parameters when DMS can determine it. It may be omitted for PostgreSQL generic-plan paths that do not expose the count.
         explainResult:
-          description: DMS SQLExplainV1 result for a successful explicit EXPLAIN request.
+          $ref: '#/components/schemas/DmsExecutionPlanResult'
+          description: Normalized DMS VisualExplain estimated plan. Raw origin SQL and generated EXPLAIN SQL are intentionally removed.
     mysqlSQLFingerprint:
       type: object
       required:

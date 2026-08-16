@@ -25495,6 +25495,345 @@ components:
           description: SQL fingerprint ranking rows from pg_stat_statements. The list may be empty when no statement statistics exist.
           items:
             $ref: '#/components/schemas/postgresqlSQLFingerprint'
+    DmsExecutionPlanPlanningMode:
+      type: string
+      enum:
+        - standard
+        - generic
+    DmsExecutionPlanMode:
+      type: string
+      enum:
+        - estimate
+        - analyze
+        - actual
+        - autotrace
+    DmsExecutionPlanRawFormat:
+      type: string
+      enum:
+        - json
+        - xml
+        - text
+        - table
+    DmsExecutionPlanNodeCategory:
+      type: string
+      enum:
+        - result
+        - sort
+        - join
+        - table_scan
+        - index_scan
+        - lookup
+        - materialize
+        - aggregate
+        - exchange
+        - modify
+        - other
+    DmsExecutionPlanNodeCost:
+      type: object
+      properties:
+        startup:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        total:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        self:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        percent:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+    DmsExecutionPlanNodeRows:
+      type: object
+      properties:
+        estimated:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        actual:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        actualPerLoop:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        removedByFilter:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        mismatchRatio:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+    DmsExecutionPlanNodeTiming:
+      type: object
+      properties:
+        startupMs:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        totalMs:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        selfMs:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        loops:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+    DmsExecutionPlanNodeConditions:
+      type: object
+      properties:
+        filter:
+          type: string
+          nullable: true
+          x-omitempty: true
+        indexCond:
+          type: string
+          nullable: true
+          x-omitempty: true
+        joinCond:
+          type: string
+          nullable: true
+          x-omitempty: true
+        hashCond:
+          type: string
+          nullable: true
+          x-omitempty: true
+        sortKey:
+          type: array
+          items:
+            type: string
+    DmsExecutionPlanNode:
+      type: object
+      properties:
+        id:
+          type: string
+        parentIds:
+          type: array
+          items:
+            type: string
+        childIds:
+          type: array
+          items:
+            type: string
+        order:
+          type: integer
+          format: int64
+          nullable: true
+          x-omitempty: true
+        category:
+          $ref: '#/components/schemas/DmsExecutionPlanNodeCategory'
+        nodeType:
+          type: string
+        label:
+          type: string
+        relationName:
+          type: string
+          nullable: true
+          x-omitempty: true
+        schemaName:
+          type: string
+          nullable: true
+          x-omitempty: true
+        alias:
+          type: string
+          nullable: true
+          x-omitempty: true
+        indexName:
+          type: string
+          nullable: true
+          x-omitempty: true
+        cost:
+          $ref: '#/components/schemas/DmsExecutionPlanNodeCost'
+          nullable: true
+          x-omitempty: true
+        rows:
+          $ref: '#/components/schemas/DmsExecutionPlanNodeRows'
+          nullable: true
+          x-omitempty: true
+        timing:
+          $ref: '#/components/schemas/DmsExecutionPlanNodeTiming'
+          nullable: true
+          x-omitempty: true
+        conditions:
+          $ref: '#/components/schemas/DmsExecutionPlanNodeConditions'
+          nullable: true
+          x-omitempty: true
+        details:
+          type: object
+          additionalProperties: true
+          x-omitempty: true
+    DmsExecutionPlanEdgeRows:
+      type: object
+      properties:
+        estimated:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        actual:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+    DmsExecutionPlanEdge:
+      type: object
+      properties:
+        id:
+          type: string
+        source:
+          type: string
+        target:
+          type: string
+        rows:
+          $ref: '#/components/schemas/DmsExecutionPlanEdgeRows'
+          nullable: true
+          x-omitempty: true
+        widthWeight:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        label:
+          type: string
+          nullable: true
+          x-omitempty: true
+    DmsExecutionPlanSummary:
+      type: object
+      properties:
+        totalCost:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        totalActualTimeMs:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        planRows:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        actualRows:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: true
+        nodeCount:
+          type: integer
+          format: int64
+        maxCostNodeId:
+          type: string
+          nullable: true
+          x-omitempty: true
+        maxRowsNodeId:
+          type: string
+          nullable: true
+          x-omitempty: true
+        maxTimeNodeId:
+          type: string
+          nullable: true
+          x-omitempty: true
+    DmsExecutionPlanWarningSeverity:
+      type: string
+      enum:
+        - info
+        - warning
+        - critical
+    DmsExecutionPlanWarning:
+      type: object
+      properties:
+        code:
+          type: string
+        severity:
+          $ref: '#/components/schemas/DmsExecutionPlanWarningSeverity'
+        nodeId:
+          type: string
+          nullable: true
+          x-omitempty: true
+        message:
+          type: string
+    DmsExecutionPlanResult:
+      type: object
+      properties:
+        originSQL:
+          type: string
+        explainSQL:
+          type: string
+          nullable: true
+          x-omitempty: true
+        engineType:
+          type: string
+        mode:
+          $ref: '#/components/schemas/DmsExecutionPlanMode'
+        planMode:
+          $ref: '#/components/schemas/DmsExecutionPlanPlanningMode'
+        parameterized:
+          type: boolean
+          x-omitempty: false
+        parameterCount:
+          type: integer
+          format: int64
+          nullable: true
+          x-omitempty: true
+        hasActualStats:
+          type: boolean
+          x-omitempty: false
+        rawFormat:
+          $ref: '#/components/schemas/DmsExecutionPlanRawFormat'
+        rawPlan:
+          type: object
+          description: Engine-native raw plan payload exposed for fallback display. SDKs model it as a free-form JSON object.
+          additionalProperties: true
+          x-omitempty: true
+        rootNodeIds:
+          type: array
+          items:
+            type: string
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DmsExecutionPlanNode'
+        edges:
+          type: array
+          items:
+            $ref: '#/components/schemas/DmsExecutionPlanEdge'
+        summary:
+          $ref: '#/components/schemas/DmsExecutionPlanSummary'
+          nullable: true
+          x-omitempty: true
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/DmsExecutionPlanWarning'
+        fallbackTable:
+          $ref: '#/components/schemas/DmsQueryResponse'
+          nullable: true
+          x-omitempty: true
     postgresqlSQLFingerprintExplainResponse:
       type: object
       required:
@@ -25503,6 +25842,9 @@ components:
         - database
         - user
         - topLevel
+        - planMode
+        - parameterized
+        - explainResult
       properties:
         queryID:
           type: string
@@ -25528,8 +25870,22 @@ components:
         sampleSQLSummary:
           type: string
           description: Redacted SQL summary from the matched ranking row. Full raw SQL is intentionally not returned.
+        planMode:
+          $ref: '#/components/schemas/DmsExecutionPlanPlanningMode'
+          description: Whether DMS produced a standard estimated plan or a generic parameterized estimated plan.
+        parameterized:
+          type: boolean
+          description: Whether the estimated plan was produced without concrete parameter values.
+          x-omitempty: false
+        parameterCount:
+          type: integer
+          format: int64
+          nullable: true
+          x-omitempty: true
+          description: Number of parameters when DMS can determine it. It may be omitted for PostgreSQL generic-plan paths that do not expose the count.
         explainResult:
-          description: DMS SQLExplainV1 result for a successful explicit EXPLAIN request.
+          $ref: '#/components/schemas/DmsExecutionPlanResult'
+          description: Normalized DMS VisualExplain estimated plan. Raw origin SQL and generated EXPLAIN SQL are intentionally removed.
     mysqlSQLFingerprint:
       type: object
       required:
@@ -31312,330 +31668,6 @@ components:
           type: boolean
           description: whether to run an actual/analyze plan when the engine supports it
           default: false
-    DmsExecutionPlanMode:
-      type: string
-      enum:
-        - estimate
-        - analyze
-        - actual
-        - autotrace
-    DmsExecutionPlanRawFormat:
-      type: string
-      enum:
-        - json
-        - xml
-        - text
-        - table
-    DmsExecutionPlanNodeCategory:
-      type: string
-      enum:
-        - result
-        - sort
-        - join
-        - table_scan
-        - index_scan
-        - lookup
-        - materialize
-        - aggregate
-        - exchange
-        - modify
-        - other
-    DmsExecutionPlanNodeCost:
-      type: object
-      properties:
-        startup:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-        total:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-        self:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-        percent:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-    DmsExecutionPlanNodeRows:
-      type: object
-      properties:
-        estimated:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-        actual:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-        actualPerLoop:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-        removedByFilter:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-        mismatchRatio:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-    DmsExecutionPlanNodeTiming:
-      type: object
-      properties:
-        startupMs:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-        totalMs:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-        selfMs:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-        loops:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-    DmsExecutionPlanNodeConditions:
-      type: object
-      properties:
-        filter:
-          type: string
-          nullable: true
-          x-omitempty: true
-        indexCond:
-          type: string
-          nullable: true
-          x-omitempty: true
-        joinCond:
-          type: string
-          nullable: true
-          x-omitempty: true
-        hashCond:
-          type: string
-          nullable: true
-          x-omitempty: true
-        sortKey:
-          type: array
-          items:
-            type: string
-    DmsExecutionPlanNode:
-      type: object
-      properties:
-        id:
-          type: string
-        parentIds:
-          type: array
-          items:
-            type: string
-        childIds:
-          type: array
-          items:
-            type: string
-        order:
-          type: integer
-          format: int64
-          nullable: true
-          x-omitempty: true
-        category:
-          $ref: '#/components/schemas/DmsExecutionPlanNodeCategory'
-        nodeType:
-          type: string
-        label:
-          type: string
-        relationName:
-          type: string
-          nullable: true
-          x-omitempty: true
-        schemaName:
-          type: string
-          nullable: true
-          x-omitempty: true
-        alias:
-          type: string
-          nullable: true
-          x-omitempty: true
-        indexName:
-          type: string
-          nullable: true
-          x-omitempty: true
-        cost:
-          $ref: '#/components/schemas/DmsExecutionPlanNodeCost'
-          nullable: true
-          x-omitempty: true
-        rows:
-          $ref: '#/components/schemas/DmsExecutionPlanNodeRows'
-          nullable: true
-          x-omitempty: true
-        timing:
-          $ref: '#/components/schemas/DmsExecutionPlanNodeTiming'
-          nullable: true
-          x-omitempty: true
-        conditions:
-          $ref: '#/components/schemas/DmsExecutionPlanNodeConditions'
-          nullable: true
-          x-omitempty: true
-        details:
-          type: object
-          additionalProperties: true
-          x-omitempty: true
-    DmsExecutionPlanEdgeRows:
-      type: object
-      properties:
-        estimated:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-        actual:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-    DmsExecutionPlanEdge:
-      type: object
-      properties:
-        id:
-          type: string
-        source:
-          type: string
-        target:
-          type: string
-        rows:
-          $ref: '#/components/schemas/DmsExecutionPlanEdgeRows'
-          nullable: true
-          x-omitempty: true
-        widthWeight:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-        label:
-          type: string
-          nullable: true
-          x-omitempty: true
-    DmsExecutionPlanSummary:
-      type: object
-      properties:
-        totalCost:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-        totalActualTimeMs:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-        planRows:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-        actualRows:
-          type: number
-          format: double
-          nullable: true
-          x-omitempty: true
-        nodeCount:
-          type: integer
-          format: int64
-        maxCostNodeId:
-          type: string
-          nullable: true
-          x-omitempty: true
-        maxRowsNodeId:
-          type: string
-          nullable: true
-          x-omitempty: true
-        maxTimeNodeId:
-          type: string
-          nullable: true
-          x-omitempty: true
-    DmsExecutionPlanWarningSeverity:
-      type: string
-      enum:
-        - info
-        - warning
-        - critical
-    DmsExecutionPlanWarning:
-      type: object
-      properties:
-        code:
-          type: string
-        severity:
-          $ref: '#/components/schemas/DmsExecutionPlanWarningSeverity'
-        nodeId:
-          type: string
-          nullable: true
-          x-omitempty: true
-        message:
-          type: string
-    DmsExecutionPlanResult:
-      type: object
-      properties:
-        originSQL:
-          type: string
-        explainSQL:
-          type: string
-          nullable: true
-          x-omitempty: true
-        engineType:
-          type: string
-        mode:
-          $ref: '#/components/schemas/DmsExecutionPlanMode'
-        hasActualStats:
-          type: boolean
-          x-omitempty: false
-        rawFormat:
-          $ref: '#/components/schemas/DmsExecutionPlanRawFormat'
-        rawPlan:
-          type: object
-          description: Engine-native raw plan payload exposed for fallback display. SDKs model it as a free-form JSON object.
-          additionalProperties: true
-          x-omitempty: true
-        rootNodeIds:
-          type: array
-          items:
-            type: string
-        nodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/DmsExecutionPlanNode'
-        edges:
-          type: array
-          items:
-            $ref: '#/components/schemas/DmsExecutionPlanEdge'
-        summary:
-          $ref: '#/components/schemas/DmsExecutionPlanSummary'
-          nullable: true
-          x-omitempty: true
-        warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/DmsExecutionPlanWarning'
-        fallbackTable:
-          $ref: '#/components/schemas/DmsQueryResponse'
-          nullable: true
-          x-omitempty: true
     DmsGenerateDdlOperationType:
       type: string
       description: operation type
