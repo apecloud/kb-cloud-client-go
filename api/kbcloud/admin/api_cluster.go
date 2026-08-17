@@ -1210,6 +1210,8 @@ type ListClusterOptionalParameters struct {
 	TagValues         *[]string
 	LicenseId         *int32
 	RefClusterName    *string
+	EndpointHost      *string
+	IncludeEndpoints  *bool
 }
 
 // NewListClusterOptionalParameters creates an empty struct for parameters.
@@ -1269,6 +1271,18 @@ func (r *ListClusterOptionalParameters) WithLicenseId(licenseId int32) *ListClus
 // WithRefClusterName sets the corresponding parameter name and returns the struct.
 func (r *ListClusterOptionalParameters) WithRefClusterName(refClusterName string) *ListClusterOptionalParameters {
 	r.RefClusterName = &refClusterName
+	return r
+}
+
+// WithEndpointHost sets the corresponding parameter name and returns the struct.
+func (r *ListClusterOptionalParameters) WithEndpointHost(endpointHost string) *ListClusterOptionalParameters {
+	r.EndpointHost = &endpointHost
+	return r
+}
+
+// WithIncludeEndpoints sets the corresponding parameter name and returns the struct.
+func (r *ListClusterOptionalParameters) WithIncludeEndpoints(includeEndpoints bool) *ListClusterOptionalParameters {
+	r.IncludeEndpoints = &includeEndpoints
 	return r
 }
 
@@ -1351,6 +1365,12 @@ func (a *ClusterApi) ListCluster(ctx _context.Context, orgName string, o ...List
 	if optionalParams.RefClusterName != nil {
 		localVarQueryParams.Add("refClusterName", common.ParameterToString(*optionalParams.RefClusterName, ""))
 	}
+	if optionalParams.EndpointHost != nil {
+		localVarQueryParams.Add("endpointHost", common.ParameterToString(*optionalParams.EndpointHost, ""))
+	}
+	if optionalParams.IncludeEndpoints != nil {
+		localVarQueryParams.Add("includeEndpoints", common.ParameterToString(*optionalParams.IncludeEndpoints, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -1403,9 +1423,11 @@ func (a *ClusterApi) ListCluster(ctx _context.Context, orgName string, o ...List
 
 // ListClustersOptionalParameters holds optional parameters for ListClusters.
 type ListClustersOptionalParameters struct {
-	OrgName    *string
-	EnvName    *string
-	WithStatic *bool
+	OrgName          *string
+	EnvName          *string
+	WithStatic       *bool
+	EndpointHost     *string
+	IncludeEndpoints *bool
 }
 
 // NewListClustersOptionalParameters creates an empty struct for parameters.
@@ -1429,6 +1451,18 @@ func (r *ListClustersOptionalParameters) WithEnvName(envName string) *ListCluste
 // WithWithStatic sets the corresponding parameter name and returns the struct.
 func (r *ListClustersOptionalParameters) WithWithStatic(withStatic bool) *ListClustersOptionalParameters {
 	r.WithStatic = &withStatic
+	return r
+}
+
+// WithEndpointHost sets the corresponding parameter name and returns the struct.
+func (r *ListClustersOptionalParameters) WithEndpointHost(endpointHost string) *ListClustersOptionalParameters {
+	r.EndpointHost = &endpointHost
+	return r
+}
+
+// WithIncludeEndpoints sets the corresponding parameter name and returns the struct.
+func (r *ListClustersOptionalParameters) WithIncludeEndpoints(includeEndpoints bool) *ListClustersOptionalParameters {
+	r.IncludeEndpoints = &includeEndpoints
 	return r
 }
 
@@ -1476,6 +1510,12 @@ func (a *ClusterApi) ListClusters(ctx _context.Context, o ...ListClustersOptiona
 	}
 	if optionalParams.WithStatic != nil {
 		localVarQueryParams.Add("withStatic", common.ParameterToString(*optionalParams.WithStatic, ""))
+	}
+	if optionalParams.EndpointHost != nil {
+		localVarQueryParams.Add("endpointHost", common.ParameterToString(*optionalParams.EndpointHost, ""))
+	}
+	if optionalParams.IncludeEndpoints != nil {
+		localVarQueryParams.Add("includeEndpoints", common.ParameterToString(*optionalParams.IncludeEndpoints, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
