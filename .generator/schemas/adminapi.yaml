@@ -31836,6 +31836,12 @@ components:
           type: array
           items:
             type: string
+    systemComponentSchedulerPolicy:
+      type: string
+      enum:
+        - default
+        - koordinator
+      default: default
     schedulingConfig:
       type: object
       title: SchedulingConfig
@@ -31845,6 +31851,13 @@ components:
           $ref: '#/components/schemas/clusterSchedulingPolicy'
         tolerateDefaultTaints:
           $ref: '#/components/schemas/tolerateDefaultTaints'
+        systemComponentSchedulerPolicy:
+          $ref: '#/components/schemas/systemComponentSchedulerPolicy'
+          description: Scheduler policy used by internal system component clusters, including MinIO, VictoriaMetrics, and Victoria Logs. The persisted policy is resolved to the current scheduler name when a component is created.
+        systemComponentReservationResourceClass:
+          nullable: true
+          $ref: '#/components/schemas/koordinatorReservationResourceClass'
+          description: Optional Reservation resource class used by internal system component clusters when the Koordinator scheduler is selected. No Reservation label is added unless the user explicitly selects a resource class. The value is persisted on the environment.
     networkConfig:
       type: object
       title: NetworkConfig
