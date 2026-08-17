@@ -1629,6 +1629,17 @@ paths:
           description: list clusters referenced by this cluster
           schema:
             type: string
+        - name: endpointHost
+          in: query
+          description: Case-insensitive substring to match against the host part of cached cluster endpoints
+          schema:
+            type: string
+        - name: includeEndpoints
+          in: query
+          description: Whether to include cached user-visible endpoints in each cluster item
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: A successful response.
@@ -22201,6 +22212,88 @@ components:
         - Normal
         - DisasterRecovery
         - BlueGreenDeployment
+    tag:
+      description: tag info
+      properties:
+        id:
+          description: The id of the tag
+          format: int64
+          type: string
+        key:
+          description: the key of the tag
+          type: string
+        value:
+          description: The value corresponding to the key
+          type: string
+      required:
+        - id
+      type: object
+    endpointType:
+      description: Type of endpoint
+      type: string
+      enum:
+        - ClusterIP
+        - NodePort
+        - LoadBalancer
+        - PodIP
+        - HostNetwork
+        - PodFQDN
+    endpointNetworkType:
+      description: Network type of endpoint
+      type: string
+      enum:
+        - Internet
+        - Intranet
+    endpoint:
+      description: Endpoint is the information of cluster endpoints
+      properties:
+        title:
+          description: title of the endpoint
+          type: string
+        component:
+          description: Component type name
+          type: string
+        hosts:
+          description: Endpoint hosts
+          type: array
+          items:
+            type: string
+        port:
+          description: Endpoint port
+          type: integer
+          format: int32
+        type:
+          $ref: '#/components/schemas/endpointType'
+        networkType:
+          $ref: '#/components/schemas/endpointNetworkType'
+        serviceName:
+          description: Service name of endpoint
+          type: string
+        podService:
+          description: Pod service name of endpoint
+          type: boolean
+        portName:
+          description: Port name of endpoint
+          type: string
+        instances:
+          description: Endpoint backend instances
+          type: array
+          items:
+            type: string
+        mutable:
+          description: Whether the endpoint is mutable
+          type: boolean
+      required:
+        - title
+        - component
+        - hosts
+        - port
+        - type
+        - networkType
+        - serviceName
+        - portName
+        - mutable
+      type: object
     clusterListItem:
       description: KubeBlocks cluster information
       properties:
@@ -22307,6 +22400,20 @@ components:
         orgName:
           description: Org Name
           type: string
+        project:
+          description: Name of project, it is the alias of environment namespace
+          type: string
+        tags:
+          description: Tags bound to the cluster
+          items:
+            $ref: '#/components/schemas/tag'
+          type: array
+        endpoints:
+          description: Cached user-visible endpoints of the cluster; omitted unless includeEndpoints is true
+          items:
+            $ref: '#/components/schemas/endpoint'
+          type: array
+          x-omitempty: true
       required:
         - cloudProvider
         - createdAt
@@ -24512,22 +24619,6 @@ components:
             type: string
           rebuildInstanceOpsRequestName:
             type: string
-    tag:
-      description: tag info
-      properties:
-        id:
-          description: The id of the tag
-          format: int64
-          type: string
-        key:
-          description: the key of the tag
-          type: string
-        value:
-          description: The value corresponding to the key
-          type: string
-      required:
-        - id
-      type: object
     clusterTags:
       properties:
         clusterId:
@@ -24591,72 +24682,6 @@ components:
       required:
         - clusterId
         - items
-      type: object
-    endpointType:
-      description: Type of endpoint
-      type: string
-      enum:
-        - ClusterIP
-        - NodePort
-        - LoadBalancer
-        - PodIP
-        - HostNetwork
-        - PodFQDN
-    endpointNetworkType:
-      description: Network type of endpoint
-      type: string
-      enum:
-        - Internet
-        - Intranet
-    endpoint:
-      description: Endpoint is the information of cluster endpoints
-      properties:
-        title:
-          description: title of the endpoint
-          type: string
-        component:
-          description: Component type name
-          type: string
-        hosts:
-          description: Endpoint hosts
-          type: array
-          items:
-            type: string
-        port:
-          description: Endpoint port
-          type: integer
-          format: int32
-        type:
-          $ref: '#/components/schemas/endpointType'
-        networkType:
-          $ref: '#/components/schemas/endpointNetworkType'
-        serviceName:
-          description: Service name of endpoint
-          type: string
-        podService:
-          description: Pod service name of endpoint
-          type: boolean
-        portName:
-          description: Port name of endpoint
-          type: string
-        instances:
-          description: Endpoint backend instances
-          type: array
-          items:
-            type: string
-        mutable:
-          description: Whether the endpoint is mutable
-          type: boolean
-      required:
-        - title
-        - component
-        - hosts
-        - port
-        - type
-        - networkType
-        - serviceName
-        - portName
-        - mutable
       type: object
     endpointList:
       required:

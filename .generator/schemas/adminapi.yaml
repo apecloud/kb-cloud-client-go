@@ -2263,6 +2263,19 @@ paths:
           required: false
           schema:
             type: boolean
+        - name: endpointHost
+          in: query
+          description: Case-insensitive substring to match against the host part of cached cluster endpoints
+          required: false
+          schema:
+            type: string
+        - name: includeEndpoints
+          in: query
+          description: Whether to include cached user-visible endpoints in each cluster item
+          required: false
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: OK
@@ -2339,6 +2352,17 @@ paths:
           description: list clusters referenced by this cluster
           schema:
             type: string
+        - name: endpointHost
+          in: query
+          description: Case-insensitive substring to match against the host part of cached cluster endpoints
+          schema:
+            type: string
+        - name: includeEndpoints
+          in: query
+          description: Whether to include cached user-visible endpoints in each cluster item
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: A successful response.
@@ -10792,6 +10816,85 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/loadbalancer/config:
+    get:
+      tags:
+        - loadBalancer
+      operationId: getLoadBalancerConfig
+      summary: Get the effective load balancer configuration of an environment
+      parameters:
+        - name: environmentName
+          in: path
+          description: name of the environment
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loadBalancerConfig'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      tags:
+        - loadBalancer
+      operationId: updateLoadBalancerConfig
+      summary: Save and immediately activate the load balancer configuration of an environment
+      parameters:
+        - name: environmentName
+          in: path
+          description: name of the environment
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loadBalancerConfigUpdate'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loadBalancerConfig'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - loadBalancer
+      operationId: resetLoadBalancerConfig
+      summary: Reset the environment load balancer configuration to the current provider defaults
+      parameters:
+        - name: environmentName
+          in: path
+          description: name of the environment
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The effective provider defaults after reset.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loadBalancerConfig'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/environments/{environmentName}/loadbalancer/vipPool:
     get:
       operationId: listVIPPool
@@ -25629,6 +25732,88 @@ components:
         - Normal
         - DisasterRecovery
         - BlueGreenDeployment
+    tag:
+      description: tag info
+      properties:
+        id:
+          description: The id of the tag
+          format: int64
+          type: string
+        key:
+          description: the key of the tag
+          type: string
+        value:
+          description: The value corresponding to the key
+          type: string
+      required:
+        - id
+      type: object
+    endpointType:
+      description: Type of endpoint
+      type: string
+      enum:
+        - ClusterIP
+        - NodePort
+        - LoadBalancer
+        - PodIP
+        - HostNetwork
+        - PodFQDN
+    endpointNetworkType:
+      description: Network type of endpoint
+      type: string
+      enum:
+        - Internet
+        - Intranet
+    endpoint:
+      description: Endpoint is the information of cluster endpoints
+      properties:
+        title:
+          description: title of the endpoint
+          type: string
+        component:
+          description: Component type name
+          type: string
+        hosts:
+          description: Endpoint hosts
+          type: array
+          items:
+            type: string
+        port:
+          description: Endpoint port
+          type: integer
+          format: int32
+        type:
+          $ref: '#/components/schemas/endpointType'
+        networkType:
+          $ref: '#/components/schemas/endpointNetworkType'
+        serviceName:
+          description: Service name of endpoint
+          type: string
+        podService:
+          description: Pod service name of endpoint
+          type: boolean
+        portName:
+          description: Port name of endpoint
+          type: string
+        instances:
+          description: Endpoint backend instances
+          type: array
+          items:
+            type: string
+        mutable:
+          description: Whether the endpoint is mutable
+          type: boolean
+      required:
+        - title
+        - component
+        - hosts
+        - port
+        - type
+        - networkType
+        - serviceName
+        - portName
+        - mutable
+      type: object
     clusterListItem:
       description: KubeBlocks cluster information
       properties:
@@ -25735,6 +25920,20 @@ components:
         orgName:
           description: Org Name
           type: string
+        project:
+          description: Name of project, it is the alias of environment namespace
+          type: string
+        tags:
+          description: Tags bound to the cluster
+          items:
+            $ref: '#/components/schemas/tag'
+          type: array
+        endpoints:
+          description: Cached user-visible endpoints of the cluster; omitted unless includeEndpoints is true
+          items:
+            $ref: '#/components/schemas/endpoint'
+          type: array
+          x-omitempty: true
       required:
         - cloudProvider
         - createdAt
@@ -26716,72 +26915,6 @@ components:
         log:
           type: string
           description: log is the log of the specified container
-    endpointType:
-      description: Type of endpoint
-      type: string
-      enum:
-        - ClusterIP
-        - NodePort
-        - LoadBalancer
-        - PodIP
-        - HostNetwork
-        - PodFQDN
-    endpointNetworkType:
-      description: Network type of endpoint
-      type: string
-      enum:
-        - Internet
-        - Intranet
-    endpoint:
-      description: Endpoint is the information of cluster endpoints
-      properties:
-        title:
-          description: title of the endpoint
-          type: string
-        component:
-          description: Component type name
-          type: string
-        hosts:
-          description: Endpoint hosts
-          type: array
-          items:
-            type: string
-        port:
-          description: Endpoint port
-          type: integer
-          format: int32
-        type:
-          $ref: '#/components/schemas/endpointType'
-        networkType:
-          $ref: '#/components/schemas/endpointNetworkType'
-        serviceName:
-          description: Service name of endpoint
-          type: string
-        podService:
-          description: Pod service name of endpoint
-          type: boolean
-        portName:
-          description: Port name of endpoint
-          type: string
-        instances:
-          description: Endpoint backend instances
-          type: array
-          items:
-            type: string
-        mutable:
-          description: Whether the endpoint is mutable
-          type: boolean
-      required:
-        - title
-        - component
-        - hosts
-        - port
-        - type
-        - networkType
-        - serviceName
-        - portName
-        - mutable
-      type: object
     endpointList:
       required:
         - items
@@ -26868,22 +27001,6 @@ components:
         taskId:
           type: string
           description: Task ID if the operation is asynchronous (e.g. reconfigure)
-    tag:
-      description: tag info
-      properties:
-        id:
-          description: The id of the tag
-          format: int64
-          type: string
-        key:
-          description: the key of the tag
-          type: string
-        value:
-          description: The value corresponding to the key
-          type: string
-      required:
-        - id
-      type: object
     clusterTags:
       properties:
         clusterId:
@@ -31719,6 +31836,12 @@ components:
           type: array
           items:
             type: string
+    systemComponentSchedulerPolicy:
+      type: string
+      enum:
+        - default
+        - koordinator
+      default: default
     schedulingConfig:
       type: object
       title: SchedulingConfig
@@ -31728,10 +31851,9 @@ components:
           $ref: '#/components/schemas/clusterSchedulingPolicy'
         tolerateDefaultTaints:
           $ref: '#/components/schemas/tolerateDefaultTaints'
-        systemComponentSchedulerName:
-          type: string
-          default: default-scheduler
-          description: Scheduler used by internal system component clusters, including MinIO, VictoriaMetrics, and Victoria Logs. The value is persisted on the environment. Defaults to the Kubernetes default scheduler regardless of whether Koordinator is enabled.
+        systemComponentSchedulerPolicy:
+          $ref: '#/components/schemas/systemComponentSchedulerPolicy'
+          description: Scheduler policy used by internal system component clusters, including MinIO, VictoriaMetrics, and Victoria Logs. The persisted policy is resolved to the current scheduler name when a component is created.
         systemComponentReservationResourceClass:
           nullable: true
           $ref: '#/components/schemas/koordinatorReservationResourceClass'
@@ -32913,6 +33035,43 @@ components:
       required:
         - status
       type: object
+    loadBalancerAnnotations:
+      description: Provider-neutral annotations applied to load balancer Services by exposure type.
+      type: object
+      properties:
+        vpc:
+          description: Annotations used for load balancers exposed inside the VPC.
+          type: object
+          additionalProperties:
+            type: string
+        internet:
+          description: Annotations used for load balancers exposed to the Internet.
+          type: object
+          additionalProperties:
+            type: string
+      required:
+        - vpc
+        - internet
+    loadBalancerConfig:
+      description: Effective load balancer annotations for an environment.
+      type: object
+      properties:
+        provider:
+          description: Current environment provider returned by the server.
+          type: string
+        annotations:
+          $ref: '#/components/schemas/loadBalancerAnnotations'
+      required:
+        - provider
+        - annotations
+    loadBalancerConfigUpdate:
+      description: Complete editable load balancer annotations for an environment.
+      type: object
+      properties:
+        annotations:
+          $ref: '#/components/schemas/loadBalancerAnnotations'
+      required:
+        - annotations
     vipPool:
       description: VIP Pool
       properties:
