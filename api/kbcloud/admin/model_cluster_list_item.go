@@ -72,6 +72,12 @@ type ClusterListItem struct {
 	CodeShort *string `json:"codeShort,omitempty"`
 	// Org Name
 	OrgName *string `json:"orgName,omitempty"`
+	// Name of project, it is the alias of environment namespace
+	Project *string `json:"project,omitempty"`
+	// Tags bound to the cluster
+	Tags []Tag `json:"tags,omitempty"`
+	// Cached user-visible endpoints of the cluster; omitted unless includeEndpoints is true
+	Endpoints []Endpoint `json:"endpoints,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -852,6 +858,90 @@ func (o *ClusterListItem) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
+// GetProject returns the Project field value if set, zero value otherwise.
+func (o *ClusterListItem) GetProject() string {
+	if o == nil || o.Project == nil {
+		var ret string
+		return ret
+	}
+	return *o.Project
+}
+
+// GetProjectOk returns a tuple with the Project field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterListItem) GetProjectOk() (*string, bool) {
+	if o == nil || o.Project == nil {
+		return nil, false
+	}
+	return o.Project, true
+}
+
+// HasProject returns a boolean if a field has been set.
+func (o *ClusterListItem) HasProject() bool {
+	return o != nil && o.Project != nil
+}
+
+// SetProject gets a reference to the given string and assigns it to the Project field.
+func (o *ClusterListItem) SetProject(v string) {
+	o.Project = &v
+}
+
+// GetTags returns the Tags field value if set, zero value otherwise.
+func (o *ClusterListItem) GetTags() []Tag {
+	if o == nil || o.Tags == nil {
+		var ret []Tag
+		return ret
+	}
+	return o.Tags
+}
+
+// GetTagsOk returns a tuple with the Tags field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterListItem) GetTagsOk() (*[]Tag, bool) {
+	if o == nil || o.Tags == nil {
+		return nil, false
+	}
+	return &o.Tags, true
+}
+
+// HasTags returns a boolean if a field has been set.
+func (o *ClusterListItem) HasTags() bool {
+	return o != nil && o.Tags != nil
+}
+
+// SetTags gets a reference to the given []Tag and assigns it to the Tags field.
+func (o *ClusterListItem) SetTags(v []Tag) {
+	o.Tags = v
+}
+
+// GetEndpoints returns the Endpoints field value if set, zero value otherwise.
+func (o *ClusterListItem) GetEndpoints() []Endpoint {
+	if o == nil || o.Endpoints == nil {
+		var ret []Endpoint
+		return ret
+	}
+	return o.Endpoints
+}
+
+// GetEndpointsOk returns a tuple with the Endpoints field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterListItem) GetEndpointsOk() (*[]Endpoint, bool) {
+	if o == nil || o.Endpoints == nil {
+		return nil, false
+	}
+	return &o.Endpoints, true
+}
+
+// HasEndpoints returns a boolean if a field has been set.
+func (o *ClusterListItem) HasEndpoints() bool {
+	return o != nil && o.Endpoints != nil
+}
+
+// SetEndpoints gets a reference to the given []Endpoint and assigns it to the Endpoints field.
+func (o *ClusterListItem) SetEndpoints(v []Endpoint) {
+	o.Endpoints = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterListItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -924,6 +1014,15 @@ func (o ClusterListItem) MarshalJSON() ([]byte, error) {
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
 	}
+	if o.Project != nil {
+		toSerialize["project"] = o.Project
+	}
+	if o.Tags != nil {
+		toSerialize["tags"] = o.Tags
+	}
+	if o.Endpoints != nil {
+		toSerialize["endpoints"] = o.Endpoints
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -960,6 +1059,9 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 		Storage                *string                `json:"storage,omitempty"`
 		CodeShort              *string                `json:"codeShort,omitempty"`
 		OrgName                *string                `json:"orgName,omitempty"`
+		Project                *string                `json:"project,omitempty"`
+		Tags                   []Tag                  `json:"tags,omitempty"`
+		Endpoints              []Endpoint             `json:"endpoints,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -996,7 +1098,7 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "environmentDisplayName", "id", "name", "parentId", "parentName", "parentDisplayName", "dependencyType", "dependencyLabel", "clusterType", "delay", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName"})
+		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "environmentDisplayName", "id", "name", "parentId", "parentName", "parentDisplayName", "dependencyType", "dependencyLabel", "clusterType", "delay", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName", "project", "tags", "endpoints"})
 	} else {
 		return err
 	}
@@ -1032,6 +1134,9 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.Storage = all.Storage
 	o.CodeShort = all.CodeShort
 	o.OrgName = all.OrgName
+	o.Project = all.Project
+	o.Tags = all.Tags
+	o.Endpoints = all.Endpoints
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
