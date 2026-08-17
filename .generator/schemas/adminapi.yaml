@@ -17508,6 +17508,8 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/relation/{target}:
     delete:
       tags:
