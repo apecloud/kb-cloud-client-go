@@ -21,13 +21,13 @@ type PostgresqlSQLFingerprintExplainResponse struct {
 	User string `json:"user"`
 	// Top-level identity from the matched ranking row.
 	TopLevel bool `json:"topLevel"`
-	// Server-side sample source when available. Raw SQL is not returned.
-	SampleSource *string `json:"sampleSource,omitempty"`
-	// Sample collection timestamp when available.
-	SampleCollectedAt *string `json:"sampleCollectedAt,omitempty"`
-	// Redacted SQL summary from the matched ranking row. Full raw SQL is intentionally not returned.
-	SampleSqlSummary *string                      `json:"sampleSQLSummary,omitempty"`
-	PlanMode         DmsExecutionPlanPlanningMode `json:"planMode"`
+	// Server-side source used to resolve the parameterized SQL statement. Raw SQL is not returned.
+	StatementSource *string `json:"statementSource,omitempty"`
+	// Timestamp when the parameterized SQL statement was resolved.
+	StatementResolvedAt *string `json:"statementResolvedAt,omitempty"`
+	// Redacted SQL summary from the matched ranking row. The resolved statement is intentionally not returned.
+	QuerySummary *string                      `json:"querySummary,omitempty"`
+	PlanMode     DmsExecutionPlanPlanningMode `json:"planMode"`
 	// Whether the estimated plan was produced without concrete parameter values.
 	Parameterized bool `json:"parameterized"`
 	// Number of parameters when DMS can determine it. It may be omitted for PostgreSQL generic-plan paths that do not expose the count.
@@ -178,88 +178,88 @@ func (o *PostgresqlSQLFingerprintExplainResponse) SetTopLevel(v bool) {
 	o.TopLevel = v
 }
 
-// GetSampleSource returns the SampleSource field value if set, zero value otherwise.
-func (o *PostgresqlSQLFingerprintExplainResponse) GetSampleSource() string {
-	if o == nil || o.SampleSource == nil {
+// GetStatementSource returns the StatementSource field value if set, zero value otherwise.
+func (o *PostgresqlSQLFingerprintExplainResponse) GetStatementSource() string {
+	if o == nil || o.StatementSource == nil {
 		var ret string
 		return ret
 	}
-	return *o.SampleSource
+	return *o.StatementSource
 }
 
-// GetSampleSourceOk returns a tuple with the SampleSource field value if set, nil otherwise
+// GetStatementSourceOk returns a tuple with the StatementSource field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PostgresqlSQLFingerprintExplainResponse) GetSampleSourceOk() (*string, bool) {
-	if o == nil || o.SampleSource == nil {
+func (o *PostgresqlSQLFingerprintExplainResponse) GetStatementSourceOk() (*string, bool) {
+	if o == nil || o.StatementSource == nil {
 		return nil, false
 	}
-	return o.SampleSource, true
+	return o.StatementSource, true
 }
 
-// HasSampleSource returns a boolean if a field has been set.
-func (o *PostgresqlSQLFingerprintExplainResponse) HasSampleSource() bool {
-	return o != nil && o.SampleSource != nil
+// HasStatementSource returns a boolean if a field has been set.
+func (o *PostgresqlSQLFingerprintExplainResponse) HasStatementSource() bool {
+	return o != nil && o.StatementSource != nil
 }
 
-// SetSampleSource gets a reference to the given string and assigns it to the SampleSource field.
-func (o *PostgresqlSQLFingerprintExplainResponse) SetSampleSource(v string) {
-	o.SampleSource = &v
+// SetStatementSource gets a reference to the given string and assigns it to the StatementSource field.
+func (o *PostgresqlSQLFingerprintExplainResponse) SetStatementSource(v string) {
+	o.StatementSource = &v
 }
 
-// GetSampleCollectedAt returns the SampleCollectedAt field value if set, zero value otherwise.
-func (o *PostgresqlSQLFingerprintExplainResponse) GetSampleCollectedAt() string {
-	if o == nil || o.SampleCollectedAt == nil {
+// GetStatementResolvedAt returns the StatementResolvedAt field value if set, zero value otherwise.
+func (o *PostgresqlSQLFingerprintExplainResponse) GetStatementResolvedAt() string {
+	if o == nil || o.StatementResolvedAt == nil {
 		var ret string
 		return ret
 	}
-	return *o.SampleCollectedAt
+	return *o.StatementResolvedAt
 }
 
-// GetSampleCollectedAtOk returns a tuple with the SampleCollectedAt field value if set, nil otherwise
+// GetStatementResolvedAtOk returns a tuple with the StatementResolvedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PostgresqlSQLFingerprintExplainResponse) GetSampleCollectedAtOk() (*string, bool) {
-	if o == nil || o.SampleCollectedAt == nil {
+func (o *PostgresqlSQLFingerprintExplainResponse) GetStatementResolvedAtOk() (*string, bool) {
+	if o == nil || o.StatementResolvedAt == nil {
 		return nil, false
 	}
-	return o.SampleCollectedAt, true
+	return o.StatementResolvedAt, true
 }
 
-// HasSampleCollectedAt returns a boolean if a field has been set.
-func (o *PostgresqlSQLFingerprintExplainResponse) HasSampleCollectedAt() bool {
-	return o != nil && o.SampleCollectedAt != nil
+// HasStatementResolvedAt returns a boolean if a field has been set.
+func (o *PostgresqlSQLFingerprintExplainResponse) HasStatementResolvedAt() bool {
+	return o != nil && o.StatementResolvedAt != nil
 }
 
-// SetSampleCollectedAt gets a reference to the given string and assigns it to the SampleCollectedAt field.
-func (o *PostgresqlSQLFingerprintExplainResponse) SetSampleCollectedAt(v string) {
-	o.SampleCollectedAt = &v
+// SetStatementResolvedAt gets a reference to the given string and assigns it to the StatementResolvedAt field.
+func (o *PostgresqlSQLFingerprintExplainResponse) SetStatementResolvedAt(v string) {
+	o.StatementResolvedAt = &v
 }
 
-// GetSampleSqlSummary returns the SampleSqlSummary field value if set, zero value otherwise.
-func (o *PostgresqlSQLFingerprintExplainResponse) GetSampleSqlSummary() string {
-	if o == nil || o.SampleSqlSummary == nil {
+// GetQuerySummary returns the QuerySummary field value if set, zero value otherwise.
+func (o *PostgresqlSQLFingerprintExplainResponse) GetQuerySummary() string {
+	if o == nil || o.QuerySummary == nil {
 		var ret string
 		return ret
 	}
-	return *o.SampleSqlSummary
+	return *o.QuerySummary
 }
 
-// GetSampleSqlSummaryOk returns a tuple with the SampleSqlSummary field value if set, nil otherwise
+// GetQuerySummaryOk returns a tuple with the QuerySummary field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PostgresqlSQLFingerprintExplainResponse) GetSampleSqlSummaryOk() (*string, bool) {
-	if o == nil || o.SampleSqlSummary == nil {
+func (o *PostgresqlSQLFingerprintExplainResponse) GetQuerySummaryOk() (*string, bool) {
+	if o == nil || o.QuerySummary == nil {
 		return nil, false
 	}
-	return o.SampleSqlSummary, true
+	return o.QuerySummary, true
 }
 
-// HasSampleSqlSummary returns a boolean if a field has been set.
-func (o *PostgresqlSQLFingerprintExplainResponse) HasSampleSqlSummary() bool {
-	return o != nil && o.SampleSqlSummary != nil
+// HasQuerySummary returns a boolean if a field has been set.
+func (o *PostgresqlSQLFingerprintExplainResponse) HasQuerySummary() bool {
+	return o != nil && o.QuerySummary != nil
 }
 
-// SetSampleSqlSummary gets a reference to the given string and assigns it to the SampleSqlSummary field.
-func (o *PostgresqlSQLFingerprintExplainResponse) SetSampleSqlSummary(v string) {
-	o.SampleSqlSummary = &v
+// SetQuerySummary gets a reference to the given string and assigns it to the QuerySummary field.
+func (o *PostgresqlSQLFingerprintExplainResponse) SetQuerySummary(v string) {
+	o.QuerySummary = &v
 }
 
 // GetPlanMode returns the PlanMode field value.
@@ -381,14 +381,14 @@ func (o PostgresqlSQLFingerprintExplainResponse) MarshalJSON() ([]byte, error) {
 	toSerialize["database"] = o.Database
 	toSerialize["user"] = o.User
 	toSerialize["topLevel"] = o.TopLevel
-	if o.SampleSource != nil {
-		toSerialize["sampleSource"] = o.SampleSource
+	if o.StatementSource != nil {
+		toSerialize["statementSource"] = o.StatementSource
 	}
-	if o.SampleCollectedAt != nil {
-		toSerialize["sampleCollectedAt"] = o.SampleCollectedAt
+	if o.StatementResolvedAt != nil {
+		toSerialize["statementResolvedAt"] = o.StatementResolvedAt
 	}
-	if o.SampleSqlSummary != nil {
-		toSerialize["sampleSQLSummary"] = o.SampleSqlSummary
+	if o.QuerySummary != nil {
+		toSerialize["querySummary"] = o.QuerySummary
 	}
 	toSerialize["planMode"] = o.PlanMode
 	toSerialize["parameterized"] = o.Parameterized
@@ -406,18 +406,18 @@ func (o PostgresqlSQLFingerprintExplainResponse) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PostgresqlSQLFingerprintExplainResponse) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		QueryId           *string                       `json:"queryID"`
-		Fingerprint       *string                       `json:"fingerprint"`
-		Database          *string                       `json:"database"`
-		User              *string                       `json:"user"`
-		TopLevel          *bool                         `json:"topLevel"`
-		SampleSource      *string                       `json:"sampleSource,omitempty"`
-		SampleCollectedAt *string                       `json:"sampleCollectedAt,omitempty"`
-		SampleSqlSummary  *string                       `json:"sampleSQLSummary,omitempty"`
-		PlanMode          *DmsExecutionPlanPlanningMode `json:"planMode"`
-		Parameterized     *bool                         `json:"parameterized"`
-		ParameterCount    common.NullableInt64          `json:"parameterCount,omitempty"`
-		ExplainResult     *DmsExecutionPlanResult       `json:"explainResult"`
+		QueryId             *string                       `json:"queryID"`
+		Fingerprint         *string                       `json:"fingerprint"`
+		Database            *string                       `json:"database"`
+		User                *string                       `json:"user"`
+		TopLevel            *bool                         `json:"topLevel"`
+		StatementSource     *string                       `json:"statementSource,omitempty"`
+		StatementResolvedAt *string                       `json:"statementResolvedAt,omitempty"`
+		QuerySummary        *string                       `json:"querySummary,omitempty"`
+		PlanMode            *DmsExecutionPlanPlanningMode `json:"planMode"`
+		Parameterized       *bool                         `json:"parameterized"`
+		ParameterCount      common.NullableInt64          `json:"parameterCount,omitempty"`
+		ExplainResult       *DmsExecutionPlanResult       `json:"explainResult"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -448,7 +448,7 @@ func (o *PostgresqlSQLFingerprintExplainResponse) UnmarshalJSON(bytes []byte) (e
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"queryID", "fingerprint", "database", "user", "topLevel", "sampleSource", "sampleCollectedAt", "sampleSQLSummary", "planMode", "parameterized", "parameterCount", "explainResult"})
+		common.DeleteKeys(additionalProperties, &[]string{"queryID", "fingerprint", "database", "user", "topLevel", "statementSource", "statementResolvedAt", "querySummary", "planMode", "parameterized", "parameterCount", "explainResult"})
 	} else {
 		return err
 	}
@@ -459,9 +459,9 @@ func (o *PostgresqlSQLFingerprintExplainResponse) UnmarshalJSON(bytes []byte) (e
 	o.Database = *all.Database
 	o.User = *all.User
 	o.TopLevel = *all.TopLevel
-	o.SampleSource = all.SampleSource
-	o.SampleCollectedAt = all.SampleCollectedAt
-	o.SampleSqlSummary = all.SampleSqlSummary
+	o.StatementSource = all.StatementSource
+	o.StatementResolvedAt = all.StatementResolvedAt
+	o.QuerySummary = all.QuerySummary
 	if !all.PlanMode.IsValid() {
 		hasInvalidField = true
 	} else {

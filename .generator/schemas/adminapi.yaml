@@ -21672,7 +21672,7 @@ paths:
       tags:
         - diagnostics
       summary: Explain PostgreSQL SQL fingerprint
-      description: Explicitly trigger a safe PostgreSQL EXPLAIN for one SQL fingerprint. The request does not accept raw SQL. The backend uses only a server-side SELECT sample, rejects multiple statements, and never runs EXPLAIN ANALYZE or the original SQL.
+      description: Explicitly trigger a safe PostgreSQL EXPLAIN for one SQL fingerprint. The request does not accept raw SQL. DMS resolves the server-side parameterized SELECT statement for the ranking identity, produces an estimated standard or generic plan without parameter sample values, rejects multiple statements, and never runs EXPLAIN ANALYZE or the original SQL.
       operationId: explainDiagnosticsPostgresqlSQLFingerprint
       parameters:
         - name: orgName
@@ -42045,15 +42045,15 @@ components:
         topLevel:
           type: boolean
           description: Top-level identity from the matched ranking row.
-        sampleSource:
+        statementSource:
           type: string
-          description: Server-side sample source when available. Raw SQL is not returned.
-        sampleCollectedAt:
+          description: Server-side source used to resolve the parameterized SQL statement. Raw SQL is not returned.
+        statementResolvedAt:
           type: string
-          description: Sample collection timestamp when available.
-        sampleSQLSummary:
+          description: Timestamp when the parameterized SQL statement was resolved.
+        querySummary:
           type: string
-          description: Redacted SQL summary from the matched ranking row. Full raw SQL is intentionally not returned.
+          description: Redacted SQL summary from the matched ranking row. The resolved statement is intentionally not returned.
         planMode:
           $ref: '#/components/schemas/DmsExecutionPlanPlanningMode'
           description: Whether DMS produced a standard estimated plan or a generic parameterized estimated plan.
@@ -42069,7 +42069,7 @@ components:
           description: Number of parameters when DMS can determine it. It may be omitted for PostgreSQL generic-plan paths that do not expose the count.
         explainResult:
           $ref: '#/components/schemas/DmsExecutionPlanResult'
-          description: Normalized DMS VisualExplain estimated plan. Raw origin SQL and generated EXPLAIN SQL are intentionally removed.
+          description: Normalized DMS estimated visual plan. The resolved statement and generated EXPLAIN SQL are intentionally removed.
     mysqlSQLFingerprint:
       type: object
       required:
