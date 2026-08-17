@@ -37404,6 +37404,11 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         docLink:
           type: string
+        excludedEngineModes:
+          type: array
+          items:
+            type: string
+          description: Engine modes in which this script does not apply. An empty list means the script is applicable to every mode supported by its engine.
         scopeType:
           description: scope type, such as "system"/"global"/"org"
           type: string
