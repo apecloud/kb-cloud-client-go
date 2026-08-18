@@ -33,8 +33,6 @@ type InspectionScript struct {
 	Direction   *InspectionThresholdDirection `json:"direction,omitempty"`
 	Remediation *LocalizedDescription         `json:"remediation,omitempty"`
 	DocLink     *string                       `json:"docLink,omitempty"`
-	// Engine modes in which this script does not apply. An empty list means the script is applicable to every mode supported by its engine.
-	ExcludedEngineModes []string `json:"excludedEngineModes,omitempty"`
 	// scope type, such as "system"/"global"/"org"
 	ScopeType string `json:"scopeType"`
 	// The identifier of the scope, such as org_id
@@ -471,34 +469,6 @@ func (o *InspectionScript) SetDocLink(v string) {
 	o.DocLink = &v
 }
 
-// GetExcludedEngineModes returns the ExcludedEngineModes field value if set, zero value otherwise.
-func (o *InspectionScript) GetExcludedEngineModes() []string {
-	if o == nil || o.ExcludedEngineModes == nil {
-		var ret []string
-		return ret
-	}
-	return o.ExcludedEngineModes
-}
-
-// GetExcludedEngineModesOk returns a tuple with the ExcludedEngineModes field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *InspectionScript) GetExcludedEngineModesOk() (*[]string, bool) {
-	if o == nil || o.ExcludedEngineModes == nil {
-		return nil, false
-	}
-	return &o.ExcludedEngineModes, true
-}
-
-// HasExcludedEngineModes returns a boolean if a field has been set.
-func (o *InspectionScript) HasExcludedEngineModes() bool {
-	return o != nil && o.ExcludedEngineModes != nil
-}
-
-// SetExcludedEngineModes gets a reference to the given []string and assigns it to the ExcludedEngineModes field.
-func (o *InspectionScript) SetExcludedEngineModes(v []string) {
-	o.ExcludedEngineModes = v
-}
-
 // GetScopeType returns the ScopeType field value.
 func (o *InspectionScript) GetScopeType() string {
 	if o == nil {
@@ -726,9 +696,6 @@ func (o InspectionScript) MarshalJSON() ([]byte, error) {
 	if o.DocLink != nil {
 		toSerialize["docLink"] = o.DocLink
 	}
-	if o.ExcludedEngineModes != nil {
-		toSerialize["excludedEngineModes"] = o.ExcludedEngineModes
-	}
 	toSerialize["scopeType"] = o.ScopeType
 	if o.ScopeId != nil {
 		toSerialize["scopeID"] = o.ScopeId
@@ -756,29 +723,28 @@ func (o InspectionScript) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InspectionScript) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id                  *string                       `json:"id,omitempty"`
-		Name                *string                       `json:"name"`
-		DisplayName         *LocalizedDescription         `json:"displayName,omitempty"`
-		Engine              *string                       `json:"engine"`
-		Type                *string                       `json:"type"`
-		Category            *InspectionScriptCategory     `json:"category"`
-		Description         *LocalizedDescription         `json:"description,omitempty"`
-		ScriptExpr          *string                       `json:"scriptExpr"`
-		CheckExpr           *string                       `json:"checkExpr,omitempty"`
-		Criticality         *InspectionCriticality        `json:"criticality,omitempty"`
-		WarnThreshold       *float64                      `json:"warnThreshold,omitempty"`
-		CritThreshold       *float64                      `json:"critThreshold,omitempty"`
-		Direction           *InspectionThresholdDirection `json:"direction,omitempty"`
-		Remediation         *LocalizedDescription         `json:"remediation,omitempty"`
-		DocLink             *string                       `json:"docLink,omitempty"`
-		ExcludedEngineModes []string                      `json:"excludedEngineModes,omitempty"`
-		ScopeType           *string                       `json:"scopeType"`
-		ScopeId             *string                       `json:"scopeID,omitempty"`
-		ScopeName           *string                       `json:"scopeName,omitempty"`
-		Enabled             *bool                         `json:"enabled"`
-		Unit                *string                       `json:"unit,omitempty"`
-		CreatedAt           *int32                        `json:"createdAt,omitempty"`
-		UpdatedAt           *int32                        `json:"updatedAt,omitempty"`
+		Id            *string                       `json:"id,omitempty"`
+		Name          *string                       `json:"name"`
+		DisplayName   *LocalizedDescription         `json:"displayName,omitempty"`
+		Engine        *string                       `json:"engine"`
+		Type          *string                       `json:"type"`
+		Category      *InspectionScriptCategory     `json:"category"`
+		Description   *LocalizedDescription         `json:"description,omitempty"`
+		ScriptExpr    *string                       `json:"scriptExpr"`
+		CheckExpr     *string                       `json:"checkExpr,omitempty"`
+		Criticality   *InspectionCriticality        `json:"criticality,omitempty"`
+		WarnThreshold *float64                      `json:"warnThreshold,omitempty"`
+		CritThreshold *float64                      `json:"critThreshold,omitempty"`
+		Direction     *InspectionThresholdDirection `json:"direction,omitempty"`
+		Remediation   *LocalizedDescription         `json:"remediation,omitempty"`
+		DocLink       *string                       `json:"docLink,omitempty"`
+		ScopeType     *string                       `json:"scopeType"`
+		ScopeId       *string                       `json:"scopeID,omitempty"`
+		ScopeName     *string                       `json:"scopeName,omitempty"`
+		Enabled       *bool                         `json:"enabled"`
+		Unit          *string                       `json:"unit,omitempty"`
+		CreatedAt     *int32                        `json:"createdAt,omitempty"`
+		UpdatedAt     *int32                        `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -806,7 +772,7 @@ func (o *InspectionScript) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "displayName", "engine", "type", "category", "description", "scriptExpr", "checkExpr", "criticality", "warnThreshold", "critThreshold", "direction", "remediation", "docLink", "excludedEngineModes", "scopeType", "scopeID", "scopeName", "enabled", "unit", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "displayName", "engine", "type", "category", "description", "scriptExpr", "checkExpr", "criticality", "warnThreshold", "critThreshold", "direction", "remediation", "docLink", "scopeType", "scopeID", "scopeName", "enabled", "unit", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}
@@ -848,7 +814,6 @@ func (o *InspectionScript) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Remediation = all.Remediation
 	o.DocLink = all.DocLink
-	o.ExcludedEngineModes = all.ExcludedEngineModes
 	o.ScopeType = *all.ScopeType
 	o.ScopeId = all.ScopeId
 	o.ScopeName = all.ScopeName

@@ -238,7 +238,6 @@
 //   - [diagnosticsApi.listDiagnosticsDamengSessions]
 //   - [diagnosticsApi.listDiagnosticsKingbaseSessions]
 //   - [diagnosticsApi.listDiagnosticsPostgresqlSessions]
-//   - [diagnosticsApi.resetDiagnosticsPostgresqlSQLAnalysis]
 //   - [disasterRecoveryApi.createDisasterRecovery]
 //   - [disasterRecoveryApi.deleteDisasterRecovery]
 //   - [disasterRecoveryApi.getDisasterRecoveryHistory]

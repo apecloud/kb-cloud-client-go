@@ -21691,39 +21691,6 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/reset:
-    post:
-      tags:
-        - diagnostics
-      summary: Reset PostgreSQL SQL analysis statistics
-      description: Reset pg_stat_statements statistics for the selected PostgreSQL cluster. This is a cluster write operation and does not change PostgreSQL configuration.
-      operationId: resetDiagnosticsPostgresqlSQLAnalysis
-      parameters:
-        - name: orgName
-          in: path
-          description: Organization name
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          description: Cluster name
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: PostgreSQL SQL analysis statistics were reset.
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mysql/sqlAnalysis:
     get:
       tags:
@@ -38494,11 +38461,6 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         docLink:
           type: string
-        excludedEngineModes:
-          type: array
-          items:
-            type: string
-          description: Engine modes in which this script does not apply. An empty list means the script is applicable to every mode supported by its engine.
         scopeType:
           description: scope type, such as "system"/"global"/"org"
           type: string
