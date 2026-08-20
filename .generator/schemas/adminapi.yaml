@@ -32170,6 +32170,12 @@ components:
           $ref: '#/components/schemas/nodePool'
         storage:
           $ref: '#/components/schemas/storageConfig'
+        victoriaMetrics:
+          description: VictoriaMetrics cluster config used when adding an environment
+          $ref: '#/components/schemas/staticCluster'
+        victoriaLogs:
+          description: Victoria Logs cluster config used when adding an environment
+          $ref: '#/components/schemas/staticCluster'
         modules:
           type: array
           description: option modules of environment
