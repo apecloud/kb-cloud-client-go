@@ -19,7 +19,9 @@ type ProvisionConfig struct {
 	// Create your node plan, and the selected nodes will be used for pod scheduling
 	NodePool []NodePoolNode `json:"nodePool,omitempty"`
 	// Storage config for environment
-	Storage *StorageConfig `json:"storage,omitempty"`
+	Storage         *StorageConfig `json:"storage,omitempty"`
+	VictoriaMetrics *StaticCluster `json:"victoriaMetrics,omitempty"`
+	VictoriaLogs    *StaticCluster `json:"victoriaLogs,omitempty"`
 	// option modules of environment
 	Modules []EnvironmentModule `json:"modules,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -148,6 +150,62 @@ func (o *ProvisionConfig) SetStorage(v StorageConfig) {
 	o.Storage = &v
 }
 
+// GetVictoriaMetrics returns the VictoriaMetrics field value if set, zero value otherwise.
+func (o *ProvisionConfig) GetVictoriaMetrics() StaticCluster {
+	if o == nil || o.VictoriaMetrics == nil {
+		var ret StaticCluster
+		return ret
+	}
+	return *o.VictoriaMetrics
+}
+
+// GetVictoriaMetricsOk returns a tuple with the VictoriaMetrics field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ProvisionConfig) GetVictoriaMetricsOk() (*StaticCluster, bool) {
+	if o == nil || o.VictoriaMetrics == nil {
+		return nil, false
+	}
+	return o.VictoriaMetrics, true
+}
+
+// HasVictoriaMetrics returns a boolean if a field has been set.
+func (o *ProvisionConfig) HasVictoriaMetrics() bool {
+	return o != nil && o.VictoriaMetrics != nil
+}
+
+// SetVictoriaMetrics gets a reference to the given StaticCluster and assigns it to the VictoriaMetrics field.
+func (o *ProvisionConfig) SetVictoriaMetrics(v StaticCluster) {
+	o.VictoriaMetrics = &v
+}
+
+// GetVictoriaLogs returns the VictoriaLogs field value if set, zero value otherwise.
+func (o *ProvisionConfig) GetVictoriaLogs() StaticCluster {
+	if o == nil || o.VictoriaLogs == nil {
+		var ret StaticCluster
+		return ret
+	}
+	return *o.VictoriaLogs
+}
+
+// GetVictoriaLogsOk returns a tuple with the VictoriaLogs field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ProvisionConfig) GetVictoriaLogsOk() (*StaticCluster, bool) {
+	if o == nil || o.VictoriaLogs == nil {
+		return nil, false
+	}
+	return o.VictoriaLogs, true
+}
+
+// HasVictoriaLogs returns a boolean if a field has been set.
+func (o *ProvisionConfig) HasVictoriaLogs() bool {
+	return o != nil && o.VictoriaLogs != nil
+}
+
+// SetVictoriaLogs gets a reference to the given StaticCluster and assigns it to the VictoriaLogs field.
+func (o *ProvisionConfig) SetVictoriaLogs(v StaticCluster) {
+	o.VictoriaLogs = &v
+}
+
 // GetModules returns the Modules field value if set, zero value otherwise.
 func (o *ProvisionConfig) GetModules() []EnvironmentModule {
 	if o == nil || o.Modules == nil {
@@ -190,6 +248,12 @@ func (o ProvisionConfig) MarshalJSON() ([]byte, error) {
 	if o.Storage != nil {
 		toSerialize["storage"] = o.Storage
 	}
+	if o.VictoriaMetrics != nil {
+		toSerialize["victoriaMetrics"] = o.VictoriaMetrics
+	}
+	if o.VictoriaLogs != nil {
+		toSerialize["victoriaLogs"] = o.VictoriaLogs
+	}
 	if o.Modules != nil {
 		toSerialize["modules"] = o.Modules
 	}
@@ -203,11 +267,13 @@ func (o ProvisionConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Register  *Register           `json:"register"`
-		Component *Component          `json:"component"`
-		NodePool  []NodePoolNode      `json:"nodePool,omitempty"`
-		Storage   *StorageConfig      `json:"storage,omitempty"`
-		Modules   []EnvironmentModule `json:"modules,omitempty"`
+		Register        *Register           `json:"register"`
+		Component       *Component          `json:"component"`
+		NodePool        []NodePoolNode      `json:"nodePool,omitempty"`
+		Storage         *StorageConfig      `json:"storage,omitempty"`
+		VictoriaMetrics *StaticCluster      `json:"victoriaMetrics,omitempty"`
+		VictoriaLogs    *StaticCluster      `json:"victoriaLogs,omitempty"`
+		Modules         []EnvironmentModule `json:"modules,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -220,7 +286,7 @@ func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"register", "component", "nodePool", "storage", "modules"})
+		common.DeleteKeys(additionalProperties, &[]string{"register", "component", "nodePool", "storage", "victoriaMetrics", "victoriaLogs", "modules"})
 	} else {
 		return err
 	}
@@ -239,6 +305,14 @@ func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Storage = all.Storage
+	if all.VictoriaMetrics != nil && all.VictoriaMetrics.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.VictoriaMetrics = all.VictoriaMetrics
+	if all.VictoriaLogs != nil && all.VictoriaLogs.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.VictoriaLogs = all.VictoriaLogs
 	o.Modules = all.Modules
 
 	if len(additionalProperties) > 0 {

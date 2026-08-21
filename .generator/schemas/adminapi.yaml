@@ -32170,6 +32170,12 @@ components:
           $ref: '#/components/schemas/nodePool'
         storage:
           $ref: '#/components/schemas/storageConfig'
+        victoriaMetrics:
+          description: Optional vm-storage spec (replicas, disk, classCode) when adding an environment. vm-insert and vm-select keep installer defaults.
+          $ref: '#/components/schemas/staticCluster'
+        victoriaLogs:
+          description: Optional vlstorage spec (replicas, disk, classCode) when adding an environment. vlinsert and vlselect keep installer defaults.
+          $ref: '#/components/schemas/staticCluster'
         modules:
           type: array
           description: option modules of environment
