@@ -32171,10 +32171,10 @@ components:
         storage:
           $ref: '#/components/schemas/storageConfig'
         victoriaMetrics:
-          description: VictoriaMetrics cluster config used when adding an environment
+          description: Optional vm-storage spec (replicas, disk, classCode) when adding an environment. vm-insert and vm-select keep installer defaults.
           $ref: '#/components/schemas/staticCluster'
         victoriaLogs:
-          description: Victoria Logs cluster config used when adding an environment
+          description: Optional vlstorage spec (replicas, disk, classCode) when adding an environment. vlinsert and vlselect keep installer defaults.
           $ref: '#/components/schemas/staticCluster'
         modules:
           type: array
