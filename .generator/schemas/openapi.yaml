@@ -36501,6 +36501,9 @@ components:
         channelID:
           type: string
           description: Existing data replication channel ID used only as a create-time shortcut.
+        checkName:
+          type: string
+          nullable: true
         environmentID:
           type: string
           description: Environment UUID for direct check creation.

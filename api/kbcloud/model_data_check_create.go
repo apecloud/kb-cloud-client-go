@@ -15,7 +15,8 @@ type DataCheckCreate struct {
 	// Type of check to run. A standalone check runs exactly one type.
 	CheckType DataCheckType `json:"checkType"`
 	// Existing data replication channel ID used only as a create-time shortcut.
-	ChannelId *string `json:"channelID,omitempty"`
+	ChannelId *string               `json:"channelID,omitempty"`
+	CheckName common.NullableString `json:"checkName,omitempty"`
 	// Environment UUID for direct check creation.
 	EnvironmentId *string `json:"environmentID,omitempty"`
 	// Kubernetes namespace for direct check creation.
@@ -95,6 +96,45 @@ func (o *DataCheckCreate) HasChannelId() bool {
 // SetChannelId gets a reference to the given string and assigns it to the ChannelId field.
 func (o *DataCheckCreate) SetChannelId(v string) {
 	o.ChannelId = &v
+}
+
+// GetCheckName returns the CheckName field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DataCheckCreate) GetCheckName() string {
+	if o == nil || o.CheckName.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.CheckName.Get()
+}
+
+// GetCheckNameOk returns a tuple with the CheckName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *DataCheckCreate) GetCheckNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CheckName.Get(), o.CheckName.IsSet()
+}
+
+// HasCheckName returns a boolean if a field has been set.
+func (o *DataCheckCreate) HasCheckName() bool {
+	return o != nil && o.CheckName.IsSet()
+}
+
+// SetCheckName gets a reference to the given common.NullableString and assigns it to the CheckName field.
+func (o *DataCheckCreate) SetCheckName(v string) {
+	o.CheckName.Set(&v)
+}
+
+// SetCheckNameNil sets the value for CheckName to be an explicit nil.
+func (o *DataCheckCreate) SetCheckNameNil() {
+	o.CheckName.Set(nil)
+}
+
+// UnsetCheckName ensures that no value is present for CheckName, not even an explicit nil.
+func (o *DataCheckCreate) UnsetCheckName() {
+	o.CheckName.Unset()
 }
 
 // GetEnvironmentId returns the EnvironmentId field value if set, zero value otherwise.
@@ -247,6 +287,9 @@ func (o DataCheckCreate) MarshalJSON() ([]byte, error) {
 	if o.ChannelId != nil {
 		toSerialize["channelID"] = o.ChannelId
 	}
+	if o.CheckName.IsSet() {
+		toSerialize["checkName"] = o.CheckName.Get()
+	}
 	if o.EnvironmentId != nil {
 		toSerialize["environmentID"] = o.EnvironmentId
 	}
@@ -274,6 +317,7 @@ func (o *DataCheckCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		CheckType          *DataCheckType             `json:"checkType"`
 		ChannelId          *string                    `json:"channelID,omitempty"`
+		CheckName          common.NullableString      `json:"checkName,omitempty"`
 		EnvironmentId      *string                    `json:"environmentID,omitempty"`
 		Project            *string                    `json:"project,omitempty"`
 		Source             *DataChannelEndpointCreate `json:"source,omitempty"`
@@ -288,7 +332,7 @@ func (o *DataCheckCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"checkType", "channelID", "environmentID", "project", "source", "target", "replicationObjects"})
+		common.DeleteKeys(additionalProperties, &[]string{"checkType", "channelID", "checkName", "environmentID", "project", "source", "target", "replicationObjects"})
 	} else {
 		return err
 	}
@@ -300,6 +344,7 @@ func (o *DataCheckCreate) UnmarshalJSON(bytes []byte) (err error) {
 		o.CheckType = *all.CheckType
 	}
 	o.ChannelId = all.ChannelId
+	o.CheckName = all.CheckName
 	o.EnvironmentId = all.EnvironmentId
 	o.Project = all.Project
 	if all.Source != nil && all.Source.UnparsedObject != nil && o.UnparsedObject == nil {
