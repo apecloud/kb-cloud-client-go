@@ -11,13 +11,15 @@ import (
 )
 
 type EndpointOption struct {
-	Title      LocalizedDescription `json:"title"`
-	Component  string               `json:"component"`
-	PortName   string               `json:"portName"`
-	Port       int32                `json:"port"`
-	Protocol   string               `json:"protocol"`
-	TargetPort string               `json:"targetPort"`
-	Type       []string             `json:"type"`
+	Title     LocalizedDescription `json:"title"`
+	Component string               `json:"component"`
+	// Stable connection path identity for direct database and pooled application endpoints.
+	AccessMode *EndpointAccessMode `json:"accessMode,omitempty"`
+	PortName   string              `json:"portName"`
+	Port       int32               `json:"port"`
+	Protocol   string              `json:"protocol"`
+	TargetPort string              `json:"targetPort"`
+	Type       []string            `json:"type"`
 	// whether the endpoint supports system use, such as health check, dms, databases & accounts management etc.
 	SupportsSystemUse *bool `json:"supportsSystemUse,omitempty"`
 	// service name pattern, e.g. ClusterName-ComponentName or .ClusterName`
@@ -115,6 +117,34 @@ func (o *EndpointOption) GetComponentOk() (*string, bool) {
 // SetComponent sets field value.
 func (o *EndpointOption) SetComponent(v string) {
 	o.Component = v
+}
+
+// GetAccessMode returns the AccessMode field value if set, zero value otherwise.
+func (o *EndpointOption) GetAccessMode() EndpointAccessMode {
+	if o == nil || o.AccessMode == nil {
+		var ret EndpointAccessMode
+		return ret
+	}
+	return *o.AccessMode
+}
+
+// GetAccessModeOk returns a tuple with the AccessMode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EndpointOption) GetAccessModeOk() (*EndpointAccessMode, bool) {
+	if o == nil || o.AccessMode == nil {
+		return nil, false
+	}
+	return o.AccessMode, true
+}
+
+// HasAccessMode returns a boolean if a field has been set.
+func (o *EndpointOption) HasAccessMode() bool {
+	return o != nil && o.AccessMode != nil
+}
+
+// SetAccessMode gets a reference to the given EndpointAccessMode and assigns it to the AccessMode field.
+func (o *EndpointOption) SetAccessMode(v EndpointAccessMode) {
+	o.AccessMode = &v
 }
 
 // GetPortName returns the PortName field value.
@@ -475,6 +505,9 @@ func (o EndpointOption) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["title"] = o.Title
 	toSerialize["component"] = o.Component
+	if o.AccessMode != nil {
+		toSerialize["accessMode"] = o.AccessMode
+	}
 	toSerialize["portName"] = o.PortName
 	toSerialize["port"] = o.Port
 	toSerialize["protocol"] = o.Protocol
@@ -516,6 +549,7 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Title                    *LocalizedDescription        `json:"title"`
 		Component                *string                      `json:"component"`
+		AccessMode               *EndpointAccessMode          `json:"accessMode,omitempty"`
 		PortName                 *string                      `json:"portName"`
 		Port                     *int32                       `json:"port"`
 		Protocol                 *string                      `json:"protocol"`
@@ -556,7 +590,7 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "portName", "port", "protocol", "targetPort", "type", "supportsSystemUse", "servicePattern", "serviceNameRegex", "serviceName", "selector", "disasterRecoverySelector", "followNetworkMode", "compatibleKBVersion"})
+		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "accessMode", "portName", "port", "protocol", "targetPort", "type", "supportsSystemUse", "servicePattern", "serviceNameRegex", "serviceName", "selector", "disasterRecoverySelector", "followNetworkMode", "compatibleKBVersion"})
 	} else {
 		return err
 	}
@@ -567,6 +601,11 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Title = *all.Title
 	o.Component = *all.Component
+	if all.AccessMode != nil && !all.AccessMode.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.AccessMode = all.AccessMode
+	}
 	o.PortName = *all.PortName
 	o.Port = *all.Port
 	o.Protocol = *all.Protocol

@@ -25748,6 +25748,12 @@ components:
       required:
         - id
       type: object
+    endpointAccessMode:
+      type: string
+      description: Stable connection path identity for direct database and pooled application endpoints.
+      enum:
+        - direct
+        - pooled
     endpointType:
       description: Type of endpoint
       type: string
@@ -25773,6 +25779,8 @@ components:
         component:
           description: Component type name
           type: string
+        accessMode:
+          $ref: '#/components/schemas/endpointAccessMode'
         hosts:
           description: Endpoint hosts
           type: array
@@ -26143,6 +26151,61 @@ components:
       description: Components is the list of components
       items:
         $ref: '#/components/schemas/componentItemCreate'
+    clusterConnectionPoolProvider:
+      type: string
+      description: Connection pool implementation managed by KBE.
+      enum:
+        - pgbouncer
+    clusterConnectionPoolMode:
+      type: string
+      description: Connection reuse mode. The MVP supports session pooling only.
+      enum:
+        - session
+    clusterConnectionPool:
+      type: object
+      description: |
+        PgBouncer connection pool state. PostgreSQL keeps its existing topology and
+        always models PgBouncer as an independent component when the installed
+        Addon supports it. A desired replica count greater than zero means enabled;
+        available is reported separately from the reconciled workload and endpoint.
+      required:
+        - enabled
+      properties:
+        enabled:
+          type: boolean
+          description: Whether the desired PgBouncer replica count is greater than zero.
+        available:
+          type: boolean
+          nullable: true
+          readOnly: true
+          description: |
+            Whether PgBouncer is enabled and its Cluster and InstanceSet generations,
+            ready/available/updated replicas, and ready endpoint addresses have all
+            converged to the desired replica count.
+        provider:
+          $ref: '#/components/schemas/clusterConnectionPoolProvider'
+        poolMode:
+          $ref: '#/components/schemas/clusterConnectionPoolMode'
+        replicas:
+          type: integer
+          minimum: 0
+          maximum: 64
+          description: Desired PgBouncer replicas. Zero disables the connection pool.
+        classCode:
+          type: string
+          description: Resource class for the connection pool component.
+        cpu:
+          type: number
+          format: double
+          minimum: 0
+          exclusiveMinimum: true
+          description: Connection pool CPU cores when classCode is not used.
+        memory:
+          type: number
+          format: double
+          minimum: 0
+          exclusiveMinimum: true
+          description: Connection pool memory in GiB when classCode is not used.
     initOptionItem:
       description: InitOptionItem is the information of init option
       type: object
@@ -26353,6 +26416,8 @@ components:
           description: Cluster topology mode
         components:
           $ref: '#/components/schemas/componentsCreate'
+        connectionPool:
+          $ref: '#/components/schemas/clusterConnectionPool'
         extra:
           title: Extra
           type: object
@@ -26576,6 +26641,8 @@ components:
           default: false
         components:
           $ref: '#/components/schemas/components'
+        connectionPool:
+          $ref: '#/components/schemas/clusterConnectionPool'
         extra:
           title: Extra
           type: object
@@ -35154,6 +35221,35 @@ components:
           type: boolean
           description: whether the component supports custom secret
           x-nullable: false
+    connectionPoolOption:
+      type: object
+      required:
+        - supported
+        - provider
+        - component
+        - defaultPoolMode
+        - poolModes
+      properties:
+        supported:
+          type: boolean
+          description: Whether this engine supports an independent connection pool component.
+        provider:
+          $ref: '#/components/schemas/clusterConnectionPoolProvider'
+        component:
+          type: string
+          description: EngineOption component name used by the connection pool.
+        defaultPoolMode:
+          $ref: '#/components/schemas/clusterConnectionPoolMode'
+        poolModes:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/clusterConnectionPoolMode'
+        compatibleKubeblocksVersions:
+          type: array
+          items:
+            type: string
+          description: Compatible KubeBlocks major versions. Empty means all versions.
     modeCompatibleKubeblocksVersion:
       type: string
       description: |
@@ -35882,6 +35978,8 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         component:
           type: string
+        accessMode:
+          $ref: '#/components/schemas/endpointAccessMode'
         portName:
           type: string
         port:
@@ -37167,6 +37265,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/componentOption'
+        connectionPool:
+          description: Optional connection pool capability. Absence means unsupported.
+          $ref: '#/components/schemas/connectionPoolOption'
         modes:
           type: array
           items:

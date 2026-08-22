@@ -16,6 +16,8 @@ type Endpoint struct {
 	Title string `json:"title"`
 	// Component type name
 	Component string `json:"component"`
+	// Stable connection path identity for direct database and pooled application endpoints.
+	AccessMode *EndpointAccessMode `json:"accessMode,omitempty"`
 	// Endpoint hosts
 	Hosts []string `json:"hosts"`
 	// Endpoint port
@@ -109,6 +111,34 @@ func (o *Endpoint) GetComponentOk() (*string, bool) {
 // SetComponent sets field value.
 func (o *Endpoint) SetComponent(v string) {
 	o.Component = v
+}
+
+// GetAccessMode returns the AccessMode field value if set, zero value otherwise.
+func (o *Endpoint) GetAccessMode() EndpointAccessMode {
+	if o == nil || o.AccessMode == nil {
+		var ret EndpointAccessMode
+		return ret
+	}
+	return *o.AccessMode
+}
+
+// GetAccessModeOk returns a tuple with the AccessMode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Endpoint) GetAccessModeOk() (*EndpointAccessMode, bool) {
+	if o == nil || o.AccessMode == nil {
+		return nil, false
+	}
+	return o.AccessMode, true
+}
+
+// HasAccessMode returns a boolean if a field has been set.
+func (o *Endpoint) HasAccessMode() bool {
+	return o != nil && o.AccessMode != nil
+}
+
+// SetAccessMode gets a reference to the given EndpointAccessMode and assigns it to the AccessMode field.
+func (o *Endpoint) SetAccessMode(v EndpointAccessMode) {
+	o.AccessMode = &v
 }
 
 // GetHosts returns the Hosts field value.
@@ -336,6 +366,9 @@ func (o Endpoint) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["title"] = o.Title
 	toSerialize["component"] = o.Component
+	if o.AccessMode != nil {
+		toSerialize["accessMode"] = o.AccessMode
+	}
 	toSerialize["hosts"] = o.Hosts
 	toSerialize["port"] = o.Port
 	toSerialize["type"] = o.Type
@@ -361,6 +394,7 @@ func (o *Endpoint) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Title       *string              `json:"title"`
 		Component   *string              `json:"component"`
+		AccessMode  *EndpointAccessMode  `json:"accessMode,omitempty"`
 		Hosts       *[]string            `json:"hosts"`
 		Port        *int32               `json:"port"`
 		Type        *EndpointType        `json:"type"`
@@ -403,7 +437,7 @@ func (o *Endpoint) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "hosts", "port", "type", "networkType", "serviceName", "podService", "portName", "instances", "mutable"})
+		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "accessMode", "hosts", "port", "type", "networkType", "serviceName", "podService", "portName", "instances", "mutable"})
 	} else {
 		return err
 	}
@@ -411,6 +445,11 @@ func (o *Endpoint) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Title = *all.Title
 	o.Component = *all.Component
+	if all.AccessMode != nil && !all.AccessMode.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.AccessMode = all.AccessMode
+	}
 	o.Hosts = *all.Hosts
 	o.Port = *all.Port
 	if !all.Type.IsValid() {

@@ -13,13 +13,14 @@ import (
 type EngineOption struct {
 	EngineName string `json:"engineName"`
 	// engine maturity level
-	MaturityLevel *string              `json:"maturityLevel,omitempty"`
-	Title         string               `json:"title"`
-	Status        *EngineOptionStatus  `json:"status,omitempty"`
-	Description   LocalizedDescription `json:"description"`
-	Versions      []string             `json:"versions,omitempty"`
-	Components    []ComponentOption    `json:"components"`
-	Modes         []ModeOption         `json:"modes"`
+	MaturityLevel  *string               `json:"maturityLevel,omitempty"`
+	Title          string                `json:"title"`
+	Status         *EngineOptionStatus   `json:"status,omitempty"`
+	Description    LocalizedDescription  `json:"description"`
+	Versions       []string              `json:"versions,omitempty"`
+	Components     []ComponentOption     `json:"components"`
+	ConnectionPool *ConnectionPoolOption `json:"connectionPool,omitempty"`
+	Modes          []ModeOption          `json:"modes"`
 	// The default mode name to be selected when creating a cluster.
 	// This field is used by the frontend only.
 	// The value should match one of the mode names defined in the modes array.
@@ -274,6 +275,34 @@ func (o *EngineOption) GetComponentsOk() (*[]ComponentOption, bool) {
 // SetComponents sets field value.
 func (o *EngineOption) SetComponents(v []ComponentOption) {
 	o.Components = v
+}
+
+// GetConnectionPool returns the ConnectionPool field value if set, zero value otherwise.
+func (o *EngineOption) GetConnectionPool() ConnectionPoolOption {
+	if o == nil || o.ConnectionPool == nil {
+		var ret ConnectionPoolOption
+		return ret
+	}
+	return *o.ConnectionPool
+}
+
+// GetConnectionPoolOk returns a tuple with the ConnectionPool field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOption) GetConnectionPoolOk() (*ConnectionPoolOption, bool) {
+	if o == nil || o.ConnectionPool == nil {
+		return nil, false
+	}
+	return o.ConnectionPool, true
+}
+
+// HasConnectionPool returns a boolean if a field has been set.
+func (o *EngineOption) HasConnectionPool() bool {
+	return o != nil && o.ConnectionPool != nil
+}
+
+// SetConnectionPool gets a reference to the given ConnectionPoolOption and assigns it to the ConnectionPool field.
+func (o *EngineOption) SetConnectionPool(v ConnectionPoolOption) {
+	o.ConnectionPool = &v
 }
 
 // GetModes returns the Modes field value.
@@ -1125,6 +1154,9 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 		toSerialize["versions"] = o.Versions
 	}
 	toSerialize["components"] = o.Components
+	if o.ConnectionPool != nil {
+		toSerialize["connectionPool"] = o.ConnectionPool
+	}
 	toSerialize["modes"] = o.Modes
 	if o.DefaultMode.IsSet() {
 		toSerialize["defaultMode"] = o.DefaultMode.Get()
@@ -1207,6 +1239,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		Description         *LocalizedDescription            `json:"description"`
 		Versions            []string                         `json:"versions,omitempty"`
 		Components          *[]ComponentOption               `json:"components"`
+		ConnectionPool      *ConnectionPoolOption            `json:"connectionPool,omitempty"`
 		Modes               *[]ModeOption                    `json:"modes"`
 		DefaultMode         common.NullableString            `json:"defaultMode,omitempty"`
 		Account             *AccountOption                   `json:"account,omitempty"`
@@ -1306,6 +1339,10 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Description = *all.Description
 	o.Versions = all.Versions
 	o.Components = *all.Components
+	if all.ConnectionPool != nil && all.ConnectionPool.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ConnectionPool = all.ConnectionPool
 	o.Modes = *all.Modes
 	o.DefaultMode = all.DefaultMode
 	if all.Account != nil && all.Account.UnparsedObject != nil && o.UnparsedObject == nil {

@@ -37,6 +37,12 @@ type ClusterCreate struct {
 	Mode *string `json:"mode,omitempty"`
 	// Components is the list of components
 	Components []ComponentItemCreate `json:"components,omitempty"`
+	// PgBouncer connection pool state. PostgreSQL keeps its existing topology and
+	// always models PgBouncer as an independent component when the installed
+	// Addon supports it. A desired replica count greater than zero means enabled;
+	// available is reported separately from the reconciled workload and endpoint.
+	//
+	ConnectionPool *ClusterConnectionPool `json:"connectionPool,omitempty"`
 	// Extra configuration for cluster. This will be added to helm values to render the cluster chart.
 	Extra map[string]interface{} `json:"extra,omitempty"`
 	// InitOptions is the list of init option
@@ -481,6 +487,34 @@ func (o *ClusterCreate) HasComponents() bool {
 // SetComponents gets a reference to the given []ComponentItemCreate and assigns it to the Components field.
 func (o *ClusterCreate) SetComponents(v []ComponentItemCreate) {
 	o.Components = v
+}
+
+// GetConnectionPool returns the ConnectionPool field value if set, zero value otherwise.
+func (o *ClusterCreate) GetConnectionPool() ClusterConnectionPool {
+	if o == nil || o.ConnectionPool == nil {
+		var ret ClusterConnectionPool
+		return ret
+	}
+	return *o.ConnectionPool
+}
+
+// GetConnectionPoolOk returns a tuple with the ConnectionPool field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterCreate) GetConnectionPoolOk() (*ClusterConnectionPool, bool) {
+	if o == nil || o.ConnectionPool == nil {
+		return nil, false
+	}
+	return o.ConnectionPool, true
+}
+
+// HasConnectionPool returns a boolean if a field has been set.
+func (o *ClusterCreate) HasConnectionPool() bool {
+	return o != nil && o.ConnectionPool != nil
+}
+
+// SetConnectionPool gets a reference to the given ClusterConnectionPool and assigns it to the ConnectionPool field.
+func (o *ClusterCreate) SetConnectionPool(v ClusterConnectionPool) {
+	o.ConnectionPool = &v
 }
 
 // GetExtra returns the Extra field value if set, zero value otherwise.
@@ -964,6 +998,9 @@ func (o ClusterCreate) MarshalJSON() ([]byte, error) {
 	if o.Components != nil {
 		toSerialize["components"] = o.Components
 	}
+	if o.ConnectionPool != nil {
+		toSerialize["connectionPool"] = o.ConnectionPool
+	}
 	if o.Extra != nil {
 		toSerialize["extra"] = o.Extra
 	}
@@ -1032,6 +1069,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 		TerminationPolicy        *ClusterTerminationPolicy            `json:"terminationPolicy,omitempty"`
 		Mode                     *string                              `json:"mode,omitempty"`
 		Components               []ComponentItemCreate                `json:"components,omitempty"`
+		ConnectionPool           *ClusterConnectionPool               `json:"connectionPool,omitempty"`
 		Extra                    map[string]interface{}               `json:"extra,omitempty"`
 		InitOptions              []InitOptionItem                     `json:"initOptions,omitempty"`
 		SingleZone               *bool                                `json:"singleZone,omitempty"`
@@ -1062,7 +1100,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"parentId", "clusterType", "orgName", "environmentName", "project", "name", "engine", "license", "paramTpls", "version", "terminationPolicy", "mode", "components", "extra", "initOptions", "singleZone", "availabilityZones", "backup", "nodeGroup", "displayName", "static", "networkMode", "serviceRefs", "objectStorageConfig", "maintainceWindow", "schedulingPolicy", "schedulerName", "reservationResourceClass"})
+		common.DeleteKeys(additionalProperties, &[]string{"parentId", "clusterType", "orgName", "environmentName", "project", "name", "engine", "license", "paramTpls", "version", "terminationPolicy", "mode", "components", "connectionPool", "extra", "initOptions", "singleZone", "availabilityZones", "backup", "nodeGroup", "displayName", "static", "networkMode", "serviceRefs", "objectStorageConfig", "maintainceWindow", "schedulingPolicy", "schedulerName", "reservationResourceClass"})
 	} else {
 		return err
 	}
@@ -1092,6 +1130,10 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Mode = all.Mode
 	o.Components = all.Components
+	if all.ConnectionPool != nil && all.ConnectionPool.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ConnectionPool = all.ConnectionPool
 	o.Extra = all.Extra
 	o.InitOptions = all.InitOptions
 	o.SingleZone = all.SingleZone

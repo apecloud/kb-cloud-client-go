@@ -65,6 +65,12 @@ type Cluster struct {
 	ProxyEnabled *bool `json:"proxyEnabled,omitempty"`
 	// Components is the list of components
 	Components []ComponentItem `json:"components,omitempty"`
+	// PgBouncer connection pool state. PostgreSQL keeps its existing topology and
+	// always models PgBouncer as an independent component when the installed
+	// Addon supports it. A desired replica count greater than zero means enabled;
+	// available is reported separately from the reconciled workload and endpoint.
+	//
+	ConnectionPool *ClusterConnectionPool `json:"connectionPool,omitempty"`
 	// Extra configuration for cluster
 	Extra map[string]interface{} `json:"extra,omitempty"`
 	// InitOptions is the list of init option
@@ -959,6 +965,34 @@ func (o *Cluster) SetComponents(v []ComponentItem) {
 	o.Components = v
 }
 
+// GetConnectionPool returns the ConnectionPool field value if set, zero value otherwise.
+func (o *Cluster) GetConnectionPool() ClusterConnectionPool {
+	if o == nil || o.ConnectionPool == nil {
+		var ret ClusterConnectionPool
+		return ret
+	}
+	return *o.ConnectionPool
+}
+
+// GetConnectionPoolOk returns a tuple with the ConnectionPool field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetConnectionPoolOk() (*ClusterConnectionPool, bool) {
+	if o == nil || o.ConnectionPool == nil {
+		return nil, false
+	}
+	return o.ConnectionPool, true
+}
+
+// HasConnectionPool returns a boolean if a field has been set.
+func (o *Cluster) HasConnectionPool() bool {
+	return o != nil && o.ConnectionPool != nil
+}
+
+// SetConnectionPool gets a reference to the given ClusterConnectionPool and assigns it to the ConnectionPool field.
+func (o *Cluster) SetConnectionPool(v ClusterConnectionPool) {
+	o.ConnectionPool = &v
+}
+
 // GetExtra returns the Extra field value if set, zero value otherwise.
 func (o *Cluster) GetExtra() map[string]interface{} {
 	if o == nil || o.Extra == nil {
@@ -1574,6 +1608,9 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 	if o.Components != nil {
 		toSerialize["components"] = o.Components
 	}
+	if o.ConnectionPool != nil {
+		toSerialize["connectionPool"] = o.ConnectionPool
+	}
 	if o.Extra != nil {
 		toSerialize["extra"] = o.Extra
 	}
@@ -1665,6 +1702,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 		Mode                     *string                              `json:"mode,omitempty"`
 		ProxyEnabled             *bool                                `json:"proxyEnabled,omitempty"`
 		Components               []ComponentItem                      `json:"components,omitempty"`
+		ConnectionPool           *ClusterConnectionPool               `json:"connectionPool,omitempty"`
 		Extra                    map[string]interface{}               `json:"extra,omitempty"`
 		InitOptions              []InitOptionItem                     `json:"initOptions,omitempty"`
 		SingleZone               *bool                                `json:"singleZone,omitempty"`
@@ -1698,7 +1736,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "mode", "proxyEnabled", "components", "extra", "initOptions", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static", "networkMode", "serviceRefs", "referencedBy", "objectStorageConfig", "maintainceWindow", "schedulingPolicy", "schedulerName", "reservationResourceClass"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "mode", "proxyEnabled", "components", "connectionPool", "extra", "initOptions", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static", "networkMode", "serviceRefs", "referencedBy", "objectStorageConfig", "maintainceWindow", "schedulingPolicy", "schedulerName", "reservationResourceClass"})
 	} else {
 		return err
 	}
@@ -1742,6 +1780,10 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	o.Mode = all.Mode
 	o.ProxyEnabled = all.ProxyEnabled
 	o.Components = all.Components
+	if all.ConnectionPool != nil && all.ConnectionPool.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ConnectionPool = all.ConnectionPool
 	o.Extra = all.Extra
 	o.InitOptions = all.InitOptions
 	o.SingleZone = all.SingleZone
