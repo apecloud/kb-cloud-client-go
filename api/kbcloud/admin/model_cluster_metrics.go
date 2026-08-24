@@ -10,8 +10,8 @@ import (
 
 // ClusterMetrics Cluster metrics
 type ClusterMetrics struct {
-	Value  []interface{}   `json:"value,omitempty"`
-	Values [][]interface{} `json:"values,omitempty"`
+	Value  []interface{}              `json:"value,omitempty"`
+	Values [][]map[string]interface{} `json:"values,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -64,9 +64,9 @@ func (o *ClusterMetrics) SetValue(v []interface{}) {
 }
 
 // GetValues returns the Values field value if set, zero value otherwise.
-func (o *ClusterMetrics) GetValues() [][]interface{} {
+func (o *ClusterMetrics) GetValues() [][]map[string]interface{} {
 	if o == nil || o.Values == nil {
-		var ret [][]interface{}
+		var ret [][]map[string]interface{}
 		return ret
 	}
 	return o.Values
@@ -74,7 +74,7 @@ func (o *ClusterMetrics) GetValues() [][]interface{} {
 
 // GetValuesOk returns a tuple with the Values field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterMetrics) GetValuesOk() (*[][]interface{}, bool) {
+func (o *ClusterMetrics) GetValuesOk() (*[][]map[string]interface{}, bool) {
 	if o == nil || o.Values == nil {
 		return nil, false
 	}
@@ -86,8 +86,8 @@ func (o *ClusterMetrics) HasValues() bool {
 	return o != nil && o.Values != nil
 }
 
-// SetValues gets a reference to the given [][]interface{} and assigns it to the Values field.
-func (o *ClusterMetrics) SetValues(v [][]interface{}) {
+// SetValues gets a reference to the given [][]map[string]interface{} and assigns it to the Values field.
+func (o *ClusterMetrics) SetValues(v [][]map[string]interface{}) {
 	o.Values = v
 }
 
@@ -113,8 +113,8 @@ func (o ClusterMetrics) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterMetrics) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Value  []interface{}   `json:"value,omitempty"`
-		Values [][]interface{} `json:"values,omitempty"`
+		Value  []interface{}              `json:"value,omitempty"`
+		Values [][]map[string]interface{} `json:"values,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
