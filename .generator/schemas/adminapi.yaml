@@ -71,6 +71,8 @@ tags:
     description: Platform Component APIs
   - name: AI Agent
     description: Chat With AI Agent APIs
+  - name: AI Data Gateway
+    description: AI Data Gateway APIs
   - name: diagnostics
     description: Diagnostics APIs
   - name: disasterRecovery
@@ -1587,6 +1589,117 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/aiAgentStopConversationResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/ai-data-gateways:
+    get:
+      tags:
+        - AI Data Gateway
+      operationId: adminListAIDataGateways
+      summary: List AI data gateways across organizations
+      responses:
+        '200':
+          description: AI data gateway list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/ai-data-gateways/{gatewayId}:
+    get:
+      tags:
+        - AI Data Gateway
+      operationId: adminGetAIDataGateway
+      summary: Get an AI data gateway across organizations
+      parameters:
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI data gateway
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGateway'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/ai-data-gateways/{gatewayId}/operations:
+    get:
+      tags:
+        - AI Data Gateway
+      operationId: adminListAIDataGatewayOperations
+      summary: List gateway audit operations across organizations
+      parameters:
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+      responses:
+        '200':
+          description: Operations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayOperationList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/ai-data-gateways/{gatewayId}/operations/{operationId}:
+    get:
+      tags:
+        - AI Data Gateway
+      operationId: adminGetAIDataGatewayOperation
+      summary: Get gateway audit operation across organizations
+      parameters:
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: operationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayOperation'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -25541,6 +25654,96 @@ components:
           type: string
         status:
           $ref: '#/components/schemas/aiAgentConversationStatus'
+    aiDataGateway:
+      type: object
+      properties:
+        gatewayId:
+          type: string
+        orgName:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+        configVersion:
+          type: integer
+          format: int64
+        createdBy:
+          type: string
+        updatedBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    aiDataGatewayList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiDataGateway'
+    aiDataGatewayOperation:
+      type: object
+      properties:
+        operationId:
+          type: string
+        orgName:
+          type: string
+        gatewayId:
+          type: string
+        agentClientId:
+          type: string
+        datasourceId:
+          type: string
+        policyId:
+          type: string
+        toolName:
+          type: string
+        sqlType:
+          type: string
+        policyDecision:
+          type: string
+        status:
+          type: string
+        riskLevel:
+          type: string
+        rowsReturned:
+          type: integer
+          format: int64
+        durationMs:
+          type: integer
+          format: int64
+        maskingApplied:
+          type: boolean
+        maskedColumns:
+          type: array
+          items:
+            type: string
+        resultPreviewMasked:
+          type: object
+          additionalProperties: true
+        errorCode:
+          type: string
+        errorMessage:
+          type: string
+        metadata:
+          type: object
+          additionalProperties: true
+        createdAt:
+          type: string
+          format: date-time
+    aiDataGatewayOperationList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiDataGatewayOperation'
     permission:
       description: Permission information
       type: object
@@ -44510,6 +44713,7 @@ x-tagGroups:
   - name: AI Agent
     tags:
       - AI Agent
+      - AI Data Gateway
   - name: Diagnostics
     tags:
       - diagnostics

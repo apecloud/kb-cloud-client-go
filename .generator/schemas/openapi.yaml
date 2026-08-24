@@ -99,6 +99,8 @@ tags:
     description: LLM APIs
   - name: AI Agent
     description: Chat With AI Agent APIs
+  - name: AI Data Gateway
+    description: AI Data Gateway APIs
   - name: organizationParameter
     description: Organization Parameter APIs
   - name: dataReplication
@@ -18182,6 +18184,1178 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-data-gateways:
+    get:
+      tags:
+        - AI Data Gateway
+      operationId: listAIDataGateways
+      summary: List AI data gateways in an organization
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI data gateway list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - AI Data Gateway
+      operationId: createAIDataGateway
+      summary: Create an AI data gateway
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiDataGatewayCreateRequest'
+      responses:
+        '200':
+          description: AI data gateway
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGateway'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}:
+    get:
+      tags:
+        - AI Data Gateway
+      operationId: getAIDataGateway
+      summary: Get an AI data gateway
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI data gateway
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGateway'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      tags:
+        - AI Data Gateway
+      operationId: updateAIDataGateway
+      summary: Update an AI data gateway
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiDataGatewayUpdateRequest'
+      responses:
+        '200':
+          description: AI data gateway
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGateway'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - AI Data Gateway
+      operationId: deleteAIDataGateway
+      summary: Delete an AI data gateway
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Deleted
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/enable:
+    post:
+      tags:
+        - AI Data Gateway
+      operationId: enableAIDataGateway
+      summary: Enable an AI data gateway
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI data gateway
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGateway'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/disable:
+    post:
+      tags:
+        - AI Data Gateway
+      operationId: disableAIDataGateway
+      summary: Disable an AI data gateway
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI data gateway
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGateway'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/agent-clients:
+    get:
+      tags:
+        - AI Data Gateway
+      operationId: listAIDataGatewayAgentClients
+      summary: List gateway agent clients
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Agent clients
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayAgentClientList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - AI Data Gateway
+      operationId: createAIDataGatewayAgentClient
+      summary: Create a gateway agent client credential
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiDataGatewayCreateAgentClientRequest'
+      responses:
+        '200':
+          description: Agent client credential. The client secret is returned once.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayAgentClientCredential'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/agent-clients/{clientId}/rotate:
+    post:
+      tags:
+        - AI Data Gateway
+      operationId: rotateAIDataGatewayAgentClient
+      summary: Rotate a gateway agent client credential
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clientId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Agent client credential. The client secret is returned once.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayAgentClientCredential'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/agent-clients/{clientId}/disable:
+    post:
+      tags:
+        - AI Data Gateway
+      operationId: disableAIDataGatewayAgentClient
+      summary: Disable a gateway agent client
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clientId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Agent client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayAgentClient'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/agent-clients/{clientId}/revoke:
+    post:
+      tags:
+        - AI Data Gateway
+      operationId: revokeAIDataGatewayAgentClient
+      summary: Revoke a gateway agent client
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clientId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Agent client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayAgentClient'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/datasources:
+    get:
+      tags:
+        - AI Data Gateway
+      operationId: listAIDataGatewayDataSources
+      summary: List gateway data sources
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Data sources
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayDataSourceList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - AI Data Gateway
+      operationId: createAIDataGatewayDataSource
+      summary: Create a gateway data source
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiDataGatewayDataSourceSpec'
+      responses:
+        '200':
+          description: Data source
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayDataSource'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/datasources/test:
+    post:
+      tags:
+        - AI Data Gateway
+      operationId: testAIDataGatewayDataSourceSpec
+      summary: Test a gateway data source spec before saving
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiDataGatewayTestDataSourceRequest'
+      responses:
+        '200':
+          description: Test result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayTestDataSourceResult'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/datasources/{datasourceId}:
+    get:
+      tags:
+        - AI Data Gateway
+      operationId: getAIDataGatewayDataSource
+      summary: Get a gateway data source
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: datasourceId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Data source
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayDataSource'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      tags:
+        - AI Data Gateway
+      operationId: updateAIDataGatewayDataSource
+      summary: Update a gateway data source
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: datasourceId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiDataGatewayDataSourceSpec'
+      responses:
+        '200':
+          description: Data source
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayDataSource'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - AI Data Gateway
+      operationId: deleteAIDataGatewayDataSource
+      summary: Delete a gateway data source
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: datasourceId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Deleted
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/datasources/{datasourceId}/test:
+    post:
+      tags:
+        - AI Data Gateway
+      operationId: testAIDataGatewayDataSource
+      summary: Test a saved gateway data source connection
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: datasourceId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Test result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayTestDataSourceResult'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/policies:
+    get:
+      tags:
+        - AI Data Gateway
+      operationId: listAIDataGatewayPolicies
+      summary: List gateway policies
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Policies
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayPolicyList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - AI Data Gateway
+      operationId: createAIDataGatewayPolicy
+      summary: Create a gateway policy
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiDataGatewayPolicySpec'
+      responses:
+        '200':
+          description: Policy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayPolicy'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/policies/simulate:
+    post:
+      tags:
+        - AI Data Gateway
+      operationId: simulateAIDataGatewayPolicy
+      summary: Preview policy decision for a SQL operation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiDataGatewaySimulatePolicyRequest'
+      responses:
+        '200':
+          description: Policy decision
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewaySimulatePolicyResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/policies/{policyId}:
+    get:
+      tags:
+        - AI Data Gateway
+      operationId: getAIDataGatewayPolicy
+      summary: Get a gateway policy
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: policyId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Policy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayPolicy'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      tags:
+        - AI Data Gateway
+      operationId: updateAIDataGatewayPolicy
+      summary: Update a gateway policy
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: policyId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiDataGatewayPolicySpec'
+      responses:
+        '200':
+          description: Policy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayPolicy'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - AI Data Gateway
+      operationId: deleteAIDataGatewayPolicy
+      summary: Delete a gateway policy
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: policyId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Deleted
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/policies/{policyId}/masking-rules:
+    get:
+      tags:
+        - AI Data Gateway
+      operationId: listAIDataGatewayMaskingRules
+      summary: List policy masking rules
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: policyId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Masking rules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayMaskingRuleList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - AI Data Gateway
+      operationId: createAIDataGatewayMaskingRule
+      summary: Create a policy masking rule
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: policyId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiDataGatewayMaskingRuleSpec'
+      responses:
+        '200':
+          description: Masking rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayMaskingRule'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/policies/{policyId}/masking-rules/{ruleId}:
+    get:
+      tags:
+        - AI Data Gateway
+      operationId: getAIDataGatewayMaskingRule
+      summary: Get a policy masking rule
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: policyId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: ruleId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Masking rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayMaskingRule'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      tags:
+        - AI Data Gateway
+      operationId: updateAIDataGatewayMaskingRule
+      summary: Update a policy masking rule
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: policyId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: ruleId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aiDataGatewayMaskingRuleSpec'
+      responses:
+        '200':
+          description: Masking rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayMaskingRule'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - AI Data Gateway
+      operationId: deleteAIDataGatewayMaskingRule
+      summary: Delete a policy masking rule
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: policyId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: ruleId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Deleted
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/operations:
+    get:
+      tags:
+        - AI Data Gateway
+      operationId: listAIDataGatewayOperations
+      summary: List gateway audit operations
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+      responses:
+        '200':
+          description: Operations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayOperationList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/operations/{operationId}:
+    get:
+      tags:
+        - AI Data Gateway
+      operationId: getAIDataGatewayOperation
+      summary: Get gateway audit operation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gatewayId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: operationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiDataGatewayOperation'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/keys:
     get:
       tags:
@@ -35968,6 +37142,416 @@ components:
           type: string
         status:
           $ref: '#/components/schemas/aiAgentConversationStatus'
+    aiDataGateway:
+      type: object
+      properties:
+        gatewayId:
+          type: string
+        orgName:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+        configVersion:
+          type: integer
+          format: int64
+        createdBy:
+          type: string
+        updatedBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    aiDataGatewayList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiDataGateway'
+    aiDataGatewayCreateRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    aiDataGatewayUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+    aiDataGatewayAgentClient:
+      type: object
+      properties:
+        clientId:
+          type: string
+        gatewayId:
+          type: string
+        orgName:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        secretPrefix:
+          type: string
+          description: Safe prefix of the client secret. The full secret is only returned on create or rotate.
+        createdBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        lastRotatedAt:
+          type: string
+          format: date-time
+        disabledAt:
+          type: string
+          format: date-time
+    aiDataGatewayAgentClientList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiDataGatewayAgentClient'
+    aiDataGatewayCreateAgentClientRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+    aiDataGatewayAgentClientCredential:
+      allOf:
+        - $ref: '#/components/schemas/aiDataGatewayAgentClient'
+        - type: object
+          properties:
+            clientSecret:
+              type: string
+              description: One-time returned client secret.
+    aiDataGatewayDataSourceSpec:
+      type: object
+      required:
+        - name
+        - type
+        - engine
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        engine:
+          type: string
+        cloudClusterId:
+          type: integer
+          format: int64
+        cloudClusterName:
+          type: string
+        environmentName:
+          type: string
+        host:
+          type: string
+        port:
+          type: integer
+          format: int32
+        databaseName:
+          type: string
+        username:
+          type: string
+        credentialRef:
+          type: string
+          description: Reference to a stored credential. Raw database passwords are not returned by this API.
+        connectionConfig:
+          type: object
+          additionalProperties: true
+    aiDataGatewayDataSource:
+      allOf:
+        - $ref: '#/components/schemas/aiDataGatewayDataSourceSpec'
+        - type: object
+          properties:
+            datasourceId:
+              type: string
+            gatewayId:
+              type: string
+            orgName:
+              type: string
+            status:
+              type: string
+            lastTestStatus:
+              type: string
+            lastTestMessage:
+              type: string
+            lastTestedAt:
+              type: string
+              format: date-time
+            createdBy:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+    aiDataGatewayDataSourceList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiDataGatewayDataSource'
+    aiDataGatewayTestDataSourceRequest:
+      type: object
+      properties:
+        datasourceId:
+          type: string
+        spec:
+          $ref: '#/components/schemas/aiDataGatewayDataSourceSpec'
+    aiDataGatewayTestDataSourceResult:
+      type: object
+      properties:
+        status:
+          type: string
+        code:
+          type: string
+        message:
+          type: string
+    aiDataGatewayPolicySpec:
+      type: object
+      required:
+        - name
+        - decision
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+        priority:
+          type: integer
+          format: int32
+        decision:
+          type: string
+        scope:
+          type: object
+          additionalProperties: true
+        sqlTypes:
+          type: array
+          items:
+            type: string
+        riskRules:
+          type: object
+          additionalProperties: true
+        maxRows:
+          type: integer
+          format: int32
+        timeoutSeconds:
+          type: integer
+          format: int32
+    aiDataGatewayPolicy:
+      allOf:
+        - $ref: '#/components/schemas/aiDataGatewayPolicySpec'
+        - type: object
+          properties:
+            policyId:
+              type: string
+            gatewayId:
+              type: string
+            orgName:
+              type: string
+            createdBy:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+    aiDataGatewayPolicyList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiDataGatewayPolicy'
+    aiDataGatewaySimulatePolicyRequest:
+      type: object
+      required:
+        - sqlType
+      properties:
+        datasourceId:
+          type: string
+        database:
+          type: string
+        schema:
+          type: string
+        table:
+          type: string
+        columns:
+          type: array
+          items:
+            type: string
+        sqlType:
+          type: string
+        sql:
+          type: string
+    aiDataGatewaySimulatePolicyResponse:
+      type: object
+      properties:
+        decision:
+          type: string
+        policyId:
+          type: string
+        reason:
+          type: string
+        reasonCode:
+          type: string
+        maxRows:
+          type: integer
+          format: int32
+        timeoutSeconds:
+          type: integer
+          format: int32
+        maskingApplied:
+          type: boolean
+        maskedColumns:
+          type: array
+          items:
+            type: string
+    aiDataGatewayMaskingRuleSpec:
+      type: object
+      required:
+        - columns
+      properties:
+        datasourceIds:
+          type: array
+          description: Optional datasource scope. Empty means all data sources in the gateway.
+          items:
+            type: string
+        databases:
+          type: array
+          description: Optional database scope. Empty means all databases.
+          items:
+            type: string
+        schemas:
+          type: array
+          description: Optional schema scope. Empty means all schemas.
+          items:
+            type: string
+        tables:
+          type: array
+          description: Optional table scope. Empty means all tables.
+          items:
+            type: string
+        columns:
+          type: array
+          description: Columns to partially mask with the system default masking algorithm.
+          items:
+            type: string
+        enabled:
+          type: boolean
+          default: true
+    aiDataGatewayMaskingRule:
+      allOf:
+        - $ref: '#/components/schemas/aiDataGatewayMaskingRuleSpec'
+        - type: object
+          properties:
+            ruleId:
+              type: string
+            gatewayId:
+              type: string
+            orgName:
+              type: string
+            policyId:
+              type: string
+            createdBy:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+    aiDataGatewayMaskingRuleList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiDataGatewayMaskingRule'
+    aiDataGatewayOperation:
+      type: object
+      properties:
+        operationId:
+          type: string
+        orgName:
+          type: string
+        gatewayId:
+          type: string
+        agentClientId:
+          type: string
+        datasourceId:
+          type: string
+        policyId:
+          type: string
+        toolName:
+          type: string
+        sqlType:
+          type: string
+        policyDecision:
+          type: string
+        status:
+          type: string
+        riskLevel:
+          type: string
+        rowsReturned:
+          type: integer
+          format: int64
+        durationMs:
+          type: integer
+          format: int64
+        maskingApplied:
+          type: boolean
+        maskedColumns:
+          type: array
+          items:
+            type: string
+        resultPreviewMasked:
+          type: object
+          additionalProperties: true
+        errorCode:
+          type: string
+        errorMessage:
+          type: string
+        metadata:
+          type: object
+          additionalProperties: true
+        createdAt:
+          type: string
+          format: date-time
+    aiDataGatewayOperationList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiDataGatewayOperation'
     encryptionAlgorithm:
       description: the encryption algorithm
       type: string
@@ -38066,6 +39650,7 @@ x-tagGroups:
     tags:
       - AI
       - AI Agent
+      - AI Data Gateway
       - llm
   - name: billing
     tags:
