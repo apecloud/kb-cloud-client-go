@@ -11,26 +11,22 @@ import (
 )
 
 type AiDataGatewayOperation struct {
-	OperationId         *string                `json:"operationId,omitempty"`
-	OrgName             *string                `json:"orgName,omitempty"`
-	GatewayId           *string                `json:"gatewayId,omitempty"`
-	AccessKeyId         *string                `json:"accessKeyId,omitempty"`
-	DatasourceId        *string                `json:"datasourceId,omitempty"`
-	PolicyId            *string                `json:"policyId,omitempty"`
-	ToolName            *string                `json:"toolName,omitempty"`
-	SqlType             *string                `json:"sqlType,omitempty"`
-	PolicyDecision      *string                `json:"policyDecision,omitempty"`
-	Status              *string                `json:"status,omitempty"`
-	RiskLevel           *string                `json:"riskLevel,omitempty"`
-	RowsReturned        *int64                 `json:"rowsReturned,omitempty"`
-	DurationMs          *int64                 `json:"durationMs,omitempty"`
-	MaskingApplied      *bool                  `json:"maskingApplied,omitempty"`
-	MaskedColumns       []string               `json:"maskedColumns,omitempty"`
-	ResultPreviewMasked map[string]interface{} `json:"resultPreviewMasked,omitempty"`
-	ErrorCode           *string                `json:"errorCode,omitempty"`
-	ErrorMessage        *string                `json:"errorMessage,omitempty"`
-	Metadata            map[string]interface{} `json:"metadata,omitempty"`
-	CreatedAt           *time.Time             `json:"createdAt,omitempty"`
+	OperationId    *string    `json:"operationId,omitempty"`
+	OrgName        *string    `json:"orgName,omitempty"`
+	GatewayId      *string    `json:"gatewayId,omitempty"`
+	AccessKeyId    *string    `json:"accessKeyId,omitempty"`
+	DatasourceId   *string    `json:"datasourceId,omitempty"`
+	PolicyId       *string    `json:"policyId,omitempty"`
+	ToolName       *string    `json:"toolName,omitempty"`
+	SqlType        *string    `json:"sqlType,omitempty"`
+	PolicyDecision *string    `json:"policyDecision,omitempty"`
+	Status         *string    `json:"status,omitempty"`
+	RowsReturned   *int64     `json:"rowsReturned,omitempty"`
+	DurationMs     *int64     `json:"durationMs,omitempty"`
+	MaskedColumns  []string   `json:"maskedColumns,omitempty"`
+	ErrorCode      *string    `json:"errorCode,omitempty"`
+	ErrorMessage   *string    `json:"errorMessage,omitempty"`
+	CreatedAt      *time.Time `json:"createdAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -333,34 +329,6 @@ func (o *AiDataGatewayOperation) SetStatus(v string) {
 	o.Status = &v
 }
 
-// GetRiskLevel returns the RiskLevel field value if set, zero value otherwise.
-func (o *AiDataGatewayOperation) GetRiskLevel() string {
-	if o == nil || o.RiskLevel == nil {
-		var ret string
-		return ret
-	}
-	return *o.RiskLevel
-}
-
-// GetRiskLevelOk returns a tuple with the RiskLevel field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiDataGatewayOperation) GetRiskLevelOk() (*string, bool) {
-	if o == nil || o.RiskLevel == nil {
-		return nil, false
-	}
-	return o.RiskLevel, true
-}
-
-// HasRiskLevel returns a boolean if a field has been set.
-func (o *AiDataGatewayOperation) HasRiskLevel() bool {
-	return o != nil && o.RiskLevel != nil
-}
-
-// SetRiskLevel gets a reference to the given string and assigns it to the RiskLevel field.
-func (o *AiDataGatewayOperation) SetRiskLevel(v string) {
-	o.RiskLevel = &v
-}
-
 // GetRowsReturned returns the RowsReturned field value if set, zero value otherwise.
 func (o *AiDataGatewayOperation) GetRowsReturned() int64 {
 	if o == nil || o.RowsReturned == nil {
@@ -417,34 +385,6 @@ func (o *AiDataGatewayOperation) SetDurationMs(v int64) {
 	o.DurationMs = &v
 }
 
-// GetMaskingApplied returns the MaskingApplied field value if set, zero value otherwise.
-func (o *AiDataGatewayOperation) GetMaskingApplied() bool {
-	if o == nil || o.MaskingApplied == nil {
-		var ret bool
-		return ret
-	}
-	return *o.MaskingApplied
-}
-
-// GetMaskingAppliedOk returns a tuple with the MaskingApplied field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiDataGatewayOperation) GetMaskingAppliedOk() (*bool, bool) {
-	if o == nil || o.MaskingApplied == nil {
-		return nil, false
-	}
-	return o.MaskingApplied, true
-}
-
-// HasMaskingApplied returns a boolean if a field has been set.
-func (o *AiDataGatewayOperation) HasMaskingApplied() bool {
-	return o != nil && o.MaskingApplied != nil
-}
-
-// SetMaskingApplied gets a reference to the given bool and assigns it to the MaskingApplied field.
-func (o *AiDataGatewayOperation) SetMaskingApplied(v bool) {
-	o.MaskingApplied = &v
-}
-
 // GetMaskedColumns returns the MaskedColumns field value if set, zero value otherwise.
 func (o *AiDataGatewayOperation) GetMaskedColumns() []string {
 	if o == nil || o.MaskedColumns == nil {
@@ -471,34 +411,6 @@ func (o *AiDataGatewayOperation) HasMaskedColumns() bool {
 // SetMaskedColumns gets a reference to the given []string and assigns it to the MaskedColumns field.
 func (o *AiDataGatewayOperation) SetMaskedColumns(v []string) {
 	o.MaskedColumns = v
-}
-
-// GetResultPreviewMasked returns the ResultPreviewMasked field value if set, zero value otherwise.
-func (o *AiDataGatewayOperation) GetResultPreviewMasked() map[string]interface{} {
-	if o == nil || o.ResultPreviewMasked == nil {
-		var ret map[string]interface{}
-		return ret
-	}
-	return o.ResultPreviewMasked
-}
-
-// GetResultPreviewMaskedOk returns a tuple with the ResultPreviewMasked field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiDataGatewayOperation) GetResultPreviewMaskedOk() (*map[string]interface{}, bool) {
-	if o == nil || o.ResultPreviewMasked == nil {
-		return nil, false
-	}
-	return &o.ResultPreviewMasked, true
-}
-
-// HasResultPreviewMasked returns a boolean if a field has been set.
-func (o *AiDataGatewayOperation) HasResultPreviewMasked() bool {
-	return o != nil && o.ResultPreviewMasked != nil
-}
-
-// SetResultPreviewMasked gets a reference to the given map[string]interface{} and assigns it to the ResultPreviewMasked field.
-func (o *AiDataGatewayOperation) SetResultPreviewMasked(v map[string]interface{}) {
-	o.ResultPreviewMasked = v
 }
 
 // GetErrorCode returns the ErrorCode field value if set, zero value otherwise.
@@ -555,34 +467,6 @@ func (o *AiDataGatewayOperation) HasErrorMessage() bool {
 // SetErrorMessage gets a reference to the given string and assigns it to the ErrorMessage field.
 func (o *AiDataGatewayOperation) SetErrorMessage(v string) {
 	o.ErrorMessage = &v
-}
-
-// GetMetadata returns the Metadata field value if set, zero value otherwise.
-func (o *AiDataGatewayOperation) GetMetadata() map[string]interface{} {
-	if o == nil || o.Metadata == nil {
-		var ret map[string]interface{}
-		return ret
-	}
-	return o.Metadata
-}
-
-// GetMetadataOk returns a tuple with the Metadata field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiDataGatewayOperation) GetMetadataOk() (*map[string]interface{}, bool) {
-	if o == nil || o.Metadata == nil {
-		return nil, false
-	}
-	return &o.Metadata, true
-}
-
-// HasMetadata returns a boolean if a field has been set.
-func (o *AiDataGatewayOperation) HasMetadata() bool {
-	return o != nil && o.Metadata != nil
-}
-
-// SetMetadata gets a reference to the given map[string]interface{} and assigns it to the Metadata field.
-func (o *AiDataGatewayOperation) SetMetadata(v map[string]interface{}) {
-	o.Metadata = v
 }
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
@@ -649,32 +533,20 @@ func (o AiDataGatewayOperation) MarshalJSON() ([]byte, error) {
 	if o.Status != nil {
 		toSerialize["status"] = o.Status
 	}
-	if o.RiskLevel != nil {
-		toSerialize["riskLevel"] = o.RiskLevel
-	}
 	if o.RowsReturned != nil {
 		toSerialize["rowsReturned"] = o.RowsReturned
 	}
 	if o.DurationMs != nil {
 		toSerialize["durationMs"] = o.DurationMs
 	}
-	if o.MaskingApplied != nil {
-		toSerialize["maskingApplied"] = o.MaskingApplied
-	}
 	if o.MaskedColumns != nil {
 		toSerialize["maskedColumns"] = o.MaskedColumns
-	}
-	if o.ResultPreviewMasked != nil {
-		toSerialize["resultPreviewMasked"] = o.ResultPreviewMasked
 	}
 	if o.ErrorCode != nil {
 		toSerialize["errorCode"] = o.ErrorCode
 	}
 	if o.ErrorMessage != nil {
 		toSerialize["errorMessage"] = o.ErrorMessage
-	}
-	if o.Metadata != nil {
-		toSerialize["metadata"] = o.Metadata
 	}
 	if o.CreatedAt != nil {
 		if o.CreatedAt.Nanosecond() == 0 {
@@ -693,33 +565,29 @@ func (o AiDataGatewayOperation) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AiDataGatewayOperation) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		OperationId         *string                `json:"operationId,omitempty"`
-		OrgName             *string                `json:"orgName,omitempty"`
-		GatewayId           *string                `json:"gatewayId,omitempty"`
-		AccessKeyId         *string                `json:"accessKeyId,omitempty"`
-		DatasourceId        *string                `json:"datasourceId,omitempty"`
-		PolicyId            *string                `json:"policyId,omitempty"`
-		ToolName            *string                `json:"toolName,omitempty"`
-		SqlType             *string                `json:"sqlType,omitempty"`
-		PolicyDecision      *string                `json:"policyDecision,omitempty"`
-		Status              *string                `json:"status,omitempty"`
-		RiskLevel           *string                `json:"riskLevel,omitempty"`
-		RowsReturned        *int64                 `json:"rowsReturned,omitempty"`
-		DurationMs          *int64                 `json:"durationMs,omitempty"`
-		MaskingApplied      *bool                  `json:"maskingApplied,omitempty"`
-		MaskedColumns       []string               `json:"maskedColumns,omitempty"`
-		ResultPreviewMasked map[string]interface{} `json:"resultPreviewMasked,omitempty"`
-		ErrorCode           *string                `json:"errorCode,omitempty"`
-		ErrorMessage        *string                `json:"errorMessage,omitempty"`
-		Metadata            map[string]interface{} `json:"metadata,omitempty"`
-		CreatedAt           *time.Time             `json:"createdAt,omitempty"`
+		OperationId    *string    `json:"operationId,omitempty"`
+		OrgName        *string    `json:"orgName,omitempty"`
+		GatewayId      *string    `json:"gatewayId,omitempty"`
+		AccessKeyId    *string    `json:"accessKeyId,omitempty"`
+		DatasourceId   *string    `json:"datasourceId,omitempty"`
+		PolicyId       *string    `json:"policyId,omitempty"`
+		ToolName       *string    `json:"toolName,omitempty"`
+		SqlType        *string    `json:"sqlType,omitempty"`
+		PolicyDecision *string    `json:"policyDecision,omitempty"`
+		Status         *string    `json:"status,omitempty"`
+		RowsReturned   *int64     `json:"rowsReturned,omitempty"`
+		DurationMs     *int64     `json:"durationMs,omitempty"`
+		MaskedColumns  []string   `json:"maskedColumns,omitempty"`
+		ErrorCode      *string    `json:"errorCode,omitempty"`
+		ErrorMessage   *string    `json:"errorMessage,omitempty"`
+		CreatedAt      *time.Time `json:"createdAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"operationId", "orgName", "gatewayId", "accessKeyId", "datasourceId", "policyId", "toolName", "sqlType", "policyDecision", "status", "riskLevel", "rowsReturned", "durationMs", "maskingApplied", "maskedColumns", "resultPreviewMasked", "errorCode", "errorMessage", "metadata", "createdAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"operationId", "orgName", "gatewayId", "accessKeyId", "datasourceId", "policyId", "toolName", "sqlType", "policyDecision", "status", "rowsReturned", "durationMs", "maskedColumns", "errorCode", "errorMessage", "createdAt"})
 	} else {
 		return err
 	}
@@ -733,15 +601,11 @@ func (o *AiDataGatewayOperation) UnmarshalJSON(bytes []byte) (err error) {
 	o.SqlType = all.SqlType
 	o.PolicyDecision = all.PolicyDecision
 	o.Status = all.Status
-	o.RiskLevel = all.RiskLevel
 	o.RowsReturned = all.RowsReturned
 	o.DurationMs = all.DurationMs
-	o.MaskingApplied = all.MaskingApplied
 	o.MaskedColumns = all.MaskedColumns
-	o.ResultPreviewMasked = all.ResultPreviewMasked
 	o.ErrorCode = all.ErrorCode
 	o.ErrorMessage = all.ErrorMessage
-	o.Metadata = all.Metadata
 	o.CreatedAt = all.CreatedAt
 
 	if len(additionalProperties) > 0 {

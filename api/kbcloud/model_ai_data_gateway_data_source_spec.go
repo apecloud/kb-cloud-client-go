@@ -17,12 +17,7 @@ type AiDataGatewayDataSourceSpec struct {
 	CloudClusterId   *int64  `json:"cloudClusterId,omitempty"`
 	CloudClusterName *string `json:"cloudClusterName,omitempty"`
 	EnvironmentName  *string `json:"environmentName,omitempty"`
-	Host             *string `json:"host,omitempty"`
-	Port             *int32  `json:"port,omitempty"`
-	DatabaseName     *string `json:"databaseName,omitempty"`
-	Username         *string `json:"username,omitempty"`
-	// Reference to a stored credential. Raw database passwords are not returned by this API.
-	CredentialRef    *string                `json:"credentialRef,omitempty"`
+	// All datasource connection information. For external databases this comes from API input; for Cloud/KubeBlocks managed datasources Cloud resolves and fills the connection information. Sensitive keys such as password, token, secret, privateKey, accessKey, and credential are encrypted at rest and masked in user-facing responses. Internal Runtime config resolves the decrypted view only inside the trusted server boundary.
 	ConnectionConfig map[string]interface{} `json:"connectionConfig,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -202,146 +197,6 @@ func (o *AiDataGatewayDataSourceSpec) SetEnvironmentName(v string) {
 	o.EnvironmentName = &v
 }
 
-// GetHost returns the Host field value if set, zero value otherwise.
-func (o *AiDataGatewayDataSourceSpec) GetHost() string {
-	if o == nil || o.Host == nil {
-		var ret string
-		return ret
-	}
-	return *o.Host
-}
-
-// GetHostOk returns a tuple with the Host field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiDataGatewayDataSourceSpec) GetHostOk() (*string, bool) {
-	if o == nil || o.Host == nil {
-		return nil, false
-	}
-	return o.Host, true
-}
-
-// HasHost returns a boolean if a field has been set.
-func (o *AiDataGatewayDataSourceSpec) HasHost() bool {
-	return o != nil && o.Host != nil
-}
-
-// SetHost gets a reference to the given string and assigns it to the Host field.
-func (o *AiDataGatewayDataSourceSpec) SetHost(v string) {
-	o.Host = &v
-}
-
-// GetPort returns the Port field value if set, zero value otherwise.
-func (o *AiDataGatewayDataSourceSpec) GetPort() int32 {
-	if o == nil || o.Port == nil {
-		var ret int32
-		return ret
-	}
-	return *o.Port
-}
-
-// GetPortOk returns a tuple with the Port field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiDataGatewayDataSourceSpec) GetPortOk() (*int32, bool) {
-	if o == nil || o.Port == nil {
-		return nil, false
-	}
-	return o.Port, true
-}
-
-// HasPort returns a boolean if a field has been set.
-func (o *AiDataGatewayDataSourceSpec) HasPort() bool {
-	return o != nil && o.Port != nil
-}
-
-// SetPort gets a reference to the given int32 and assigns it to the Port field.
-func (o *AiDataGatewayDataSourceSpec) SetPort(v int32) {
-	o.Port = &v
-}
-
-// GetDatabaseName returns the DatabaseName field value if set, zero value otherwise.
-func (o *AiDataGatewayDataSourceSpec) GetDatabaseName() string {
-	if o == nil || o.DatabaseName == nil {
-		var ret string
-		return ret
-	}
-	return *o.DatabaseName
-}
-
-// GetDatabaseNameOk returns a tuple with the DatabaseName field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiDataGatewayDataSourceSpec) GetDatabaseNameOk() (*string, bool) {
-	if o == nil || o.DatabaseName == nil {
-		return nil, false
-	}
-	return o.DatabaseName, true
-}
-
-// HasDatabaseName returns a boolean if a field has been set.
-func (o *AiDataGatewayDataSourceSpec) HasDatabaseName() bool {
-	return o != nil && o.DatabaseName != nil
-}
-
-// SetDatabaseName gets a reference to the given string and assigns it to the DatabaseName field.
-func (o *AiDataGatewayDataSourceSpec) SetDatabaseName(v string) {
-	o.DatabaseName = &v
-}
-
-// GetUsername returns the Username field value if set, zero value otherwise.
-func (o *AiDataGatewayDataSourceSpec) GetUsername() string {
-	if o == nil || o.Username == nil {
-		var ret string
-		return ret
-	}
-	return *o.Username
-}
-
-// GetUsernameOk returns a tuple with the Username field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiDataGatewayDataSourceSpec) GetUsernameOk() (*string, bool) {
-	if o == nil || o.Username == nil {
-		return nil, false
-	}
-	return o.Username, true
-}
-
-// HasUsername returns a boolean if a field has been set.
-func (o *AiDataGatewayDataSourceSpec) HasUsername() bool {
-	return o != nil && o.Username != nil
-}
-
-// SetUsername gets a reference to the given string and assigns it to the Username field.
-func (o *AiDataGatewayDataSourceSpec) SetUsername(v string) {
-	o.Username = &v
-}
-
-// GetCredentialRef returns the CredentialRef field value if set, zero value otherwise.
-func (o *AiDataGatewayDataSourceSpec) GetCredentialRef() string {
-	if o == nil || o.CredentialRef == nil {
-		var ret string
-		return ret
-	}
-	return *o.CredentialRef
-}
-
-// GetCredentialRefOk returns a tuple with the CredentialRef field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiDataGatewayDataSourceSpec) GetCredentialRefOk() (*string, bool) {
-	if o == nil || o.CredentialRef == nil {
-		return nil, false
-	}
-	return o.CredentialRef, true
-}
-
-// HasCredentialRef returns a boolean if a field has been set.
-func (o *AiDataGatewayDataSourceSpec) HasCredentialRef() bool {
-	return o != nil && o.CredentialRef != nil
-}
-
-// SetCredentialRef gets a reference to the given string and assigns it to the CredentialRef field.
-func (o *AiDataGatewayDataSourceSpec) SetCredentialRef(v string) {
-	o.CredentialRef = &v
-}
-
 // GetConnectionConfig returns the ConnectionConfig field value if set, zero value otherwise.
 func (o *AiDataGatewayDataSourceSpec) GetConnectionConfig() map[string]interface{} {
 	if o == nil || o.ConnectionConfig == nil {
@@ -388,21 +243,6 @@ func (o AiDataGatewayDataSourceSpec) MarshalJSON() ([]byte, error) {
 	if o.EnvironmentName != nil {
 		toSerialize["environmentName"] = o.EnvironmentName
 	}
-	if o.Host != nil {
-		toSerialize["host"] = o.Host
-	}
-	if o.Port != nil {
-		toSerialize["port"] = o.Port
-	}
-	if o.DatabaseName != nil {
-		toSerialize["databaseName"] = o.DatabaseName
-	}
-	if o.Username != nil {
-		toSerialize["username"] = o.Username
-	}
-	if o.CredentialRef != nil {
-		toSerialize["credentialRef"] = o.CredentialRef
-	}
 	if o.ConnectionConfig != nil {
 		toSerialize["connectionConfig"] = o.ConnectionConfig
 	}
@@ -422,11 +262,6 @@ func (o *AiDataGatewayDataSourceSpec) UnmarshalJSON(bytes []byte) (err error) {
 		CloudClusterId   *int64                 `json:"cloudClusterId,omitempty"`
 		CloudClusterName *string                `json:"cloudClusterName,omitempty"`
 		EnvironmentName  *string                `json:"environmentName,omitempty"`
-		Host             *string                `json:"host,omitempty"`
-		Port             *int32                 `json:"port,omitempty"`
-		DatabaseName     *string                `json:"databaseName,omitempty"`
-		Username         *string                `json:"username,omitempty"`
-		CredentialRef    *string                `json:"credentialRef,omitempty"`
 		ConnectionConfig map[string]interface{} `json:"connectionConfig,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -443,7 +278,7 @@ func (o *AiDataGatewayDataSourceSpec) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "engine", "cloudClusterId", "cloudClusterName", "environmentName", "host", "port", "databaseName", "username", "credentialRef", "connectionConfig"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "engine", "cloudClusterId", "cloudClusterName", "environmentName", "connectionConfig"})
 	} else {
 		return err
 	}
@@ -453,11 +288,6 @@ func (o *AiDataGatewayDataSourceSpec) UnmarshalJSON(bytes []byte) (err error) {
 	o.CloudClusterId = all.CloudClusterId
 	o.CloudClusterName = all.CloudClusterName
 	o.EnvironmentName = all.EnvironmentName
-	o.Host = all.Host
-	o.Port = all.Port
-	o.DatabaseName = all.DatabaseName
-	o.Username = all.Username
-	o.CredentialRef = all.CredentialRef
 	o.ConnectionConfig = all.ConnectionConfig
 
 	if len(additionalProperties) > 0 {

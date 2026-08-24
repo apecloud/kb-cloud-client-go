@@ -24,7 +24,6 @@ type AiDataGatewayPolicy struct {
 	PolicyId       *string                `json:"policyId,omitempty"`
 	GatewayId      *string                `json:"gatewayId,omitempty"`
 	OrgName        *string                `json:"orgName,omitempty"`
-	CreatedBy      *string                `json:"createdBy,omitempty"`
 	CreatedAt      *time.Time             `json:"createdAt,omitempty"`
 	UpdatedAt      *time.Time             `json:"updatedAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -405,34 +404,6 @@ func (o *AiDataGatewayPolicy) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
-// GetCreatedBy returns the CreatedBy field value if set, zero value otherwise.
-func (o *AiDataGatewayPolicy) GetCreatedBy() string {
-	if o == nil || o.CreatedBy == nil {
-		var ret string
-		return ret
-	}
-	return *o.CreatedBy
-}
-
-// GetCreatedByOk returns a tuple with the CreatedBy field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiDataGatewayPolicy) GetCreatedByOk() (*string, bool) {
-	if o == nil || o.CreatedBy == nil {
-		return nil, false
-	}
-	return o.CreatedBy, true
-}
-
-// HasCreatedBy returns a boolean if a field has been set.
-func (o *AiDataGatewayPolicy) HasCreatedBy() bool {
-	return o != nil && o.CreatedBy != nil
-}
-
-// SetCreatedBy gets a reference to the given string and assigns it to the CreatedBy field.
-func (o *AiDataGatewayPolicy) SetCreatedBy(v string) {
-	o.CreatedBy = &v
-}
-
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *AiDataGatewayPolicy) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
@@ -534,9 +505,6 @@ func (o AiDataGatewayPolicy) MarshalJSON() ([]byte, error) {
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
 	}
-	if o.CreatedBy != nil {
-		toSerialize["createdBy"] = o.CreatedBy
-	}
 	if o.CreatedAt != nil {
 		if o.CreatedAt.Nanosecond() == 0 {
 			toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
@@ -574,7 +542,6 @@ func (o *AiDataGatewayPolicy) UnmarshalJSON(bytes []byte) (err error) {
 		PolicyId       *string                `json:"policyId,omitempty"`
 		GatewayId      *string                `json:"gatewayId,omitempty"`
 		OrgName        *string                `json:"orgName,omitempty"`
-		CreatedBy      *string                `json:"createdBy,omitempty"`
 		CreatedAt      *time.Time             `json:"createdAt,omitempty"`
 		UpdatedAt      *time.Time             `json:"updatedAt,omitempty"`
 	}{}
@@ -583,7 +550,7 @@ func (o *AiDataGatewayPolicy) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "status", "priority", "decision", "scope", "sqlTypes", "riskRules", "maxRows", "timeoutSeconds", "policyId", "gatewayId", "orgName", "createdBy", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "status", "priority", "decision", "scope", "sqlTypes", "riskRules", "maxRows", "timeoutSeconds", "policyId", "gatewayId", "orgName", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}
@@ -600,7 +567,6 @@ func (o *AiDataGatewayPolicy) UnmarshalJSON(bytes []byte) (err error) {
 	o.PolicyId = all.PolicyId
 	o.GatewayId = all.GatewayId
 	o.OrgName = all.OrgName
-	o.CreatedBy = all.CreatedBy
 	o.CreatedAt = all.CreatedAt
 	o.UpdatedAt = all.UpdatedAt
 	if len(additionalProperties) > 0 {

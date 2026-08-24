@@ -37820,10 +37820,6 @@ components:
         configVersion:
           type: integer
           format: int64
-        createdBy:
-          type: string
-        updatedBy:
-          type: string
         createdAt:
           type: string
           format: date-time
@@ -37870,8 +37866,6 @@ components:
         description:
           type: string
         status:
-          type: string
-        createdBy:
           type: string
         createdAt:
           type: string
@@ -37935,20 +37929,9 @@ components:
           type: string
         environmentName:
           type: string
-        host:
-          type: string
-        port:
-          type: integer
-          format: int32
-        databaseName:
-          type: string
-        username:
-          type: string
-        credentialRef:
-          type: string
-          description: Reference to a stored credential. Raw database passwords are not returned by this API.
         connectionConfig:
           type: object
+          description: All datasource connection information. For external databases this comes from API input; for Cloud/KubeBlocks managed datasources Cloud resolves and fills the connection information. Sensitive keys such as password, token, secret, privateKey, accessKey, and credential are encrypted at rest and masked in user-facing responses. Internal Runtime config resolves the decrypted view only inside the trusted server boundary.
           additionalProperties: true
     aiDataGatewayDataSource:
       allOf:
@@ -37970,8 +37953,6 @@ components:
             lastTestedAt:
               type: string
               format: date-time
-            createdBy:
-              type: string
             createdAt:
               type: string
               format: date-time
@@ -38044,8 +38025,6 @@ components:
             gatewayId:
               type: string
             orgName:
-              type: string
-            createdBy:
               type: string
             createdAt:
               type: string
@@ -38148,8 +38127,6 @@ components:
               type: string
             orgName:
               type: string
-            createdBy:
-              type: string
             createdAt:
               type: string
               format: date-time
@@ -38186,30 +38163,20 @@ components:
           type: string
         status:
           type: string
-        riskLevel:
-          type: string
         rowsReturned:
           type: integer
           format: int64
         durationMs:
           type: integer
           format: int64
-        maskingApplied:
-          type: boolean
         maskedColumns:
           type: array
           items:
             type: string
-        resultPreviewMasked:
-          type: object
-          additionalProperties: true
         errorCode:
           type: string
         errorMessage:
           type: string
-        metadata:
-          type: object
-          additionalProperties: true
         createdAt:
           type: string
           format: date-time

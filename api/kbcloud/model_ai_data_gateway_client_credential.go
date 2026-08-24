@@ -18,7 +18,6 @@ type AiDataGatewayClientCredential struct {
 	Name          *string    `json:"name,omitempty"`
 	Description   *string    `json:"description,omitempty"`
 	Status        *string    `json:"status,omitempty"`
-	CreatedBy     *string    `json:"createdBy,omitempty"`
 	CreatedAt     *time.Time `json:"createdAt,omitempty"`
 	UpdatedAt     *time.Time `json:"updatedAt,omitempty"`
 	LastRotatedAt *time.Time `json:"lastRotatedAt,omitempty"`
@@ -215,34 +214,6 @@ func (o *AiDataGatewayClientCredential) SetStatus(v string) {
 	o.Status = &v
 }
 
-// GetCreatedBy returns the CreatedBy field value if set, zero value otherwise.
-func (o *AiDataGatewayClientCredential) GetCreatedBy() string {
-	if o == nil || o.CreatedBy == nil {
-		var ret string
-		return ret
-	}
-	return *o.CreatedBy
-}
-
-// GetCreatedByOk returns a tuple with the CreatedBy field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiDataGatewayClientCredential) GetCreatedByOk() (*string, bool) {
-	if o == nil || o.CreatedBy == nil {
-		return nil, false
-	}
-	return o.CreatedBy, true
-}
-
-// HasCreatedBy returns a boolean if a field has been set.
-func (o *AiDataGatewayClientCredential) HasCreatedBy() bool {
-	return o != nil && o.CreatedBy != nil
-}
-
-// SetCreatedBy gets a reference to the given string and assigns it to the CreatedBy field.
-func (o *AiDataGatewayClientCredential) SetCreatedBy(v string) {
-	o.CreatedBy = &v
-}
-
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *AiDataGatewayClientCredential) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
@@ -435,9 +406,6 @@ func (o AiDataGatewayClientCredential) MarshalJSON() ([]byte, error) {
 	if o.Status != nil {
 		toSerialize["status"] = o.Status
 	}
-	if o.CreatedBy != nil {
-		toSerialize["createdBy"] = o.CreatedBy
-	}
 	if o.CreatedAt != nil {
 		if o.CreatedAt.Nanosecond() == 0 {
 			toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
@@ -496,7 +464,6 @@ func (o *AiDataGatewayClientCredential) UnmarshalJSON(bytes []byte) (err error) 
 		Name          *string    `json:"name,omitempty"`
 		Description   *string    `json:"description,omitempty"`
 		Status        *string    `json:"status,omitempty"`
-		CreatedBy     *string    `json:"createdBy,omitempty"`
 		CreatedAt     *time.Time `json:"createdAt,omitempty"`
 		UpdatedAt     *time.Time `json:"updatedAt,omitempty"`
 		LastRotatedAt *time.Time `json:"lastRotatedAt,omitempty"`
@@ -509,7 +476,7 @@ func (o *AiDataGatewayClientCredential) UnmarshalJSON(bytes []byte) (err error) 
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"accessKeyId", "gatewayId", "orgName", "name", "description", "status", "createdBy", "createdAt", "updatedAt", "lastRotatedAt", "lastUsedAt", "disabledAt", "revokedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"accessKeyId", "gatewayId", "orgName", "name", "description", "status", "createdAt", "updatedAt", "lastRotatedAt", "lastUsedAt", "disabledAt", "revokedAt"})
 	} else {
 		return err
 	}
@@ -519,7 +486,6 @@ func (o *AiDataGatewayClientCredential) UnmarshalJSON(bytes []byte) (err error) 
 	o.Name = all.Name
 	o.Description = all.Description
 	o.Status = all.Status
-	o.CreatedBy = all.CreatedBy
 	o.CreatedAt = all.CreatedAt
 	o.UpdatedAt = all.UpdatedAt
 	o.LastRotatedAt = all.LastRotatedAt

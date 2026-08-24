@@ -26322,10 +26322,6 @@ components:
         configVersion:
           type: integer
           format: int64
-        createdBy:
-          type: string
-        updatedBy:
-          type: string
         createdAt:
           type: string
           format: date-time
@@ -26362,30 +26358,20 @@ components:
           type: string
         status:
           type: string
-        riskLevel:
-          type: string
         rowsReturned:
           type: integer
           format: int64
         durationMs:
           type: integer
           format: int64
-        maskingApplied:
-          type: boolean
         maskedColumns:
           type: array
           items:
             type: string
-        resultPreviewMasked:
-          type: object
-          additionalProperties: true
         errorCode:
           type: string
         errorMessage:
           type: string
-        metadata:
-          type: object
-          additionalProperties: true
         createdAt:
           type: string
           format: date-time
