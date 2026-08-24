@@ -22,6 +22,7 @@ type AiDataGatewayClientCredential struct {
 	CreatedAt     *time.Time `json:"createdAt,omitempty"`
 	UpdatedAt     *time.Time `json:"updatedAt,omitempty"`
 	LastRotatedAt *time.Time `json:"lastRotatedAt,omitempty"`
+	LastUsedAt    *time.Time `json:"lastUsedAt,omitempty"`
 	DisabledAt    *time.Time `json:"disabledAt,omitempty"`
 	RevokedAt     *time.Time `json:"revokedAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -326,6 +327,34 @@ func (o *AiDataGatewayClientCredential) SetLastRotatedAt(v time.Time) {
 	o.LastRotatedAt = &v
 }
 
+// GetLastUsedAt returns the LastUsedAt field value if set, zero value otherwise.
+func (o *AiDataGatewayClientCredential) GetLastUsedAt() time.Time {
+	if o == nil || o.LastUsedAt == nil {
+		var ret time.Time
+		return ret
+	}
+	return *o.LastUsedAt
+}
+
+// GetLastUsedAtOk returns a tuple with the LastUsedAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiDataGatewayClientCredential) GetLastUsedAtOk() (*time.Time, bool) {
+	if o == nil || o.LastUsedAt == nil {
+		return nil, false
+	}
+	return o.LastUsedAt, true
+}
+
+// HasLastUsedAt returns a boolean if a field has been set.
+func (o *AiDataGatewayClientCredential) HasLastUsedAt() bool {
+	return o != nil && o.LastUsedAt != nil
+}
+
+// SetLastUsedAt gets a reference to the given time.Time and assigns it to the LastUsedAt field.
+func (o *AiDataGatewayClientCredential) SetLastUsedAt(v time.Time) {
+	o.LastUsedAt = &v
+}
+
 // GetDisabledAt returns the DisabledAt field value if set, zero value otherwise.
 func (o *AiDataGatewayClientCredential) GetDisabledAt() time.Time {
 	if o == nil || o.DisabledAt == nil {
@@ -430,6 +459,13 @@ func (o AiDataGatewayClientCredential) MarshalJSON() ([]byte, error) {
 			toSerialize["lastRotatedAt"] = o.LastRotatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
+	if o.LastUsedAt != nil {
+		if o.LastUsedAt.Nanosecond() == 0 {
+			toSerialize["lastUsedAt"] = o.LastUsedAt.Format("2006-01-02T15:04:05Z07:00")
+		} else {
+			toSerialize["lastUsedAt"] = o.LastUsedAt.Format("2006-01-02T15:04:05.000Z07:00")
+		}
+	}
 	if o.DisabledAt != nil {
 		if o.DisabledAt.Nanosecond() == 0 {
 			toSerialize["disabledAt"] = o.DisabledAt.Format("2006-01-02T15:04:05Z07:00")
@@ -464,6 +500,7 @@ func (o *AiDataGatewayClientCredential) UnmarshalJSON(bytes []byte) (err error) 
 		CreatedAt     *time.Time `json:"createdAt,omitempty"`
 		UpdatedAt     *time.Time `json:"updatedAt,omitempty"`
 		LastRotatedAt *time.Time `json:"lastRotatedAt,omitempty"`
+		LastUsedAt    *time.Time `json:"lastUsedAt,omitempty"`
 		DisabledAt    *time.Time `json:"disabledAt,omitempty"`
 		RevokedAt     *time.Time `json:"revokedAt,omitempty"`
 	}{}
@@ -472,7 +509,7 @@ func (o *AiDataGatewayClientCredential) UnmarshalJSON(bytes []byte) (err error) 
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"accessKeyId", "gatewayId", "orgName", "name", "description", "status", "createdBy", "createdAt", "updatedAt", "lastRotatedAt", "disabledAt", "revokedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"accessKeyId", "gatewayId", "orgName", "name", "description", "status", "createdBy", "createdAt", "updatedAt", "lastRotatedAt", "lastUsedAt", "disabledAt", "revokedAt"})
 	} else {
 		return err
 	}
@@ -486,6 +523,7 @@ func (o *AiDataGatewayClientCredential) UnmarshalJSON(bytes []byte) (err error) 
 	o.CreatedAt = all.CreatedAt
 	o.UpdatedAt = all.UpdatedAt
 	o.LastRotatedAt = all.LastRotatedAt
+	o.LastUsedAt = all.LastUsedAt
 	o.DisabledAt = all.DisabledAt
 	o.RevokedAt = all.RevokedAt
 
