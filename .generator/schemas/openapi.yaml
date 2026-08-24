@@ -30120,6 +30120,11 @@ components:
         objectExcludeTips:
           $ref: '#/components/schemas/internationalDesc'
           nullable: true
+    replicationCheckOption:
+      type: object
+      properties:
+        enabled:
+          type: boolean
     parameterValueType:
       enum:
         - string
@@ -30176,6 +30181,8 @@ components:
           type: array
           items:
             type: string
+        dataCheckOption:
+          $ref: '#/components/schemas/replicationCheckOption'
         parameterTemplate:
           description: the parameter template of the engine mapping, has a higher priority than the parameterTemplate in standardDefinition
           $ref: '#/components/schemas/dataChannelParameterOption'
