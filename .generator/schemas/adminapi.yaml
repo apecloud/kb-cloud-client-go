@@ -25696,7 +25696,7 @@ components:
           type: string
         gatewayId:
           type: string
-        agentClientId:
+        accessKeyId:
           type: string
         datasourceId:
           type: string

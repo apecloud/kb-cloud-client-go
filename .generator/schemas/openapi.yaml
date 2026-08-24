@@ -18403,12 +18403,12 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/agent-clients:
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/client-credentials:
     get:
       tags:
         - AI Data Gateway
-      operationId: listAIDataGatewayAgentClients
-      summary: List gateway agent clients
+      operationId: listAIDataGatewayClientCredentials
+      summary: List gateway client credentials
       parameters:
         - name: orgName
           in: path
@@ -18422,11 +18422,11 @@ paths:
             type: string
       responses:
         '200':
-          description: Agent clients
+          description: Client credentials
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/aiDataGatewayAgentClientList'
+                $ref: '#/components/schemas/aiDataGatewayClientCredentialList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -18438,8 +18438,8 @@ paths:
     post:
       tags:
         - AI Data Gateway
-      operationId: createAIDataGatewayAgentClient
-      summary: Create a gateway agent client credential
+      operationId: createAIDataGatewayClientCredential
+      summary: Create a gateway client credential
       parameters:
         - name: orgName
           in: path
@@ -18456,14 +18456,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/aiDataGatewayCreateAgentClientRequest'
+              $ref: '#/components/schemas/aiDataGatewayCreateClientCredentialRequest'
       responses:
         '200':
-          description: Agent client credential. The client secret is returned once.
+          description: Client credential. The secret key is returned once.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/aiDataGatewayAgentClientCredential'
+                $ref: '#/components/schemas/aiDataGatewayClientCredentialSecret'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -18474,12 +18474,12 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/agent-clients/{clientId}/rotate:
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/client-credentials/{accessKeyId}/rotate:
     post:
       tags:
         - AI Data Gateway
-      operationId: rotateAIDataGatewayAgentClient
-      summary: Rotate a gateway agent client credential
+      operationId: rotateAIDataGatewayClientCredential
+      summary: Rotate a gateway client credential
       parameters:
         - name: orgName
           in: path
@@ -18491,18 +18491,18 @@ paths:
           required: true
           schema:
             type: string
-        - name: clientId
+        - name: accessKeyId
           in: path
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: Agent client credential. The client secret is returned once.
+          description: Client credential. The secret key is returned once.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/aiDataGatewayAgentClientCredential'
+                $ref: '#/components/schemas/aiDataGatewayClientCredentialSecret'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -18511,12 +18511,12 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/agent-clients/{clientId}/disable:
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/client-credentials/{accessKeyId}/disable:
     post:
       tags:
         - AI Data Gateway
-      operationId: disableAIDataGatewayAgentClient
-      summary: Disable a gateway agent client
+      operationId: disableAIDataGatewayClientCredential
+      summary: Disable a gateway client credential
       parameters:
         - name: orgName
           in: path
@@ -18528,18 +18528,18 @@ paths:
           required: true
           schema:
             type: string
-        - name: clientId
+        - name: accessKeyId
           in: path
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: Agent client
+          description: Client credential
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/aiDataGatewayAgentClient'
+                $ref: '#/components/schemas/aiDataGatewayClientCredential'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -18548,12 +18548,12 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/agent-clients/{clientId}/revoke:
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/client-credentials/{accessKeyId}/revoke:
     post:
       tags:
         - AI Data Gateway
-      operationId: revokeAIDataGatewayAgentClient
-      summary: Revoke a gateway agent client
+      operationId: revokeAIDataGatewayClientCredential
+      summary: Revoke a gateway client credential
       parameters:
         - name: orgName
           in: path
@@ -18565,18 +18565,18 @@ paths:
           required: true
           schema:
             type: string
-        - name: clientId
+        - name: accessKeyId
           in: path
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: Agent client
+          description: Client credential
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/aiDataGatewayAgentClient'
+                $ref: '#/components/schemas/aiDataGatewayClientCredential'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -19072,12 +19072,12 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/policies/{policyId}/masking-rules:
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/masking-rules:
     get:
       tags:
         - AI Data Gateway
       operationId: listAIDataGatewayMaskingRules
-      summary: List policy masking rules
+      summary: List gateway masking rules
       parameters:
         - name: orgName
           in: path
@@ -19085,11 +19085,6 @@ paths:
           schema:
             type: string
         - name: gatewayId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: policyId
           in: path
           required: true
           schema:
@@ -19113,7 +19108,7 @@ paths:
       tags:
         - AI Data Gateway
       operationId: createAIDataGatewayMaskingRule
-      summary: Create a policy masking rule
+      summary: Create a gateway masking rule
       parameters:
         - name: orgName
           in: path
@@ -19121,11 +19116,6 @@ paths:
           schema:
             type: string
         - name: gatewayId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: policyId
           in: path
           required: true
           schema:
@@ -19153,12 +19143,12 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/policies/{policyId}/masking-rules/{ruleId}:
+  /api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/masking-rules/{ruleId}:
     get:
       tags:
         - AI Data Gateway
       operationId: getAIDataGatewayMaskingRule
-      summary: Get a policy masking rule
+      summary: Get a gateway masking rule
       parameters:
         - name: orgName
           in: path
@@ -19166,11 +19156,6 @@ paths:
           schema:
             type: string
         - name: gatewayId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: policyId
           in: path
           required: true
           schema:
@@ -19199,7 +19184,7 @@ paths:
       tags:
         - AI Data Gateway
       operationId: updateAIDataGatewayMaskingRule
-      summary: Update a policy masking rule
+      summary: Update a gateway masking rule
       parameters:
         - name: orgName
           in: path
@@ -19207,11 +19192,6 @@ paths:
           schema:
             type: string
         - name: gatewayId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: policyId
           in: path
           required: true
           schema:
@@ -19248,7 +19228,7 @@ paths:
       tags:
         - AI Data Gateway
       operationId: deleteAIDataGatewayMaskingRule
-      summary: Delete a policy masking rule
+      summary: Delete a gateway masking rule
       parameters:
         - name: orgName
           in: path
@@ -19256,11 +19236,6 @@ paths:
           schema:
             type: string
         - name: gatewayId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: policyId
           in: path
           required: true
           schema:
@@ -37193,22 +37168,22 @@ components:
           type: string
         status:
           type: string
-    aiDataGatewayAgentClient:
+    aiDataGatewayClientCredential:
       type: object
       properties:
-        clientId:
+        accessKeyId:
           type: string
+          description: Public access key ID used to identify this client credential.
         gatewayId:
           type: string
         orgName:
           type: string
         name:
           type: string
+        description:
+          type: string
         status:
           type: string
-        secretPrefix:
-          type: string
-          description: Safe prefix of the client secret. The full secret is only returned on create or rotate.
         createdBy:
           type: string
         createdAt:
@@ -37223,28 +37198,33 @@ components:
         disabledAt:
           type: string
           format: date-time
-    aiDataGatewayAgentClientList:
+        revokedAt:
+          type: string
+          format: date-time
+    aiDataGatewayClientCredentialList:
       type: object
       properties:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/aiDataGatewayAgentClient'
-    aiDataGatewayCreateAgentClientRequest:
+            $ref: '#/components/schemas/aiDataGatewayClientCredential'
+    aiDataGatewayCreateClientCredentialRequest:
       type: object
       required:
         - name
       properties:
         name:
           type: string
-    aiDataGatewayAgentClientCredential:
+        description:
+          type: string
+    aiDataGatewayClientCredentialSecret:
       allOf:
-        - $ref: '#/components/schemas/aiDataGatewayAgentClient'
+        - $ref: '#/components/schemas/aiDataGatewayClientCredential'
         - type: object
           properties:
-            clientSecret:
+            secretKey:
               type: string
-              description: One-time returned client secret.
+              description: One-time returned secret key. It is never returned by list, get, runtime config, or audit APIs.
     aiDataGatewayDataSourceSpec:
       type: object
       required:
@@ -37478,8 +37458,6 @@ components:
               type: string
             orgName:
               type: string
-            policyId:
-              type: string
             createdBy:
               type: string
             createdAt:
@@ -37504,7 +37482,7 @@ components:
           type: string
         gatewayId:
           type: string
-        agentClientId:
+        accessKeyId:
           type: string
         datasourceId:
           type: string

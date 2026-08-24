@@ -10,65 +10,66 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type AiDataGatewayAgentClientCredential struct {
-	ClientId  *string `json:"clientId,omitempty"`
-	GatewayId *string `json:"gatewayId,omitempty"`
-	OrgName   *string `json:"orgName,omitempty"`
-	Name      *string `json:"name,omitempty"`
-	Status    *string `json:"status,omitempty"`
-	// Safe prefix of the client secret. The full secret is only returned on create or rotate.
-	SecretPrefix  *string    `json:"secretPrefix,omitempty"`
+type AiDataGatewayClientCredentialSecret struct {
+	// Public access key ID used to identify this client credential.
+	AccessKeyId   *string    `json:"accessKeyId,omitempty"`
+	GatewayId     *string    `json:"gatewayId,omitempty"`
+	OrgName       *string    `json:"orgName,omitempty"`
+	Name          *string    `json:"name,omitempty"`
+	Description   *string    `json:"description,omitempty"`
+	Status        *string    `json:"status,omitempty"`
 	CreatedBy     *string    `json:"createdBy,omitempty"`
 	CreatedAt     *time.Time `json:"createdAt,omitempty"`
 	UpdatedAt     *time.Time `json:"updatedAt,omitempty"`
 	LastRotatedAt *time.Time `json:"lastRotatedAt,omitempty"`
 	DisabledAt    *time.Time `json:"disabledAt,omitempty"`
-	// One-time returned client secret.
-	ClientSecret *string `json:"clientSecret,omitempty"`
+	RevokedAt     *time.Time `json:"revokedAt,omitempty"`
+	// One-time returned secret key. It is never returned by list, get, runtime config, or audit APIs.
+	SecretKey *string `json:"secretKey,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewAiDataGatewayAgentClientCredential instantiates a new AiDataGatewayAgentClientCredential object.
+// NewAiDataGatewayClientCredentialSecret instantiates a new AiDataGatewayClientCredentialSecret object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAiDataGatewayAgentClientCredential() *AiDataGatewayAgentClientCredential {
-	this := AiDataGatewayAgentClientCredential{}
+func NewAiDataGatewayClientCredentialSecret() *AiDataGatewayClientCredentialSecret {
+	this := AiDataGatewayClientCredentialSecret{}
 	return &this
 }
 
-// GetClientId returns the ClientId field value if set, zero value otherwise.
-func (o *AiDataGatewayAgentClientCredential) GetClientId() string {
-	if o == nil || o.ClientId == nil {
+// GetAccessKeyId returns the AccessKeyId field value if set, zero value otherwise.
+func (o *AiDataGatewayClientCredentialSecret) GetAccessKeyId() string {
+	if o == nil || o.AccessKeyId == nil {
 		var ret string
 		return ret
 	}
-	return *o.ClientId
+	return *o.AccessKeyId
 }
 
-// GetClientIdOk returns a tuple with the ClientId field value if set, nil otherwise
+// GetAccessKeyIdOk returns a tuple with the AccessKeyId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AiDataGatewayAgentClientCredential) GetClientIdOk() (*string, bool) {
-	if o == nil || o.ClientId == nil {
+func (o *AiDataGatewayClientCredentialSecret) GetAccessKeyIdOk() (*string, bool) {
+	if o == nil || o.AccessKeyId == nil {
 		return nil, false
 	}
-	return o.ClientId, true
+	return o.AccessKeyId, true
 }
 
-// HasClientId returns a boolean if a field has been set.
-func (o *AiDataGatewayAgentClientCredential) HasClientId() bool {
-	return o != nil && o.ClientId != nil
+// HasAccessKeyId returns a boolean if a field has been set.
+func (o *AiDataGatewayClientCredentialSecret) HasAccessKeyId() bool {
+	return o != nil && o.AccessKeyId != nil
 }
 
-// SetClientId gets a reference to the given string and assigns it to the ClientId field.
-func (o *AiDataGatewayAgentClientCredential) SetClientId(v string) {
-	o.ClientId = &v
+// SetAccessKeyId gets a reference to the given string and assigns it to the AccessKeyId field.
+func (o *AiDataGatewayClientCredentialSecret) SetAccessKeyId(v string) {
+	o.AccessKeyId = &v
 }
 
 // GetGatewayId returns the GatewayId field value if set, zero value otherwise.
-func (o *AiDataGatewayAgentClientCredential) GetGatewayId() string {
+func (o *AiDataGatewayClientCredentialSecret) GetGatewayId() string {
 	if o == nil || o.GatewayId == nil {
 		var ret string
 		return ret
@@ -78,7 +79,7 @@ func (o *AiDataGatewayAgentClientCredential) GetGatewayId() string {
 
 // GetGatewayIdOk returns a tuple with the GatewayId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AiDataGatewayAgentClientCredential) GetGatewayIdOk() (*string, bool) {
+func (o *AiDataGatewayClientCredentialSecret) GetGatewayIdOk() (*string, bool) {
 	if o == nil || o.GatewayId == nil {
 		return nil, false
 	}
@@ -86,17 +87,17 @@ func (o *AiDataGatewayAgentClientCredential) GetGatewayIdOk() (*string, bool) {
 }
 
 // HasGatewayId returns a boolean if a field has been set.
-func (o *AiDataGatewayAgentClientCredential) HasGatewayId() bool {
+func (o *AiDataGatewayClientCredentialSecret) HasGatewayId() bool {
 	return o != nil && o.GatewayId != nil
 }
 
 // SetGatewayId gets a reference to the given string and assigns it to the GatewayId field.
-func (o *AiDataGatewayAgentClientCredential) SetGatewayId(v string) {
+func (o *AiDataGatewayClientCredentialSecret) SetGatewayId(v string) {
 	o.GatewayId = &v
 }
 
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
-func (o *AiDataGatewayAgentClientCredential) GetOrgName() string {
+func (o *AiDataGatewayClientCredentialSecret) GetOrgName() string {
 	if o == nil || o.OrgName == nil {
 		var ret string
 		return ret
@@ -106,7 +107,7 @@ func (o *AiDataGatewayAgentClientCredential) GetOrgName() string {
 
 // GetOrgNameOk returns a tuple with the OrgName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AiDataGatewayAgentClientCredential) GetOrgNameOk() (*string, bool) {
+func (o *AiDataGatewayClientCredentialSecret) GetOrgNameOk() (*string, bool) {
 	if o == nil || o.OrgName == nil {
 		return nil, false
 	}
@@ -114,17 +115,17 @@ func (o *AiDataGatewayAgentClientCredential) GetOrgNameOk() (*string, bool) {
 }
 
 // HasOrgName returns a boolean if a field has been set.
-func (o *AiDataGatewayAgentClientCredential) HasOrgName() bool {
+func (o *AiDataGatewayClientCredentialSecret) HasOrgName() bool {
 	return o != nil && o.OrgName != nil
 }
 
 // SetOrgName gets a reference to the given string and assigns it to the OrgName field.
-func (o *AiDataGatewayAgentClientCredential) SetOrgName(v string) {
+func (o *AiDataGatewayClientCredentialSecret) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *AiDataGatewayAgentClientCredential) GetName() string {
+func (o *AiDataGatewayClientCredentialSecret) GetName() string {
 	if o == nil || o.Name == nil {
 		var ret string
 		return ret
@@ -134,7 +135,7 @@ func (o *AiDataGatewayAgentClientCredential) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AiDataGatewayAgentClientCredential) GetNameOk() (*string, bool) {
+func (o *AiDataGatewayClientCredentialSecret) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -142,17 +143,45 @@ func (o *AiDataGatewayAgentClientCredential) GetNameOk() (*string, bool) {
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *AiDataGatewayAgentClientCredential) HasName() bool {
+func (o *AiDataGatewayClientCredentialSecret) HasName() bool {
 	return o != nil && o.Name != nil
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *AiDataGatewayAgentClientCredential) SetName(v string) {
+func (o *AiDataGatewayClientCredentialSecret) SetName(v string) {
 	o.Name = &v
 }
 
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *AiDataGatewayClientCredentialSecret) GetDescription() string {
+	if o == nil || o.Description == nil {
+		var ret string
+		return ret
+	}
+	return *o.Description
+}
+
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiDataGatewayClientCredentialSecret) GetDescriptionOk() (*string, bool) {
+	if o == nil || o.Description == nil {
+		return nil, false
+	}
+	return o.Description, true
+}
+
+// HasDescription returns a boolean if a field has been set.
+func (o *AiDataGatewayClientCredentialSecret) HasDescription() bool {
+	return o != nil && o.Description != nil
+}
+
+// SetDescription gets a reference to the given string and assigns it to the Description field.
+func (o *AiDataGatewayClientCredentialSecret) SetDescription(v string) {
+	o.Description = &v
+}
+
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *AiDataGatewayAgentClientCredential) GetStatus() string {
+func (o *AiDataGatewayClientCredentialSecret) GetStatus() string {
 	if o == nil || o.Status == nil {
 		var ret string
 		return ret
@@ -162,7 +191,7 @@ func (o *AiDataGatewayAgentClientCredential) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AiDataGatewayAgentClientCredential) GetStatusOk() (*string, bool) {
+func (o *AiDataGatewayClientCredentialSecret) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -170,45 +199,17 @@ func (o *AiDataGatewayAgentClientCredential) GetStatusOk() (*string, bool) {
 }
 
 // HasStatus returns a boolean if a field has been set.
-func (o *AiDataGatewayAgentClientCredential) HasStatus() bool {
+func (o *AiDataGatewayClientCredentialSecret) HasStatus() bool {
 	return o != nil && o.Status != nil
 }
 
 // SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *AiDataGatewayAgentClientCredential) SetStatus(v string) {
+func (o *AiDataGatewayClientCredentialSecret) SetStatus(v string) {
 	o.Status = &v
 }
 
-// GetSecretPrefix returns the SecretPrefix field value if set, zero value otherwise.
-func (o *AiDataGatewayAgentClientCredential) GetSecretPrefix() string {
-	if o == nil || o.SecretPrefix == nil {
-		var ret string
-		return ret
-	}
-	return *o.SecretPrefix
-}
-
-// GetSecretPrefixOk returns a tuple with the SecretPrefix field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiDataGatewayAgentClientCredential) GetSecretPrefixOk() (*string, bool) {
-	if o == nil || o.SecretPrefix == nil {
-		return nil, false
-	}
-	return o.SecretPrefix, true
-}
-
-// HasSecretPrefix returns a boolean if a field has been set.
-func (o *AiDataGatewayAgentClientCredential) HasSecretPrefix() bool {
-	return o != nil && o.SecretPrefix != nil
-}
-
-// SetSecretPrefix gets a reference to the given string and assigns it to the SecretPrefix field.
-func (o *AiDataGatewayAgentClientCredential) SetSecretPrefix(v string) {
-	o.SecretPrefix = &v
-}
-
 // GetCreatedBy returns the CreatedBy field value if set, zero value otherwise.
-func (o *AiDataGatewayAgentClientCredential) GetCreatedBy() string {
+func (o *AiDataGatewayClientCredentialSecret) GetCreatedBy() string {
 	if o == nil || o.CreatedBy == nil {
 		var ret string
 		return ret
@@ -218,7 +219,7 @@ func (o *AiDataGatewayAgentClientCredential) GetCreatedBy() string {
 
 // GetCreatedByOk returns a tuple with the CreatedBy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AiDataGatewayAgentClientCredential) GetCreatedByOk() (*string, bool) {
+func (o *AiDataGatewayClientCredentialSecret) GetCreatedByOk() (*string, bool) {
 	if o == nil || o.CreatedBy == nil {
 		return nil, false
 	}
@@ -226,17 +227,17 @@ func (o *AiDataGatewayAgentClientCredential) GetCreatedByOk() (*string, bool) {
 }
 
 // HasCreatedBy returns a boolean if a field has been set.
-func (o *AiDataGatewayAgentClientCredential) HasCreatedBy() bool {
+func (o *AiDataGatewayClientCredentialSecret) HasCreatedBy() bool {
 	return o != nil && o.CreatedBy != nil
 }
 
 // SetCreatedBy gets a reference to the given string and assigns it to the CreatedBy field.
-func (o *AiDataGatewayAgentClientCredential) SetCreatedBy(v string) {
+func (o *AiDataGatewayClientCredentialSecret) SetCreatedBy(v string) {
 	o.CreatedBy = &v
 }
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
-func (o *AiDataGatewayAgentClientCredential) GetCreatedAt() time.Time {
+func (o *AiDataGatewayClientCredentialSecret) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
 		var ret time.Time
 		return ret
@@ -246,7 +247,7 @@ func (o *AiDataGatewayAgentClientCredential) GetCreatedAt() time.Time {
 
 // GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AiDataGatewayAgentClientCredential) GetCreatedAtOk() (*time.Time, bool) {
+func (o *AiDataGatewayClientCredentialSecret) GetCreatedAtOk() (*time.Time, bool) {
 	if o == nil || o.CreatedAt == nil {
 		return nil, false
 	}
@@ -254,17 +255,17 @@ func (o *AiDataGatewayAgentClientCredential) GetCreatedAtOk() (*time.Time, bool)
 }
 
 // HasCreatedAt returns a boolean if a field has been set.
-func (o *AiDataGatewayAgentClientCredential) HasCreatedAt() bool {
+func (o *AiDataGatewayClientCredentialSecret) HasCreatedAt() bool {
 	return o != nil && o.CreatedAt != nil
 }
 
 // SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
-func (o *AiDataGatewayAgentClientCredential) SetCreatedAt(v time.Time) {
+func (o *AiDataGatewayClientCredentialSecret) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
-func (o *AiDataGatewayAgentClientCredential) GetUpdatedAt() time.Time {
+func (o *AiDataGatewayClientCredentialSecret) GetUpdatedAt() time.Time {
 	if o == nil || o.UpdatedAt == nil {
 		var ret time.Time
 		return ret
@@ -274,7 +275,7 @@ func (o *AiDataGatewayAgentClientCredential) GetUpdatedAt() time.Time {
 
 // GetUpdatedAtOk returns a tuple with the UpdatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AiDataGatewayAgentClientCredential) GetUpdatedAtOk() (*time.Time, bool) {
+func (o *AiDataGatewayClientCredentialSecret) GetUpdatedAtOk() (*time.Time, bool) {
 	if o == nil || o.UpdatedAt == nil {
 		return nil, false
 	}
@@ -282,17 +283,17 @@ func (o *AiDataGatewayAgentClientCredential) GetUpdatedAtOk() (*time.Time, bool)
 }
 
 // HasUpdatedAt returns a boolean if a field has been set.
-func (o *AiDataGatewayAgentClientCredential) HasUpdatedAt() bool {
+func (o *AiDataGatewayClientCredentialSecret) HasUpdatedAt() bool {
 	return o != nil && o.UpdatedAt != nil
 }
 
 // SetUpdatedAt gets a reference to the given time.Time and assigns it to the UpdatedAt field.
-func (o *AiDataGatewayAgentClientCredential) SetUpdatedAt(v time.Time) {
+func (o *AiDataGatewayClientCredentialSecret) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
 
 // GetLastRotatedAt returns the LastRotatedAt field value if set, zero value otherwise.
-func (o *AiDataGatewayAgentClientCredential) GetLastRotatedAt() time.Time {
+func (o *AiDataGatewayClientCredentialSecret) GetLastRotatedAt() time.Time {
 	if o == nil || o.LastRotatedAt == nil {
 		var ret time.Time
 		return ret
@@ -302,7 +303,7 @@ func (o *AiDataGatewayAgentClientCredential) GetLastRotatedAt() time.Time {
 
 // GetLastRotatedAtOk returns a tuple with the LastRotatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AiDataGatewayAgentClientCredential) GetLastRotatedAtOk() (*time.Time, bool) {
+func (o *AiDataGatewayClientCredentialSecret) GetLastRotatedAtOk() (*time.Time, bool) {
 	if o == nil || o.LastRotatedAt == nil {
 		return nil, false
 	}
@@ -310,17 +311,17 @@ func (o *AiDataGatewayAgentClientCredential) GetLastRotatedAtOk() (*time.Time, b
 }
 
 // HasLastRotatedAt returns a boolean if a field has been set.
-func (o *AiDataGatewayAgentClientCredential) HasLastRotatedAt() bool {
+func (o *AiDataGatewayClientCredentialSecret) HasLastRotatedAt() bool {
 	return o != nil && o.LastRotatedAt != nil
 }
 
 // SetLastRotatedAt gets a reference to the given time.Time and assigns it to the LastRotatedAt field.
-func (o *AiDataGatewayAgentClientCredential) SetLastRotatedAt(v time.Time) {
+func (o *AiDataGatewayClientCredentialSecret) SetLastRotatedAt(v time.Time) {
 	o.LastRotatedAt = &v
 }
 
 // GetDisabledAt returns the DisabledAt field value if set, zero value otherwise.
-func (o *AiDataGatewayAgentClientCredential) GetDisabledAt() time.Time {
+func (o *AiDataGatewayClientCredentialSecret) GetDisabledAt() time.Time {
 	if o == nil || o.DisabledAt == nil {
 		var ret time.Time
 		return ret
@@ -330,7 +331,7 @@ func (o *AiDataGatewayAgentClientCredential) GetDisabledAt() time.Time {
 
 // GetDisabledAtOk returns a tuple with the DisabledAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AiDataGatewayAgentClientCredential) GetDisabledAtOk() (*time.Time, bool) {
+func (o *AiDataGatewayClientCredentialSecret) GetDisabledAtOk() (*time.Time, bool) {
 	if o == nil || o.DisabledAt == nil {
 		return nil, false
 	}
@@ -338,51 +339,79 @@ func (o *AiDataGatewayAgentClientCredential) GetDisabledAtOk() (*time.Time, bool
 }
 
 // HasDisabledAt returns a boolean if a field has been set.
-func (o *AiDataGatewayAgentClientCredential) HasDisabledAt() bool {
+func (o *AiDataGatewayClientCredentialSecret) HasDisabledAt() bool {
 	return o != nil && o.DisabledAt != nil
 }
 
 // SetDisabledAt gets a reference to the given time.Time and assigns it to the DisabledAt field.
-func (o *AiDataGatewayAgentClientCredential) SetDisabledAt(v time.Time) {
+func (o *AiDataGatewayClientCredentialSecret) SetDisabledAt(v time.Time) {
 	o.DisabledAt = &v
 }
 
-// GetClientSecret returns the ClientSecret field value if set, zero value otherwise.
-func (o *AiDataGatewayAgentClientCredential) GetClientSecret() string {
-	if o == nil || o.ClientSecret == nil {
+// GetRevokedAt returns the RevokedAt field value if set, zero value otherwise.
+func (o *AiDataGatewayClientCredentialSecret) GetRevokedAt() time.Time {
+	if o == nil || o.RevokedAt == nil {
+		var ret time.Time
+		return ret
+	}
+	return *o.RevokedAt
+}
+
+// GetRevokedAtOk returns a tuple with the RevokedAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiDataGatewayClientCredentialSecret) GetRevokedAtOk() (*time.Time, bool) {
+	if o == nil || o.RevokedAt == nil {
+		return nil, false
+	}
+	return o.RevokedAt, true
+}
+
+// HasRevokedAt returns a boolean if a field has been set.
+func (o *AiDataGatewayClientCredentialSecret) HasRevokedAt() bool {
+	return o != nil && o.RevokedAt != nil
+}
+
+// SetRevokedAt gets a reference to the given time.Time and assigns it to the RevokedAt field.
+func (o *AiDataGatewayClientCredentialSecret) SetRevokedAt(v time.Time) {
+	o.RevokedAt = &v
+}
+
+// GetSecretKey returns the SecretKey field value if set, zero value otherwise.
+func (o *AiDataGatewayClientCredentialSecret) GetSecretKey() string {
+	if o == nil || o.SecretKey == nil {
 		var ret string
 		return ret
 	}
-	return *o.ClientSecret
+	return *o.SecretKey
 }
 
-// GetClientSecretOk returns a tuple with the ClientSecret field value if set, nil otherwise
+// GetSecretKeyOk returns a tuple with the SecretKey field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AiDataGatewayAgentClientCredential) GetClientSecretOk() (*string, bool) {
-	if o == nil || o.ClientSecret == nil {
+func (o *AiDataGatewayClientCredentialSecret) GetSecretKeyOk() (*string, bool) {
+	if o == nil || o.SecretKey == nil {
 		return nil, false
 	}
-	return o.ClientSecret, true
+	return o.SecretKey, true
 }
 
-// HasClientSecret returns a boolean if a field has been set.
-func (o *AiDataGatewayAgentClientCredential) HasClientSecret() bool {
-	return o != nil && o.ClientSecret != nil
+// HasSecretKey returns a boolean if a field has been set.
+func (o *AiDataGatewayClientCredentialSecret) HasSecretKey() bool {
+	return o != nil && o.SecretKey != nil
 }
 
-// SetClientSecret gets a reference to the given string and assigns it to the ClientSecret field.
-func (o *AiDataGatewayAgentClientCredential) SetClientSecret(v string) {
-	o.ClientSecret = &v
+// SetSecretKey gets a reference to the given string and assigns it to the SecretKey field.
+func (o *AiDataGatewayClientCredentialSecret) SetSecretKey(v string) {
+	o.SecretKey = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o AiDataGatewayAgentClientCredential) MarshalJSON() ([]byte, error) {
+func (o AiDataGatewayClientCredentialSecret) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.ClientId != nil {
-		toSerialize["clientId"] = o.ClientId
+	if o.AccessKeyId != nil {
+		toSerialize["accessKeyId"] = o.AccessKeyId
 	}
 	if o.GatewayId != nil {
 		toSerialize["gatewayId"] = o.GatewayId
@@ -393,11 +422,11 @@ func (o AiDataGatewayAgentClientCredential) MarshalJSON() ([]byte, error) {
 	if o.Name != nil {
 		toSerialize["name"] = o.Name
 	}
+	if o.Description != nil {
+		toSerialize["description"] = o.Description
+	}
 	if o.Status != nil {
 		toSerialize["status"] = o.Status
-	}
-	if o.SecretPrefix != nil {
-		toSerialize["secretPrefix"] = o.SecretPrefix
 	}
 	if o.CreatedBy != nil {
 		toSerialize["createdBy"] = o.CreatedBy
@@ -430,8 +459,15 @@ func (o AiDataGatewayAgentClientCredential) MarshalJSON() ([]byte, error) {
 			toSerialize["disabledAt"] = o.DisabledAt.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
-	if o.ClientSecret != nil {
-		toSerialize["clientSecret"] = o.ClientSecret
+	if o.RevokedAt != nil {
+		if o.RevokedAt.Nanosecond() == 0 {
+			toSerialize["revokedAt"] = o.RevokedAt.Format("2006-01-02T15:04:05Z07:00")
+		} else {
+			toSerialize["revokedAt"] = o.RevokedAt.Format("2006-01-02T15:04:05.000Z07:00")
+		}
+	}
+	if o.SecretKey != nil {
+		toSerialize["secretKey"] = o.SecretKey
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -441,42 +477,44 @@ func (o AiDataGatewayAgentClientCredential) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *AiDataGatewayAgentClientCredential) UnmarshalJSON(bytes []byte) (err error) {
+func (o *AiDataGatewayClientCredentialSecret) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ClientId      *string    `json:"clientId,omitempty"`
+		AccessKeyId   *string    `json:"accessKeyId,omitempty"`
 		GatewayId     *string    `json:"gatewayId,omitempty"`
 		OrgName       *string    `json:"orgName,omitempty"`
 		Name          *string    `json:"name,omitempty"`
+		Description   *string    `json:"description,omitempty"`
 		Status        *string    `json:"status,omitempty"`
-		SecretPrefix  *string    `json:"secretPrefix,omitempty"`
 		CreatedBy     *string    `json:"createdBy,omitempty"`
 		CreatedAt     *time.Time `json:"createdAt,omitempty"`
 		UpdatedAt     *time.Time `json:"updatedAt,omitempty"`
 		LastRotatedAt *time.Time `json:"lastRotatedAt,omitempty"`
 		DisabledAt    *time.Time `json:"disabledAt,omitempty"`
-		ClientSecret  *string    `json:"clientSecret,omitempty"`
+		RevokedAt     *time.Time `json:"revokedAt,omitempty"`
+		SecretKey     *string    `json:"secretKey,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"clientId", "gatewayId", "orgName", "name", "status", "secretPrefix", "createdBy", "createdAt", "updatedAt", "lastRotatedAt", "disabledAt", "clientSecret"})
+		common.DeleteKeys(additionalProperties, &[]string{"accessKeyId", "gatewayId", "orgName", "name", "description", "status", "createdBy", "createdAt", "updatedAt", "lastRotatedAt", "disabledAt", "revokedAt", "secretKey"})
 	} else {
 		return err
 	}
-	o.ClientId = all.ClientId
+	o.AccessKeyId = all.AccessKeyId
 	o.GatewayId = all.GatewayId
 	o.OrgName = all.OrgName
 	o.Name = all.Name
+	o.Description = all.Description
 	o.Status = all.Status
-	o.SecretPrefix = all.SecretPrefix
 	o.CreatedBy = all.CreatedBy
 	o.CreatedAt = all.CreatedAt
 	o.UpdatedAt = all.UpdatedAt
 	o.LastRotatedAt = all.LastRotatedAt
 	o.DisabledAt = all.DisabledAt
-	o.ClientSecret = all.ClientSecret
+	o.RevokedAt = all.RevokedAt
+	o.SecretKey = all.SecretKey
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
 	}

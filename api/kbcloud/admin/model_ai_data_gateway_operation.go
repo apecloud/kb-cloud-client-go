@@ -14,7 +14,7 @@ type AiDataGatewayOperation struct {
 	OperationId         *string                `json:"operationId,omitempty"`
 	OrgName             *string                `json:"orgName,omitempty"`
 	GatewayId           *string                `json:"gatewayId,omitempty"`
-	AgentClientId       *string                `json:"agentClientId,omitempty"`
+	AccessKeyId         *string                `json:"accessKeyId,omitempty"`
 	DatasourceId        *string                `json:"datasourceId,omitempty"`
 	PolicyId            *string                `json:"policyId,omitempty"`
 	ToolName            *string                `json:"toolName,omitempty"`
@@ -137,32 +137,32 @@ func (o *AiDataGatewayOperation) SetGatewayId(v string) {
 	o.GatewayId = &v
 }
 
-// GetAgentClientId returns the AgentClientId field value if set, zero value otherwise.
-func (o *AiDataGatewayOperation) GetAgentClientId() string {
-	if o == nil || o.AgentClientId == nil {
+// GetAccessKeyId returns the AccessKeyId field value if set, zero value otherwise.
+func (o *AiDataGatewayOperation) GetAccessKeyId() string {
+	if o == nil || o.AccessKeyId == nil {
 		var ret string
 		return ret
 	}
-	return *o.AgentClientId
+	return *o.AccessKeyId
 }
 
-// GetAgentClientIdOk returns a tuple with the AgentClientId field value if set, nil otherwise
+// GetAccessKeyIdOk returns a tuple with the AccessKeyId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AiDataGatewayOperation) GetAgentClientIdOk() (*string, bool) {
-	if o == nil || o.AgentClientId == nil {
+func (o *AiDataGatewayOperation) GetAccessKeyIdOk() (*string, bool) {
+	if o == nil || o.AccessKeyId == nil {
 		return nil, false
 	}
-	return o.AgentClientId, true
+	return o.AccessKeyId, true
 }
 
-// HasAgentClientId returns a boolean if a field has been set.
-func (o *AiDataGatewayOperation) HasAgentClientId() bool {
-	return o != nil && o.AgentClientId != nil
+// HasAccessKeyId returns a boolean if a field has been set.
+func (o *AiDataGatewayOperation) HasAccessKeyId() bool {
+	return o != nil && o.AccessKeyId != nil
 }
 
-// SetAgentClientId gets a reference to the given string and assigns it to the AgentClientId field.
-func (o *AiDataGatewayOperation) SetAgentClientId(v string) {
-	o.AgentClientId = &v
+// SetAccessKeyId gets a reference to the given string and assigns it to the AccessKeyId field.
+func (o *AiDataGatewayOperation) SetAccessKeyId(v string) {
+	o.AccessKeyId = &v
 }
 
 // GetDatasourceId returns the DatasourceId field value if set, zero value otherwise.
@@ -628,8 +628,8 @@ func (o AiDataGatewayOperation) MarshalJSON() ([]byte, error) {
 	if o.GatewayId != nil {
 		toSerialize["gatewayId"] = o.GatewayId
 	}
-	if o.AgentClientId != nil {
-		toSerialize["agentClientId"] = o.AgentClientId
+	if o.AccessKeyId != nil {
+		toSerialize["accessKeyId"] = o.AccessKeyId
 	}
 	if o.DatasourceId != nil {
 		toSerialize["datasourceId"] = o.DatasourceId
@@ -696,7 +696,7 @@ func (o *AiDataGatewayOperation) UnmarshalJSON(bytes []byte) (err error) {
 		OperationId         *string                `json:"operationId,omitempty"`
 		OrgName             *string                `json:"orgName,omitempty"`
 		GatewayId           *string                `json:"gatewayId,omitempty"`
-		AgentClientId       *string                `json:"agentClientId,omitempty"`
+		AccessKeyId         *string                `json:"accessKeyId,omitempty"`
 		DatasourceId        *string                `json:"datasourceId,omitempty"`
 		PolicyId            *string                `json:"policyId,omitempty"`
 		ToolName            *string                `json:"toolName,omitempty"`
@@ -719,14 +719,14 @@ func (o *AiDataGatewayOperation) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"operationId", "orgName", "gatewayId", "agentClientId", "datasourceId", "policyId", "toolName", "sqlType", "policyDecision", "status", "riskLevel", "rowsReturned", "durationMs", "maskingApplied", "maskedColumns", "resultPreviewMasked", "errorCode", "errorMessage", "metadata", "createdAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"operationId", "orgName", "gatewayId", "accessKeyId", "datasourceId", "policyId", "toolName", "sqlType", "policyDecision", "status", "riskLevel", "rowsReturned", "durationMs", "maskingApplied", "maskedColumns", "resultPreviewMasked", "errorCode", "errorMessage", "metadata", "createdAt"})
 	} else {
 		return err
 	}
 	o.OperationId = all.OperationId
 	o.OrgName = all.OrgName
 	o.GatewayId = all.GatewayId
-	o.AgentClientId = all.AgentClientId
+	o.AccessKeyId = all.AccessKeyId
 	o.DatasourceId = all.DatasourceId
 	o.PolicyId = all.PolicyId
 	o.ToolName = all.ToolName

@@ -6,34 +6,34 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type AiDataGatewayAgentClientList struct {
-	Items []AiDataGatewayAgentClient `json:"items,omitempty"`
+type AiDataGatewayClientCredentialList struct {
+	Items []AiDataGatewayClientCredential `json:"items,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewAiDataGatewayAgentClientList instantiates a new AiDataGatewayAgentClientList object.
+// NewAiDataGatewayClientCredentialList instantiates a new AiDataGatewayClientCredentialList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAiDataGatewayAgentClientList() *AiDataGatewayAgentClientList {
-	this := AiDataGatewayAgentClientList{}
+func NewAiDataGatewayClientCredentialList() *AiDataGatewayClientCredentialList {
+	this := AiDataGatewayClientCredentialList{}
 	return &this
 }
 
-// NewAiDataGatewayAgentClientListWithDefaults instantiates a new AiDataGatewayAgentClientList object.
+// NewAiDataGatewayClientCredentialListWithDefaults instantiates a new AiDataGatewayClientCredentialList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewAiDataGatewayAgentClientListWithDefaults() *AiDataGatewayAgentClientList {
-	this := AiDataGatewayAgentClientList{}
+func NewAiDataGatewayClientCredentialListWithDefaults() *AiDataGatewayClientCredentialList {
+	this := AiDataGatewayClientCredentialList{}
 	return &this
 }
 
 // GetItems returns the Items field value if set, zero value otherwise.
-func (o *AiDataGatewayAgentClientList) GetItems() []AiDataGatewayAgentClient {
+func (o *AiDataGatewayClientCredentialList) GetItems() []AiDataGatewayClientCredential {
 	if o == nil || o.Items == nil {
-		var ret []AiDataGatewayAgentClient
+		var ret []AiDataGatewayClientCredential
 		return ret
 	}
 	return o.Items
@@ -41,7 +41,7 @@ func (o *AiDataGatewayAgentClientList) GetItems() []AiDataGatewayAgentClient {
 
 // GetItemsOk returns a tuple with the Items field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AiDataGatewayAgentClientList) GetItemsOk() (*[]AiDataGatewayAgentClient, bool) {
+func (o *AiDataGatewayClientCredentialList) GetItemsOk() (*[]AiDataGatewayClientCredential, bool) {
 	if o == nil || o.Items == nil {
 		return nil, false
 	}
@@ -49,17 +49,17 @@ func (o *AiDataGatewayAgentClientList) GetItemsOk() (*[]AiDataGatewayAgentClient
 }
 
 // HasItems returns a boolean if a field has been set.
-func (o *AiDataGatewayAgentClientList) HasItems() bool {
+func (o *AiDataGatewayClientCredentialList) HasItems() bool {
 	return o != nil && o.Items != nil
 }
 
-// SetItems gets a reference to the given []AiDataGatewayAgentClient and assigns it to the Items field.
-func (o *AiDataGatewayAgentClientList) SetItems(v []AiDataGatewayAgentClient) {
+// SetItems gets a reference to the given []AiDataGatewayClientCredential and assigns it to the Items field.
+func (o *AiDataGatewayClientCredentialList) SetItems(v []AiDataGatewayClientCredential) {
 	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o AiDataGatewayAgentClientList) MarshalJSON() ([]byte, error) {
+func (o AiDataGatewayClientCredentialList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -75,9 +75,9 @@ func (o AiDataGatewayAgentClientList) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *AiDataGatewayAgentClientList) UnmarshalJSON(bytes []byte) (err error) {
+func (o *AiDataGatewayClientCredentialList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items []AiDataGatewayAgentClient `json:"items,omitempty"`
+		Items []AiDataGatewayClientCredential `json:"items,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

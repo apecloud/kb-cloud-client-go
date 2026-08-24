@@ -98,29 +98,29 @@ func (a *AIDataGatewayApi) CreateAIDataGateway(ctx _context.Context, orgName str
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// CreateAIDataGatewayAgentClient Create a gateway agent client credential.
-func (a *AIDataGatewayApi) CreateAIDataGatewayAgentClient(ctx _context.Context, orgName string, gatewayId string, body AiDataGatewayCreateAgentClientRequest) (AiDataGatewayAgentClientCredential, *_nethttp.Response, error) {
+// CreateAIDataGatewayClientCredential Create a gateway client credential.
+func (a *AIDataGatewayApi) CreateAIDataGatewayClientCredential(ctx _context.Context, orgName string, gatewayId string, body AiDataGatewayCreateClientCredentialRequest) (AiDataGatewayClientCredentialSecret, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue AiDataGatewayAgentClientCredential
+		localVarReturnValue AiDataGatewayClientCredentialSecret
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "AI Data Gateway",
-		OperationID: "createAIDataGatewayAgentClient",
-		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/agent-clients",
+		OperationID: "createAIDataGatewayClientCredential",
+		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/client-credentials",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AIDataGatewayApi.CreateAIDataGatewayAgentClient")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AIDataGatewayApi.CreateAIDataGatewayClientCredential")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/agent-clients"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/client-credentials"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"gatewayId"+"}", _neturl.PathEscape(common.ParameterToString(gatewayId, "")), -1)
 
@@ -262,8 +262,8 @@ func (a *AIDataGatewayApi) CreateAIDataGatewayDataSource(ctx _context.Context, o
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// CreateAIDataGatewayMaskingRule Create a policy masking rule.
-func (a *AIDataGatewayApi) CreateAIDataGatewayMaskingRule(ctx _context.Context, orgName string, gatewayId string, policyId string, body AiDataGatewayMaskingRuleSpec) (AiDataGatewayMaskingRule, *_nethttp.Response, error) {
+// CreateAIDataGatewayMaskingRule Create a gateway masking rule.
+func (a *AIDataGatewayApi) CreateAIDataGatewayMaskingRule(ctx _context.Context, orgName string, gatewayId string, body AiDataGatewayMaskingRuleSpec) (AiDataGatewayMaskingRule, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -274,7 +274,7 @@ func (a *AIDataGatewayApi) CreateAIDataGatewayMaskingRule(ctx _context.Context, 
 	apiInfo := common.APIInfo{
 		Tag:         "AI Data Gateway",
 		OperationID: "createAIDataGatewayMaskingRule",
-		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/policies/{policyId}/masking-rules",
+		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/masking-rules",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -284,10 +284,9 @@ func (a *AIDataGatewayApi) CreateAIDataGatewayMaskingRule(ctx _context.Context, 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/policies/{policyId}/masking-rules"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/masking-rules"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"gatewayId"+"}", _neturl.PathEscape(common.ParameterToString(gatewayId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"policyId"+"}", _neturl.PathEscape(common.ParameterToString(policyId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -566,8 +565,8 @@ func (a *AIDataGatewayApi) DeleteAIDataGatewayDataSource(ctx _context.Context, o
 	return localVarHTTPResponse, nil
 }
 
-// DeleteAIDataGatewayMaskingRule Delete a policy masking rule.
-func (a *AIDataGatewayApi) DeleteAIDataGatewayMaskingRule(ctx _context.Context, orgName string, gatewayId string, policyId string, ruleId string) (*_nethttp.Response, error) {
+// DeleteAIDataGatewayMaskingRule Delete a gateway masking rule.
+func (a *AIDataGatewayApi) DeleteAIDataGatewayMaskingRule(ctx _context.Context, orgName string, gatewayId string, ruleId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
@@ -577,7 +576,7 @@ func (a *AIDataGatewayApi) DeleteAIDataGatewayMaskingRule(ctx _context.Context, 
 	apiInfo := common.APIInfo{
 		Tag:         "AI Data Gateway",
 		OperationID: "deleteAIDataGatewayMaskingRule",
-		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/policies/{policyId}/masking-rules/{ruleId}",
+		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/masking-rules/{ruleId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -587,10 +586,9 @@ func (a *AIDataGatewayApi) DeleteAIDataGatewayMaskingRule(ctx _context.Context, 
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/policies/{policyId}/masking-rules/{ruleId}"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/masking-rules/{ruleId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"gatewayId"+"}", _neturl.PathEscape(common.ParameterToString(gatewayId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"policyId"+"}", _neturl.PathEscape(common.ParameterToString(policyId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"ruleId"+"}", _neturl.PathEscape(common.ParameterToString(ruleId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -786,32 +784,32 @@ func (a *AIDataGatewayApi) DisableAIDataGateway(ctx _context.Context, orgName st
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// DisableAIDataGatewayAgentClient Disable a gateway agent client.
-func (a *AIDataGatewayApi) DisableAIDataGatewayAgentClient(ctx _context.Context, orgName string, gatewayId string, clientId string) (AiDataGatewayAgentClient, *_nethttp.Response, error) {
+// DisableAIDataGatewayClientCredential Disable a gateway client credential.
+func (a *AIDataGatewayApi) DisableAIDataGatewayClientCredential(ctx _context.Context, orgName string, gatewayId string, accessKeyId string) (AiDataGatewayClientCredential, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue AiDataGatewayAgentClient
+		localVarReturnValue AiDataGatewayClientCredential
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "AI Data Gateway",
-		OperationID: "disableAIDataGatewayAgentClient",
-		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/agent-clients/{clientId}/disable",
+		OperationID: "disableAIDataGatewayClientCredential",
+		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/client-credentials/{accessKeyId}/disable",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AIDataGatewayApi.DisableAIDataGatewayAgentClient")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AIDataGatewayApi.DisableAIDataGatewayClientCredential")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/agent-clients/{clientId}/disable"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/client-credentials/{accessKeyId}/disable"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"gatewayId"+"}", _neturl.PathEscape(common.ParameterToString(gatewayId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"clientId"+"}", _neturl.PathEscape(common.ParameterToString(clientId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"accessKeyId"+"}", _neturl.PathEscape(common.ParameterToString(accessKeyId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -1104,8 +1102,8 @@ func (a *AIDataGatewayApi) GetAIDataGatewayDataSource(ctx _context.Context, orgN
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetAIDataGatewayMaskingRule Get a policy masking rule.
-func (a *AIDataGatewayApi) GetAIDataGatewayMaskingRule(ctx _context.Context, orgName string, gatewayId string, policyId string, ruleId string) (AiDataGatewayMaskingRule, *_nethttp.Response, error) {
+// GetAIDataGatewayMaskingRule Get a gateway masking rule.
+func (a *AIDataGatewayApi) GetAIDataGatewayMaskingRule(ctx _context.Context, orgName string, gatewayId string, ruleId string) (AiDataGatewayMaskingRule, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -1116,7 +1114,7 @@ func (a *AIDataGatewayApi) GetAIDataGatewayMaskingRule(ctx _context.Context, org
 	apiInfo := common.APIInfo{
 		Tag:         "AI Data Gateway",
 		OperationID: "getAIDataGatewayMaskingRule",
-		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/policies/{policyId}/masking-rules/{ruleId}",
+		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/masking-rules/{ruleId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1126,10 +1124,9 @@ func (a *AIDataGatewayApi) GetAIDataGatewayMaskingRule(ctx _context.Context, org
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/policies/{policyId}/masking-rules/{ruleId}"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/masking-rules/{ruleId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"gatewayId"+"}", _neturl.PathEscape(common.ParameterToString(gatewayId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"policyId"+"}", _neturl.PathEscape(common.ParameterToString(policyId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"ruleId"+"}", _neturl.PathEscape(common.ParameterToString(ruleId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -1345,29 +1342,29 @@ func (a *AIDataGatewayApi) GetAIDataGatewayPolicy(ctx _context.Context, orgName 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListAIDataGatewayAgentClients List gateway agent clients.
-func (a *AIDataGatewayApi) ListAIDataGatewayAgentClients(ctx _context.Context, orgName string, gatewayId string) (AiDataGatewayAgentClientList, *_nethttp.Response, error) {
+// ListAIDataGatewayClientCredentials List gateway client credentials.
+func (a *AIDataGatewayApi) ListAIDataGatewayClientCredentials(ctx _context.Context, orgName string, gatewayId string) (AiDataGatewayClientCredentialList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue AiDataGatewayAgentClientList
+		localVarReturnValue AiDataGatewayClientCredentialList
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "AI Data Gateway",
-		OperationID: "listAIDataGatewayAgentClients",
-		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/agent-clients",
+		OperationID: "listAIDataGatewayClientCredentials",
+		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/client-credentials",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AIDataGatewayApi.ListAIDataGatewayAgentClients")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AIDataGatewayApi.ListAIDataGatewayClientCredentials")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/agent-clients"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/client-credentials"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"gatewayId"+"}", _neturl.PathEscape(common.ParameterToString(gatewayId, "")), -1)
 
@@ -1503,8 +1500,8 @@ func (a *AIDataGatewayApi) ListAIDataGatewayDataSources(ctx _context.Context, or
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListAIDataGatewayMaskingRules List policy masking rules.
-func (a *AIDataGatewayApi) ListAIDataGatewayMaskingRules(ctx _context.Context, orgName string, gatewayId string, policyId string) (AiDataGatewayMaskingRuleList, *_nethttp.Response, error) {
+// ListAIDataGatewayMaskingRules List gateway masking rules.
+func (a *AIDataGatewayApi) ListAIDataGatewayMaskingRules(ctx _context.Context, orgName string, gatewayId string) (AiDataGatewayMaskingRuleList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -1515,7 +1512,7 @@ func (a *AIDataGatewayApi) ListAIDataGatewayMaskingRules(ctx _context.Context, o
 	apiInfo := common.APIInfo{
 		Tag:         "AI Data Gateway",
 		OperationID: "listAIDataGatewayMaskingRules",
-		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/policies/{policyId}/masking-rules",
+		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/masking-rules",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1525,10 +1522,9 @@ func (a *AIDataGatewayApi) ListAIDataGatewayMaskingRules(ctx _context.Context, o
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/policies/{policyId}/masking-rules"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/masking-rules"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"gatewayId"+"}", _neturl.PathEscape(common.ParameterToString(gatewayId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"policyId"+"}", _neturl.PathEscape(common.ParameterToString(policyId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -1847,32 +1843,32 @@ func (a *AIDataGatewayApi) ListAIDataGateways(ctx _context.Context, orgName stri
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// RevokeAIDataGatewayAgentClient Revoke a gateway agent client.
-func (a *AIDataGatewayApi) RevokeAIDataGatewayAgentClient(ctx _context.Context, orgName string, gatewayId string, clientId string) (AiDataGatewayAgentClient, *_nethttp.Response, error) {
+// RevokeAIDataGatewayClientCredential Revoke a gateway client credential.
+func (a *AIDataGatewayApi) RevokeAIDataGatewayClientCredential(ctx _context.Context, orgName string, gatewayId string, accessKeyId string) (AiDataGatewayClientCredential, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue AiDataGatewayAgentClient
+		localVarReturnValue AiDataGatewayClientCredential
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "AI Data Gateway",
-		OperationID: "revokeAIDataGatewayAgentClient",
-		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/agent-clients/{clientId}/revoke",
+		OperationID: "revokeAIDataGatewayClientCredential",
+		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/client-credentials/{accessKeyId}/revoke",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AIDataGatewayApi.RevokeAIDataGatewayAgentClient")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AIDataGatewayApi.RevokeAIDataGatewayClientCredential")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/agent-clients/{clientId}/revoke"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/client-credentials/{accessKeyId}/revoke"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"gatewayId"+"}", _neturl.PathEscape(common.ParameterToString(gatewayId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"clientId"+"}", _neturl.PathEscape(common.ParameterToString(clientId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"accessKeyId"+"}", _neturl.PathEscape(common.ParameterToString(accessKeyId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -1927,32 +1923,32 @@ func (a *AIDataGatewayApi) RevokeAIDataGatewayAgentClient(ctx _context.Context, 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// RotateAIDataGatewayAgentClient Rotate a gateway agent client credential.
-func (a *AIDataGatewayApi) RotateAIDataGatewayAgentClient(ctx _context.Context, orgName string, gatewayId string, clientId string) (AiDataGatewayAgentClientCredential, *_nethttp.Response, error) {
+// RotateAIDataGatewayClientCredential Rotate a gateway client credential.
+func (a *AIDataGatewayApi) RotateAIDataGatewayClientCredential(ctx _context.Context, orgName string, gatewayId string, accessKeyId string) (AiDataGatewayClientCredentialSecret, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue AiDataGatewayAgentClientCredential
+		localVarReturnValue AiDataGatewayClientCredentialSecret
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "AI Data Gateway",
-		OperationID: "rotateAIDataGatewayAgentClient",
-		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/agent-clients/{clientId}/rotate",
+		OperationID: "rotateAIDataGatewayClientCredential",
+		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/client-credentials/{accessKeyId}/rotate",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AIDataGatewayApi.RotateAIDataGatewayAgentClient")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AIDataGatewayApi.RotateAIDataGatewayClientCredential")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/agent-clients/{clientId}/rotate"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/client-credentials/{accessKeyId}/rotate"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"gatewayId"+"}", _neturl.PathEscape(common.ParameterToString(gatewayId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"clientId"+"}", _neturl.PathEscape(common.ParameterToString(clientId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"accessKeyId"+"}", _neturl.PathEscape(common.ParameterToString(accessKeyId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -2416,8 +2412,8 @@ func (a *AIDataGatewayApi) UpdateAIDataGatewayDataSource(ctx _context.Context, o
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// UpdateAIDataGatewayMaskingRule Update a policy masking rule.
-func (a *AIDataGatewayApi) UpdateAIDataGatewayMaskingRule(ctx _context.Context, orgName string, gatewayId string, policyId string, ruleId string, body AiDataGatewayMaskingRuleSpec) (AiDataGatewayMaskingRule, *_nethttp.Response, error) {
+// UpdateAIDataGatewayMaskingRule Update a gateway masking rule.
+func (a *AIDataGatewayApi) UpdateAIDataGatewayMaskingRule(ctx _context.Context, orgName string, gatewayId string, ruleId string, body AiDataGatewayMaskingRuleSpec) (AiDataGatewayMaskingRule, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
@@ -2428,7 +2424,7 @@ func (a *AIDataGatewayApi) UpdateAIDataGatewayMaskingRule(ctx _context.Context, 
 	apiInfo := common.APIInfo{
 		Tag:         "AI Data Gateway",
 		OperationID: "updateAIDataGatewayMaskingRule",
-		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/policies/{policyId}/masking-rules/{ruleId}",
+		Path:        "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/masking-rules/{ruleId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -2438,10 +2434,9 @@ func (a *AIDataGatewayApi) UpdateAIDataGatewayMaskingRule(ctx _context.Context, 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/policies/{policyId}/masking-rules/{ruleId}"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/ai-data-gateways/{gatewayId}/masking-rules/{ruleId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"gatewayId"+"}", _neturl.PathEscape(common.ParameterToString(gatewayId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"policyId"+"}", _neturl.PathEscape(common.ParameterToString(policyId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"ruleId"+"}", _neturl.PathEscape(common.ParameterToString(ruleId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)

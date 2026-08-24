@@ -25,7 +25,6 @@ type AiDataGatewayMaskingRule struct {
 	RuleId    *string    `json:"ruleId,omitempty"`
 	GatewayId *string    `json:"gatewayId,omitempty"`
 	OrgName   *string    `json:"orgName,omitempty"`
-	PolicyId  *string    `json:"policyId,omitempty"`
 	CreatedBy *string    `json:"createdBy,omitempty"`
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
@@ -297,34 +296,6 @@ func (o *AiDataGatewayMaskingRule) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
-// GetPolicyId returns the PolicyId field value if set, zero value otherwise.
-func (o *AiDataGatewayMaskingRule) GetPolicyId() string {
-	if o == nil || o.PolicyId == nil {
-		var ret string
-		return ret
-	}
-	return *o.PolicyId
-}
-
-// GetPolicyIdOk returns a tuple with the PolicyId field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiDataGatewayMaskingRule) GetPolicyIdOk() (*string, bool) {
-	if o == nil || o.PolicyId == nil {
-		return nil, false
-	}
-	return o.PolicyId, true
-}
-
-// HasPolicyId returns a boolean if a field has been set.
-func (o *AiDataGatewayMaskingRule) HasPolicyId() bool {
-	return o != nil && o.PolicyId != nil
-}
-
-// SetPolicyId gets a reference to the given string and assigns it to the PolicyId field.
-func (o *AiDataGatewayMaskingRule) SetPolicyId(v string) {
-	o.PolicyId = &v
-}
-
 // GetCreatedBy returns the CreatedBy field value if set, zero value otherwise.
 func (o *AiDataGatewayMaskingRule) GetCreatedBy() string {
 	if o == nil || o.CreatedBy == nil {
@@ -442,9 +413,6 @@ func (o AiDataGatewayMaskingRule) MarshalJSON() ([]byte, error) {
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
 	}
-	if o.PolicyId != nil {
-		toSerialize["policyId"] = o.PolicyId
-	}
 	if o.CreatedBy != nil {
 		toSerialize["createdBy"] = o.CreatedBy
 	}
@@ -481,7 +449,6 @@ func (o *AiDataGatewayMaskingRule) UnmarshalJSON(bytes []byte) (err error) {
 		RuleId        *string    `json:"ruleId,omitempty"`
 		GatewayId     *string    `json:"gatewayId,omitempty"`
 		OrgName       *string    `json:"orgName,omitempty"`
-		PolicyId      *string    `json:"policyId,omitempty"`
 		CreatedBy     *string    `json:"createdBy,omitempty"`
 		CreatedAt     *time.Time `json:"createdAt,omitempty"`
 		UpdatedAt     *time.Time `json:"updatedAt,omitempty"`
@@ -491,7 +458,7 @@ func (o *AiDataGatewayMaskingRule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"datasourceIds", "databases", "schemas", "tables", "columns", "enabled", "ruleId", "gatewayId", "orgName", "policyId", "createdBy", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"datasourceIds", "databases", "schemas", "tables", "columns", "enabled", "ruleId", "gatewayId", "orgName", "createdBy", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}
@@ -504,7 +471,6 @@ func (o *AiDataGatewayMaskingRule) UnmarshalJSON(bytes []byte) (err error) {
 	o.RuleId = all.RuleId
 	o.GatewayId = all.GatewayId
 	o.OrgName = all.OrgName
-	o.PolicyId = all.PolicyId
 	o.CreatedBy = all.CreatedBy
 	o.CreatedAt = all.CreatedAt
 	o.UpdatedAt = all.UpdatedAt
