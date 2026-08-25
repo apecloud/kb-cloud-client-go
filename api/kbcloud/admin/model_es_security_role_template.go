@@ -4,10 +4,14 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type ESSecurityRoleTemplate struct {
-	Template map[string]interface{}        `json:"template,omitempty"`
+	Template map[string]interface{}        `json:"template"`
 	Format   *ESSecurityRoleTemplateFormat `json:"format,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -18,8 +22,9 @@ type ESSecurityRoleTemplate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewESSecurityRoleTemplate() *ESSecurityRoleTemplate {
+func NewESSecurityRoleTemplate(template map[string]interface{}) *ESSecurityRoleTemplate {
 	this := ESSecurityRoleTemplate{}
+	this.Template = template
 	return &this
 }
 
@@ -31,30 +36,25 @@ func NewESSecurityRoleTemplateWithDefaults() *ESSecurityRoleTemplate {
 	return &this
 }
 
-// GetTemplate returns the Template field value if set, zero value otherwise.
+// GetTemplate returns the Template field value.
 func (o *ESSecurityRoleTemplate) GetTemplate() map[string]interface{} {
-	if o == nil || o.Template == nil {
+	if o == nil {
 		var ret map[string]interface{}
 		return ret
 	}
 	return o.Template
 }
 
-// GetTemplateOk returns a tuple with the Template field value if set, nil otherwise
+// GetTemplateOk returns a tuple with the Template field value
 // and a boolean to check if the value has been set.
 func (o *ESSecurityRoleTemplate) GetTemplateOk() (*map[string]interface{}, bool) {
-	if o == nil || o.Template == nil {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Template, true
 }
 
-// HasTemplate returns a boolean if a field has been set.
-func (o *ESSecurityRoleTemplate) HasTemplate() bool {
-	return o != nil && o.Template != nil
-}
-
-// SetTemplate gets a reference to the given map[string]interface{} and assigns it to the Template field.
+// SetTemplate sets field value.
 func (o *ESSecurityRoleTemplate) SetTemplate(v map[string]interface{}) {
 	o.Template = v
 }
@@ -93,9 +93,7 @@ func (o ESSecurityRoleTemplate) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Template != nil {
-		toSerialize["template"] = o.Template
-	}
+	toSerialize["template"] = o.Template
 	if o.Format != nil {
 		toSerialize["format"] = o.Format
 	}
@@ -109,11 +107,14 @@ func (o ESSecurityRoleTemplate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ESSecurityRoleTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Template map[string]interface{}        `json:"template,omitempty"`
+		Template *map[string]interface{}       `json:"template"`
 		Format   *ESSecurityRoleTemplateFormat `json:"format,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
+	}
+	if all.Template == nil {
+		return fmt.Errorf("required field template missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -123,7 +124,7 @@ func (o *ESSecurityRoleTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 
 	hasInvalidField := false
-	o.Template = all.Template
+	o.Template = *all.Template
 	if all.Format != nil && !all.Format.IsValid() {
 		hasInvalidField = true
 	} else {
