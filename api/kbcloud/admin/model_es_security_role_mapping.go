@@ -5,14 +5,17 @@
 package admin
 
 import (
+	"fmt"
+
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// ESSecurityRoleMapping Native Elasticsearch security role mapping. At least one of roles or role_templates must be non-empty.
 type ESSecurityRoleMapping struct {
-	Enabled       common.NullableBool      `json:"enabled,omitempty"`
+	Enabled       common.NullableBool      `json:"enabled"`
 	Roles         []string                 `json:"roles,omitempty"`
 	RoleTemplates []ESSecurityRoleTemplate `json:"role_templates,omitempty"`
-	Rules         map[string]interface{}   `json:"rules,omitempty"`
+	Rules         map[string]interface{}   `json:"rules"`
 	Metadata      map[string]interface{}   `json:"metadata,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -23,8 +26,10 @@ type ESSecurityRoleMapping struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewESSecurityRoleMapping() *ESSecurityRoleMapping {
+func NewESSecurityRoleMapping(enabled common.NullableBool, rules map[string]interface{}) *ESSecurityRoleMapping {
 	this := ESSecurityRoleMapping{}
+	this.Enabled = enabled
+	this.Rules = rules
 	return &this
 }
 
@@ -36,7 +41,8 @@ func NewESSecurityRoleMappingWithDefaults() *ESSecurityRoleMapping {
 	return &this
 }
 
-// GetEnabled returns the Enabled field value if set, zero value otherwise (both if not set or set to explicit null).
+// GetEnabled returns the Enabled field value.
+// If the value is explicit nil, the zero value for bool will be returned.
 func (o *ESSecurityRoleMapping) GetEnabled() bool {
 	if o == nil || o.Enabled.Get() == nil {
 		var ret bool
@@ -45,7 +51,7 @@ func (o *ESSecurityRoleMapping) GetEnabled() bool {
 	return *o.Enabled.Get()
 }
 
-// GetEnabledOk returns a tuple with the Enabled field value if set, nil otherwise
+// GetEnabledOk returns a tuple with the Enabled field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ESSecurityRoleMapping) GetEnabledOk() (*bool, bool) {
@@ -55,24 +61,9 @@ func (o *ESSecurityRoleMapping) GetEnabledOk() (*bool, bool) {
 	return o.Enabled.Get(), o.Enabled.IsSet()
 }
 
-// HasEnabled returns a boolean if a field has been set.
-func (o *ESSecurityRoleMapping) HasEnabled() bool {
-	return o != nil && o.Enabled.IsSet()
-}
-
-// SetEnabled gets a reference to the given common.NullableBool and assigns it to the Enabled field.
+// SetEnabled sets field value.
 func (o *ESSecurityRoleMapping) SetEnabled(v bool) {
 	o.Enabled.Set(&v)
-}
-
-// SetEnabledNil sets the value for Enabled to be an explicit nil.
-func (o *ESSecurityRoleMapping) SetEnabledNil() {
-	o.Enabled.Set(nil)
-}
-
-// UnsetEnabled ensures that no value is present for Enabled, not even an explicit nil.
-func (o *ESSecurityRoleMapping) UnsetEnabled() {
-	o.Enabled.Unset()
 }
 
 // GetRoles returns the Roles field value if set, zero value otherwise.
@@ -131,30 +122,25 @@ func (o *ESSecurityRoleMapping) SetRoleTemplates(v []ESSecurityRoleTemplate) {
 	o.RoleTemplates = v
 }
 
-// GetRules returns the Rules field value if set, zero value otherwise.
+// GetRules returns the Rules field value.
 func (o *ESSecurityRoleMapping) GetRules() map[string]interface{} {
-	if o == nil || o.Rules == nil {
+	if o == nil {
 		var ret map[string]interface{}
 		return ret
 	}
 	return o.Rules
 }
 
-// GetRulesOk returns a tuple with the Rules field value if set, nil otherwise
+// GetRulesOk returns a tuple with the Rules field value
 // and a boolean to check if the value has been set.
 func (o *ESSecurityRoleMapping) GetRulesOk() (*map[string]interface{}, bool) {
-	if o == nil || o.Rules == nil {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Rules, true
 }
 
-// HasRules returns a boolean if a field has been set.
-func (o *ESSecurityRoleMapping) HasRules() bool {
-	return o != nil && o.Rules != nil
-}
-
-// SetRules gets a reference to the given map[string]interface{} and assigns it to the Rules field.
+// SetRules sets field value.
 func (o *ESSecurityRoleMapping) SetRules(v map[string]interface{}) {
 	o.Rules = v
 }
@@ -193,18 +179,14 @@ func (o ESSecurityRoleMapping) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Enabled.IsSet() {
-		toSerialize["enabled"] = o.Enabled.Get()
-	}
+	toSerialize["enabled"] = o.Enabled.Get()
 	if o.Roles != nil {
 		toSerialize["roles"] = o.Roles
 	}
 	if o.RoleTemplates != nil {
 		toSerialize["role_templates"] = o.RoleTemplates
 	}
-	if o.Rules != nil {
-		toSerialize["rules"] = o.Rules
-	}
+	toSerialize["rules"] = o.Rules
 	if o.Metadata != nil {
 		toSerialize["metadata"] = o.Metadata
 	}
@@ -218,14 +200,20 @@ func (o ESSecurityRoleMapping) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ESSecurityRoleMapping) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Enabled       common.NullableBool      `json:"enabled,omitempty"`
+		Enabled       common.NullableBool      `json:"enabled"`
 		Roles         []string                 `json:"roles,omitempty"`
 		RoleTemplates []ESSecurityRoleTemplate `json:"role_templates,omitempty"`
-		Rules         map[string]interface{}   `json:"rules,omitempty"`
+		Rules         *map[string]interface{}  `json:"rules"`
 		Metadata      map[string]interface{}   `json:"metadata,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
+	}
+	if !all.Enabled.IsSet() {
+		return fmt.Errorf("required field enabled missing")
+	}
+	if all.Rules == nil {
+		return fmt.Errorf("required field rules missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -236,7 +224,7 @@ func (o *ESSecurityRoleMapping) UnmarshalJSON(bytes []byte) (err error) {
 	o.Enabled = all.Enabled
 	o.Roles = all.Roles
 	o.RoleTemplates = all.RoleTemplates
-	o.Rules = all.Rules
+	o.Rules = *all.Rules
 	o.Metadata = all.Metadata
 
 	if len(additionalProperties) > 0 {

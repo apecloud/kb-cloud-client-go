@@ -13,7 +13,6 @@ type AiDataGatewaySimulatePolicyResponse struct {
 	ReasonCode     *string  `json:"reasonCode,omitempty"`
 	MaxRows        *int32   `json:"maxRows,omitempty"`
 	TimeoutSeconds *int32   `json:"timeoutSeconds,omitempty"`
-	MaskingApplied *bool    `json:"maskingApplied,omitempty"`
 	MaskedColumns  []string `json:"maskedColumns,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -205,34 +204,6 @@ func (o *AiDataGatewaySimulatePolicyResponse) SetTimeoutSeconds(v int32) {
 	o.TimeoutSeconds = &v
 }
 
-// GetMaskingApplied returns the MaskingApplied field value if set, zero value otherwise.
-func (o *AiDataGatewaySimulatePolicyResponse) GetMaskingApplied() bool {
-	if o == nil || o.MaskingApplied == nil {
-		var ret bool
-		return ret
-	}
-	return *o.MaskingApplied
-}
-
-// GetMaskingAppliedOk returns a tuple with the MaskingApplied field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiDataGatewaySimulatePolicyResponse) GetMaskingAppliedOk() (*bool, bool) {
-	if o == nil || o.MaskingApplied == nil {
-		return nil, false
-	}
-	return o.MaskingApplied, true
-}
-
-// HasMaskingApplied returns a boolean if a field has been set.
-func (o *AiDataGatewaySimulatePolicyResponse) HasMaskingApplied() bool {
-	return o != nil && o.MaskingApplied != nil
-}
-
-// SetMaskingApplied gets a reference to the given bool and assigns it to the MaskingApplied field.
-func (o *AiDataGatewaySimulatePolicyResponse) SetMaskingApplied(v bool) {
-	o.MaskingApplied = &v
-}
-
 // GetMaskedColumns returns the MaskedColumns field value if set, zero value otherwise.
 func (o *AiDataGatewaySimulatePolicyResponse) GetMaskedColumns() []string {
 	if o == nil || o.MaskedColumns == nil {
@@ -285,9 +256,6 @@ func (o AiDataGatewaySimulatePolicyResponse) MarshalJSON() ([]byte, error) {
 	if o.TimeoutSeconds != nil {
 		toSerialize["timeoutSeconds"] = o.TimeoutSeconds
 	}
-	if o.MaskingApplied != nil {
-		toSerialize["maskingApplied"] = o.MaskingApplied
-	}
 	if o.MaskedColumns != nil {
 		toSerialize["maskedColumns"] = o.MaskedColumns
 	}
@@ -307,7 +275,6 @@ func (o *AiDataGatewaySimulatePolicyResponse) UnmarshalJSON(bytes []byte) (err e
 		ReasonCode     *string  `json:"reasonCode,omitempty"`
 		MaxRows        *int32   `json:"maxRows,omitempty"`
 		TimeoutSeconds *int32   `json:"timeoutSeconds,omitempty"`
-		MaskingApplied *bool    `json:"maskingApplied,omitempty"`
 		MaskedColumns  []string `json:"maskedColumns,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -315,7 +282,7 @@ func (o *AiDataGatewaySimulatePolicyResponse) UnmarshalJSON(bytes []byte) (err e
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"decision", "policyId", "reason", "reasonCode", "maxRows", "timeoutSeconds", "maskingApplied", "maskedColumns"})
+		common.DeleteKeys(additionalProperties, &[]string{"decision", "policyId", "reason", "reasonCode", "maxRows", "timeoutSeconds", "maskedColumns"})
 	} else {
 		return err
 	}
@@ -325,7 +292,6 @@ func (o *AiDataGatewaySimulatePolicyResponse) UnmarshalJSON(bytes []byte) (err e
 	o.ReasonCode = all.ReasonCode
 	o.MaxRows = all.MaxRows
 	o.TimeoutSeconds = all.TimeoutSeconds
-	o.MaskingApplied = all.MaskingApplied
 	o.MaskedColumns = all.MaskedColumns
 
 	if len(additionalProperties) > 0 {

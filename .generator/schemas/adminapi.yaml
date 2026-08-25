@@ -41672,8 +41672,11 @@ components:
         format:
           $ref: '#/components/schemas/ESSecurityRoleTemplateFormat'
           nullable: true
+      required:
+        - template
     ESSecurityRoleMapping:
       type: object
+      description: Native Elasticsearch security role mapping. At least one of roles or role_templates must be non-empty.
       properties:
         enabled:
           type: boolean
@@ -41694,6 +41697,9 @@ components:
         metadata:
           type: object
           additionalProperties: true
+      required:
+        - enabled
+        - rules
     ESSecurityRoleMappings:
       type: object
       additionalProperties:
