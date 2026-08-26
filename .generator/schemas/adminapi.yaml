@@ -32503,6 +32503,13 @@ components:
       properties:
         clusterSchedulingPolicy:
           $ref: '#/components/schemas/clusterSchedulingPolicy'
+        additionalTopologyKeys:
+          type: array
+          nullable: true
+          default: []
+          description: Additional Kubernetes topology label keys used by pod anti-affinity and topology spread for subsequently created or re-rendered clusters; existing Pods are not migrated automatically. Omit or use null during environment creation to store an empty list. Values must be valid Kubernetes qualified label keys. Infrastructure integrations or administrators must populate the corresponding node labels. Hard anti-affinity can leave Pods unschedulable when eligible nodes lack a configured label, and clusters can be rejected when the Kubernetes LimitPodHardAntiAffinityTopology admission plugin restricts required anti-affinity to kubernetes.io/hostname.
+          items:
+            type: string
         tolerateDefaultTaints:
           $ref: '#/components/schemas/tolerateDefaultTaints'
         systemComponentSchedulerPolicy:
@@ -33219,6 +33226,12 @@ components:
             $ref: '#/components/schemas/ipPoolProvider'
         clusterSchedulingPolicy:
           $ref: '#/components/schemas/clusterSchedulingPolicy'
+        additionalTopologyKeys:
+          type: array
+          nullable: true
+          description: Additional Kubernetes topology label keys used by subsequently created or re-rendered clusters; existing Pods are not migrated automatically. Omit or use null to preserve the current value; use an empty array to clear all additional keys. Hard anti-affinity can leave Pods unschedulable when eligible nodes lack a configured label, and clusters can be rejected when the Kubernetes LimitPodHardAntiAffinityTopology admission plugin restricts required anti-affinity to kubernetes.io/hostname.
+          items:
+            type: string
     environmentStateEvent:
       description: EventEnvironmentState contains details for the current and previous state of the environment.
       type: object

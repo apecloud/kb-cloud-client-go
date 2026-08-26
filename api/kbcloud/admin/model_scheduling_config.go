@@ -4,7 +4,9 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // SchedulingConfig Configuration of resource scheduling for this environment
 type SchedulingConfig struct {
@@ -14,6 +16,8 @@ type SchedulingConfig struct {
 	// * `None` - Inherit the engine-level default scheduling policy.
 	//
 	ClusterSchedulingPolicy *ClusterSchedulingPolicy `json:"clusterSchedulingPolicy,omitempty"`
+	// Additional Kubernetes topology label keys used by pod anti-affinity and topology spread for subsequently created or re-rendered clusters; existing Pods are not migrated automatically. Omit or use null during environment creation to store an empty list. Values must be valid Kubernetes qualified label keys. Infrastructure integrations or administrators must populate the corresponding node labels. Hard anti-affinity can leave Pods unschedulable when eligible nodes lack a configured label, and clusters can be rejected when the Kubernetes LimitPodHardAntiAffinityTopology admission plugin restricts required anti-affinity to kubernetes.io/hostname.
+	AdditionalTopologyKeys common.NullableList[string] `json:"additionalTopologyKeys,omitempty"`
 	// When creating a cluster, add the default tolerations from the bootstrap node to the pods
 	TolerateDefaultTaints                   *TolerateDefaultTaints               `json:"tolerateDefaultTaints,omitempty"`
 	SystemComponentSchedulerPolicy          *SystemComponentSchedulerPolicy      `json:"systemComponentSchedulerPolicy,omitempty"`
@@ -74,6 +78,45 @@ func (o *SchedulingConfig) HasClusterSchedulingPolicy() bool {
 // SetClusterSchedulingPolicy gets a reference to the given ClusterSchedulingPolicy and assigns it to the ClusterSchedulingPolicy field.
 func (o *SchedulingConfig) SetClusterSchedulingPolicy(v ClusterSchedulingPolicy) {
 	o.ClusterSchedulingPolicy = &v
+}
+
+// GetAdditionalTopologyKeys returns the AdditionalTopologyKeys field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *SchedulingConfig) GetAdditionalTopologyKeys() []string {
+	if o == nil || o.AdditionalTopologyKeys.Get() == nil {
+		var ret []string
+		return ret
+	}
+	return *o.AdditionalTopologyKeys.Get()
+}
+
+// GetAdditionalTopologyKeysOk returns a tuple with the AdditionalTopologyKeys field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *SchedulingConfig) GetAdditionalTopologyKeysOk() (*[]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.AdditionalTopologyKeys.Get(), o.AdditionalTopologyKeys.IsSet()
+}
+
+// HasAdditionalTopologyKeys returns a boolean if a field has been set.
+func (o *SchedulingConfig) HasAdditionalTopologyKeys() bool {
+	return o != nil && o.AdditionalTopologyKeys.IsSet()
+}
+
+// SetAdditionalTopologyKeys gets a reference to the given common.NullableList[string] and assigns it to the AdditionalTopologyKeys field.
+func (o *SchedulingConfig) SetAdditionalTopologyKeys(v []string) {
+	o.AdditionalTopologyKeys.Set(&v)
+}
+
+// SetAdditionalTopologyKeysNil sets the value for AdditionalTopologyKeys to be an explicit nil.
+func (o *SchedulingConfig) SetAdditionalTopologyKeysNil() {
+	o.AdditionalTopologyKeys.Set(nil)
+}
+
+// UnsetAdditionalTopologyKeys ensures that no value is present for AdditionalTopologyKeys, not even an explicit nil.
+func (o *SchedulingConfig) UnsetAdditionalTopologyKeys() {
+	o.AdditionalTopologyKeys.Unset()
 }
 
 // GetTolerateDefaultTaints returns the TolerateDefaultTaints field value if set, zero value otherwise.
@@ -169,6 +212,9 @@ func (o SchedulingConfig) MarshalJSON() ([]byte, error) {
 	if o.ClusterSchedulingPolicy != nil {
 		toSerialize["clusterSchedulingPolicy"] = o.ClusterSchedulingPolicy
 	}
+	if o.AdditionalTopologyKeys.IsSet() {
+		toSerialize["additionalTopologyKeys"] = o.AdditionalTopologyKeys.Get()
+	}
 	if o.TolerateDefaultTaints != nil {
 		toSerialize["tolerateDefaultTaints"] = o.TolerateDefaultTaints
 	}
@@ -189,6 +235,7 @@ func (o SchedulingConfig) MarshalJSON() ([]byte, error) {
 func (o *SchedulingConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		ClusterSchedulingPolicy                 *ClusterSchedulingPolicy             `json:"clusterSchedulingPolicy,omitempty"`
+		AdditionalTopologyKeys                  common.NullableList[string]          `json:"additionalTopologyKeys,omitempty"`
 		TolerateDefaultTaints                   *TolerateDefaultTaints               `json:"tolerateDefaultTaints,omitempty"`
 		SystemComponentSchedulerPolicy          *SystemComponentSchedulerPolicy      `json:"systemComponentSchedulerPolicy,omitempty"`
 		SystemComponentReservationResourceClass *KoordinatorReservationResourceClass `json:"systemComponentReservationResourceClass,omitempty"`
@@ -198,7 +245,7 @@ func (o *SchedulingConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"clusterSchedulingPolicy", "tolerateDefaultTaints", "systemComponentSchedulerPolicy", "systemComponentReservationResourceClass"})
+		common.DeleteKeys(additionalProperties, &[]string{"clusterSchedulingPolicy", "additionalTopologyKeys", "tolerateDefaultTaints", "systemComponentSchedulerPolicy", "systemComponentReservationResourceClass"})
 	} else {
 		return err
 	}
@@ -209,6 +256,7 @@ func (o *SchedulingConfig) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.ClusterSchedulingPolicy = all.ClusterSchedulingPolicy
 	}
+	o.AdditionalTopologyKeys = all.AdditionalTopologyKeys
 	if all.TolerateDefaultTaints != nil && all.TolerateDefaultTaints.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

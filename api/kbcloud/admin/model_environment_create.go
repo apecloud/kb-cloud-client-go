@@ -7,8 +7,9 @@ package admin
 import (
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 	"github.com/google/uuid"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // EnvironmentCreate Environment creation info

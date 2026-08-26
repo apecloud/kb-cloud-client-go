@@ -58,6 +58,8 @@ type EnvironmentUpdate struct {
 	// * `None` - Inherit the engine-level default scheduling policy.
 	//
 	ClusterSchedulingPolicy *ClusterSchedulingPolicy `json:"clusterSchedulingPolicy,omitempty"`
+	// Additional Kubernetes topology label keys used by subsequently created or re-rendered clusters; existing Pods are not migrated automatically. Omit or use null to preserve the current value; use an empty array to clear all additional keys. Hard anti-affinity can leave Pods unschedulable when eligible nodes lack a configured label, and clusters can be rejected when the Kubernetes LimitPodHardAntiAffinityTopology admission plugin restricts required anti-affinity to kubernetes.io/hostname.
+	AdditionalTopologyKeys common.NullableList[string] `json:"additionalTopologyKeys,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -835,6 +837,45 @@ func (o *EnvironmentUpdate) SetClusterSchedulingPolicy(v ClusterSchedulingPolicy
 	o.ClusterSchedulingPolicy = &v
 }
 
+// GetAdditionalTopologyKeys returns the AdditionalTopologyKeys field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *EnvironmentUpdate) GetAdditionalTopologyKeys() []string {
+	if o == nil || o.AdditionalTopologyKeys.Get() == nil {
+		var ret []string
+		return ret
+	}
+	return *o.AdditionalTopologyKeys.Get()
+}
+
+// GetAdditionalTopologyKeysOk returns a tuple with the AdditionalTopologyKeys field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *EnvironmentUpdate) GetAdditionalTopologyKeysOk() (*[]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.AdditionalTopologyKeys.Get(), o.AdditionalTopologyKeys.IsSet()
+}
+
+// HasAdditionalTopologyKeys returns a boolean if a field has been set.
+func (o *EnvironmentUpdate) HasAdditionalTopologyKeys() bool {
+	return o != nil && o.AdditionalTopologyKeys.IsSet()
+}
+
+// SetAdditionalTopologyKeys gets a reference to the given common.NullableList[string] and assigns it to the AdditionalTopologyKeys field.
+func (o *EnvironmentUpdate) SetAdditionalTopologyKeys(v []string) {
+	o.AdditionalTopologyKeys.Set(&v)
+}
+
+// SetAdditionalTopologyKeysNil sets the value for AdditionalTopologyKeys to be an explicit nil.
+func (o *EnvironmentUpdate) SetAdditionalTopologyKeysNil() {
+	o.AdditionalTopologyKeys.Set(nil)
+}
+
+// UnsetAdditionalTopologyKeys ensures that no value is present for AdditionalTopologyKeys, not even an explicit nil.
+func (o *EnvironmentUpdate) UnsetAdditionalTopologyKeys() {
+	o.AdditionalTopologyKeys.Unset()
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -907,6 +948,9 @@ func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 	if o.ClusterSchedulingPolicy != nil {
 		toSerialize["clusterSchedulingPolicy"] = o.ClusterSchedulingPolicy
 	}
+	if o.AdditionalTopologyKeys.IsSet() {
+		toSerialize["additionalTopologyKeys"] = o.AdditionalTopologyKeys.Get()
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -939,13 +983,14 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		KoordinatorEnabled      *bool                       `json:"koordinatorEnabled,omitempty"`
 		IpPoolProviders         []IpPoolProvider            `json:"ipPoolProviders,omitempty"`
 		ClusterSchedulingPolicy *ClusterSchedulingPolicy    `json:"clusterSchedulingPolicy,omitempty"`
+		AdditionalTopologyKeys  common.NullableList[string] `json:"additionalTopologyKeys,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "type", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "imageRegistry", "nodePortEnabled", "lbEnabled", "domainEnabled", "internetLBEnabled", "networkModes", "deletePolicy", "clusterValidationPolicy", "provider", "slaEnabled", "koordinatorEnabled", "ipPoolProviders", "clusterSchedulingPolicy"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "type", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "imageRegistry", "nodePortEnabled", "lbEnabled", "domainEnabled", "internetLBEnabled", "networkModes", "deletePolicy", "clusterValidationPolicy", "provider", "slaEnabled", "koordinatorEnabled", "ipPoolProviders", "clusterSchedulingPolicy", "additionalTopologyKeys"})
 	} else {
 		return err
 	}
@@ -992,6 +1037,7 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.ClusterSchedulingPolicy = all.ClusterSchedulingPolicy
 	}
+	o.AdditionalTopologyKeys = all.AdditionalTopologyKeys
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
