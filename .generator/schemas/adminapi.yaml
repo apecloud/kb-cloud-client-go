@@ -27113,6 +27113,16 @@ components:
       description: Components is the list of components
       items:
         $ref: '#/components/schemas/componentItem'
+    clusterReference:
+      type: object
+      description: Cluster reference information returned by cluster detail APIs.
+      properties:
+        cluster:
+          type: string
+          description: Name of the cluster that references this cluster.
+        clusterDefinition:
+          type: string
+          description: Cluster definition of the referencing cluster.
     cluster:
       required:
         - engine
@@ -27282,7 +27292,7 @@ components:
           description: this list of objects (currently, object is a cluster) that uses this cluster as a serviceRef
           type: array
           items:
-            $ref: '#/components/schemas/serviceRef'
+            $ref: '#/components/schemas/clusterReference'
         objectStorageConfig:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
         maintainceWindow:
