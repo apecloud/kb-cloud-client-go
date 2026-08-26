@@ -19840,6 +19840,658 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/data/clickhouse/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      tags:
+        - clickhouse
+        - shared
+      summary: List ClickHouse accounts
+      operationId: listClickhouseAccounts
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List ClickHouse accounts successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CkAccount'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - clickhouse
+        - shared
+      summary: Create a ClickHouse account with optional roles
+      operationId: createClickhouseAccount
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Create a ClickHouse account request.
+              required:
+                - name
+                - password
+              properties:
+                name:
+                  type: string
+                  description: The account (user) name.
+                password:
+                  type: string
+                  description: The account password.
+                roles:
+                  type: array
+                  description: Roles to grant to the account on creation.
+                  items:
+                    type: string
+      responses:
+        '204':
+          content: {}
+          description: Create ClickHouse account successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+  /admin/v1/data/clickhouse/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    patch:
+      tags:
+        - clickhouse
+        - shared
+      summary: Update a ClickHouse account password
+      operationId: updateClickhouseAccountPassword
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Update a ClickHouse account password request.
+              required:
+                - password
+              properties:
+                password:
+                  type: string
+                  description: The new account password.
+      responses:
+        '204':
+          content: {}
+          description: Update ClickHouse account password successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - clickhouse
+        - shared
+      summary: Delete a ClickHouse account
+      operationId: deleteClickhouseAccount
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Delete ClickHouse account successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/clickhouse/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/roles:
+    get:
+      tags:
+        - clickhouse
+        - shared
+      summary: List the roles granted to a ClickHouse account
+      operationId: listClickhouseAccountRoles
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List ClickHouse account roles successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: A ClickHouse role.
+                properties:
+                  name:
+                    type: string
+                    description: The role name.
+                  privileges:
+                    type: array
+                    description: Privileges granted to the role, grouped by scope.
+                    items:
+                      type: object
+                      description: A group of privileges granted on a scope.
+                      properties:
+                        scope:
+                          type: string
+                          description: The ON-clause operand of the grant, e.g. "db.*" or "*.*".
+                        privileges:
+                          type: array
+                          items:
+                            type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - clickhouse
+        - shared
+      summary: Update the roles granted to a ClickHouse account
+      operationId: updateClickhouseAccountRoles
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Update the roles granted to a ClickHouse account request.
+              required:
+                - roles
+              properties:
+                roles:
+                  type: array
+                  description: The full set of roles to grant to the account. Existing roles are replaced.
+                  items:
+                    type: string
+      responses:
+        '204':
+          content: {}
+          description: Update ClickHouse account roles successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+  /admin/v1/data/clickhouse/organizations/{orgName}/clusters/{clusterName}/accounts/roles:
+    get:
+      tags:
+        - clickhouse
+        - shared
+      summary: List ClickHouse roles
+      operationId: listClickhouseRoles
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: forCreateUser
+          in: query
+          required: false
+          description: Whether to include built-in privilege roles for creating an account.
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: List ClickHouse roles successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                description: List of ClickHouse roles.
+                items:
+                  type: object
+                  description: A ClickHouse role.
+                  properties:
+                    name:
+                      type: string
+                      description: The role name.
+                    privileges:
+                      type: array
+                      description: Privileges granted to the role, grouped by scope.
+                      items:
+                        type: object
+                        description: A group of privileges granted on a scope.
+                        properties:
+                          scope:
+                            type: string
+                            description: The ON-clause operand of the grant, e.g. "db.*" or "*.*".
+                          privileges:
+                            type: array
+                            items:
+                              type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - clickhouse
+        - shared
+      summary: Create a ClickHouse role with privileges
+      operationId: createClickhouseRole
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: A ClickHouse role.
+              properties:
+                name:
+                  type: string
+                  description: The role name.
+                privileges:
+                  type: array
+                  description: Privileges granted to the role, grouped by scope.
+                  items:
+                    type: object
+                    description: A group of privileges granted on a scope.
+                    properties:
+                      scope:
+                        type: string
+                        description: The ON-clause operand of the grant, e.g. "db.*" or "*.*".
+                      privileges:
+                        type: array
+                        items:
+                          type: string
+      responses:
+        '204':
+          content: {}
+          description: Create ClickHouse role successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+  /admin/v1/data/clickhouse/organizations/{orgName}/clusters/{clusterName}/accounts/roles/{roleName}:
+    get:
+      tags:
+        - clickhouse
+        - shared
+      summary: Get the grants (privileges) of a ClickHouse role
+      operationId: getClickhouseRoleGrants
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get ClickHouse role grants successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                description: Grants (privileges) of a ClickHouse role.
+                items:
+                  type: object
+                  description: A single grant of a ClickHouse role.
+                  properties:
+                    accessType:
+                      type: string
+                      description: The access type of the grant.
+                    database:
+                      type: string
+                      description: The database of the grant scope.
+                    table:
+                      type: string
+                      description: The table of the grant scope.
+                    scope:
+                      type: string
+                      description: The full grant scope, e.g. "db.*".
+                    isPartialRevoke:
+                      type: boolean
+                      description: Whether the grant is a partial revoke.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - clickhouse
+        - shared
+      summary: Delete a ClickHouse role
+      operationId: deleteClickhouseRole
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Delete ClickHouse role successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/clickhouse/organizations/{orgName}/clusters/{clusterName}/accounts/roles/{roleName}/privileges:
+    post:
+      tags:
+        - clickhouse
+        - shared
+      summary: Grant privileges to a ClickHouse role
+      operationId: grantClickhouseRolePrivileges
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: A group of privileges granted on a scope.
+              properties:
+                scope:
+                  type: string
+                  description: The ON-clause operand of the grant, e.g. "db.*" or "*.*".
+                privileges:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '204':
+          content: {}
+          description: Grant ClickHouse role privileges successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - clickhouse
+        - shared
+      summary: Revoke privileges from a ClickHouse role
+      operationId: revokeClickhouseRolePrivileges
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Revoke privileges from a role request.
+              required:
+                - privileges
+              properties:
+                privileges:
+                  type: array
+                  items:
+                    type: object
+                    description: A single privilege granted on a scope.
+                    properties:
+                      scope:
+                        type: string
+                        description: The ON-clause operand of the grant, e.g. "db.*" or "*.*".
+                      privilege:
+                        type: string
+      responses:
+        '204':
+          content: {}
+          description: Revoke ClickHouse role privileges successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+  /admin/v1/data/clickhouse/organizations/{orgName}/clusters/{clusterName}/accounts/privileges:
+    get:
+      tags:
+        - clickhouse
+        - shared
+      summary: List privileges supported by the ClickHouse server
+      operationId: listClickhousePrivileges
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List ClickHouse privileges successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                description: All privileges supported by the ClickHouse server.
+                items:
+                  type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/rabbitmq/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       summary: List RabbitMQ accounts
@@ -27123,7 +27775,9 @@ components:
           type: array
           items:
             type: array
-            items: {}
+            items:
+              type: object
+              additionalProperties: true
             nullable: true
     clusterStorageUsageHistoryPoint:
       type: object
@@ -32170,6 +32824,12 @@ components:
           $ref: '#/components/schemas/nodePool'
         storage:
           $ref: '#/components/schemas/storageConfig'
+        victoriaMetrics:
+          description: Optional vm-storage spec (replicas, disk, classCode) when adding an environment. vm-insert and vm-select keep installer defaults.
+          $ref: '#/components/schemas/staticCluster'
+        victoriaLogs:
+          description: Optional vlstorage spec (replicas, disk, classCode) when adding an environment. vlinsert and vlselect keep installer defaults.
+          $ref: '#/components/schemas/staticCluster'
         modules:
           type: array
           description: option modules of environment
@@ -36770,6 +37430,11 @@ components:
         objectExcludeTips:
           $ref: '#/components/schemas/internationalDesc'
           nullable: true
+    replicationCheckOption:
+      type: object
+      properties:
+        enabled:
+          type: boolean
     parameterValueType:
       enum:
         - string
@@ -36826,6 +37491,8 @@ components:
           type: array
           items:
             type: string
+        dataCheckOption:
+          $ref: '#/components/schemas/replicationCheckOption'
         parameterTemplate:
           description: the parameter template of the engine mapping, has a higher priority than the parameterTemplate in standardDefinition
           $ref: '#/components/schemas/dataChannelParameterOption'
@@ -38968,7 +39635,9 @@ components:
           description: The value options of the parameter
           type: array
           x-omitempty: false
-          items: {}
+          items:
+            type: object
+            additionalProperties: true
         maximum:
           description: The maximum value of the parameter
           type: string
@@ -40817,8 +41486,11 @@ components:
         format:
           $ref: '#/components/schemas/ESSecurityRoleTemplateFormat'
           nullable: true
+      required:
+        - template
     ESSecurityRoleMapping:
       type: object
+      description: Native Elasticsearch security role mapping. At least one of roles or role_templates must be non-empty.
       properties:
         enabled:
           type: boolean
@@ -40839,6 +41511,9 @@ components:
         metadata:
           type: object
           additionalProperties: true
+      required:
+        - enabled
+        - rules
     ESSecurityRoleMappings:
       type: object
       additionalProperties:
@@ -40849,6 +41524,35 @@ components:
         type: array
         items:
           type: string
+    CkAccountType:
+      type: string
+      description: The account role type.
+      enum:
+        - SUPERUSER
+        - BASICUSER
+        - ROOT
+    CkAccount:
+      type: object
+      description: A ClickHouse account.
+      properties:
+        name:
+          type: string
+          description: The account (user) name.
+        hostIp:
+          type: array
+          description: Host IPs the account is allowed to log in from.
+          items:
+            type: string
+        hostNames:
+          type: array
+          description: Host names the account is allowed to log in from.
+          items:
+            type: string
+        roles:
+          type: string
+          description: Roles granted to the account, separated by commas.
+        type:
+          $ref: '#/components/schemas/CkAccountType'
     RbmqUser:
       type: object
       properties:
