@@ -32972,9 +32972,7 @@ components:
           type: string
           description: Hash field name.
         value:
-          type: object
-          description: Hash/list/set/json item value.
-          additionalProperties: true
+          description: Hash/list/set/json item value. The value may be a scalar, array, or object depending on Redis value type.
         member:
           type: string
           description: Set or sorted-set member.
