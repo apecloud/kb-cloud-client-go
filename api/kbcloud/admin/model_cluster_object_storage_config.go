@@ -20,6 +20,12 @@ type ClusterObjectStorageConfig struct {
 	Bucket string `json:"bucket"`
 	// whether the object storage is using path-style. If false, virtual host style will be used.
 	UsePathStyle *bool `json:"usePathStyle,omitempty"`
+	// whether the object storage endpoint uses TLS. External S3-compatible endpoints must include an explicit https:// scheme when this is true.
+	TlsEnabled *bool `json:"tlsEnabled,omitempty"`
+	// the Kubernetes secret name that stores the CA certificate for TLS object storage.
+	TlsCaCertSecret *string `json:"tlsCACertSecret,omitempty"`
+	// the key in tlsCACertSecret that stores the CA certificate.
+	TlsCaCertSecretKey *string `json:"tlsCACertSecretKey,omitempty"`
 	// region to use. If using a s3-compatible service that does not require a region (like minio), leave it blank.
 	Region *string `json:"region,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -120,6 +126,90 @@ func (o *ClusterObjectStorageConfig) SetUsePathStyle(v bool) {
 	o.UsePathStyle = &v
 }
 
+// GetTlsEnabled returns the TlsEnabled field value if set, zero value otherwise.
+func (o *ClusterObjectStorageConfig) GetTlsEnabled() bool {
+	if o == nil || o.TlsEnabled == nil {
+		var ret bool
+		return ret
+	}
+	return *o.TlsEnabled
+}
+
+// GetTlsEnabledOk returns a tuple with the TlsEnabled field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterObjectStorageConfig) GetTlsEnabledOk() (*bool, bool) {
+	if o == nil || o.TlsEnabled == nil {
+		return nil, false
+	}
+	return o.TlsEnabled, true
+}
+
+// HasTlsEnabled returns a boolean if a field has been set.
+func (o *ClusterObjectStorageConfig) HasTlsEnabled() bool {
+	return o != nil && o.TlsEnabled != nil
+}
+
+// SetTlsEnabled gets a reference to the given bool and assigns it to the TlsEnabled field.
+func (o *ClusterObjectStorageConfig) SetTlsEnabled(v bool) {
+	o.TlsEnabled = &v
+}
+
+// GetTlsCaCertSecret returns the TlsCaCertSecret field value if set, zero value otherwise.
+func (o *ClusterObjectStorageConfig) GetTlsCaCertSecret() string {
+	if o == nil || o.TlsCaCertSecret == nil {
+		var ret string
+		return ret
+	}
+	return *o.TlsCaCertSecret
+}
+
+// GetTlsCaCertSecretOk returns a tuple with the TlsCaCertSecret field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterObjectStorageConfig) GetTlsCaCertSecretOk() (*string, bool) {
+	if o == nil || o.TlsCaCertSecret == nil {
+		return nil, false
+	}
+	return o.TlsCaCertSecret, true
+}
+
+// HasTlsCaCertSecret returns a boolean if a field has been set.
+func (o *ClusterObjectStorageConfig) HasTlsCaCertSecret() bool {
+	return o != nil && o.TlsCaCertSecret != nil
+}
+
+// SetTlsCaCertSecret gets a reference to the given string and assigns it to the TlsCaCertSecret field.
+func (o *ClusterObjectStorageConfig) SetTlsCaCertSecret(v string) {
+	o.TlsCaCertSecret = &v
+}
+
+// GetTlsCaCertSecretKey returns the TlsCaCertSecretKey field value if set, zero value otherwise.
+func (o *ClusterObjectStorageConfig) GetTlsCaCertSecretKey() string {
+	if o == nil || o.TlsCaCertSecretKey == nil {
+		var ret string
+		return ret
+	}
+	return *o.TlsCaCertSecretKey
+}
+
+// GetTlsCaCertSecretKeyOk returns a tuple with the TlsCaCertSecretKey field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterObjectStorageConfig) GetTlsCaCertSecretKeyOk() (*string, bool) {
+	if o == nil || o.TlsCaCertSecretKey == nil {
+		return nil, false
+	}
+	return o.TlsCaCertSecretKey, true
+}
+
+// HasTlsCaCertSecretKey returns a boolean if a field has been set.
+func (o *ClusterObjectStorageConfig) HasTlsCaCertSecretKey() bool {
+	return o != nil && o.TlsCaCertSecretKey != nil
+}
+
+// SetTlsCaCertSecretKey gets a reference to the given string and assigns it to the TlsCaCertSecretKey field.
+func (o *ClusterObjectStorageConfig) SetTlsCaCertSecretKey(v string) {
+	o.TlsCaCertSecretKey = &v
+}
+
 // GetRegion returns the Region field value if set, zero value otherwise.
 func (o *ClusterObjectStorageConfig) GetRegion() string {
 	if o == nil || o.Region == nil {
@@ -159,6 +249,15 @@ func (o ClusterObjectStorageConfig) MarshalJSON() ([]byte, error) {
 	if o.UsePathStyle != nil {
 		toSerialize["usePathStyle"] = o.UsePathStyle
 	}
+	if o.TlsEnabled != nil {
+		toSerialize["tlsEnabled"] = o.TlsEnabled
+	}
+	if o.TlsCaCertSecret != nil {
+		toSerialize["tlsCACertSecret"] = o.TlsCaCertSecret
+	}
+	if o.TlsCaCertSecretKey != nil {
+		toSerialize["tlsCACertSecretKey"] = o.TlsCaCertSecretKey
+	}
 	if o.Region != nil {
 		toSerialize["region"] = o.Region
 	}
@@ -172,10 +271,13 @@ func (o ClusterObjectStorageConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterObjectStorageConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ServiceRef   *ServiceRef `json:"serviceRef"`
-		Bucket       *string     `json:"bucket"`
-		UsePathStyle *bool       `json:"usePathStyle,omitempty"`
-		Region       *string     `json:"region,omitempty"`
+		ServiceRef         *ServiceRef `json:"serviceRef"`
+		Bucket             *string     `json:"bucket"`
+		UsePathStyle       *bool       `json:"usePathStyle,omitempty"`
+		TlsEnabled         *bool       `json:"tlsEnabled,omitempty"`
+		TlsCaCertSecret    *string     `json:"tlsCACertSecret,omitempty"`
+		TlsCaCertSecretKey *string     `json:"tlsCACertSecretKey,omitempty"`
+		Region             *string     `json:"region,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -188,7 +290,7 @@ func (o *ClusterObjectStorageConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"serviceRef", "bucket", "usePathStyle", "region"})
+		common.DeleteKeys(additionalProperties, &[]string{"serviceRef", "bucket", "usePathStyle", "tlsEnabled", "tlsCACertSecret", "tlsCACertSecretKey", "region"})
 	} else {
 		return err
 	}
@@ -200,6 +302,9 @@ func (o *ClusterObjectStorageConfig) UnmarshalJSON(bytes []byte) (err error) {
 	o.ServiceRef = *all.ServiceRef
 	o.Bucket = *all.Bucket
 	o.UsePathStyle = all.UsePathStyle
+	o.TlsEnabled = all.TlsEnabled
+	o.TlsCaCertSecret = all.TlsCaCertSecret
+	o.TlsCaCertSecretKey = all.TlsCaCertSecretKey
 	o.Region = all.Region
 
 	if len(additionalProperties) > 0 {
