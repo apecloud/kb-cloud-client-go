@@ -26974,15 +26974,6 @@ components:
         usePathStyle:
           type: boolean
           description: whether the object storage is using path-style. If false, virtual host style will be used.
-        tlsEnabled:
-          type: boolean
-          description: whether the object storage endpoint uses TLS. External S3-compatible endpoints must include an explicit https:// scheme when this is true.
-        tlsCACertSecret:
-          type: string
-          description: the Kubernetes secret name that stores the CA certificate for TLS object storage.
-        tlsCACertSecretKey:
-          type: string
-          description: the key in tlsCACertSecret that stores the CA certificate.
         region:
           type: string
           description: region to use. If using a s3-compatible service that does not require a region (like minio), leave it blank.
