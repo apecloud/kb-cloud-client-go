@@ -23,6 +23,11 @@ type ServiceRef struct {
 	ClusterDefinition *string `json:"clusterDefinition,omitempty"`
 	// serviceDescriptor that will be used in serviceRef. The field definition is in line with kubeblocks.
 	ServiceDescriptor *ServiceDescriptor `json:"serviceDescriptor,omitempty"`
+	// extra fields for manual input of the serviceRef. The keys must be defined in the
+	// engineoption modeServiceRef.extraForManualInput. They are mapped to helm values
+	// via the corresponding helmValuePath.extraForManualInput.
+	//
+	ExtraForManualInput map[string]string `json:"extraForManualInput,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -153,6 +158,34 @@ func (o *ServiceRef) SetServiceDescriptor(v ServiceDescriptor) {
 	o.ServiceDescriptor = &v
 }
 
+// GetExtraForManualInput returns the ExtraForManualInput field value if set, zero value otherwise.
+func (o *ServiceRef) GetExtraForManualInput() map[string]string {
+	if o == nil || o.ExtraForManualInput == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.ExtraForManualInput
+}
+
+// GetExtraForManualInputOk returns a tuple with the ExtraForManualInput field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ServiceRef) GetExtraForManualInputOk() (*map[string]string, bool) {
+	if o == nil || o.ExtraForManualInput == nil {
+		return nil, false
+	}
+	return &o.ExtraForManualInput, true
+}
+
+// HasExtraForManualInput returns a boolean if a field has been set.
+func (o *ServiceRef) HasExtraForManualInput() bool {
+	return o != nil && o.ExtraForManualInput != nil
+}
+
+// SetExtraForManualInput gets a reference to the given map[string]string and assigns it to the ExtraForManualInput field.
+func (o *ServiceRef) SetExtraForManualInput(v map[string]string) {
+	o.ExtraForManualInput = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ServiceRef) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -169,6 +202,9 @@ func (o ServiceRef) MarshalJSON() ([]byte, error) {
 	if o.ServiceDescriptor != nil {
 		toSerialize["serviceDescriptor"] = o.ServiceDescriptor
 	}
+	if o.ExtraForManualInput != nil {
+		toSerialize["extraForManualInput"] = o.ExtraForManualInput
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -179,10 +215,11 @@ func (o ServiceRef) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name              *string            `json:"name"`
-		Cluster           *string            `json:"cluster,omitempty"`
-		ClusterDefinition *string            `json:"clusterDefinition,omitempty"`
-		ServiceDescriptor *ServiceDescriptor `json:"serviceDescriptor,omitempty"`
+		Name                *string            `json:"name"`
+		Cluster             *string            `json:"cluster,omitempty"`
+		ClusterDefinition   *string            `json:"clusterDefinition,omitempty"`
+		ServiceDescriptor   *ServiceDescriptor `json:"serviceDescriptor,omitempty"`
+		ExtraForManualInput map[string]string  `json:"extraForManualInput,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -192,7 +229,7 @@ func (o *ServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "cluster", "clusterDefinition", "serviceDescriptor"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "cluster", "clusterDefinition", "serviceDescriptor", "extraForManualInput"})
 	} else {
 		return err
 	}
@@ -205,6 +242,7 @@ func (o *ServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.ServiceDescriptor = all.ServiceDescriptor
+	o.ExtraForManualInput = all.ExtraForManualInput
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
