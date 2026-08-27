@@ -10,8 +10,8 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 type RedisKeyValueItem struct {
 	// Hash field name.
 	Field *string `json:"field,omitempty"`
-	// Hash/list/set/json item value.
-	Value map[string]interface{} `json:"value,omitempty"`
+	// Hash/list/set/json item value. The value may be a scalar, array, or object depending on Redis value type.
+	Value interface{} `json:"value,omitempty"`
 	// Set or sorted-set member.
 	Member *string `json:"member,omitempty"`
 	// Sorted-set score.
@@ -73,9 +73,9 @@ func (o *RedisKeyValueItem) SetField(v string) {
 }
 
 // GetValue returns the Value field value if set, zero value otherwise.
-func (o *RedisKeyValueItem) GetValue() map[string]interface{} {
+func (o *RedisKeyValueItem) GetValue() interface{} {
 	if o == nil || o.Value == nil {
-		var ret map[string]interface{}
+		var ret interface{}
 		return ret
 	}
 	return o.Value
@@ -83,7 +83,7 @@ func (o *RedisKeyValueItem) GetValue() map[string]interface{} {
 
 // GetValueOk returns a tuple with the Value field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RedisKeyValueItem) GetValueOk() (*map[string]interface{}, bool) {
+func (o *RedisKeyValueItem) GetValueOk() (*interface{}, bool) {
 	if o == nil || o.Value == nil {
 		return nil, false
 	}
@@ -95,8 +95,8 @@ func (o *RedisKeyValueItem) HasValue() bool {
 	return o != nil && o.Value != nil
 }
 
-// SetValue gets a reference to the given map[string]interface{} and assigns it to the Value field.
-func (o *RedisKeyValueItem) SetValue(v map[string]interface{}) {
+// SetValue gets a reference to the given interface{} and assigns it to the Value field.
+func (o *RedisKeyValueItem) SetValue(v interface{}) {
 	o.Value = v
 }
 
@@ -277,13 +277,13 @@ func (o RedisKeyValueItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *RedisKeyValueItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Field  *string                `json:"field,omitempty"`
-		Value  map[string]interface{} `json:"value,omitempty"`
-		Member *string                `json:"member,omitempty"`
-		Score  *float64               `json:"score,omitempty"`
-		Id     *string                `json:"id,omitempty"`
-		Fields map[string]string      `json:"fields,omitempty"`
-		Index  *int64                 `json:"index,omitempty"`
+		Field  *string           `json:"field,omitempty"`
+		Value  interface{}       `json:"value,omitempty"`
+		Member *string           `json:"member,omitempty"`
+		Score  *float64          `json:"score,omitempty"`
+		Id     *string           `json:"id,omitempty"`
+		Fields map[string]string `json:"fields,omitempty"`
+		Index  *int64            `json:"index,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
