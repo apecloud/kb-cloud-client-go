@@ -6,7 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// InspectionTaskItemEvidence Structured evidence used to explain the item result. Prometheus/exporter no-data is reported here as no data or unknown instead of being converted into a healthy result.
+// InspectionTaskItemEvidence Structured evidence used to explain the item result. Unavailable or invalid evidence from any collection source, including Prometheus/exporters and DMS, is reported as unknown instead of being converted into a healthy or unhealthy conclusion.
 type InspectionTaskItemEvidence struct {
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
