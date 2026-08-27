@@ -10,6 +10,7 @@ type AggregateTaskResultSummary struct {
 	Error   *int32 `json:"error,omitempty"`
 	Warning *int32 `json:"warning,omitempty"`
 	Normal  *int32 `json:"normal,omitempty"`
+	// Number of completed tasks with no evaluable inspection item. Tasks that contain both evaluable and unknown items retain the conclusion derived from their evaluable items.
 	Unknown *int32 `json:"unknown,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

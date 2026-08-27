@@ -38318,9 +38318,12 @@ components:
           description: Expiration timestamp fixed when the inspection report is created from savedDays.
         score:
           type: integer
+          format: int64
+          x-nullable: true
+          description: Weighted health score from 0 to 100 over evaluable inspection items only. Unknown items are excluded from both the numerator and denominator. The field is omitted when no item is evaluable; a present value of 0 is a valid evaluated score.
         result:
           type: string
-          description: Task health conclusion derived from item states and criticality-aware score caps. Valid conclusions are red, yellow, green, and unknown. Unknown means no evaluable health conclusion is available and score may be omitted. If evaluable red or yellow findings coexist with unavailable items, result retains the known red or yellow conclusion.
+          description: Task health conclusion derived from evaluable item states and criticality-aware score caps. Valid conclusions are red, yellow, green, and unknown. Unknown means no item is evaluable. Unknown items remain visible in the item list but do not override a red, yellow, or green conclusion derived from evaluable items.
         latestRunAt:
           format: date-time
           type: string
@@ -38383,6 +38386,7 @@ components:
           type: integer
         unknown:
           type: integer
+          description: Number of completed tasks with no evaluable inspection item. Tasks that contain both evaluable and unknown items retain the conclusion derived from their evaluable items.
     aggregateTaskResult:
       properties:
         engine:
