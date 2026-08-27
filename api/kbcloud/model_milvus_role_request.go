@@ -6,7 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// MilvusRoleRequest Milvus role upsert request.
+// MilvusRoleRequest Milvus role update request.
 type MilvusRoleRequest struct {
 	// Native Milvus privilege grants owned by this role. Existing grants are replaced.
 	Grants []MilvusRoleGrant `json:"grants,omitempty"`

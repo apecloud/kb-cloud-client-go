@@ -23106,6 +23106,53 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+    post:
+      summary: Create Milvus role
+      description: Create a Milvus native role and grant its initial privileges.
+      operationId: createMilvusRole
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - account
+        - milvus
+        - shared
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MilvusRoleCreateRequest'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MilvusRole'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
   /admin/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts/roles/{roleName}:
     get:
       summary: Get Milvus role
@@ -23152,9 +23199,9 @@ paths:
         '500':
           $ref: '#/components/responses/500'
     put:
-      summary: Put Milvus role
-      description: Create or update a Milvus native role and replace its privilege grants.
-      operationId: putMilvusRole
+      summary: Update Milvus role
+      description: Update an existing Milvus native role by replacing its privilege grants.
+      operationId: updateMilvusRole
       parameters:
         - description: name of the Org
           in: path
@@ -43723,9 +43770,23 @@ components:
           description: Milvus roles.
           items:
             $ref: '#/components/schemas/MilvusRole'
+    MilvusRoleCreateRequest:
+      type: object
+      description: Milvus role create request.
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Milvus role name.
+        grants:
+          type: array
+          description: Native Milvus privilege grants owned by this role.
+          items:
+            $ref: '#/components/schemas/MilvusRoleGrant'
     MilvusRoleRequest:
       type: object
-      description: Milvus role upsert request.
+      description: Milvus role update request.
       properties:
         grants:
           type: array
