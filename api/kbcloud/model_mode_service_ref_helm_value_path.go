@@ -32,6 +32,11 @@ type ModeServiceRefHelmValuePath struct {
 	// This field is required when a serviceRef can be replaced by a component.
 	//
 	Mode *string `json:"mode,omitempty"`
+	// the helm value path prefix for the extraForManualInput fields of this serviceRef.
+	// ClusterCreate API will map each key of serviceRefs[].extraForManualInput to
+	// `<extraForManualInput>.<key>` in the cluster chart values.
+	//
+	ExtraForManualInput *string `json:"extraForManualInput,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -298,6 +303,34 @@ func (o *ModeServiceRefHelmValuePath) SetMode(v string) {
 	o.Mode = &v
 }
 
+// GetExtraForManualInput returns the ExtraForManualInput field value if set, zero value otherwise.
+func (o *ModeServiceRefHelmValuePath) GetExtraForManualInput() string {
+	if o == nil || o.ExtraForManualInput == nil {
+		var ret string
+		return ret
+	}
+	return *o.ExtraForManualInput
+}
+
+// GetExtraForManualInputOk returns a tuple with the ExtraForManualInput field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRefHelmValuePath) GetExtraForManualInputOk() (*string, bool) {
+	if o == nil || o.ExtraForManualInput == nil {
+		return nil, false
+	}
+	return o.ExtraForManualInput, true
+}
+
+// HasExtraForManualInput returns a boolean if a field has been set.
+func (o *ModeServiceRefHelmValuePath) HasExtraForManualInput() bool {
+	return o != nil && o.ExtraForManualInput != nil
+}
+
+// SetExtraForManualInput gets a reference to the given string and assigns it to the ExtraForManualInput field.
+func (o *ModeServiceRefHelmValuePath) SetExtraForManualInput(v string) {
+	o.ExtraForManualInput = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeServiceRefHelmValuePath) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -327,6 +360,9 @@ func (o ModeServiceRefHelmValuePath) MarshalJSON() ([]byte, error) {
 	if o.Mode != nil {
 		toSerialize["mode"] = o.Mode
 	}
+	if o.ExtraForManualInput != nil {
+		toSerialize["extraForManualInput"] = o.ExtraForManualInput
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -346,6 +382,7 @@ func (o *ModeServiceRefHelmValuePath) UnmarshalJSON(bytes []byte) (err error) {
 		CredentialName      *string `json:"credentialName,omitempty"`
 		ServiceDescriptor   *string `json:"serviceDescriptor,omitempty"`
 		Mode                *string `json:"mode,omitempty"`
+		ExtraForManualInput *string `json:"extraForManualInput,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -358,7 +395,7 @@ func (o *ModeServiceRefHelmValuePath) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"namespace", "cluster", "component", "service", "port", "credentialComponent", "credentialName", "serviceDescriptor", "mode"})
+		common.DeleteKeys(additionalProperties, &[]string{"namespace", "cluster", "component", "service", "port", "credentialComponent", "credentialName", "serviceDescriptor", "mode", "extraForManualInput"})
 	} else {
 		return err
 	}
@@ -371,6 +408,7 @@ func (o *ModeServiceRefHelmValuePath) UnmarshalJSON(bytes []byte) (err error) {
 	o.CredentialName = all.CredentialName
 	o.ServiceDescriptor = all.ServiceDescriptor
 	o.Mode = all.Mode
+	o.ExtraForManualInput = all.ExtraForManualInput
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
