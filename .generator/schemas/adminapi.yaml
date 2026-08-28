@@ -20640,7 +20640,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RbmqUser'
+              $ref: '#/components/schemas/RbmqPasswordUpdateRequest'
       responses:
         '204':
           description: A successful response.
@@ -41725,6 +41725,15 @@ components:
         userPermission:
           $ref: '#/components/schemas/RbmqPermission'
           description: RabbitMQ user permissions
+    RbmqPasswordUpdateRequest:
+      type: object
+      description: RabbitMQ account password update request.
+      required:
+        - password
+      properties:
+        password:
+          type: string
+          description: New RabbitMQ account password.
     RbmqVHost:
       type: object
       properties:
