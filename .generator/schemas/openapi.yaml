@@ -34210,9 +34210,7 @@ components:
           description: The value options of the parameter
           type: array
           x-omitempty: false
-          items:
-            type: object
-            additionalProperties: true
+          items: {}
         maximum:
           description: The maximum value of the parameter
           type: string
