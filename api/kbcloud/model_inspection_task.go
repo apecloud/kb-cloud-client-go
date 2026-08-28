@@ -26,8 +26,9 @@ type InspectionTask struct {
 	SavedDays *int32  `json:"savedDays,omitempty"`
 	// Expiration timestamp fixed when the inspection report is created from savedDays.
 	ExpiredAt *time.Time `json:"expiredAt,omitempty"`
-	Score     *int32     `json:"score,omitempty"`
-	// Backend truth derived from the worst item state and criticality-aware score caps. A red item makes the task red; a critical red item caps score at 40.
+	// Weighted health score from 0 to 100 over evaluable inspection items only. Unknown items are excluded from both the numerator and denominator. The field is omitted when no item is evaluable; a present value of 0 is a valid evaluated score.
+	Score *int64 `json:"score,omitempty"`
+	// Task health conclusion derived from evaluable item states and criticality-aware score caps. Valid conclusions are red, yellow, green, and unknown. Unknown means no item is evaluable. Unknown items remain visible in the item list but do not override a red, yellow, or green conclusion derived from evaluable items.
 	Result *string `json:"result,omitempty"`
 	// Last inspection execution timestamp used for freshness checks.
 	LatestRunAt *time.Time `json:"latestRunAt,omitempty"`
@@ -429,9 +430,9 @@ func (o *InspectionTask) SetExpiredAt(v time.Time) {
 }
 
 // GetScore returns the Score field value if set, zero value otherwise.
-func (o *InspectionTask) GetScore() int32 {
+func (o *InspectionTask) GetScore() int64 {
 	if o == nil || o.Score == nil {
-		var ret int32
+		var ret int64
 		return ret
 	}
 	return *o.Score
@@ -439,7 +440,7 @@ func (o *InspectionTask) GetScore() int32 {
 
 // GetScoreOk returns a tuple with the Score field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTask) GetScoreOk() (*int32, bool) {
+func (o *InspectionTask) GetScoreOk() (*int64, bool) {
 	if o == nil || o.Score == nil {
 		return nil, false
 	}
@@ -451,8 +452,8 @@ func (o *InspectionTask) HasScore() bool {
 	return o != nil && o.Score != nil
 }
 
-// SetScore gets a reference to the given int32 and assigns it to the Score field.
-func (o *InspectionTask) SetScore(v int32) {
+// SetScore gets a reference to the given int64 and assigns it to the Score field.
+func (o *InspectionTask) SetScore(v int64) {
 	o.Score = &v
 }
 
@@ -865,7 +866,7 @@ func (o *InspectionTask) UnmarshalJSON(bytes []byte) (err error) {
 		IsAuto           *bool                `json:"isAuto,omitempty"`
 		SavedDays        *int32               `json:"savedDays,omitempty"`
 		ExpiredAt        *time.Time           `json:"expiredAt,omitempty"`
-		Score            *int32               `json:"score,omitempty"`
+		Score            *int64               `json:"score,omitempty"`
 		Result           *string              `json:"result,omitempty"`
 		LatestRunAt      *time.Time           `json:"latestRunAt,omitempty"`
 		ExpectedInterval *string              `json:"expectedInterval,omitempty"`
