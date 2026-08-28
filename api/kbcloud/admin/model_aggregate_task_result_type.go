@@ -15,15 +15,17 @@ type AggregateTaskResultType string
 
 // List of AggregateTaskResultType.
 const (
-	AggregateTaskResultTypeGreen  AggregateTaskResultType = "green"
-	AggregateTaskResultTypeYellow AggregateTaskResultType = "yellow"
-	AggregateTaskResultTypeRed    AggregateTaskResultType = "red"
+	AggregateTaskResultTypeGreen   AggregateTaskResultType = "green"
+	AggregateTaskResultTypeYellow  AggregateTaskResultType = "yellow"
+	AggregateTaskResultTypeRed     AggregateTaskResultType = "red"
+	AggregateTaskResultTypeUnknown AggregateTaskResultType = "unknown"
 )
 
 var allowedAggregateTaskResultTypeEnumValues = []AggregateTaskResultType{
 	AggregateTaskResultTypeGreen,
 	AggregateTaskResultTypeYellow,
 	AggregateTaskResultTypeRed,
+	AggregateTaskResultTypeUnknown,
 }
 
 // GetAllowedValues returns the list of possible values.
