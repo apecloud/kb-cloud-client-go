@@ -3871,8 +3871,8 @@ paths:
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
         - $ref: '#/components/parameters/filename'
-        - $ref: '#/components/parameters/startTime-2'
-        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/clusterLogStartTime'
+        - $ref: '#/components/parameters/clusterLogEndTime'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/sortType'
       responses:
@@ -3902,8 +3902,8 @@ paths:
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
         - $ref: '#/components/parameters/filename'
-        - $ref: '#/components/parameters/startTime-2'
-        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/clusterLogStartTime'
+        - $ref: '#/components/parameters/clusterLogEndTime'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/query'
         - $ref: '#/components/parameters/sortType'
@@ -3934,8 +3934,8 @@ paths:
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
         - $ref: '#/components/parameters/filename'
-        - $ref: '#/components/parameters/startTime-2'
-        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/clusterLogStartTime'
+        - $ref: '#/components/parameters/clusterLogEndTime'
         - $ref: '#/components/parameters/query'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/sortType'
@@ -3963,8 +3963,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/orgName'
         - $ref: '#/components/parameters/clusterName'
-        - $ref: '#/components/parameters/startTime-2'
-        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/clusterLogStartTime'
+        - $ref: '#/components/parameters/clusterLogEndTime'
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
         - $ref: '#/components/parameters/query'
@@ -3994,8 +3994,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/orgName'
         - $ref: '#/components/parameters/clusterName'
-        - $ref: '#/components/parameters/startTime-2'
-        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/clusterLogStartTime'
+        - $ref: '#/components/parameters/clusterLogEndTime'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
@@ -4024,8 +4024,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/orgName'
         - $ref: '#/components/parameters/clusterName'
-        - $ref: '#/components/parameters/startTime-2'
-        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/clusterLogStartTime'
+        - $ref: '#/components/parameters/clusterLogEndTime'
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
       responses:
@@ -34210,9 +34210,7 @@ components:
           description: The value options of the parameter
           type: array
           x-omitempty: false
-          items:
-            type: object
-            additionalProperties: true
+          items: {}
         maximum:
           description: The maximum value of the parameter
           type: string
@@ -38774,14 +38772,14 @@ components:
       name: filename
       schema:
         type: string
-    startTime-2:
+    clusterLogStartTime:
       in: query
       name: startTime
       description: Start time in epoch nanoseconds.
       required: true
       schema:
         type: string
-    endTime-2:
+    clusterLogEndTime:
       in: query
       name: endTime
       description: End time in epoch nanoseconds.
