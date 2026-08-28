@@ -403,7 +403,7 @@ func (a *RabbitMQApi) ListRabbitVHosts(ctx _context.Context, orgName string, clu
 
 // UpdateRabbitAccountPassword Update RabbitMQ account password.
 // Update a RabbitMQ account password
-func (a *RabbitMQApi) UpdateRabbitAccountPassword(ctx _context.Context, orgName string, clusterName string, accountName string, body RbmqUser) (*_nethttp.Response, error) {
+func (a *RabbitMQApi) UpdateRabbitAccountPassword(ctx _context.Context, orgName string, clusterName string, accountName string, body RbmqPasswordUpdateRequest) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPatch
 		localVarPostBody   interface{}
