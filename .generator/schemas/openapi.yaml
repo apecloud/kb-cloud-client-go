@@ -37482,10 +37482,10 @@ components:
           description: Struct check object key. Present for struct details; omitted for snapshot row details.
         schema:
           type: string
-          description: Source schema or database. Present for snapshot details; omitted for struct details.
+          description: Source schema or database from the requested detail scope.
         tb:
           type: string
-          description: Source table. Present for snapshot details; omitted for struct details.
+          description: Source table from the requested detail scope.
         target_schema:
           type: string
           nullable: true
