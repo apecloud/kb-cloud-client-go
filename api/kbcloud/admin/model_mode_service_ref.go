@@ -60,6 +60,8 @@ type ModeServiceRef struct {
 	// use them to filter or explain selectable referenced clusters.
 	//
 	ServiceVersionCompatibility []ModeServiceRefVersionCompatibility `json:"serviceVersionCompatibility,omitempty"`
+	// whether the serviceRef can be updated. If set to false, the frontend should not allow users to update the serviceRef.
+	Updatable *bool `json:"updatable,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -402,6 +404,34 @@ func (o *ModeServiceRef) SetServiceVersionCompatibility(v []ModeServiceRefVersio
 	o.ServiceVersionCompatibility = v
 }
 
+// GetUpdatable returns the Updatable field value if set, zero value otherwise.
+func (o *ModeServiceRef) GetUpdatable() bool {
+	if o == nil || o.Updatable == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Updatable
+}
+
+// GetUpdatableOk returns a tuple with the Updatable field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRef) GetUpdatableOk() (*bool, bool) {
+	if o == nil || o.Updatable == nil {
+		return nil, false
+	}
+	return o.Updatable, true
+}
+
+// HasUpdatable returns a boolean if a field has been set.
+func (o *ModeServiceRef) HasUpdatable() bool {
+	return o != nil && o.Updatable != nil
+}
+
+// SetUpdatable gets a reference to the given bool and assigns it to the Updatable field.
+func (o *ModeServiceRef) SetUpdatable(v bool) {
+	o.Updatable = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -436,6 +466,9 @@ func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 	if o.ServiceVersionCompatibility != nil {
 		toSerialize["serviceVersionCompatibility"] = o.ServiceVersionCompatibility
 	}
+	if o.Updatable != nil {
+		toSerialize["updatable"] = o.Updatable
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -458,6 +491,7 @@ func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 		HelmValuePath                      *ModeServiceRefHelmValuePath         `json:"helmValuePath"`
 		ServiceSelectors                   []ServiceSelector                    `json:"serviceSelectors,omitempty"`
 		ServiceVersionCompatibility        []ModeServiceRefVersionCompatibility `json:"serviceVersionCompatibility,omitempty"`
+		Updatable                          *bool                                `json:"updatable,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -476,7 +510,7 @@ func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "engineName", "modes", "addressStyle", "disableManualInput", "disableAutoCreateServiceDescriptor", "disableRelatedCluster", "extraForManualInput", "helmValuePath", "serviceSelectors", "serviceVersionCompatibility"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "engineName", "modes", "addressStyle", "disableManualInput", "disableAutoCreateServiceDescriptor", "disableRelatedCluster", "extraForManualInput", "helmValuePath", "serviceSelectors", "serviceVersionCompatibility", "updatable"})
 	} else {
 		return err
 	}
@@ -501,6 +535,7 @@ func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	o.HelmValuePath = *all.HelmValuePath
 	o.ServiceSelectors = all.ServiceSelectors
 	o.ServiceVersionCompatibility = all.ServiceVersionCompatibility
+	o.Updatable = all.Updatable
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
