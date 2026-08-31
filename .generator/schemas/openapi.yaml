@@ -23868,6 +23868,17 @@ components:
             serviceRefs of the cluster.
           items:
             $ref: '#/components/schemas/serviceRef'
+        serviceRefsUpdate:
+          type: array
+          description: |
+            ServiceRefs to update. Each serviceRef name must match an existing
+            serviceRef of the cluster, and the corresponding engine option
+            modeServiceRef.update.enable must be true. ServiceRefs that auto
+            create their ServiceDescriptor and Secret get their corresponding
+            K8s objects updated; serviceRefs with manual input must be handled
+            by each engine individually and are rejected.
+          items:
+            $ref: '#/components/schemas/serviceRef'
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
     instanceStorageItem:
       description: Instance storage information
@@ -29426,6 +29437,9 @@ components:
             use them to filter or explain selectable referenced clusters.
           items:
             $ref: '#/components/schemas/modeServiceRefVersionCompatibility'
+        updatable:
+          type: boolean
+          description: whether the serviceRef can be updated. If set to false, the frontend should not allow users to update the serviceRef.
     modeObjectStorageAdditionalHelmValuePath:
       type: object
       description: The path in helm values that some object storage config will use. If empty, the values will not be set.
