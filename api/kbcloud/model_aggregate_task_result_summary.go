@@ -10,6 +10,8 @@ type AggregateTaskResultSummary struct {
 	Error   *int32 `json:"error,omitempty"`
 	Warning *int32 `json:"warning,omitempty"`
 	Normal  *int32 `json:"normal,omitempty"`
+	// Number of completed tasks with no evaluable inspection item. Tasks that contain both evaluable and unknown items retain the conclusion derived from their evaluable items.
+	Unknown *int32 `json:"unknown,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -116,6 +118,34 @@ func (o *AggregateTaskResultSummary) SetNormal(v int32) {
 	o.Normal = &v
 }
 
+// GetUnknown returns the Unknown field value if set, zero value otherwise.
+func (o *AggregateTaskResultSummary) GetUnknown() int32 {
+	if o == nil || o.Unknown == nil {
+		var ret int32
+		return ret
+	}
+	return *o.Unknown
+}
+
+// GetUnknownOk returns a tuple with the Unknown field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AggregateTaskResultSummary) GetUnknownOk() (*int32, bool) {
+	if o == nil || o.Unknown == nil {
+		return nil, false
+	}
+	return o.Unknown, true
+}
+
+// HasUnknown returns a boolean if a field has been set.
+func (o *AggregateTaskResultSummary) HasUnknown() bool {
+	return o != nil && o.Unknown != nil
+}
+
+// SetUnknown gets a reference to the given int32 and assigns it to the Unknown field.
+func (o *AggregateTaskResultSummary) SetUnknown(v int32) {
+	o.Unknown = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AggregateTaskResultSummary) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -131,6 +161,9 @@ func (o AggregateTaskResultSummary) MarshalJSON() ([]byte, error) {
 	if o.Normal != nil {
 		toSerialize["normal"] = o.Normal
 	}
+	if o.Unknown != nil {
+		toSerialize["unknown"] = o.Unknown
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -144,19 +177,21 @@ func (o *AggregateTaskResultSummary) UnmarshalJSON(bytes []byte) (err error) {
 		Error   *int32 `json:"error,omitempty"`
 		Warning *int32 `json:"warning,omitempty"`
 		Normal  *int32 `json:"normal,omitempty"`
+		Unknown *int32 `json:"unknown,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"error", "warning", "normal"})
+		common.DeleteKeys(additionalProperties, &[]string{"error", "warning", "normal", "unknown"})
 	} else {
 		return err
 	}
 	o.Error = all.Error
 	o.Warning = all.Warning
 	o.Normal = all.Normal
+	o.Unknown = all.Unknown
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

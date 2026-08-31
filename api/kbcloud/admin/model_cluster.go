@@ -89,7 +89,7 @@ type Cluster struct {
 	// serviceRefs used by this cluster
 	ServiceRefs []ServiceRef `json:"serviceRefs,omitempty"`
 	// this list of objects (currently, object is a cluster) that uses this cluster as a serviceRef
-	ReferencedBy []ServiceRef `json:"referencedBy,omitempty"`
+	ReferencedBy []ClusterReference `json:"referencedBy,omitempty"`
 	// Specify the object storage config for cluster like starrocks
 	ObjectStorageConfig *ClusterObjectStorageConfig `json:"objectStorageConfig,omitempty"`
 	// the maintenance window for a cluster
@@ -1307,9 +1307,9 @@ func (o *Cluster) SetServiceRefs(v []ServiceRef) {
 }
 
 // GetReferencedBy returns the ReferencedBy field value if set, zero value otherwise.
-func (o *Cluster) GetReferencedBy() []ServiceRef {
+func (o *Cluster) GetReferencedBy() []ClusterReference {
 	if o == nil || o.ReferencedBy == nil {
-		var ret []ServiceRef
+		var ret []ClusterReference
 		return ret
 	}
 	return o.ReferencedBy
@@ -1317,7 +1317,7 @@ func (o *Cluster) GetReferencedBy() []ServiceRef {
 
 // GetReferencedByOk returns a tuple with the ReferencedBy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Cluster) GetReferencedByOk() (*[]ServiceRef, bool) {
+func (o *Cluster) GetReferencedByOk() (*[]ClusterReference, bool) {
 	if o == nil || o.ReferencedBy == nil {
 		return nil, false
 	}
@@ -1329,8 +1329,8 @@ func (o *Cluster) HasReferencedBy() bool {
 	return o != nil && o.ReferencedBy != nil
 }
 
-// SetReferencedBy gets a reference to the given []ServiceRef and assigns it to the ReferencedBy field.
-func (o *Cluster) SetReferencedBy(v []ServiceRef) {
+// SetReferencedBy gets a reference to the given []ClusterReference and assigns it to the ReferencedBy field.
+func (o *Cluster) SetReferencedBy(v []ClusterReference) {
 	o.ReferencedBy = v
 }
 
@@ -1677,7 +1677,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 		Static                   *bool                                `json:"static,omitempty"`
 		NetworkMode              *NetworkMode                         `json:"networkMode,omitempty"`
 		ServiceRefs              []ServiceRef                         `json:"serviceRefs,omitempty"`
-		ReferencedBy             []ServiceRef                         `json:"referencedBy,omitempty"`
+		ReferencedBy             []ClusterReference                   `json:"referencedBy,omitempty"`
 		ObjectStorageConfig      *ClusterObjectStorageConfig          `json:"objectStorageConfig,omitempty"`
 		MaintainceWindow         *ClusterMaintainceWindow             `json:"maintainceWindow,omitempty"`
 		SchedulingPolicy         *SchedulingPolicyType                `json:"schedulingPolicy,omitempty"`
