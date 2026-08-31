@@ -15,19 +15,17 @@ type PostgresqlSQLFingerprintExplainResponse struct {
 	QueryId string `json:"queryID"`
 	// Stable SQL fingerprint identifier for UI grouping. Currently aligned with PostgreSQL pg_stat_statements queryid.
 	Fingerprint string `json:"fingerprint"`
-	// Database name from the ranking row.
+	// Database name from the requested SQL fingerprint identity.
 	Database string `json:"database"`
-	// Database user from the ranking row.
+	// Database user from the requested SQL fingerprint identity.
 	User string `json:"user"`
-	// Top-level identity from the matched ranking row.
+	// Top-level flag from the requested SQL fingerprint identity.
 	TopLevel bool `json:"topLevel"`
 	// Server-side source used to resolve the parameterized SQL statement. Raw SQL is not returned.
 	StatementSource *string `json:"statementSource,omitempty"`
 	// Timestamp when the parameterized SQL statement was resolved.
-	StatementResolvedAt *string `json:"statementResolvedAt,omitempty"`
-	// Redacted SQL summary from the matched ranking row. The resolved statement is intentionally not returned.
-	QuerySummary *string                      `json:"querySummary,omitempty"`
-	PlanMode     DmsExecutionPlanPlanningMode `json:"planMode"`
+	StatementResolvedAt *string                      `json:"statementResolvedAt,omitempty"`
+	PlanMode            DmsExecutionPlanPlanningMode `json:"planMode"`
 	// Whether the estimated plan was produced without concrete parameter values.
 	Parameterized bool `json:"parameterized"`
 	// Number of parameters when DMS can determine it. It may be omitted for PostgreSQL generic-plan paths that do not expose the count.
@@ -234,34 +232,6 @@ func (o *PostgresqlSQLFingerprintExplainResponse) SetStatementResolvedAt(v strin
 	o.StatementResolvedAt = &v
 }
 
-// GetQuerySummary returns the QuerySummary field value if set, zero value otherwise.
-func (o *PostgresqlSQLFingerprintExplainResponse) GetQuerySummary() string {
-	if o == nil || o.QuerySummary == nil {
-		var ret string
-		return ret
-	}
-	return *o.QuerySummary
-}
-
-// GetQuerySummaryOk returns a tuple with the QuerySummary field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *PostgresqlSQLFingerprintExplainResponse) GetQuerySummaryOk() (*string, bool) {
-	if o == nil || o.QuerySummary == nil {
-		return nil, false
-	}
-	return o.QuerySummary, true
-}
-
-// HasQuerySummary returns a boolean if a field has been set.
-func (o *PostgresqlSQLFingerprintExplainResponse) HasQuerySummary() bool {
-	return o != nil && o.QuerySummary != nil
-}
-
-// SetQuerySummary gets a reference to the given string and assigns it to the QuerySummary field.
-func (o *PostgresqlSQLFingerprintExplainResponse) SetQuerySummary(v string) {
-	o.QuerySummary = &v
-}
-
 // GetPlanMode returns the PlanMode field value.
 func (o *PostgresqlSQLFingerprintExplainResponse) GetPlanMode() DmsExecutionPlanPlanningMode {
 	if o == nil {
@@ -387,9 +357,6 @@ func (o PostgresqlSQLFingerprintExplainResponse) MarshalJSON() ([]byte, error) {
 	if o.StatementResolvedAt != nil {
 		toSerialize["statementResolvedAt"] = o.StatementResolvedAt
 	}
-	if o.QuerySummary != nil {
-		toSerialize["querySummary"] = o.QuerySummary
-	}
 	toSerialize["planMode"] = o.PlanMode
 	toSerialize["parameterized"] = o.Parameterized
 	if o.ParameterCount.IsSet() {
@@ -413,7 +380,6 @@ func (o *PostgresqlSQLFingerprintExplainResponse) UnmarshalJSON(bytes []byte) (e
 		TopLevel            *bool                         `json:"topLevel"`
 		StatementSource     *string                       `json:"statementSource,omitempty"`
 		StatementResolvedAt *string                       `json:"statementResolvedAt,omitempty"`
-		QuerySummary        *string                       `json:"querySummary,omitempty"`
 		PlanMode            *DmsExecutionPlanPlanningMode `json:"planMode"`
 		Parameterized       *bool                         `json:"parameterized"`
 		ParameterCount      common.NullableInt64          `json:"parameterCount,omitempty"`
@@ -448,7 +414,7 @@ func (o *PostgresqlSQLFingerprintExplainResponse) UnmarshalJSON(bytes []byte) (e
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"queryID", "fingerprint", "database", "user", "topLevel", "statementSource", "statementResolvedAt", "querySummary", "planMode", "parameterized", "parameterCount", "explainResult"})
+		common.DeleteKeys(additionalProperties, &[]string{"queryID", "fingerprint", "database", "user", "topLevel", "statementSource", "statementResolvedAt", "planMode", "parameterized", "parameterCount", "explainResult"})
 	} else {
 		return err
 	}
@@ -461,7 +427,6 @@ func (o *PostgresqlSQLFingerprintExplainResponse) UnmarshalJSON(bytes []byte) (e
 	o.TopLevel = *all.TopLevel
 	o.StatementSource = all.StatementSource
 	o.StatementResolvedAt = all.StatementResolvedAt
-	o.QuerySummary = all.QuerySummary
 	if !all.PlanMode.IsValid() {
 		hasInvalidField = true
 	} else {

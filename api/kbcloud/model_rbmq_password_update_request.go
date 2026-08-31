@@ -4,71 +4,69 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
 
-// MilvusRoleRequest Milvus role update request.
-type MilvusRoleRequest struct {
-	// Native Milvus privilege grants owned by this role. Existing grants are replaced.
-	Grants []MilvusRoleGrant `json:"grants,omitempty"`
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
+
+// RbmqPasswordUpdateRequest RabbitMQ account password update request.
+type RbmqPasswordUpdateRequest struct {
+	// New RabbitMQ account password.
+	Password string `json:"password"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewMilvusRoleRequest instantiates a new MilvusRoleRequest object.
+// NewRbmqPasswordUpdateRequest instantiates a new RbmqPasswordUpdateRequest object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewMilvusRoleRequest() *MilvusRoleRequest {
-	this := MilvusRoleRequest{}
+func NewRbmqPasswordUpdateRequest(password string) *RbmqPasswordUpdateRequest {
+	this := RbmqPasswordUpdateRequest{}
+	this.Password = password
 	return &this
 }
 
-// NewMilvusRoleRequestWithDefaults instantiates a new MilvusRoleRequest object.
+// NewRbmqPasswordUpdateRequestWithDefaults instantiates a new RbmqPasswordUpdateRequest object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewMilvusRoleRequestWithDefaults() *MilvusRoleRequest {
-	this := MilvusRoleRequest{}
+func NewRbmqPasswordUpdateRequestWithDefaults() *RbmqPasswordUpdateRequest {
+	this := RbmqPasswordUpdateRequest{}
 	return &this
 }
 
-// GetGrants returns the Grants field value if set, zero value otherwise.
-func (o *MilvusRoleRequest) GetGrants() []MilvusRoleGrant {
-	if o == nil || o.Grants == nil {
-		var ret []MilvusRoleGrant
+// GetPassword returns the Password field value.
+func (o *RbmqPasswordUpdateRequest) GetPassword() string {
+	if o == nil {
+		var ret string
 		return ret
 	}
-	return o.Grants
+	return o.Password
 }
 
-// GetGrantsOk returns a tuple with the Grants field value if set, nil otherwise
+// GetPasswordOk returns a tuple with the Password field value
 // and a boolean to check if the value has been set.
-func (o *MilvusRoleRequest) GetGrantsOk() (*[]MilvusRoleGrant, bool) {
-	if o == nil || o.Grants == nil {
+func (o *RbmqPasswordUpdateRequest) GetPasswordOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Grants, true
+	return &o.Password, true
 }
 
-// HasGrants returns a boolean if a field has been set.
-func (o *MilvusRoleRequest) HasGrants() bool {
-	return o != nil && o.Grants != nil
-}
-
-// SetGrants gets a reference to the given []MilvusRoleGrant and assigns it to the Grants field.
-func (o *MilvusRoleRequest) SetGrants(v []MilvusRoleGrant) {
-	o.Grants = v
+// SetPassword sets field value.
+func (o *RbmqPasswordUpdateRequest) SetPassword(v string) {
+	o.Password = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o MilvusRoleRequest) MarshalJSON() ([]byte, error) {
+func (o RbmqPasswordUpdateRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Grants != nil {
-		toSerialize["grants"] = o.Grants
-	}
+	toSerialize["password"] = o.Password
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -77,20 +75,23 @@ func (o MilvusRoleRequest) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *MilvusRoleRequest) UnmarshalJSON(bytes []byte) (err error) {
+func (o *RbmqPasswordUpdateRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Grants []MilvusRoleGrant `json:"grants,omitempty"`
+		Password *string `json:"password"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
+	if all.Password == nil {
+		return fmt.Errorf("required field password missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"grants"})
+		common.DeleteKeys(additionalProperties, &[]string{"password"})
 	} else {
 		return err
 	}
-	o.Grants = all.Grants
+	o.Password = *all.Password
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

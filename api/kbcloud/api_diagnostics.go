@@ -35,7 +35,7 @@ func (r *ExplainDiagnosticsPostgresqlSQLFingerprintOptionalParameters) WithFinge
 }
 
 // ExplainDiagnosticsPostgresqlSQLFingerprint Explain PostgreSQL SQL fingerprint.
-// Explicitly trigger a safe PostgreSQL EXPLAIN for one SQL fingerprint. The request does not accept raw SQL. DMS resolves the server-side parameterized SELECT statement for the ranking identity, produces an estimated standard or generic plan without parameter sample values, rejects multiple statements, and never runs EXPLAIN ANALYZE or the original SQL.
+// Explicitly trigger a safe PostgreSQL EXPLAIN for one SQL fingerprint. The request does not accept raw SQL. DMS resolves the exact server-side parameterized SELECT statement identity independently of the ranking window, produces an estimated standard or generic plan without parameter sample values, rejects multiple statements, and never runs EXPLAIN ANALYZE or the original SQL. The plan uses current catalog statistics and the DMS connection context; it does not reconstruct the original role, search_path, session settings, parameter values, or historical actual plan.
 func (a *DiagnosticsApi) ExplainDiagnosticsPostgresqlSQLFingerprint(ctx _context.Context, orgName string, clusterName string, queryId string, database string, user string, topLevel bool, o ...ExplainDiagnosticsPostgresqlSQLFingerprintOptionalParameters) (PostgresqlSQLFingerprintExplainResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost

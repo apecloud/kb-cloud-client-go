@@ -8747,8 +8747,8 @@ paths:
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
         - $ref: '#/components/parameters/filename'
-        - $ref: '#/components/parameters/startTime-2'
-        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/clusterLogStartTime'
+        - $ref: '#/components/parameters/clusterLogEndTime'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/sortType'
       responses:
@@ -8778,8 +8778,8 @@ paths:
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
         - $ref: '#/components/parameters/filename'
-        - $ref: '#/components/parameters/startTime-2'
-        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/clusterLogStartTime'
+        - $ref: '#/components/parameters/clusterLogEndTime'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/query'
         - $ref: '#/components/parameters/sortType'
@@ -8810,8 +8810,8 @@ paths:
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
         - $ref: '#/components/parameters/filename'
-        - $ref: '#/components/parameters/startTime-2'
-        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/clusterLogStartTime'
+        - $ref: '#/components/parameters/clusterLogEndTime'
         - $ref: '#/components/parameters/query'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/sortType'
@@ -8839,8 +8839,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/orgName'
         - $ref: '#/components/parameters/clusterName'
-        - $ref: '#/components/parameters/startTime-2'
-        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/clusterLogStartTime'
+        - $ref: '#/components/parameters/clusterLogEndTime'
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
         - $ref: '#/components/parameters/query'
@@ -8870,8 +8870,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/orgName'
         - $ref: '#/components/parameters/clusterName'
-        - $ref: '#/components/parameters/startTime-2'
-        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/clusterLogStartTime'
+        - $ref: '#/components/parameters/clusterLogEndTime'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
@@ -8900,8 +8900,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/orgName'
         - $ref: '#/components/parameters/clusterName'
-        - $ref: '#/components/parameters/startTime-2'
-        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/clusterLogStartTime'
+        - $ref: '#/components/parameters/clusterLogEndTime'
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
       responses:
@@ -19840,6 +19840,658 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/data/clickhouse/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      tags:
+        - clickhouse
+        - shared
+      summary: List ClickHouse accounts
+      operationId: listClickhouseAccounts
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List ClickHouse accounts successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CkAccount'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - clickhouse
+        - shared
+      summary: Create a ClickHouse account with optional roles
+      operationId: createClickhouseAccount
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Create a ClickHouse account request.
+              required:
+                - name
+                - password
+              properties:
+                name:
+                  type: string
+                  description: The account (user) name.
+                password:
+                  type: string
+                  description: The account password.
+                roles:
+                  type: array
+                  description: Roles to grant to the account on creation.
+                  items:
+                    type: string
+      responses:
+        '204':
+          content: {}
+          description: Create ClickHouse account successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+  /admin/v1/data/clickhouse/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    patch:
+      tags:
+        - clickhouse
+        - shared
+      summary: Update a ClickHouse account password
+      operationId: updateClickhouseAccountPassword
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Update a ClickHouse account password request.
+              required:
+                - password
+              properties:
+                password:
+                  type: string
+                  description: The new account password.
+      responses:
+        '204':
+          content: {}
+          description: Update ClickHouse account password successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - clickhouse
+        - shared
+      summary: Delete a ClickHouse account
+      operationId: deleteClickhouseAccount
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Delete ClickHouse account successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/clickhouse/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/roles:
+    get:
+      tags:
+        - clickhouse
+        - shared
+      summary: List the roles granted to a ClickHouse account
+      operationId: listClickhouseAccountRoles
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List ClickHouse account roles successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: A ClickHouse role.
+                properties:
+                  name:
+                    type: string
+                    description: The role name.
+                  privileges:
+                    type: array
+                    description: Privileges granted to the role, grouped by scope.
+                    items:
+                      type: object
+                      description: A group of privileges granted on a scope.
+                      properties:
+                        scope:
+                          type: string
+                          description: The ON-clause operand of the grant, e.g. "db.*" or "*.*".
+                        privileges:
+                          type: array
+                          items:
+                            type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - clickhouse
+        - shared
+      summary: Update the roles granted to a ClickHouse account
+      operationId: updateClickhouseAccountRoles
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Update the roles granted to a ClickHouse account request.
+              required:
+                - roles
+              properties:
+                roles:
+                  type: array
+                  description: The full set of roles to grant to the account. Existing roles are replaced.
+                  items:
+                    type: string
+      responses:
+        '204':
+          content: {}
+          description: Update ClickHouse account roles successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+  /admin/v1/data/clickhouse/organizations/{orgName}/clusters/{clusterName}/accounts/roles:
+    get:
+      tags:
+        - clickhouse
+        - shared
+      summary: List ClickHouse roles
+      operationId: listClickhouseRoles
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: forCreateUser
+          in: query
+          required: false
+          description: Whether to include built-in privilege roles for creating an account.
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: List ClickHouse roles successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                description: List of ClickHouse roles.
+                items:
+                  type: object
+                  description: A ClickHouse role.
+                  properties:
+                    name:
+                      type: string
+                      description: The role name.
+                    privileges:
+                      type: array
+                      description: Privileges granted to the role, grouped by scope.
+                      items:
+                        type: object
+                        description: A group of privileges granted on a scope.
+                        properties:
+                          scope:
+                            type: string
+                            description: The ON-clause operand of the grant, e.g. "db.*" or "*.*".
+                          privileges:
+                            type: array
+                            items:
+                              type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - clickhouse
+        - shared
+      summary: Create a ClickHouse role with privileges
+      operationId: createClickhouseRole
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: A ClickHouse role.
+              properties:
+                name:
+                  type: string
+                  description: The role name.
+                privileges:
+                  type: array
+                  description: Privileges granted to the role, grouped by scope.
+                  items:
+                    type: object
+                    description: A group of privileges granted on a scope.
+                    properties:
+                      scope:
+                        type: string
+                        description: The ON-clause operand of the grant, e.g. "db.*" or "*.*".
+                      privileges:
+                        type: array
+                        items:
+                          type: string
+      responses:
+        '204':
+          content: {}
+          description: Create ClickHouse role successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+  /admin/v1/data/clickhouse/organizations/{orgName}/clusters/{clusterName}/accounts/roles/{roleName}:
+    get:
+      tags:
+        - clickhouse
+        - shared
+      summary: Get the grants (privileges) of a ClickHouse role
+      operationId: getClickhouseRoleGrants
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get ClickHouse role grants successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                description: Grants (privileges) of a ClickHouse role.
+                items:
+                  type: object
+                  description: A single grant of a ClickHouse role.
+                  properties:
+                    accessType:
+                      type: string
+                      description: The access type of the grant.
+                    database:
+                      type: string
+                      description: The database of the grant scope.
+                    table:
+                      type: string
+                      description: The table of the grant scope.
+                    scope:
+                      type: string
+                      description: The full grant scope, e.g. "db.*".
+                    isPartialRevoke:
+                      type: boolean
+                      description: Whether the grant is a partial revoke.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - clickhouse
+        - shared
+      summary: Delete a ClickHouse role
+      operationId: deleteClickhouseRole
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Delete ClickHouse role successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/clickhouse/organizations/{orgName}/clusters/{clusterName}/accounts/roles/{roleName}/privileges:
+    post:
+      tags:
+        - clickhouse
+        - shared
+      summary: Grant privileges to a ClickHouse role
+      operationId: grantClickhouseRolePrivileges
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: A group of privileges granted on a scope.
+              properties:
+                scope:
+                  type: string
+                  description: The ON-clause operand of the grant, e.g. "db.*" or "*.*".
+                privileges:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '204':
+          content: {}
+          description: Grant ClickHouse role privileges successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - clickhouse
+        - shared
+      summary: Revoke privileges from a ClickHouse role
+      operationId: revokeClickhouseRolePrivileges
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Revoke privileges from a role request.
+              required:
+                - privileges
+              properties:
+                privileges:
+                  type: array
+                  items:
+                    type: object
+                    description: A single privilege granted on a scope.
+                    properties:
+                      scope:
+                        type: string
+                        description: The ON-clause operand of the grant, e.g. "db.*" or "*.*".
+                      privilege:
+                        type: string
+      responses:
+        '204':
+          content: {}
+          description: Revoke ClickHouse role privileges successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+  /admin/v1/data/clickhouse/organizations/{orgName}/clusters/{clusterName}/accounts/privileges:
+    get:
+      tags:
+        - clickhouse
+        - shared
+      summary: List privileges supported by the ClickHouse server
+      operationId: listClickhousePrivileges
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List ClickHouse privileges successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                description: All privileges supported by the ClickHouse server.
+                items:
+                  type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/rabbitmq/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       summary: List RabbitMQ accounts
@@ -19988,7 +20640,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RbmqUser'
+              $ref: '#/components/schemas/RbmqPasswordUpdateRequest'
       responses:
         '204':
           description: A successful response.
@@ -21577,7 +22229,7 @@ paths:
             type: string
         - name: limit
           in: query
-          description: Maximum number of sessions to return. Defaults to the backend limit when omitted.
+          description: Maximum number of sessions to return. When omitted, the API returns the complete point-in-time session snapshot. When provided, the value must be positive.
           required: false
           schema:
             type: integer
@@ -21696,7 +22348,7 @@ paths:
       tags:
         - diagnostics
       summary: Explain PostgreSQL SQL fingerprint
-      description: Explicitly trigger a safe PostgreSQL EXPLAIN for one SQL fingerprint. The request does not accept raw SQL. DMS resolves the server-side parameterized SELECT statement for the ranking identity, produces an estimated standard or generic plan without parameter sample values, rejects multiple statements, and never runs EXPLAIN ANALYZE or the original SQL.
+      description: Explicitly trigger a safe PostgreSQL EXPLAIN for one SQL fingerprint. The request does not accept raw SQL. DMS resolves the exact server-side parameterized SELECT statement identity independently of the ranking window, produces an estimated standard or generic plan without parameter sample values, rejects multiple statements, and never runs EXPLAIN ANALYZE or the original SQL. The plan uses current catalog statistics and the DMS connection context; it does not reconstruct the original role, search_path, session settings, parameter values, or historical actual plan.
       operationId: explainDiagnosticsPostgresqlSQLFingerprint
       parameters:
         - name: orgName
@@ -22529,6 +23181,53 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+    post:
+      summary: Create Milvus role
+      description: Create a Milvus native role and grant its initial privileges.
+      operationId: createMilvusRole
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - account
+        - milvus
+        - shared
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MilvusRoleCreateRequest'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MilvusRole'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
   /admin/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts/roles/{roleName}:
     get:
       summary: Get Milvus role
@@ -22575,9 +23274,9 @@ paths:
         '500':
           $ref: '#/components/responses/500'
     put:
-      summary: Put Milvus role
-      description: Create or update a Milvus native role and replace its privilege grants.
-      operationId: putMilvusRole
+      summary: Update Milvus role
+      description: Update an existing Milvus native role by replacing its privilege grants.
+      operationId: updateMilvusRole
       parameters:
         - description: name of the Org
           in: path
@@ -26327,6 +27026,14 @@ components:
           description: the cluster definition of the referenced cluster.
         serviceDescriptor:
           $ref: '#/components/schemas/serviceDescriptor'
+        extraForManualInput:
+          type: object
+          additionalProperties:
+            type: string
+          description: |
+            extra fields for manual input of the serviceRef. The keys must be defined in the
+            engineoption modeServiceRef.extraForManualInput. They are mapped to helm values
+            via the corresponding helmValuePath.extraForManualInput.
     clusterObjectStorageConfig:
       type: object
       description: Specify the object storage config for cluster like starrocks
@@ -26536,6 +27243,16 @@ components:
       description: Components is the list of components
       items:
         $ref: '#/components/schemas/componentItem'
+    clusterReference:
+      type: object
+      description: Cluster reference information returned by cluster detail APIs.
+      properties:
+        cluster:
+          type: string
+          description: Name of the cluster that references this cluster.
+        clusterDefinition:
+          type: string
+          description: Cluster definition of the referencing cluster.
     cluster:
       required:
         - engine
@@ -26705,7 +27422,7 @@ components:
           description: this list of objects (currently, object is a cluster) that uses this cluster as a serviceRef
           type: array
           items:
-            $ref: '#/components/schemas/serviceRef'
+            $ref: '#/components/schemas/clusterReference'
         objectStorageConfig:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
         maintainceWindow:
@@ -27198,7 +27915,9 @@ components:
           type: array
           items:
             type: array
-            items: {}
+            items:
+              type: object
+              additionalProperties: true
             nullable: true
     clusterStorageUsageHistoryPoint:
       type: object
@@ -29896,9 +30615,7 @@ components:
           type: string
           description: Hash field name.
         value:
-          type: object
-          description: Hash/list/set/json item value.
-          additionalProperties: true
+          description: Hash/list/set/json item value. The value may be a scalar, array, or object depending on Redis value type.
         member:
           type: string
           description: Set or sorted-set member.
@@ -32260,6 +32977,12 @@ components:
           $ref: '#/components/schemas/nodePool'
         storage:
           $ref: '#/components/schemas/storageConfig'
+        victoriaMetrics:
+          description: Optional vm-storage spec (replicas, disk, classCode) when adding an environment. vm-insert and vm-select keep installer defaults.
+          $ref: '#/components/schemas/staticCluster'
+        victoriaLogs:
+          description: Optional vlstorage spec (replicas, disk, classCode) when adding an environment. vlinsert and vlselect keep installer defaults.
+          $ref: '#/components/schemas/staticCluster'
         modules:
           type: array
           description: option modules of environment
@@ -35365,6 +36088,28 @@ components:
         disableManualInput:
           type: boolean
           description: whether to disable manual input of the service reference. If set to true, users can only select from the serviceRefs provided by list clusters api.
+        disableAutoCreateServiceDescriptor:
+          type: boolean
+          x-nullable: true
+          description: |
+            whether to disable auto creating the ServiceDescriptor object for this serviceRef.
+            If set to false, the serviceDescriptor content (host/port/username/password) will be
+            set directly into the helm values under the helmValuePath.serviceDescriptor path.
+            If omitted, the generated ServiceDescriptor name will be set instead.
+        disableRelatedCluster:
+          type: boolean
+          description: |
+            whether to disable selecting a related cluster created in the platform for this
+            serviceRef. If set to true, the frontend should only allow manual input instead
+            of selecting from the clusters provided by the list clusters api.
+        extraForManualInput:
+          type: object
+          description: |
+            Extra form field definitions for manual input of the serviceRef. The keys are the
+            field names and the frontend renders them as input items. The user-entered values
+            are passed in ClusterCreate serviceRefs[].extraForManualInput and mapped to helm
+            values via helmValuePath.extraForManualInput.
+          additionalProperties: true
         helmValuePath:
           type: object
           description: The path to be used in values. Separated with commas. ClusterCreate API will use these path to override values in the cluster chart.
@@ -35401,6 +36146,12 @@ components:
               description: |
                 hints for addon to determine if we are using an integrated component or a serviceRef. Will be set to `serviceRef` or `component`.
                 This field is required when a serviceRef can be replaced by a component.
+            extraForManualInput:
+              type: string
+              description: |
+                the helm value path prefix for the extraForManualInput fields of this serviceRef.
+                ClusterCreate API will map each key of serviceRefs[].extraForManualInput to
+                `<extraForManualInput>.<key>` in the cluster chart values.
         serviceSelectors:
           type: array
           description: |
@@ -35435,6 +36186,21 @@ components:
           type: string
           description: |
             whether the object storage is using path style or virtual host style.
+            If not set, it means the engine does not need this option.
+        tlsEnabled:
+          type: string
+          description: |
+            whether the object storage endpoint uses TLS.
+            If not set, it means the engine does not need this option.
+        tlsCACertSecret:
+          type: string
+          description: |
+            Secret name that stores the CA certificate for TLS object storage.
+            If not set, it means the engine does not need this option.
+        tlsCACertSecretKey:
+          type: string
+          description: |
+            Secret key that stores the CA certificate for TLS object storage.
             If not set, it means the engine does not need this option.
         region:
           type: string
@@ -36860,6 +37626,11 @@ components:
         objectExcludeTips:
           $ref: '#/components/schemas/internationalDesc'
           nullable: true
+    replicationCheckOption:
+      type: object
+      properties:
+        enabled:
+          type: boolean
     parameterValueType:
       enum:
         - string
@@ -36916,6 +37687,8 @@ components:
           type: array
           items:
             type: string
+        dataCheckOption:
+          $ref: '#/components/schemas/replicationCheckOption'
         parameterTemplate:
           description: the parameter template of the engine mapping, has a higher priority than the parameterTemplate in standardDefinition
           $ref: '#/components/schemas/dataChannelParameterOption'
@@ -38630,7 +39403,7 @@ components:
           type: boolean
     inspectionTaskItemEvidence:
       type: object
-      description: Structured evidence used to explain the item result. Prometheus/exporter no-data is reported here as no data or unknown instead of being converted into a healthy result.
+      description: Structured evidence used to explain the item result. Unavailable or invalid evidence from any collection source, including Prometheus/exporters and DMS, is reported as unknown instead of being converted into a healthy or unhealthy conclusion.
       additionalProperties: true
     inspectionTaskItem:
       properties:
@@ -38726,9 +39499,12 @@ components:
           description: Expiration timestamp fixed when the inspection report is created from savedDays.
         score:
           type: integer
+          format: int64
+          x-nullable: true
+          description: Weighted health score from 0 to 100 over evaluable inspection items only. Unknown items are excluded from both the numerator and denominator. The field is omitted when no item is evaluable; a present value of 0 is a valid evaluated score.
         result:
           type: string
-          description: Backend truth derived from the worst item state and criticality-aware score caps. A red item makes the task red; a critical red item caps score at 40.
+          description: Task health conclusion derived from evaluable item states and criticality-aware score caps. Valid conclusions are red, yellow, green, and unknown. Unknown means no item is evaluable. Unknown items remain visible in the item list but do not override a red, yellow, or green conclusion derived from evaluable items.
         latestRunAt:
           format: date-time
           type: string
@@ -38779,6 +39555,7 @@ components:
         - green
         - yellow
         - red
+        - unknown
     aggregateTaskResultSummary:
       type: object
       properties:
@@ -38788,6 +39565,9 @@ components:
           type: integer
         normal:
           type: integer
+        unknown:
+          type: integer
+          description: Number of completed tasks with no evaluable inspection item. Tasks that contain both evaluable and unknown items retain the conclusion derived from their evaluable items.
     aggregateTaskResult:
       properties:
         engine:
@@ -40904,8 +41684,11 @@ components:
         format:
           $ref: '#/components/schemas/ESSecurityRoleTemplateFormat'
           nullable: true
+      required:
+        - template
     ESSecurityRoleMapping:
       type: object
+      description: Native Elasticsearch security role mapping. At least one of roles or role_templates must be non-empty.
       properties:
         enabled:
           type: boolean
@@ -40926,6 +41709,9 @@ components:
         metadata:
           type: object
           additionalProperties: true
+      required:
+        - enabled
+        - rules
     ESSecurityRoleMappings:
       type: object
       additionalProperties:
@@ -40936,6 +41722,35 @@ components:
         type: array
         items:
           type: string
+    CkAccountType:
+      type: string
+      description: The account role type.
+      enum:
+        - SUPERUSER
+        - BASICUSER
+        - ROOT
+    CkAccount:
+      type: object
+      description: A ClickHouse account.
+      properties:
+        name:
+          type: string
+          description: The account (user) name.
+        hostIp:
+          type: array
+          description: Host IPs the account is allowed to log in from.
+          items:
+            type: string
+        hostNames:
+          type: array
+          description: Host names the account is allowed to log in from.
+          items:
+            type: string
+        roles:
+          type: string
+          description: Roles granted to the account, separated by commas.
+        type:
+          $ref: '#/components/schemas/CkAccountType'
     RbmqUser:
       type: object
       properties:
@@ -41013,6 +41828,15 @@ components:
         userPermission:
           $ref: '#/components/schemas/RbmqPermission'
           description: RabbitMQ user permissions
+    RbmqPasswordUpdateRequest:
+      type: object
+      description: RabbitMQ account password update request.
+      required:
+        - password
+      properties:
+        password:
+          type: string
+          description: New RabbitMQ account password.
     RbmqVHost:
       type: object
       properties:
@@ -42089,22 +42913,19 @@ components:
           description: Stable SQL fingerprint identifier for UI grouping. Currently aligned with PostgreSQL pg_stat_statements queryid.
         database:
           type: string
-          description: Database name from the ranking row.
+          description: Database name from the requested SQL fingerprint identity.
         user:
           type: string
-          description: Database user from the ranking row.
+          description: Database user from the requested SQL fingerprint identity.
         topLevel:
           type: boolean
-          description: Top-level identity from the matched ranking row.
+          description: Top-level flag from the requested SQL fingerprint identity.
         statementSource:
           type: string
           description: Server-side source used to resolve the parameterized SQL statement. Raw SQL is not returned.
         statementResolvedAt:
           type: string
           description: Timestamp when the parameterized SQL statement was resolved.
-        querySummary:
-          type: string
-          description: Redacted SQL summary from the matched ranking row. The resolved statement is intentionally not returned.
         planMode:
           $ref: '#/components/schemas/DmsExecutionPlanPlanningMode'
           description: Whether DMS produced a standard estimated plan or a generic parameterized estimated plan.
@@ -43157,9 +43978,23 @@ components:
           description: Milvus roles.
           items:
             $ref: '#/components/schemas/MilvusRole'
+    MilvusRoleCreateRequest:
+      type: object
+      description: Milvus role create request.
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Milvus role name.
+        grants:
+          type: array
+          description: Native Milvus privilege grants owned by this role.
+          items:
+            $ref: '#/components/schemas/MilvusRoleGrant'
     MilvusRoleRequest:
       type: object
-      description: Milvus role upsert request.
+      description: Milvus role update request.
       properties:
         grants:
           type: array
@@ -44563,14 +45398,14 @@ components:
       name: filename
       schema:
         type: string
-    startTime-2:
+    clusterLogStartTime:
       in: query
       name: startTime
       description: Start time in epoch nanoseconds.
       required: true
       schema:
         type: string
-    endTime-2:
+    clusterLogEndTime:
       in: query
       name: endTime
       description: End time in epoch nanoseconds.
