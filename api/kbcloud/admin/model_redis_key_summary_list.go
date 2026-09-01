@@ -12,6 +12,8 @@ type RedisKeySummaryList struct {
 	NextCursor *string `json:"nextCursor,omitempty"`
 	// Whether another key page should be requested.
 	HasMore *bool `json:"hasMore,omitempty"`
+	// Redis key browser scan progress for the current page.
+	Progress *RedisKeyScanProgress `json:"progress,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -118,6 +120,34 @@ func (o *RedisKeySummaryList) SetHasMore(v bool) {
 	o.HasMore = &v
 }
 
+// GetProgress returns the Progress field value if set, zero value otherwise.
+func (o *RedisKeySummaryList) GetProgress() RedisKeyScanProgress {
+	if o == nil || o.Progress == nil {
+		var ret RedisKeyScanProgress
+		return ret
+	}
+	return *o.Progress
+}
+
+// GetProgressOk returns a tuple with the Progress field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RedisKeySummaryList) GetProgressOk() (*RedisKeyScanProgress, bool) {
+	if o == nil || o.Progress == nil {
+		return nil, false
+	}
+	return o.Progress, true
+}
+
+// HasProgress returns a boolean if a field has been set.
+func (o *RedisKeySummaryList) HasProgress() bool {
+	return o != nil && o.Progress != nil
+}
+
+// SetProgress gets a reference to the given RedisKeyScanProgress and assigns it to the Progress field.
+func (o *RedisKeySummaryList) SetProgress(v RedisKeyScanProgress) {
+	o.Progress = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o RedisKeySummaryList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -133,6 +163,9 @@ func (o RedisKeySummaryList) MarshalJSON() ([]byte, error) {
 	if o.HasMore != nil {
 		toSerialize["hasMore"] = o.HasMore
 	}
+	if o.Progress != nil {
+		toSerialize["progress"] = o.Progress
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -143,25 +176,36 @@ func (o RedisKeySummaryList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *RedisKeySummaryList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items      []RedisKeySummary `json:"items,omitempty"`
-		NextCursor *string           `json:"nextCursor,omitempty"`
-		HasMore    *bool             `json:"hasMore,omitempty"`
+		Items      []RedisKeySummary     `json:"items,omitempty"`
+		NextCursor *string               `json:"nextCursor,omitempty"`
+		HasMore    *bool                 `json:"hasMore,omitempty"`
+		Progress   *RedisKeyScanProgress `json:"progress,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items", "nextCursor", "hasMore"})
+		common.DeleteKeys(additionalProperties, &[]string{"items", "nextCursor", "hasMore", "progress"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Items = all.Items
 	o.NextCursor = all.NextCursor
 	o.HasMore = all.HasMore
+	if all.Progress != nil && all.Progress.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Progress = all.Progress
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
