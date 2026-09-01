@@ -4742,34 +4742,6 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/autohealing:
-    get:
-      operationId: getAutohealing
-      summary: list autohealing job
-      deprecated: true
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Get autohealing job list
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/autohealingList'
-      tags:
-        - autohealing
-        - shared
   /api/v1/organizations/{orgName}/clusterTags:
     get:
       tags:
@@ -24240,8 +24212,6 @@ components:
       properties:
         opsRequestName:
           type: string
-        clusterTaskId:
-          type: string
         taskId:
           type: string
       required:
@@ -25308,47 +25278,6 @@ components:
         - volumes
         - component
       type: object
-    autohealingList:
-      description: An Autohealing object in k8s
-      type: array
-      items:
-        type: object
-        properties:
-          name:
-            type: string
-          createdAt:
-            type: string
-            format: date-time
-          updatedAt:
-            type: string
-            format: date-time
-          componentName:
-            description: component to be rebuilt
-            type: string
-          podName:
-            description: pod to be rebuilt
-            type: string
-          startTime:
-            description: rebuild start time
-            type: string
-            format: date-time
-          phase:
-            description: current phase of rebuild job
-            type: string
-          started:
-            description: whether the job is started
-            type: boolean
-          startMessage:
-            type: string
-          finished:
-            description: whether the job is finished
-            type: boolean
-          finishMessage:
-            type: string
-          backupName:
-            type: string
-          rebuildInstanceOpsRequestName:
-            type: string
     clusterTags:
       properties:
         clusterId:
@@ -34578,10 +34507,6 @@ components:
           nullable: true
         taskId:
           description: Task ID
-          type: string
-          nullable: true
-        clusterTaskId:
-          description: Cluster task ID
           type: string
           nullable: true
       required:

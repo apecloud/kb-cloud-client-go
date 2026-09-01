@@ -3236,34 +3236,6 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/autohealing:
-    get:
-      operationId: getAutohealing
-      summary: list autohealing job
-      deprecated: true
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Get autohealing job list
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/autohealingList'
-      tags:
-        - autohealing
-        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/metrics:
     get:
       description: Query cluster metrics by specified metric name and instance name, support instant and range query
@@ -27793,47 +27765,6 @@ components:
         - clusterId
         - items
       type: object
-    autohealingList:
-      description: An Autohealing object in k8s
-      type: array
-      items:
-        type: object
-        properties:
-          name:
-            type: string
-          createdAt:
-            type: string
-            format: date-time
-          updatedAt:
-            type: string
-            format: date-time
-          componentName:
-            description: component to be rebuilt
-            type: string
-          podName:
-            description: pod to be rebuilt
-            type: string
-          startTime:
-            description: rebuild start time
-            type: string
-            format: date-time
-          phase:
-            description: current phase of rebuild job
-            type: string
-          started:
-            description: whether the job is started
-            type: boolean
-          startMessage:
-            type: string
-          finished:
-            description: whether the job is finished
-            type: boolean
-          finishMessage:
-            type: string
-          backupName:
-            type: string
-          rebuildInstanceOpsRequestName:
-            type: string
     metricsQueryType:
       type: string
       enum:
@@ -28278,8 +28209,6 @@ components:
       properties:
         opsRequestName:
           type: string
-        clusterTaskId:
-          type: string
         taskId:
           type: string
       required:
@@ -28294,10 +28223,6 @@ components:
           nullable: true
         taskId:
           description: Task ID
-          type: string
-          nullable: true
-        clusterTaskId:
-          description: Cluster task ID
           type: string
           nullable: true
       required:
