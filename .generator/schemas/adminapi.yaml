@@ -30265,6 +30265,33 @@ components:
         aclAccess:
           type: string
           description: datasource ACL access result for this key
+    RedisKeyScanProgress:
+      type: object
+      description: Redis key browser scan progress for the current page.
+      properties:
+        scope:
+          type: string
+          description: Scan scope, either node or cluster.
+          x-omitempty: false
+        total:
+          type: integer
+          format: int64
+          description: Total keys in the scan scope when available.
+          x-omitempty: false
+        scanned:
+          type: integer
+          format: int64
+          description: Number of key names returned by SCAN in this page before type filtering.
+          x-omitempty: false
+        loaded:
+          type: integer
+          format: int64
+          description: Number of key summaries loaded in this page after filtering and metadata lookup.
+          x-omitempty: false
+        complete:
+          type: boolean
+          description: Whether the scan cursor is complete after this page.
+          x-omitempty: false
     RedisKeySummaryList:
       type: object
       properties:
@@ -30279,6 +30306,8 @@ components:
           type: boolean
           description: Whether another key page should be requested.
           x-omitempty: false
+        progress:
+          $ref: '#/components/schemas/RedisKeyScanProgress'
     RedisAnalysisFilter:
       type: object
       properties:
@@ -30783,6 +30812,10 @@ components:
     RedisInfoResponse:
       type: object
       properties:
+        scope:
+          type: string
+          description: INFO scope, either node or cluster.
+          x-omitempty: false
         section:
           type: string
         nodeId:
