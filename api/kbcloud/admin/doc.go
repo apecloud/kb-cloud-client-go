@@ -117,7 +117,6 @@
 //   - [alertTemplateApi.getAlertTemplate]
 //   - [alertTemplateApi.listAlertTemplates]
 //   - [alertTemplateApi.patchAlertTemplate]
-//   - [autohealingApi.getAutohealing]
 //   - [backupApi.buildBackupObj]
 //   - [backupApi.createBackupSchedule]
 //   - [backupApi.createClusterBackup]

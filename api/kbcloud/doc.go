@@ -86,7 +86,6 @@
 //   - [alertStrategyApi.listAlertStrategies]
 //   - [alertStrategyApi.patchAlertStrategy]
 //   - [alertStrategyApi.updateAlertStrategy]
-//   - [autohealingApi.getAutohealing]
 //   - [backupApi.buildBackupObj]
 //   - [backupApi.createBackupSchedule]
 //   - [backupApi.createClusterBackup]
