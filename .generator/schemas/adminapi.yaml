@@ -13744,6 +13744,12 @@ paths:
       operationId: listAlertObjects
       summary: List alert objects
       parameters:
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
+          schema:
+            type: string
         - name: page
           in: query
           description: page number
