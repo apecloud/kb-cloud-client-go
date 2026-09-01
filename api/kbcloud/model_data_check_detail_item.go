@@ -11,9 +11,9 @@ import (
 type DataCheckDetailItem struct {
 	// Struct check object key. Present for struct details; omitted for snapshot row details.
 	Key *string `json:"key,omitempty"`
-	// Source schema or database. Present for snapshot details; omitted for struct details.
+	// Source schema or database from the requested detail scope.
 	Schema *string `json:"schema,omitempty"`
-	// Source table. Present for snapshot details; omitted for struct details.
+	// Source table from the requested detail scope.
 	Tb *string `json:"tb,omitempty"`
 	// Target schema or database for snapshot details when routing changes the target object.
 	TargetSchema common.NullableString `json:"target_schema,omitempty"`
