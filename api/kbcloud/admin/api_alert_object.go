@@ -19,6 +19,7 @@ type AlertObjectApi common.Service
 
 // ListAlertObjectsOptionalParameters holds optional parameters for ListAlertObjects.
 type ListAlertObjectsOptionalParameters struct {
+	OrgName  *string
 	Page     *int32
 	PageSize *int32
 }
@@ -27,6 +28,12 @@ type ListAlertObjectsOptionalParameters struct {
 func NewListAlertObjectsOptionalParameters() *ListAlertObjectsOptionalParameters {
 	this := ListAlertObjectsOptionalParameters{}
 	return &this
+}
+
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *ListAlertObjectsOptionalParameters) WithOrgName(orgName string) *ListAlertObjectsOptionalParameters {
+	r.OrgName = &orgName
+	return r
 }
 
 // WithPage sets the corresponding parameter name and returns the struct.
@@ -76,6 +83,9 @@ func (a *AlertObjectApi) ListAlertObjects(ctx _context.Context, o ...ListAlertOb
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
 	if optionalParams.Page != nil {
 		localVarQueryParams.Add("page", common.ParameterToString(*optionalParams.Page, ""))
 	}
