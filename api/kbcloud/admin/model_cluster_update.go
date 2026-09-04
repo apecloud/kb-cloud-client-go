@@ -21,6 +21,14 @@ type ClusterUpdate struct {
 	// serviceRefs of the cluster.
 	//
 	NewServiceRefs []ServiceRef `json:"newServiceRefs,omitempty"`
+	// ServiceRefs to update. Each serviceRef name must match an existing
+	// serviceRef of the cluster, and the corresponding engine option
+	// modeServiceRef.update.enable must be true. ServiceRefs that auto
+	// create their ServiceDescriptor and Secret get their corresponding
+	// K8s objects updated; serviceRefs with manual input must be handled
+	// by each engine individually and are rejected.
+	//
+	ServiceRefsUpdate []ServiceRef `json:"serviceRefsUpdate,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -170,6 +178,34 @@ func (o *ClusterUpdate) SetNewServiceRefs(v []ServiceRef) {
 	o.NewServiceRefs = v
 }
 
+// GetServiceRefsUpdate returns the ServiceRefsUpdate field value if set, zero value otherwise.
+func (o *ClusterUpdate) GetServiceRefsUpdate() []ServiceRef {
+	if o == nil || o.ServiceRefsUpdate == nil {
+		var ret []ServiceRef
+		return ret
+	}
+	return o.ServiceRefsUpdate
+}
+
+// GetServiceRefsUpdateOk returns a tuple with the ServiceRefsUpdate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterUpdate) GetServiceRefsUpdateOk() (*[]ServiceRef, bool) {
+	if o == nil || o.ServiceRefsUpdate == nil {
+		return nil, false
+	}
+	return &o.ServiceRefsUpdate, true
+}
+
+// HasServiceRefsUpdate returns a boolean if a field has been set.
+func (o *ClusterUpdate) HasServiceRefsUpdate() bool {
+	return o != nil && o.ServiceRefsUpdate != nil
+}
+
+// SetServiceRefsUpdate gets a reference to the given []ServiceRef and assigns it to the ServiceRefsUpdate field.
+func (o *ClusterUpdate) SetServiceRefsUpdate(v []ServiceRef) {
+	o.ServiceRefsUpdate = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -188,6 +224,9 @@ func (o ClusterUpdate) MarshalJSON() ([]byte, error) {
 	if o.NewServiceRefs != nil {
 		toSerialize["newServiceRefs"] = o.NewServiceRefs
 	}
+	if o.ServiceRefsUpdate != nil {
+		toSerialize["serviceRefsUpdate"] = o.ServiceRefsUpdate
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -202,13 +241,14 @@ func (o *ClusterUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		DisplayName       common.NullableString     `json:"displayName,omitempty"`
 		MaintainceWindow  *ClusterMaintainceWindow  `json:"maintainceWindow,omitempty"`
 		NewServiceRefs    []ServiceRef              `json:"newServiceRefs,omitempty"`
+		ServiceRefsUpdate []ServiceRef              `json:"serviceRefsUpdate,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"terminationPolicy", "displayName", "maintainceWindow", "newServiceRefs"})
+		common.DeleteKeys(additionalProperties, &[]string{"terminationPolicy", "displayName", "maintainceWindow", "newServiceRefs", "serviceRefsUpdate"})
 	} else {
 		return err
 	}
@@ -225,6 +265,7 @@ func (o *ClusterUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.MaintainceWindow = all.MaintainceWindow
 	o.NewServiceRefs = all.NewServiceRefs
+	o.ServiceRefsUpdate = all.ServiceRefsUpdate
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -3236,34 +3236,6 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/autohealing:
-    get:
-      operationId: getAutohealing
-      summary: list autohealing job
-      deprecated: true
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Get autohealing job list
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/autohealingList'
-      tags:
-        - autohealing
-        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/metrics:
     get:
       description: Query cluster metrics by specified metric name and instance name, support instant and range query
@@ -8747,8 +8719,8 @@ paths:
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
         - $ref: '#/components/parameters/filename'
-        - $ref: '#/components/parameters/startTime-2'
-        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/clusterLogStartTime'
+        - $ref: '#/components/parameters/clusterLogEndTime'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/sortType'
       responses:
@@ -8778,8 +8750,8 @@ paths:
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
         - $ref: '#/components/parameters/filename'
-        - $ref: '#/components/parameters/startTime-2'
-        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/clusterLogStartTime'
+        - $ref: '#/components/parameters/clusterLogEndTime'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/query'
         - $ref: '#/components/parameters/sortType'
@@ -8810,8 +8782,8 @@ paths:
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
         - $ref: '#/components/parameters/filename'
-        - $ref: '#/components/parameters/startTime-2'
-        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/clusterLogStartTime'
+        - $ref: '#/components/parameters/clusterLogEndTime'
         - $ref: '#/components/parameters/query'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/sortType'
@@ -8839,8 +8811,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/orgName'
         - $ref: '#/components/parameters/clusterName'
-        - $ref: '#/components/parameters/startTime-2'
-        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/clusterLogStartTime'
+        - $ref: '#/components/parameters/clusterLogEndTime'
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
         - $ref: '#/components/parameters/query'
@@ -8870,8 +8842,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/orgName'
         - $ref: '#/components/parameters/clusterName'
-        - $ref: '#/components/parameters/startTime-2'
-        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/clusterLogStartTime'
+        - $ref: '#/components/parameters/clusterLogEndTime'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
@@ -8900,8 +8872,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/orgName'
         - $ref: '#/components/parameters/clusterName'
-        - $ref: '#/components/parameters/startTime-2'
-        - $ref: '#/components/parameters/endTime-2'
+        - $ref: '#/components/parameters/clusterLogStartTime'
+        - $ref: '#/components/parameters/clusterLogEndTime'
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
       responses:
@@ -13744,6 +13716,12 @@ paths:
       operationId: listAlertObjects
       summary: List alert objects
       parameters:
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
+          schema:
+            type: string
         - name: page
           in: query
           description: page number
@@ -20640,7 +20618,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RbmqUser'
+              $ref: '#/components/schemas/RbmqPasswordUpdateRequest'
       responses:
         '204':
           description: A successful response.
@@ -22229,7 +22207,7 @@ paths:
             type: string
         - name: limit
           in: query
-          description: Maximum number of sessions to return. Defaults to the backend limit when omitted.
+          description: Maximum number of sessions to return. When omitted, the API returns the complete point-in-time session snapshot. When provided, the value must be positive.
           required: false
           schema:
             type: integer
@@ -23106,6 +23084,53 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+    post:
+      summary: Create Milvus role
+      description: Create a Milvus native role and grant its initial privileges.
+      operationId: createMilvusRole
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - account
+        - milvus
+        - shared
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MilvusRoleCreateRequest'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MilvusRole'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
   /admin/v1/data/milvus/organizations/{orgName}/clusters/{clusterName}/accounts/roles/{roleName}:
     get:
       summary: Get Milvus role
@@ -23152,9 +23177,9 @@ paths:
         '500':
           $ref: '#/components/responses/500'
     put:
-      summary: Put Milvus role
-      description: Create or update a Milvus native role and replace its privilege grants.
-      operationId: putMilvusRole
+      summary: Update Milvus role
+      description: Update an existing Milvus native role by replacing its privilege grants.
+      operationId: updateMilvusRole
       parameters:
         - description: name of the Org
           in: path
@@ -26904,6 +26929,14 @@ components:
           description: the cluster definition of the referenced cluster.
         serviceDescriptor:
           $ref: '#/components/schemas/serviceDescriptor'
+        extraForManualInput:
+          type: object
+          additionalProperties:
+            type: string
+          description: |
+            extra fields for manual input of the serviceRef. The keys must be defined in the
+            engineoption modeServiceRef.extraForManualInput. They are mapped to helm values
+            via the corresponding helmValuePath.extraForManualInput.
     clusterObjectStorageConfig:
       type: object
       description: Specify the object storage config for cluster like starrocks
@@ -27113,6 +27146,16 @@ components:
       description: Components is the list of components
       items:
         $ref: '#/components/schemas/componentItem'
+    clusterReference:
+      type: object
+      description: Cluster reference information returned by cluster detail APIs.
+      properties:
+        cluster:
+          type: string
+          description: Name of the cluster that references this cluster.
+        clusterDefinition:
+          type: string
+          description: Cluster definition of the referencing cluster.
     cluster:
       required:
         - engine
@@ -27282,7 +27325,7 @@ components:
           description: this list of objects (currently, object is a cluster) that uses this cluster as a serviceRef
           type: array
           items:
-            $ref: '#/components/schemas/serviceRef'
+            $ref: '#/components/schemas/clusterReference'
         objectStorageConfig:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
         maintainceWindow:
@@ -27344,6 +27387,17 @@ components:
             ServiceRefs to add to the cluster. Each serviceRef must be supported
             by the current engine mode and must not duplicate the existing
             serviceRefs of the cluster.
+          items:
+            $ref: '#/components/schemas/serviceRef'
+        serviceRefsUpdate:
+          type: array
+          description: |
+            ServiceRefs to update. Each serviceRef name must match an existing
+            serviceRef of the cluster, and the corresponding engine option
+            modeServiceRef.update.enable must be true. ServiceRefs that auto
+            create their ServiceDescriptor and Secret get their corresponding
+            K8s objects updated; serviceRefs with manual input must be handled
+            by each engine individually and are rejected.
           items:
             $ref: '#/components/schemas/serviceRef'
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
@@ -27717,47 +27771,6 @@ components:
         - clusterId
         - items
       type: object
-    autohealingList:
-      description: An Autohealing object in k8s
-      type: array
-      items:
-        type: object
-        properties:
-          name:
-            type: string
-          createdAt:
-            type: string
-            format: date-time
-          updatedAt:
-            type: string
-            format: date-time
-          componentName:
-            description: component to be rebuilt
-            type: string
-          podName:
-            description: pod to be rebuilt
-            type: string
-          startTime:
-            description: rebuild start time
-            type: string
-            format: date-time
-          phase:
-            description: current phase of rebuild job
-            type: string
-          started:
-            description: whether the job is started
-            type: boolean
-          startMessage:
-            type: string
-          finished:
-            description: whether the job is finished
-            type: boolean
-          finishMessage:
-            type: string
-          backupName:
-            type: string
-          rebuildInstanceOpsRequestName:
-            type: string
     metricsQueryType:
       type: string
       enum:
@@ -28202,8 +28215,6 @@ components:
       properties:
         opsRequestName:
           type: string
-        clusterTaskId:
-          type: string
         taskId:
           type: string
       required:
@@ -28218,10 +28229,6 @@ components:
           nullable: true
         taskId:
           description: Task ID
-          type: string
-          nullable: true
-        clusterTaskId:
-          description: Cluster task ID
           type: string
           nullable: true
       required:
@@ -30189,6 +30196,33 @@ components:
         aclAccess:
           type: string
           description: datasource ACL access result for this key
+    RedisKeyScanProgress:
+      type: object
+      description: Redis key browser scan progress for the current page.
+      properties:
+        scope:
+          type: string
+          description: Scan scope, either node or cluster.
+          x-omitempty: false
+        total:
+          type: integer
+          format: int64
+          description: Total keys in the scan scope when available.
+          x-omitempty: false
+        scanned:
+          type: integer
+          format: int64
+          description: Number of key names returned by SCAN in this page before type filtering.
+          x-omitempty: false
+        loaded:
+          type: integer
+          format: int64
+          description: Number of key summaries loaded in this page after filtering and metadata lookup.
+          x-omitempty: false
+        complete:
+          type: boolean
+          description: Whether the scan cursor is complete after this page.
+          x-omitempty: false
     RedisKeySummaryList:
       type: object
       properties:
@@ -30203,6 +30237,8 @@ components:
           type: boolean
           description: Whether another key page should be requested.
           x-omitempty: false
+        progress:
+          $ref: '#/components/schemas/RedisKeyScanProgress'
     RedisAnalysisFilter:
       type: object
       properties:
@@ -30460,9 +30496,7 @@ components:
           type: string
           description: Hash field name.
         value:
-          type: object
-          description: Hash/list/set/json item value.
-          additionalProperties: true
+          description: Hash/list/set/json item value. The value may be a scalar, array, or object depending on Redis value type.
         member:
           type: string
           description: Set or sorted-set member.
@@ -30709,6 +30743,10 @@ components:
     RedisInfoResponse:
       type: object
       properties:
+        scope:
+          type: string
+          description: INFO scope, either node or cluster.
+          x-omitempty: false
         section:
           type: string
         nodeId:
@@ -35948,6 +35986,28 @@ components:
         disableManualInput:
           type: boolean
           description: whether to disable manual input of the service reference. If set to true, users can only select from the serviceRefs provided by list clusters api.
+        disableAutoCreateServiceDescriptor:
+          type: boolean
+          x-nullable: true
+          description: |
+            whether to disable auto creating the ServiceDescriptor object for this serviceRef.
+            If set to false, the serviceDescriptor content (host/port/username/password) will be
+            set directly into the helm values under the helmValuePath.serviceDescriptor path.
+            If omitted, the generated ServiceDescriptor name will be set instead.
+        disableRelatedCluster:
+          type: boolean
+          description: |
+            whether to disable selecting a related cluster created in the platform for this
+            serviceRef. If set to true, the frontend should only allow manual input instead
+            of selecting from the clusters provided by the list clusters api.
+        extraForManualInput:
+          type: object
+          description: |
+            Extra form field definitions for manual input of the serviceRef. The keys are the
+            field names and the frontend renders them as input items. The user-entered values
+            are passed in ClusterCreate serviceRefs[].extraForManualInput and mapped to helm
+            values via helmValuePath.extraForManualInput.
+          additionalProperties: true
         helmValuePath:
           type: object
           description: The path to be used in values. Separated with commas. ClusterCreate API will use these path to override values in the cluster chart.
@@ -35984,6 +36044,12 @@ components:
               description: |
                 hints for addon to determine if we are using an integrated component or a serviceRef. Will be set to `serviceRef` or `component`.
                 This field is required when a serviceRef can be replaced by a component.
+            extraForManualInput:
+              type: string
+              description: |
+                the helm value path prefix for the extraForManualInput fields of this serviceRef.
+                ClusterCreate API will map each key of serviceRefs[].extraForManualInput to
+                `<extraForManualInput>.<key>` in the cluster chart values.
         serviceSelectors:
           type: array
           description: |
@@ -36000,6 +36066,9 @@ components:
             use them to filter or explain selectable referenced clusters.
           items:
             $ref: '#/components/schemas/modeServiceRefVersionCompatibility'
+        updatable:
+          type: boolean
+          description: whether the serviceRef can be updated. If set to false, the frontend should not allow users to update the serviceRef.
     modeObjectStorageAdditionalHelmValuePath:
       type: object
       description: The path in helm values that some object storage config will use. If empty, the values will not be set.
@@ -36018,6 +36087,21 @@ components:
           type: string
           description: |
             whether the object storage is using path style or virtual host style.
+            If not set, it means the engine does not need this option.
+        tlsEnabled:
+          type: string
+          description: |
+            whether the object storage endpoint uses TLS.
+            If not set, it means the engine does not need this option.
+        tlsCACertSecret:
+          type: string
+          description: |
+            Secret name that stores the CA certificate for TLS object storage.
+            If not set, it means the engine does not need this option.
+        tlsCACertSecretKey:
+          type: string
+          description: |
+            Secret key that stores the CA certificate for TLS object storage.
             If not set, it means the engine does not need this option.
         region:
           type: string
@@ -39220,7 +39304,7 @@ components:
           type: boolean
     inspectionTaskItemEvidence:
       type: object
-      description: Structured evidence used to explain the item result. Prometheus/exporter no-data is reported here as no data or unknown instead of being converted into a healthy result.
+      description: Structured evidence used to explain the item result. Unavailable or invalid evidence from any collection source, including Prometheus/exporters and DMS, is reported as unknown instead of being converted into a healthy or unhealthy conclusion.
       additionalProperties: true
     inspectionTaskItem:
       properties:
@@ -39316,9 +39400,12 @@ components:
           description: Expiration timestamp fixed when the inspection report is created from savedDays.
         score:
           type: integer
+          format: int64
+          x-nullable: true
+          description: Weighted health score from 0 to 100 over evaluable inspection items only. Unknown items are excluded from both the numerator and denominator. The field is omitted when no item is evaluable; a present value of 0 is a valid evaluated score.
         result:
           type: string
-          description: Backend truth derived from the worst item state and criticality-aware score caps. A red item makes the task red; a critical red item caps score at 40.
+          description: Task health conclusion derived from evaluable item states and criticality-aware score caps. Valid conclusions are red, yellow, green, and unknown. Unknown means no item is evaluable. Unknown items remain visible in the item list but do not override a red, yellow, or green conclusion derived from evaluable items.
         latestRunAt:
           format: date-time
           type: string
@@ -39369,6 +39456,7 @@ components:
         - green
         - yellow
         - red
+        - unknown
     aggregateTaskResultSummary:
       type: object
       properties:
@@ -39378,6 +39466,9 @@ components:
           type: integer
         normal:
           type: integer
+        unknown:
+          type: integer
+          description: Number of completed tasks with no evaluable inspection item. Tasks that contain both evaluable and unknown items retain the conclusion derived from their evaluable items.
     aggregateTaskResult:
       properties:
         engine:
@@ -39645,9 +39736,7 @@ components:
           description: The value options of the parameter
           type: array
           x-omitempty: false
-          items:
-            type: object
-            additionalProperties: true
+          items: {}
         maximum:
           description: The maximum value of the parameter
           type: string
@@ -41640,6 +41729,15 @@ components:
         userPermission:
           $ref: '#/components/schemas/RbmqPermission'
           description: RabbitMQ user permissions
+    RbmqPasswordUpdateRequest:
+      type: object
+      description: RabbitMQ account password update request.
+      required:
+        - password
+      properties:
+        password:
+          type: string
+          description: New RabbitMQ account password.
     RbmqVHost:
       type: object
       properties:
@@ -43728,9 +43826,23 @@ components:
           description: Milvus roles.
           items:
             $ref: '#/components/schemas/MilvusRole'
+    MilvusRoleCreateRequest:
+      type: object
+      description: Milvus role create request.
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Milvus role name.
+        grants:
+          type: array
+          description: Native Milvus privilege grants owned by this role.
+          items:
+            $ref: '#/components/schemas/MilvusRoleGrant'
     MilvusRoleRequest:
       type: object
-      description: Milvus role upsert request.
+      description: Milvus role update request.
       properties:
         grants:
           type: array
@@ -45134,14 +45246,14 @@ components:
       name: filename
       schema:
         type: string
-    startTime-2:
+    clusterLogStartTime:
       in: query
       name: startTime
       description: Start time in epoch nanoseconds.
       required: true
       schema:
         type: string
-    endTime-2:
+    clusterLogEndTime:
       in: query
       name: endTime
       description: End time in epoch nanoseconds.

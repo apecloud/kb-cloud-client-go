@@ -33,6 +33,23 @@ type ModeServiceRef struct {
 	AddressStyle ServiceDescriptorAddressStyle `json:"addressStyle"`
 	// whether to disable manual input of the service reference. If set to true, users can only select from the serviceRefs provided by list clusters api.
 	DisableManualInput *bool `json:"disableManualInput,omitempty"`
+	// whether to disable auto creating the ServiceDescriptor object for this serviceRef.
+	// If set to false, the serviceDescriptor content (host/port/username/password) will be
+	// set directly into the helm values under the helmValuePath.serviceDescriptor path.
+	// If omitted, the generated ServiceDescriptor name will be set instead.
+	//
+	DisableAutoCreateServiceDescriptor *bool `json:"disableAutoCreateServiceDescriptor,omitempty"`
+	// whether to disable selecting a related cluster created in the platform for this
+	// serviceRef. If set to true, the frontend should only allow manual input instead
+	// of selecting from the clusters provided by the list clusters api.
+	//
+	DisableRelatedCluster *bool `json:"disableRelatedCluster,omitempty"`
+	// Extra form field definitions for manual input of the serviceRef. The keys are the
+	// field names and the frontend renders them as input items. The user-entered values
+	// are passed in ClusterCreate serviceRefs[].extraForManualInput and mapped to helm
+	// values via helmValuePath.extraForManualInput.
+	//
+	ExtraForManualInput map[string]interface{} `json:"extraForManualInput,omitempty"`
 	// The path to be used in values. Separated with commas. ClusterCreate API will use these path to override values in the cluster chart.
 	HelmValuePath ModeServiceRefHelmValuePath `json:"helmValuePath"`
 	// ServiceSelectors will map cluster's mode to a serviceSelector. The serviceSelector
@@ -45,6 +62,8 @@ type ModeServiceRef struct {
 	// use them to filter or explain selectable referenced clusters.
 	//
 	ServiceVersionCompatibility []ModeServiceRefVersionCompatibility `json:"serviceVersionCompatibility,omitempty"`
+	// whether the serviceRef can be updated. If set to false, the frontend should not allow users to update the serviceRef.
+	Updatable *bool `json:"updatable,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -252,6 +271,90 @@ func (o *ModeServiceRef) SetDisableManualInput(v bool) {
 	o.DisableManualInput = &v
 }
 
+// GetDisableAutoCreateServiceDescriptor returns the DisableAutoCreateServiceDescriptor field value if set, zero value otherwise.
+func (o *ModeServiceRef) GetDisableAutoCreateServiceDescriptor() bool {
+	if o == nil || o.DisableAutoCreateServiceDescriptor == nil {
+		var ret bool
+		return ret
+	}
+	return *o.DisableAutoCreateServiceDescriptor
+}
+
+// GetDisableAutoCreateServiceDescriptorOk returns a tuple with the DisableAutoCreateServiceDescriptor field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRef) GetDisableAutoCreateServiceDescriptorOk() (*bool, bool) {
+	if o == nil || o.DisableAutoCreateServiceDescriptor == nil {
+		return nil, false
+	}
+	return o.DisableAutoCreateServiceDescriptor, true
+}
+
+// HasDisableAutoCreateServiceDescriptor returns a boolean if a field has been set.
+func (o *ModeServiceRef) HasDisableAutoCreateServiceDescriptor() bool {
+	return o != nil && o.DisableAutoCreateServiceDescriptor != nil
+}
+
+// SetDisableAutoCreateServiceDescriptor gets a reference to the given bool and assigns it to the DisableAutoCreateServiceDescriptor field.
+func (o *ModeServiceRef) SetDisableAutoCreateServiceDescriptor(v bool) {
+	o.DisableAutoCreateServiceDescriptor = &v
+}
+
+// GetDisableRelatedCluster returns the DisableRelatedCluster field value if set, zero value otherwise.
+func (o *ModeServiceRef) GetDisableRelatedCluster() bool {
+	if o == nil || o.DisableRelatedCluster == nil {
+		var ret bool
+		return ret
+	}
+	return *o.DisableRelatedCluster
+}
+
+// GetDisableRelatedClusterOk returns a tuple with the DisableRelatedCluster field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRef) GetDisableRelatedClusterOk() (*bool, bool) {
+	if o == nil || o.DisableRelatedCluster == nil {
+		return nil, false
+	}
+	return o.DisableRelatedCluster, true
+}
+
+// HasDisableRelatedCluster returns a boolean if a field has been set.
+func (o *ModeServiceRef) HasDisableRelatedCluster() bool {
+	return o != nil && o.DisableRelatedCluster != nil
+}
+
+// SetDisableRelatedCluster gets a reference to the given bool and assigns it to the DisableRelatedCluster field.
+func (o *ModeServiceRef) SetDisableRelatedCluster(v bool) {
+	o.DisableRelatedCluster = &v
+}
+
+// GetExtraForManualInput returns the ExtraForManualInput field value if set, zero value otherwise.
+func (o *ModeServiceRef) GetExtraForManualInput() map[string]interface{} {
+	if o == nil || o.ExtraForManualInput == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.ExtraForManualInput
+}
+
+// GetExtraForManualInputOk returns a tuple with the ExtraForManualInput field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRef) GetExtraForManualInputOk() (*map[string]interface{}, bool) {
+	if o == nil || o.ExtraForManualInput == nil {
+		return nil, false
+	}
+	return &o.ExtraForManualInput, true
+}
+
+// HasExtraForManualInput returns a boolean if a field has been set.
+func (o *ModeServiceRef) HasExtraForManualInput() bool {
+	return o != nil && o.ExtraForManualInput != nil
+}
+
+// SetExtraForManualInput gets a reference to the given map[string]interface{} and assigns it to the ExtraForManualInput field.
+func (o *ModeServiceRef) SetExtraForManualInput(v map[string]interface{}) {
+	o.ExtraForManualInput = v
+}
+
 // GetHelmValuePath returns the HelmValuePath field value.
 func (o *ModeServiceRef) GetHelmValuePath() ModeServiceRefHelmValuePath {
 	if o == nil {
@@ -331,6 +434,34 @@ func (o *ModeServiceRef) SetServiceVersionCompatibility(v []ModeServiceRefVersio
 	o.ServiceVersionCompatibility = v
 }
 
+// GetUpdatable returns the Updatable field value if set, zero value otherwise.
+func (o *ModeServiceRef) GetUpdatable() bool {
+	if o == nil || o.Updatable == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Updatable
+}
+
+// GetUpdatableOk returns a tuple with the Updatable field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRef) GetUpdatableOk() (*bool, bool) {
+	if o == nil || o.Updatable == nil {
+		return nil, false
+	}
+	return o.Updatable, true
+}
+
+// HasUpdatable returns a boolean if a field has been set.
+func (o *ModeServiceRef) HasUpdatable() bool {
+	return o != nil && o.Updatable != nil
+}
+
+// SetUpdatable gets a reference to the given bool and assigns it to the Updatable field.
+func (o *ModeServiceRef) SetUpdatable(v bool) {
+	o.Updatable = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -352,12 +483,24 @@ func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 	if o.DisableManualInput != nil {
 		toSerialize["disableManualInput"] = o.DisableManualInput
 	}
+	if o.DisableAutoCreateServiceDescriptor != nil {
+		toSerialize["disableAutoCreateServiceDescriptor"] = o.DisableAutoCreateServiceDescriptor
+	}
+	if o.DisableRelatedCluster != nil {
+		toSerialize["disableRelatedCluster"] = o.DisableRelatedCluster
+	}
+	if o.ExtraForManualInput != nil {
+		toSerialize["extraForManualInput"] = o.ExtraForManualInput
+	}
 	toSerialize["helmValuePath"] = o.HelmValuePath
 	if o.ServiceSelectors != nil {
 		toSerialize["serviceSelectors"] = o.ServiceSelectors
 	}
 	if o.ServiceVersionCompatibility != nil {
 		toSerialize["serviceVersionCompatibility"] = o.ServiceVersionCompatibility
+	}
+	if o.Updatable != nil {
+		toSerialize["updatable"] = o.Updatable
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -369,16 +512,20 @@ func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name                        *string                              `json:"name"`
-		Title                       map[string]string                    `json:"title,omitempty"`
-		Optional                    *bool                                `json:"optional,omitempty"`
-		EngineName                  *string                              `json:"engineName"`
-		Modes                       []string                             `json:"modes,omitempty"`
-		AddressStyle                *ServiceDescriptorAddressStyle       `json:"addressStyle"`
-		DisableManualInput          *bool                                `json:"disableManualInput,omitempty"`
-		HelmValuePath               *ModeServiceRefHelmValuePath         `json:"helmValuePath"`
-		ServiceSelectors            []ServiceSelector                    `json:"serviceSelectors,omitempty"`
-		ServiceVersionCompatibility []ModeServiceRefVersionCompatibility `json:"serviceVersionCompatibility,omitempty"`
+		Name                               *string                              `json:"name"`
+		Title                              map[string]string                    `json:"title,omitempty"`
+		Optional                           *bool                                `json:"optional,omitempty"`
+		EngineName                         *string                              `json:"engineName"`
+		Modes                              []string                             `json:"modes,omitempty"`
+		AddressStyle                       *ServiceDescriptorAddressStyle       `json:"addressStyle"`
+		DisableManualInput                 *bool                                `json:"disableManualInput,omitempty"`
+		DisableAutoCreateServiceDescriptor *bool                                `json:"disableAutoCreateServiceDescriptor,omitempty"`
+		DisableRelatedCluster              *bool                                `json:"disableRelatedCluster,omitempty"`
+		ExtraForManualInput                map[string]interface{}               `json:"extraForManualInput,omitempty"`
+		HelmValuePath                      *ModeServiceRefHelmValuePath         `json:"helmValuePath"`
+		ServiceSelectors                   []ServiceSelector                    `json:"serviceSelectors,omitempty"`
+		ServiceVersionCompatibility        []ModeServiceRefVersionCompatibility `json:"serviceVersionCompatibility,omitempty"`
+		Updatable                          *bool                                `json:"updatable,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -397,7 +544,7 @@ func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "optional", "engineName", "modes", "addressStyle", "disableManualInput", "helmValuePath", "serviceSelectors", "serviceVersionCompatibility"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "optional", "engineName", "modes", "addressStyle", "disableManualInput", "disableAutoCreateServiceDescriptor", "disableRelatedCluster", "extraForManualInput", "helmValuePath", "serviceSelectors", "serviceVersionCompatibility", "updatable"})
 	} else {
 		return err
 	}
@@ -414,12 +561,16 @@ func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 		o.AddressStyle = *all.AddressStyle
 	}
 	o.DisableManualInput = all.DisableManualInput
+	o.DisableAutoCreateServiceDescriptor = all.DisableAutoCreateServiceDescriptor
+	o.DisableRelatedCluster = all.DisableRelatedCluster
+	o.ExtraForManualInput = all.ExtraForManualInput
 	if all.HelmValuePath.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.HelmValuePath = *all.HelmValuePath
 	o.ServiceSelectors = all.ServiceSelectors
 	o.ServiceVersionCompatibility = all.ServiceVersionCompatibility
+	o.Updatable = all.Updatable
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -30,7 +30,7 @@ type InspectionTaskItem struct {
 	Direction *InspectionThresholdDirection `json:"direction,omitempty"`
 	// First-version criticality assumption for score weighting and red-item veto behavior. Missing legacy values are treated as medium.
 	Criticality *InspectionCriticality `json:"criticality,omitempty"`
-	// Structured evidence used to explain the item result. Prometheus/exporter no-data is reported here as no data or unknown instead of being converted into a healthy result.
+	// Structured evidence used to explain the item result. Unavailable or invalid evidence from any collection source, including Prometheus/exporters and DMS, is reported as unknown instead of being converted into a healthy or unhealthy conclusion.
 	Evidence map[string]interface{} `json:"evidence,omitempty"`
 	// Item-level timestamp for when this item's status was last evaluated or changed.
 	StatusChangedAt *time.Time            `json:"statusChangedAt,omitempty"`
