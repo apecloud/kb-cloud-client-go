@@ -29187,6 +29187,9 @@ components:
           type: boolean
         hideOnCreate:
           type: boolean
+        optional:
+          type: boolean
+          description: whether the component is enabled on demand in this mode
         serviceRef:
           type: string
           description: |

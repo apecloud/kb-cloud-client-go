@@ -14,6 +14,8 @@ type ModeComponent struct {
 	Component    string `json:"component"`
 	HideEnpoints bool   `json:"hideEnpoints"`
 	HideOnCreate bool   `json:"hideOnCreate"`
+	// whether the component is enabled on demand in this mode
+	Optional *bool `json:"optional,omitempty"`
 	// the name of the serviceRef defined in mode's serviceRefs.
 	// If set, it means a serviceRef can be used to replace this component.
 	//
@@ -113,6 +115,34 @@ func (o *ModeComponent) SetHideOnCreate(v bool) {
 	o.HideOnCreate = v
 }
 
+// GetOptional returns the Optional field value if set, zero value otherwise.
+func (o *ModeComponent) GetOptional() bool {
+	if o == nil || o.Optional == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Optional
+}
+
+// GetOptionalOk returns a tuple with the Optional field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeComponent) GetOptionalOk() (*bool, bool) {
+	if o == nil || o.Optional == nil {
+		return nil, false
+	}
+	return o.Optional, true
+}
+
+// HasOptional returns a boolean if a field has been set.
+func (o *ModeComponent) HasOptional() bool {
+	return o != nil && o.Optional != nil
+}
+
+// SetOptional gets a reference to the given bool and assigns it to the Optional field.
+func (o *ModeComponent) SetOptional(v bool) {
+	o.Optional = &v
+}
+
 // GetServiceRef returns the ServiceRef field value if set, zero value otherwise.
 func (o *ModeComponent) GetServiceRef() string {
 	if o == nil || o.ServiceRef == nil {
@@ -178,6 +208,9 @@ func (o ModeComponent) MarshalJSON() ([]byte, error) {
 	toSerialize["component"] = o.Component
 	toSerialize["hideEnpoints"] = o.HideEnpoints
 	toSerialize["hideOnCreate"] = o.HideOnCreate
+	if o.Optional != nil {
+		toSerialize["optional"] = o.Optional
+	}
 	if o.ServiceRef != nil {
 		toSerialize["serviceRef"] = o.ServiceRef
 	}
@@ -197,6 +230,7 @@ func (o *ModeComponent) UnmarshalJSON(bytes []byte) (err error) {
 		Component        *string               `json:"component"`
 		HideEnpoints     *bool                 `json:"hideEnpoints"`
 		HideOnCreate     *bool                 `json:"hideOnCreate"`
+		Optional         *bool                 `json:"optional,omitempty"`
 		ServiceRef       *string               `json:"serviceRef,omitempty"`
 		ReadonlyEndpoint *ModeReadonlyEndpoint `json:"readonlyEndpoint,omitempty"`
 	}{}
@@ -214,7 +248,7 @@ func (o *ModeComponent) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "hideEnpoints", "hideOnCreate", "serviceRef", "readonlyEndpoint"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "hideEnpoints", "hideOnCreate", "optional", "serviceRef", "readonlyEndpoint"})
 	} else {
 		return err
 	}
@@ -223,6 +257,7 @@ func (o *ModeComponent) UnmarshalJSON(bytes []byte) (err error) {
 	o.Component = *all.Component
 	o.HideEnpoints = *all.HideEnpoints
 	o.HideOnCreate = *all.HideOnCreate
+	o.Optional = all.Optional
 	o.ServiceRef = all.ServiceRef
 	if all.ReadonlyEndpoint != nil && all.ReadonlyEndpoint.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
