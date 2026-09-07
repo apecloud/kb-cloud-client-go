@@ -22,9 +22,11 @@ type InspectionTask struct {
 	EnvName     *string                     `json:"envName,omitempty"`
 	EnvId       *string                     `json:"envID,omitempty"`
 	// Node name(s) for inspection. Multiple nodes can be specified as a comma-separated string (e.g. "node1,node2,node3").
-	NodeName       *string              `json:"nodeName,omitempty"`
-	IsAuto         *bool                `json:"isAuto,omitempty"`
-	Score          *int32               `json:"score,omitempty"`
+	NodeName *string `json:"nodeName,omitempty"`
+	IsAuto   *bool   `json:"isAuto,omitempty"`
+	// Weighted health score from 0 to 100 over evaluable inspection items only. Unknown items are excluded. The field is omitted when no item is evaluable.
+	Score *int32 `json:"score,omitempty"`
+	// Task health conclusion. Valid conclusions are red, yellow, green, and unknown. Unknown means no item is evaluable.
 	Result         *string              `json:"result,omitempty"`
 	Items          []InspectionTaskItem `json:"items,omitempty"`
 	CreatedAt      *time.Time           `json:"createdAt,omitempty"`

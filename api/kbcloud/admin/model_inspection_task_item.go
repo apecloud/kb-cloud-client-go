@@ -23,9 +23,11 @@ type InspectionTaskItem struct {
 	Status            *string               `json:"status,omitempty"`
 	Result            *string               `json:"result,omitempty"`
 	Severity          *string               `json:"severity,omitempty"`
-	Unit              *string               `json:"unit,omitempty"`
-	CreatedAt         *time.Time            `json:"createdAt,omitempty"`
-	UpdatedAt         *time.Time            `json:"updatedAt,omitempty"`
+	// Structured evidence explaining an inspection item result. Unavailable or invalid evidence is reported as unknown.
+	Evidence  map[string]interface{} `json:"evidence,omitempty"`
+	Unit      *string                `json:"unit,omitempty"`
+	CreatedAt *time.Time             `json:"createdAt,omitempty"`
+	UpdatedAt *time.Time             `json:"updatedAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -384,6 +386,34 @@ func (o *InspectionTaskItem) SetSeverity(v string) {
 	o.Severity = &v
 }
 
+// GetEvidence returns the Evidence field value if set, zero value otherwise.
+func (o *InspectionTaskItem) GetEvidence() map[string]interface{} {
+	if o == nil || o.Evidence == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.Evidence
+}
+
+// GetEvidenceOk returns a tuple with the Evidence field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionTaskItem) GetEvidenceOk() (*map[string]interface{}, bool) {
+	if o == nil || o.Evidence == nil {
+		return nil, false
+	}
+	return &o.Evidence, true
+}
+
+// HasEvidence returns a boolean if a field has been set.
+func (o *InspectionTaskItem) HasEvidence() bool {
+	return o != nil && o.Evidence != nil
+}
+
+// SetEvidence gets a reference to the given map[string]interface{} and assigns it to the Evidence field.
+func (o *InspectionTaskItem) SetEvidence(v map[string]interface{}) {
+	o.Evidence = v
+}
+
 // GetUnit returns the Unit field value if set, zero value otherwise.
 func (o *InspectionTaskItem) GetUnit() string {
 	if o == nil || o.Unit == nil {
@@ -510,6 +540,9 @@ func (o InspectionTaskItem) MarshalJSON() ([]byte, error) {
 	if o.Severity != nil {
 		toSerialize["severity"] = o.Severity
 	}
+	if o.Evidence != nil {
+		toSerialize["evidence"] = o.Evidence
+	}
 	if o.Unit != nil {
 		toSerialize["unit"] = o.Unit
 	}
@@ -537,28 +570,29 @@ func (o InspectionTaskItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InspectionTaskItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id                *string               `json:"id,omitempty"`
-		TaskId            *string               `json:"taskID,omitempty"`
-		ScriptId          *string               `json:"scriptID,omitempty"`
-		ScriptName        *LocalizedDescription `json:"scriptName,omitempty"`
-		ScriptDescription *LocalizedDescription `json:"scriptDescription,omitempty"`
-		ScriptCategory    *string               `json:"scriptCategory,omitempty"`
-		ResourceType      *string               `json:"resourceType,omitempty"`
-		ResourceId        *string               `json:"resourceID,omitempty"`
-		ResourceName      *string               `json:"resourceName,omitempty"`
-		Status            *string               `json:"status,omitempty"`
-		Result            *string               `json:"result,omitempty"`
-		Severity          *string               `json:"severity,omitempty"`
-		Unit              *string               `json:"unit,omitempty"`
-		CreatedAt         *time.Time            `json:"createdAt,omitempty"`
-		UpdatedAt         *time.Time            `json:"updatedAt,omitempty"`
+		Id                *string                `json:"id,omitempty"`
+		TaskId            *string                `json:"taskID,omitempty"`
+		ScriptId          *string                `json:"scriptID,omitempty"`
+		ScriptName        *LocalizedDescription  `json:"scriptName,omitempty"`
+		ScriptDescription *LocalizedDescription  `json:"scriptDescription,omitempty"`
+		ScriptCategory    *string                `json:"scriptCategory,omitempty"`
+		ResourceType      *string                `json:"resourceType,omitempty"`
+		ResourceId        *string                `json:"resourceID,omitempty"`
+		ResourceName      *string                `json:"resourceName,omitempty"`
+		Status            *string                `json:"status,omitempty"`
+		Result            *string                `json:"result,omitempty"`
+		Severity          *string                `json:"severity,omitempty"`
+		Evidence          map[string]interface{} `json:"evidence,omitempty"`
+		Unit              *string                `json:"unit,omitempty"`
+		CreatedAt         *time.Time             `json:"createdAt,omitempty"`
+		UpdatedAt         *time.Time             `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "taskID", "scriptID", "scriptName", "scriptDescription", "scriptCategory", "resourceType", "resourceID", "resourceName", "status", "result", "severity", "unit", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "taskID", "scriptID", "scriptName", "scriptDescription", "scriptCategory", "resourceType", "resourceID", "resourceName", "status", "result", "severity", "evidence", "unit", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}
@@ -582,6 +616,7 @@ func (o *InspectionTaskItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.Status = all.Status
 	o.Result = all.Result
 	o.Severity = all.Severity
+	o.Evidence = all.Evidence
 	o.Unit = all.Unit
 	o.CreatedAt = all.CreatedAt
 	o.UpdatedAt = all.UpdatedAt

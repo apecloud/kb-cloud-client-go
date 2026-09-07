@@ -30836,6 +30836,10 @@ components:
         - kingbase
         - postgresql
         - oracle
+    inspectionTaskItemEvidence:
+      type: object
+      description: Structured evidence explaining an inspection item result. Unavailable or invalid evidence is reported as unknown.
+      additionalProperties: true
     inspectionTaskItem:
       properties:
         id:
@@ -30862,6 +30866,8 @@ components:
           type: string
         severity:
           type: string
+        evidence:
+          $ref: '#/components/schemas/inspectionTaskItemEvidence'
         unit:
           type: string
         createdAt:
@@ -30897,8 +30903,11 @@ components:
           type: boolean
         score:
           type: integer
+          x-nullable: true
+          description: Weighted health score from 0 to 100 over evaluable inspection items only. Unknown items are excluded. The field is omitted when no item is evaluable.
         result:
           type: string
+          description: Task health conclusion. Valid conclusions are red, yellow, green, and unknown. Unknown means no item is evaluable.
         items:
           type: array
           items:
@@ -30935,6 +30944,7 @@ components:
         - green
         - yellow
         - red
+        - unknown
     aggregateTaskResultSummary:
       type: object
       properties:
@@ -30944,6 +30954,9 @@ components:
           type: integer
         normal:
           type: integer
+        unknown:
+          type: integer
+          description: Number of completed tasks with no evaluable inspection item.
     aggregateTaskResult:
       properties:
         engine:
