@@ -17,8 +17,10 @@ type EngineOptionLicense struct {
 	SecretName string `json:"secretName"`
 	// the license file name
 	FileName *string `json:"fileName,omitempty"`
-	// the required license file names for engines that need multiple license files
+	// the required license file names for engines that need multiple license files. Deprecated; use files to expose explicit upload slots.
 	FileNames []string `json:"fileNames,omitempty"`
+	// Explicit license file upload slots. Each item maps one UI upload field to the file name written into the license Secret.
+	Files []EngineOptionLicenseFile `json:"files,omitempty"`
 	// set the custom ops to update license for different components
 	Components []LicenseOption `json:"components,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -151,6 +153,34 @@ func (o *EngineOptionLicense) SetFileNames(v []string) {
 	o.FileNames = v
 }
 
+// GetFiles returns the Files field value if set, zero value otherwise.
+func (o *EngineOptionLicense) GetFiles() []EngineOptionLicenseFile {
+	if o == nil || o.Files == nil {
+		var ret []EngineOptionLicenseFile
+		return ret
+	}
+	return o.Files
+}
+
+// GetFilesOk returns a tuple with the Files field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOptionLicense) GetFilesOk() (*[]EngineOptionLicenseFile, bool) {
+	if o == nil || o.Files == nil {
+		return nil, false
+	}
+	return &o.Files, true
+}
+
+// HasFiles returns a boolean if a field has been set.
+func (o *EngineOptionLicense) HasFiles() bool {
+	return o != nil && o.Files != nil
+}
+
+// SetFiles gets a reference to the given []EngineOptionLicenseFile and assigns it to the Files field.
+func (o *EngineOptionLicense) SetFiles(v []EngineOptionLicenseFile) {
+	o.Files = v
+}
+
 // GetComponents returns the Components field value if set, zero value otherwise.
 func (o *EngineOptionLicense) GetComponents() []LicenseOption {
 	if o == nil || o.Components == nil {
@@ -195,6 +225,9 @@ func (o EngineOptionLicense) MarshalJSON() ([]byte, error) {
 	if o.FileNames != nil {
 		toSerialize["fileNames"] = o.FileNames
 	}
+	if o.Files != nil {
+		toSerialize["files"] = o.Files
+	}
 	if o.Components != nil {
 		toSerialize["components"] = o.Components
 	}
@@ -208,11 +241,12 @@ func (o EngineOptionLicense) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineOptionLicense) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Required   *bool           `json:"required,omitempty"`
-		SecretName *string         `json:"secretName"`
-		FileName   *string         `json:"fileName,omitempty"`
-		FileNames  []string        `json:"fileNames,omitempty"`
-		Components []LicenseOption `json:"components,omitempty"`
+		Required   *bool                     `json:"required,omitempty"`
+		SecretName *string                   `json:"secretName"`
+		FileName   *string                   `json:"fileName,omitempty"`
+		FileNames  []string                  `json:"fileNames,omitempty"`
+		Files      []EngineOptionLicenseFile `json:"files,omitempty"`
+		Components []LicenseOption           `json:"components,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -222,7 +256,7 @@ func (o *EngineOptionLicense) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"required", "secretName", "fileName", "fileNames", "components"})
+		common.DeleteKeys(additionalProperties, &[]string{"required", "secretName", "fileName", "fileNames", "files", "components"})
 	} else {
 		return err
 	}
@@ -230,6 +264,7 @@ func (o *EngineOptionLicense) UnmarshalJSON(bytes []byte) (err error) {
 	o.SecretName = *all.SecretName
 	o.FileName = all.FileName
 	o.FileNames = all.FileNames
+	o.Files = all.Files
 	o.Components = all.Components
 
 	if len(additionalProperties) > 0 {

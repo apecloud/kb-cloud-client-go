@@ -36792,6 +36792,23 @@ components:
                       In rebuildinstance ops, only `ops` object is available.
                 type: object
               type: array
+    engineOptionLicenseFile:
+      type: object
+      additionalProperties: false
+      required:
+        - name
+        - field
+      properties:
+        name:
+          type: string
+          description: Target license file name written into the engine license Secret.
+        field:
+          type: string
+          description: Stable upload field key used by clients when building a multi-file license bundle.
+        title:
+          $ref: '#/components/schemas/localizedDescription'
+        description:
+          $ref: '#/components/schemas/localizedDescription'
     licenseOption:
       type: object
       required:
@@ -37980,9 +37997,14 @@ components:
               description: the license file name
             fileNames:
               type: array
-              description: the required license file names for engines that need multiple license files
+              description: the required license file names for engines that need multiple license files. Deprecated; use files to expose explicit upload slots.
               items:
                 type: string
+            files:
+              type: array
+              description: Explicit license file upload slots. Each item maps one UI upload field to the file name written into the license Secret.
+              items:
+                $ref: '#/components/schemas/engineOptionLicenseFile'
             components:
               type: array
               description: set the custom ops to update license for different components
@@ -38153,7 +38175,7 @@ components:
         licenseFile:
           type: string
           format: binary
-          description: The license file to upload. Required when type is not NodeScope; optional when type is NodeScope. For engines that require multiple license files, upload a JSON license bundle through this field.
+          description: The license file to upload. Required when type is not NodeScope; optional when type is NodeScope. For engines with engineOption.license.files, upload a JSON license bundle through this field keyed by each file slot's field or target name, with base64-encoded file content.
       required:
         - name
         - engineName
