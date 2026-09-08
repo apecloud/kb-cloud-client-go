@@ -7900,7 +7900,7 @@ paths:
         - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/templates/{templateId}/explain:
     post:
-      description: Explain a slow log template sample using DMS. The SQL is selected by templateId and time range; request body does not accept raw SQL. Only MySQL-compatible and PostgreSQL SELECT samples are supported.
+      description: Explain a slow log template sample using DMS. The SQL is selected by templateId and time range; request body does not accept raw SQL. Only MySQL-compatible, PostgreSQL, and SQL Server SELECT samples are supported.
       summary: Explain cluster slow log template
       operationId: explainSlowLogTemplate
       parameters:
@@ -13716,6 +13716,12 @@ paths:
       operationId: listAlertObjects
       summary: List alert objects
       parameters:
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
+          schema:
+            type: string
         - name: page
           in: query
           description: page number

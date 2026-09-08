@@ -526,7 +526,7 @@ func (r *ExplainSlowLogTemplateOptionalParameters) WithAppName(appName string) *
 }
 
 // ExplainSlowLogTemplate Explain cluster slow log template.
-// Explain a slow log template sample using DMS. The SQL is selected by templateId and time range; request body does not accept raw SQL. Only MySQL-compatible and PostgreSQL SELECT samples are supported.
+// Explain a slow log template sample using DMS. The SQL is selected by templateId and time range; request body does not accept raw SQL. Only MySQL-compatible, PostgreSQL, and SQL Server SELECT samples are supported.
 func (a *ClusterLogApi) ExplainSlowLogTemplate(ctx _context.Context, orgName string, clusterName string, templateId string, startTime string, endTime string, o ...ExplainSlowLogTemplateOptionalParameters) (ClusterSlowLogExplainResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
