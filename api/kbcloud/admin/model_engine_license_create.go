@@ -25,7 +25,7 @@ type EngineLicenseCreate struct {
 	EnvironmentId *string `json:"environmentID,omitempty"`
 	// Type of the license. Determines whether licenseFile is required.
 	Type string `json:"type"`
-	// The license file to upload. Required when type is not NodeScope; optional when type is NodeScope.
+	// The license file to upload. Required when type is not NodeScope; optional when type is NodeScope. For engines that require multiple license files, upload a JSON license bundle through this field.
 	LicenseFile *_io.Reader `json:"licenseFile,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
