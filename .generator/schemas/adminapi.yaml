@@ -37995,11 +37995,6 @@ components:
             fileName:
               type: string
               description: the license file name
-            fileNames:
-              type: array
-              description: the required license file names for engines that need multiple license files. Deprecated; use files to expose explicit upload slots.
-              items:
-                type: string
             files:
               type: array
               description: Explicit license file upload slots. Each item maps one UI upload field to the file name written into the license Secret.
