@@ -36797,14 +36797,10 @@ components:
       additionalProperties: false
       required:
         - name
-        - field
       properties:
         name:
           type: string
           description: Target license file name written into the engine license Secret.
-        field:
-          type: string
-          description: Stable upload field key used by clients when building a multi-file license bundle.
         title:
           $ref: '#/components/schemas/localizedDescription'
         description:
@@ -38170,7 +38166,7 @@ components:
         licenseFile:
           type: string
           format: binary
-          description: The license file to upload. Required when type is not NodeScope; optional when type is NodeScope. For engines with engineOption.license.files, upload a JSON license bundle through this field keyed by each file slot's field or target name, with base64-encoded file content.
+          description: The license file to upload. Required when type is not NodeScope; optional when type is NodeScope. For engines with engineOption.license.files, generated SDKs can still upload an engine-defined JSON license bundle through this field. Direct multipart callers should upload each file using the configured license.files[].name as the form field name.
       required:
         - name
         - engineName

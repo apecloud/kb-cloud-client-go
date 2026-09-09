@@ -12,9 +12,7 @@ import (
 
 type EngineOptionLicenseFile struct {
 	// Target license file name written into the engine license Secret.
-	Name string `json:"name"`
-	// Stable upload field key used by clients when building a multi-file license bundle.
-	Field       string                `json:"field"`
+	Name        string                `json:"name"`
 	Title       *LocalizedDescription `json:"title,omitempty"`
 	Description *LocalizedDescription `json:"description,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -25,10 +23,9 @@ type EngineOptionLicenseFile struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineOptionLicenseFile(name string, field string) *EngineOptionLicenseFile {
+func NewEngineOptionLicenseFile(name string) *EngineOptionLicenseFile {
 	this := EngineOptionLicenseFile{}
 	this.Name = name
-	this.Field = field
 	return &this
 }
 
@@ -61,29 +58,6 @@ func (o *EngineOptionLicenseFile) GetNameOk() (*string, bool) {
 // SetName sets field value.
 func (o *EngineOptionLicenseFile) SetName(v string) {
 	o.Name = v
-}
-
-// GetField returns the Field field value.
-func (o *EngineOptionLicenseFile) GetField() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.Field
-}
-
-// GetFieldOk returns a tuple with the Field field value
-// and a boolean to check if the value has been set.
-func (o *EngineOptionLicenseFile) GetFieldOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Field, true
-}
-
-// SetField sets field value.
-func (o *EngineOptionLicenseFile) SetField(v string) {
-	o.Field = v
 }
 
 // GetTitle returns the Title field value if set, zero value otherwise.
@@ -149,7 +123,6 @@ func (o EngineOptionLicenseFile) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["name"] = o.Name
-	toSerialize["field"] = o.Field
 	if o.Title != nil {
 		toSerialize["title"] = o.Title
 	}
@@ -163,7 +136,6 @@ func (o EngineOptionLicenseFile) MarshalJSON() ([]byte, error) {
 func (o *EngineOptionLicenseFile) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name        *string               `json:"name"`
-		Field       *string               `json:"field"`
 		Title       *LocalizedDescription `json:"title,omitempty"`
 		Description *LocalizedDescription `json:"description,omitempty"`
 	}{}
@@ -173,13 +145,9 @@ func (o *EngineOptionLicenseFile) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
 	}
-	if all.Field == nil {
-		return fmt.Errorf("required field field missing")
-	}
 
 	hasInvalidField := false
 	o.Name = *all.Name
-	o.Field = *all.Field
 	if all.Title != nil && all.Title.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

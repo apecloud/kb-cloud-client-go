@@ -30110,14 +30110,10 @@ components:
       additionalProperties: false
       required:
         - name
-        - field
       properties:
         name:
           type: string
           description: Target license file name written into the engine license Secret.
-        field:
-          type: string
-          description: Stable upload field key used by clients when building a multi-file license bundle.
         title:
           $ref: '#/components/schemas/localizedDescription'
         description:
