@@ -28383,6 +28383,11 @@ components:
             type: string
           description: Specify parameters list to be updated
           type: object
+        parametersToRemove:
+          description: Specify parameters list to be removed from the template
+          items:
+            type: string
+          type: array
         newParamTplName:
           description: Specify the new name of the parameter template
           type: string
