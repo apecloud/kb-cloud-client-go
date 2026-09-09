@@ -30105,6 +30105,19 @@ components:
                       In rebuildinstance ops, only `ops` object is available.
                 type: object
               type: array
+    engineOptionLicenseFile:
+      type: object
+      additionalProperties: false
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Target license file name written into the engine license Secret.
+        title:
+          $ref: '#/components/schemas/localizedDescription'
+        description:
+          $ref: '#/components/schemas/localizedDescription'
     licenseOption:
       type: object
       required:
@@ -31281,7 +31294,6 @@ components:
           type: object
           required:
             - secretName
-            - fileName
           properties:
             required:
               type: boolean
@@ -31292,6 +31304,11 @@ components:
             fileName:
               type: string
               description: the license file name
+            files:
+              type: array
+              description: Explicit license file upload slots. Each item maps one UI upload field to the file name written into the license Secret.
+              items:
+                $ref: '#/components/schemas/engineOptionLicenseFile'
             components:
               type: array
               description: set the custom ops to update license for different components
