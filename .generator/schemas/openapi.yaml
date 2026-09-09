@@ -2758,7 +2758,7 @@ paths:
         - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/templates/{templateId}/explain:
     post:
-      description: Explain a slow log template sample using DMS. The SQL is selected by templateId and time range; request body does not accept raw SQL. Only MySQL-compatible and PostgreSQL SELECT samples are supported.
+      description: Explain a slow log template sample using DMS. The SQL is selected by templateId and time range; request body does not accept raw SQL. Only MySQL-compatible, PostgreSQL, and SQL Server SELECT samples are supported.
       summary: Explain cluster slow log template
       operationId: explainSlowLogTemplate
       parameters:
@@ -25189,7 +25189,7 @@ components:
           nullable: true
         loadBalancerIPAssignments:
           type: array
-          description: The LoadBalancer IP and VIP pool assignments for dual-stack MetalLB services. If set, loadBalancerIP and loadBalancerIPPoolID must not be set.
+          description: The LoadBalancer IP and VIP pool assignments for dual-stack MetalLB services. All assignments must reference the same VIP pool. If set, loadBalancerIP and loadBalancerIPPoolID must not be set.
           items:
             type: object
             required:
@@ -30124,6 +30124,19 @@ components:
                       In rebuildinstance ops, only `ops` object is available.
                 type: object
               type: array
+    engineOptionLicenseFile:
+      type: object
+      additionalProperties: false
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Target license file name written into the engine license Secret.
+        title:
+          $ref: '#/components/schemas/localizedDescription'
+        description:
+          $ref: '#/components/schemas/localizedDescription'
     licenseOption:
       type: object
       required:
@@ -31300,7 +31313,6 @@ components:
           type: object
           required:
             - secretName
-            - fileName
           properties:
             required:
               type: boolean
@@ -31311,6 +31323,11 @@ components:
             fileName:
               type: string
               description: the license file name
+            files:
+              type: array
+              description: Explicit license file upload slots. Each item maps one UI upload field to the file name written into the license Secret.
+              items:
+                $ref: '#/components/schemas/engineOptionLicenseFile'
             components:
               type: array
               description: set the custom ops to update license for different components
