@@ -22137,7 +22137,7 @@ components:
           items:
             type: string
         availableIPs:
-          description: Used IP addresses
+          description: Available IP address candidates, limited to 4096 per pool. IPv4 and IPv6 share the limit equally, with unused slots reassigned to the other family. Large pools return a partial list.
           type: array
           items:
             type: string
@@ -28402,6 +28402,11 @@ components:
             type: string
           description: Specify parameters list to be updated
           type: object
+        parametersToRemove:
+          description: Specify parameters list to be removed from the template
+          items:
+            type: string
+          type: array
         newParamTplName:
           description: Specify the new name of the parameter template
           type: string
