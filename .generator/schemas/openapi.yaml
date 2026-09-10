@@ -2758,7 +2758,7 @@ paths:
         - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/templates/{templateId}/explain:
     post:
-      description: Explain a slow log template sample using DMS. The SQL is selected by templateId and time range; request body does not accept raw SQL. Only MySQL-compatible and PostgreSQL SELECT samples are supported.
+      description: Explain a slow log template sample using DMS. The SQL is selected by templateId and time range; request body does not accept raw SQL. Only MySQL-compatible, PostgreSQL, and SQL Server SELECT samples are supported.
       summary: Explain cluster slow log template
       operationId: explainSlowLogTemplate
       parameters:
@@ -22137,7 +22137,7 @@ components:
           items:
             type: string
         availableIPs:
-          description: Used IP addresses
+          description: Available IP address candidates, limited to 4096 per pool. IPv4 and IPv6 share the limit equally, with unused slots reassigned to the other family. Large pools return a partial list.
           type: array
           items:
             type: string
@@ -25181,11 +25181,11 @@ components:
                 type: integer
         loadBalancerIP:
           type: string
-          description: The IP address of the LoadBalancer service. If not set, the IP address will be assigned by the system. Only available when vpcServiceType is LoadBalancer.
+          description: The requested IPv4 or IPv6 address of the LoadBalancer service. If not set, IP addresses will be assigned by the system. For dual-stack MetalLB services, the system allocates the missing address family from the same VIP pool. Only available when vpcServiceType is LoadBalancer.
           nullable: true
         loadBalancerIPPoolID:
           type: string
-          description: The IP pool ID of the LoadBalancer service. If not set, the IP pool will be assigned by the system. Only available when vpcServiceType is LoadBalancer.
+          description: The IP pool ID of the LoadBalancer service. If not set, the IP pool will be assigned by the system. All VIPs of a dual-stack MetalLB service are allocated from the same pool. Only available when vpcServiceType is LoadBalancer.
           nullable: true
         domain:
           type: string
@@ -28383,6 +28383,11 @@ components:
             type: string
           description: Specify parameters list to be updated
           type: object
+        parametersToRemove:
+          description: Specify parameters list to be removed from the template
+          items:
+            type: string
+          type: array
         newParamTplName:
           description: Specify the new name of the parameter template
           type: string
@@ -30105,6 +30110,19 @@ components:
                       In rebuildinstance ops, only `ops` object is available.
                 type: object
               type: array
+    engineOptionLicenseFile:
+      type: object
+      additionalProperties: false
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Target license file name written into the engine license Secret.
+        title:
+          $ref: '#/components/schemas/localizedDescription'
+        description:
+          $ref: '#/components/schemas/localizedDescription'
     licenseOption:
       type: object
       required:
@@ -31281,7 +31299,6 @@ components:
           type: object
           required:
             - secretName
-            - fileName
           properties:
             required:
               type: boolean
@@ -31292,6 +31309,11 @@ components:
             fileName:
               type: string
               description: the license file name
+            files:
+              type: array
+              description: Explicit license file upload slots. Each item maps one UI upload field to the file name written into the license Secret.
+              items:
+                $ref: '#/components/schemas/engineOptionLicenseFile'
             components:
               type: array
               description: set the custom ops to update license for different components
@@ -38109,14 +38131,22 @@ components:
         - vacuumWraparound
         - backup
         - security
+    inspectionEvaluationMode:
+      type: string
+      description: Empty legacy values mean check. Display collects information without scoring. Manual requires type=manual and presents scriptExpr verbatim as instructions; it executes no SQL or templates, returns severity=unknown, and retains rule importance.
+      enum:
+        - check
+        - display
+        - manual
     inspectionCriticality:
       type: string
-      description: First-version criticality assumption for score weighting and red-item veto behavior. Missing legacy values are treated as medium.
+      description: Rule importance used for score weighting. Info marks automatically collected information excluded from scoring. Manual items retain their importance but return unknown and are not scored. Missing legacy values normally default to medium; cluster and node status default to critical.
       enum:
         - critical
         - high
         - medium
         - low
+        - info
     inspectionThresholdDirection:
       type: string
       description: Direction used to interpret warnThreshold and critThreshold. asc means larger values are worse, desc means smaller values are worse, boolean means the check expression decides.
@@ -38145,7 +38175,7 @@ components:
           description: The engine type this script is applicable to, such as cluster, mysql, node
           type: string
         type:
-          description: The type of the script, such as "promQL"
+          description: The type of the script, such as "promQL" or "manual" (requires evaluationMode=manual)
           type: string
         category:
           $ref: '#/components/schemas/inspectionScriptCategory'
@@ -38153,6 +38183,9 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         scriptExpr:
           type: string
+          description: Collector expression for automatic modes; complete user instructions (up to 8192 UTF-8 bytes) for manual mode. Manual placeholders are not rendered.
+        evaluationMode:
+          $ref: '#/components/schemas/inspectionEvaluationMode'
         checkExpr:
           type: string
         criticality:
@@ -38268,29 +38301,35 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         scriptCategory:
           type: string
+          description: Category used to group inspection items, such as availability, performance, capacity, or backup.
         resourceType:
           type: string
+          description: Type of the inspected resource, such as cluster or node; resourceID and resourceName identify the target.
         resourceID:
           type: string
         resourceName:
           type: string
         status:
           type: string
+          description: Execution state, such as Running, Completed, or Failed. Use severity for the health conclusion. For manual items, Completed means instructions are available, not that the user has performed them.
         result:
           type: string
+          description: Textual observation or execution message for display. It may contain nonnumeric information or an error; use severity for the health conclusion. Manual instructions are stored in evidence.ruleSnapshot.scriptExpr.
         valueNum:
           type: number
           format: double
           x-nullable: true
-          description: Numeric form of result when the result is parseable.
+          description: Numeric observation when available, including numeric information collected by info items. Omitted when no numeric observation exists, including manual guidance. Use with unit and thresholds for numeric displays.
         warnThreshold:
           type: number
           format: double
           x-nullable: true
+          description: Warning threshold interpreted using direction and the same unit as valueNum. Omitted when no numeric warning threshold is configured.
         critThreshold:
           type: number
           format: double
           x-nullable: true
+          description: Critical threshold interpreted using direction and the same unit as valueNum. Omitted when no numeric critical threshold is configured.
         direction:
           $ref: '#/components/schemas/inspectionThresholdDirection'
         criticality:
@@ -38305,10 +38344,13 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         docLink:
           type: string
+          description: Link to documentation explaining this inspection item and recommended actions.
         severity:
           type: string
+          description: 'Health conclusion: red (critical), yellow (warning), green (healthy), unknown (cannot evaluate), or info (automatically collected information). Manual guidance returns unknown and retains its criticality. Unknown and info do not contribute to health scoring; Completed for manual guidance means instructions are available, not user completion.'
         unit:
           type: string
+          description: Display unit for the inspection result and thresholds, such as percent, seconds, or bytes. Empty when no unit applies.
         createdAt:
           format: date-time
           type: string
@@ -38350,7 +38392,7 @@ components:
           type: integer
           format: int64
           x-nullable: true
-          description: Weighted health score from 0 to 100 over evaluable inspection items only. Unknown items are excluded from both the numerator and denominator. The field is omitted when no item is evaluable; a present value of 0 is a valid evaluated score.
+          description: Weighted health score from 0 to 100 over evaluable inspection items only. Unknown results and items with info importance are excluded from both the numerator and denominator. The field is omitted when no item is evaluable; a present value of 0 is a valid evaluated score.
         result:
           type: string
           description: Task health conclusion derived from evaluable item states and criticality-aware score caps. Valid conclusions are red, yellow, green, and unknown. Unknown means no item is evaluable. Unknown items remain visible in the item list but do not override a red, yellow, or green conclusion derived from evaluable items.
