@@ -22493,6 +22493,270 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/taskAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Elasticsearch task and hot-thread analysis
+      operationId: getDiagnosticsElasticsearchTaskAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/elasticsearchHotThreadsType'
+        - name: node
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: taskLimit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: threads
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 10
+            default: 3
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/elasticsearchTaskAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/storageAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Elasticsearch storage and index analysis
+      operationId: getDiagnosticsElasticsearchStorageAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: node
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: index
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/elasticsearchIndexSortBy'
+        - name: sortOrder
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/elasticsearchSortOrder'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/elasticsearchStorageAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/shards:
+    get:
+      tags:
+        - diagnostics
+      summary: List Elasticsearch shards
+      operationId: listDiagnosticsElasticsearchShards
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: index
+          in: query
+          required: false
+          description: Index name or pattern
+          schema:
+            type: string
+        - name: node
+          in: query
+          required: false
+          description: Exact node ID or name
+          schema:
+            type: string
+        - name: state
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/elasticsearchShardState'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/elasticsearchShardList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/recoveries:
+    get:
+      tags:
+        - diagnostics
+      summary: List active Elasticsearch shard recoveries
+      operationId: listDiagnosticsElasticsearchRecoveries
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: index
+          in: query
+          required: false
+          description: Index name or pattern
+          schema:
+            type: string
+        - name: node
+          in: query
+          required: false
+          description: Exact target node ID or name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/elasticsearchRecoveryList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/allocationExplain:
+    get:
+      tags:
+        - diagnostics
+      summary: Explain Elasticsearch shard allocation
+      operationId: explainDiagnosticsElasticsearchAllocation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: index
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: shard
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+        - name: primary
+          in: query
+          required: true
+          schema:
+            type: boolean
+        - name: currentNode
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/elasticsearchAllocationExplanation'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}/lockAnalysis:
     get:
       tags:
@@ -43235,6 +43499,523 @@ components:
         collectedAt:
           type: string
           description: Backend collection timestamp in UTC.
+    elasticsearchHotThreadsType:
+      type: string
+      enum:
+        - cpu
+        - wait
+        - block
+      default: cpu
+    elasticsearchTask:
+      type: object
+      required:
+        - taskId
+        - nodeId
+        - nodeName
+        - action
+        - runningTimeMillis
+        - cancellable
+      properties:
+        taskId:
+          type: string
+        nodeId:
+          type: string
+        nodeName:
+          type: string
+        action:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        startTime:
+          type: string
+        runningTimeMillis:
+          type: integer
+          format: int64
+        cancellable:
+          type: boolean
+        cancelled:
+          type: boolean
+    elasticsearchHotThreads:
+      type: object
+      required:
+        - type
+        - content
+        - truncated
+      properties:
+        nodeName:
+          type: string
+        type:
+          type: string
+        content:
+          type: string
+        truncated:
+          type: boolean
+    elasticsearchTaskAnalysis:
+      type: object
+      required:
+        - tasks
+        - hotThreads
+        - sources
+        - warnings
+        - collectedAt
+      properties:
+        tasks:
+          type: array
+          description: List of currently running tasks, sorted by running time in descending order
+          items:
+            $ref: '#/components/schemas/elasticsearchTask'
+        hotThreads:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchHotThreads'
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/performanceTrendSource'
+        warnings:
+          type: array
+          items:
+            type: string
+        collectedAt:
+          type: string
+    elasticsearchIndexSortBy:
+      type: string
+      enum:
+        - name
+        - documents
+        - totalStoreBytes
+        - segments
+      default: totalStoreBytes
+    elasticsearchSortOrder:
+      type: string
+      enum:
+        - asc
+        - desc
+      default: desc
+    elasticsearchIndexStorage:
+      type: object
+      required:
+        - name
+        - health
+        - status
+        - primaryShards
+        - replicaShards
+        - documents
+        - deletedDocuments
+        - primaryStoreBytes
+        - totalStoreBytes
+        - segments
+      properties:
+        name:
+          type: string
+        uuid:
+          type: string
+        health:
+          type: string
+        status:
+          type: string
+        primaryShards:
+          type: integer
+          format: int64
+          nullable: true
+        replicaShards:
+          type: integer
+          format: int64
+          nullable: true
+        documents:
+          type: integer
+          format: int64
+          nullable: true
+        deletedDocuments:
+          type: integer
+          format: int64
+          nullable: true
+        primaryStoreBytes:
+          type: integer
+          format: int64
+          nullable: true
+        totalStoreBytes:
+          type: integer
+          format: int64
+          nullable: true
+        segments:
+          type: integer
+          format: int64
+          nullable: true
+    elasticsearchNodeAllocation:
+      type: object
+      required:
+        - nodeName
+        - shards
+        - diskIndicesBytes
+        - diskUsedBytes
+        - diskAvailableBytes
+        - diskTotalBytes
+        - diskPercent
+      properties:
+        nodeName:
+          type: string
+        host:
+          type: string
+        ip:
+          type: string
+        shards:
+          type: integer
+          format: int64
+          nullable: true
+        diskIndicesBytes:
+          type: integer
+          format: int64
+          nullable: true
+        diskUsedBytes:
+          type: integer
+          format: int64
+          nullable: true
+        diskAvailableBytes:
+          type: integer
+          format: int64
+          nullable: true
+        diskTotalBytes:
+          type: integer
+          format: int64
+          nullable: true
+        diskPercent:
+          type: number
+          format: double
+          nullable: true
+    elasticsearchDiskWatermarks:
+      type: object
+      required:
+        - low
+        - high
+        - floodStage
+      properties:
+        low:
+          type: string
+        high:
+          type: string
+        floodStage:
+          type: string
+    elasticsearchStorageAnalysis:
+      type: object
+      required:
+        - indices
+        - allocations
+        - watermarks
+        - sources
+        - warnings
+        - collectedAt
+      properties:
+        indices:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchIndexStorage'
+        allocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchNodeAllocation'
+        watermarks:
+          $ref: '#/components/schemas/elasticsearchDiskWatermarks'
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/performanceTrendSource'
+        warnings:
+          type: array
+          items:
+            type: string
+        collectedAt:
+          type: string
+    elasticsearchShardState:
+      type: string
+      enum:
+        - STARTED
+        - INITIALIZING
+        - RELOCATING
+        - UNASSIGNED
+    elasticsearchShard:
+      type: object
+      properties:
+        index:
+          type: string
+          x-go-name: Index
+          nullable: true
+        shard:
+          type: integer
+          x-go-name: Shard
+          nullable: true
+          format: int64
+        primary:
+          type: boolean
+          x-go-name: Primary
+          nullable: true
+        state:
+          type: string
+          x-go-name: State
+          nullable: true
+        documents:
+          type: integer
+          x-go-name: Documents
+          nullable: true
+          format: int64
+        storeBytes:
+          type: integer
+          x-go-name: StoreBytes
+          nullable: true
+          format: int64
+        nodeId:
+          type: string
+          x-go-name: NodeID
+          nullable: true
+        nodeName:
+          type: string
+          x-go-name: NodeName
+          nullable: true
+        unassignedReason:
+          type: string
+          x-go-name: UnassignedReason
+          nullable: true
+    elasticsearchShardList:
+      type: object
+      required:
+        - shards
+        - collectedAt
+      properties:
+        shards:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchShard'
+        collectedAt:
+          type: string
+    elasticsearchShardNode:
+      type: object
+      properties:
+        id:
+          type: string
+          x-go-name: ID
+          nullable: true
+        name:
+          type: string
+          x-go-name: Name
+          nullable: true
+    elasticsearchRecoveryTranslog:
+      type: object
+      properties:
+        recovered:
+          type: integer
+          x-go-name: Recovered
+          nullable: true
+          format: int64
+        total:
+          type: integer
+          x-go-name: Total
+          nullable: true
+          format: int64
+        percent:
+          type: string
+          x-go-name: Percent
+          nullable: true
+    elasticsearchRecoverySize:
+      type: object
+      properties:
+        totalBytes:
+          type: integer
+          x-go-name: TotalBytes
+          nullable: true
+          format: int64
+        reusedBytes:
+          type: integer
+          x-go-name: ReusedBytes
+          nullable: true
+          format: int64
+        recoveredBytes:
+          type: integer
+          x-go-name: RecoveredBytes
+          nullable: true
+          format: int64
+        percent:
+          type: string
+          x-go-name: Percent
+          nullable: true
+    elasticsearchShardRecovery:
+      type: object
+      properties:
+        index:
+          type: string
+          x-go-name: Index
+          nullable: true
+        shard:
+          type: integer
+          x-go-name: Shard
+          nullable: true
+          format: int64
+        type:
+          type: string
+          x-go-name: Type
+          nullable: true
+        stage:
+          type: string
+          x-go-name: Stage
+          nullable: true
+        primary:
+          type: boolean
+          x-go-name: Primary
+          nullable: true
+        startTimeMillis:
+          type: integer
+          x-go-name: StartTimeMillis
+          nullable: true
+          format: int64
+        totalTimeMillis:
+          type: integer
+          x-go-name: TotalTimeMillis
+          nullable: true
+          format: int64
+        source:
+          $ref: '#/components/schemas/elasticsearchShardNode'
+          x-go-name: Source
+        target:
+          $ref: '#/components/schemas/elasticsearchShardNode'
+          x-go-name: Target
+        translog:
+          $ref: '#/components/schemas/elasticsearchRecoveryTranslog'
+          x-go-name: Translog
+        size:
+          $ref: '#/components/schemas/elasticsearchRecoverySize'
+          x-go-name: Size
+    elasticsearchRecoveryList:
+      type: object
+      required:
+        - recoveries
+        - collectedAt
+      properties:
+        recoveries:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchShardRecovery'
+        collectedAt:
+          type: string
+    elasticsearchUnassignedInfo:
+      type: object
+      properties:
+        reason:
+          type: string
+          x-go-name: Reason
+          nullable: true
+        at:
+          type: string
+          x-go-name: At
+          nullable: true
+        details:
+          type: string
+          x-go-name: Details
+          nullable: true
+        lastAllocationStatus:
+          type: string
+          x-go-name: LastAllocationStatus
+          nullable: true
+    elasticsearchAllocationDecider:
+      type: object
+      properties:
+        decider:
+          type: string
+          x-go-name: Decider
+          nullable: true
+        decision:
+          type: string
+          x-go-name: Decision
+          nullable: true
+        explanation:
+          type: string
+          x-go-name: Explanation
+          nullable: true
+    elasticsearchNodeAllocationDecision:
+      type: object
+      properties:
+        nodeId:
+          type: string
+          x-go-name: NodeID
+          nullable: true
+        nodeName:
+          type: string
+          x-go-name: NodeName
+          nullable: true
+        nodeDecision:
+          type: string
+          x-go-name: NodeDecision
+          nullable: true
+        deciders:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchAllocationDecider'
+          x-go-name: Deciders
+    elasticsearchAllocationExplanation:
+      type: object
+      properties:
+        index:
+          type: string
+          x-go-name: Index
+          nullable: true
+        shard:
+          type: integer
+          x-go-name: Shard
+          nullable: true
+          format: int64
+        primary:
+          type: boolean
+          x-go-name: Primary
+          nullable: true
+        currentState:
+          type: string
+          x-go-name: CurrentState
+          nullable: true
+        currentNode:
+          $ref: '#/components/schemas/elasticsearchShardNode'
+          x-go-name: CurrentNode
+        unassignedInfo:
+          $ref: '#/components/schemas/elasticsearchUnassignedInfo'
+          x-go-name: UnassignedInfo
+        canAllocate:
+          type: string
+          x-go-name: CanAllocate
+          nullable: true
+        allocateExplanation:
+          type: string
+          x-go-name: AllocateExplanation
+          nullable: true
+        canRemainOnCurrentNode:
+          type: string
+          x-go-name: CanRemainOnCurrentNode
+          nullable: true
+        canRemainDecisions:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchAllocationDecider'
+          x-go-name: CanRemainDecisions
+        canRebalanceCluster:
+          type: string
+          x-go-name: CanRebalanceCluster
+          nullable: true
+        canRebalanceClusterDecisions:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchAllocationDecider'
+          x-go-name: CanRebalanceClusterDecisions
+        canRebalanceToOtherNode:
+          type: string
+          x-go-name: CanRebalanceToOtherNode
+          nullable: true
+        rebalanceExplanation:
+          type: string
+          x-go-name: RebalanceExplanation
+          nullable: true
+        nodeAllocationDecisions:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchNodeAllocationDecision'
+          x-go-name: NodeAllocationDecisions
     postgresqlLockRow:
       type: object
       required:
