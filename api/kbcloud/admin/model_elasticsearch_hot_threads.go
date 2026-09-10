@@ -11,7 +11,7 @@ import (
 )
 
 type ElasticsearchHotThreads struct {
-	Node      *string `json:"node,omitempty"`
+	NodeName  *string `json:"nodeName,omitempty"`
 	Type      string  `json:"type"`
 	Content   string  `json:"content"`
 	Truncated bool    `json:"truncated"`
@@ -40,32 +40,32 @@ func NewElasticsearchHotThreadsWithDefaults() *ElasticsearchHotThreads {
 	return &this
 }
 
-// GetNode returns the Node field value if set, zero value otherwise.
-func (o *ElasticsearchHotThreads) GetNode() string {
-	if o == nil || o.Node == nil {
+// GetNodeName returns the NodeName field value if set, zero value otherwise.
+func (o *ElasticsearchHotThreads) GetNodeName() string {
+	if o == nil || o.NodeName == nil {
 		var ret string
 		return ret
 	}
-	return *o.Node
+	return *o.NodeName
 }
 
-// GetNodeOk returns a tuple with the Node field value if set, nil otherwise
+// GetNodeNameOk returns a tuple with the NodeName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ElasticsearchHotThreads) GetNodeOk() (*string, bool) {
-	if o == nil || o.Node == nil {
+func (o *ElasticsearchHotThreads) GetNodeNameOk() (*string, bool) {
+	if o == nil || o.NodeName == nil {
 		return nil, false
 	}
-	return o.Node, true
+	return o.NodeName, true
 }
 
-// HasNode returns a boolean if a field has been set.
-func (o *ElasticsearchHotThreads) HasNode() bool {
-	return o != nil && o.Node != nil
+// HasNodeName returns a boolean if a field has been set.
+func (o *ElasticsearchHotThreads) HasNodeName() bool {
+	return o != nil && o.NodeName != nil
 }
 
-// SetNode gets a reference to the given string and assigns it to the Node field.
-func (o *ElasticsearchHotThreads) SetNode(v string) {
-	o.Node = &v
+// SetNodeName gets a reference to the given string and assigns it to the NodeName field.
+func (o *ElasticsearchHotThreads) SetNodeName(v string) {
+	o.NodeName = &v
 }
 
 // GetType returns the Type field value.
@@ -143,8 +143,8 @@ func (o ElasticsearchHotThreads) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Node != nil {
-		toSerialize["node"] = o.Node
+	if o.NodeName != nil {
+		toSerialize["nodeName"] = o.NodeName
 	}
 	toSerialize["type"] = o.Type
 	toSerialize["content"] = o.Content
@@ -159,7 +159,7 @@ func (o ElasticsearchHotThreads) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ElasticsearchHotThreads) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Node      *string `json:"node,omitempty"`
+		NodeName  *string `json:"nodeName,omitempty"`
 		Type      *string `json:"type"`
 		Content   *string `json:"content"`
 		Truncated *bool   `json:"truncated"`
@@ -178,11 +178,11 @@ func (o *ElasticsearchHotThreads) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"node", "type", "content", "truncated"})
+		common.DeleteKeys(additionalProperties, &[]string{"nodeName", "type", "content", "truncated"})
 	} else {
 		return err
 	}
-	o.Node = all.Node
+	o.NodeName = all.NodeName
 	o.Type = *all.Type
 	o.Content = *all.Content
 	o.Truncated = *all.Truncated

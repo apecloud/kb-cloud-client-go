@@ -11,7 +11,7 @@ import (
 )
 
 type ElasticsearchNodeAllocation struct {
-	Node               string                 `json:"node"`
+	NodeName           string                 `json:"nodeName"`
 	Host               *string                `json:"host,omitempty"`
 	Ip                 *string                `json:"ip,omitempty"`
 	Shards             common.NullableInt64   `json:"shards"`
@@ -29,9 +29,9 @@ type ElasticsearchNodeAllocation struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewElasticsearchNodeAllocation(node string, shards common.NullableInt64, diskIndicesBytes common.NullableInt64, diskUsedBytes common.NullableInt64, diskAvailableBytes common.NullableInt64, diskTotalBytes common.NullableInt64, diskPercent common.NullableFloat64) *ElasticsearchNodeAllocation {
+func NewElasticsearchNodeAllocation(nodeName string, shards common.NullableInt64, diskIndicesBytes common.NullableInt64, diskUsedBytes common.NullableInt64, diskAvailableBytes common.NullableInt64, diskTotalBytes common.NullableInt64, diskPercent common.NullableFloat64) *ElasticsearchNodeAllocation {
 	this := ElasticsearchNodeAllocation{}
-	this.Node = node
+	this.NodeName = nodeName
 	this.Shards = shards
 	this.DiskIndicesBytes = diskIndicesBytes
 	this.DiskUsedBytes = diskUsedBytes
@@ -49,27 +49,27 @@ func NewElasticsearchNodeAllocationWithDefaults() *ElasticsearchNodeAllocation {
 	return &this
 }
 
-// GetNode returns the Node field value.
-func (o *ElasticsearchNodeAllocation) GetNode() string {
+// GetNodeName returns the NodeName field value.
+func (o *ElasticsearchNodeAllocation) GetNodeName() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
-	return o.Node
+	return o.NodeName
 }
 
-// GetNodeOk returns a tuple with the Node field value
+// GetNodeNameOk returns a tuple with the NodeName field value
 // and a boolean to check if the value has been set.
-func (o *ElasticsearchNodeAllocation) GetNodeOk() (*string, bool) {
+func (o *ElasticsearchNodeAllocation) GetNodeNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Node, true
+	return &o.NodeName, true
 }
 
-// SetNode sets field value.
-func (o *ElasticsearchNodeAllocation) SetNode(v string) {
-	o.Node = v
+// SetNodeName sets field value.
+func (o *ElasticsearchNodeAllocation) SetNodeName(v string) {
+	o.NodeName = v
 }
 
 // GetHost returns the Host field value if set, zero value otherwise.
@@ -284,7 +284,7 @@ func (o ElasticsearchNodeAllocation) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["node"] = o.Node
+	toSerialize["nodeName"] = o.NodeName
 	if o.Host != nil {
 		toSerialize["host"] = o.Host
 	}
@@ -307,7 +307,7 @@ func (o ElasticsearchNodeAllocation) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ElasticsearchNodeAllocation) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Node               *string                `json:"node"`
+		NodeName           *string                `json:"nodeName"`
 		Host               *string                `json:"host,omitempty"`
 		Ip                 *string                `json:"ip,omitempty"`
 		Shards             common.NullableInt64   `json:"shards"`
@@ -320,8 +320,8 @@ func (o *ElasticsearchNodeAllocation) UnmarshalJSON(bytes []byte) (err error) {
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Node == nil {
-		return fmt.Errorf("required field node missing")
+	if all.NodeName == nil {
+		return fmt.Errorf("required field nodeName missing")
 	}
 	if !all.Shards.IsSet() {
 		return fmt.Errorf("required field shards missing")
@@ -343,11 +343,11 @@ func (o *ElasticsearchNodeAllocation) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"node", "host", "ip", "shards", "diskIndicesBytes", "diskUsedBytes", "diskAvailableBytes", "diskTotalBytes", "diskPercent"})
+		common.DeleteKeys(additionalProperties, &[]string{"nodeName", "host", "ip", "shards", "diskIndicesBytes", "diskUsedBytes", "diskAvailableBytes", "diskTotalBytes", "diskPercent"})
 	} else {
 		return err
 	}
-	o.Node = *all.Node
+	o.NodeName = *all.NodeName
 	o.Host = all.Host
 	o.Ip = all.Ip
 	o.Shards = all.Shards

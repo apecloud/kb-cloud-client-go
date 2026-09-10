@@ -11,6 +11,7 @@ import (
 )
 
 type ElasticsearchTaskAnalysis struct {
+	// List of currently running tasks, sorted by running time in descending order
 	Tasks       []ElasticsearchTask       `json:"tasks"`
 	HotThreads  []ElasticsearchHotThreads `json:"hotThreads"`
 	Sources     []PerformanceTrendSource  `json:"sources"`
