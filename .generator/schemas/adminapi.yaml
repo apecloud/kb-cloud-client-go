@@ -32344,11 +32344,11 @@ components:
                 type: integer
         loadBalancerIP:
           type: string
-          description: The IP address of the LoadBalancer service. If not set, the IP address will be assigned by the system. Only available when vpcServiceType is LoadBalancer.
+          description: The requested IPv4 or IPv6 address of the LoadBalancer service. If not set, IP addresses will be assigned by the system. For dual-stack MetalLB services, the system allocates the missing address family from the same VIP pool. Only available when vpcServiceType is LoadBalancer.
           nullable: true
         loadBalancerIPPoolID:
           type: string
-          description: The IP pool ID of the LoadBalancer service. If not set, the IP pool will be assigned by the system. Only available when vpcServiceType is LoadBalancer.
+          description: The IP pool ID of the LoadBalancer service. If not set, the IP pool will be assigned by the system. All VIPs of a dual-stack MetalLB service are allocated from the same pool. Only available when vpcServiceType is LoadBalancer.
           nullable: true
         domain:
           type: string
@@ -33875,7 +33875,7 @@ components:
           items:
             type: string
         availableIPs:
-          description: Used IP addresses
+          description: Available IP address candidates, limited to 4096 per pool. IPv4 and IPv6 share the limit equally, with unused slots reassigned to the other family. Large pools return a partial list.
           type: array
           items:
             type: string

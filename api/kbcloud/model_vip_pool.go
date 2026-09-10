@@ -22,7 +22,7 @@ type VipPool struct {
 	Used int64 `json:"used"`
 	// Used IP addresses
 	UsedIPs []string `json:"usedIPs,omitempty"`
-	// Used IP addresses
+	// Available IP address candidates, limited to 4096 per pool. IPv4 and IPv6 share the limit equally, with unused slots reassigned to the other family. Large pools return a partial list.
 	AvailableIPs []string `json:"availableIPs,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
