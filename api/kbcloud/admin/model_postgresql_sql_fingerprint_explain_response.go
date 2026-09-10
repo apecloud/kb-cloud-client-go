@@ -26,7 +26,7 @@ type PostgresqlSQLFingerprintExplainResponse struct {
 	// Timestamp when the parameterized SQL statement was resolved.
 	StatementResolvedAt *string                      `json:"statementResolvedAt,omitempty"`
 	PlanMode            DmsExecutionPlanPlanningMode `json:"planMode"`
-	// Whether the estimated plan was produced without concrete parameter values.
+	// Whether generic parameterized planning was used (planMode is generic). False means standard planning, not that historical parameter values were used. This endpoint never retrieves historical parameter values.
 	Parameterized bool `json:"parameterized"`
 	// Number of parameters when DMS can determine it. It may be omitted for PostgreSQL generic-plan paths that do not expose the count.
 	ParameterCount common.NullableInt64   `json:"parameterCount,omitempty"`

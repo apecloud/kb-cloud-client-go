@@ -2758,7 +2758,7 @@ paths:
         - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/templates/{templateId}/explain:
     post:
-      description: Explain a slow log template sample using DMS. The SQL is selected by templateId and time range; request body does not accept raw SQL. Only MySQL-compatible and PostgreSQL SELECT samples are supported.
+      description: Explain a slow log template sample using DMS. The SQL is selected by templateId and time range; request body does not accept raw SQL. Only MySQL-compatible, PostgreSQL, and SQL Server SELECT samples are supported.
       summary: Explain cluster slow log template
       operationId: explainSlowLogTemplate
       parameters:
@@ -4742,34 +4742,6 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/autohealing:
-    get:
-      operationId: getAutohealing
-      summary: list autohealing job
-      deprecated: true
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Get autohealing job list
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/autohealingList'
-      tags:
-        - autohealing
-        - shared
   /api/v1/organizations/{orgName}/clusterTags:
     get:
       tags:
@@ -5332,14 +5304,16 @@ paths:
             type: string
         - name: database
           in: query
-          description: Database name from the ranking row. Required to disambiguate the queryID.
+          description: Database name from the ranking row. The key is required to disambiguate the queryID. An unresolved empty name returns 422 no_explainable_sql_statement.
           required: true
+          allowEmptyValue: true
           schema:
             type: string
         - name: user
           in: query
-          description: Database user from the ranking row. Required to disambiguate the queryID.
+          description: Database user from the ranking row. The key is required to disambiguate the queryID. An unresolved empty name returns 422 no_explainable_sql_statement.
           required: true
+          allowEmptyValue: true
           schema:
             type: string
         - name: topLevel
@@ -5521,6 +5495,270 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/taskAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Elasticsearch task and hot-thread analysis
+      operationId: getDiagnosticsElasticsearchTaskAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/elasticsearchHotThreadsType'
+        - name: node
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: taskLimit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: threads
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 10
+            default: 3
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/elasticsearchTaskAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/storageAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Elasticsearch storage and index analysis
+      operationId: getDiagnosticsElasticsearchStorageAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: node
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: index
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/elasticsearchIndexSortBy'
+        - name: sortOrder
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/elasticsearchSortOrder'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/elasticsearchStorageAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/shards:
+    get:
+      tags:
+        - diagnostics
+      summary: List Elasticsearch shards
+      operationId: listDiagnosticsElasticsearchShards
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: index
+          in: query
+          required: false
+          description: Index name or pattern
+          schema:
+            type: string
+        - name: node
+          in: query
+          required: false
+          description: Exact node ID or name
+          schema:
+            type: string
+        - name: state
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/elasticsearchShardState'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/elasticsearchShardList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/recoveries:
+    get:
+      tags:
+        - diagnostics
+      summary: List active Elasticsearch shard recoveries
+      operationId: listDiagnosticsElasticsearchRecoveries
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: index
+          in: query
+          required: false
+          description: Index name or pattern
+          schema:
+            type: string
+        - name: node
+          in: query
+          required: false
+          description: Exact target node ID or name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/elasticsearchRecoveryList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/allocationExplain:
+    get:
+      tags:
+        - diagnostics
+      summary: Explain Elasticsearch shard allocation
+      operationId: explainDiagnosticsElasticsearchAllocation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: index
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: shard
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+        - name: primary
+          in: query
+          required: true
+          schema:
+            type: boolean
+        - name: currentNode
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/elasticsearchAllocationExplanation'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}/lockAnalysis:
@@ -22240,7 +22478,7 @@ components:
           items:
             type: string
         availableIPs:
-          description: Used IP addresses
+          description: Available IP address candidates, limited to 4096 per pool. IPv4 and IPv6 share the limit equally, with unused slots reassigned to the other family. Large pools return a partial list.
           type: array
           items:
             type: string
@@ -23943,6 +24181,17 @@ components:
             serviceRefs of the cluster.
           items:
             $ref: '#/components/schemas/serviceRef'
+        serviceRefsUpdate:
+          type: array
+          description: |
+            ServiceRefs to update. Each serviceRef name must match an existing
+            serviceRef of the cluster, and the corresponding engine option
+            modeServiceRef.update.enable must be true. ServiceRefs that auto
+            create their ServiceDescriptor and Secret get their corresponding
+            K8s objects updated; serviceRefs with manual input must be handled
+            by each engine individually and are rejected.
+          items:
+            $ref: '#/components/schemas/serviceRef'
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
     instanceStorageItem:
       description: Instance storage information
@@ -24303,8 +24552,6 @@ components:
       description: OpsRequestName is the name of a KubeBlocks OpsRequest response
       properties:
         opsRequestName:
-          type: string
-        clusterTaskId:
           type: string
         taskId:
           type: string
@@ -25275,11 +25522,11 @@ components:
                 type: integer
         loadBalancerIP:
           type: string
-          description: The IP address of the LoadBalancer service. If not set, the IP address will be assigned by the system. Only available when vpcServiceType is LoadBalancer.
+          description: The requested IPv4 or IPv6 address of the LoadBalancer service. If not set, IP addresses will be assigned by the system. For dual-stack MetalLB services, the system allocates the missing address family from the same VIP pool. Only available when vpcServiceType is LoadBalancer.
           nullable: true
         loadBalancerIPPoolID:
           type: string
-          description: The IP pool ID of the LoadBalancer service. If not set, the IP pool will be assigned by the system. Only available when vpcServiceType is LoadBalancer.
+          description: The IP pool ID of the LoadBalancer service. If not set, the IP pool will be assigned by the system. All VIPs of a dual-stack MetalLB service are allocated from the same pool. Only available when vpcServiceType is LoadBalancer.
           nullable: true
         domain:
           type: string
@@ -25372,47 +25619,6 @@ components:
         - volumes
         - component
       type: object
-    autohealingList:
-      description: An Autohealing object in k8s
-      type: array
-      items:
-        type: object
-        properties:
-          name:
-            type: string
-          createdAt:
-            type: string
-            format: date-time
-          updatedAt:
-            type: string
-            format: date-time
-          componentName:
-            description: component to be rebuilt
-            type: string
-          podName:
-            description: pod to be rebuilt
-            type: string
-          startTime:
-            description: rebuild start time
-            type: string
-            format: date-time
-          phase:
-            description: current phase of rebuild job
-            type: string
-          started:
-            description: whether the job is started
-            type: boolean
-          startMessage:
-            type: string
-          finished:
-            description: whether the job is finished
-            type: boolean
-          finishMessage:
-            type: string
-          backupName:
-            type: string
-          rebuildInstanceOpsRequestName:
-            type: string
     clusterTags:
       properties:
         clusterId:
@@ -26616,7 +26822,7 @@ components:
           description: Whether DMS produced a standard estimated plan or a generic parameterized estimated plan.
         parameterized:
           type: boolean
-          description: Whether the estimated plan was produced without concrete parameter values.
+          description: Whether generic parameterized planning was used (planMode is generic). False means standard planning, not that historical parameter values were used. This endpoint never retrieves historical parameter values.
           x-omitempty: false
         parameterCount:
           type: integer
@@ -26968,6 +27174,523 @@ components:
         collectedAt:
           type: string
           description: Backend collection timestamp in UTC.
+    elasticsearchHotThreadsType:
+      type: string
+      enum:
+        - cpu
+        - wait
+        - block
+      default: cpu
+    elasticsearchTask:
+      type: object
+      required:
+        - taskId
+        - nodeId
+        - nodeName
+        - action
+        - runningTimeMillis
+        - cancellable
+      properties:
+        taskId:
+          type: string
+        nodeId:
+          type: string
+        nodeName:
+          type: string
+        action:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        startTime:
+          type: string
+        runningTimeMillis:
+          type: integer
+          format: int64
+        cancellable:
+          type: boolean
+        cancelled:
+          type: boolean
+    elasticsearchHotThreads:
+      type: object
+      required:
+        - type
+        - content
+        - truncated
+      properties:
+        nodeName:
+          type: string
+        type:
+          type: string
+        content:
+          type: string
+        truncated:
+          type: boolean
+    elasticsearchTaskAnalysis:
+      type: object
+      required:
+        - tasks
+        - hotThreads
+        - sources
+        - warnings
+        - collectedAt
+      properties:
+        tasks:
+          type: array
+          description: List of currently running tasks, sorted by running time in descending order
+          items:
+            $ref: '#/components/schemas/elasticsearchTask'
+        hotThreads:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchHotThreads'
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/performanceTrendSource'
+        warnings:
+          type: array
+          items:
+            type: string
+        collectedAt:
+          type: string
+    elasticsearchIndexSortBy:
+      type: string
+      enum:
+        - name
+        - documents
+        - totalStoreBytes
+        - segments
+      default: totalStoreBytes
+    elasticsearchSortOrder:
+      type: string
+      enum:
+        - asc
+        - desc
+      default: desc
+    elasticsearchIndexStorage:
+      type: object
+      required:
+        - name
+        - health
+        - status
+        - primaryShards
+        - replicaShards
+        - documents
+        - deletedDocuments
+        - primaryStoreBytes
+        - totalStoreBytes
+        - segments
+      properties:
+        name:
+          type: string
+        uuid:
+          type: string
+        health:
+          type: string
+        status:
+          type: string
+        primaryShards:
+          type: integer
+          format: int64
+          nullable: true
+        replicaShards:
+          type: integer
+          format: int64
+          nullable: true
+        documents:
+          type: integer
+          format: int64
+          nullable: true
+        deletedDocuments:
+          type: integer
+          format: int64
+          nullable: true
+        primaryStoreBytes:
+          type: integer
+          format: int64
+          nullable: true
+        totalStoreBytes:
+          type: integer
+          format: int64
+          nullable: true
+        segments:
+          type: integer
+          format: int64
+          nullable: true
+    elasticsearchNodeAllocation:
+      type: object
+      required:
+        - nodeName
+        - shards
+        - diskIndicesBytes
+        - diskUsedBytes
+        - diskAvailableBytes
+        - diskTotalBytes
+        - diskPercent
+      properties:
+        nodeName:
+          type: string
+        host:
+          type: string
+        ip:
+          type: string
+        shards:
+          type: integer
+          format: int64
+          nullable: true
+        diskIndicesBytes:
+          type: integer
+          format: int64
+          nullable: true
+        diskUsedBytes:
+          type: integer
+          format: int64
+          nullable: true
+        diskAvailableBytes:
+          type: integer
+          format: int64
+          nullable: true
+        diskTotalBytes:
+          type: integer
+          format: int64
+          nullable: true
+        diskPercent:
+          type: number
+          format: double
+          nullable: true
+    elasticsearchDiskWatermarks:
+      type: object
+      required:
+        - low
+        - high
+        - floodStage
+      properties:
+        low:
+          type: string
+        high:
+          type: string
+        floodStage:
+          type: string
+    elasticsearchStorageAnalysis:
+      type: object
+      required:
+        - indices
+        - allocations
+        - watermarks
+        - sources
+        - warnings
+        - collectedAt
+      properties:
+        indices:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchIndexStorage'
+        allocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchNodeAllocation'
+        watermarks:
+          $ref: '#/components/schemas/elasticsearchDiskWatermarks'
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/performanceTrendSource'
+        warnings:
+          type: array
+          items:
+            type: string
+        collectedAt:
+          type: string
+    elasticsearchShardState:
+      type: string
+      enum:
+        - STARTED
+        - INITIALIZING
+        - RELOCATING
+        - UNASSIGNED
+    elasticsearchShard:
+      type: object
+      properties:
+        index:
+          type: string
+          x-go-name: Index
+          nullable: true
+        shard:
+          type: integer
+          x-go-name: Shard
+          nullable: true
+          format: int64
+        primary:
+          type: boolean
+          x-go-name: Primary
+          nullable: true
+        state:
+          type: string
+          x-go-name: State
+          nullable: true
+        documents:
+          type: integer
+          x-go-name: Documents
+          nullable: true
+          format: int64
+        storeBytes:
+          type: integer
+          x-go-name: StoreBytes
+          nullable: true
+          format: int64
+        nodeId:
+          type: string
+          x-go-name: NodeID
+          nullable: true
+        nodeName:
+          type: string
+          x-go-name: NodeName
+          nullable: true
+        unassignedReason:
+          type: string
+          x-go-name: UnassignedReason
+          nullable: true
+    elasticsearchShardList:
+      type: object
+      required:
+        - shards
+        - collectedAt
+      properties:
+        shards:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchShard'
+        collectedAt:
+          type: string
+    elasticsearchShardNode:
+      type: object
+      properties:
+        id:
+          type: string
+          x-go-name: ID
+          nullable: true
+        name:
+          type: string
+          x-go-name: Name
+          nullable: true
+    elasticsearchRecoveryTranslog:
+      type: object
+      properties:
+        recovered:
+          type: integer
+          x-go-name: Recovered
+          nullable: true
+          format: int64
+        total:
+          type: integer
+          x-go-name: Total
+          nullable: true
+          format: int64
+        percent:
+          type: string
+          x-go-name: Percent
+          nullable: true
+    elasticsearchRecoverySize:
+      type: object
+      properties:
+        totalBytes:
+          type: integer
+          x-go-name: TotalBytes
+          nullable: true
+          format: int64
+        reusedBytes:
+          type: integer
+          x-go-name: ReusedBytes
+          nullable: true
+          format: int64
+        recoveredBytes:
+          type: integer
+          x-go-name: RecoveredBytes
+          nullable: true
+          format: int64
+        percent:
+          type: string
+          x-go-name: Percent
+          nullable: true
+    elasticsearchShardRecovery:
+      type: object
+      properties:
+        index:
+          type: string
+          x-go-name: Index
+          nullable: true
+        shard:
+          type: integer
+          x-go-name: Shard
+          nullable: true
+          format: int64
+        type:
+          type: string
+          x-go-name: Type
+          nullable: true
+        stage:
+          type: string
+          x-go-name: Stage
+          nullable: true
+        primary:
+          type: boolean
+          x-go-name: Primary
+          nullable: true
+        startTimeMillis:
+          type: integer
+          x-go-name: StartTimeMillis
+          nullable: true
+          format: int64
+        totalTimeMillis:
+          type: integer
+          x-go-name: TotalTimeMillis
+          nullable: true
+          format: int64
+        source:
+          $ref: '#/components/schemas/elasticsearchShardNode'
+          x-go-name: Source
+        target:
+          $ref: '#/components/schemas/elasticsearchShardNode'
+          x-go-name: Target
+        translog:
+          $ref: '#/components/schemas/elasticsearchRecoveryTranslog'
+          x-go-name: Translog
+        size:
+          $ref: '#/components/schemas/elasticsearchRecoverySize'
+          x-go-name: Size
+    elasticsearchRecoveryList:
+      type: object
+      required:
+        - recoveries
+        - collectedAt
+      properties:
+        recoveries:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchShardRecovery'
+        collectedAt:
+          type: string
+    elasticsearchUnassignedInfo:
+      type: object
+      properties:
+        reason:
+          type: string
+          x-go-name: Reason
+          nullable: true
+        at:
+          type: string
+          x-go-name: At
+          nullable: true
+        details:
+          type: string
+          x-go-name: Details
+          nullable: true
+        lastAllocationStatus:
+          type: string
+          x-go-name: LastAllocationStatus
+          nullable: true
+    elasticsearchAllocationDecider:
+      type: object
+      properties:
+        decider:
+          type: string
+          x-go-name: Decider
+          nullable: true
+        decision:
+          type: string
+          x-go-name: Decision
+          nullable: true
+        explanation:
+          type: string
+          x-go-name: Explanation
+          nullable: true
+    elasticsearchNodeAllocationDecision:
+      type: object
+      properties:
+        nodeId:
+          type: string
+          x-go-name: NodeID
+          nullable: true
+        nodeName:
+          type: string
+          x-go-name: NodeName
+          nullable: true
+        nodeDecision:
+          type: string
+          x-go-name: NodeDecision
+          nullable: true
+        deciders:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchAllocationDecider'
+          x-go-name: Deciders
+    elasticsearchAllocationExplanation:
+      type: object
+      properties:
+        index:
+          type: string
+          x-go-name: Index
+          nullable: true
+        shard:
+          type: integer
+          x-go-name: Shard
+          nullable: true
+          format: int64
+        primary:
+          type: boolean
+          x-go-name: Primary
+          nullable: true
+        currentState:
+          type: string
+          x-go-name: CurrentState
+          nullable: true
+        currentNode:
+          $ref: '#/components/schemas/elasticsearchShardNode'
+          x-go-name: CurrentNode
+        unassignedInfo:
+          $ref: '#/components/schemas/elasticsearchUnassignedInfo'
+          x-go-name: UnassignedInfo
+        canAllocate:
+          type: string
+          x-go-name: CanAllocate
+          nullable: true
+        allocateExplanation:
+          type: string
+          x-go-name: AllocateExplanation
+          nullable: true
+        canRemainOnCurrentNode:
+          type: string
+          x-go-name: CanRemainOnCurrentNode
+          nullable: true
+        canRemainDecisions:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchAllocationDecider'
+          x-go-name: CanRemainDecisions
+        canRebalanceCluster:
+          type: string
+          x-go-name: CanRebalanceCluster
+          nullable: true
+        canRebalanceClusterDecisions:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchAllocationDecider'
+          x-go-name: CanRebalanceClusterDecisions
+        canRebalanceToOtherNode:
+          type: string
+          x-go-name: CanRebalanceToOtherNode
+          nullable: true
+        rebalanceExplanation:
+          type: string
+          x-go-name: RebalanceExplanation
+          nullable: true
+        nodeAllocationDecisions:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchNodeAllocationDecision'
+          x-go-name: NodeAllocationDecisions
     postgresqlLockRow:
       type: object
       required:
@@ -28910,6 +29633,11 @@ components:
             type: string
           description: Specify parameters list to be updated
           type: object
+        parametersToRemove:
+          description: Specify parameters list to be removed from the template
+          items:
+            type: string
+          type: array
         newParamTplName:
           description: Specify the new name of the parameter template
           type: string
@@ -29893,6 +30621,9 @@ components:
             use them to filter or explain selectable referenced clusters.
           items:
             $ref: '#/components/schemas/modeServiceRefVersionCompatibility'
+        updatable:
+          type: boolean
+          description: whether the serviceRef can be updated. If set to false, the frontend should not allow users to update the serviceRef.
     modeObjectStorageAdditionalHelmValuePath:
       type: object
       description: The path in helm values that some object storage config will use. If empty, the values will not be set.
@@ -30629,6 +31360,19 @@ components:
                       In rebuildinstance ops, only `ops` object is available.
                 type: object
               type: array
+    engineOptionLicenseFile:
+      type: object
+      additionalProperties: false
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Target license file name written into the engine license Secret.
+        title:
+          $ref: '#/components/schemas/localizedDescription'
+        description:
+          $ref: '#/components/schemas/localizedDescription'
     licenseOption:
       type: object
       required:
@@ -31805,7 +32549,6 @@ components:
           type: object
           required:
             - secretName
-            - fileName
           properties:
             required:
               type: boolean
@@ -31816,6 +32559,11 @@ components:
             fileName:
               type: string
               description: the license file name
+            files:
+              type: array
+              description: Explicit license file upload slots. Each item maps one UI upload field to the file name written into the license Secret.
+              items:
+                $ref: '#/components/schemas/engineOptionLicenseFile'
             components:
               type: array
               description: set the custom ops to update license for different components
@@ -32952,6 +33700,33 @@ components:
         aclAccess:
           type: string
           description: datasource ACL access result for this key
+    RedisKeyScanProgress:
+      type: object
+      description: Redis key browser scan progress for the current page.
+      properties:
+        scope:
+          type: string
+          description: Scan scope, either node or cluster.
+          x-omitempty: false
+        total:
+          type: integer
+          format: int64
+          description: Total keys in the scan scope when available.
+          x-omitempty: false
+        scanned:
+          type: integer
+          format: int64
+          description: Number of key names returned by SCAN in this page before type filtering.
+          x-omitempty: false
+        loaded:
+          type: integer
+          format: int64
+          description: Number of key summaries loaded in this page after filtering and metadata lookup.
+          x-omitempty: false
+        complete:
+          type: boolean
+          description: Whether the scan cursor is complete after this page.
+          x-omitempty: false
     RedisKeySummaryList:
       type: object
       properties:
@@ -32966,6 +33741,8 @@ components:
           type: boolean
           description: Whether another key page should be requested.
           x-omitempty: false
+        progress:
+          $ref: '#/components/schemas/RedisKeyScanProgress'
     RedisAnalysisFilter:
       type: object
       properties:
@@ -33470,6 +34247,10 @@ components:
     RedisInfoResponse:
       type: object
       properties:
+        scope:
+          type: string
+          description: INFO scope, either node or cluster.
+          x-omitempty: false
         section:
           type: string
         nodeId:
@@ -34674,10 +35455,6 @@ components:
           nullable: true
         taskId:
           description: Task ID
-          type: string
-          nullable: true
-        clusterTaskId:
-          description: Cluster task ID
           type: string
           nullable: true
       required:
@@ -37611,10 +38388,10 @@ components:
           description: Struct check object key. Present for struct details; omitted for snapshot row details.
         schema:
           type: string
-          description: Source schema or database. Present for snapshot details; omitted for struct details.
+          description: Source schema or database from the requested detail scope.
         tb:
           type: string
-          description: Source table. Present for snapshot details; omitted for struct details.
+          description: Source table from the requested detail scope.
         target_schema:
           type: string
           nullable: true
@@ -38280,14 +39057,22 @@ components:
         - vacuumWraparound
         - backup
         - security
+    inspectionEvaluationMode:
+      type: string
+      description: Empty legacy values mean check. Display collects information without scoring. Manual requires type=manual and presents scriptExpr verbatim as instructions; it executes no SQL or templates, returns severity=unknown, and retains rule importance.
+      enum:
+        - check
+        - display
+        - manual
     inspectionCriticality:
       type: string
-      description: First-version criticality assumption for score weighting and red-item veto behavior. Missing legacy values are treated as medium.
+      description: Rule importance used for score weighting. Info marks automatically collected information excluded from scoring. Manual items retain their importance but return unknown and are not scored. Missing legacy values normally default to medium; cluster and node status default to critical.
       enum:
         - critical
         - high
         - medium
         - low
+        - info
     inspectionThresholdDirection:
       type: string
       description: Direction used to interpret warnThreshold and critThreshold. asc means larger values are worse, desc means smaller values are worse, boolean means the check expression decides.
@@ -38316,7 +39101,7 @@ components:
           description: The engine type this script is applicable to, such as cluster, mysql, node
           type: string
         type:
-          description: The type of the script, such as "promQL"
+          description: The type of the script, such as "promQL" or "manual" (requires evaluationMode=manual)
           type: string
         category:
           $ref: '#/components/schemas/inspectionScriptCategory'
@@ -38324,6 +39109,9 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         scriptExpr:
           type: string
+          description: Collector expression for automatic modes; complete user instructions (up to 8192 UTF-8 bytes) for manual mode. Manual placeholders are not rendered.
+        evaluationMode:
+          $ref: '#/components/schemas/inspectionEvaluationMode'
         checkExpr:
           type: string
         criticality:
@@ -38439,29 +39227,35 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         scriptCategory:
           type: string
+          description: Category used to group inspection items, such as availability, performance, capacity, or backup.
         resourceType:
           type: string
+          description: Type of the inspected resource, such as cluster or node; resourceID and resourceName identify the target.
         resourceID:
           type: string
         resourceName:
           type: string
         status:
           type: string
+          description: Execution state, such as Running, Completed, or Failed. Use severity for the health conclusion. For manual items, Completed means instructions are available, not that the user has performed them.
         result:
           type: string
+          description: Textual observation or execution message for display. It may contain nonnumeric information or an error; use severity for the health conclusion. Manual instructions are stored in evidence.ruleSnapshot.scriptExpr.
         valueNum:
           type: number
           format: double
           x-nullable: true
-          description: Numeric form of result when the result is parseable.
+          description: Numeric observation when available, including numeric information collected by info items. Omitted when no numeric observation exists, including manual guidance. Use with unit and thresholds for numeric displays.
         warnThreshold:
           type: number
           format: double
           x-nullable: true
+          description: Warning threshold interpreted using direction and the same unit as valueNum. Omitted when no numeric warning threshold is configured.
         critThreshold:
           type: number
           format: double
           x-nullable: true
+          description: Critical threshold interpreted using direction and the same unit as valueNum. Omitted when no numeric critical threshold is configured.
         direction:
           $ref: '#/components/schemas/inspectionThresholdDirection'
         criticality:
@@ -38476,10 +39270,13 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         docLink:
           type: string
+          description: Link to documentation explaining this inspection item and recommended actions.
         severity:
           type: string
+          description: 'Health conclusion: red (critical), yellow (warning), green (healthy), unknown (cannot evaluate), or info (automatically collected information). Manual guidance returns unknown and retains its criticality. Unknown and info do not contribute to health scoring; Completed for manual guidance means instructions are available, not user completion.'
         unit:
           type: string
+          description: Display unit for the inspection result and thresholds, such as percent, seconds, or bytes. Empty when no unit applies.
         createdAt:
           format: date-time
           type: string
@@ -38521,7 +39318,7 @@ components:
           type: integer
           format: int64
           x-nullable: true
-          description: Weighted health score from 0 to 100 over evaluable inspection items only. Unknown items are excluded from both the numerator and denominator. The field is omitted when no item is evaluable; a present value of 0 is a valid evaluated score.
+          description: Weighted health score from 0 to 100 over evaluable inspection items only. Unknown results and items with info importance are excluded from both the numerator and denominator. The field is omitted when no item is evaluable; a present value of 0 is a valid evaluated score.
         result:
           type: string
           description: Task health conclusion derived from evaluable item states and criticality-aware score caps. Valid conclusions are red, yellow, green, and unknown. Unknown means no item is evaluable. Unknown items remain visible in the item list but do not override a red, yellow, or green conclusion derived from evaluable items.

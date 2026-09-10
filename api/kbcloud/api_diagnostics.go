@@ -17,6 +17,122 @@ import (
 // DiagnosticsApi service type
 type DiagnosticsApi common.Service
 
+// ExplainDiagnosticsElasticsearchAllocationOptionalParameters holds optional parameters for ExplainDiagnosticsElasticsearchAllocation.
+type ExplainDiagnosticsElasticsearchAllocationOptionalParameters struct {
+	CurrentNode *string
+}
+
+// NewExplainDiagnosticsElasticsearchAllocationOptionalParameters creates an empty struct for parameters.
+func NewExplainDiagnosticsElasticsearchAllocationOptionalParameters() *ExplainDiagnosticsElasticsearchAllocationOptionalParameters {
+	this := ExplainDiagnosticsElasticsearchAllocationOptionalParameters{}
+	return &this
+}
+
+// WithCurrentNode sets the corresponding parameter name and returns the struct.
+func (r *ExplainDiagnosticsElasticsearchAllocationOptionalParameters) WithCurrentNode(currentNode string) *ExplainDiagnosticsElasticsearchAllocationOptionalParameters {
+	r.CurrentNode = &currentNode
+	return r
+}
+
+// ExplainDiagnosticsElasticsearchAllocation Explain Elasticsearch shard allocation.
+func (a *DiagnosticsApi) ExplainDiagnosticsElasticsearchAllocation(ctx _context.Context, orgName string, clusterName string, index string, shard int64, primary bool, o ...ExplainDiagnosticsElasticsearchAllocationOptionalParameters) (ElasticsearchAllocationExplanation, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ElasticsearchAllocationExplanation
+		optionalParams      ExplainDiagnosticsElasticsearchAllocationOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ExplainDiagnosticsElasticsearchAllocationOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "explainDiagnosticsElasticsearchAllocation",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/allocationExplain",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.ExplainDiagnosticsElasticsearchAllocation")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/allocationExplain"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if common.Strlen(index) < 1 {
+		return localVarReturnValue, nil, common.ReportError("index must have at least 1 elements")
+	}
+	if shard < 0 {
+		return localVarReturnValue, nil, common.ReportError("shard must be greater than 0")
+	}
+	localVarQueryParams.Add("index", common.ParameterToString(index, ""))
+	localVarQueryParams.Add("shard", common.ParameterToString(shard, ""))
+	localVarQueryParams.Add("primary", common.ParameterToString(primary, ""))
+	if optionalParams.CurrentNode != nil {
+		localVarQueryParams.Add("currentNode", common.ParameterToString(*optionalParams.CurrentNode, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // ExplainDiagnosticsPostgresqlSQLFingerprintOptionalParameters holds optional parameters for ExplainDiagnosticsPostgresqlSQLFingerprint.
 type ExplainDiagnosticsPostgresqlSQLFingerprintOptionalParameters struct {
 	Fingerprint *string
@@ -515,6 +631,280 @@ func (a *DiagnosticsApi) GetDiagnosticsDamengSpaceAnalysis(ctx _context.Context,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters holds optional parameters for GetDiagnosticsElasticsearchStorageAnalysis.
+type GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters struct {
+	Node      *string
+	Index     *string
+	SortBy    *ElasticsearchIndexSortBy
+	SortOrder *ElasticsearchSortOrder
+}
+
+// NewGetDiagnosticsElasticsearchStorageAnalysisOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsElasticsearchStorageAnalysisOptionalParameters() *GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters {
+	this := GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters{}
+	return &this
+}
+
+// WithNode sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters) WithNode(node string) *GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters {
+	r.Node = &node
+	return r
+}
+
+// WithIndex sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters) WithIndex(index string) *GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters {
+	r.Index = &index
+	return r
+}
+
+// WithSortBy sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters) WithSortBy(sortBy ElasticsearchIndexSortBy) *GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters {
+	r.SortBy = &sortBy
+	return r
+}
+
+// WithSortOrder sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters) WithSortOrder(sortOrder ElasticsearchSortOrder) *GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters {
+	r.SortOrder = &sortOrder
+	return r
+}
+
+// GetDiagnosticsElasticsearchStorageAnalysis Get Elasticsearch storage and index analysis.
+func (a *DiagnosticsApi) GetDiagnosticsElasticsearchStorageAnalysis(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters) (ElasticsearchStorageAnalysis, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ElasticsearchStorageAnalysis
+		optionalParams      GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsElasticsearchStorageAnalysis",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/storageAnalysis",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsElasticsearchStorageAnalysis")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/storageAnalysis"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Node != nil {
+		localVarQueryParams.Add("node", common.ParameterToString(*optionalParams.Node, ""))
+	}
+	if optionalParams.Index != nil {
+		localVarQueryParams.Add("index", common.ParameterToString(*optionalParams.Index, ""))
+	}
+	if optionalParams.SortBy != nil {
+		localVarQueryParams.Add("sortBy", common.ParameterToString(*optionalParams.SortBy, ""))
+	}
+	if optionalParams.SortOrder != nil {
+		localVarQueryParams.Add("sortOrder", common.ParameterToString(*optionalParams.SortOrder, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters holds optional parameters for GetDiagnosticsElasticsearchTaskAnalysis.
+type GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters struct {
+	Type      *ElasticsearchHotThreadsType
+	Node      *string
+	TaskLimit *int32
+	Threads   *int32
+}
+
+// NewGetDiagnosticsElasticsearchTaskAnalysisOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsElasticsearchTaskAnalysisOptionalParameters() *GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters {
+	this := GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters{}
+	return &this
+}
+
+// WithType sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters) WithType(typeVar ElasticsearchHotThreadsType) *GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters {
+	r.Type = &typeVar
+	return r
+}
+
+// WithNode sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters) WithNode(node string) *GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters {
+	r.Node = &node
+	return r
+}
+
+// WithTaskLimit sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters) WithTaskLimit(taskLimit int32) *GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters {
+	r.TaskLimit = &taskLimit
+	return r
+}
+
+// WithThreads sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters) WithThreads(threads int32) *GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters {
+	r.Threads = &threads
+	return r
+}
+
+// GetDiagnosticsElasticsearchTaskAnalysis Get Elasticsearch task and hot-thread analysis.
+func (a *DiagnosticsApi) GetDiagnosticsElasticsearchTaskAnalysis(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters) (ElasticsearchTaskAnalysis, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ElasticsearchTaskAnalysis
+		optionalParams      GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsElasticsearchTaskAnalysis",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/taskAnalysis",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsElasticsearchTaskAnalysis")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/taskAnalysis"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Type != nil {
+		localVarQueryParams.Add("type", common.ParameterToString(*optionalParams.Type, ""))
+	}
+	if optionalParams.Node != nil {
+		localVarQueryParams.Add("node", common.ParameterToString(*optionalParams.Node, ""))
+	}
+	if optionalParams.TaskLimit != nil {
+		localVarQueryParams.Add("taskLimit", common.ParameterToString(*optionalParams.TaskLimit, ""))
+	}
+	if optionalParams.Threads != nil {
+		localVarQueryParams.Add("threads", common.ParameterToString(*optionalParams.Threads, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1624,6 +2014,250 @@ func (a *DiagnosticsApi) ListDiagnosticsDamengSessions(ctx _context.Context, org
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.Limit != nil {
 		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.State != nil {
+		localVarQueryParams.Add("state", common.ParameterToString(*optionalParams.State, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// ListDiagnosticsElasticsearchRecoveriesOptionalParameters holds optional parameters for ListDiagnosticsElasticsearchRecoveries.
+type ListDiagnosticsElasticsearchRecoveriesOptionalParameters struct {
+	Index *string
+	Node  *string
+}
+
+// NewListDiagnosticsElasticsearchRecoveriesOptionalParameters creates an empty struct for parameters.
+func NewListDiagnosticsElasticsearchRecoveriesOptionalParameters() *ListDiagnosticsElasticsearchRecoveriesOptionalParameters {
+	this := ListDiagnosticsElasticsearchRecoveriesOptionalParameters{}
+	return &this
+}
+
+// WithIndex sets the corresponding parameter name and returns the struct.
+func (r *ListDiagnosticsElasticsearchRecoveriesOptionalParameters) WithIndex(index string) *ListDiagnosticsElasticsearchRecoveriesOptionalParameters {
+	r.Index = &index
+	return r
+}
+
+// WithNode sets the corresponding parameter name and returns the struct.
+func (r *ListDiagnosticsElasticsearchRecoveriesOptionalParameters) WithNode(node string) *ListDiagnosticsElasticsearchRecoveriesOptionalParameters {
+	r.Node = &node
+	return r
+}
+
+// ListDiagnosticsElasticsearchRecoveries List active Elasticsearch shard recoveries.
+func (a *DiagnosticsApi) ListDiagnosticsElasticsearchRecoveries(ctx _context.Context, orgName string, clusterName string, o ...ListDiagnosticsElasticsearchRecoveriesOptionalParameters) (ElasticsearchRecoveryList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ElasticsearchRecoveryList
+		optionalParams      ListDiagnosticsElasticsearchRecoveriesOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListDiagnosticsElasticsearchRecoveriesOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "listDiagnosticsElasticsearchRecoveries",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/recoveries",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.ListDiagnosticsElasticsearchRecoveries")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/recoveries"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Index != nil {
+		localVarQueryParams.Add("index", common.ParameterToString(*optionalParams.Index, ""))
+	}
+	if optionalParams.Node != nil {
+		localVarQueryParams.Add("node", common.ParameterToString(*optionalParams.Node, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// ListDiagnosticsElasticsearchShardsOptionalParameters holds optional parameters for ListDiagnosticsElasticsearchShards.
+type ListDiagnosticsElasticsearchShardsOptionalParameters struct {
+	Index *string
+	Node  *string
+	State *ElasticsearchShardState
+}
+
+// NewListDiagnosticsElasticsearchShardsOptionalParameters creates an empty struct for parameters.
+func NewListDiagnosticsElasticsearchShardsOptionalParameters() *ListDiagnosticsElasticsearchShardsOptionalParameters {
+	this := ListDiagnosticsElasticsearchShardsOptionalParameters{}
+	return &this
+}
+
+// WithIndex sets the corresponding parameter name and returns the struct.
+func (r *ListDiagnosticsElasticsearchShardsOptionalParameters) WithIndex(index string) *ListDiagnosticsElasticsearchShardsOptionalParameters {
+	r.Index = &index
+	return r
+}
+
+// WithNode sets the corresponding parameter name and returns the struct.
+func (r *ListDiagnosticsElasticsearchShardsOptionalParameters) WithNode(node string) *ListDiagnosticsElasticsearchShardsOptionalParameters {
+	r.Node = &node
+	return r
+}
+
+// WithState sets the corresponding parameter name and returns the struct.
+func (r *ListDiagnosticsElasticsearchShardsOptionalParameters) WithState(state ElasticsearchShardState) *ListDiagnosticsElasticsearchShardsOptionalParameters {
+	r.State = &state
+	return r
+}
+
+// ListDiagnosticsElasticsearchShards List Elasticsearch shards.
+func (a *DiagnosticsApi) ListDiagnosticsElasticsearchShards(ctx _context.Context, orgName string, clusterName string, o ...ListDiagnosticsElasticsearchShardsOptionalParameters) (ElasticsearchShardList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ElasticsearchShardList
+		optionalParams      ListDiagnosticsElasticsearchShardsOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListDiagnosticsElasticsearchShardsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "listDiagnosticsElasticsearchShards",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/shards",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.ListDiagnosticsElasticsearchShards")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/shards"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Index != nil {
+		localVarQueryParams.Add("index", common.ParameterToString(*optionalParams.Index, ""))
+	}
+	if optionalParams.Node != nil {
+		localVarQueryParams.Add("node", common.ParameterToString(*optionalParams.Node, ""))
 	}
 	if optionalParams.State != nil {
 		localVarQueryParams.Add("state", common.ParameterToString(*optionalParams.State, ""))
