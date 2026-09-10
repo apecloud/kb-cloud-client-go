@@ -58,7 +58,7 @@ type EnvironmentUpdate struct {
 	// * `None` - Inherit the engine-level default scheduling policy.
 	//
 	ClusterSchedulingPolicy *ClusterSchedulingPolicy `json:"clusterSchedulingPolicy,omitempty"`
-	// Additional Kubernetes topology label keys used by subsequently created or re-rendered clusters; existing Pods are not migrated automatically. Omit or use null to preserve the current value; use an empty array to clear all additional keys. Hard anti-affinity can leave Pods unschedulable when eligible nodes lack a configured label, and clusters can be rejected when the Kubernetes LimitPodHardAntiAffinityTopology admission plugin restricts required anti-affinity to kubernetes.io/hostname.
+	// Additional Kubernetes topology label keys used by subsequently created or re-rendered clusters; existing Pods are not migrated automatically. Omit or use null to preserve the current value; use an empty array to clear all additional keys. Values must be valid Kubernetes qualified label keys. Infrastructure integrations or administrators must label all eligible nodes consistently; missing labels can cause unintended scheduling behavior and undermine failure-domain isolation. Too few eligible topology domains can leave Pods Pending under hard anti-affinity. If the Kubernetes LimitPodHardAntiAffinityTopology admission plugin is enabled, Pod creation is rejected for required anti-affinity using topology keys other than kubernetes.io/hostname, which can prevent the database cluster from becoming ready.
 	AdditionalTopologyKeys common.NullableList[string] `json:"additionalTopologyKeys,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
