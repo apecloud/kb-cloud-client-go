@@ -16,14 +16,17 @@ type InspectionScript struct {
 	DisplayName *LocalizedDescription `json:"displayName,omitempty"`
 	// The engine type this script is applicable to, such as cluster, mysql, node
 	Engine string `json:"engine"`
-	// The type of the script, such as "promQL"
+	// The type of the script, such as "promQL" or "manual" (requires evaluationMode=manual)
 	Type string `json:"type"`
 	// Current inspection category vocabulary. Existing legacy categories are normalized by the backend before they are returned.
 	Category    InspectionScriptCategory `json:"category"`
 	Description *LocalizedDescription    `json:"description,omitempty"`
-	ScriptExpr  string                   `json:"scriptExpr"`
-	CheckExpr   *string                  `json:"checkExpr,omitempty"`
-	// First-version criticality assumption for score weighting and red-item veto behavior. Missing legacy values are treated as medium.
+	// Collector expression for automatic modes; complete user instructions (up to 8192 UTF-8 bytes) for manual mode. Manual placeholders are not rendered.
+	ScriptExpr string `json:"scriptExpr"`
+	// Empty legacy values mean check. Display collects information without scoring. Manual requires type=manual and presents scriptExpr verbatim as instructions; it executes no SQL or templates, returns severity=unknown, and retains rule importance.
+	EvaluationMode *InspectionEvaluationMode `json:"evaluationMode,omitempty"`
+	CheckExpr      *string                   `json:"checkExpr,omitempty"`
+	// Rule importance used for score weighting. Info marks automatically collected information excluded from scoring. Manual items retain their importance but return unknown and are not scored. Missing legacy values normally default to medium; cluster and node status default to critical.
 	Criticality *InspectionCriticality `json:"criticality,omitempty"`
 	// First-version warning threshold assumption. It documents the script contract and is not a permanent product conclusion.
 	WarnThreshold *float64 `json:"warnThreshold,omitempty"`
@@ -271,6 +274,34 @@ func (o *InspectionScript) GetScriptExprOk() (*string, bool) {
 // SetScriptExpr sets field value.
 func (o *InspectionScript) SetScriptExpr(v string) {
 	o.ScriptExpr = v
+}
+
+// GetEvaluationMode returns the EvaluationMode field value if set, zero value otherwise.
+func (o *InspectionScript) GetEvaluationMode() InspectionEvaluationMode {
+	if o == nil || o.EvaluationMode == nil {
+		var ret InspectionEvaluationMode
+		return ret
+	}
+	return *o.EvaluationMode
+}
+
+// GetEvaluationModeOk returns a tuple with the EvaluationMode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionScript) GetEvaluationModeOk() (*InspectionEvaluationMode, bool) {
+	if o == nil || o.EvaluationMode == nil {
+		return nil, false
+	}
+	return o.EvaluationMode, true
+}
+
+// HasEvaluationMode returns a boolean if a field has been set.
+func (o *InspectionScript) HasEvaluationMode() bool {
+	return o != nil && o.EvaluationMode != nil
+}
+
+// SetEvaluationMode gets a reference to the given InspectionEvaluationMode and assigns it to the EvaluationMode field.
+func (o *InspectionScript) SetEvaluationMode(v InspectionEvaluationMode) {
+	o.EvaluationMode = &v
 }
 
 // GetCheckExpr returns the CheckExpr field value if set, zero value otherwise.
@@ -675,6 +706,9 @@ func (o InspectionScript) MarshalJSON() ([]byte, error) {
 		toSerialize["description"] = o.Description
 	}
 	toSerialize["scriptExpr"] = o.ScriptExpr
+	if o.EvaluationMode != nil {
+		toSerialize["evaluationMode"] = o.EvaluationMode
+	}
 	if o.CheckExpr != nil {
 		toSerialize["checkExpr"] = o.CheckExpr
 	}
@@ -723,28 +757,29 @@ func (o InspectionScript) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InspectionScript) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id            *string                       `json:"id,omitempty"`
-		Name          *string                       `json:"name"`
-		DisplayName   *LocalizedDescription         `json:"displayName,omitempty"`
-		Engine        *string                       `json:"engine"`
-		Type          *string                       `json:"type"`
-		Category      *InspectionScriptCategory     `json:"category"`
-		Description   *LocalizedDescription         `json:"description,omitempty"`
-		ScriptExpr    *string                       `json:"scriptExpr"`
-		CheckExpr     *string                       `json:"checkExpr,omitempty"`
-		Criticality   *InspectionCriticality        `json:"criticality,omitempty"`
-		WarnThreshold *float64                      `json:"warnThreshold,omitempty"`
-		CritThreshold *float64                      `json:"critThreshold,omitempty"`
-		Direction     *InspectionThresholdDirection `json:"direction,omitempty"`
-		Remediation   *LocalizedDescription         `json:"remediation,omitempty"`
-		DocLink       *string                       `json:"docLink,omitempty"`
-		ScopeType     *string                       `json:"scopeType"`
-		ScopeId       *string                       `json:"scopeID,omitempty"`
-		ScopeName     *string                       `json:"scopeName,omitempty"`
-		Enabled       *bool                         `json:"enabled"`
-		Unit          *string                       `json:"unit,omitempty"`
-		CreatedAt     *int32                        `json:"createdAt,omitempty"`
-		UpdatedAt     *int32                        `json:"updatedAt,omitempty"`
+		Id             *string                       `json:"id,omitempty"`
+		Name           *string                       `json:"name"`
+		DisplayName    *LocalizedDescription         `json:"displayName,omitempty"`
+		Engine         *string                       `json:"engine"`
+		Type           *string                       `json:"type"`
+		Category       *InspectionScriptCategory     `json:"category"`
+		Description    *LocalizedDescription         `json:"description,omitempty"`
+		ScriptExpr     *string                       `json:"scriptExpr"`
+		EvaluationMode *InspectionEvaluationMode     `json:"evaluationMode,omitempty"`
+		CheckExpr      *string                       `json:"checkExpr,omitempty"`
+		Criticality    *InspectionCriticality        `json:"criticality,omitempty"`
+		WarnThreshold  *float64                      `json:"warnThreshold,omitempty"`
+		CritThreshold  *float64                      `json:"critThreshold,omitempty"`
+		Direction      *InspectionThresholdDirection `json:"direction,omitempty"`
+		Remediation    *LocalizedDescription         `json:"remediation,omitempty"`
+		DocLink        *string                       `json:"docLink,omitempty"`
+		ScopeType      *string                       `json:"scopeType"`
+		ScopeId        *string                       `json:"scopeID,omitempty"`
+		ScopeName      *string                       `json:"scopeName,omitempty"`
+		Enabled        *bool                         `json:"enabled"`
+		Unit           *string                       `json:"unit,omitempty"`
+		CreatedAt      *int32                        `json:"createdAt,omitempty"`
+		UpdatedAt      *int32                        `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -772,7 +807,7 @@ func (o *InspectionScript) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "displayName", "engine", "type", "category", "description", "scriptExpr", "checkExpr", "criticality", "warnThreshold", "critThreshold", "direction", "remediation", "docLink", "scopeType", "scopeID", "scopeName", "enabled", "unit", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "displayName", "engine", "type", "category", "description", "scriptExpr", "evaluationMode", "checkExpr", "criticality", "warnThreshold", "critThreshold", "direction", "remediation", "docLink", "scopeType", "scopeID", "scopeName", "enabled", "unit", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}
@@ -796,6 +831,11 @@ func (o *InspectionScript) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Description = all.Description
 	o.ScriptExpr = *all.ScriptExpr
+	if all.EvaluationMode != nil && !all.EvaluationMode.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.EvaluationMode = all.EvaluationMode
+	}
 	o.CheckExpr = all.CheckExpr
 	if all.Criticality != nil && !all.Criticality.IsValid() {
 		hasInvalidField = true
