@@ -22144,6 +22144,144 @@ paths:
         - session
         - rdbms
         - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mariadb/spaceAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get MariaDB space analysis
+      description: Get a read-only MariaDB compatible space snapshot and fixed backend-owned storage metrics.
+      operationId: getDiagnosticsMariaDBSpaceAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: databaseName
+          in: query
+          description: Optional database name for table and index details. When omitted, the largest non-system database is selected.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mysqlSpaceAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mariadb/sqlAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get MariaDB SQL analysis
+      description: Get a read-only MariaDB SQL fingerprint ranking from Performance Schema statement digests. The response does not expose raw SQL text, time-window aggregation, execution plans, or remediation actions.
+      operationId: getDiagnosticsMariaDBSQLAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of SQL fingerprints to return. The backend applies its own upper bound.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: orderBy
+          in: query
+          description: Sort key. Allowed values are totalTime, meanTime, maxTime, and calls. Defaults to totalTime.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mysqlSQLAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mariadb/performanceTrends:
+    get:
+      tags:
+        - diagnostics
+      summary: Get MariaDB performance trends
+      description: Get read-only MariaDB performance trends from backend-owned metrics and database capability checks. The response does not expose SQL, PromQL, internal endpoints, or credentials.
+      operationId: getDiagnosticsMariaDBPerformanceTrends
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: range
+          in: query
+          description: Controlled query range. Allowed values are 1h, 6h, 24h, and 7d. Defaults to 1h.
+          required: false
+          schema:
+            type: string
+        - name: step
+          in: query
+          description: Controlled query granularity. Allowed values are 1m, 5m, 15m, and 1h.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/performanceTrends'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mysql/spaceAnalysis:
     get:
       tags:
@@ -42970,6 +43108,347 @@ components:
         collectedAt:
           type: string
           description: Backend collection timestamp in UTC.
+    mysqlSQLFingerprint:
+      type: object
+      required:
+        - queryID
+        - fingerprint
+        - querySummary
+        - calls
+        - totalTimeMs
+        - meanTimeMs
+        - maxTimeMs
+        - rows
+        - rowsSent
+        - rowsAffected
+        - rowsExamined
+        - lockTimeMs
+        - errors
+        - warnings
+        - tmpTables
+        - tmpDiskTables
+        - noIndexUsed
+        - noGoodIndexUsed
+        - database
+      properties:
+        queryID:
+          type: string
+          description: MySQL Performance Schema DIGEST value.
+        fingerprint:
+          type: string
+          description: Stable SQL fingerprint identifier. M1 uses DIGEST.
+        querySummary:
+          type: string
+          description: Normalized DIGEST_TEXT. Raw SQL text is intentionally not returned.
+        calls:
+          type: integer
+          format: int64
+          description: Number of executions accumulated in the current digest row.
+        totalTimeMs:
+          type: number
+          format: double
+          description: Total statement wait time in milliseconds.
+        meanTimeMs:
+          type: number
+          format: double
+          description: Mean statement wait time in milliseconds.
+        maxTimeMs:
+          type: number
+          format: double
+          description: Maximum statement wait time in milliseconds.
+        rows:
+          type: integer
+          format: int64
+          description: Sum of rows sent and rows affected.
+        rowsSent:
+          type: integer
+          format: int64
+          description: Total rows sent to clients.
+        rowsAffected:
+          type: integer
+          format: int64
+          description: Total rows affected by statements.
+        rowsExamined:
+          type: integer
+          format: int64
+          description: Total rows examined by statements.
+        lockTimeMs:
+          type: number
+          format: double
+          description: Total statement lock time in milliseconds.
+        errors:
+          type: integer
+          format: int64
+          description: Total statement errors.
+        warnings:
+          type: integer
+          format: int64
+          description: Total statement warnings.
+        tmpTables:
+          type: integer
+          format: int64
+          description: Total internal temporary tables created.
+        tmpDiskTables:
+          type: integer
+          format: int64
+          description: Total internal on-disk temporary tables created.
+        noIndexUsed:
+          type: integer
+          format: int64
+          description: Executions that used no index.
+        noGoodIndexUsed:
+          type: integer
+          format: int64
+          description: Executions for which no good index was found.
+        database:
+          type: string
+          description: Default schema name associated with the digest row.
+        firstSeen:
+          type: string
+          description: UTC timestamp when the digest was first observed.
+        lastSeen:
+          type: string
+          description: UTC timestamp when the digest was most recently observed.
+    mysqlSQLAnalysis:
+      type: object
+      required:
+        - source
+        - status
+        - collectedAt
+        - limit
+        - orderBy
+        - items
+      properties:
+        source:
+          type: string
+          description: Data source. M1 uses performance_schema.events_statements_summary_by_digest.
+        status:
+          type: string
+          description: Source status. Expected values are available or unavailable.
+        unavailableReason:
+          type: string
+          description: Reason when status is unavailable, such as performance_schema_disabled, digest_consumer_disabled, permission_denied, or query_failed.
+        message:
+          type: string
+          description: User-facing recovery guidance when SQL analysis is unavailable.
+        collectedAt:
+          type: string
+          description: Backend collection timestamp in UTC. It is not a sampling-window end time.
+        firstSeen:
+          type: string
+          description: Earliest FIRST_SEEN timestamp across currently visible digest rows, when available.
+        lastSeen:
+          type: string
+          description: Latest LAST_SEEN timestamp across currently visible digest rows, when available.
+        limit:
+          type: integer
+          format: int64
+          description: Effective row limit after backend normalization.
+        orderBy:
+          type: string
+          description: Effective sort key. Expected values are totalTime, meanTime, maxTime, or calls.
+        totalTimeMsAll:
+          type: number
+          format: double
+          x-nullable: true
+          description: Total execution time in milliseconds across all visible digest rows, not limited to the returned top-N items.
+        callsAll:
+          type: integer
+          format: int64
+          x-nullable: true
+          description: Total execution count across all visible digest rows, not limited to the returned top-N items.
+        digestLost:
+          type: integer
+          format: int64
+          x-nullable: true
+          description: Number of statement digests not recorded because the digest table was full, when exposed by the server.
+        items:
+          type: array
+          description: SQL fingerprint ranking rows from Performance Schema. The list may be empty when no statement statistics exist.
+          items:
+            $ref: '#/components/schemas/mysqlSQLFingerprint'
+    performanceTrendRange:
+      type: object
+      required:
+        - label
+        - start
+        - end
+        - durationSeconds
+      properties:
+        label:
+          type: string
+          description: Controlled query range label. Values are 1h, 6h, 24h, or 7d.
+        start:
+          type: string
+        end:
+          type: string
+        durationSeconds:
+          type: integer
+          format: int64
+    performanceTrendSummary:
+      type: object
+      required:
+        - metric
+        - displayName
+        - category
+        - unit
+        - min
+        - max
+        - avg
+        - latest
+      properties:
+        metric:
+          type: string
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
+        category:
+          type: string
+          description: Metric category. Values include availability, performance, connections, resource, capacity, innodb, and vacuumWraparound.
+        dimension:
+          type: string
+          description: Optional series dimension. Values include cluster, instance, pvc, and database.
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          description: Optional dimension labels, for example instance, pvc, role, or datname.
+        unit:
+          type: string
+        warnThreshold:
+          type: number
+          format: double
+          description: Optional warning threshold in the same unit as this metric.
+        critThreshold:
+          type: number
+          format: double
+          description: Optional critical threshold in the same unit as this metric.
+        thresholdDirection:
+          type: string
+          description: Optional threshold direction. Values are above, below, or boolean.
+        min:
+          type: number
+          format: double
+        max:
+          type: number
+          format: double
+        avg:
+          type: number
+          format: double
+        latest:
+          type: number
+          format: double
+        changeDirection:
+          type: string
+          description: Change direction when at least two samples exist. Values are increasing, decreasing, or stable.
+    performanceTrendPoint:
+      type: object
+      required:
+        - timestamp
+        - value
+      properties:
+        timestamp:
+          type: string
+        value:
+          type: number
+          format: double
+    performanceTrendSeries:
+      type: object
+      required:
+        - metric
+        - displayName
+        - category
+        - unit
+        - points
+      properties:
+        metric:
+          type: string
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
+        category:
+          type: string
+          description: Metric category. Values include availability, performance, connections, resource, capacity, innodb, and vacuumWraparound.
+        dimension:
+          type: string
+          description: Optional series dimension. Values include cluster, instance, pvc, and database.
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          description: Optional dimension labels, for example instance, pvc, role, or datname.
+        unit:
+          type: string
+        warnThreshold:
+          type: number
+          format: double
+          description: Optional warning threshold in the same unit as this metric.
+        critThreshold:
+          type: number
+          format: double
+          description: Optional critical threshold in the same unit as this metric.
+        thresholdDirection:
+          type: string
+          description: Optional threshold direction. Values are above, below, or boolean.
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/performanceTrendPoint'
+    performanceTrendSource:
+      type: object
+      required:
+        - name
+        - kind
+        - status
+        - collectedAt
+      properties:
+        name:
+          type: string
+        kind:
+          type: string
+        status:
+          type: string
+          description: Coarse source status. Values are success, partial, failed, skipped, or noData.
+        collectedAt:
+          type: string
+        message:
+          type: string
+    performanceTrends:
+      type: object
+      required:
+        - range
+        - granularity
+        - summary
+        - series
+        - sources
+        - warnings
+        - collectedAt
+      properties:
+        range:
+          $ref: '#/components/schemas/performanceTrendRange'
+        granularity:
+          type: string
+          description: Controlled backend query step.
+        summary:
+          type: array
+          description: Per-series numeric summary. changeDirection is present only when at least two points exist.
+          items:
+            $ref: '#/components/schemas/performanceTrendSummary'
+        series:
+          type: array
+          description: Successfully collected and displayable metric series only. Unsupported, empty, or failed metrics are not represented as per-metric entries.
+          items:
+            $ref: '#/components/schemas/performanceTrendSeries'
+        sources:
+          type: array
+          description: Coarse collection source status. Messages are sanitized and do not expose PromQL, endpoints, credentials, or raw internal errors.
+          items:
+            $ref: '#/components/schemas/performanceTrendSource'
+        warnings:
+          type: array
+          items:
+            type: string
+        collectedAt:
+          type: string
+          description: Backend collection timestamp in UTC.
     mssqlRequest:
       type: object
       required:
@@ -43671,347 +44150,6 @@ components:
         explainResult:
           $ref: '#/components/schemas/DmsExecutionPlanResult'
           description: Normalized DMS estimated visual plan. The resolved statement and generated EXPLAIN SQL are intentionally removed.
-    mysqlSQLFingerprint:
-      type: object
-      required:
-        - queryID
-        - fingerprint
-        - querySummary
-        - calls
-        - totalTimeMs
-        - meanTimeMs
-        - maxTimeMs
-        - rows
-        - rowsSent
-        - rowsAffected
-        - rowsExamined
-        - lockTimeMs
-        - errors
-        - warnings
-        - tmpTables
-        - tmpDiskTables
-        - noIndexUsed
-        - noGoodIndexUsed
-        - database
-      properties:
-        queryID:
-          type: string
-          description: MySQL Performance Schema DIGEST value.
-        fingerprint:
-          type: string
-          description: Stable SQL fingerprint identifier. M1 uses DIGEST.
-        querySummary:
-          type: string
-          description: Normalized DIGEST_TEXT. Raw SQL text is intentionally not returned.
-        calls:
-          type: integer
-          format: int64
-          description: Number of executions accumulated in the current digest row.
-        totalTimeMs:
-          type: number
-          format: double
-          description: Total statement wait time in milliseconds.
-        meanTimeMs:
-          type: number
-          format: double
-          description: Mean statement wait time in milliseconds.
-        maxTimeMs:
-          type: number
-          format: double
-          description: Maximum statement wait time in milliseconds.
-        rows:
-          type: integer
-          format: int64
-          description: Sum of rows sent and rows affected.
-        rowsSent:
-          type: integer
-          format: int64
-          description: Total rows sent to clients.
-        rowsAffected:
-          type: integer
-          format: int64
-          description: Total rows affected by statements.
-        rowsExamined:
-          type: integer
-          format: int64
-          description: Total rows examined by statements.
-        lockTimeMs:
-          type: number
-          format: double
-          description: Total statement lock time in milliseconds.
-        errors:
-          type: integer
-          format: int64
-          description: Total statement errors.
-        warnings:
-          type: integer
-          format: int64
-          description: Total statement warnings.
-        tmpTables:
-          type: integer
-          format: int64
-          description: Total internal temporary tables created.
-        tmpDiskTables:
-          type: integer
-          format: int64
-          description: Total internal on-disk temporary tables created.
-        noIndexUsed:
-          type: integer
-          format: int64
-          description: Executions that used no index.
-        noGoodIndexUsed:
-          type: integer
-          format: int64
-          description: Executions for which no good index was found.
-        database:
-          type: string
-          description: Default schema name associated with the digest row.
-        firstSeen:
-          type: string
-          description: UTC timestamp when the digest was first observed.
-        lastSeen:
-          type: string
-          description: UTC timestamp when the digest was most recently observed.
-    mysqlSQLAnalysis:
-      type: object
-      required:
-        - source
-        - status
-        - collectedAt
-        - limit
-        - orderBy
-        - items
-      properties:
-        source:
-          type: string
-          description: Data source. M1 uses performance_schema.events_statements_summary_by_digest.
-        status:
-          type: string
-          description: Source status. Expected values are available or unavailable.
-        unavailableReason:
-          type: string
-          description: Reason when status is unavailable, such as performance_schema_disabled, digest_consumer_disabled, permission_denied, or query_failed.
-        message:
-          type: string
-          description: User-facing recovery guidance when SQL analysis is unavailable.
-        collectedAt:
-          type: string
-          description: Backend collection timestamp in UTC. It is not a sampling-window end time.
-        firstSeen:
-          type: string
-          description: Earliest FIRST_SEEN timestamp across currently visible digest rows, when available.
-        lastSeen:
-          type: string
-          description: Latest LAST_SEEN timestamp across currently visible digest rows, when available.
-        limit:
-          type: integer
-          format: int64
-          description: Effective row limit after backend normalization.
-        orderBy:
-          type: string
-          description: Effective sort key. Expected values are totalTime, meanTime, maxTime, or calls.
-        totalTimeMsAll:
-          type: number
-          format: double
-          x-nullable: true
-          description: Total execution time in milliseconds across all visible digest rows, not limited to the returned top-N items.
-        callsAll:
-          type: integer
-          format: int64
-          x-nullable: true
-          description: Total execution count across all visible digest rows, not limited to the returned top-N items.
-        digestLost:
-          type: integer
-          format: int64
-          x-nullable: true
-          description: Number of statement digests not recorded because the digest table was full, when exposed by the server.
-        items:
-          type: array
-          description: SQL fingerprint ranking rows from Performance Schema. The list may be empty when no statement statistics exist.
-          items:
-            $ref: '#/components/schemas/mysqlSQLFingerprint'
-    performanceTrendRange:
-      type: object
-      required:
-        - label
-        - start
-        - end
-        - durationSeconds
-      properties:
-        label:
-          type: string
-          description: Controlled query range label. Values are 1h, 6h, 24h, or 7d.
-        start:
-          type: string
-        end:
-          type: string
-        durationSeconds:
-          type: integer
-          format: int64
-    performanceTrendSummary:
-      type: object
-      required:
-        - metric
-        - displayName
-        - category
-        - unit
-        - min
-        - max
-        - avg
-        - latest
-      properties:
-        metric:
-          type: string
-        displayName:
-          $ref: '#/components/schemas/localizedDescription'
-        category:
-          type: string
-          description: Metric category. Values include availability, performance, connections, resource, capacity, innodb, and vacuumWraparound.
-        dimension:
-          type: string
-          description: Optional series dimension. Values include cluster, instance, pvc, and database.
-        labels:
-          type: object
-          additionalProperties:
-            type: string
-          description: Optional dimension labels, for example instance, pvc, role, or datname.
-        unit:
-          type: string
-        warnThreshold:
-          type: number
-          format: double
-          description: Optional warning threshold in the same unit as this metric.
-        critThreshold:
-          type: number
-          format: double
-          description: Optional critical threshold in the same unit as this metric.
-        thresholdDirection:
-          type: string
-          description: Optional threshold direction. Values are above, below, or boolean.
-        min:
-          type: number
-          format: double
-        max:
-          type: number
-          format: double
-        avg:
-          type: number
-          format: double
-        latest:
-          type: number
-          format: double
-        changeDirection:
-          type: string
-          description: Change direction when at least two samples exist. Values are increasing, decreasing, or stable.
-    performanceTrendPoint:
-      type: object
-      required:
-        - timestamp
-        - value
-      properties:
-        timestamp:
-          type: string
-        value:
-          type: number
-          format: double
-    performanceTrendSeries:
-      type: object
-      required:
-        - metric
-        - displayName
-        - category
-        - unit
-        - points
-      properties:
-        metric:
-          type: string
-        displayName:
-          $ref: '#/components/schemas/localizedDescription'
-        category:
-          type: string
-          description: Metric category. Values include availability, performance, connections, resource, capacity, innodb, and vacuumWraparound.
-        dimension:
-          type: string
-          description: Optional series dimension. Values include cluster, instance, pvc, and database.
-        labels:
-          type: object
-          additionalProperties:
-            type: string
-          description: Optional dimension labels, for example instance, pvc, role, or datname.
-        unit:
-          type: string
-        warnThreshold:
-          type: number
-          format: double
-          description: Optional warning threshold in the same unit as this metric.
-        critThreshold:
-          type: number
-          format: double
-          description: Optional critical threshold in the same unit as this metric.
-        thresholdDirection:
-          type: string
-          description: Optional threshold direction. Values are above, below, or boolean.
-        points:
-          type: array
-          items:
-            $ref: '#/components/schemas/performanceTrendPoint'
-    performanceTrendSource:
-      type: object
-      required:
-        - name
-        - kind
-        - status
-        - collectedAt
-      properties:
-        name:
-          type: string
-        kind:
-          type: string
-        status:
-          type: string
-          description: Coarse source status. Values are success, partial, failed, skipped, or noData.
-        collectedAt:
-          type: string
-        message:
-          type: string
-    performanceTrends:
-      type: object
-      required:
-        - range
-        - granularity
-        - summary
-        - series
-        - sources
-        - warnings
-        - collectedAt
-      properties:
-        range:
-          $ref: '#/components/schemas/performanceTrendRange'
-        granularity:
-          type: string
-          description: Controlled backend query step.
-        summary:
-          type: array
-          description: Per-series numeric summary. changeDirection is present only when at least two points exist.
-          items:
-            $ref: '#/components/schemas/performanceTrendSummary'
-        series:
-          type: array
-          description: Successfully collected and displayable metric series only. Unsupported, empty, or failed metrics are not represented as per-metric entries.
-          items:
-            $ref: '#/components/schemas/performanceTrendSeries'
-        sources:
-          type: array
-          description: Coarse collection source status. Messages are sanitized and do not expose PromQL, endpoints, credentials, or raw internal errors.
-          items:
-            $ref: '#/components/schemas/performanceTrendSource'
-        warnings:
-          type: array
-          items:
-            type: string
-        collectedAt:
-          type: string
-          description: Backend collection timestamp in UTC.
     elasticsearchHotThreadsType:
       type: string
       enum:
