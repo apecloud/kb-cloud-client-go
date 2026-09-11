@@ -22321,6 +22321,83 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/queries/{queryID}/explain:
+    post:
+      tags:
+        - diagnostics
+      summary: Explain PostgreSQL SQL fingerprint
+      description: Explicitly trigger a safe PostgreSQL EXPLAIN for one SQL fingerprint. The request does not accept raw SQL. DMS resolves the exact server-side parameterized SELECT statement identity independently of the ranking window, produces an estimated standard or generic plan without parameter sample values, rejects multiple statements, and never runs EXPLAIN ANALYZE or the original SQL. The plan uses current catalog statistics and the DMS connection context; it does not reconstruct the original role, search_path, session settings, parameter values, or historical actual plan.
+      operationId: explainDiagnosticsPostgresqlSQLFingerprint
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: queryID
+          in: path
+          description: PostgreSQL pg_stat_statements queryid represented as a string.
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: Database name from the ranking row. The key is required to disambiguate the queryID. An unresolved empty name returns 422 no_explainable_sql_statement.
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
+        - name: user
+          in: query
+          description: Database user from the ranking row. The key is required to disambiguate the queryID. An unresolved empty name returns 422 no_explainable_sql_statement.
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
+        - name: topLevel
+          in: query
+          description: Top-level identity from the ranking row. Required to disambiguate the queryID on PostgreSQL versions that expose pg_stat_statements.toplevel.
+          required: true
+          schema:
+            type: boolean
+        - name: fingerprint
+          in: query
+          description: Optional fingerprint consistency guard. Currently aligned with PostgreSQL pg_stat_statements queryid.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postgresqlSQLFingerprintExplainResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mysql/sqlAnalysis:
     get:
       tags:
@@ -29657,6 +29734,11 @@ components:
         - analyze
         - actual
         - autotrace
+    DmsExecutionPlanPlanningMode:
+      type: string
+      enum:
+        - standard
+        - generic
     DmsExecutionPlanRawFormat:
       type: string
       enum:
@@ -29940,6 +30022,16 @@ components:
           type: string
         mode:
           $ref: '#/components/schemas/DmsExecutionPlanMode'
+        planMode:
+          $ref: '#/components/schemas/DmsExecutionPlanPlanningMode'
+        parameterized:
+          type: boolean
+          x-omitempty: false
+        parameterCount:
+          type: integer
+          format: int64
+          nullable: true
+          x-omitempty: true
         hasActualStats:
           type: boolean
           x-omitempty: false
@@ -43013,6 +43105,7 @@ components:
         - rows
         - database
         - user
+        - topLevel
       properties:
         queryID:
           type: string
@@ -43049,6 +43142,9 @@ components:
         user:
           type: string
           description: Database user name resolved from pg_stat_statements.userid when visible.
+        topLevel:
+          type: boolean
+          description: Whether pg_stat_statements recorded the statement as top-level. Legacy PostgreSQL versions without the toplevel column report true.
     postgresqlSQLAnalysis:
       type: object
       required:
@@ -43096,6 +43192,55 @@ components:
           description: SQL fingerprint ranking rows from pg_stat_statements. The list may be empty when no statement statistics exist.
           items:
             $ref: '#/components/schemas/postgresqlSQLFingerprint'
+    postgresqlSQLFingerprintExplainResponse:
+      type: object
+      required:
+        - queryID
+        - fingerprint
+        - database
+        - user
+        - topLevel
+        - planMode
+        - parameterized
+        - explainResult
+      properties:
+        queryID:
+          type: string
+          description: PostgreSQL pg_stat_statements queryid represented as a string.
+        fingerprint:
+          type: string
+          description: Stable SQL fingerprint identifier for UI grouping. Currently aligned with PostgreSQL pg_stat_statements queryid.
+        database:
+          type: string
+          description: Database name from the requested SQL fingerprint identity.
+        user:
+          type: string
+          description: Database user from the requested SQL fingerprint identity.
+        topLevel:
+          type: boolean
+          description: Top-level flag from the requested SQL fingerprint identity.
+        statementSource:
+          type: string
+          description: Server-side source used to resolve the parameterized SQL statement. Raw SQL is not returned.
+        statementResolvedAt:
+          type: string
+          description: Timestamp when the parameterized SQL statement was resolved.
+        planMode:
+          $ref: '#/components/schemas/DmsExecutionPlanPlanningMode'
+          description: Whether DMS produced a standard estimated plan or a generic parameterized estimated plan.
+        parameterized:
+          type: boolean
+          description: Whether generic parameterized planning was used (planMode is generic). False means standard planning, not that historical parameter values were used. This endpoint never retrieves historical parameter values.
+          x-omitempty: false
+        parameterCount:
+          type: integer
+          format: int64
+          nullable: true
+          x-omitempty: true
+          description: Number of parameters when DMS can determine it. It may be omitted for PostgreSQL generic-plan paths that do not expose the count.
+        explainResult:
+          $ref: '#/components/schemas/DmsExecutionPlanResult'
+          description: Normalized DMS estimated visual plan. The resolved statement and generated EXPLAIN SQL are intentionally removed.
     mysqlSQLFingerprint:
       type: object
       required:

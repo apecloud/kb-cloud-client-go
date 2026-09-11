@@ -224,6 +224,7 @@
 //   - [databaseApi.listDatabases]
 //   - [databaseApi.updateDatabaseConfig]
 //   - [diagnosticsApi.explainDiagnosticsElasticsearchAllocation]
+//   - [diagnosticsApi.explainDiagnosticsPostgresqlSQLFingerprint]
 //   - [diagnosticsApi.getDiagnosticsDamengSQLAnalysis]
 //   - [diagnosticsApi.getDiagnosticsDamengSession]
 //   - [diagnosticsApi.getDiagnosticsDamengSessionLockAnalysis]
