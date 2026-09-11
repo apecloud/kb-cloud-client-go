@@ -32810,6 +32810,13 @@ components:
       properties:
         clusterSchedulingPolicy:
           $ref: '#/components/schemas/clusterSchedulingPolicy'
+        additionalTopologyKeys:
+          type: array
+          nullable: true
+          default: []
+          description: Additional Kubernetes topology label keys used by pod anti-affinity and topology spread for subsequently created or re-rendered clusters; existing Pods are not migrated automatically. Omit or use null during environment creation to store an empty list. Values must be valid Kubernetes qualified label keys. Infrastructure integrations or administrators must label all eligible nodes consistently; missing labels can cause unintended scheduling behavior and undermine failure-domain isolation. Too few eligible topology domains can leave Pods Pending under hard anti-affinity. If the Kubernetes LimitPodHardAntiAffinityTopology admission plugin is enabled, Pod creation is rejected for required anti-affinity using topology keys other than kubernetes.io/hostname, which can prevent the database cluster from becoming ready.
+          items:
+            type: string
         tolerateDefaultTaints:
           $ref: '#/components/schemas/tolerateDefaultTaints'
         systemComponentSchedulerPolicy:
@@ -33526,6 +33533,12 @@ components:
             $ref: '#/components/schemas/ipPoolProvider'
         clusterSchedulingPolicy:
           $ref: '#/components/schemas/clusterSchedulingPolicy'
+        additionalTopologyKeys:
+          type: array
+          nullable: true
+          description: Additional Kubernetes topology label keys used by subsequently created or re-rendered clusters; existing Pods are not migrated automatically. Omit or use null to preserve the current value; use an empty array to clear all additional keys. Values must be valid Kubernetes qualified label keys. Infrastructure integrations or administrators must label all eligible nodes consistently; missing labels can cause unintended scheduling behavior and undermine failure-domain isolation. Too few eligible topology domains can leave Pods Pending under hard anti-affinity. If the Kubernetes LimitPodHardAntiAffinityTopology admission plugin is enabled, Pod creation is rejected for required anti-affinity using topology keys other than kubernetes.io/hostname, which can prevent the database cluster from becoming ready.
+          items:
+            type: string
     environmentStateEvent:
       description: EventEnvironmentState contains details for the current and previous state of the environment.
       type: object
