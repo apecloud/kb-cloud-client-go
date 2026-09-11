@@ -22185,6 +22185,202 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions:
+    get:
+      tags:
+        - diagnostics
+      operationId: listDiagnosticsMssqlSessions
+      summary: List SQL Server sessions
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 1000
+            default: 500
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mssqlSessionSnapshot'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions/{sessionId}:
+    get:
+      tags:
+        - diagnostics
+      operationId: getDiagnosticsMssqlSession
+      summary: Get a SQL Server session
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 32767
+        - name: startedAt
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mssqlSession'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions/{sessionId}/lockAnalysis:
+    get:
+      tags:
+        - diagnostics
+      operationId: getDiagnosticsMssqlSessionLockAnalysis
+      summary: Get SQL Server blocking and locks
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 32767
+        - name: startedAt
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mssqlLockSnapshot'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions/{sessionId}/requests/{requestId}/cachedPlan:
+    get:
+      tags:
+        - diagnostics
+      operationId: getDiagnosticsMssqlSessionCachedPlan
+      summary: Read the cached compiled plan of a live SQL Server request
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 32767
+        - name: startedAt
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+        - name: requestStart
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mssqlCachedPlan'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions:
     get:
       tags:
@@ -42774,6 +42970,240 @@ components:
         collectedAt:
           type: string
           description: Backend collection timestamp in UTC.
+    mssqlRequest:
+      type: object
+      required:
+        - requestId
+        - startedAt
+        - status
+        - command
+        - database
+        - sql
+        - sqlTruncated
+        - elapsedMs
+        - cpuMs
+        - reads
+        - logicalReads
+        - writes
+        - waitType
+        - waitMs
+        - waitResource
+        - blockingSessionId
+      properties:
+        requestId:
+          type: integer
+          format: int64
+        startedAt:
+          type: string
+          description: Opaque SQL Server local start time, used to detect session or request reuse. Pass back unchanged; it is not a UTC timestamp.
+        status:
+          type: string
+        command:
+          type: string
+        database:
+          type: string
+        sql:
+          type: string
+          description: Current statement extracted with byte offsets. Truncated to 8192 characters.
+        sqlTruncated:
+          type: boolean
+        elapsedMs:
+          type: integer
+          format: int64
+        cpuMs:
+          type: integer
+          format: int64
+        reads:
+          type: integer
+          format: int64
+        logicalReads:
+          type: integer
+          format: int64
+        writes:
+          type: integer
+          format: int64
+        waitType:
+          type: string
+        waitMs:
+          type: integer
+          format: int64
+        waitResource:
+          type: string
+        blockingSessionId:
+          type: integer
+          format: int64
+    mssqlSession:
+      type: object
+      required:
+        - sessionId
+        - startedAt
+        - status
+        - user
+        - host
+        - application
+        - client
+        - database
+        - openTransactions
+        - transactionSeconds
+        - lastSql
+        - lastSqlTruncated
+        - requests
+        - requestsTruncated
+      properties:
+        sessionId:
+          type: integer
+          format: int64
+        startedAt:
+          type: string
+          description: Opaque SQL Server local start time, used to detect session or request reuse. Pass back unchanged; it is not a UTC timestamp.
+        status:
+          type: string
+        user:
+          type: string
+        host:
+          type: string
+        application:
+          type: string
+        client:
+          type: string
+        database:
+          type: string
+        openTransactions:
+          type: integer
+          format: int64
+        transactionSeconds:
+          type: integer
+          format: int64
+        lastSql:
+          type: string
+          description: Most recent batch on the connection, not necessarily the SQL that acquired its locks. Truncated to 8192 characters.
+        lastSqlTruncated:
+          type: boolean
+        requests:
+          type: array
+          items:
+            $ref: '#/components/schemas/mssqlRequest'
+        requestsTruncated:
+          type: boolean
+    mssqlSessionSnapshot:
+      type: object
+      required:
+        - capturedAt
+        - sessions
+        - truncated
+      properties:
+        capturedAt:
+          type: string
+        sessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/mssqlSession'
+        truncated:
+          type: boolean
+    mssqlWait:
+      type: object
+      required:
+        - sessionId
+        - requestId
+        - blockingSessionId
+        - waitType
+        - waitMs
+        - resource
+        - source
+      properties:
+        sessionId:
+          type: integer
+          format: int64
+        requestId:
+          type: integer
+          format: int64
+          description: Request ID, or -1 when a waiting task cannot be associated with a live request.
+        blockingSessionId:
+          type: integer
+          format: int64
+          description: SQL Server blocking owner. Negative values are special owners, not session IDs.
+        waitType:
+          type: string
+        waitMs:
+          type: integer
+          format: int64
+        resource:
+          type: string
+        source:
+          type: string
+    mssqlLock:
+      type: object
+      required:
+        - sessionId
+        - requestId
+        - database
+        - resourceType
+        - resource
+        - entityId
+        - mode
+        - status
+        - ownerType
+      properties:
+        sessionId:
+          type: integer
+          format: int64
+        requestId:
+          type: integer
+          format: int64
+        database:
+          type: string
+        resourceType:
+          type: string
+        resource:
+          type: string
+        entityId:
+          type: string
+        mode:
+          type: string
+        status:
+          type: string
+        ownerType:
+          type: string
+    mssqlLockSnapshot:
+      type: object
+      required:
+        - capturedAt
+        - sessions
+        - waits
+        - locks
+        - truncated
+      properties:
+        capturedAt:
+          type: string
+        sessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/mssqlSession'
+        waits:
+          type: array
+          items:
+            $ref: '#/components/schemas/mssqlWait'
+        locks:
+          type: array
+          items:
+            $ref: '#/components/schemas/mssqlLock'
+        truncated:
+          type: boolean
+      description: Bounded live DMV observations. Edges are SQL Server reported blocking identifiers. Collection is not atomic; graph cycles are not historical deadlock evidence.
+    mssqlCachedPlan:
+      type: object
+      required:
+        - capturedAt
+        - xml
+        - available
+      properties:
+        capturedAt:
+          type: string
+        xml:
+          type: string
+        available:
+          type: boolean
+      description: Cached compiled plan for the selected live request. No captured SQL is executed. This is not an actual runtime plan.
     postgresqlSession:
       type: object
       required:
