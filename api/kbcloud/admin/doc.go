@@ -236,6 +236,7 @@
 //   - [databaseParametersApi.listDatabaseParameters]
 //   - [databaseParametersApi.updateDatabaseParameter]
 //   - [diagnosticsApi.explainDiagnosticsElasticsearchAllocation]
+//   - [diagnosticsApi.explainDiagnosticsPostgresqlSQLFingerprint]
 //   - [diagnosticsApi.getDiagnosticsDamengSQLAnalysis]
 //   - [diagnosticsApi.getDiagnosticsDamengSession]
 //   - [diagnosticsApi.getDiagnosticsDamengSessionLockAnalysis]
