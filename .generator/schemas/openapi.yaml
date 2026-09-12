@@ -5560,6 +5560,388 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/windows:
+    get:
+      tags:
+        - diagnostics
+      summary: Get PostgreSQL SQL observation window list
+      description: Read-only historical delta analysis from VictoriaLogs. RFC3339 window bounds, maximum seven days. Only fully contained, complete observation intervals contribute. Partial or missing observations are never converted to zero. instanceId identifies a Pod UID. Comparisons default to the immediately preceding equal-duration window. Summaries are redacted; no raw SQL is exposed. The SQL telemetry transport must write to the same VictoriaLogs instance and tenant as the environment log-query endpoint. Results use eventually consistent, multi-stage coverage and delivery checks; they are not a transactional storage snapshot. Fragmented coverage exceeding the query budget returns unavailable without reducing the requested window.
+      operationId: getDiagnosticsPostgresqlSQLWindowList
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: startTime
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: endTime
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: instanceId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: databaseId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: userId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: topLevel
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/PostgresqlSQLWindowTopLevel'
+        - name: orderBy
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/PostgresqlSQLWindowOrderBy'
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostgresqlSQLWindowResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/windows/{sqlId}:
+    get:
+      tags:
+        - diagnostics
+      summary: Get PostgreSQL SQL observation window detail
+      description: Read-only historical delta analysis from VictoriaLogs. RFC3339 window bounds, maximum seven days. Only fully contained, complete observation intervals contribute. Partial or missing observations are never converted to zero. instanceId identifies a Pod UID. Comparisons default to the immediately preceding equal-duration window. Summaries are redacted; no raw SQL is exposed. The SQL telemetry transport must write to the same VictoriaLogs instance and tenant as the environment log-query endpoint. Results use eventually consistent, multi-stage coverage and delivery checks; they are not a transactional storage snapshot. Fragmented coverage exceeding the query budget returns unavailable without reducing the requested window.
+      operationId: getDiagnosticsPostgresqlSQLWindowDetail
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sqlId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: startTime
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: endTime
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: instanceId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: databaseId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: userId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: topLevel
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/PostgresqlSQLWindowTopLevel'
+        - name: orderBy
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/PostgresqlSQLWindowOrderBy'
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostgresqlSQLWindowResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/windows/{sqlId}/trends:
+    get:
+      tags:
+        - diagnostics
+      summary: Get PostgreSQL SQL observation window trends
+      description: Read-only historical delta analysis from VictoriaLogs. RFC3339 window bounds, maximum seven days. Only fully contained, complete observation intervals contribute. Partial or missing observations are never converted to zero. instanceId identifies a Pod UID. Comparisons default to the immediately preceding equal-duration window. Summaries are redacted; no raw SQL is exposed. Whole intervals are assigned by observation end to display buckets without proportional splitting; effectiveStartTime and effectiveEndTime describe actual observed coverage. The SQL telemetry transport must write to the same VictoriaLogs instance and tenant as the environment log-query endpoint. Results use eventually consistent, multi-stage coverage and delivery checks; they are not a transactional storage snapshot. Fragmented coverage exceeding the query budget returns unavailable without reducing the requested window.
+      operationId: getDiagnosticsPostgresqlSQLWindowTrends
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sqlId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: startTime
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: endTime
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: instanceId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: databaseId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: userId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: topLevel
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/PostgresqlSQLWindowTopLevel'
+        - name: orderBy
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/PostgresqlSQLWindowOrderBy'
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: stepSeconds
+          in: query
+          required: true
+          schema:
+            type: integer
+            minimum: 60
+            maximum: 86400
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostgresqlSQLWindowTrends'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/windows/compare:
+    get:
+      tags:
+        - diagnostics
+      summary: Get PostgreSQL SQL observation window compare
+      description: Read-only historical delta analysis from VictoriaLogs. RFC3339 window bounds, maximum seven days. Only fully contained, complete observation intervals contribute. Partial or missing observations are never converted to zero. instanceId identifies a Pod UID. Comparisons default to the immediately preceding equal-duration window. Summaries are redacted; no raw SQL is exposed. The SQL telemetry transport must write to the same VictoriaLogs instance and tenant as the environment log-query endpoint. Results use eventually consistent, multi-stage coverage and delivery checks; they are not a transactional storage snapshot. Fragmented coverage exceeding the query budget returns unavailable without reducing the requested window.
+      operationId: getDiagnosticsPostgresqlSQLWindowCompare
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: startTime
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: endTime
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: instanceId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: databaseId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: userId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: topLevel
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/PostgresqlSQLWindowTopLevel'
+        - name: orderBy
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/PostgresqlSQLWindowOrderBy'
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: baselineStartTime
+          in: query
+          schema:
+            type: string
+        - name: sqlId
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostgresqlSQLWindowComparison'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/windows/instances:
+    get:
+      tags:
+        - diagnostics
+      summary: Get PostgreSQL SQL observation window instances
+      description: Read-only historical delta analysis from VictoriaLogs. RFC3339 window bounds, maximum seven days. Only fully contained, complete observation intervals contribute. Partial or missing observations are never converted to zero. instanceId identifies a Pod UID. Comparisons default to the immediately preceding equal-duration window. Summaries are redacted; no raw SQL is exposed. The SQL telemetry transport must write to the same VictoriaLogs instance and tenant as the environment log-query endpoint. Results use eventually consistent, multi-stage coverage and delivery checks; they are not a transactional storage snapshot. Fragmented coverage exceeding the query budget returns unavailable without reducing the requested window.
+      operationId: getDiagnosticsPostgresqlSQLWindowInstances
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: startTime
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: endTime
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostgresqlSQLWindowInstances'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis:
     get:
       tags:
@@ -27254,6 +27636,331 @@ components:
         collectedAt:
           type: string
           description: Backend collection timestamp in UTC.
+    PostgresqlSQLWindowTopLevel:
+      type: string
+      enum:
+        - 'true'
+        - 'false'
+        - unknown
+    PostgresqlSQLWindowOrderBy:
+      type: string
+      enum:
+        - totalTime
+        - meanTime
+        - calls
+        - rows
+      default: totalTime
+    PostgresqlSQLWindow:
+      type: object
+      required:
+        - startTime
+        - endTime
+      properties:
+        startTime:
+          type: string
+        endTime:
+          type: string
+        effectiveStartTime:
+          type: string
+        effectiveEndTime:
+          type: string
+    PostgresqlSQLWindowStatus:
+      type: string
+      enum:
+        - available
+        - partial
+        - unavailable
+    PostgresqlSQLWindowCoverage:
+      type: object
+      properties:
+        expectedCollections:
+          type: integer
+          format: int64
+          x-omitempty: false
+        observedCollections:
+          type: integer
+          format: int64
+          x-omitempty: false
+        usableCollections:
+          type: integer
+          format: int64
+          x-omitempty: false
+      description: Collection-level completeness before database, user or SQL filtering. expectedCollections is estimated from the recorded cadence; zero means cadence is unavailable when no coverage exists.
+    PostgresqlSQLWindowResources:
+      type: object
+      description: Optional sums of SQL resource deltas. Missing values are unknown, never zero. Block counters are PostgreSQL blocks, WAL bytes are bytes, and timing fields are milliseconds. Legacy blk timing is the older PostgreSQL block I/O timing; it is not interchangeable with the PostgreSQL 17 split fields. Counters at or above 2^53 are unavailable to avoid storage aggregation precision loss.
+      properties:
+        sharedBlksHit:
+          type: number
+          format: double
+          nullable: true
+        sharedBlksRead:
+          type: number
+          format: double
+          nullable: true
+        sharedBlksDirtied:
+          type: number
+          format: double
+          nullable: true
+        sharedBlksWritten:
+          type: number
+          format: double
+          nullable: true
+        localBlksHit:
+          type: number
+          format: double
+          nullable: true
+        localBlksRead:
+          type: number
+          format: double
+          nullable: true
+        localBlksDirtied:
+          type: number
+          format: double
+          nullable: true
+        localBlksWritten:
+          type: number
+          format: double
+          nullable: true
+        tempBlksRead:
+          type: number
+          format: double
+          nullable: true
+        tempBlksWritten:
+          type: number
+          format: double
+          nullable: true
+        plans:
+          type: number
+          format: double
+          nullable: true
+        planningTimeMs:
+          type: number
+          format: double
+          nullable: true
+        walRecords:
+          type: number
+          format: double
+          nullable: true
+        walFpi:
+          type: number
+          format: double
+          nullable: true
+        walBytes:
+          type: number
+          format: double
+          nullable: true
+        sharedBlkReadTimeMs:
+          type: number
+          format: double
+          nullable: true
+        sharedBlkWriteTimeMs:
+          type: number
+          format: double
+          nullable: true
+        localBlkReadTimeMs:
+          type: number
+          format: double
+          nullable: true
+        localBlkWriteTimeMs:
+          type: number
+          format: double
+          nullable: true
+        tempBlkReadTimeMs:
+          type: number
+          format: double
+          nullable: true
+        tempBlkWriteTimeMs:
+          type: number
+          format: double
+          nullable: true
+        blkReadTimeMs:
+          type: number
+          format: double
+          nullable: true
+        blkWriteTimeMs:
+          type: number
+          format: double
+          nullable: true
+    PostgresqlSQLWindowSummaryState:
+      type: string
+      enum:
+        - redacted
+        - truncated
+        - unavailable
+    PostgresqlSQLWindowItem:
+      type: object
+      properties:
+        sqlId:
+          type: string
+        resources:
+          $ref: '#/components/schemas/PostgresqlSQLWindowResources'
+        unavailableMetrics:
+          type: object
+          additionalProperties:
+            type: string
+          description: Resource field name to unavailable reason (unsupported, disabled, configuration_changed, invalid_value, not_collected, or partial). A resource sum is present only when every contributing deduplicated SQL observation has a valid value. This does not override collection-level partial coverage.
+        queryId:
+          type: string
+        databaseId:
+          type: string
+        databaseName:
+          type: string
+        userId:
+          type: string
+        userName:
+          type: string
+        topLevel:
+          $ref: '#/components/schemas/PostgresqlSQLWindowTopLevel'
+        summary:
+          type: string
+        summaryState:
+          $ref: '#/components/schemas/PostgresqlSQLWindowSummaryState'
+        calls:
+          type: integer
+          format: int64
+          x-omitempty: false
+        totalTimeMs:
+          type: number
+          format: double
+          x-omitempty: false
+        meanTimeMs:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: false
+        rows:
+          type: integer
+          format: int64
+          x-omitempty: false
+      description: Delta sums after delivery deduplication. Calls and rows at or above 2^53 are unavailable because the storage aggregation uses float64. Summary contains only collector-redacted SQL; meanTimeMs is null for zero calls.
+    PostgresqlSQLWindowResponse:
+      type: object
+      properties:
+        window:
+          $ref: '#/components/schemas/PostgresqlSQLWindow'
+        status:
+          $ref: '#/components/schemas/PostgresqlSQLWindowStatus'
+        reasons:
+          type: array
+          items:
+            type: string
+        coverage:
+          $ref: '#/components/schemas/PostgresqlSQLWindowCoverage'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostgresqlSQLWindowItem'
+    PostgresqlSQLWindowPoint:
+      type: object
+      properties:
+        window:
+          $ref: '#/components/schemas/PostgresqlSQLWindow'
+        status:
+          $ref: '#/components/schemas/PostgresqlSQLWindowStatus'
+        resources:
+          $ref: '#/components/schemas/PostgresqlSQLWindowResources'
+        unavailableMetrics:
+          type: object
+          additionalProperties:
+            type: string
+          description: Resource field name to unavailable reason (unsupported, disabled, configuration_changed, invalid_value, not_collected, or partial). A resource sum is present only when every contributing deduplicated SQL observation has a valid value. This does not override collection-level partial coverage.
+        calls:
+          type: integer
+          format: int64
+          nullable: true
+          x-omitempty: false
+        totalTimeMs:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: false
+        rows:
+          type: integer
+          format: int64
+          nullable: true
+          x-omitempty: false
+        reasons:
+          type: array
+          items:
+            type: string
+      description: Whole observation deltas are assigned by interval end to this display bucket. Effective boundaries describe the actual observation intervals and may begin before the display bucket, but never outside the overall requested window. Missing SQL observations remain null, including empty buckets. Window-level partial quality is conservatively inherited by populated points.
+    PostgresqlSQLWindowTrends:
+      type: object
+      properties:
+        window:
+          $ref: '#/components/schemas/PostgresqlSQLWindow'
+        status:
+          $ref: '#/components/schemas/PostgresqlSQLWindowStatus'
+        reasons:
+          type: array
+          items:
+            type: string
+        coverage:
+          $ref: '#/components/schemas/PostgresqlSQLWindowCoverage'
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostgresqlSQLWindowPoint'
+    PostgresqlSQLWindowComparisonItem:
+      type: object
+      properties:
+        sqlId:
+          type: string
+        current:
+          $ref: '#/components/schemas/PostgresqlSQLWindowItem'
+          nullable: true
+          x-omitempty: false
+        baseline:
+          $ref: '#/components/schemas/PostgresqlSQLWindowItem'
+          nullable: true
+          x-omitempty: false
+        totalTimeChangePercent:
+          type: number
+          format: double
+          nullable: true
+          x-omitempty: false
+      required:
+        - current
+        - baseline
+    PostgresqlSQLWindowComparison:
+      type: object
+      properties:
+        current:
+          $ref: '#/components/schemas/PostgresqlSQLWindowResponse'
+        baseline:
+          $ref: '#/components/schemas/PostgresqlSQLWindowResponse'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostgresqlSQLWindowComparisonItem'
+    PostgresqlSQLWindowInstanceStatus:
+      type: string
+      enum:
+        - available
+        - unavailable
+    PostgresqlSQLWindowInstance:
+      type: object
+      properties:
+        instanceId:
+          type: string
+        instanceName:
+          type: string
+        lastObservedAt:
+          type: string
+    PostgresqlSQLWindowInstances:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/PostgresqlSQLWindowInstanceStatus'
+        reasons:
+          type: array
+          items:
+            type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostgresqlSQLWindowInstance'
     postgresqlSQLFingerprint:
       type: object
       required:

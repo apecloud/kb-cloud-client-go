@@ -2284,6 +2284,721 @@ func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLAnalysis(ctx _context.Contex
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters holds optional parameters for GetDiagnosticsPostgresqlSQLWindowCompare.
+type GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters struct {
+	DatabaseId        *string
+	UserId            *string
+	TopLevel          *PostgresqlSQLWindowTopLevel
+	OrderBy           *PostgresqlSQLWindowOrderBy
+	Limit             *int32
+	BaselineStartTime *string
+	SqlId             *string
+}
+
+// NewGetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters() *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters {
+	this := GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters{}
+	return &this
+}
+
+// WithDatabaseId sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters) WithDatabaseId(databaseId string) *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters {
+	r.DatabaseId = &databaseId
+	return r
+}
+
+// WithUserId sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters) WithUserId(userId string) *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters {
+	r.UserId = &userId
+	return r
+}
+
+// WithTopLevel sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters) WithTopLevel(topLevel PostgresqlSQLWindowTopLevel) *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters {
+	r.TopLevel = &topLevel
+	return r
+}
+
+// WithOrderBy sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters) WithOrderBy(orderBy PostgresqlSQLWindowOrderBy) *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters {
+	r.OrderBy = &orderBy
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters) WithLimit(limit int32) *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// WithBaselineStartTime sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters) WithBaselineStartTime(baselineStartTime string) *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters {
+	r.BaselineStartTime = &baselineStartTime
+	return r
+}
+
+// WithSqlId sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters) WithSqlId(sqlId string) *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters {
+	r.SqlId = &sqlId
+	return r
+}
+
+// GetDiagnosticsPostgresqlSQLWindowCompare Get PostgreSQL SQL observation window compare.
+// Read-only historical delta analysis from VictoriaLogs. RFC3339 window bounds, maximum seven days. Only fully contained, complete observation intervals contribute. Partial or missing observations are never converted to zero. instanceId identifies a Pod UID. Comparisons default to the immediately preceding equal-duration window. Summaries are redacted; no raw SQL is exposed. The SQL telemetry transport must write to the same VictoriaLogs instance and tenant as the environment log-query endpoint. Results use eventually consistent, multi-stage coverage and delivery checks; they are not a transactional storage snapshot. Fragmented coverage exceeding the query budget returns unavailable without reducing the requested window.
+func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowCompare(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, instanceId string, o ...GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters) (PostgresqlSQLWindowComparison, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue PostgresqlSQLWindowComparison
+		optionalParams      GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsPostgresqlSQLWindowCompare",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/windows/compare",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsPostgresqlSQLWindowCompare")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/windows/compare"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("startTime", common.ParameterToString(startTime, ""))
+	localVarQueryParams.Add("endTime", common.ParameterToString(endTime, ""))
+	localVarQueryParams.Add("instanceId", common.ParameterToString(instanceId, ""))
+	if optionalParams.DatabaseId != nil {
+		localVarQueryParams.Add("databaseId", common.ParameterToString(*optionalParams.DatabaseId, ""))
+	}
+	if optionalParams.UserId != nil {
+		localVarQueryParams.Add("userId", common.ParameterToString(*optionalParams.UserId, ""))
+	}
+	if optionalParams.TopLevel != nil {
+		localVarQueryParams.Add("topLevel", common.ParameterToString(*optionalParams.TopLevel, ""))
+	}
+	if optionalParams.OrderBy != nil {
+		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.BaselineStartTime != nil {
+		localVarQueryParams.Add("baselineStartTime", common.ParameterToString(*optionalParams.BaselineStartTime, ""))
+	}
+	if optionalParams.SqlId != nil {
+		localVarQueryParams.Add("sqlId", common.ParameterToString(*optionalParams.SqlId, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters holds optional parameters for GetDiagnosticsPostgresqlSQLWindowDetail.
+type GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters struct {
+	DatabaseId *string
+	UserId     *string
+	TopLevel   *PostgresqlSQLWindowTopLevel
+	OrderBy    *PostgresqlSQLWindowOrderBy
+	Limit      *int32
+}
+
+// NewGetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters() *GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters {
+	this := GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters{}
+	return &this
+}
+
+// WithDatabaseId sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters) WithDatabaseId(databaseId string) *GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters {
+	r.DatabaseId = &databaseId
+	return r
+}
+
+// WithUserId sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters) WithUserId(userId string) *GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters {
+	r.UserId = &userId
+	return r
+}
+
+// WithTopLevel sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters) WithTopLevel(topLevel PostgresqlSQLWindowTopLevel) *GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters {
+	r.TopLevel = &topLevel
+	return r
+}
+
+// WithOrderBy sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters) WithOrderBy(orderBy PostgresqlSQLWindowOrderBy) *GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters {
+	r.OrderBy = &orderBy
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters) WithLimit(limit int32) *GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// GetDiagnosticsPostgresqlSQLWindowDetail Get PostgreSQL SQL observation window detail.
+// Read-only historical delta analysis from VictoriaLogs. RFC3339 window bounds, maximum seven days. Only fully contained, complete observation intervals contribute. Partial or missing observations are never converted to zero. instanceId identifies a Pod UID. Comparisons default to the immediately preceding equal-duration window. Summaries are redacted; no raw SQL is exposed. The SQL telemetry transport must write to the same VictoriaLogs instance and tenant as the environment log-query endpoint. Results use eventually consistent, multi-stage coverage and delivery checks; they are not a transactional storage snapshot. Fragmented coverage exceeding the query budget returns unavailable without reducing the requested window.
+func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowDetail(ctx _context.Context, orgName string, clusterName string, sqlId string, startTime string, endTime string, instanceId string, o ...GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters) (PostgresqlSQLWindowResponse, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue PostgresqlSQLWindowResponse
+		optionalParams      GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsPostgresqlSQLWindowDetail",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/windows/{sqlId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsPostgresqlSQLWindowDetail")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/windows/{sqlId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"sqlId"+"}", _neturl.PathEscape(common.ParameterToString(sqlId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("startTime", common.ParameterToString(startTime, ""))
+	localVarQueryParams.Add("endTime", common.ParameterToString(endTime, ""))
+	localVarQueryParams.Add("instanceId", common.ParameterToString(instanceId, ""))
+	if optionalParams.DatabaseId != nil {
+		localVarQueryParams.Add("databaseId", common.ParameterToString(*optionalParams.DatabaseId, ""))
+	}
+	if optionalParams.UserId != nil {
+		localVarQueryParams.Add("userId", common.ParameterToString(*optionalParams.UserId, ""))
+	}
+	if optionalParams.TopLevel != nil {
+		localVarQueryParams.Add("topLevel", common.ParameterToString(*optionalParams.TopLevel, ""))
+	}
+	if optionalParams.OrderBy != nil {
+		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsPostgresqlSQLWindowInstances Get PostgreSQL SQL observation window instances.
+// Read-only historical delta analysis from VictoriaLogs. RFC3339 window bounds, maximum seven days. Only fully contained, complete observation intervals contribute. Partial or missing observations are never converted to zero. instanceId identifies a Pod UID. Comparisons default to the immediately preceding equal-duration window. Summaries are redacted; no raw SQL is exposed. The SQL telemetry transport must write to the same VictoriaLogs instance and tenant as the environment log-query endpoint. Results use eventually consistent, multi-stage coverage and delivery checks; they are not a transactional storage snapshot. Fragmented coverage exceeding the query budget returns unavailable without reducing the requested window.
+func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowInstances(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string) (PostgresqlSQLWindowInstances, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue PostgresqlSQLWindowInstances
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsPostgresqlSQLWindowInstances",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/windows/instances",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsPostgresqlSQLWindowInstances")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/windows/instances"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("startTime", common.ParameterToString(startTime, ""))
+	localVarQueryParams.Add("endTime", common.ParameterToString(endTime, ""))
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsPostgresqlSQLWindowListOptionalParameters holds optional parameters for GetDiagnosticsPostgresqlSQLWindowList.
+type GetDiagnosticsPostgresqlSQLWindowListOptionalParameters struct {
+	DatabaseId *string
+	UserId     *string
+	TopLevel   *PostgresqlSQLWindowTopLevel
+	OrderBy    *PostgresqlSQLWindowOrderBy
+	Limit      *int32
+}
+
+// NewGetDiagnosticsPostgresqlSQLWindowListOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsPostgresqlSQLWindowListOptionalParameters() *GetDiagnosticsPostgresqlSQLWindowListOptionalParameters {
+	this := GetDiagnosticsPostgresqlSQLWindowListOptionalParameters{}
+	return &this
+}
+
+// WithDatabaseId sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowListOptionalParameters) WithDatabaseId(databaseId string) *GetDiagnosticsPostgresqlSQLWindowListOptionalParameters {
+	r.DatabaseId = &databaseId
+	return r
+}
+
+// WithUserId sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowListOptionalParameters) WithUserId(userId string) *GetDiagnosticsPostgresqlSQLWindowListOptionalParameters {
+	r.UserId = &userId
+	return r
+}
+
+// WithTopLevel sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowListOptionalParameters) WithTopLevel(topLevel PostgresqlSQLWindowTopLevel) *GetDiagnosticsPostgresqlSQLWindowListOptionalParameters {
+	r.TopLevel = &topLevel
+	return r
+}
+
+// WithOrderBy sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowListOptionalParameters) WithOrderBy(orderBy PostgresqlSQLWindowOrderBy) *GetDiagnosticsPostgresqlSQLWindowListOptionalParameters {
+	r.OrderBy = &orderBy
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowListOptionalParameters) WithLimit(limit int32) *GetDiagnosticsPostgresqlSQLWindowListOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// GetDiagnosticsPostgresqlSQLWindowList Get PostgreSQL SQL observation window list.
+// Read-only historical delta analysis from VictoriaLogs. RFC3339 window bounds, maximum seven days. Only fully contained, complete observation intervals contribute. Partial or missing observations are never converted to zero. instanceId identifies a Pod UID. Comparisons default to the immediately preceding equal-duration window. Summaries are redacted; no raw SQL is exposed. The SQL telemetry transport must write to the same VictoriaLogs instance and tenant as the environment log-query endpoint. Results use eventually consistent, multi-stage coverage and delivery checks; they are not a transactional storage snapshot. Fragmented coverage exceeding the query budget returns unavailable without reducing the requested window.
+func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowList(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, instanceId string, o ...GetDiagnosticsPostgresqlSQLWindowListOptionalParameters) (PostgresqlSQLWindowResponse, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue PostgresqlSQLWindowResponse
+		optionalParams      GetDiagnosticsPostgresqlSQLWindowListOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsPostgresqlSQLWindowListOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsPostgresqlSQLWindowList",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/windows",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsPostgresqlSQLWindowList")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/windows"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("startTime", common.ParameterToString(startTime, ""))
+	localVarQueryParams.Add("endTime", common.ParameterToString(endTime, ""))
+	localVarQueryParams.Add("instanceId", common.ParameterToString(instanceId, ""))
+	if optionalParams.DatabaseId != nil {
+		localVarQueryParams.Add("databaseId", common.ParameterToString(*optionalParams.DatabaseId, ""))
+	}
+	if optionalParams.UserId != nil {
+		localVarQueryParams.Add("userId", common.ParameterToString(*optionalParams.UserId, ""))
+	}
+	if optionalParams.TopLevel != nil {
+		localVarQueryParams.Add("topLevel", common.ParameterToString(*optionalParams.TopLevel, ""))
+	}
+	if optionalParams.OrderBy != nil {
+		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters holds optional parameters for GetDiagnosticsPostgresqlSQLWindowTrends.
+type GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters struct {
+	DatabaseId *string
+	UserId     *string
+	TopLevel   *PostgresqlSQLWindowTopLevel
+	OrderBy    *PostgresqlSQLWindowOrderBy
+	Limit      *int32
+}
+
+// NewGetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters() *GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters {
+	this := GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters{}
+	return &this
+}
+
+// WithDatabaseId sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters) WithDatabaseId(databaseId string) *GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters {
+	r.DatabaseId = &databaseId
+	return r
+}
+
+// WithUserId sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters) WithUserId(userId string) *GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters {
+	r.UserId = &userId
+	return r
+}
+
+// WithTopLevel sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters) WithTopLevel(topLevel PostgresqlSQLWindowTopLevel) *GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters {
+	r.TopLevel = &topLevel
+	return r
+}
+
+// WithOrderBy sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters) WithOrderBy(orderBy PostgresqlSQLWindowOrderBy) *GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters {
+	r.OrderBy = &orderBy
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters) WithLimit(limit int32) *GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// GetDiagnosticsPostgresqlSQLWindowTrends Get PostgreSQL SQL observation window trends.
+// Read-only historical delta analysis from VictoriaLogs. RFC3339 window bounds, maximum seven days. Only fully contained, complete observation intervals contribute. Partial or missing observations are never converted to zero. instanceId identifies a Pod UID. Comparisons default to the immediately preceding equal-duration window. Summaries are redacted; no raw SQL is exposed. Whole intervals are assigned by observation end to display buckets without proportional splitting; effectiveStartTime and effectiveEndTime describe actual observed coverage. The SQL telemetry transport must write to the same VictoriaLogs instance and tenant as the environment log-query endpoint. Results use eventually consistent, multi-stage coverage and delivery checks; they are not a transactional storage snapshot. Fragmented coverage exceeding the query budget returns unavailable without reducing the requested window.
+func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowTrends(ctx _context.Context, orgName string, clusterName string, sqlId string, startTime string, endTime string, instanceId string, stepSeconds int32, o ...GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters) (PostgresqlSQLWindowTrends, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue PostgresqlSQLWindowTrends
+		optionalParams      GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsPostgresqlSQLWindowTrends",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/windows/{sqlId}/trends",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsPostgresqlSQLWindowTrends")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/windows/{sqlId}/trends"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"sqlId"+"}", _neturl.PathEscape(common.ParameterToString(sqlId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if stepSeconds < 60 {
+		return localVarReturnValue, nil, common.ReportError("stepSeconds must be greater than 60")
+	}
+	if stepSeconds > 86400 {
+		return localVarReturnValue, nil, common.ReportError("stepSeconds must be less than 86400")
+	}
+	localVarQueryParams.Add("startTime", common.ParameterToString(startTime, ""))
+	localVarQueryParams.Add("endTime", common.ParameterToString(endTime, ""))
+	localVarQueryParams.Add("instanceId", common.ParameterToString(instanceId, ""))
+	localVarQueryParams.Add("stepSeconds", common.ParameterToString(stepSeconds, ""))
+	if optionalParams.DatabaseId != nil {
+		localVarQueryParams.Add("databaseId", common.ParameterToString(*optionalParams.DatabaseId, ""))
+	}
+	if optionalParams.UserId != nil {
+		localVarQueryParams.Add("userId", common.ParameterToString(*optionalParams.UserId, ""))
+	}
+	if optionalParams.TopLevel != nil {
+		localVarQueryParams.Add("topLevel", common.ParameterToString(*optionalParams.TopLevel, ""))
+	}
+	if optionalParams.OrderBy != nil {
+		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // GetDiagnosticsPostgresqlSession Get PostgreSQL session basic diagnostics.
 // Get one PostgreSQL session basic diagnostics record by backend pid.
 func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSession(ctx _context.Context, orgName string, clusterName string, pid int64) (PostgresqlSession, *_nethttp.Response, error) {
