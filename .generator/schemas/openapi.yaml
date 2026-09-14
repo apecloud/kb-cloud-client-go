@@ -16557,6 +16557,228 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/data/oracle/organizations/{orgName}/clusters/{clusterName}/tablespaces:
+    get:
+      tags:
+        - oracle
+      summary: List Oracle tablespaces
+      description: List tablespaces for a Oracle cluster.
+      operationId: listOracleTablespaces
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OracleTablespace'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - oracle
+      summary: Create Oracle tablespace
+      description: Create tablespace for a Oracle cluster.
+      operationId: createOracleTablespace
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OracleTablespaceCreate'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OracleTablespace'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/oracle/organizations/{orgName}/clusters/{clusterName}/tablespaces/{tablespaceName}:
+    get:
+      tags:
+        - oracle
+      summary: Get Oracle tablespace info
+      operationId: getOracleTablespace
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+        - name: tablespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Tablespace name
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OracleTablespace'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - oracle
+      summary: Delete Oracle tablespace
+      description: Delete tablespace for a Oracle cluster.
+      operationId: deleteOracleTablespace
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+        - name: tablespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Tablespace name
+        - name: includingContents
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: Explicitly delete all objects in the tablespace. Without this flag Oracle rejects nonempty tablespaces.
+        - name: deleteDatafiles
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: Also remove physical files. Requires includingContents. Otherwise manually managed files are retained.
+      responses:
+        '204':
+          content: {}
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      tags:
+        - oracle
+      summary: Expand Oracle tablespace
+      description: Expand one existing datafile/tempfile or add one file in the current container.
+      operationId: expandOracleTablespace
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+        - name: tablespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Tablespace name
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OracleTablespaceExpand'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OracleTablespace'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/data/damengdb/organizations/{orgName}/clusters/{clusterName}/tablespaces:
     get:
       tags:
@@ -37201,6 +37423,163 @@ components:
           description: Roles granted to the account, separated by commas.
         type:
           $ref: '#/components/schemas/CkAccountType'
+    OracleTablespaceFile:
+      type: object
+      required:
+        - id
+        - name
+        - status
+        - allocatedSizeMB
+        - usedSizeMB
+        - autoExtend
+        - nextSizeMB
+        - maxSizeMB
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        status:
+          type: string
+        allocatedSizeMB:
+          type: number
+          format: double
+        usedSizeMB:
+          type: number
+          format: double
+        autoExtend:
+          type: boolean
+        nextSizeMB:
+          type: number
+          format: double
+        maxSizeMB:
+          type: number
+          format: double
+    OracleTablespace:
+      type: object
+      description: Oracle tablespace in the datasource connection's current container. Sizes are in MiB. Supports Oracle 12c and 19c.
+      required:
+        - name
+        - contents
+        - status
+        - bigfile
+        - blockSize
+        - containerName
+        - isDefault
+        - allocatedSizeMB
+        - usedSizeMB
+        - maxSizeMB
+        - files
+      properties:
+        name:
+          type: string
+        contents:
+          type: string
+          description: PERMANENT, TEMPORARY, or UNDO.
+        status:
+          type: string
+        bigfile:
+          type: boolean
+        blockSize:
+          type: integer
+          format: int64
+        containerName:
+          type: string
+        isDefault:
+          type: boolean
+          description: Whether this is a default permanent or temporary tablespace, including default temporary group members.
+        allocatedSizeMB:
+          type: number
+          format: double
+        usedSizeMB:
+          type: number
+          format: double
+          description: Allocated file space minus free extents, or temporary file space currently allocated to temporary segments.
+        maxSizeMB:
+          type: number
+          format: double
+          description: Configured file growth limit; does not imply available disk capacity.
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/OracleTablespaceFile'
+    OracleTablespaceContents:
+      type: string
+      enum:
+        - PERMANENT
+        - TEMPORARY
+      description: New tablespaces default to PERMANENT when omitted.
+    OracleTablespaceFileSpec:
+      type: object
+      required:
+        - sizeMB
+      properties:
+        name:
+          type: string
+          description: Absolute database-server file path or ASM destination. Omit to use Oracle Managed Files (DB_CREATE_FILE_DEST must be configured). Existing files are never reused.
+          maxLength: 1024
+        sizeMB:
+          type: integer
+          format: int64
+          minimum: 1
+        autoExtend:
+          type: boolean
+          default: false
+        nextSizeMB:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Required positive increment when autoExtend is true; otherwise omit.
+        maxSizeMB:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Maximum size when autoExtend is true; zero or omitted means UNLIMITED. Otherwise omit.
+    OracleTablespaceCreate:
+      type: object
+      required:
+        - name
+        - files
+      properties:
+        name:
+          type: string
+          pattern: ^[A-Za-z][A-Za-z0-9_$#]{0,29}$
+          description: Converted to uppercase. Limited to 30 ASCII bytes for compatibility with Oracle 12.1.
+        contents:
+          $ref: '#/components/schemas/OracleTablespaceContents'
+        bigfile:
+          type: boolean
+          default: false
+        files:
+          type: array
+          minItems: 1
+          description: Exactly one file for BIGFILE tablespaces.
+          items:
+            $ref: '#/components/schemas/OracleTablespaceFileSpec'
+    OracleTablespaceExpandAction:
+      type: string
+      enum:
+        - resize
+        - addFile
+    OracleTablespaceExpand:
+      type: object
+      description: One DDL operation per request. Use resize with fileId and sizeMB, or addFile with file. Shrinking and adding files to BIGFILE tablespaces are rejected.
+      required:
+        - action
+      properties:
+        action:
+          $ref: '#/components/schemas/OracleTablespaceExpandAction'
+        fileId:
+          type: integer
+          format: int64
+          minimum: 1
+        sizeMB:
+          type: integer
+          format: int64
+          minimum: 1
+        file:
+          $ref: '#/components/schemas/OracleTablespaceFileSpec'
     DmFile:
       type: object
       required:
