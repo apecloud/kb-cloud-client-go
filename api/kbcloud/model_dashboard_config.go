@@ -61,43 +61,32 @@ func (o *DashboardConfig) SetKey(v string) {
 	o.Key = v
 }
 
-// GetValue returns the Value field value if set, zero value otherwise (both if not set or set to explicit null).
+// GetValue returns the Value field value if set, zero value otherwise.
 func (o *DashboardConfig) GetValue() interface{} {
-	if o == nil || o.Value.Get() == nil {
+	if o == nil || o.Value == nil {
 		var ret interface{}
 		return ret
 	}
-	return *o.Value.Get()
+	return o.Value
 }
 
 // GetValueOk returns a tuple with the Value field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *DashboardConfig) GetValueOk() (*interface{}, bool) {
-	if o == nil {
+	if o == nil || o.Value == nil {
 		return nil, false
 	}
-	return o.Value.Get(), o.Value.IsSet()
+	return &o.Value, true
 }
 
 // HasValue returns a boolean if a field has been set.
 func (o *DashboardConfig) HasValue() bool {
-	return o != nil && o.Value.IsSet()
+	return o != nil && o.Value != nil
 }
 
 // SetValue gets a reference to the given interface{} and assigns it to the Value field.
 func (o *DashboardConfig) SetValue(v interface{}) {
-	o.Value.Set(&v)
-}
-
-// SetValueNil sets the value for Value to be an explicit nil.
-func (o *DashboardConfig) SetValueNil() {
-	o.Value.Set(nil)
-}
-
-// UnsetValue ensures that no value is present for Value, not even an explicit nil.
-func (o *DashboardConfig) UnsetValue() {
-	o.Value.Unset()
+	o.Value = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -107,8 +96,8 @@ func (o DashboardConfig) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["key"] = o.Key
-	if o.Value.IsSet() {
-		toSerialize["value"] = o.Value.Get()
+	if o.Value != nil {
+		toSerialize["value"] = o.Value
 	}
 
 	for key, value := range o.AdditionalProperties {

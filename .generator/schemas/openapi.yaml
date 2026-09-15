@@ -38781,7 +38781,6 @@ components:
           maxLength: 512
         value:
           description: Stored JSON value, or null when the key has no configuration.
-          nullable: true
           x-omitempty: false
     platformParameterCategory:
       type: string
