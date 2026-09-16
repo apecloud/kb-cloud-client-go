@@ -13,6 +13,7 @@ import (
 type DataCheckListItem struct {
 	CheckId   *string `json:"checkID,omitempty"`
 	CheckName *string `json:"checkName,omitempty"`
+	OrgName   *string `json:"orgName,omitempty"`
 	// Type of check to run. A standalone check runs exactly one type.
 	CheckType          *DataCheckType           `json:"checkType,omitempty"`
 	CheckStatus        *DataCheckStatus         `json:"checkStatus,omitempty"`
@@ -103,6 +104,34 @@ func (o *DataCheckListItem) HasCheckName() bool {
 // SetCheckName gets a reference to the given string and assigns it to the CheckName field.
 func (o *DataCheckListItem) SetCheckName(v string) {
 	o.CheckName = &v
+}
+
+// GetOrgName returns the OrgName field value if set, zero value otherwise.
+func (o *DataCheckListItem) GetOrgName() string {
+	if o == nil || o.OrgName == nil {
+		var ret string
+		return ret
+	}
+	return *o.OrgName
+}
+
+// GetOrgNameOk returns a tuple with the OrgName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DataCheckListItem) GetOrgNameOk() (*string, bool) {
+	if o == nil || o.OrgName == nil {
+		return nil, false
+	}
+	return o.OrgName, true
+}
+
+// HasOrgName returns a boolean if a field has been set.
+func (o *DataCheckListItem) HasOrgName() bool {
+	return o != nil && o.OrgName != nil
+}
+
+// SetOrgName gets a reference to the given string and assigns it to the OrgName field.
+func (o *DataCheckListItem) SetOrgName(v string) {
+	o.OrgName = &v
 }
 
 // GetCheckType returns the CheckType field value if set, zero value otherwise.
@@ -503,6 +532,9 @@ func (o DataCheckListItem) MarshalJSON() ([]byte, error) {
 	if o.CheckName != nil {
 		toSerialize["checkName"] = o.CheckName
 	}
+	if o.OrgName != nil {
+		toSerialize["orgName"] = o.OrgName
+	}
 	if o.CheckType != nil {
 		toSerialize["checkType"] = o.CheckType
 	}
@@ -562,6 +594,7 @@ func (o *DataCheckListItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		CheckId            *string                  `json:"checkID,omitempty"`
 		CheckName          *string                  `json:"checkName,omitempty"`
+		OrgName            *string                  `json:"orgName,omitempty"`
 		CheckType          *DataCheckType           `json:"checkType,omitempty"`
 		CheckStatus        *DataCheckStatus         `json:"checkStatus,omitempty"`
 		CheckSummary       *DataCheckListSummary    `json:"checkSummary,omitempty"`
@@ -581,7 +614,7 @@ func (o *DataCheckListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"checkID", "checkName", "checkType", "checkStatus", "checkSummary", "environmentID", "environmentName", "project", "source", "target", "replicationObjects", "errorMessage", "createdAt", "updatedAt", "finishedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"checkID", "checkName", "orgName", "checkType", "checkStatus", "checkSummary", "environmentID", "environmentName", "project", "source", "target", "replicationObjects", "errorMessage", "createdAt", "updatedAt", "finishedAt"})
 	} else {
 		return err
 	}
@@ -589,6 +622,7 @@ func (o *DataCheckListItem) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.CheckId = all.CheckId
 	o.CheckName = all.CheckName
+	o.OrgName = all.OrgName
 	if all.CheckType != nil && !all.CheckType.IsValid() {
 		hasInvalidField = true
 	} else {

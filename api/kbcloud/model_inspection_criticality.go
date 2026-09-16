@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// InspectionCriticality First-version criticality assumption for score weighting and red-item veto behavior. Missing legacy values are treated as medium.
+// InspectionCriticality Rule importance used for score weighting. Info marks automatically collected information excluded from scoring. Manual items retain their importance but return unknown and are not scored. Missing legacy values normally default to medium; cluster and node status default to critical.
 type InspectionCriticality string
 
 // List of InspectionCriticality.
@@ -19,6 +19,7 @@ const (
 	InspectionCriticalityHigh     InspectionCriticality = "high"
 	InspectionCriticalityMedium   InspectionCriticality = "medium"
 	InspectionCriticalityLow      InspectionCriticality = "low"
+	InspectionCriticalityInfo     InspectionCriticality = "info"
 )
 
 var allowedInspectionCriticalityEnumValues = []InspectionCriticality{
@@ -26,6 +27,7 @@ var allowedInspectionCriticalityEnumValues = []InspectionCriticality{
 	InspectionCriticalityHigh,
 	InspectionCriticalityMedium,
 	InspectionCriticalityLow,
+	InspectionCriticalityInfo,
 }
 
 // GetAllowedValues returns the list of possible values.

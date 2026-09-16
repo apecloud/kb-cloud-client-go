@@ -17,6 +17,234 @@ import (
 // DiagnosticsApi service type
 type DiagnosticsApi common.Service
 
+// ExplainDiagnosticsElasticsearchAllocationOptionalParameters holds optional parameters for ExplainDiagnosticsElasticsearchAllocation.
+type ExplainDiagnosticsElasticsearchAllocationOptionalParameters struct {
+	CurrentNode *string
+}
+
+// NewExplainDiagnosticsElasticsearchAllocationOptionalParameters creates an empty struct for parameters.
+func NewExplainDiagnosticsElasticsearchAllocationOptionalParameters() *ExplainDiagnosticsElasticsearchAllocationOptionalParameters {
+	this := ExplainDiagnosticsElasticsearchAllocationOptionalParameters{}
+	return &this
+}
+
+// WithCurrentNode sets the corresponding parameter name and returns the struct.
+func (r *ExplainDiagnosticsElasticsearchAllocationOptionalParameters) WithCurrentNode(currentNode string) *ExplainDiagnosticsElasticsearchAllocationOptionalParameters {
+	r.CurrentNode = &currentNode
+	return r
+}
+
+// ExplainDiagnosticsElasticsearchAllocation Explain Elasticsearch shard allocation.
+func (a *DiagnosticsApi) ExplainDiagnosticsElasticsearchAllocation(ctx _context.Context, orgName string, clusterName string, index string, shard int64, primary bool, o ...ExplainDiagnosticsElasticsearchAllocationOptionalParameters) (ElasticsearchAllocationExplanation, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ElasticsearchAllocationExplanation
+		optionalParams      ExplainDiagnosticsElasticsearchAllocationOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ExplainDiagnosticsElasticsearchAllocationOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "explainDiagnosticsElasticsearchAllocation",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/allocationExplain",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.ExplainDiagnosticsElasticsearchAllocation")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/allocationExplain"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if common.Strlen(index) < 1 {
+		return localVarReturnValue, nil, common.ReportError("index must have at least 1 elements")
+	}
+	if shard < 0 {
+		return localVarReturnValue, nil, common.ReportError("shard must be greater than 0")
+	}
+	localVarQueryParams.Add("index", common.ParameterToString(index, ""))
+	localVarQueryParams.Add("shard", common.ParameterToString(shard, ""))
+	localVarQueryParams.Add("primary", common.ParameterToString(primary, ""))
+	if optionalParams.CurrentNode != nil {
+		localVarQueryParams.Add("currentNode", common.ParameterToString(*optionalParams.CurrentNode, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// ExplainDiagnosticsPostgresqlSQLFingerprintOptionalParameters holds optional parameters for ExplainDiagnosticsPostgresqlSQLFingerprint.
+type ExplainDiagnosticsPostgresqlSQLFingerprintOptionalParameters struct {
+	Fingerprint *string
+}
+
+// NewExplainDiagnosticsPostgresqlSQLFingerprintOptionalParameters creates an empty struct for parameters.
+func NewExplainDiagnosticsPostgresqlSQLFingerprintOptionalParameters() *ExplainDiagnosticsPostgresqlSQLFingerprintOptionalParameters {
+	this := ExplainDiagnosticsPostgresqlSQLFingerprintOptionalParameters{}
+	return &this
+}
+
+// WithFingerprint sets the corresponding parameter name and returns the struct.
+func (r *ExplainDiagnosticsPostgresqlSQLFingerprintOptionalParameters) WithFingerprint(fingerprint string) *ExplainDiagnosticsPostgresqlSQLFingerprintOptionalParameters {
+	r.Fingerprint = &fingerprint
+	return r
+}
+
+// ExplainDiagnosticsPostgresqlSQLFingerprint Explain PostgreSQL SQL fingerprint.
+// Explicitly trigger a safe PostgreSQL EXPLAIN for one SQL fingerprint. The request does not accept raw SQL. DMS resolves the exact server-side parameterized SELECT statement identity independently of the ranking window, produces an estimated standard or generic plan without parameter sample values, rejects multiple statements, and never runs EXPLAIN ANALYZE or the original SQL. The plan uses current catalog statistics and the DMS connection context; it does not reconstruct the original role, search_path, session settings, parameter values, or historical actual plan.
+func (a *DiagnosticsApi) ExplainDiagnosticsPostgresqlSQLFingerprint(ctx _context.Context, orgName string, clusterName string, queryId string, database string, user string, topLevel bool, o ...ExplainDiagnosticsPostgresqlSQLFingerprintOptionalParameters) (PostgresqlSQLFingerprintExplainResponse, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue PostgresqlSQLFingerprintExplainResponse
+		optionalParams      ExplainDiagnosticsPostgresqlSQLFingerprintOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ExplainDiagnosticsPostgresqlSQLFingerprintOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "explainDiagnosticsPostgresqlSQLFingerprint",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/queries/{queryID}/explain",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.ExplainDiagnosticsPostgresqlSQLFingerprint")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/queries/{queryID}/explain"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"queryID"+"}", _neturl.PathEscape(common.ParameterToString(queryId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("database", common.ParameterToString(database, ""))
+	localVarQueryParams.Add("user", common.ParameterToString(user, ""))
+	localVarQueryParams.Add("topLevel", common.ParameterToString(topLevel, ""))
+	if optionalParams.Fingerprint != nil {
+		localVarQueryParams.Add("fingerprint", common.ParameterToString(*optionalParams.Fingerprint, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 422 || localVarHTTPResponse.StatusCode == 500 || localVarHTTPResponse.StatusCode == 503 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // GetDiagnosticsDamengSQLAnalysisOptionalParameters holds optional parameters for GetDiagnosticsDamengSQLAnalysis.
 type GetDiagnosticsDamengSQLAnalysisOptionalParameters struct {
 	Limit *int64
@@ -425,6 +653,280 @@ func (a *DiagnosticsApi) GetDiagnosticsDamengSpaceAnalysis(ctx _context.Context,
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters holds optional parameters for GetDiagnosticsElasticsearchStorageAnalysis.
+type GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters struct {
+	Node      *string
+	Index     *string
+	SortBy    *ElasticsearchIndexSortBy
+	SortOrder *ElasticsearchSortOrder
+}
+
+// NewGetDiagnosticsElasticsearchStorageAnalysisOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsElasticsearchStorageAnalysisOptionalParameters() *GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters {
+	this := GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters{}
+	return &this
+}
+
+// WithNode sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters) WithNode(node string) *GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters {
+	r.Node = &node
+	return r
+}
+
+// WithIndex sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters) WithIndex(index string) *GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters {
+	r.Index = &index
+	return r
+}
+
+// WithSortBy sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters) WithSortBy(sortBy ElasticsearchIndexSortBy) *GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters {
+	r.SortBy = &sortBy
+	return r
+}
+
+// WithSortOrder sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters) WithSortOrder(sortOrder ElasticsearchSortOrder) *GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters {
+	r.SortOrder = &sortOrder
+	return r
+}
+
+// GetDiagnosticsElasticsearchStorageAnalysis Get Elasticsearch storage and index analysis.
+func (a *DiagnosticsApi) GetDiagnosticsElasticsearchStorageAnalysis(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters) (ElasticsearchStorageAnalysis, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ElasticsearchStorageAnalysis
+		optionalParams      GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsElasticsearchStorageAnalysisOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsElasticsearchStorageAnalysis",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/storageAnalysis",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsElasticsearchStorageAnalysis")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/storageAnalysis"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Node != nil {
+		localVarQueryParams.Add("node", common.ParameterToString(*optionalParams.Node, ""))
+	}
+	if optionalParams.Index != nil {
+		localVarQueryParams.Add("index", common.ParameterToString(*optionalParams.Index, ""))
+	}
+	if optionalParams.SortBy != nil {
+		localVarQueryParams.Add("sortBy", common.ParameterToString(*optionalParams.SortBy, ""))
+	}
+	if optionalParams.SortOrder != nil {
+		localVarQueryParams.Add("sortOrder", common.ParameterToString(*optionalParams.SortOrder, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters holds optional parameters for GetDiagnosticsElasticsearchTaskAnalysis.
+type GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters struct {
+	Type      *ElasticsearchHotThreadsType
+	Node      *string
+	TaskLimit *int32
+	Threads   *int32
+}
+
+// NewGetDiagnosticsElasticsearchTaskAnalysisOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsElasticsearchTaskAnalysisOptionalParameters() *GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters {
+	this := GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters{}
+	return &this
+}
+
+// WithType sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters) WithType(typeVar ElasticsearchHotThreadsType) *GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters {
+	r.Type = &typeVar
+	return r
+}
+
+// WithNode sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters) WithNode(node string) *GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters {
+	r.Node = &node
+	return r
+}
+
+// WithTaskLimit sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters) WithTaskLimit(taskLimit int32) *GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters {
+	r.TaskLimit = &taskLimit
+	return r
+}
+
+// WithThreads sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters) WithThreads(threads int32) *GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters {
+	r.Threads = &threads
+	return r
+}
+
+// GetDiagnosticsElasticsearchTaskAnalysis Get Elasticsearch task and hot-thread analysis.
+func (a *DiagnosticsApi) GetDiagnosticsElasticsearchTaskAnalysis(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters) (ElasticsearchTaskAnalysis, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ElasticsearchTaskAnalysis
+		optionalParams      GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsElasticsearchTaskAnalysisOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsElasticsearchTaskAnalysis",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/taskAnalysis",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsElasticsearchTaskAnalysis")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/taskAnalysis"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Type != nil {
+		localVarQueryParams.Add("type", common.ParameterToString(*optionalParams.Type, ""))
+	}
+	if optionalParams.Node != nil {
+		localVarQueryParams.Add("node", common.ParameterToString(*optionalParams.Node, ""))
+	}
+	if optionalParams.TaskLimit != nil {
+		localVarQueryParams.Add("taskLimit", common.ParameterToString(*optionalParams.TaskLimit, ""))
+	}
+	if optionalParams.Threads != nil {
+		localVarQueryParams.Add("threads", common.ParameterToString(*optionalParams.Threads, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // GetDiagnosticsKingbaseSession Get Kingbase session diagnostics.
 func (a *DiagnosticsApi) GetDiagnosticsKingbaseSession(ctx _context.Context, orgName string, clusterName string, pid int64) (KingbaseSessionDetail, *_nethttp.Response, error) {
 	var (
@@ -542,6 +1044,616 @@ func (a *DiagnosticsApi) GetDiagnosticsKingbaseSessionLockAnalysis(ctx _context.
 	if pid < 1 {
 		return localVarReturnValue, nil, common.ReportError("pid must be greater than 1")
 	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsMariaDBPerformanceTrendsOptionalParameters holds optional parameters for GetDiagnosticsMariaDBPerformanceTrends.
+type GetDiagnosticsMariaDBPerformanceTrendsOptionalParameters struct {
+	Range *string
+	Step  *string
+}
+
+// NewGetDiagnosticsMariaDBPerformanceTrendsOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsMariaDBPerformanceTrendsOptionalParameters() *GetDiagnosticsMariaDBPerformanceTrendsOptionalParameters {
+	this := GetDiagnosticsMariaDBPerformanceTrendsOptionalParameters{}
+	return &this
+}
+
+// WithRange sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsMariaDBPerformanceTrendsOptionalParameters) WithRange(rangeVar string) *GetDiagnosticsMariaDBPerformanceTrendsOptionalParameters {
+	r.Range = &rangeVar
+	return r
+}
+
+// WithStep sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsMariaDBPerformanceTrendsOptionalParameters) WithStep(step string) *GetDiagnosticsMariaDBPerformanceTrendsOptionalParameters {
+	r.Step = &step
+	return r
+}
+
+// GetDiagnosticsMariaDBPerformanceTrends Get MariaDB performance trends.
+// Get read-only MariaDB performance trends from backend-owned metrics and database capability checks. The response does not expose SQL, PromQL, internal endpoints, or credentials.
+func (a *DiagnosticsApi) GetDiagnosticsMariaDBPerformanceTrends(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsMariaDBPerformanceTrendsOptionalParameters) (PerformanceTrends, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue PerformanceTrends
+		optionalParams      GetDiagnosticsMariaDBPerformanceTrendsOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsMariaDBPerformanceTrendsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsMariaDBPerformanceTrends",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mariadb/performanceTrends",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsMariaDBPerformanceTrends")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mariadb/performanceTrends"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Range != nil {
+		localVarQueryParams.Add("range", common.ParameterToString(*optionalParams.Range, ""))
+	}
+	if optionalParams.Step != nil {
+		localVarQueryParams.Add("step", common.ParameterToString(*optionalParams.Step, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsMariaDBSQLAnalysisOptionalParameters holds optional parameters for GetDiagnosticsMariaDBSQLAnalysis.
+type GetDiagnosticsMariaDBSQLAnalysisOptionalParameters struct {
+	Limit   *int64
+	OrderBy *string
+}
+
+// NewGetDiagnosticsMariaDBSQLAnalysisOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsMariaDBSQLAnalysisOptionalParameters() *GetDiagnosticsMariaDBSQLAnalysisOptionalParameters {
+	this := GetDiagnosticsMariaDBSQLAnalysisOptionalParameters{}
+	return &this
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsMariaDBSQLAnalysisOptionalParameters) WithLimit(limit int64) *GetDiagnosticsMariaDBSQLAnalysisOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// WithOrderBy sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsMariaDBSQLAnalysisOptionalParameters) WithOrderBy(orderBy string) *GetDiagnosticsMariaDBSQLAnalysisOptionalParameters {
+	r.OrderBy = &orderBy
+	return r
+}
+
+// GetDiagnosticsMariaDBSQLAnalysis Get MariaDB SQL analysis.
+// Get a read-only MariaDB SQL fingerprint ranking from Performance Schema statement digests. The response does not expose raw SQL text, time-window aggregation, execution plans, or remediation actions.
+func (a *DiagnosticsApi) GetDiagnosticsMariaDBSQLAnalysis(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsMariaDBSQLAnalysisOptionalParameters) (MysqlSQLAnalysis, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue MysqlSQLAnalysis
+		optionalParams      GetDiagnosticsMariaDBSQLAnalysisOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsMariaDBSQLAnalysisOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsMariaDBSQLAnalysis",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mariadb/sqlAnalysis",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsMariaDBSQLAnalysis")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mariadb/sqlAnalysis"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.OrderBy != nil {
+		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsMariaDBSpaceAnalysisOptionalParameters holds optional parameters for GetDiagnosticsMariaDBSpaceAnalysis.
+type GetDiagnosticsMariaDBSpaceAnalysisOptionalParameters struct {
+	DatabaseName *string
+}
+
+// NewGetDiagnosticsMariaDBSpaceAnalysisOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsMariaDBSpaceAnalysisOptionalParameters() *GetDiagnosticsMariaDBSpaceAnalysisOptionalParameters {
+	this := GetDiagnosticsMariaDBSpaceAnalysisOptionalParameters{}
+	return &this
+}
+
+// WithDatabaseName sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsMariaDBSpaceAnalysisOptionalParameters) WithDatabaseName(databaseName string) *GetDiagnosticsMariaDBSpaceAnalysisOptionalParameters {
+	r.DatabaseName = &databaseName
+	return r
+}
+
+// GetDiagnosticsMariaDBSpaceAnalysis Get MariaDB space analysis.
+// Get a read-only MariaDB compatible space snapshot and fixed backend-owned storage metrics.
+func (a *DiagnosticsApi) GetDiagnosticsMariaDBSpaceAnalysis(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsMariaDBSpaceAnalysisOptionalParameters) (MysqlSpaceAnalysis, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue MysqlSpaceAnalysis
+		optionalParams      GetDiagnosticsMariaDBSpaceAnalysisOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsMariaDBSpaceAnalysisOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsMariaDBSpaceAnalysis",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mariadb/spaceAnalysis",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsMariaDBSpaceAnalysis")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mariadb/spaceAnalysis"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.DatabaseName != nil {
+		localVarQueryParams.Add("databaseName", common.ParameterToString(*optionalParams.DatabaseName, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsMssqlSession Get a SQL Server session.
+func (a *DiagnosticsApi) GetDiagnosticsMssqlSession(ctx _context.Context, orgName string, clusterName string, sessionId int64, startedAt string) (MssqlSession, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue MssqlSession
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsMssqlSession",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions/{sessionId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsMssqlSession")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions/{sessionId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"sessionId"+"}", _neturl.PathEscape(common.ParameterToString(sessionId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if sessionId < 1 {
+		return localVarReturnValue, nil, common.ReportError("sessionId must be greater than 1")
+	}
+	if sessionId > 32767 {
+		return localVarReturnValue, nil, common.ReportError("sessionId must be less than 32767")
+	}
+	localVarQueryParams.Add("startedAt", common.ParameterToString(startedAt, ""))
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsMssqlSessionCachedPlan Read the cached compiled plan of a live SQL Server request.
+func (a *DiagnosticsApi) GetDiagnosticsMssqlSessionCachedPlan(ctx _context.Context, orgName string, clusterName string, sessionId int64, startedAt string, requestId int64, requestStart string) (MssqlCachedPlan, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue MssqlCachedPlan
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsMssqlSessionCachedPlan",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions/{sessionId}/requests/{requestId}/cachedPlan",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsMssqlSessionCachedPlan")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions/{sessionId}/requests/{requestId}/cachedPlan"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"sessionId"+"}", _neturl.PathEscape(common.ParameterToString(sessionId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"requestId"+"}", _neturl.PathEscape(common.ParameterToString(requestId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if sessionId < 1 {
+		return localVarReturnValue, nil, common.ReportError("sessionId must be greater than 1")
+	}
+	if sessionId > 32767 {
+		return localVarReturnValue, nil, common.ReportError("sessionId must be less than 32767")
+	}
+	if requestId < 0 {
+		return localVarReturnValue, nil, common.ReportError("requestId must be greater than 0")
+	}
+	localVarQueryParams.Add("startedAt", common.ParameterToString(startedAt, ""))
+	localVarQueryParams.Add("requestStart", common.ParameterToString(requestStart, ""))
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsMssqlSessionLockAnalysis Get SQL Server blocking and locks.
+func (a *DiagnosticsApi) GetDiagnosticsMssqlSessionLockAnalysis(ctx _context.Context, orgName string, clusterName string, sessionId int64, startedAt string) (MssqlLockSnapshot, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue MssqlLockSnapshot
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsMssqlSessionLockAnalysis",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions/{sessionId}/lockAnalysis",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsMssqlSessionLockAnalysis")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions/{sessionId}/lockAnalysis"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"sessionId"+"}", _neturl.PathEscape(common.ParameterToString(sessionId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if sessionId < 1 {
+		return localVarReturnValue, nil, common.ReportError("sessionId must be greater than 1")
+	}
+	if sessionId > 32767 {
+		return localVarReturnValue, nil, common.ReportError("sessionId must be less than 32767")
+	}
+	localVarQueryParams.Add("startedAt", common.ParameterToString(startedAt, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -1566,6 +2678,250 @@ func (a *DiagnosticsApi) ListDiagnosticsDamengSessions(ctx _context.Context, org
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// ListDiagnosticsElasticsearchRecoveriesOptionalParameters holds optional parameters for ListDiagnosticsElasticsearchRecoveries.
+type ListDiagnosticsElasticsearchRecoveriesOptionalParameters struct {
+	Index *string
+	Node  *string
+}
+
+// NewListDiagnosticsElasticsearchRecoveriesOptionalParameters creates an empty struct for parameters.
+func NewListDiagnosticsElasticsearchRecoveriesOptionalParameters() *ListDiagnosticsElasticsearchRecoveriesOptionalParameters {
+	this := ListDiagnosticsElasticsearchRecoveriesOptionalParameters{}
+	return &this
+}
+
+// WithIndex sets the corresponding parameter name and returns the struct.
+func (r *ListDiagnosticsElasticsearchRecoveriesOptionalParameters) WithIndex(index string) *ListDiagnosticsElasticsearchRecoveriesOptionalParameters {
+	r.Index = &index
+	return r
+}
+
+// WithNode sets the corresponding parameter name and returns the struct.
+func (r *ListDiagnosticsElasticsearchRecoveriesOptionalParameters) WithNode(node string) *ListDiagnosticsElasticsearchRecoveriesOptionalParameters {
+	r.Node = &node
+	return r
+}
+
+// ListDiagnosticsElasticsearchRecoveries List active Elasticsearch shard recoveries.
+func (a *DiagnosticsApi) ListDiagnosticsElasticsearchRecoveries(ctx _context.Context, orgName string, clusterName string, o ...ListDiagnosticsElasticsearchRecoveriesOptionalParameters) (ElasticsearchRecoveryList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ElasticsearchRecoveryList
+		optionalParams      ListDiagnosticsElasticsearchRecoveriesOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListDiagnosticsElasticsearchRecoveriesOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "listDiagnosticsElasticsearchRecoveries",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/recoveries",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.ListDiagnosticsElasticsearchRecoveries")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/recoveries"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Index != nil {
+		localVarQueryParams.Add("index", common.ParameterToString(*optionalParams.Index, ""))
+	}
+	if optionalParams.Node != nil {
+		localVarQueryParams.Add("node", common.ParameterToString(*optionalParams.Node, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// ListDiagnosticsElasticsearchShardsOptionalParameters holds optional parameters for ListDiagnosticsElasticsearchShards.
+type ListDiagnosticsElasticsearchShardsOptionalParameters struct {
+	Index *string
+	Node  *string
+	State *ElasticsearchShardState
+}
+
+// NewListDiagnosticsElasticsearchShardsOptionalParameters creates an empty struct for parameters.
+func NewListDiagnosticsElasticsearchShardsOptionalParameters() *ListDiagnosticsElasticsearchShardsOptionalParameters {
+	this := ListDiagnosticsElasticsearchShardsOptionalParameters{}
+	return &this
+}
+
+// WithIndex sets the corresponding parameter name and returns the struct.
+func (r *ListDiagnosticsElasticsearchShardsOptionalParameters) WithIndex(index string) *ListDiagnosticsElasticsearchShardsOptionalParameters {
+	r.Index = &index
+	return r
+}
+
+// WithNode sets the corresponding parameter name and returns the struct.
+func (r *ListDiagnosticsElasticsearchShardsOptionalParameters) WithNode(node string) *ListDiagnosticsElasticsearchShardsOptionalParameters {
+	r.Node = &node
+	return r
+}
+
+// WithState sets the corresponding parameter name and returns the struct.
+func (r *ListDiagnosticsElasticsearchShardsOptionalParameters) WithState(state ElasticsearchShardState) *ListDiagnosticsElasticsearchShardsOptionalParameters {
+	r.State = &state
+	return r
+}
+
+// ListDiagnosticsElasticsearchShards List Elasticsearch shards.
+func (a *DiagnosticsApi) ListDiagnosticsElasticsearchShards(ctx _context.Context, orgName string, clusterName string, o ...ListDiagnosticsElasticsearchShardsOptionalParameters) (ElasticsearchShardList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ElasticsearchShardList
+		optionalParams      ListDiagnosticsElasticsearchShardsOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListDiagnosticsElasticsearchShardsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "listDiagnosticsElasticsearchShards",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/shards",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.ListDiagnosticsElasticsearchShards")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/shards"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Index != nil {
+		localVarQueryParams.Add("index", common.ParameterToString(*optionalParams.Index, ""))
+	}
+	if optionalParams.Node != nil {
+		localVarQueryParams.Add("node", common.ParameterToString(*optionalParams.Node, ""))
+	}
+	if optionalParams.State != nil {
+		localVarQueryParams.Add("state", common.ParameterToString(*optionalParams.State, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // ListDiagnosticsKingbaseSessionsOptionalParameters holds optional parameters for ListDiagnosticsKingbaseSessions.
 type ListDiagnosticsKingbaseSessionsOptionalParameters struct {
 	Limit *int64
@@ -1651,6 +3007,113 @@ func (a *DiagnosticsApi) ListDiagnosticsKingbaseSessions(ctx _context.Context, o
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// ListDiagnosticsMssqlSessionsOptionalParameters holds optional parameters for ListDiagnosticsMssqlSessions.
+type ListDiagnosticsMssqlSessionsOptionalParameters struct {
+	Limit *int64
+}
+
+// NewListDiagnosticsMssqlSessionsOptionalParameters creates an empty struct for parameters.
+func NewListDiagnosticsMssqlSessionsOptionalParameters() *ListDiagnosticsMssqlSessionsOptionalParameters {
+	this := ListDiagnosticsMssqlSessionsOptionalParameters{}
+	return &this
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *ListDiagnosticsMssqlSessionsOptionalParameters) WithLimit(limit int64) *ListDiagnosticsMssqlSessionsOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// ListDiagnosticsMssqlSessions List SQL Server sessions.
+func (a *DiagnosticsApi) ListDiagnosticsMssqlSessions(ctx _context.Context, orgName string, clusterName string, o ...ListDiagnosticsMssqlSessionsOptionalParameters) (MssqlSessionSnapshot, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue MssqlSessionSnapshot
+		optionalParams      ListDiagnosticsMssqlSessionsOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListDiagnosticsMssqlSessionsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "listDiagnosticsMssqlSessions",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.ListDiagnosticsMssqlSessions")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
