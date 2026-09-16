@@ -26260,6 +26260,40 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - dataReplication
+  /admin/v1/organizations/{orgName}/replication/channel:
+    post:
+      operationId: createAdminDataChannel
+      summary: Create a new data channel
+      description: Create a new data channel.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataReplicationCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataChannelResponse'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/replication/channel/{channelID}:
     get:
       operationId: getDataChannel
@@ -26361,285 +26395,6 @@ paths:
       tags:
         - dataReplication
       x-codegen-request-body-name: body
-  /admin/v1/checks:
-    get:
-      operationId: listAdminDataChecks
-      summary: List Data Checks
-      description: Retrieve a list of standalone data checks.
-      parameters:
-        - description: The Name of the organization
-          in: query
-          name: orgName
-          required: false
-          schema:
-            type: string
-        - description: The name of the check
-          in: query
-          name: name
-          required: false
-          schema:
-            type: string
-        - description: The status of the check
-          in: query
-          name: status
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/dataCheckList'
-          description: A list of checks.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - dataReplication
-  /admin/v1/organizations/{orgName}/checks/{checkID}:
-    get:
-      operationId: getDataCheck
-      summary: Get Data Check
-      description: Retrieve a standalone data check detail.
-      parameters:
-        - description: The Name of the organization
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: The ID of the check
-          in: path
-          name: checkID
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/dataCheckItem'
-          description: A check detail.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - dataReplication
-    delete:
-      operationId: deleteDataCheck
-      summary: Delete a data check
-      description: Delete a standalone data check and its runtime resources.
-      parameters:
-        - description: The Name of the organization
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: The ID of the check
-          in: path
-          name: checkID
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          content: {}
-          description: Returned when check is deleted successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - dataReplication
-  /admin/v1/organizations/{orgName}/checks/{checkID}/details:
-    get:
-      operationId: getDataCheckDetails
-      summary: Get Data Check Difference Details
-      description: Read typed check miss or diff details from the latest parsed check result.
-      parameters:
-        - description: The Name of the organization
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: The ID of the check
-          in: path
-          name: checkID
-          required: true
-          schema:
-            type: string
-        - description: The detail type
-          in: query
-          name: type
-          required: true
-          schema:
-            $ref: '#/components/schemas/dataCheckDetailType'
-        - description: Source schema or database. Required for snapshot checks.
-          in: query
-          name: schema
-          required: false
-          schema:
-            type: string
-        - description: Source table. Required for snapshot checks.
-          in: query
-          name: table
-          required: false
-          schema:
-            type: string
-        - description: Struct object key. Optional for struct checks; omitted to page all struct details.
-          in: query
-          name: key
-          required: false
-          schema:
-            type: string
-        - description: Page number for pagination.
-          in: query
-          name: page
-          required: false
-          schema:
-            type: integer
-            minimum: 1
-            default: 1
-        - description: Number of items per page.
-          in: query
-          name: pageSize
-          required: false
-          schema:
-            type: integer
-            minimum: 1
-            maximum: 1000
-            default: 100
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/dataCheckDetails'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - dataReplication
-  /admin/v1/organizations/{orgName}/checks/{checkID}/sqlLogs:
-    get:
-      operationId: getDataCheckSQLLogs
-      summary: Get Data Check SQL Logs
-      description: Read raw SQL lines emitted by check sql_logger entries.
-      parameters:
-        - description: The Name of the organization
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: The ID of the check
-          in: path
-          name: checkID
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            text/plain:
-              schema:
-                type: string
-          description: Raw SQL lines.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - dataReplication
-  /admin/v1/organizations/{orgName}/replication/channel/{channelID}/ops/{opsType}:
-    post:
-      operationId: createDataChannelOps
-      summary: Create a new data channel ops
-      description: Create a new data channel ops.
-      parameters:
-        - description: The Name of the organization
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: The ID of the data channel
-          in: path
-          name: channelID
-          required: true
-          schema:
-            type: string
-        - description: The operation type
-          in: path
-          name: opsType
-          required: true
-          schema:
-            $ref: '#/components/schemas/dataReplicationOpsType'
-      responses:
-        '204':
-          content: {}
-          description: Returned when operation is completed successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - dataReplication
-  /admin/v1/organizations/{orgName}/replication/channel/{channelID}/events:
-    get:
-      operationId: listDataChannelEvents
-      summary: List Data Channel Events
-      description: Retrieve a list of data channel events.
-      parameters:
-        - description: The Name of the organization
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: The ID of the data channel
-          in: path
-          name: channelID
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/dataReplicationEventList'
-          description: A list of data channel events.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - dataReplication
   /admin/v1/organizations/{orgName}/replication/channel/objects:
     post:
       operationId: queryReplicationObject
@@ -26900,6 +26655,319 @@ paths:
               schema:
                 $ref: '#/components/schemas/dataReplicationParametersResponse'
           description: A list of data channel parameters.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /admin/v1/checks:
+    get:
+      operationId: listAdminDataChecks
+      summary: List Data Checks
+      description: Retrieve a list of standalone data checks.
+      parameters:
+        - description: The Name of the organization
+          in: query
+          name: orgName
+          required: false
+          schema:
+            type: string
+        - description: The name of the check
+          in: query
+          name: name
+          required: false
+          schema:
+            type: string
+        - description: The status of the check
+          in: query
+          name: status
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataCheckList'
+          description: A list of checks.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /admin/v1/organizations/{orgName}/checks:
+    post:
+      operationId: createAdminDataCheck
+      summary: Create a data check
+      description: 'Create an independent data check. The request must use exactly one entry point: provide channelID with checkType, or provide the full direct check configuration.'
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataCheckCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataCheckResponse'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+      x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/checks/{checkID}:
+    get:
+      operationId: getDataCheck
+      summary: Get Data Check
+      description: Retrieve a standalone data check detail.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the check
+          in: path
+          name: checkID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataCheckItem'
+          description: A check detail.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+    delete:
+      operationId: deleteDataCheck
+      summary: Delete a data check
+      description: Delete a standalone data check and its runtime resources.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the check
+          in: path
+          name: checkID
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when check is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /admin/v1/organizations/{orgName}/checks/{checkID}/details:
+    get:
+      operationId: getDataCheckDetails
+      summary: Get Data Check Difference Details
+      description: Read typed check miss or diff details from the latest parsed check result.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the check
+          in: path
+          name: checkID
+          required: true
+          schema:
+            type: string
+        - description: The detail type
+          in: query
+          name: type
+          required: true
+          schema:
+            $ref: '#/components/schemas/dataCheckDetailType'
+        - description: Source schema or database. Required for snapshot checks.
+          in: query
+          name: schema
+          required: false
+          schema:
+            type: string
+        - description: Source table. Required for snapshot checks.
+          in: query
+          name: table
+          required: false
+          schema:
+            type: string
+        - description: Struct object key. Optional for struct checks; omitted to page all struct details.
+          in: query
+          name: key
+          required: false
+          schema:
+            type: string
+        - description: Page number for pagination.
+          in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - description: Number of items per page.
+          in: query
+          name: pageSize
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+            default: 100
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataCheckDetails'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /admin/v1/organizations/{orgName}/checks/{checkID}/sqlLogs:
+    get:
+      operationId: getDataCheckSQLLogs
+      summary: Get Data Check SQL Logs
+      description: Read raw SQL lines emitted by check sql_logger entries.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the check
+          in: path
+          name: checkID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Raw SQL lines.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /admin/v1/organizations/{orgName}/replication/channel/{channelID}/ops/{opsType}:
+    post:
+      operationId: createDataChannelOps
+      summary: Create a new data channel ops
+      description: Create a new data channel ops.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data channel
+          in: path
+          name: channelID
+          required: true
+          schema:
+            type: string
+        - description: The operation type
+          in: path
+          name: opsType
+          required: true
+          schema:
+            $ref: '#/components/schemas/dataReplicationOpsType'
+      responses:
+        '204':
+          content: {}
+          description: Returned when operation is completed successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /admin/v1/organizations/{orgName}/replication/channel/{channelID}/events:
+    get:
+      operationId: listDataChannelEvents
+      summary: List Data Channel Events
+      description: Retrieve a list of data channel events.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data channel
+          in: path
+          name: channelID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataReplicationEventList'
+          description: A list of data channel events.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -47942,41 +48010,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/dataChannelItem'
-    dataChannelModuleProgress:
-      type: object
-      properties:
-        moduleName:
-          type: string
-        kubernetesName:
-          type: string
-          nullable: true
-        progress:
-          type: number
-          format: double
-          nullable: true
-        status:
-          type: string
-        message:
-          type: string
-          nullable: true
-    dataChannelProgress:
-      type: object
-      properties:
-        progress:
-          type: number
-          format: double
-          nullable: true
-        moduleProgress:
-          type: array
-          items:
-            $ref: '#/components/schemas/dataChannelModuleProgress'
-    dataChannelDetail:
-      type: object
-      properties:
-        channel:
-          $ref: '#/components/schemas/dataChannelItem'
-        progress:
-          $ref: '#/components/schemas/dataChannelProgress'
     customEndpointCreate:
       type: object
       properties:
@@ -48050,14 +48083,6 @@ components:
             items:
               $ref: '#/components/schemas/dataChannelParameterKeyValue'
           nullable: true
-    dataReplicationUpdate:
-      type: object
-      properties:
-        clusterUpdates:
-          $ref: '#/components/schemas/dataReplicationCreate'
-        isRestart:
-          type: boolean
-          nullable: true
     dataChannelResponse:
       type: object
       properties:
@@ -48072,6 +48097,117 @@ components:
           type: string
           format: date-time
           nullable: true
+    dataChannelModuleProgress:
+      type: object
+      properties:
+        moduleName:
+          type: string
+        kubernetesName:
+          type: string
+          nullable: true
+        progress:
+          type: number
+          format: double
+          nullable: true
+        status:
+          type: string
+        message:
+          type: string
+          nullable: true
+    dataChannelProgress:
+      type: object
+      properties:
+        progress:
+          type: number
+          format: double
+          nullable: true
+        moduleProgress:
+          type: array
+          items:
+            $ref: '#/components/schemas/dataChannelModuleProgress'
+    dataChannelDetail:
+      type: object
+      properties:
+        channel:
+          $ref: '#/components/schemas/dataChannelItem'
+        progress:
+          $ref: '#/components/schemas/dataChannelProgress'
+    dataReplicationUpdate:
+      type: object
+      properties:
+        clusterUpdates:
+          $ref: '#/components/schemas/dataReplicationCreate'
+        isRestart:
+          type: boolean
+          nullable: true
+    replicationObjectQuery:
+      type: object
+      properties:
+        sourceEngineDefinition:
+          type: string
+        targetEngineDefinition:
+          type: string
+        endpoint:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+        nodeType:
+          type: string
+          nullable: true
+        nodeValue:
+          type: string
+          nullable: true
+        queryNodeType:
+          type: string
+          nullable: true
+    preCheckCreate:
+      type: object
+      properties:
+        modules:
+          type: array
+          items:
+            type: string
+        environmentID:
+          type: string
+        source:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+        target:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+        replicationObjects:
+          $ref: '#/components/schemas/dataChannelObject'
+    dataReplicationChannelContainer:
+      type: object
+      properties:
+        name:
+          type: string
+        isMainContainer:
+          type: boolean
+          default: false
+        isInitContainer:
+          type: boolean
+          default: false
+    dataReplicationParametersResponseDetail:
+      type: object
+      properties:
+        displayName:
+          type: string
+        desc:
+          $ref: '#/components/schemas/internationalDesc'
+        key:
+          type: string
+        defaultValue:
+          type: string
+        value:
+          type: string
+        valueType:
+          $ref: '#/components/schemas/parameterValueType'
+      required:
+        - key
+    dataReplicationParametersResponse:
+      type: object
+      description: the parameters of the data channel, the key is the module name, the value is the parameter template
+      additionalProperties:
+        type: array
+        items:
+          $ref: '#/components/schemas/dataReplicationParametersResponseDetail'
     dataCheckType:
       type: string
       description: Type of check to run. A standalone check runs exactly one type.
@@ -48147,6 +48283,45 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/dataCheckListItem'
+    dataCheckCreate:
+      type: object
+      required:
+        - checkType
+      description: Exactly one entry point must be used. Provide channelID with checkType to create from an existing channel, or provide environmentID, project, source, target, replicationObjects, and checkType for direct creation.
+      properties:
+        checkType:
+          $ref: '#/components/schemas/dataCheckType'
+        channelID:
+          type: string
+          description: Existing data replication channel ID used only as a create-time shortcut.
+        checkName:
+          type: string
+          nullable: true
+        environmentID:
+          type: string
+          description: Environment UUID for direct check creation.
+        project:
+          type: string
+          description: Kubernetes namespace for direct check creation.
+        source:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+          nullable: true
+        target:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+          nullable: true
+        replicationObjects:
+          $ref: '#/components/schemas/dataChannelObject'
+          nullable: true
+    dataCheckResponse:
+      type: object
+      properties:
+        checkID:
+          type: string
+        checkName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
     dataCheckTableSummary:
       type: object
       properties:
@@ -48334,74 +48509,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/eventItem'
-    replicationObjectQuery:
-      type: object
-      properties:
-        sourceEngineDefinition:
-          type: string
-        targetEngineDefinition:
-          type: string
-        endpoint:
-          $ref: '#/components/schemas/dataChannelEndpointCreate'
-        nodeType:
-          type: string
-          nullable: true
-        nodeValue:
-          type: string
-          nullable: true
-        queryNodeType:
-          type: string
-          nullable: true
-    preCheckCreate:
-      type: object
-      properties:
-        modules:
-          type: array
-          items:
-            type: string
-        environmentID:
-          type: string
-        source:
-          $ref: '#/components/schemas/dataChannelEndpointCreate'
-        target:
-          $ref: '#/components/schemas/dataChannelEndpointCreate'
-        replicationObjects:
-          $ref: '#/components/schemas/dataChannelObject'
-    dataReplicationChannelContainer:
-      type: object
-      properties:
-        name:
-          type: string
-        isMainContainer:
-          type: boolean
-          default: false
-        isInitContainer:
-          type: boolean
-          default: false
-    dataReplicationParametersResponseDetail:
-      type: object
-      properties:
-        displayName:
-          type: string
-        desc:
-          $ref: '#/components/schemas/internationalDesc'
-        key:
-          type: string
-        defaultValue:
-          type: string
-        value:
-          type: string
-        valueType:
-          $ref: '#/components/schemas/parameterValueType'
-      required:
-        - key
-    dataReplicationParametersResponse:
-      type: object
-      description: the parameters of the data channel, the key is the module name, the value is the parameter template
-      additionalProperties:
-        type: array
-        items:
-          $ref: '#/components/schemas/dataReplicationParametersResponseDetail'
   responses:
     '204':
       description: No Content

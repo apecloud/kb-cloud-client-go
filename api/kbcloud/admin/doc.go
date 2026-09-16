@@ -228,6 +228,8 @@
 //   - [dashboardConfigApi.deleteDashboardConfig]
 //   - [dashboardConfigApi.getDashboardConfig]
 //   - [dashboardConfigApi.putDashboardConfig]
+//   - [dataReplicationApi.createAdminDataChannel]
+//   - [dataReplicationApi.createAdminDataCheck]
 //   - [dataReplicationApi.createDataChannelOps]
 //   - [dataReplicationApi.createPreCheck]
 //   - [dataReplicationApi.deleteDataChannel]
