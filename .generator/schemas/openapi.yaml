@@ -25126,6 +25126,9 @@ components:
           $ref: '#/components/schemas/taskSchedule'
         hScale:
           $ref: '#/components/schemas/opsHScale'
+        networkMode:
+          description: Specify the network mode the cluster transitions to. Defaults to the network mode of the cluster when omitted.
+          $ref: '#/components/schemas/networkMode'
     opsRequestName:
       description: OpsRequestName is the name of a KubeBlocks OpsRequest response
       properties:
