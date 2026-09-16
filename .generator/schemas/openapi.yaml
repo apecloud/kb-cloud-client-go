@@ -38979,6 +38979,8 @@ components:
           type: string
         channelName:
           type: string
+        orgName:
+          type: string
         channelStatus:
           $ref: '#/components/schemas/channelStatus'
         environmentID:
@@ -39183,6 +39185,8 @@ components:
           type: string
         checkName:
           type: string
+        orgName:
+          type: string
         checkType:
           $ref: '#/components/schemas/dataCheckType'
         checkStatus:
@@ -39306,6 +39310,8 @@ components:
     dataCheckItem:
       type: object
       properties:
+        orgName:
+          type: string
         checkID:
           type: string
         checkName:

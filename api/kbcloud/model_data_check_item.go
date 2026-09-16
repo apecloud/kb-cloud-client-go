@@ -11,6 +11,7 @@ import (
 )
 
 type DataCheckItem struct {
+	OrgName   *string `json:"orgName,omitempty"`
 	CheckId   *string `json:"checkID,omitempty"`
 	CheckName *string `json:"checkName,omitempty"`
 	// Type of check to run. A standalone check runs exactly one type.
@@ -47,6 +48,34 @@ func NewDataCheckItem() *DataCheckItem {
 func NewDataCheckItemWithDefaults() *DataCheckItem {
 	this := DataCheckItem{}
 	return &this
+}
+
+// GetOrgName returns the OrgName field value if set, zero value otherwise.
+func (o *DataCheckItem) GetOrgName() string {
+	if o == nil || o.OrgName == nil {
+		var ret string
+		return ret
+	}
+	return *o.OrgName
+}
+
+// GetOrgNameOk returns a tuple with the OrgName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DataCheckItem) GetOrgNameOk() (*string, bool) {
+	if o == nil || o.OrgName == nil {
+		return nil, false
+	}
+	return o.OrgName, true
+}
+
+// HasOrgName returns a boolean if a field has been set.
+func (o *DataCheckItem) HasOrgName() bool {
+	return o != nil && o.OrgName != nil
+}
+
+// SetOrgName gets a reference to the given string and assigns it to the OrgName field.
+func (o *DataCheckItem) SetOrgName(v string) {
+	o.OrgName = &v
 }
 
 // GetCheckId returns the CheckId field value if set, zero value otherwise.
@@ -497,6 +526,9 @@ func (o DataCheckItem) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.OrgName != nil {
+		toSerialize["orgName"] = o.OrgName
+	}
 	if o.CheckId != nil {
 		toSerialize["checkID"] = o.CheckId
 	}
@@ -560,6 +592,7 @@ func (o DataCheckItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DataCheckItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		OrgName            *string                  `json:"orgName,omitempty"`
 		CheckId            *string                  `json:"checkID,omitempty"`
 		CheckName          *string                  `json:"checkName,omitempty"`
 		CheckType          *DataCheckType           `json:"checkType,omitempty"`
@@ -581,12 +614,13 @@ func (o *DataCheckItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"checkID", "checkName", "checkType", "checkStatus", "checkSummary", "environmentID", "environmentName", "project", "source", "target", "replicationObjects", "errorMessage", "createdAt", "updatedAt", "finishedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"orgName", "checkID", "checkName", "checkType", "checkStatus", "checkSummary", "environmentID", "environmentName", "project", "source", "target", "replicationObjects", "errorMessage", "createdAt", "updatedAt", "finishedAt"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.OrgName = all.OrgName
 	o.CheckId = all.CheckId
 	o.CheckName = all.CheckName
 	if all.CheckType != nil && !all.CheckType.IsValid() {
