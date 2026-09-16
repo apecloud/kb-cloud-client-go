@@ -16,7 +16,8 @@ type ClusterModeTransition struct {
 	Mode     string        `json:"mode"`
 	Schedule *TaskSchedule `json:"schedule,omitempty"`
 	// OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
-	HScale *OpsHScale `json:"hScale,omitempty"`
+	HScale      *OpsHScale   `json:"hScale,omitempty"`
+	NetworkMode *NetworkMode `json:"networkMode,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -119,6 +120,34 @@ func (o *ClusterModeTransition) SetHScale(v OpsHScale) {
 	o.HScale = &v
 }
 
+// GetNetworkMode returns the NetworkMode field value if set, zero value otherwise.
+func (o *ClusterModeTransition) GetNetworkMode() NetworkMode {
+	if o == nil || o.NetworkMode == nil {
+		var ret NetworkMode
+		return ret
+	}
+	return *o.NetworkMode
+}
+
+// GetNetworkModeOk returns a tuple with the NetworkMode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterModeTransition) GetNetworkModeOk() (*NetworkMode, bool) {
+	if o == nil || o.NetworkMode == nil {
+		return nil, false
+	}
+	return o.NetworkMode, true
+}
+
+// HasNetworkMode returns a boolean if a field has been set.
+func (o *ClusterModeTransition) HasNetworkMode() bool {
+	return o != nil && o.NetworkMode != nil
+}
+
+// SetNetworkMode gets a reference to the given NetworkMode and assigns it to the NetworkMode field.
+func (o *ClusterModeTransition) SetNetworkMode(v NetworkMode) {
+	o.NetworkMode = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterModeTransition) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -132,6 +161,9 @@ func (o ClusterModeTransition) MarshalJSON() ([]byte, error) {
 	if o.HScale != nil {
 		toSerialize["hScale"] = o.HScale
 	}
+	if o.NetworkMode != nil {
+		toSerialize["networkMode"] = o.NetworkMode
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -142,9 +174,10 @@ func (o ClusterModeTransition) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterModeTransition) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Mode     *string       `json:"mode"`
-		Schedule *TaskSchedule `json:"schedule,omitempty"`
-		HScale   *OpsHScale    `json:"hScale,omitempty"`
+		Mode        *string       `json:"mode"`
+		Schedule    *TaskSchedule `json:"schedule,omitempty"`
+		HScale      *OpsHScale    `json:"hScale,omitempty"`
+		NetworkMode *NetworkMode  `json:"networkMode,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -154,7 +187,7 @@ func (o *ClusterModeTransition) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"mode", "schedule", "hScale"})
+		common.DeleteKeys(additionalProperties, &[]string{"mode", "schedule", "hScale", "networkMode"})
 	} else {
 		return err
 	}
@@ -169,6 +202,11 @@ func (o *ClusterModeTransition) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.HScale = all.HScale
+	if all.NetworkMode != nil && !all.NetworkMode.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.NetworkMode = all.NetworkMode
+	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
