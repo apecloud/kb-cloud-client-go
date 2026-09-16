@@ -29,6 +29,10 @@ type ModeOption struct {
 	ValuesMappings *ModeOptionValuesMappings `json:"valuesMappings,omitempty"`
 	// whether the mode is hidden for creation
 	HideOnCreate common.NullableBool `json:"hideOnCreate,omitempty"`
+	// When true, horizontal and vertical scaling for this mode use instance
+	// templates from the live Cluster. Omit or false keeps component-level operations.
+	//
+	SupportsInstanceTemplates *bool `json:"supportsInstanceTemplates,omitempty"`
 	// Valid mode transitions from this mode.
 	Transition []EngineModeTransition `json:"transition,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -412,6 +416,34 @@ func (o *ModeOption) UnsetHideOnCreate() {
 	o.HideOnCreate.Unset()
 }
 
+// GetSupportsInstanceTemplates returns the SupportsInstanceTemplates field value if set, zero value otherwise.
+func (o *ModeOption) GetSupportsInstanceTemplates() bool {
+	if o == nil || o.SupportsInstanceTemplates == nil {
+		var ret bool
+		return ret
+	}
+	return *o.SupportsInstanceTemplates
+}
+
+// GetSupportsInstanceTemplatesOk returns a tuple with the SupportsInstanceTemplates field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeOption) GetSupportsInstanceTemplatesOk() (*bool, bool) {
+	if o == nil || o.SupportsInstanceTemplates == nil {
+		return nil, false
+	}
+	return o.SupportsInstanceTemplates, true
+}
+
+// HasSupportsInstanceTemplates returns a boolean if a field has been set.
+func (o *ModeOption) HasSupportsInstanceTemplates() bool {
+	return o != nil && o.SupportsInstanceTemplates != nil
+}
+
+// SetSupportsInstanceTemplates gets a reference to the given bool and assigns it to the SupportsInstanceTemplates field.
+func (o *ModeOption) SetSupportsInstanceTemplates(v bool) {
+	o.SupportsInstanceTemplates = &v
+}
+
 // GetTransition returns the Transition field value if set, zero value otherwise.
 func (o *ModeOption) GetTransition() []EngineModeTransition {
 	if o == nil || o.Transition == nil {
@@ -477,6 +509,9 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 	if o.HideOnCreate.IsSet() {
 		toSerialize["hideOnCreate"] = o.HideOnCreate.Get()
 	}
+	if o.SupportsInstanceTemplates != nil {
+		toSerialize["supportsInstanceTemplates"] = o.SupportsInstanceTemplates
+	}
 	if o.Transition != nil {
 		toSerialize["transition"] = o.Transition
 	}
@@ -503,6 +538,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 		ObjectStorage               *ModeObjectStorage               `json:"objectStorage,omitempty"`
 		ValuesMappings              *ModeOptionValuesMappings        `json:"valuesMappings,omitempty"`
 		HideOnCreate                common.NullableBool              `json:"hideOnCreate,omitempty"`
+		SupportsInstanceTemplates   *bool                            `json:"supportsInstanceTemplates,omitempty"`
 		Transition                  []EngineModeTransition           `json:"transition,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -522,7 +558,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "schedulingPolicy", "compatibleKubeblocksVersion", "components", "proxy", "versions", "extra", "serviceRefs", "objectStorage", "valuesMappings", "hideOnCreate", "transition"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "schedulingPolicy", "compatibleKubeblocksVersion", "components", "proxy", "versions", "extra", "serviceRefs", "objectStorage", "valuesMappings", "hideOnCreate", "supportsInstanceTemplates", "transition"})
 	} else {
 		return err
 	}
@@ -563,6 +599,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.ValuesMappings = all.ValuesMappings
 	o.HideOnCreate = all.HideOnCreate
+	o.SupportsInstanceTemplates = all.SupportsInstanceTemplates
 	o.Transition = all.Transition
 
 	if len(additionalProperties) > 0 {
