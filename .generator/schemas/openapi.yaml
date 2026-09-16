@@ -31257,6 +31257,11 @@ components:
           type: boolean
         hideOnCreate:
           type: boolean
+        supportsInstanceTemplates:
+          type: boolean
+          description: |
+            When true, horizontal and vertical scaling for this mode component use instance
+            templates from the live Cluster. Omit or false keeps component-level operations.
         serviceRef:
           type: string
           description: |
@@ -31594,11 +31599,6 @@ components:
           type: boolean
           description: whether the mode is hidden for creation
           nullable: true
-        supportsInstanceTemplates:
-          type: boolean
-          description: |
-            When true, horizontal and vertical scaling for this mode use instance
-            templates from the live Cluster. Omit or false keeps component-level operations.
         transition:
           type: array
           description: Valid mode transitions from this mode.

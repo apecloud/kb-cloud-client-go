@@ -14,6 +14,10 @@ type ModeComponent struct {
 	Component    string `json:"component"`
 	HideEnpoints bool   `json:"hideEnpoints"`
 	HideOnCreate bool   `json:"hideOnCreate"`
+	// When true, horizontal and vertical scaling for this mode component use instance
+	// templates from the live Cluster. Omit or false keeps component-level operations.
+	//
+	SupportsInstanceTemplates *bool `json:"supportsInstanceTemplates,omitempty"`
 	// the name of the serviceRef defined in mode's serviceRefs.
 	// If set, it means a serviceRef can be used to replace this component.
 	//
@@ -113,6 +117,34 @@ func (o *ModeComponent) SetHideOnCreate(v bool) {
 	o.HideOnCreate = v
 }
 
+// GetSupportsInstanceTemplates returns the SupportsInstanceTemplates field value if set, zero value otherwise.
+func (o *ModeComponent) GetSupportsInstanceTemplates() bool {
+	if o == nil || o.SupportsInstanceTemplates == nil {
+		var ret bool
+		return ret
+	}
+	return *o.SupportsInstanceTemplates
+}
+
+// GetSupportsInstanceTemplatesOk returns a tuple with the SupportsInstanceTemplates field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeComponent) GetSupportsInstanceTemplatesOk() (*bool, bool) {
+	if o == nil || o.SupportsInstanceTemplates == nil {
+		return nil, false
+	}
+	return o.SupportsInstanceTemplates, true
+}
+
+// HasSupportsInstanceTemplates returns a boolean if a field has been set.
+func (o *ModeComponent) HasSupportsInstanceTemplates() bool {
+	return o != nil && o.SupportsInstanceTemplates != nil
+}
+
+// SetSupportsInstanceTemplates gets a reference to the given bool and assigns it to the SupportsInstanceTemplates field.
+func (o *ModeComponent) SetSupportsInstanceTemplates(v bool) {
+	o.SupportsInstanceTemplates = &v
+}
+
 // GetServiceRef returns the ServiceRef field value if set, zero value otherwise.
 func (o *ModeComponent) GetServiceRef() string {
 	if o == nil || o.ServiceRef == nil {
@@ -178,6 +210,9 @@ func (o ModeComponent) MarshalJSON() ([]byte, error) {
 	toSerialize["component"] = o.Component
 	toSerialize["hideEnpoints"] = o.HideEnpoints
 	toSerialize["hideOnCreate"] = o.HideOnCreate
+	if o.SupportsInstanceTemplates != nil {
+		toSerialize["supportsInstanceTemplates"] = o.SupportsInstanceTemplates
+	}
 	if o.ServiceRef != nil {
 		toSerialize["serviceRef"] = o.ServiceRef
 	}
@@ -194,11 +229,12 @@ func (o ModeComponent) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeComponent) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component        *string               `json:"component"`
-		HideEnpoints     *bool                 `json:"hideEnpoints"`
-		HideOnCreate     *bool                 `json:"hideOnCreate"`
-		ServiceRef       *string               `json:"serviceRef,omitempty"`
-		ReadonlyEndpoint *ModeReadonlyEndpoint `json:"readonlyEndpoint,omitempty"`
+		Component                 *string               `json:"component"`
+		HideEnpoints              *bool                 `json:"hideEnpoints"`
+		HideOnCreate              *bool                 `json:"hideOnCreate"`
+		SupportsInstanceTemplates *bool                 `json:"supportsInstanceTemplates,omitempty"`
+		ServiceRef                *string               `json:"serviceRef,omitempty"`
+		ReadonlyEndpoint          *ModeReadonlyEndpoint `json:"readonlyEndpoint,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -214,7 +250,7 @@ func (o *ModeComponent) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "hideEnpoints", "hideOnCreate", "serviceRef", "readonlyEndpoint"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "hideEnpoints", "hideOnCreate", "supportsInstanceTemplates", "serviceRef", "readonlyEndpoint"})
 	} else {
 		return err
 	}
@@ -223,6 +259,7 @@ func (o *ModeComponent) UnmarshalJSON(bytes []byte) (err error) {
 	o.Component = *all.Component
 	o.HideEnpoints = *all.HideEnpoints
 	o.HideOnCreate = *all.HideOnCreate
+	o.SupportsInstanceTemplates = all.SupportsInstanceTemplates
 	o.ServiceRef = all.ServiceRef
 	if all.ReadonlyEndpoint != nil && all.ReadonlyEndpoint.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
