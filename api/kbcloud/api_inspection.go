@@ -177,9 +177,8 @@ func (a *InspectionApi) CreateInspectionScript(ctx _context.Context, body Inspec
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// CreateInspectionTaskByOrg create inspection task by org.
-// Deprecated for manual organization/engine inspection. Use POST /api/v1/inspectionTasks/batch (or POST /admin/v1/inspectionTasks/batch for administrators), passing the path orgName as an element of the orgNames array and engine as an element of the engines array. The batch endpoint returns 202 with a task list. Existing callers of this endpoint remain supported during migration.
-// Deprecated: This API is deprecated.
+// CreateInspectionTaskByOrg Trigger inspection for a selected cluster.
+// Use this endpoint for a specific cluster within the path organization, selecting the cluster with clusterID or clusterName in the request body. This endpoint remains supported. Requests without a cluster selector retain their existing organization-wide behavior for compatibility. Use POST /api/v1/inspectionTasks/batch (or the corresponding /admin/v1 endpoint) for organization/engine scope selection, including single-element selections that may match multiple clusters. Cluster selectors are not required by the server during migration.
 func (a *InspectionApi) CreateInspectionTaskByOrg(ctx _context.Context, orgName string, body InspectionTask) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
@@ -250,8 +249,8 @@ func (a *InspectionApi) CreateInspectionTaskByOrg(ctx _context.Context, orgName 
 	return localVarHTTPResponse, nil
 }
 
-// CreateInspectionTasksBatch Trigger inspection for multiple organizations and engines.
-// Validates access to all organizations before creating any tasks. Creates one task per matching non-stopped cluster in a single transaction, then starts asynchronous execution. Returns 400 if no eligible clusters match.
+// CreateInspectionTasksBatch Trigger inspection across selected organizations and engines.
+// Use this endpoint to inspect clusters selected by organization and engine scope, rather than selecting a specific cluster. Both arrays support single-element selections, which can still match multiple clusters. Validates access to all organizations before creating any tasks. Creates one task per matching non-stopped cluster in a single transaction, then starts asynchronous execution. Returns 400 if no eligible clusters match. For a specific cluster, use POST /organizations/{orgName}/inspectionTasksByOrg under the same API prefix.
 func (a *InspectionApi) CreateInspectionTasksBatch(ctx _context.Context, body InspectionTaskBatchCreate) ([]InspectionTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost

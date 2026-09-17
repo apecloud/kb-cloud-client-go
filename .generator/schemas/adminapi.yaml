@@ -16141,9 +16141,8 @@ paths:
       tags:
         - inspection
       operationId: createInspectionTaskByOrg
-      summary: create inspection task by org
-      deprecated: true
-      description: Deprecated for manual organization/engine inspection. Use POST /api/v1/inspectionTasks/batch (or POST /admin/v1/inspectionTasks/batch for administrators), passing the path orgName as an element of the orgNames array and engine as an element of the engines array. The batch endpoint returns 202 with a task list. Existing callers of this endpoint remain supported during migration.
+      summary: Trigger inspection for a selected cluster
+      description: Use this endpoint for a specific cluster within the path organization, selecting the cluster with clusterID or clusterName in the request body. This endpoint remains supported. Requests without a cluster selector retain their existing organization-wide behavior for compatibility. Use POST /api/v1/inspectionTasks/batch (or the corresponding /admin/v1 endpoint) for organization/engine scope selection, including single-element selections that may match multiple clusters. Cluster selectors are not required by the server during migration.
       parameters:
         - description: name of the Org
           in: path
@@ -16311,8 +16310,8 @@ paths:
       tags:
         - inspection
       operationId: createInspectionTasksBatch
-      summary: Trigger inspection for multiple organizations and engines
-      description: Validates access to all organizations before creating any tasks. Creates one task per matching non-stopped cluster in a single transaction, then starts asynchronous execution. Returns 400 if no eligible clusters match.
+      summary: Trigger inspection across selected organizations and engines
+      description: Use this endpoint to inspect clusters selected by organization and engine scope, rather than selecting a specific cluster. Both arrays support single-element selections, which can still match multiple clusters. Validates access to all organizations before creating any tasks. Creates one task per matching non-stopped cluster in a single transaction, then starts asynchronous execution. Returns 400 if no eligible clusters match. For a specific cluster, use POST /organizations/{orgName}/inspectionTasksByOrg under the same API prefix.
       requestBody:
         required: true
         content:
