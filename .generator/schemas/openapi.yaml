@@ -24164,7 +24164,8 @@ components:
         replicas:
           title: Replicas
           type: integer
-          description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
+          x-nullable: true
+          description: Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas.
         skipResourceConstraints:
           type: boolean
           description: Whether to skip resource constraint validation when creating cluster
