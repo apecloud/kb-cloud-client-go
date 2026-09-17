@@ -21435,6 +21435,8 @@ paths:
         - inspection
       operationId: createInspectionTaskByOrg
       summary: create inspection task by org
+      deprecated: true
+      description: Deprecated for manual organization/engine inspection. Use POST /api/v1/inspectionTasks/batch (or POST /admin/v1/inspectionTasks/batch for administrators), passing the path orgName as an element of the orgNames array and engine as an element of the engines array. The batch endpoint returns 202 with a task list. Existing callers of this endpoint remain supported during migration.
       parameters:
         - description: name of the Org
           in: path
@@ -21490,6 +21492,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/inspectionTask'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /api/v1/inspectionTasks/batch:
+    post:
+      tags:
+        - inspection
+      operationId: createInspectionTasksBatch
+      summary: Trigger inspection for multiple organizations and engines
+      description: Validates access to all organizations before creating any tasks. Creates one task per matching non-stopped cluster in a single transaction, then starts asynchronous execution. Returns 400 if no eligible clusters match.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/inspectionTaskBatchCreate'
+      responses:
+        '202':
+          description: Inspection tasks created and accepted for execution. Use the task IDs and organization names to retrieve reports through the existing task endpoints.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inspectionTask'
+        '400':
+          description: Invalid request or no eligible clusters.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -40349,6 +40381,40 @@ components:
         - json
         - pdf
       type: string
+    inspectionTaskBatchCreate:
+      type: object
+      required:
+        - orgNames
+      properties:
+        orgNames:
+          description: Organizations to inspect. Every organization must be accessible to the caller.
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            pattern: ^[^,\s]+$
+        engines:
+          description: Engine names to inspect within each selected organization. Omit or pass an empty array to inspect all engines. Organizations without matching non-stopped clusters are skipped.
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            pattern: ^[^,\s]+$
+        timeRangeStart:
+          type: string
+          format: date-time
+          description: Start of the inspection window. If either bound is omitted, defaults to the preceding 24 hours.
+        timeRangeEnd:
+          type: string
+          format: date-time
+        savedDays:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Report retention in days. Zero uses the existing default retention policy.
     aggregateTaskType:
       type: string
       description: Specifies the type of the aggregate meta data.

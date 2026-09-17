@@ -497,6 +497,7 @@
 //   - [inspectionApi.createInspectionScript]
 //   - [inspectionApi.createInspectionTaskByEnv]
 //   - [inspectionApi.createInspectionTaskByOrg]
+//   - [inspectionApi.createInspectionTasksBatch]
 //   - [inspectionApi.deleteAutoInspection]
 //   - [inspectionApi.deleteInspectionScript]
 //   - [inspectionApi.getAggregateTaskResult]

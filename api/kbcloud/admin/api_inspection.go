@@ -249,6 +249,8 @@ func (a *InspectionApi) CreateInspectionTaskByEnv(ctx _context.Context, environm
 }
 
 // CreateInspectionTaskByOrg create inspection task by org.
+// Deprecated for manual organization/engine inspection. Use POST /api/v1/inspectionTasks/batch (or POST /admin/v1/inspectionTasks/batch for administrators), passing the path orgName as an element of the orgNames array and engine as an element of the engines array. The batch endpoint returns 202 with a task list. Existing callers of this endpoint remain supported during migration.
+// Deprecated: This API is deprecated.
 func (a *InspectionApi) CreateInspectionTaskByOrg(ctx _context.Context, orgName string, body InspectionTask) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
@@ -317,6 +319,96 @@ func (a *InspectionApi) CreateInspectionTaskByOrg(ctx _context.Context, orgName 
 	}
 
 	return localVarHTTPResponse, nil
+}
+
+// CreateInspectionTasksBatch Trigger inspection for multiple organizations and engines.
+// Validates access to all organizations before creating any tasks. Creates one task per matching non-stopped cluster in a single transaction, then starts asynchronous execution. Returns 400 if no eligible clusters match.
+func (a *InspectionApi) CreateInspectionTasksBatch(ctx _context.Context, body InspectionTaskBatchCreate) ([]InspectionTask, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue []InspectionTask
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "inspection",
+		OperationID: "createInspectionTasksBatch",
+		Path:        "/admin/v1/inspectionTasks/batch",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InspectionApi.CreateInspectionTasksBatch")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/inspectionTasks/batch"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "*/*"
+
+	// body params
+	localVarPostBody = &body
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v None
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 // DeleteAutoInspection delete auto inspection.
