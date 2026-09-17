@@ -11,13 +11,15 @@ import (
 )
 
 type AiDataGatewayDataSourceSpec struct {
-	Name             string  `json:"name"`
-	Type             string  `json:"type"`
-	Engine           string  `json:"engine"`
-	CloudClusterId   *int64  `json:"cloudClusterId,omitempty"`
-	CloudClusterName *string `json:"cloudClusterName,omitempty"`
-	EnvironmentName  *string `json:"environmentName,omitempty"`
-	// All datasource connection information. For external databases this comes from API input; for Cloud/KubeBlocks managed datasources Cloud resolves and fills the connection information. Sensitive keys such as password, token, secret, privateKey, accessKey, and credential are encrypted at rest and masked in user-facing responses. Internal Runtime config resolves the decrypted view only inside the trusted server boundary.
+	Name   string                        `json:"name"`
+	Type   string                        `json:"type"`
+	Engine AiDataGatewayDataSourceEngine `json:"engine"`
+	// Defaults to enabled on creation; omitted on update preserves the current status.
+	Status           *AiDataGatewayDataSourceStatus `json:"status,omitempty"`
+	CloudClusterId   *int64                         `json:"cloudClusterId,omitempty"`
+	CloudClusterName *string                        `json:"cloudClusterName,omitempty"`
+	EnvironmentName  *string                        `json:"environmentName,omitempty"`
+	// Structured connection fields (host, numeric port, database/databaseName, username/user, password, sslMode, sslRootCert, sslCert, sslKey, serverName, tlsEnabled) or encrypted connection-string fields (dsn/url/uri/connectionString). Omitted and masked secret values on update preserve the stored value. Cloud bindings require an explicit database username and use the authoritative managed endpoint. All datasource connection information. For external databases this comes from API input; for Cloud/KubeBlocks managed datasources Cloud resolves and fills the connection information. Sensitive keys such as password, token, secret, privateKey, accessKey, and credential are encrypted at rest and masked in user-facing responses. Internal Runtime config resolves the decrypted view only inside the trusted server boundary.
 	ConnectionConfig map[string]interface{} `json:"connectionConfig,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -28,7 +30,7 @@ type AiDataGatewayDataSourceSpec struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAiDataGatewayDataSourceSpec(name string, typeVar string, engine string) *AiDataGatewayDataSourceSpec {
+func NewAiDataGatewayDataSourceSpec(name string, typeVar string, engine AiDataGatewayDataSourceEngine) *AiDataGatewayDataSourceSpec {
 	this := AiDataGatewayDataSourceSpec{}
 	this.Name = name
 	this.Type = typeVar
@@ -91,9 +93,9 @@ func (o *AiDataGatewayDataSourceSpec) SetType(v string) {
 }
 
 // GetEngine returns the Engine field value.
-func (o *AiDataGatewayDataSourceSpec) GetEngine() string {
+func (o *AiDataGatewayDataSourceSpec) GetEngine() AiDataGatewayDataSourceEngine {
 	if o == nil {
-		var ret string
+		var ret AiDataGatewayDataSourceEngine
 		return ret
 	}
 	return o.Engine
@@ -101,7 +103,7 @@ func (o *AiDataGatewayDataSourceSpec) GetEngine() string {
 
 // GetEngineOk returns a tuple with the Engine field value
 // and a boolean to check if the value has been set.
-func (o *AiDataGatewayDataSourceSpec) GetEngineOk() (*string, bool) {
+func (o *AiDataGatewayDataSourceSpec) GetEngineOk() (*AiDataGatewayDataSourceEngine, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -109,8 +111,36 @@ func (o *AiDataGatewayDataSourceSpec) GetEngineOk() (*string, bool) {
 }
 
 // SetEngine sets field value.
-func (o *AiDataGatewayDataSourceSpec) SetEngine(v string) {
+func (o *AiDataGatewayDataSourceSpec) SetEngine(v AiDataGatewayDataSourceEngine) {
 	o.Engine = v
+}
+
+// GetStatus returns the Status field value if set, zero value otherwise.
+func (o *AiDataGatewayDataSourceSpec) GetStatus() AiDataGatewayDataSourceStatus {
+	if o == nil || o.Status == nil {
+		var ret AiDataGatewayDataSourceStatus
+		return ret
+	}
+	return *o.Status
+}
+
+// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiDataGatewayDataSourceSpec) GetStatusOk() (*AiDataGatewayDataSourceStatus, bool) {
+	if o == nil || o.Status == nil {
+		return nil, false
+	}
+	return o.Status, true
+}
+
+// HasStatus returns a boolean if a field has been set.
+func (o *AiDataGatewayDataSourceSpec) HasStatus() bool {
+	return o != nil && o.Status != nil
+}
+
+// SetStatus gets a reference to the given AiDataGatewayDataSourceStatus and assigns it to the Status field.
+func (o *AiDataGatewayDataSourceSpec) SetStatus(v AiDataGatewayDataSourceStatus) {
+	o.Status = &v
 }
 
 // GetCloudClusterId returns the CloudClusterId field value if set, zero value otherwise.
@@ -234,6 +264,9 @@ func (o AiDataGatewayDataSourceSpec) MarshalJSON() ([]byte, error) {
 	toSerialize["name"] = o.Name
 	toSerialize["type"] = o.Type
 	toSerialize["engine"] = o.Engine
+	if o.Status != nil {
+		toSerialize["status"] = o.Status
+	}
 	if o.CloudClusterId != nil {
 		toSerialize["cloudClusterId"] = o.CloudClusterId
 	}
@@ -256,13 +289,14 @@ func (o AiDataGatewayDataSourceSpec) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AiDataGatewayDataSourceSpec) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name             *string                `json:"name"`
-		Type             *string                `json:"type"`
-		Engine           *string                `json:"engine"`
-		CloudClusterId   *int64                 `json:"cloudClusterId,omitempty"`
-		CloudClusterName *string                `json:"cloudClusterName,omitempty"`
-		EnvironmentName  *string                `json:"environmentName,omitempty"`
-		ConnectionConfig map[string]interface{} `json:"connectionConfig,omitempty"`
+		Name             *string                        `json:"name"`
+		Type             *string                        `json:"type"`
+		Engine           *AiDataGatewayDataSourceEngine `json:"engine"`
+		Status           *AiDataGatewayDataSourceStatus `json:"status,omitempty"`
+		CloudClusterId   *int64                         `json:"cloudClusterId,omitempty"`
+		CloudClusterName *string                        `json:"cloudClusterName,omitempty"`
+		EnvironmentName  *string                        `json:"environmentName,omitempty"`
+		ConnectionConfig map[string]interface{}         `json:"connectionConfig,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -278,13 +312,24 @@ func (o *AiDataGatewayDataSourceSpec) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "engine", "cloudClusterId", "cloudClusterName", "environmentName", "connectionConfig"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "engine", "status", "cloudClusterId", "cloudClusterName", "environmentName", "connectionConfig"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Name = *all.Name
 	o.Type = *all.Type
-	o.Engine = *all.Engine
+	if !all.Engine.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Engine = *all.Engine
+	}
+	if all.Status != nil && !all.Status.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Status = all.Status
+	}
 	o.CloudClusterId = all.CloudClusterId
 	o.CloudClusterName = all.CloudClusterName
 	o.EnvironmentName = all.EnvironmentName
@@ -292,6 +337,10 @@ func (o *AiDataGatewayDataSourceSpec) UnmarshalJSON(bytes []byte) (err error) {
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

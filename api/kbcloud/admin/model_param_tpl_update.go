@@ -12,6 +12,8 @@ type ParamTplUpdate struct {
 	SpecName *string `json:"specName,omitempty"`
 	// Specify parameters list to be updated
 	Parameters map[string]string `json:"parameters,omitempty"`
+	// Specify parameters list to be removed from the template
+	ParametersToRemove []string `json:"parametersToRemove,omitempty"`
 	// Specify the new name of the parameter template
 	NewParamTplName *string `json:"newParamTplName,omitempty"`
 	// The description of the parameter template
@@ -94,6 +96,34 @@ func (o *ParamTplUpdate) HasParameters() bool {
 // SetParameters gets a reference to the given map[string]string and assigns it to the Parameters field.
 func (o *ParamTplUpdate) SetParameters(v map[string]string) {
 	o.Parameters = v
+}
+
+// GetParametersToRemove returns the ParametersToRemove field value if set, zero value otherwise.
+func (o *ParamTplUpdate) GetParametersToRemove() []string {
+	if o == nil || o.ParametersToRemove == nil {
+		var ret []string
+		return ret
+	}
+	return o.ParametersToRemove
+}
+
+// GetParametersToRemoveOk returns a tuple with the ParametersToRemove field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParamTplUpdate) GetParametersToRemoveOk() (*[]string, bool) {
+	if o == nil || o.ParametersToRemove == nil {
+		return nil, false
+	}
+	return &o.ParametersToRemove, true
+}
+
+// HasParametersToRemove returns a boolean if a field has been set.
+func (o *ParamTplUpdate) HasParametersToRemove() bool {
+	return o != nil && o.ParametersToRemove != nil
+}
+
+// SetParametersToRemove gets a reference to the given []string and assigns it to the ParametersToRemove field.
+func (o *ParamTplUpdate) SetParametersToRemove(v []string) {
+	o.ParametersToRemove = v
 }
 
 // GetNewParamTplName returns the NewParamTplName field value if set, zero value otherwise.
@@ -192,6 +222,9 @@ func (o ParamTplUpdate) MarshalJSON() ([]byte, error) {
 	if o.Parameters != nil {
 		toSerialize["parameters"] = o.Parameters
 	}
+	if o.ParametersToRemove != nil {
+		toSerialize["parametersToRemove"] = o.ParametersToRemove
+	}
 	if o.NewParamTplName != nil {
 		toSerialize["newParamTplName"] = o.NewParamTplName
 	}
@@ -211,23 +244,25 @@ func (o ParamTplUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParamTplUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		SpecName        *string           `json:"specName,omitempty"`
-		Parameters      map[string]string `json:"parameters,omitempty"`
-		NewParamTplName *string           `json:"newParamTplName,omitempty"`
-		Description     *string           `json:"description,omitempty"`
-		RawContent      *string           `json:"rawContent,omitempty"`
+		SpecName           *string           `json:"specName,omitempty"`
+		Parameters         map[string]string `json:"parameters,omitempty"`
+		ParametersToRemove []string          `json:"parametersToRemove,omitempty"`
+		NewParamTplName    *string           `json:"newParamTplName,omitempty"`
+		Description        *string           `json:"description,omitempty"`
+		RawContent         *string           `json:"rawContent,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"specName", "parameters", "newParamTplName", "description", "rawContent"})
+		common.DeleteKeys(additionalProperties, &[]string{"specName", "parameters", "parametersToRemove", "newParamTplName", "description", "rawContent"})
 	} else {
 		return err
 	}
 	o.SpecName = all.SpecName
 	o.Parameters = all.Parameters
+	o.ParametersToRemove = all.ParametersToRemove
 	o.NewParamTplName = all.NewParamTplName
 	o.Description = all.Description
 	o.RawContent = all.RawContent

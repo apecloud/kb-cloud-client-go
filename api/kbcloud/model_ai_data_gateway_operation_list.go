@@ -7,7 +7,9 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type AiDataGatewayOperationList struct {
-	Items []AiDataGatewayOperation `json:"items,omitempty"`
+	// Pass as cursor to retrieve older matching operations.
+	NextCursor *string                  `json:"nextCursor,omitempty"`
+	Items      []AiDataGatewayOperation `json:"items,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -28,6 +30,34 @@ func NewAiDataGatewayOperationList() *AiDataGatewayOperationList {
 func NewAiDataGatewayOperationListWithDefaults() *AiDataGatewayOperationList {
 	this := AiDataGatewayOperationList{}
 	return &this
+}
+
+// GetNextCursor returns the NextCursor field value if set, zero value otherwise.
+func (o *AiDataGatewayOperationList) GetNextCursor() string {
+	if o == nil || o.NextCursor == nil {
+		var ret string
+		return ret
+	}
+	return *o.NextCursor
+}
+
+// GetNextCursorOk returns a tuple with the NextCursor field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiDataGatewayOperationList) GetNextCursorOk() (*string, bool) {
+	if o == nil || o.NextCursor == nil {
+		return nil, false
+	}
+	return o.NextCursor, true
+}
+
+// HasNextCursor returns a boolean if a field has been set.
+func (o *AiDataGatewayOperationList) HasNextCursor() bool {
+	return o != nil && o.NextCursor != nil
+}
+
+// SetNextCursor gets a reference to the given string and assigns it to the NextCursor field.
+func (o *AiDataGatewayOperationList) SetNextCursor(v string) {
+	o.NextCursor = &v
 }
 
 // GetItems returns the Items field value if set, zero value otherwise.
@@ -64,6 +94,9 @@ func (o AiDataGatewayOperationList) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.NextCursor != nil {
+		toSerialize["nextCursor"] = o.NextCursor
+	}
 	if o.Items != nil {
 		toSerialize["items"] = o.Items
 	}
@@ -77,17 +110,19 @@ func (o AiDataGatewayOperationList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AiDataGatewayOperationList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items []AiDataGatewayOperation `json:"items,omitempty"`
+		NextCursor *string                  `json:"nextCursor,omitempty"`
+		Items      []AiDataGatewayOperation `json:"items,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items"})
+		common.DeleteKeys(additionalProperties, &[]string{"nextCursor", "items"})
 	} else {
 		return err
 	}
+	o.NextCursor = all.NextCursor
 	o.Items = all.Items
 
 	if len(additionalProperties) > 0 {

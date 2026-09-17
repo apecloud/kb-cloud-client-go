@@ -7,6 +7,8 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type RedisInfoResponse struct {
+	// INFO scope, either node or cluster.
+	Scope   *string                `json:"scope,omitempty"`
 	Section *string                `json:"section,omitempty"`
 	NodeId  *string                `json:"nodeId,omitempty"`
 	Raw     *string                `json:"raw,omitempty"`
@@ -31,6 +33,34 @@ func NewRedisInfoResponse() *RedisInfoResponse {
 func NewRedisInfoResponseWithDefaults() *RedisInfoResponse {
 	this := RedisInfoResponse{}
 	return &this
+}
+
+// GetScope returns the Scope field value if set, zero value otherwise.
+func (o *RedisInfoResponse) GetScope() string {
+	if o == nil || o.Scope == nil {
+		var ret string
+		return ret
+	}
+	return *o.Scope
+}
+
+// GetScopeOk returns a tuple with the Scope field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RedisInfoResponse) GetScopeOk() (*string, bool) {
+	if o == nil || o.Scope == nil {
+		return nil, false
+	}
+	return o.Scope, true
+}
+
+// HasScope returns a boolean if a field has been set.
+func (o *RedisInfoResponse) HasScope() bool {
+	return o != nil && o.Scope != nil
+}
+
+// SetScope gets a reference to the given string and assigns it to the Scope field.
+func (o *RedisInfoResponse) SetScope(v string) {
+	o.Scope = &v
 }
 
 // GetSection returns the Section field value if set, zero value otherwise.
@@ -151,6 +181,9 @@ func (o RedisInfoResponse) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Scope != nil {
+		toSerialize["scope"] = o.Scope
+	}
 	if o.Section != nil {
 		toSerialize["section"] = o.Section
 	}
@@ -173,6 +206,7 @@ func (o RedisInfoResponse) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *RedisInfoResponse) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		Scope   *string                `json:"scope,omitempty"`
 		Section *string                `json:"section,omitempty"`
 		NodeId  *string                `json:"nodeId,omitempty"`
 		Raw     *string                `json:"raw,omitempty"`
@@ -183,10 +217,11 @@ func (o *RedisInfoResponse) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"section", "nodeId", "raw", "values"})
+		common.DeleteKeys(additionalProperties, &[]string{"scope", "section", "nodeId", "raw", "values"})
 	} else {
 		return err
 	}
+	o.Scope = all.Scope
 	o.Section = all.Section
 	o.NodeId = all.NodeId
 	o.Raw = all.Raw

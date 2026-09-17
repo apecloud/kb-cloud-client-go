@@ -4,35 +4,36 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
-// AutohealingList An Autohealing object in k8s
-type AutohealingList struct {
-	Items []AutohealingListItem
+type DataCheckList struct {
+	Items []DataCheckListItem
 
 	// UnparsedObject contains the raw value of the array if there was an error when deserializing into the struct
 	UnparsedObject []interface{} `json:"-"`
 }
 
-// NewAutohealingList instantiates a new AutohealingList object.
+// NewDataCheckList instantiates a new DataCheckList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAutohealingList() *AutohealingList {
-	this := AutohealingList{}
+func NewDataCheckList() *DataCheckList {
+	this := DataCheckList{}
 	return &this
 }
 
-// NewAutohealingListWithDefaults instantiates a new AutohealingList object.
+// NewDataCheckListWithDefaults instantiates a new DataCheckList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewAutohealingListWithDefaults() *AutohealingList {
-	this := AutohealingList{}
+func NewDataCheckListWithDefaults() *DataCheckList {
+	this := DataCheckList{}
 	return &this
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o AutohealingList) MarshalJSON() ([]byte, error) {
+func (o DataCheckList) MarshalJSON() ([]byte, error) {
 	toSerialize := make([]interface{}, len(o.Items))
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -44,7 +45,7 @@ func (o AutohealingList) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *AutohealingList) UnmarshalJSON(bytes []byte) (err error) {
+func (o *DataCheckList) UnmarshalJSON(bytes []byte) (err error) {
 	if err = common.Unmarshal(bytes, &o.Items); err != nil {
 		return err
 	}

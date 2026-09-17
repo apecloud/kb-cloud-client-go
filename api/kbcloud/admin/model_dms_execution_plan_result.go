@@ -9,12 +9,15 @@ import (
 )
 
 type DmsExecutionPlanResult struct {
-	OriginSql      *string                    `json:"originSQL,omitempty"`
-	ExplainSql     common.NullableString      `json:"explainSQL,omitempty"`
-	EngineType     *string                    `json:"engineType,omitempty"`
-	Mode           *DmsExecutionPlanMode      `json:"mode,omitempty"`
-	HasActualStats *bool                      `json:"hasActualStats,omitempty"`
-	RawFormat      *DmsExecutionPlanRawFormat `json:"rawFormat,omitempty"`
+	OriginSql      *string                       `json:"originSQL,omitempty"`
+	ExplainSql     common.NullableString         `json:"explainSQL,omitempty"`
+	EngineType     *string                       `json:"engineType,omitempty"`
+	Mode           *DmsExecutionPlanMode         `json:"mode,omitempty"`
+	PlanMode       *DmsExecutionPlanPlanningMode `json:"planMode,omitempty"`
+	Parameterized  *bool                         `json:"parameterized,omitempty"`
+	ParameterCount common.NullableInt64          `json:"parameterCount,omitempty"`
+	HasActualStats *bool                         `json:"hasActualStats,omitempty"`
+	RawFormat      *DmsExecutionPlanRawFormat    `json:"rawFormat,omitempty"`
 	// Engine-native raw plan payload exposed for fallback display. SDKs model it as a free-form JSON object.
 	RawPlan       map[string]interface{}    `json:"rawPlan,omitempty"`
 	RootNodeIds   []string                  `json:"rootNodeIds,omitempty"`
@@ -166,6 +169,101 @@ func (o *DmsExecutionPlanResult) HasMode() bool {
 // SetMode gets a reference to the given DmsExecutionPlanMode and assigns it to the Mode field.
 func (o *DmsExecutionPlanResult) SetMode(v DmsExecutionPlanMode) {
 	o.Mode = &v
+}
+
+// GetPlanMode returns the PlanMode field value if set, zero value otherwise.
+func (o *DmsExecutionPlanResult) GetPlanMode() DmsExecutionPlanPlanningMode {
+	if o == nil || o.PlanMode == nil {
+		var ret DmsExecutionPlanPlanningMode
+		return ret
+	}
+	return *o.PlanMode
+}
+
+// GetPlanModeOk returns a tuple with the PlanMode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DmsExecutionPlanResult) GetPlanModeOk() (*DmsExecutionPlanPlanningMode, bool) {
+	if o == nil || o.PlanMode == nil {
+		return nil, false
+	}
+	return o.PlanMode, true
+}
+
+// HasPlanMode returns a boolean if a field has been set.
+func (o *DmsExecutionPlanResult) HasPlanMode() bool {
+	return o != nil && o.PlanMode != nil
+}
+
+// SetPlanMode gets a reference to the given DmsExecutionPlanPlanningMode and assigns it to the PlanMode field.
+func (o *DmsExecutionPlanResult) SetPlanMode(v DmsExecutionPlanPlanningMode) {
+	o.PlanMode = &v
+}
+
+// GetParameterized returns the Parameterized field value if set, zero value otherwise.
+func (o *DmsExecutionPlanResult) GetParameterized() bool {
+	if o == nil || o.Parameterized == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Parameterized
+}
+
+// GetParameterizedOk returns a tuple with the Parameterized field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DmsExecutionPlanResult) GetParameterizedOk() (*bool, bool) {
+	if o == nil || o.Parameterized == nil {
+		return nil, false
+	}
+	return o.Parameterized, true
+}
+
+// HasParameterized returns a boolean if a field has been set.
+func (o *DmsExecutionPlanResult) HasParameterized() bool {
+	return o != nil && o.Parameterized != nil
+}
+
+// SetParameterized gets a reference to the given bool and assigns it to the Parameterized field.
+func (o *DmsExecutionPlanResult) SetParameterized(v bool) {
+	o.Parameterized = &v
+}
+
+// GetParameterCount returns the ParameterCount field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DmsExecutionPlanResult) GetParameterCount() int64 {
+	if o == nil || o.ParameterCount.Get() == nil {
+		var ret int64
+		return ret
+	}
+	return *o.ParameterCount.Get()
+}
+
+// GetParameterCountOk returns a tuple with the ParameterCount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *DmsExecutionPlanResult) GetParameterCountOk() (*int64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ParameterCount.Get(), o.ParameterCount.IsSet()
+}
+
+// HasParameterCount returns a boolean if a field has been set.
+func (o *DmsExecutionPlanResult) HasParameterCount() bool {
+	return o != nil && o.ParameterCount.IsSet()
+}
+
+// SetParameterCount gets a reference to the given common.NullableInt64 and assigns it to the ParameterCount field.
+func (o *DmsExecutionPlanResult) SetParameterCount(v int64) {
+	o.ParameterCount.Set(&v)
+}
+
+// SetParameterCountNil sets the value for ParameterCount to be an explicit nil.
+func (o *DmsExecutionPlanResult) SetParameterCountNil() {
+	o.ParameterCount.Set(nil)
+}
+
+// UnsetParameterCount ensures that no value is present for ParameterCount, not even an explicit nil.
+func (o *DmsExecutionPlanResult) UnsetParameterCount() {
+	o.ParameterCount.Unset()
 }
 
 // GetHasActualStats returns the HasActualStats field value if set, zero value otherwise.
@@ -438,6 +536,15 @@ func (o DmsExecutionPlanResult) MarshalJSON() ([]byte, error) {
 	if o.Mode != nil {
 		toSerialize["mode"] = o.Mode
 	}
+	if o.PlanMode != nil {
+		toSerialize["planMode"] = o.PlanMode
+	}
+	if o.Parameterized != nil {
+		toSerialize["parameterized"] = o.Parameterized
+	}
+	if o.ParameterCount.IsSet() {
+		toSerialize["parameterCount"] = o.ParameterCount.Get()
+	}
 	if o.HasActualStats != nil {
 		toSerialize["hasActualStats"] = o.HasActualStats
 	}
@@ -475,26 +582,29 @@ func (o DmsExecutionPlanResult) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DmsExecutionPlanResult) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		OriginSql      *string                    `json:"originSQL,omitempty"`
-		ExplainSql     common.NullableString      `json:"explainSQL,omitempty"`
-		EngineType     *string                    `json:"engineType,omitempty"`
-		Mode           *DmsExecutionPlanMode      `json:"mode,omitempty"`
-		HasActualStats *bool                      `json:"hasActualStats,omitempty"`
-		RawFormat      *DmsExecutionPlanRawFormat `json:"rawFormat,omitempty"`
-		RawPlan        map[string]interface{}     `json:"rawPlan,omitempty"`
-		RootNodeIds    []string                   `json:"rootNodeIds,omitempty"`
-		Nodes          []DmsExecutionPlanNode     `json:"nodes,omitempty"`
-		Edges          []DmsExecutionPlanEdge     `json:"edges,omitempty"`
-		Summary        *DmsExecutionPlanSummary   `json:"summary,omitempty"`
-		Warnings       []DmsExecutionPlanWarning  `json:"warnings,omitempty"`
-		FallbackTable  *DmsQueryResponse          `json:"fallbackTable,omitempty"`
+		OriginSql      *string                       `json:"originSQL,omitempty"`
+		ExplainSql     common.NullableString         `json:"explainSQL,omitempty"`
+		EngineType     *string                       `json:"engineType,omitempty"`
+		Mode           *DmsExecutionPlanMode         `json:"mode,omitempty"`
+		PlanMode       *DmsExecutionPlanPlanningMode `json:"planMode,omitempty"`
+		Parameterized  *bool                         `json:"parameterized,omitempty"`
+		ParameterCount common.NullableInt64          `json:"parameterCount,omitempty"`
+		HasActualStats *bool                         `json:"hasActualStats,omitempty"`
+		RawFormat      *DmsExecutionPlanRawFormat    `json:"rawFormat,omitempty"`
+		RawPlan        map[string]interface{}        `json:"rawPlan,omitempty"`
+		RootNodeIds    []string                      `json:"rootNodeIds,omitempty"`
+		Nodes          []DmsExecutionPlanNode        `json:"nodes,omitempty"`
+		Edges          []DmsExecutionPlanEdge        `json:"edges,omitempty"`
+		Summary        *DmsExecutionPlanSummary      `json:"summary,omitempty"`
+		Warnings       []DmsExecutionPlanWarning     `json:"warnings,omitempty"`
+		FallbackTable  *DmsQueryResponse             `json:"fallbackTable,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"originSQL", "explainSQL", "engineType", "mode", "hasActualStats", "rawFormat", "rawPlan", "rootNodeIds", "nodes", "edges", "summary", "warnings", "fallbackTable"})
+		common.DeleteKeys(additionalProperties, &[]string{"originSQL", "explainSQL", "engineType", "mode", "planMode", "parameterized", "parameterCount", "hasActualStats", "rawFormat", "rawPlan", "rootNodeIds", "nodes", "edges", "summary", "warnings", "fallbackTable"})
 	} else {
 		return err
 	}
@@ -508,6 +618,13 @@ func (o *DmsExecutionPlanResult) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.Mode = all.Mode
 	}
+	if all.PlanMode != nil && !all.PlanMode.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.PlanMode = all.PlanMode
+	}
+	o.Parameterized = all.Parameterized
+	o.ParameterCount = all.ParameterCount
 	o.HasActualStats = all.HasActualStats
 	if all.RawFormat != nil && !all.RawFormat.IsValid() {
 		hasInvalidField = true

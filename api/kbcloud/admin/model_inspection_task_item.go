@@ -16,30 +16,39 @@ type InspectionTaskItem struct {
 	ScriptId          *string               `json:"scriptID,omitempty"`
 	ScriptName        *LocalizedDescription `json:"scriptName,omitempty"`
 	ScriptDescription *LocalizedDescription `json:"scriptDescription,omitempty"`
-	ScriptCategory    *string               `json:"scriptCategory,omitempty"`
-	ResourceType      *string               `json:"resourceType,omitempty"`
-	ResourceId        *string               `json:"resourceID,omitempty"`
-	ResourceName      *string               `json:"resourceName,omitempty"`
-	Status            *string               `json:"status,omitempty"`
-	Result            *string               `json:"result,omitempty"`
-	// Numeric form of result when the result is parseable.
-	ValueNum      *float64 `json:"valueNum,omitempty"`
+	// Category used to group inspection items, such as availability, performance, capacity, or backup.
+	ScriptCategory *string `json:"scriptCategory,omitempty"`
+	// Type of the inspected resource, such as cluster or node; resourceID and resourceName identify the target.
+	ResourceType *string `json:"resourceType,omitempty"`
+	ResourceId   *string `json:"resourceID,omitempty"`
+	ResourceName *string `json:"resourceName,omitempty"`
+	// Execution state, such as Running, Completed, or Failed. Use severity for the health conclusion. For manual items, Completed means instructions are available, not that the user has performed them.
+	Status *string `json:"status,omitempty"`
+	// Textual observation or execution message for display. It may contain nonnumeric information or an error; use severity for the health conclusion. Manual instructions are stored in evidence.ruleSnapshot.scriptExpr.
+	Result *string `json:"result,omitempty"`
+	// Numeric observation when available, including numeric information collected by info items. Omitted when no numeric observation exists, including manual guidance. Use with unit and thresholds for numeric displays.
+	ValueNum *float64 `json:"valueNum,omitempty"`
+	// Warning threshold interpreted using direction and the same unit as valueNum. Omitted when no numeric warning threshold is configured.
 	WarnThreshold *float64 `json:"warnThreshold,omitempty"`
+	// Critical threshold interpreted using direction and the same unit as valueNum. Omitted when no numeric critical threshold is configured.
 	CritThreshold *float64 `json:"critThreshold,omitempty"`
 	// Direction used to interpret warnThreshold and critThreshold. asc means larger values are worse, desc means smaller values are worse, boolean means the check expression decides.
 	Direction *InspectionThresholdDirection `json:"direction,omitempty"`
-	// First-version criticality assumption for score weighting and red-item veto behavior. Missing legacy values are treated as medium.
+	// Rule importance used for score weighting. Info marks automatically collected information excluded from scoring. Manual items retain their importance but return unknown and are not scored. Missing legacy values normally default to medium; cluster and node status default to critical.
 	Criticality *InspectionCriticality `json:"criticality,omitempty"`
 	// Structured evidence used to explain the item result. Unavailable or invalid evidence from any collection source, including Prometheus/exporters and DMS, is reported as unknown instead of being converted into a healthy or unhealthy conclusion.
 	Evidence map[string]interface{} `json:"evidence,omitempty"`
 	// Item-level timestamp for when this item's status was last evaluated or changed.
 	StatusChangedAt *time.Time            `json:"statusChangedAt,omitempty"`
 	Remediation     *LocalizedDescription `json:"remediation,omitempty"`
-	DocLink         *string               `json:"docLink,omitempty"`
-	Severity        *string               `json:"severity,omitempty"`
-	Unit            *string               `json:"unit,omitempty"`
-	CreatedAt       *time.Time            `json:"createdAt,omitempty"`
-	UpdatedAt       *time.Time            `json:"updatedAt,omitempty"`
+	// Link to documentation explaining this inspection item and recommended actions.
+	DocLink *string `json:"docLink,omitempty"`
+	// Health conclusion: red (critical), yellow (warning), green (healthy), unknown (cannot evaluate), or info (automatically collected information). Manual guidance returns unknown and retains its criticality. Unknown and info do not contribute to health scoring; Completed for manual guidance means instructions are available, not user completion.
+	Severity *string `json:"severity,omitempty"`
+	// Display unit for the inspection result and thresholds, such as percent, seconds, or bytes. Empty when no unit applies.
+	Unit      *string    `json:"unit,omitempty"`
+	CreatedAt *time.Time `json:"createdAt,omitempty"`
+	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

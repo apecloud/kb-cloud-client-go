@@ -10,6 +10,7 @@ import (
 	_nethttp "net/http"
 	_neturl "net/url"
 	"strings"
+	"time"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -176,7 +177,13 @@ func (a *AIDataGatewayApi) AdminGetAIDataGatewayOperation(ctx _context.Context, 
 
 // AdminListAIDataGatewayOperationsOptionalParameters holds optional parameters for AdminListAIDataGatewayOperations.
 type AdminListAIDataGatewayOperationsOptionalParameters struct {
-	Limit *int32
+	Limit        *int32
+	Cursor       *string
+	Status       *string
+	AccessKeyId  *string
+	DatasourceId *string
+	From         *time.Time
+	To           *time.Time
 }
 
 // NewAdminListAIDataGatewayOperationsOptionalParameters creates an empty struct for parameters.
@@ -188,6 +195,42 @@ func NewAdminListAIDataGatewayOperationsOptionalParameters() *AdminListAIDataGat
 // WithLimit sets the corresponding parameter name and returns the struct.
 func (r *AdminListAIDataGatewayOperationsOptionalParameters) WithLimit(limit int32) *AdminListAIDataGatewayOperationsOptionalParameters {
 	r.Limit = &limit
+	return r
+}
+
+// WithCursor sets the corresponding parameter name and returns the struct.
+func (r *AdminListAIDataGatewayOperationsOptionalParameters) WithCursor(cursor string) *AdminListAIDataGatewayOperationsOptionalParameters {
+	r.Cursor = &cursor
+	return r
+}
+
+// WithStatus sets the corresponding parameter name and returns the struct.
+func (r *AdminListAIDataGatewayOperationsOptionalParameters) WithStatus(status string) *AdminListAIDataGatewayOperationsOptionalParameters {
+	r.Status = &status
+	return r
+}
+
+// WithAccessKeyId sets the corresponding parameter name and returns the struct.
+func (r *AdminListAIDataGatewayOperationsOptionalParameters) WithAccessKeyId(accessKeyId string) *AdminListAIDataGatewayOperationsOptionalParameters {
+	r.AccessKeyId = &accessKeyId
+	return r
+}
+
+// WithDatasourceId sets the corresponding parameter name and returns the struct.
+func (r *AdminListAIDataGatewayOperationsOptionalParameters) WithDatasourceId(datasourceId string) *AdminListAIDataGatewayOperationsOptionalParameters {
+	r.DatasourceId = &datasourceId
+	return r
+}
+
+// WithFrom sets the corresponding parameter name and returns the struct.
+func (r *AdminListAIDataGatewayOperationsOptionalParameters) WithFrom(from time.Time) *AdminListAIDataGatewayOperationsOptionalParameters {
+	r.From = &from
+	return r
+}
+
+// WithTo sets the corresponding parameter name and returns the struct.
+func (r *AdminListAIDataGatewayOperationsOptionalParameters) WithTo(to time.Time) *AdminListAIDataGatewayOperationsOptionalParameters {
+	r.To = &to
 	return r
 }
 
@@ -229,6 +272,24 @@ func (a *AIDataGatewayApi) AdminListAIDataGatewayOperations(ctx _context.Context
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.Limit != nil {
 		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.Cursor != nil {
+		localVarQueryParams.Add("cursor", common.ParameterToString(*optionalParams.Cursor, ""))
+	}
+	if optionalParams.Status != nil {
+		localVarQueryParams.Add("status", common.ParameterToString(*optionalParams.Status, ""))
+	}
+	if optionalParams.AccessKeyId != nil {
+		localVarQueryParams.Add("accessKeyId", common.ParameterToString(*optionalParams.AccessKeyId, ""))
+	}
+	if optionalParams.DatasourceId != nil {
+		localVarQueryParams.Add("datasourceId", common.ParameterToString(*optionalParams.DatasourceId, ""))
+	}
+	if optionalParams.From != nil {
+		localVarQueryParams.Add("from", common.ParameterToString(*optionalParams.From, ""))
+	}
+	if optionalParams.To != nil {
+		localVarQueryParams.Add("to", common.ParameterToString(*optionalParams.To, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

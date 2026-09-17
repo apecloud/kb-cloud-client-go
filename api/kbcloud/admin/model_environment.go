@@ -8,8 +8,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 	"github.com/google/uuid"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // Environment Environment info

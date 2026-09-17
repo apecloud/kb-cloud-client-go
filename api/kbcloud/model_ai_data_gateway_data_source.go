@@ -11,18 +11,19 @@ import (
 )
 
 type AiDataGatewayDataSource struct {
-	Name             *string `json:"name,omitempty"`
-	Type             *string `json:"type,omitempty"`
-	Engine           *string `json:"engine,omitempty"`
-	CloudClusterId   *int64  `json:"cloudClusterId,omitempty"`
-	CloudClusterName *string `json:"cloudClusterName,omitempty"`
-	EnvironmentName  *string `json:"environmentName,omitempty"`
-	// All datasource connection information. For external databases this comes from API input; for Cloud/KubeBlocks managed datasources Cloud resolves and fills the connection information. Sensitive keys such as password, token, secret, privateKey, accessKey, and credential are encrypted at rest and masked in user-facing responses. Internal Runtime config resolves the decrypted view only inside the trusted server boundary.
+	Name   *string                        `json:"name,omitempty"`
+	Type   *string                        `json:"type,omitempty"`
+	Engine *AiDataGatewayDataSourceEngine `json:"engine,omitempty"`
+	// Defaults to enabled on creation; omitted on update preserves the current status.
+	Status           *AiDataGatewayDataSourceStatus `json:"status,omitempty"`
+	CloudClusterId   *int64                         `json:"cloudClusterId,omitempty"`
+	CloudClusterName *string                        `json:"cloudClusterName,omitempty"`
+	EnvironmentName  *string                        `json:"environmentName,omitempty"`
+	// Structured connection fields (host, numeric port, database/databaseName, username/user, password, sslMode, sslRootCert, sslCert, sslKey, serverName, tlsEnabled) or encrypted connection-string fields (dsn/url/uri/connectionString). Omitted and masked secret values on update preserve the stored value. Cloud bindings require an explicit database username and use the authoritative managed endpoint. All datasource connection information. For external databases this comes from API input; for Cloud/KubeBlocks managed datasources Cloud resolves and fills the connection information. Sensitive keys such as password, token, secret, privateKey, accessKey, and credential are encrypted at rest and masked in user-facing responses. Internal Runtime config resolves the decrypted view only inside the trusted server boundary.
 	ConnectionConfig map[string]interface{} `json:"connectionConfig,omitempty"`
 	DatasourceId     *string                `json:"datasourceId,omitempty"`
 	GatewayId        *string                `json:"gatewayId,omitempty"`
 	OrgName          *string                `json:"orgName,omitempty"`
-	Status           *string                `json:"status,omitempty"`
 	LastTestStatus   *string                `json:"lastTestStatus,omitempty"`
 	LastTestMessage  *string                `json:"lastTestMessage,omitempty"`
 	LastTestedAt     *time.Time             `json:"lastTestedAt,omitempty"`
@@ -99,9 +100,9 @@ func (o *AiDataGatewayDataSource) SetType(v string) {
 }
 
 // GetEngine returns the Engine field value if set, zero value otherwise.
-func (o *AiDataGatewayDataSource) GetEngine() string {
+func (o *AiDataGatewayDataSource) GetEngine() AiDataGatewayDataSourceEngine {
 	if o == nil || o.Engine == nil {
-		var ret string
+		var ret AiDataGatewayDataSourceEngine
 		return ret
 	}
 	return *o.Engine
@@ -109,7 +110,7 @@ func (o *AiDataGatewayDataSource) GetEngine() string {
 
 // GetEngineOk returns a tuple with the Engine field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AiDataGatewayDataSource) GetEngineOk() (*string, bool) {
+func (o *AiDataGatewayDataSource) GetEngineOk() (*AiDataGatewayDataSourceEngine, bool) {
 	if o == nil || o.Engine == nil {
 		return nil, false
 	}
@@ -121,9 +122,37 @@ func (o *AiDataGatewayDataSource) HasEngine() bool {
 	return o != nil && o.Engine != nil
 }
 
-// SetEngine gets a reference to the given string and assigns it to the Engine field.
-func (o *AiDataGatewayDataSource) SetEngine(v string) {
+// SetEngine gets a reference to the given AiDataGatewayDataSourceEngine and assigns it to the Engine field.
+func (o *AiDataGatewayDataSource) SetEngine(v AiDataGatewayDataSourceEngine) {
 	o.Engine = &v
+}
+
+// GetStatus returns the Status field value if set, zero value otherwise.
+func (o *AiDataGatewayDataSource) GetStatus() AiDataGatewayDataSourceStatus {
+	if o == nil || o.Status == nil {
+		var ret AiDataGatewayDataSourceStatus
+		return ret
+	}
+	return *o.Status
+}
+
+// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AiDataGatewayDataSource) GetStatusOk() (*AiDataGatewayDataSourceStatus, bool) {
+	if o == nil || o.Status == nil {
+		return nil, false
+	}
+	return o.Status, true
+}
+
+// HasStatus returns a boolean if a field has been set.
+func (o *AiDataGatewayDataSource) HasStatus() bool {
+	return o != nil && o.Status != nil
+}
+
+// SetStatus gets a reference to the given AiDataGatewayDataSourceStatus and assigns it to the Status field.
+func (o *AiDataGatewayDataSource) SetStatus(v AiDataGatewayDataSourceStatus) {
+	o.Status = &v
 }
 
 // GetCloudClusterId returns the CloudClusterId field value if set, zero value otherwise.
@@ -322,34 +351,6 @@ func (o *AiDataGatewayDataSource) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
-// GetStatus returns the Status field value if set, zero value otherwise.
-func (o *AiDataGatewayDataSource) GetStatus() string {
-	if o == nil || o.Status == nil {
-		var ret string
-		return ret
-	}
-	return *o.Status
-}
-
-// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiDataGatewayDataSource) GetStatusOk() (*string, bool) {
-	if o == nil || o.Status == nil {
-		return nil, false
-	}
-	return o.Status, true
-}
-
-// HasStatus returns a boolean if a field has been set.
-func (o *AiDataGatewayDataSource) HasStatus() bool {
-	return o != nil && o.Status != nil
-}
-
-// SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *AiDataGatewayDataSource) SetStatus(v string) {
-	o.Status = &v
-}
-
 // GetLastTestStatus returns the LastTestStatus field value if set, zero value otherwise.
 func (o *AiDataGatewayDataSource) GetLastTestStatus() string {
 	if o == nil || o.LastTestStatus == nil {
@@ -505,6 +506,9 @@ func (o AiDataGatewayDataSource) MarshalJSON() ([]byte, error) {
 	if o.Engine != nil {
 		toSerialize["engine"] = o.Engine
 	}
+	if o.Status != nil {
+		toSerialize["status"] = o.Status
+	}
 	if o.CloudClusterId != nil {
 		toSerialize["cloudClusterId"] = o.CloudClusterId
 	}
@@ -525,9 +529,6 @@ func (o AiDataGatewayDataSource) MarshalJSON() ([]byte, error) {
 	}
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
-	}
-	if o.Status != nil {
-		toSerialize["status"] = o.Status
 	}
 	if o.LastTestStatus != nil {
 		toSerialize["lastTestStatus"] = o.LastTestStatus
@@ -566,35 +567,45 @@ func (o AiDataGatewayDataSource) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AiDataGatewayDataSource) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name             *string                `json:"name,omitempty"`
-		Type             *string                `json:"type,omitempty"`
-		Engine           *string                `json:"engine,omitempty"`
-		CloudClusterId   *int64                 `json:"cloudClusterId,omitempty"`
-		CloudClusterName *string                `json:"cloudClusterName,omitempty"`
-		EnvironmentName  *string                `json:"environmentName,omitempty"`
-		ConnectionConfig map[string]interface{} `json:"connectionConfig,omitempty"`
-		DatasourceId     *string                `json:"datasourceId,omitempty"`
-		GatewayId        *string                `json:"gatewayId,omitempty"`
-		OrgName          *string                `json:"orgName,omitempty"`
-		Status           *string                `json:"status,omitempty"`
-		LastTestStatus   *string                `json:"lastTestStatus,omitempty"`
-		LastTestMessage  *string                `json:"lastTestMessage,omitempty"`
-		LastTestedAt     *time.Time             `json:"lastTestedAt,omitempty"`
-		CreatedAt        *time.Time             `json:"createdAt,omitempty"`
-		UpdatedAt        *time.Time             `json:"updatedAt,omitempty"`
+		Name             *string                        `json:"name,omitempty"`
+		Type             *string                        `json:"type,omitempty"`
+		Engine           *AiDataGatewayDataSourceEngine `json:"engine,omitempty"`
+		Status           *AiDataGatewayDataSourceStatus `json:"status,omitempty"`
+		CloudClusterId   *int64                         `json:"cloudClusterId,omitempty"`
+		CloudClusterName *string                        `json:"cloudClusterName,omitempty"`
+		EnvironmentName  *string                        `json:"environmentName,omitempty"`
+		ConnectionConfig map[string]interface{}         `json:"connectionConfig,omitempty"`
+		DatasourceId     *string                        `json:"datasourceId,omitempty"`
+		GatewayId        *string                        `json:"gatewayId,omitempty"`
+		OrgName          *string                        `json:"orgName,omitempty"`
+		LastTestStatus   *string                        `json:"lastTestStatus,omitempty"`
+		LastTestMessage  *string                        `json:"lastTestMessage,omitempty"`
+		LastTestedAt     *time.Time                     `json:"lastTestedAt,omitempty"`
+		CreatedAt        *time.Time                     `json:"createdAt,omitempty"`
+		UpdatedAt        *time.Time                     `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "engine", "cloudClusterId", "cloudClusterName", "environmentName", "connectionConfig", "datasourceId", "gatewayId", "orgName", "status", "lastTestStatus", "lastTestMessage", "lastTestedAt", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "engine", "status", "cloudClusterId", "cloudClusterName", "environmentName", "connectionConfig", "datasourceId", "gatewayId", "orgName", "lastTestStatus", "lastTestMessage", "lastTestedAt", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}
+	hasInvalidField := false
 	o.Name = all.Name
 	o.Type = all.Type
-	o.Engine = all.Engine
+	if all.Engine != nil && !all.Engine.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Engine = all.Engine
+	}
+	if all.Status != nil && !all.Status.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Status = all.Status
+	}
 	o.CloudClusterId = all.CloudClusterId
 	o.CloudClusterName = all.CloudClusterName
 	o.EnvironmentName = all.EnvironmentName
@@ -602,7 +613,6 @@ func (o *AiDataGatewayDataSource) UnmarshalJSON(bytes []byte) (err error) {
 	o.DatasourceId = all.DatasourceId
 	o.GatewayId = all.GatewayId
 	o.OrgName = all.OrgName
-	o.Status = all.Status
 	o.LastTestStatus = all.LastTestStatus
 	o.LastTestMessage = all.LastTestMessage
 	o.LastTestedAt = all.LastTestedAt
@@ -610,6 +620,9 @@ func (o *AiDataGatewayDataSource) UnmarshalJSON(bytes []byte) (err error) {
 	o.UpdatedAt = all.UpdatedAt
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

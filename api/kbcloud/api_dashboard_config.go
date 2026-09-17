@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"context"
@@ -14,39 +14,44 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// AutohealingApi service type
-type AutohealingApi common.Service
+// DashboardConfigApi service type
+type DashboardConfigApi common.Service
 
-// GetAutohealing list autohealing job.
-// Deprecated: This API is deprecated.
-func (a *AutohealingApi) GetAutohealing(ctx _context.Context, orgName string, clusterName string) ([]AutohealingListItem, *_nethttp.Response, error) {
+// GetDashboardConfig Get dashboard configuration by key.
+// Requires authentication. Reads platform-wide configuration; organization identifiers in a key do not restrict access. Missing keys return 200 with a null value.
+func (a *DashboardConfigApi) GetDashboardConfig(ctx _context.Context, key string) (DashboardConfig, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []AutohealingListItem
+		localVarReturnValue DashboardConfig
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "autohealing",
-		OperationID: "getAutohealing",
-		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/autohealing",
+		Tag:         "dashboardConfig",
+		OperationID: "getDashboardConfig",
+		Path:        "/api/v1/dashboardConfigs/{key}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AutohealingApi.GetAutohealing")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DashboardConfigApi.GetDashboardConfig")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/autohealing"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath := localBasePath + "/api/v1/dashboardConfigs/{key}"
+	localVarPath = strings.Replace(localVarPath, "{"+"key"+"}", _neturl.PathEscape(common.ParameterToString(key, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if common.Strlen(key) < 1 {
+		return localVarReturnValue, nil, common.ReportError("key must have at least 1 elements")
+	}
+	if common.Strlen(key) > 512 {
+		return localVarReturnValue, nil, common.ReportError("key must have less than 512 elements")
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -69,6 +74,22 @@ func (a *AutohealingApi) GetAutohealing(ctx _context.Context, orgName string, cl
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
@@ -81,9 +102,9 @@ func (a *AutohealingApi) GetAutohealing(ctx _context.Context, orgName string, cl
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewAutohealingApi Returns NewAutohealingApi.
-func NewAutohealingApi(client *common.APIClient) *AutohealingApi {
-	return &AutohealingApi{
+// NewDashboardConfigApi Returns NewDashboardConfigApi.
+func NewDashboardConfigApi(client *common.APIClient) *DashboardConfigApi {
+	return &DashboardConfigApi{
 		Client: client,
 	}
 }

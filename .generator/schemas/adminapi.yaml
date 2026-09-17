@@ -1661,6 +1661,38 @@ paths:
           schema:
             type: integer
             default: 100
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: accessKeyId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: datasourceId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
       responses:
         '200':
           description: Operations
@@ -3349,34 +3381,6 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/autohealing:
-    get:
-      operationId: getAutohealing
-      summary: list autohealing job
-      deprecated: true
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Get autohealing job list
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/autohealingList'
-      tags:
-        - autohealing
-        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/metrics:
     get:
       description: Query cluster metrics by specified metric name and instance name, support instant and range query
@@ -8041,7 +8045,7 @@ paths:
         - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/templates/{templateId}/explain:
     post:
-      description: Explain a slow log template sample using DMS. The SQL is selected by templateId and time range; request body does not accept raw SQL. Only MySQL-compatible and PostgreSQL SELECT samples are supported.
+      description: Explain a slow log template sample using DMS. The SQL is selected by templateId and time range; request body does not accept raw SQL. Only MySQL-compatible, PostgreSQL, and SQL Server SELECT samples are supported.
       summary: Explain cluster slow log template
       operationId: explainSlowLogTemplate
       parameters:
@@ -13857,6 +13861,12 @@ paths:
       operationId: listAlertObjects
       summary: List alert objects
       parameters:
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
+          schema:
+            type: string
         - name: page
           in: query
           description: page number
@@ -16978,6 +16988,78 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - instance
+  /admin/v1/dashboardConfigs/{key}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/dashboardConfigKey'
+      tags:
+        - dashboardConfig
+      operationId: getDashboardConfig
+      summary: Get dashboard configuration by key
+      description: Requires platform configuration read access. Missing keys return 200 with a null value.
+      responses:
+        '200':
+          description: Stored configuration or a null value for a missing key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dashboardConfig'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      parameters:
+        - $ref: '#/components/parameters/dashboardConfigKey'
+      tags:
+        - dashboardConfig
+      operationId: putDashboardConfig
+      summary: Create or replace dashboard configuration by key
+      description: Requires platform configuration write access. Atomic upsert with last-write-wins semantics. Request body is limited to 1 MiB.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dashboardConfigUpdate'
+      responses:
+        '200':
+          description: Saved configuration.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dashboardConfig'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      parameters:
+        - $ref: '#/components/parameters/dashboardConfigKey'
+      tags:
+        - dashboardConfig
+      operationId: deleteDashboardConfig
+      summary: Delete dashboard configuration by key
+      description: Requires platform configuration write access. Deleting a missing key succeeds.
+      responses:
+        '204':
+          description: Configuration is absent.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/platformParameters:
     get:
       tags:
@@ -20886,6 +20968,228 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/data/oracle/organizations/{orgName}/clusters/{clusterName}/tablespaces:
+    get:
+      tags:
+        - oracle
+      summary: List Oracle tablespaces
+      description: List tablespaces for a Oracle cluster.
+      operationId: listOracleTablespaces
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OracleTablespace'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - oracle
+      summary: Create Oracle tablespace
+      description: Create tablespace for a Oracle cluster.
+      operationId: createOracleTablespace
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OracleTablespaceCreate'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OracleTablespace'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/oracle/organizations/{orgName}/clusters/{clusterName}/tablespaces/{tablespaceName}:
+    get:
+      tags:
+        - oracle
+      summary: Get Oracle tablespace info
+      operationId: getOracleTablespace
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+        - name: tablespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Tablespace name
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OracleTablespace'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - oracle
+      summary: Delete Oracle tablespace
+      description: Delete tablespace for a Oracle cluster.
+      operationId: deleteOracleTablespace
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+        - name: tablespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Tablespace name
+        - name: includingContents
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: Explicitly delete all objects in the tablespace. Without this flag Oracle rejects nonempty tablespaces.
+        - name: deleteDatafiles
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: Also remove physical files. Requires includingContents. Otherwise manually managed files are retained.
+      responses:
+        '204':
+          content: {}
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      tags:
+        - oracle
+      summary: Expand Oracle tablespace
+      description: Expand one existing datafile/tempfile or add one file in the current container.
+      operationId: expandOracleTablespace
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+        - name: tablespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Tablespace name
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OracleTablespaceExpand'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OracleTablespace'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/damengdb/organizations/{orgName}/clusters/{clusterName}/tablespaces:
     get:
       tags:
@@ -22279,6 +22583,144 @@ paths:
         - session
         - rdbms
         - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mariadb/spaceAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get MariaDB space analysis
+      description: Get a read-only MariaDB compatible space snapshot and fixed backend-owned storage metrics.
+      operationId: getDiagnosticsMariaDBSpaceAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: databaseName
+          in: query
+          description: Optional database name for table and index details. When omitted, the largest non-system database is selected.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mysqlSpaceAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mariadb/sqlAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get MariaDB SQL analysis
+      description: Get a read-only MariaDB SQL fingerprint ranking from Performance Schema statement digests. The response does not expose raw SQL text, time-window aggregation, execution plans, or remediation actions.
+      operationId: getDiagnosticsMariaDBSQLAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of SQL fingerprints to return. The backend applies its own upper bound.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: orderBy
+          in: query
+          description: Sort key. Allowed values are totalTime, meanTime, maxTime, and calls. Defaults to totalTime.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mysqlSQLAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mariadb/performanceTrends:
+    get:
+      tags:
+        - diagnostics
+      summary: Get MariaDB performance trends
+      description: Get read-only MariaDB performance trends from backend-owned metrics and database capability checks. The response does not expose SQL, PromQL, internal endpoints, or credentials.
+      operationId: getDiagnosticsMariaDBPerformanceTrends
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: range
+          in: query
+          description: Controlled query range. Allowed values are 1h, 6h, 24h, and 7d. Defaults to 1h.
+          required: false
+          schema:
+            type: string
+        - name: step
+          in: query
+          description: Controlled query granularity. Allowed values are 1m, 5m, 15m, and 1h.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/performanceTrends'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mysql/spaceAnalysis:
     get:
       tags:
@@ -22310,6 +22752,202 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/mysqlSpaceAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions:
+    get:
+      tags:
+        - diagnostics
+      operationId: listDiagnosticsMssqlSessions
+      summary: List SQL Server sessions
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 1000
+            default: 500
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mssqlSessionSnapshot'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions/{sessionId}:
+    get:
+      tags:
+        - diagnostics
+      operationId: getDiagnosticsMssqlSession
+      summary: Get a SQL Server session
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 32767
+        - name: startedAt
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mssqlSession'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions/{sessionId}/lockAnalysis:
+    get:
+      tags:
+        - diagnostics
+      operationId: getDiagnosticsMssqlSessionLockAnalysis
+      summary: Get SQL Server blocking and locks
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 32767
+        - name: startedAt
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mssqlLockSnapshot'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions/{sessionId}/requests/{requestId}/cachedPlan:
+    get:
+      tags:
+        - diagnostics
+      operationId: getDiagnosticsMssqlSessionCachedPlan
+      summary: Read the cached compiled plan of a live SQL Server request
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 32767
+        - name: startedAt
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+        - name: requestStart
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mssqlCachedPlan'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -22456,6 +23094,83 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sqlAnalysis/queries/{queryID}/explain:
+    post:
+      tags:
+        - diagnostics
+      summary: Explain PostgreSQL SQL fingerprint
+      description: Explicitly trigger a safe PostgreSQL EXPLAIN for one SQL fingerprint. The request does not accept raw SQL. DMS resolves the exact server-side parameterized SELECT statement identity independently of the ranking window, produces an estimated standard or generic plan without parameter sample values, rejects multiple statements, and never runs EXPLAIN ANALYZE or the original SQL. The plan uses current catalog statistics and the DMS connection context; it does not reconstruct the original role, search_path, session settings, parameter values, or historical actual plan.
+      operationId: explainDiagnosticsPostgresqlSQLFingerprint
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: queryID
+          in: path
+          description: PostgreSQL pg_stat_statements queryid represented as a string.
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: Database name from the ranking row. The key is required to disambiguate the queryID. An unresolved empty name returns 422 no_explainable_sql_statement.
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
+        - name: user
+          in: query
+          description: Database user from the ranking row. The key is required to disambiguate the queryID. An unresolved empty name returns 422 no_explainable_sql_statement.
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
+        - name: topLevel
+          in: query
+          description: Top-level identity from the ranking row. Required to disambiguate the queryID on PostgreSQL versions that expose pg_stat_statements.toplevel.
+          required: true
+          schema:
+            type: boolean
+        - name: fingerprint
+          in: query
+          description: Optional fingerprint consistency guard. Currently aligned with PostgreSQL pg_stat_statements queryid.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postgresqlSQLFingerprintExplainResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mysql/sqlAnalysis:
     get:
       tags:
@@ -22598,6 +23313,270 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/taskAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Elasticsearch task and hot-thread analysis
+      operationId: getDiagnosticsElasticsearchTaskAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/elasticsearchHotThreadsType'
+        - name: node
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: taskLimit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: threads
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 10
+            default: 3
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/elasticsearchTaskAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/storageAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Elasticsearch storage and index analysis
+      operationId: getDiagnosticsElasticsearchStorageAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: node
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: index
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/elasticsearchIndexSortBy'
+        - name: sortOrder
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/elasticsearchSortOrder'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/elasticsearchStorageAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/shards:
+    get:
+      tags:
+        - diagnostics
+      summary: List Elasticsearch shards
+      operationId: listDiagnosticsElasticsearchShards
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: index
+          in: query
+          required: false
+          description: Index name or pattern
+          schema:
+            type: string
+        - name: node
+          in: query
+          required: false
+          description: Exact node ID or name
+          schema:
+            type: string
+        - name: state
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/elasticsearchShardState'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/elasticsearchShardList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/recoveries:
+    get:
+      tags:
+        - diagnostics
+      summary: List active Elasticsearch shard recoveries
+      operationId: listDiagnosticsElasticsearchRecoveries
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: index
+          in: query
+          required: false
+          description: Index name or pattern
+          schema:
+            type: string
+        - name: node
+          in: query
+          required: false
+          description: Exact target node ID or name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/elasticsearchRecoveryList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/allocationExplain:
+    get:
+      tags:
+        - diagnostics
+      summary: Explain Elasticsearch shard allocation
+      operationId: explainDiagnosticsElasticsearchAllocation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: index
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: shard
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+        - name: primary
+          in: query
+          required: true
+          schema:
+            type: boolean
+        - name: currentNode
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/elasticsearchAllocationExplanation'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/postgresql/sessions/{pid}/lockAnalysis:
@@ -25385,6 +26364,763 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/replication/channel:
+    get:
+      operationId: listAdminDataChannels
+      summary: List Data Channels
+      description: Retrieve a list of data channels.
+      parameters:
+        - description: The Name of the organization
+          in: query
+          name: orgName
+          required: false
+          schema:
+            type: string
+        - description: The name of the data channel
+          in: query
+          name: name
+          required: false
+          schema:
+            type: string
+        - description: The status of the data channel
+          in: query
+          name: status
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataChannelList'
+          description: A list of data channels.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /admin/v1/organizations/{orgName}/replication/channel:
+    post:
+      operationId: createAdminDataChannel
+      summary: Create a new data channel
+      description: Create a new data channel.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataReplicationCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataChannelResponse'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+      x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/replication/channel/{channelID}:
+    get:
+      operationId: getDataChannel
+      summary: Get Data Channel Details
+      description: Retrieve a data channel detail.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data channel
+          in: path
+          name: channelID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataChannelDetail'
+          description: A detail of data channel.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+    delete:
+      operationId: deleteDataChannel
+      summary: Delete a data channel
+      description: Delete a data channel.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data channel
+          in: path
+          name: channelID
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when channel is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+    patch:
+      operationId: updateDataChannel
+      summary: Update a data channel
+      description: Update a new data channel.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data channel
+          in: path
+          name: channelID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataReplicationUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataChannelResponse'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+      x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/replication/channel/objects:
+    post:
+      operationId: queryReplicationObject
+      summary: query replication object
+      description: query replication object.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/replicationObjectQuery'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/replicationObjectTree'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - dataReplication
+      x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/replication/channel/precheck:
+    post:
+      operationId: createPreCheck
+      summary: create pre check
+      description: create pre check.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/preCheckCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/preCheckTaskResponse'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+      x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/replication/channel/precheck/{preCheckID}:
+    get:
+      operationId: getPreCheck
+      summary: get preCheck
+      description: get preCheck.
+      parameters:
+        - description: The ID of the preCheck task
+          in: path
+          name: preCheckID
+          required: true
+          schema:
+            type: string
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/preCheckTaskDetail'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+    delete:
+      deprecated: true
+      operationId: deletePreCheck
+      summary: delete preCheck
+      description: delete preCheck.
+      parameters:
+        - description: The ID of the preCheck task
+          in: path
+          name: preCheckID
+          required: true
+          schema:
+            type: string
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when preCheck is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /admin/v1/organizations/{orgName}/replication/channel/{channelID}/logs:
+    get:
+      description: Query logs of a data channel
+      summary: Query data channel logs
+      operationId: queryDataChannelLogs
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: channelID
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: moduleName
+          schema:
+            type: string
+        - in: query
+          name: containerName
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: limit
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: channel logs output
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /admin/v1/organizations/{orgName}/replication/channel/{channelID}/containers:
+    get:
+      description: Query containers of a data channel module pod
+      summary: Query data channel module pod containers
+      operationId: queryDataChannelContainers
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: channelID
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: moduleName
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/dataReplicationChannelContainer'
+          description: A list of data channel module containers.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /admin/v1/organizations/{orgName}/replication/channel/parameters:
+    get:
+      operationId: listDataChannelParameters
+      summary: List Data Channel Parameters
+      description: Retrieve a list of data channel parameters.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The name of the standard definition
+          in: query
+          name: standardName
+          schema:
+            type: string
+        - description: The ID of the data channel
+          in: query
+          name: channelID
+          schema:
+            type: string
+        - description: The source EngineDeifnition name
+          in: query
+          name: source
+          schema:
+            type: string
+        - description: The target EngineDeifnition name
+          in: query
+          name: target
+          schema:
+            type: string
+        - description: The module name
+          in: query
+          name: moduleName
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataReplicationParametersResponse'
+          description: A list of data channel parameters.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /admin/v1/checks:
+    get:
+      operationId: listAdminDataChecks
+      summary: List Data Checks
+      description: Retrieve a list of standalone data checks.
+      parameters:
+        - description: The Name of the organization
+          in: query
+          name: orgName
+          required: false
+          schema:
+            type: string
+        - description: The name of the check
+          in: query
+          name: name
+          required: false
+          schema:
+            type: string
+        - description: The status of the check
+          in: query
+          name: status
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataCheckList'
+          description: A list of checks.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /admin/v1/organizations/{orgName}/checks:
+    post:
+      operationId: createAdminDataCheck
+      summary: Create a data check
+      description: 'Create an independent data check. The request must use exactly one entry point: provide channelID with checkType, or provide the full direct check configuration.'
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataCheckCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataCheckResponse'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+      x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/checks/{checkID}:
+    get:
+      operationId: getDataCheck
+      summary: Get Data Check
+      description: Retrieve a standalone data check detail.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the check
+          in: path
+          name: checkID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataCheckItem'
+          description: A check detail.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+    delete:
+      operationId: deleteDataCheck
+      summary: Delete a data check
+      description: Delete a standalone data check and its runtime resources.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the check
+          in: path
+          name: checkID
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when check is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /admin/v1/organizations/{orgName}/checks/{checkID}/details:
+    get:
+      operationId: getDataCheckDetails
+      summary: Get Data Check Difference Details
+      description: Read typed check miss or diff details from the latest parsed check result.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the check
+          in: path
+          name: checkID
+          required: true
+          schema:
+            type: string
+        - description: The detail type
+          in: query
+          name: type
+          required: true
+          schema:
+            $ref: '#/components/schemas/dataCheckDetailType'
+        - description: Source schema or database. Required for snapshot checks.
+          in: query
+          name: schema
+          required: false
+          schema:
+            type: string
+        - description: Source table. Required for snapshot checks.
+          in: query
+          name: table
+          required: false
+          schema:
+            type: string
+        - description: Struct object key. Optional for struct checks; omitted to page all struct details.
+          in: query
+          name: key
+          required: false
+          schema:
+            type: string
+        - description: Page number for pagination.
+          in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - description: Number of items per page.
+          in: query
+          name: pageSize
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+            default: 100
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataCheckDetails'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /admin/v1/organizations/{orgName}/checks/{checkID}/sqlLogs:
+    get:
+      operationId: getDataCheckSQLLogs
+      summary: Get Data Check SQL Logs
+      description: Read raw SQL lines emitted by check sql_logger entries.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the check
+          in: path
+          name: checkID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Raw SQL lines.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /admin/v1/organizations/{orgName}/replication/channel/{channelID}/ops/{opsType}:
+    post:
+      operationId: createDataChannelOps
+      summary: Create a new data channel ops
+      description: Create a new data channel ops.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data channel
+          in: path
+          name: channelID
+          required: true
+          schema:
+            type: string
+        - description: The operation type
+          in: path
+          name: opsType
+          required: true
+          schema:
+            $ref: '#/components/schemas/dataReplicationOpsType'
+      responses:
+        '204':
+          content: {}
+          description: Returned when operation is completed successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /admin/v1/organizations/{orgName}/replication/channel/{channelID}/events:
+    get:
+      operationId: listDataChannelEvents
+      summary: List Data Channel Events
+      description: Retrieve a list of data channel events.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data channel
+          in: path
+          name: channelID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataReplicationEventList'
+          description: A list of data channel events.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
 components:
   securitySchemes:
     BearerToken:
@@ -26425,6 +28161,9 @@ components:
     aiDataGatewayOperationList:
       type: object
       properties:
+        nextCursor:
+          type: string
+          description: Pass as cursor to retrieve older matching operations.
         items:
           type: array
           items:
@@ -27600,6 +29339,17 @@ components:
             serviceRefs of the cluster.
           items:
             $ref: '#/components/schemas/serviceRef'
+        serviceRefsUpdate:
+          type: array
+          description: |
+            ServiceRefs to update. Each serviceRef name must match an existing
+            serviceRef of the cluster, and the corresponding engine option
+            modeServiceRef.update.enable must be true. ServiceRefs that auto
+            create their ServiceDescriptor and Secret get their corresponding
+            K8s objects updated; serviceRefs with manual input must be handled
+            by each engine individually and are rejected.
+          items:
+            $ref: '#/components/schemas/serviceRef'
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
     instanceStorageItem:
       description: Instance storage information
@@ -27971,47 +29721,6 @@ components:
         - clusterId
         - items
       type: object
-    autohealingList:
-      description: An Autohealing object in k8s
-      type: array
-      items:
-        type: object
-        properties:
-          name:
-            type: string
-          createdAt:
-            type: string
-            format: date-time
-          updatedAt:
-            type: string
-            format: date-time
-          componentName:
-            description: component to be rebuilt
-            type: string
-          podName:
-            description: pod to be rebuilt
-            type: string
-          startTime:
-            description: rebuild start time
-            type: string
-            format: date-time
-          phase:
-            description: current phase of rebuild job
-            type: string
-          started:
-            description: whether the job is started
-            type: boolean
-          startMessage:
-            type: string
-          finished:
-            description: whether the job is finished
-            type: boolean
-          finishMessage:
-            type: string
-          backupName:
-            type: string
-          rebuildInstanceOpsRequestName:
-            type: string
     metricsQueryType:
       type: string
       enum:
@@ -28451,12 +30160,13 @@ components:
           $ref: '#/components/schemas/taskSchedule'
         hScale:
           $ref: '#/components/schemas/opsHScale'
+        networkMode:
+          description: Specify the network mode the cluster transitions to. Defaults to the network mode of the cluster when omitted.
+          $ref: '#/components/schemas/networkMode'
     opsRequestName:
       description: OpsRequestName is the name of a KubeBlocks OpsRequest response
       properties:
         opsRequestName:
-          type: string
-        clusterTaskId:
           type: string
         taskId:
           type: string
@@ -28472,10 +30182,6 @@ components:
           nullable: true
         taskId:
           description: Task ID
-          type: string
-          nullable: true
-        clusterTaskId:
-          description: Cluster task ID
           type: string
           nullable: true
       required:
@@ -29046,6 +30752,11 @@ components:
             type: string
           description: Specify parameters list to be updated
           type: object
+        parametersToRemove:
+          description: Specify parameters list to be removed from the template
+          items:
+            type: string
+          type: array
         newParamTplName:
           description: Specify the new name of the parameter template
           type: string
@@ -29635,6 +31346,11 @@ components:
         - analyze
         - actual
         - autotrace
+    DmsExecutionPlanPlanningMode:
+      type: string
+      enum:
+        - standard
+        - generic
     DmsExecutionPlanRawFormat:
       type: string
       enum:
@@ -29918,6 +31634,16 @@ components:
           type: string
         mode:
           $ref: '#/components/schemas/DmsExecutionPlanMode'
+        planMode:
+          $ref: '#/components/schemas/DmsExecutionPlanPlanningMode'
+        parameterized:
+          type: boolean
+          x-omitempty: false
+        parameterCount:
+          type: integer
+          format: int64
+          nullable: true
+          x-omitempty: true
         hasActualStats:
           type: boolean
           x-omitempty: false
@@ -30443,6 +32169,33 @@ components:
         aclAccess:
           type: string
           description: datasource ACL access result for this key
+    RedisKeyScanProgress:
+      type: object
+      description: Redis key browser scan progress for the current page.
+      properties:
+        scope:
+          type: string
+          description: Scan scope, either node or cluster.
+          x-omitempty: false
+        total:
+          type: integer
+          format: int64
+          description: Total keys in the scan scope when available.
+          x-omitempty: false
+        scanned:
+          type: integer
+          format: int64
+          description: Number of key names returned by SCAN in this page before type filtering.
+          x-omitempty: false
+        loaded:
+          type: integer
+          format: int64
+          description: Number of key summaries loaded in this page after filtering and metadata lookup.
+          x-omitempty: false
+        complete:
+          type: boolean
+          description: Whether the scan cursor is complete after this page.
+          x-omitempty: false
     RedisKeySummaryList:
       type: object
       properties:
@@ -30457,6 +32210,8 @@ components:
           type: boolean
           description: Whether another key page should be requested.
           x-omitempty: false
+        progress:
+          $ref: '#/components/schemas/RedisKeyScanProgress'
     RedisAnalysisFilter:
       type: object
       properties:
@@ -30961,6 +32716,10 @@ components:
     RedisInfoResponse:
       type: object
       properties:
+        scope:
+          type: string
+          description: INFO scope, either node or cluster.
+          x-omitempty: false
         section:
           type: string
         nodeId:
@@ -32478,11 +34237,11 @@ components:
                 type: integer
         loadBalancerIP:
           type: string
-          description: The IP address of the LoadBalancer service. If not set, the IP address will be assigned by the system. Only available when vpcServiceType is LoadBalancer.
+          description: The requested IPv4 or IPv6 address of the LoadBalancer service. If not set, IP addresses will be assigned by the system. For dual-stack MetalLB services, the system allocates the missing address family from the same VIP pool. Only available when vpcServiceType is LoadBalancer.
           nullable: true
         loadBalancerIPPoolID:
           type: string
-          description: The IP pool ID of the LoadBalancer service. If not set, the IP pool will be assigned by the system. Only available when vpcServiceType is LoadBalancer.
+          description: The IP pool ID of the LoadBalancer service. If not set, the IP pool will be assigned by the system. All VIPs of a dual-stack MetalLB service are allocated from the same pool. Only available when vpcServiceType is LoadBalancer.
           nullable: true
         domain:
           type: string
@@ -32755,6 +34514,13 @@ components:
       properties:
         clusterSchedulingPolicy:
           $ref: '#/components/schemas/clusterSchedulingPolicy'
+        additionalTopologyKeys:
+          type: array
+          nullable: true
+          default: []
+          description: Additional Kubernetes topology label keys used by pod anti-affinity and topology spread for subsequently created or re-rendered clusters; existing Pods are not migrated automatically. Omit or use null during environment creation to store an empty list. Values must be valid Kubernetes qualified label keys. Infrastructure integrations or administrators must label all eligible nodes consistently; missing labels can cause unintended scheduling behavior and undermine failure-domain isolation. Too few eligible topology domains can leave Pods Pending under hard anti-affinity. If the Kubernetes LimitPodHardAntiAffinityTopology admission plugin is enabled, Pod creation is rejected for required anti-affinity using topology keys other than kubernetes.io/hostname, which can prevent the database cluster from becoming ready.
+          items:
+            type: string
         tolerateDefaultTaints:
           $ref: '#/components/schemas/tolerateDefaultTaints'
         systemComponentSchedulerPolicy:
@@ -33471,6 +35237,12 @@ components:
             $ref: '#/components/schemas/ipPoolProvider'
         clusterSchedulingPolicy:
           $ref: '#/components/schemas/clusterSchedulingPolicy'
+        additionalTopologyKeys:
+          type: array
+          nullable: true
+          description: Additional Kubernetes topology label keys used by subsequently created or re-rendered clusters; existing Pods are not migrated automatically. Omit or use null to preserve the current value; use an empty array to clear all additional keys. Values must be valid Kubernetes qualified label keys. Infrastructure integrations or administrators must label all eligible nodes consistently; missing labels can cause unintended scheduling behavior and undermine failure-domain isolation. Too few eligible topology domains can leave Pods Pending under hard anti-affinity. If the Kubernetes LimitPodHardAntiAffinityTopology admission plugin is enabled, Pod creation is rejected for required anti-affinity using topology keys other than kubernetes.io/hostname, which can prevent the database cluster from becoming ready.
+          items:
+            type: string
     environmentStateEvent:
       description: EventEnvironmentState contains details for the current and previous state of the environment.
       type: object
@@ -34009,7 +35781,7 @@ components:
           items:
             type: string
         availableIPs:
-          description: Used IP addresses
+          description: Available IP address candidates, limited to 4096 per pool. IPv4 and IPv6 share the limit equally, with unused slots reassigned to the other family. Large pools return a partial list.
           type: array
           items:
             type: string
@@ -36267,6 +38039,9 @@ components:
             use them to filter or explain selectable referenced clusters.
           items:
             $ref: '#/components/schemas/modeServiceRefVersionCompatibility'
+        updatable:
+          type: boolean
+          description: whether the serviceRef can be updated. If set to false, the frontend should not allow users to update the serviceRef.
     modeObjectStorageAdditionalHelmValuePath:
       type: object
       description: The path in helm values that some object storage config will use. If empty, the values will not be set.
@@ -37003,6 +38778,19 @@ components:
                       In rebuildinstance ops, only `ops` object is available.
                 type: object
               type: array
+    engineOptionLicenseFile:
+      type: object
+      additionalProperties: false
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Target license file name written into the engine license Secret.
+        title:
+          $ref: '#/components/schemas/localizedDescription'
+        description:
+          $ref: '#/components/schemas/localizedDescription'
     licenseOption:
       type: object
       required:
@@ -38179,7 +39967,6 @@ components:
           type: object
           required:
             - secretName
-            - fileName
           properties:
             required:
               type: boolean
@@ -38190,6 +39977,11 @@ components:
             fileName:
               type: string
               description: the license file name
+            files:
+              type: array
+              description: Explicit license file upload slots. Each item maps one UI upload field to the file name written into the license Secret.
+              items:
+                $ref: '#/components/schemas/engineOptionLicenseFile'
             components:
               type: array
               description: set the custom ops to update license for different components
@@ -38360,7 +40152,7 @@ components:
         licenseFile:
           type: string
           format: binary
-          description: The license file to upload. Required when type is not NodeScope; optional when type is NodeScope.
+          description: The license file to upload. Required when type is not NodeScope; optional when type is NodeScope. For engines with engineOption.license.files, generated SDKs can still upload an engine-defined JSON license bundle through this field. Direct multipart callers should upload each file using the configured license.files[].name as the form field name.
       required:
         - name
         - engineName
@@ -39359,14 +41151,22 @@ components:
         - vacuumWraparound
         - backup
         - security
+    inspectionEvaluationMode:
+      type: string
+      description: Empty legacy values mean check. Display collects information without scoring. Manual requires type=manual and presents scriptExpr verbatim as instructions; it executes no SQL or templates, returns severity=unknown, and retains rule importance.
+      enum:
+        - check
+        - display
+        - manual
     inspectionCriticality:
       type: string
-      description: First-version criticality assumption for score weighting and red-item veto behavior. Missing legacy values are treated as medium.
+      description: Rule importance used for score weighting. Info marks automatically collected information excluded from scoring. Manual items retain their importance but return unknown and are not scored. Missing legacy values normally default to medium; cluster and node status default to critical.
       enum:
         - critical
         - high
         - medium
         - low
+        - info
     inspectionThresholdDirection:
       type: string
       description: Direction used to interpret warnThreshold and critThreshold. asc means larger values are worse, desc means smaller values are worse, boolean means the check expression decides.
@@ -39395,7 +41195,7 @@ components:
           description: The engine type this script is applicable to, such as cluster, mysql, node
           type: string
         type:
-          description: The type of the script, such as "promQL"
+          description: The type of the script, such as "promQL" or "manual" (requires evaluationMode=manual)
           type: string
         category:
           $ref: '#/components/schemas/inspectionScriptCategory'
@@ -39403,6 +41203,9 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         scriptExpr:
           type: string
+          description: Collector expression for automatic modes; complete user instructions (up to 8192 UTF-8 bytes) for manual mode. Manual placeholders are not rendered.
+        evaluationMode:
+          $ref: '#/components/schemas/inspectionEvaluationMode'
         checkExpr:
           type: string
         criticality:
@@ -39518,29 +41321,35 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         scriptCategory:
           type: string
+          description: Category used to group inspection items, such as availability, performance, capacity, or backup.
         resourceType:
           type: string
+          description: Type of the inspected resource, such as cluster or node; resourceID and resourceName identify the target.
         resourceID:
           type: string
         resourceName:
           type: string
         status:
           type: string
+          description: Execution state, such as Running, Completed, or Failed. Use severity for the health conclusion. For manual items, Completed means instructions are available, not that the user has performed them.
         result:
           type: string
+          description: Textual observation or execution message for display. It may contain nonnumeric information or an error; use severity for the health conclusion. Manual instructions are stored in evidence.ruleSnapshot.scriptExpr.
         valueNum:
           type: number
           format: double
           x-nullable: true
-          description: Numeric form of result when the result is parseable.
+          description: Numeric observation when available, including numeric information collected by info items. Omitted when no numeric observation exists, including manual guidance. Use with unit and thresholds for numeric displays.
         warnThreshold:
           type: number
           format: double
           x-nullable: true
+          description: Warning threshold interpreted using direction and the same unit as valueNum. Omitted when no numeric warning threshold is configured.
         critThreshold:
           type: number
           format: double
           x-nullable: true
+          description: Critical threshold interpreted using direction and the same unit as valueNum. Omitted when no numeric critical threshold is configured.
         direction:
           $ref: '#/components/schemas/inspectionThresholdDirection'
         criticality:
@@ -39555,10 +41364,13 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         docLink:
           type: string
+          description: Link to documentation explaining this inspection item and recommended actions.
         severity:
           type: string
+          description: 'Health conclusion: red (critical), yellow (warning), green (healthy), unknown (cannot evaluate), or info (automatically collected information). Manual guidance returns unknown and retains its criticality. Unknown and info do not contribute to health scoring; Completed for manual guidance means instructions are available, not user completion.'
         unit:
           type: string
+          description: Display unit for the inspection result and thresholds, such as percent, seconds, or bytes. Empty when no unit applies.
         createdAt:
           format: date-time
           type: string
@@ -39600,7 +41412,7 @@ components:
           type: integer
           format: int64
           x-nullable: true
-          description: Weighted health score from 0 to 100 over evaluable inspection items only. Unknown items are excluded from both the numerator and denominator. The field is omitted when no item is evaluable; a present value of 0 is a valid evaluated score.
+          description: Weighted health score from 0 to 100 over evaluable inspection items only. Unknown results and items with info importance are excluded from both the numerator and denominator. The field is omitted when no item is evaluable; a present value of 0 is a valid evaluated score.
         result:
           type: string
           description: Task health conclusion derived from evaluable item states and criticality-aware score caps. Valid conclusions are red, yellow, green, and unknown. Unknown means no item is evaluable. Unknown items remain visible in the item list but do not override a red, yellow, or green conclusion derived from evaluable items.
@@ -39982,6 +41794,27 @@ components:
         isVariable:
           type: boolean
           description: whether the param is tenant variable or param
+    dashboardConfig:
+      type: object
+      required:
+        - key
+      properties:
+        key:
+          type: string
+          description: Frontend-defined platform-wide key. Organization identifiers in this key do not enforce tenant isolation.
+          minLength: 1
+          maxLength: 512
+        value:
+          description: Stored JSON value, or null when the key has no configuration.
+          x-omitempty: false
+    dashboardConfigUpdate:
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          description: Any non-null JSON value. Replaces the complete stored value.
+          x-omitempty: false
     platformParameterCategory:
       type: string
       description: platformParameter category, representing the platformParameter group
@@ -42056,6 +43889,163 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/RbmqExchange'
+    OracleTablespaceFile:
+      type: object
+      required:
+        - id
+        - name
+        - status
+        - allocatedSizeMB
+        - usedSizeMB
+        - autoExtend
+        - nextSizeMB
+        - maxSizeMB
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        status:
+          type: string
+        allocatedSizeMB:
+          type: number
+          format: double
+        usedSizeMB:
+          type: number
+          format: double
+        autoExtend:
+          type: boolean
+        nextSizeMB:
+          type: number
+          format: double
+        maxSizeMB:
+          type: number
+          format: double
+    OracleTablespace:
+      type: object
+      description: Oracle tablespace in the datasource connection's current container. Sizes are in MiB. Supports Oracle 12c and 19c.
+      required:
+        - name
+        - contents
+        - status
+        - bigfile
+        - blockSize
+        - containerName
+        - isDefault
+        - allocatedSizeMB
+        - usedSizeMB
+        - maxSizeMB
+        - files
+      properties:
+        name:
+          type: string
+        contents:
+          type: string
+          description: PERMANENT, TEMPORARY, or UNDO.
+        status:
+          type: string
+        bigfile:
+          type: boolean
+        blockSize:
+          type: integer
+          format: int64
+        containerName:
+          type: string
+        isDefault:
+          type: boolean
+          description: Whether this is a default permanent or temporary tablespace, including default temporary group members.
+        allocatedSizeMB:
+          type: number
+          format: double
+        usedSizeMB:
+          type: number
+          format: double
+          description: Allocated file space minus free extents, or temporary file space currently allocated to temporary segments.
+        maxSizeMB:
+          type: number
+          format: double
+          description: Configured file growth limit; does not imply available disk capacity.
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/OracleTablespaceFile'
+    OracleTablespaceContents:
+      type: string
+      enum:
+        - PERMANENT
+        - TEMPORARY
+      description: New tablespaces default to PERMANENT when omitted.
+    OracleTablespaceFileSpec:
+      type: object
+      required:
+        - sizeMB
+      properties:
+        name:
+          type: string
+          description: Absolute database-server file path or ASM destination. Omit to use Oracle Managed Files (DB_CREATE_FILE_DEST must be configured). Existing files are never reused.
+          maxLength: 1024
+        sizeMB:
+          type: integer
+          format: int64
+          minimum: 1
+        autoExtend:
+          type: boolean
+          default: false
+        nextSizeMB:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Required positive increment when autoExtend is true; otherwise omit.
+        maxSizeMB:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Maximum size when autoExtend is true; zero or omitted means UNLIMITED. Otherwise omit.
+    OracleTablespaceCreate:
+      type: object
+      required:
+        - name
+        - files
+      properties:
+        name:
+          type: string
+          pattern: ^[A-Za-z][A-Za-z0-9_$#]{0,29}$
+          description: Converted to uppercase. Limited to 30 ASCII bytes for compatibility with Oracle 12.1.
+        contents:
+          $ref: '#/components/schemas/OracleTablespaceContents'
+        bigfile:
+          type: boolean
+          default: false
+        files:
+          type: array
+          minItems: 1
+          description: Exactly one file for BIGFILE tablespaces.
+          items:
+            $ref: '#/components/schemas/OracleTablespaceFileSpec'
+    OracleTablespaceExpandAction:
+      type: string
+      enum:
+        - resize
+        - addFile
+    OracleTablespaceExpand:
+      type: object
+      description: One DDL operation per request. Use resize with fileId and sizeMB, or addFile with file. Shrinking and adding files to BIGFILE tablespaces are rejected.
+      required:
+        - action
+      properties:
+        action:
+          $ref: '#/components/schemas/OracleTablespaceExpandAction'
+        fileId:
+          type: integer
+          format: int64
+          minimum: 1
+        sizeMB:
+          type: integer
+          format: int64
+          minimum: 1
+        file:
+          $ref: '#/components/schemas/OracleTablespaceFileSpec'
     DmFile:
       type: object
       required:
@@ -42574,420 +44564,6 @@ components:
         collectedAt:
           type: string
           description: Backend collection timestamp in UTC.
-    postgresqlSession:
-      type: object
-      required:
-        - pid
-        - user
-        - database
-        - applicationName
-        - clientAddr
-        - clientPort
-        - state
-        - waitEventType
-        - waitEvent
-        - durationSeconds
-        - xactDurationSeconds
-        - queryDigest
-        - querySummary
-        - backendType
-      properties:
-        pid:
-          type: integer
-          format: int64
-        user:
-          type: string
-        database:
-          type: string
-        applicationName:
-          type: string
-        clientAddr:
-          type: string
-          description: Client address.
-        clientPort:
-          type: string
-          description: Client port.
-        state:
-          type: string
-        waitEventType:
-          type: string
-        waitEvent:
-          type: string
-        backendStart:
-          type: string
-          description: Backend start timestamp if available.
-        queryStart:
-          type: string
-          description: Query start timestamp if available.
-        xactStart:
-          type: string
-          description: Transaction start timestamp if available.
-        durationSeconds:
-          type: integer
-          format: int64
-        xactDurationSeconds:
-          type: integer
-          format: int64
-        queryDigest:
-          type: string
-        querySummary:
-          type: string
-        backendType:
-          type: string
-    postgresqlSessionList:
-      type: array
-      items:
-        $ref: '#/components/schemas/postgresqlSession'
-    postgresqlSpaceSummary:
-      type: object
-      required:
-        - tableCount
-        - indexCount
-        - toastRelationCount
-        - tableListTruncated
-        - indexListTruncated
-      properties:
-        databaseName:
-          type: string
-        databaseSizeBytes:
-          type: integer
-          format: int64
-        tableCount:
-          type: integer
-          format: int64
-        indexCount:
-          type: integer
-          format: int64
-        toastRelationCount:
-          type: integer
-          format: int64
-        largestTableBytes:
-          type: integer
-          format: int64
-        largestIndexBytes:
-          type: integer
-          format: int64
-        tableListTruncated:
-          type: boolean
-        indexListTruncated:
-          type: boolean
-    postgresqlStorageInstanceUsage:
-      type: object
-      properties:
-        instanceName:
-          type: string
-          description: Kubernetes pod name for this PostgreSQL replica storage sample.
-        pvcName:
-          type: string
-          description: PersistentVolumeClaim name when it can be read from metrics labels.
-        role:
-          type: string
-          description: Raw PostgreSQL replica role value read from metrics labels, kept aligned with instance detail display.
-        componentName:
-          type: string
-          description: Optional KubeBlocks component name when it can be read from metrics labels.
-        totalBytes:
-          type: integer
-          format: int64
-          description: Physical PVC capacity in bytes for this replica storage sample.
-        usedBytes:
-          type: integer
-          format: int64
-          description: Physical PVC used bytes for this replica storage sample.
-        availableBytes:
-          type: integer
-          format: int64
-          description: Available bytes derived from totalBytes - usedBytes when both values are available.
-        usageRatio:
-          type: number
-          format: double
-          nullable: true
-          description: usedBytes / totalBytes for this replica storage sample when both values are available.
-        updatedAt:
-          type: string
-          description: Metrics collection timestamp in UTC.
-        source:
-          type: string
-    postgresqlStorageOverview:
-      type: object
-      required:
-        - source
-        - instances
-      properties:
-        source:
-          type: string
-        instances:
-          type: array
-          description: Physical PostgreSQL replica storage usage split by pod/PVC/role.
-          items:
-            $ref: '#/components/schemas/postgresqlStorageInstanceUsage'
-    postgresqlDatabaseSpace:
-      type: object
-      properties:
-        name:
-          type: string
-        sizeBytes:
-          type: integer
-          format: int64
-    postgresqlTableSpace:
-      type: object
-      properties:
-        database:
-          type: string
-        schema:
-          type: string
-        name:
-          type: string
-        relationOid:
-          type: integer
-          format: int64
-        totalBytes:
-          type: integer
-          format: int64
-        tableBytes:
-          type: integer
-          format: int64
-        indexBytes:
-          type: integer
-          format: int64
-        toastBytes:
-          type: integer
-          format: int64
-        toastRelationOid:
-          type: integer
-          format: int64
-        liveTuples:
-          type: integer
-          format: int64
-        deadTuples:
-          type: integer
-          format: int64
-        seqScan:
-          type: integer
-          format: int64
-        indexScan:
-          type: integer
-          format: int64
-        lastVacuum:
-          type: string
-        lastAutoVacuum:
-          type: string
-        lastAnalyze:
-          type: string
-        lastAutoAnalyze:
-          type: string
-    postgresqlIndexSpace:
-      type: object
-      properties:
-        database:
-          type: string
-        schema:
-          type: string
-        table:
-          type: string
-        name:
-          type: string
-        tableRelationOid:
-          type: integer
-          format: int64
-        relationOid:
-          type: integer
-          format: int64
-        sizeBytes:
-          type: integer
-          format: int64
-        isPrimary:
-          type: boolean
-        isUnique:
-          type: boolean
-        scanCount:
-          type: integer
-          format: int64
-        tuplesRead:
-          type: integer
-          format: int64
-        tuplesFetch:
-          type: integer
-          format: int64
-    postgresqlToastRelationSpace:
-      type: object
-      properties:
-        database:
-          type: string
-        schema:
-          type: string
-        table:
-          type: string
-        tableRelationOid:
-          type: integer
-          format: int64
-        toastRelationOid:
-          type: integer
-          format: int64
-        toastBytes:
-          type: integer
-          format: int64
-    postgresqlSpaceSource:
-      type: object
-      required:
-        - name
-        - kind
-        - status
-        - collectedAt
-      properties:
-        name:
-          type: string
-        kind:
-          type: string
-        status:
-          type: string
-        collectedAt:
-          type: string
-        message:
-          type: string
-    postgresqlSpaceAnalysis:
-      type: object
-      required:
-        - summary
-        - storageOverview
-        - databases
-        - selectedDatabase
-        - tables
-        - indexes
-        - toastRelations
-        - sources
-        - collectedAt
-      properties:
-        summary:
-          $ref: '#/components/schemas/postgresqlSpaceSummary'
-        storageOverview:
-          $ref: '#/components/schemas/postgresqlStorageOverview'
-        databases:
-          type: array
-          description: Sizes of all connectable non-template databases in the PostgreSQL instance.
-          items:
-            $ref: '#/components/schemas/postgresqlDatabaseSpace'
-        selectedDatabase:
-          type: string
-          description: Database used for tables, indexes, and toastRelations in this response.
-        tables:
-          type: array
-          description: Top tables from selectedDatabase.
-          items:
-            $ref: '#/components/schemas/postgresqlTableSpace'
-        indexes:
-          type: array
-          description: Top indexes from selectedDatabase.
-          items:
-            $ref: '#/components/schemas/postgresqlIndexSpace'
-        toastRelations:
-          type: array
-          description: Toast relations derived from selectedDatabase table space data.
-          items:
-            $ref: '#/components/schemas/postgresqlToastRelationSpace'
-        sources:
-          type: array
-          items:
-            $ref: '#/components/schemas/postgresqlSpaceSource'
-        collectedAt:
-          type: string
-          description: Backend collection timestamp in UTC.
-    postgresqlSQLFingerprint:
-      type: object
-      required:
-        - queryID
-        - fingerprint
-        - querySummary
-        - calls
-        - totalTimeMs
-        - meanTimeMs
-        - maxTimeMs
-        - rows
-        - database
-        - user
-      properties:
-        queryID:
-          type: string
-          description: PostgreSQL pg_stat_statements queryid represented as a string.
-        fingerprint:
-          type: string
-          description: Stable SQL fingerprint identifier for UI grouping. M1 uses queryID.
-        querySummary:
-          type: string
-          description: Redacted SQL summary. Full raw SQL is intentionally not returned.
-        calls:
-          type: integer
-          format: int64
-          description: Number of executions accumulated by pg_stat_statements since statsReset.
-        totalTimeMs:
-          type: number
-          format: double
-          description: Total execution time in milliseconds accumulated by pg_stat_statements since statsReset.
-        meanTimeMs:
-          type: number
-          format: double
-          description: Mean execution time in milliseconds.
-        maxTimeMs:
-          type: number
-          format: double
-          description: Max execution time in milliseconds.
-        rows:
-          type: integer
-          format: int64
-          description: Rows returned or affected by the fingerprint, as reported by pg_stat_statements.
-        database:
-          type: string
-          description: Database name resolved from pg_stat_statements.dbid when visible.
-        user:
-          type: string
-          description: Database user name resolved from pg_stat_statements.userid when visible.
-    postgresqlSQLAnalysis:
-      type: object
-      required:
-        - source
-        - status
-        - collectedAt
-        - limit
-        - orderBy
-        - items
-      properties:
-        source:
-          type: string
-          description: Data source. M1 uses pg_stat_statements only.
-        status:
-          type: string
-          description: Source status. Expected values are available or unavailable.
-        unavailableReason:
-          type: string
-          description: Reason when status is unavailable, such as extension_disabled, permission_denied, or query_failed.
-        statsReset:
-          type: string
-          description: UTC timestamp reported by pg_stat_statements_info.stats_reset when available. Empty means the source did not expose this timestamp.
-        collectedAt:
-          type: string
-          description: Backend collection timestamp in UTC. It is not a sampling-window end time.
-        limit:
-          type: integer
-          format: int64
-          description: Effective row limit after backend normalization.
-        orderBy:
-          type: string
-          description: Effective sort key. Expected values are totalTime, meanTime, maxTime, or calls.
-        totalTimeMsAll:
-          type: number
-          format: double
-          x-nullable: true
-          description: Total execution time in milliseconds across all visible pg_stat_statements rows, not limited to the returned top-N items. Present only when the source is available.
-        callsAll:
-          type: integer
-          format: int64
-          x-nullable: true
-          description: Total execution count across all visible pg_stat_statements rows, not limited to the returned top-N items. Present only when the source is available.
-        items:
-          type: array
-          description: SQL fingerprint ranking rows from pg_stat_statements. The list may be empty when no statement statistics exist.
-          items:
-            $ref: '#/components/schemas/postgresqlSQLFingerprint'
     mysqlSQLFingerprint:
       type: object
       required:
@@ -43329,6 +44905,1224 @@ components:
         collectedAt:
           type: string
           description: Backend collection timestamp in UTC.
+    mssqlRequest:
+      type: object
+      required:
+        - requestId
+        - startedAt
+        - status
+        - command
+        - database
+        - sql
+        - sqlTruncated
+        - elapsedMs
+        - cpuMs
+        - reads
+        - logicalReads
+        - writes
+        - waitType
+        - waitMs
+        - waitResource
+        - blockingSessionId
+      properties:
+        requestId:
+          type: integer
+          format: int64
+        startedAt:
+          type: string
+          description: Opaque SQL Server local start time, used to detect session or request reuse. Pass back unchanged; it is not a UTC timestamp.
+        status:
+          type: string
+        command:
+          type: string
+        database:
+          type: string
+        sql:
+          type: string
+          description: Current statement extracted with byte offsets. Truncated to 8192 characters.
+        sqlTruncated:
+          type: boolean
+        elapsedMs:
+          type: integer
+          format: int64
+        cpuMs:
+          type: integer
+          format: int64
+        reads:
+          type: integer
+          format: int64
+        logicalReads:
+          type: integer
+          format: int64
+        writes:
+          type: integer
+          format: int64
+        waitType:
+          type: string
+        waitMs:
+          type: integer
+          format: int64
+        waitResource:
+          type: string
+        blockingSessionId:
+          type: integer
+          format: int64
+    mssqlSession:
+      type: object
+      required:
+        - sessionId
+        - startedAt
+        - status
+        - user
+        - host
+        - application
+        - client
+        - database
+        - openTransactions
+        - transactionSeconds
+        - lastSql
+        - lastSqlTruncated
+        - requests
+        - requestsTruncated
+      properties:
+        sessionId:
+          type: integer
+          format: int64
+        startedAt:
+          type: string
+          description: Opaque SQL Server local start time, used to detect session or request reuse. Pass back unchanged; it is not a UTC timestamp.
+        status:
+          type: string
+        user:
+          type: string
+        host:
+          type: string
+        application:
+          type: string
+        client:
+          type: string
+        database:
+          type: string
+        openTransactions:
+          type: integer
+          format: int64
+        transactionSeconds:
+          type: integer
+          format: int64
+        lastSql:
+          type: string
+          description: Most recent batch on the connection, not necessarily the SQL that acquired its locks. Truncated to 8192 characters.
+        lastSqlTruncated:
+          type: boolean
+        requests:
+          type: array
+          items:
+            $ref: '#/components/schemas/mssqlRequest'
+        requestsTruncated:
+          type: boolean
+    mssqlSessionSnapshot:
+      type: object
+      required:
+        - capturedAt
+        - sessions
+        - truncated
+      properties:
+        capturedAt:
+          type: string
+        sessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/mssqlSession'
+        truncated:
+          type: boolean
+    mssqlWait:
+      type: object
+      required:
+        - sessionId
+        - requestId
+        - blockingSessionId
+        - waitType
+        - waitMs
+        - resource
+        - source
+      properties:
+        sessionId:
+          type: integer
+          format: int64
+        requestId:
+          type: integer
+          format: int64
+          description: Request ID, or -1 when a waiting task cannot be associated with a live request.
+        blockingSessionId:
+          type: integer
+          format: int64
+          description: SQL Server blocking owner. Negative values are special owners, not session IDs.
+        waitType:
+          type: string
+        waitMs:
+          type: integer
+          format: int64
+        resource:
+          type: string
+        source:
+          type: string
+    mssqlLock:
+      type: object
+      required:
+        - sessionId
+        - requestId
+        - database
+        - resourceType
+        - resource
+        - entityId
+        - mode
+        - status
+        - ownerType
+      properties:
+        sessionId:
+          type: integer
+          format: int64
+        requestId:
+          type: integer
+          format: int64
+        database:
+          type: string
+        resourceType:
+          type: string
+        resource:
+          type: string
+        entityId:
+          type: string
+        mode:
+          type: string
+        status:
+          type: string
+        ownerType:
+          type: string
+    mssqlLockSnapshot:
+      type: object
+      required:
+        - capturedAt
+        - sessions
+        - waits
+        - locks
+        - truncated
+      properties:
+        capturedAt:
+          type: string
+        sessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/mssqlSession'
+        waits:
+          type: array
+          items:
+            $ref: '#/components/schemas/mssqlWait'
+        locks:
+          type: array
+          items:
+            $ref: '#/components/schemas/mssqlLock'
+        truncated:
+          type: boolean
+      description: Bounded live DMV observations. Edges are SQL Server reported blocking identifiers. Collection is not atomic; graph cycles are not historical deadlock evidence.
+    mssqlCachedPlan:
+      type: object
+      required:
+        - capturedAt
+        - xml
+        - available
+      properties:
+        capturedAt:
+          type: string
+        xml:
+          type: string
+        available:
+          type: boolean
+      description: Cached compiled plan for the selected live request. No captured SQL is executed. This is not an actual runtime plan.
+    postgresqlSession:
+      type: object
+      required:
+        - pid
+        - user
+        - database
+        - applicationName
+        - clientAddr
+        - clientPort
+        - state
+        - waitEventType
+        - waitEvent
+        - durationSeconds
+        - xactDurationSeconds
+        - queryDigest
+        - querySummary
+        - backendType
+      properties:
+        pid:
+          type: integer
+          format: int64
+        user:
+          type: string
+        database:
+          type: string
+        applicationName:
+          type: string
+        clientAddr:
+          type: string
+          description: Client address.
+        clientPort:
+          type: string
+          description: Client port.
+        state:
+          type: string
+        waitEventType:
+          type: string
+        waitEvent:
+          type: string
+        backendStart:
+          type: string
+          description: Backend start timestamp if available.
+        queryStart:
+          type: string
+          description: Query start timestamp if available.
+        xactStart:
+          type: string
+          description: Transaction start timestamp if available.
+        durationSeconds:
+          type: integer
+          format: int64
+        xactDurationSeconds:
+          type: integer
+          format: int64
+        queryDigest:
+          type: string
+        querySummary:
+          type: string
+        backendType:
+          type: string
+    postgresqlSessionList:
+      type: array
+      items:
+        $ref: '#/components/schemas/postgresqlSession'
+    postgresqlSpaceSummary:
+      type: object
+      required:
+        - tableCount
+        - indexCount
+        - toastRelationCount
+        - tableListTruncated
+        - indexListTruncated
+      properties:
+        databaseName:
+          type: string
+        databaseSizeBytes:
+          type: integer
+          format: int64
+        tableCount:
+          type: integer
+          format: int64
+        indexCount:
+          type: integer
+          format: int64
+        toastRelationCount:
+          type: integer
+          format: int64
+        largestTableBytes:
+          type: integer
+          format: int64
+        largestIndexBytes:
+          type: integer
+          format: int64
+        tableListTruncated:
+          type: boolean
+        indexListTruncated:
+          type: boolean
+    postgresqlStorageInstanceUsage:
+      type: object
+      properties:
+        instanceName:
+          type: string
+          description: Kubernetes pod name for this PostgreSQL replica storage sample.
+        pvcName:
+          type: string
+          description: PersistentVolumeClaim name when it can be read from metrics labels.
+        role:
+          type: string
+          description: Raw PostgreSQL replica role value read from metrics labels, kept aligned with instance detail display.
+        componentName:
+          type: string
+          description: Optional KubeBlocks component name when it can be read from metrics labels.
+        totalBytes:
+          type: integer
+          format: int64
+          description: Physical PVC capacity in bytes for this replica storage sample.
+        usedBytes:
+          type: integer
+          format: int64
+          description: Physical PVC used bytes for this replica storage sample.
+        availableBytes:
+          type: integer
+          format: int64
+          description: Available bytes derived from totalBytes - usedBytes when both values are available.
+        usageRatio:
+          type: number
+          format: double
+          nullable: true
+          description: usedBytes / totalBytes for this replica storage sample when both values are available.
+        updatedAt:
+          type: string
+          description: Metrics collection timestamp in UTC.
+        source:
+          type: string
+    postgresqlStorageOverview:
+      type: object
+      required:
+        - source
+        - instances
+      properties:
+        source:
+          type: string
+        instances:
+          type: array
+          description: Physical PostgreSQL replica storage usage split by pod/PVC/role.
+          items:
+            $ref: '#/components/schemas/postgresqlStorageInstanceUsage'
+    postgresqlDatabaseSpace:
+      type: object
+      properties:
+        name:
+          type: string
+        sizeBytes:
+          type: integer
+          format: int64
+    postgresqlTableSpace:
+      type: object
+      properties:
+        database:
+          type: string
+        schema:
+          type: string
+        name:
+          type: string
+        relationOid:
+          type: integer
+          format: int64
+        totalBytes:
+          type: integer
+          format: int64
+        tableBytes:
+          type: integer
+          format: int64
+        indexBytes:
+          type: integer
+          format: int64
+        toastBytes:
+          type: integer
+          format: int64
+        toastRelationOid:
+          type: integer
+          format: int64
+        liveTuples:
+          type: integer
+          format: int64
+        deadTuples:
+          type: integer
+          format: int64
+        seqScan:
+          type: integer
+          format: int64
+        indexScan:
+          type: integer
+          format: int64
+        lastVacuum:
+          type: string
+        lastAutoVacuum:
+          type: string
+        lastAnalyze:
+          type: string
+        lastAutoAnalyze:
+          type: string
+    postgresqlIndexSpace:
+      type: object
+      properties:
+        database:
+          type: string
+        schema:
+          type: string
+        table:
+          type: string
+        name:
+          type: string
+        tableRelationOid:
+          type: integer
+          format: int64
+        relationOid:
+          type: integer
+          format: int64
+        sizeBytes:
+          type: integer
+          format: int64
+        isPrimary:
+          type: boolean
+        isUnique:
+          type: boolean
+        scanCount:
+          type: integer
+          format: int64
+        tuplesRead:
+          type: integer
+          format: int64
+        tuplesFetch:
+          type: integer
+          format: int64
+    postgresqlToastRelationSpace:
+      type: object
+      properties:
+        database:
+          type: string
+        schema:
+          type: string
+        table:
+          type: string
+        tableRelationOid:
+          type: integer
+          format: int64
+        toastRelationOid:
+          type: integer
+          format: int64
+        toastBytes:
+          type: integer
+          format: int64
+    postgresqlSpaceSource:
+      type: object
+      required:
+        - name
+        - kind
+        - status
+        - collectedAt
+      properties:
+        name:
+          type: string
+        kind:
+          type: string
+        status:
+          type: string
+        collectedAt:
+          type: string
+        message:
+          type: string
+    postgresqlSpaceAnalysis:
+      type: object
+      required:
+        - summary
+        - storageOverview
+        - databases
+        - selectedDatabase
+        - tables
+        - indexes
+        - toastRelations
+        - sources
+        - collectedAt
+      properties:
+        summary:
+          $ref: '#/components/schemas/postgresqlSpaceSummary'
+        storageOverview:
+          $ref: '#/components/schemas/postgresqlStorageOverview'
+        databases:
+          type: array
+          description: Sizes of all connectable non-template databases in the PostgreSQL instance.
+          items:
+            $ref: '#/components/schemas/postgresqlDatabaseSpace'
+        selectedDatabase:
+          type: string
+          description: Database used for tables, indexes, and toastRelations in this response.
+        tables:
+          type: array
+          description: Top tables from selectedDatabase.
+          items:
+            $ref: '#/components/schemas/postgresqlTableSpace'
+        indexes:
+          type: array
+          description: Top indexes from selectedDatabase.
+          items:
+            $ref: '#/components/schemas/postgresqlIndexSpace'
+        toastRelations:
+          type: array
+          description: Toast relations derived from selectedDatabase table space data.
+          items:
+            $ref: '#/components/schemas/postgresqlToastRelationSpace'
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/postgresqlSpaceSource'
+        collectedAt:
+          type: string
+          description: Backend collection timestamp in UTC.
+    postgresqlSQLFingerprint:
+      type: object
+      required:
+        - queryID
+        - fingerprint
+        - querySummary
+        - calls
+        - totalTimeMs
+        - meanTimeMs
+        - maxTimeMs
+        - rows
+        - database
+        - user
+        - topLevel
+      properties:
+        queryID:
+          type: string
+          description: PostgreSQL pg_stat_statements queryid represented as a string.
+        fingerprint:
+          type: string
+          description: Stable SQL fingerprint identifier for UI grouping. M1 uses queryID.
+        querySummary:
+          type: string
+          description: Redacted SQL summary. Full raw SQL is intentionally not returned.
+        calls:
+          type: integer
+          format: int64
+          description: Number of executions accumulated by pg_stat_statements since statsReset.
+        totalTimeMs:
+          type: number
+          format: double
+          description: Total execution time in milliseconds accumulated by pg_stat_statements since statsReset.
+        meanTimeMs:
+          type: number
+          format: double
+          description: Mean execution time in milliseconds.
+        maxTimeMs:
+          type: number
+          format: double
+          description: Max execution time in milliseconds.
+        rows:
+          type: integer
+          format: int64
+          description: Rows returned or affected by the fingerprint, as reported by pg_stat_statements.
+        database:
+          type: string
+          description: Database name resolved from pg_stat_statements.dbid when visible.
+        user:
+          type: string
+          description: Database user name resolved from pg_stat_statements.userid when visible.
+        topLevel:
+          type: boolean
+          description: Whether pg_stat_statements recorded the statement as top-level. Legacy PostgreSQL versions without the toplevel column report true.
+    postgresqlSQLAnalysis:
+      type: object
+      required:
+        - source
+        - status
+        - collectedAt
+        - limit
+        - orderBy
+        - items
+      properties:
+        source:
+          type: string
+          description: Data source. M1 uses pg_stat_statements only.
+        status:
+          type: string
+          description: Source status. Expected values are available or unavailable.
+        unavailableReason:
+          type: string
+          description: Reason when status is unavailable, such as extension_disabled, permission_denied, or query_failed.
+        statsReset:
+          type: string
+          description: UTC timestamp reported by pg_stat_statements_info.stats_reset when available. Empty means the source did not expose this timestamp.
+        collectedAt:
+          type: string
+          description: Backend collection timestamp in UTC. It is not a sampling-window end time.
+        limit:
+          type: integer
+          format: int64
+          description: Effective row limit after backend normalization.
+        orderBy:
+          type: string
+          description: Effective sort key. Expected values are totalTime, meanTime, maxTime, or calls.
+        totalTimeMsAll:
+          type: number
+          format: double
+          x-nullable: true
+          description: Total execution time in milliseconds across all visible pg_stat_statements rows, not limited to the returned top-N items. Present only when the source is available.
+        callsAll:
+          type: integer
+          format: int64
+          x-nullable: true
+          description: Total execution count across all visible pg_stat_statements rows, not limited to the returned top-N items. Present only when the source is available.
+        items:
+          type: array
+          description: SQL fingerprint ranking rows from pg_stat_statements. The list may be empty when no statement statistics exist.
+          items:
+            $ref: '#/components/schemas/postgresqlSQLFingerprint'
+    postgresqlSQLFingerprintExplainResponse:
+      type: object
+      required:
+        - queryID
+        - fingerprint
+        - database
+        - user
+        - topLevel
+        - planMode
+        - parameterized
+        - explainResult
+      properties:
+        queryID:
+          type: string
+          description: PostgreSQL pg_stat_statements queryid represented as a string.
+        fingerprint:
+          type: string
+          description: Stable SQL fingerprint identifier for UI grouping. Currently aligned with PostgreSQL pg_stat_statements queryid.
+        database:
+          type: string
+          description: Database name from the requested SQL fingerprint identity.
+        user:
+          type: string
+          description: Database user from the requested SQL fingerprint identity.
+        topLevel:
+          type: boolean
+          description: Top-level flag from the requested SQL fingerprint identity.
+        statementSource:
+          type: string
+          description: Server-side source used to resolve the parameterized SQL statement. Raw SQL is not returned.
+        statementResolvedAt:
+          type: string
+          description: Timestamp when the parameterized SQL statement was resolved.
+        planMode:
+          $ref: '#/components/schemas/DmsExecutionPlanPlanningMode'
+          description: Whether DMS produced a standard estimated plan or a generic parameterized estimated plan.
+        parameterized:
+          type: boolean
+          description: Whether generic parameterized planning was used (planMode is generic). False means standard planning, not that historical parameter values were used. This endpoint never retrieves historical parameter values.
+          x-omitempty: false
+        parameterCount:
+          type: integer
+          format: int64
+          nullable: true
+          x-omitempty: true
+          description: Number of parameters when DMS can determine it. It may be omitted for PostgreSQL generic-plan paths that do not expose the count.
+        explainResult:
+          $ref: '#/components/schemas/DmsExecutionPlanResult'
+          description: Normalized DMS estimated visual plan. The resolved statement and generated EXPLAIN SQL are intentionally removed.
+    elasticsearchHotThreadsType:
+      type: string
+      enum:
+        - cpu
+        - wait
+        - block
+      default: cpu
+    elasticsearchTask:
+      type: object
+      required:
+        - taskId
+        - nodeId
+        - nodeName
+        - action
+        - runningTimeMillis
+        - cancellable
+      properties:
+        taskId:
+          type: string
+        nodeId:
+          type: string
+        nodeName:
+          type: string
+        action:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        startTime:
+          type: string
+        runningTimeMillis:
+          type: integer
+          format: int64
+        cancellable:
+          type: boolean
+        cancelled:
+          type: boolean
+    elasticsearchHotThreads:
+      type: object
+      required:
+        - type
+        - content
+        - truncated
+      properties:
+        nodeName:
+          type: string
+        type:
+          type: string
+        content:
+          type: string
+        truncated:
+          type: boolean
+    elasticsearchTaskAnalysis:
+      type: object
+      required:
+        - tasks
+        - hotThreads
+        - sources
+        - warnings
+        - collectedAt
+      properties:
+        tasks:
+          type: array
+          description: List of currently running tasks, sorted by running time in descending order
+          items:
+            $ref: '#/components/schemas/elasticsearchTask'
+        hotThreads:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchHotThreads'
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/performanceTrendSource'
+        warnings:
+          type: array
+          items:
+            type: string
+        collectedAt:
+          type: string
+    elasticsearchIndexSortBy:
+      type: string
+      enum:
+        - name
+        - documents
+        - totalStoreBytes
+        - segments
+      default: totalStoreBytes
+    elasticsearchSortOrder:
+      type: string
+      enum:
+        - asc
+        - desc
+      default: desc
+    elasticsearchIndexStorage:
+      type: object
+      required:
+        - name
+        - health
+        - status
+        - primaryShards
+        - replicaShards
+        - documents
+        - deletedDocuments
+        - primaryStoreBytes
+        - totalStoreBytes
+        - segments
+      properties:
+        name:
+          type: string
+        uuid:
+          type: string
+        health:
+          type: string
+        status:
+          type: string
+        primaryShards:
+          type: integer
+          format: int64
+          nullable: true
+        replicaShards:
+          type: integer
+          format: int64
+          nullable: true
+        documents:
+          type: integer
+          format: int64
+          nullable: true
+        deletedDocuments:
+          type: integer
+          format: int64
+          nullable: true
+        primaryStoreBytes:
+          type: integer
+          format: int64
+          nullable: true
+        totalStoreBytes:
+          type: integer
+          format: int64
+          nullable: true
+        segments:
+          type: integer
+          format: int64
+          nullable: true
+    elasticsearchNodeAllocation:
+      type: object
+      required:
+        - nodeName
+        - shards
+        - diskIndicesBytes
+        - diskUsedBytes
+        - diskAvailableBytes
+        - diskTotalBytes
+        - diskPercent
+      properties:
+        nodeName:
+          type: string
+        host:
+          type: string
+        ip:
+          type: string
+        shards:
+          type: integer
+          format: int64
+          nullable: true
+        diskIndicesBytes:
+          type: integer
+          format: int64
+          nullable: true
+        diskUsedBytes:
+          type: integer
+          format: int64
+          nullable: true
+        diskAvailableBytes:
+          type: integer
+          format: int64
+          nullable: true
+        diskTotalBytes:
+          type: integer
+          format: int64
+          nullable: true
+        diskPercent:
+          type: number
+          format: double
+          nullable: true
+    elasticsearchDiskWatermarks:
+      type: object
+      required:
+        - low
+        - high
+        - floodStage
+      properties:
+        low:
+          type: string
+        high:
+          type: string
+        floodStage:
+          type: string
+    elasticsearchStorageAnalysis:
+      type: object
+      required:
+        - indices
+        - allocations
+        - watermarks
+        - sources
+        - warnings
+        - collectedAt
+      properties:
+        indices:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchIndexStorage'
+        allocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchNodeAllocation'
+        watermarks:
+          $ref: '#/components/schemas/elasticsearchDiskWatermarks'
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/performanceTrendSource'
+        warnings:
+          type: array
+          items:
+            type: string
+        collectedAt:
+          type: string
+    elasticsearchShardState:
+      type: string
+      enum:
+        - STARTED
+        - INITIALIZING
+        - RELOCATING
+        - UNASSIGNED
+    elasticsearchShard:
+      type: object
+      properties:
+        index:
+          type: string
+          x-go-name: Index
+          nullable: true
+        shard:
+          type: integer
+          x-go-name: Shard
+          nullable: true
+          format: int64
+        primary:
+          type: boolean
+          x-go-name: Primary
+          nullable: true
+        state:
+          type: string
+          x-go-name: State
+          nullable: true
+        documents:
+          type: integer
+          x-go-name: Documents
+          nullable: true
+          format: int64
+        storeBytes:
+          type: integer
+          x-go-name: StoreBytes
+          nullable: true
+          format: int64
+        nodeId:
+          type: string
+          x-go-name: NodeID
+          nullable: true
+        nodeName:
+          type: string
+          x-go-name: NodeName
+          nullable: true
+        unassignedReason:
+          type: string
+          x-go-name: UnassignedReason
+          nullable: true
+    elasticsearchShardList:
+      type: object
+      required:
+        - shards
+        - collectedAt
+      properties:
+        shards:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchShard'
+        collectedAt:
+          type: string
+    elasticsearchShardNode:
+      type: object
+      properties:
+        id:
+          type: string
+          x-go-name: ID
+          nullable: true
+        name:
+          type: string
+          x-go-name: Name
+          nullable: true
+    elasticsearchRecoveryTranslog:
+      type: object
+      properties:
+        recovered:
+          type: integer
+          x-go-name: Recovered
+          nullable: true
+          format: int64
+        total:
+          type: integer
+          x-go-name: Total
+          nullable: true
+          format: int64
+        percent:
+          type: string
+          x-go-name: Percent
+          nullable: true
+    elasticsearchRecoverySize:
+      type: object
+      properties:
+        totalBytes:
+          type: integer
+          x-go-name: TotalBytes
+          nullable: true
+          format: int64
+        reusedBytes:
+          type: integer
+          x-go-name: ReusedBytes
+          nullable: true
+          format: int64
+        recoveredBytes:
+          type: integer
+          x-go-name: RecoveredBytes
+          nullable: true
+          format: int64
+        percent:
+          type: string
+          x-go-name: Percent
+          nullable: true
+    elasticsearchShardRecovery:
+      type: object
+      properties:
+        index:
+          type: string
+          x-go-name: Index
+          nullable: true
+        shard:
+          type: integer
+          x-go-name: Shard
+          nullable: true
+          format: int64
+        type:
+          type: string
+          x-go-name: Type
+          nullable: true
+        stage:
+          type: string
+          x-go-name: Stage
+          nullable: true
+        primary:
+          type: boolean
+          x-go-name: Primary
+          nullable: true
+        startTimeMillis:
+          type: integer
+          x-go-name: StartTimeMillis
+          nullable: true
+          format: int64
+        totalTimeMillis:
+          type: integer
+          x-go-name: TotalTimeMillis
+          nullable: true
+          format: int64
+        source:
+          $ref: '#/components/schemas/elasticsearchShardNode'
+          x-go-name: Source
+        target:
+          $ref: '#/components/schemas/elasticsearchShardNode'
+          x-go-name: Target
+        translog:
+          $ref: '#/components/schemas/elasticsearchRecoveryTranslog'
+          x-go-name: Translog
+        size:
+          $ref: '#/components/schemas/elasticsearchRecoverySize'
+          x-go-name: Size
+    elasticsearchRecoveryList:
+      type: object
+      required:
+        - recoveries
+        - collectedAt
+      properties:
+        recoveries:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchShardRecovery'
+        collectedAt:
+          type: string
+    elasticsearchUnassignedInfo:
+      type: object
+      properties:
+        reason:
+          type: string
+          x-go-name: Reason
+          nullable: true
+        at:
+          type: string
+          x-go-name: At
+          nullable: true
+        details:
+          type: string
+          x-go-name: Details
+          nullable: true
+        lastAllocationStatus:
+          type: string
+          x-go-name: LastAllocationStatus
+          nullable: true
+    elasticsearchAllocationDecider:
+      type: object
+      properties:
+        decider:
+          type: string
+          x-go-name: Decider
+          nullable: true
+        decision:
+          type: string
+          x-go-name: Decision
+          nullable: true
+        explanation:
+          type: string
+          x-go-name: Explanation
+          nullable: true
+    elasticsearchNodeAllocationDecision:
+      type: object
+      properties:
+        nodeId:
+          type: string
+          x-go-name: NodeID
+          nullable: true
+        nodeName:
+          type: string
+          x-go-name: NodeName
+          nullable: true
+        nodeDecision:
+          type: string
+          x-go-name: NodeDecision
+          nullable: true
+        deciders:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchAllocationDecider'
+          x-go-name: Deciders
+    elasticsearchAllocationExplanation:
+      type: object
+      properties:
+        index:
+          type: string
+          x-go-name: Index
+          nullable: true
+        shard:
+          type: integer
+          x-go-name: Shard
+          nullable: true
+          format: int64
+        primary:
+          type: boolean
+          x-go-name: Primary
+          nullable: true
+        currentState:
+          type: string
+          x-go-name: CurrentState
+          nullable: true
+        currentNode:
+          $ref: '#/components/schemas/elasticsearchShardNode'
+          x-go-name: CurrentNode
+        unassignedInfo:
+          $ref: '#/components/schemas/elasticsearchUnassignedInfo'
+          x-go-name: UnassignedInfo
+        canAllocate:
+          type: string
+          x-go-name: CanAllocate
+          nullable: true
+        allocateExplanation:
+          type: string
+          x-go-name: AllocateExplanation
+          nullable: true
+        canRemainOnCurrentNode:
+          type: string
+          x-go-name: CanRemainOnCurrentNode
+          nullable: true
+        canRemainDecisions:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchAllocationDecider'
+          x-go-name: CanRemainDecisions
+        canRebalanceCluster:
+          type: string
+          x-go-name: CanRebalanceCluster
+          nullable: true
+        canRebalanceClusterDecisions:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchAllocationDecider'
+          x-go-name: CanRebalanceClusterDecisions
+        canRebalanceToOtherNode:
+          type: string
+          x-go-name: CanRebalanceToOtherNode
+          nullable: true
+        rebalanceExplanation:
+          type: string
+          x-go-name: RebalanceExplanation
+          nullable: true
+        nodeAllocationDecisions:
+          type: array
+          items:
+            $ref: '#/components/schemas/elasticsearchNodeAllocationDecision'
+          x-go-name: NodeAllocationDecisions
     postgresqlLockRow:
       type: object
       required:
@@ -45319,6 +48113,625 @@ components:
             items:
               $ref: '#/components/schemas/networkMode'
             description: available network modes for this engine+mode
+    channelStatus:
+      enum:
+        - Pending
+        - Initializing
+        - Running
+        - Finished
+        - Failed
+        - Pausing
+        - Paused
+        - Deleting
+      type: string
+    dataReplicationEndpointType:
+      enum:
+        - custom
+        - kubeblocks
+      type: string
+    authType:
+      enum:
+        - basic
+      type: string
+    basicAuthModel:
+      type: object
+      properties:
+        userName:
+          type: string
+        password:
+          type: string
+          description: if password is not provided when patch replication channel, it means not to modify the password
+          nullable: true
+    customEndpoint:
+      type: object
+      properties:
+        connectionString:
+          description: display connection string information, including connection details such as url, database, etc
+          type: string
+        connection:
+          type: string
+        authType:
+          $ref: '#/components/schemas/authType'
+        basicAuth:
+          $ref: '#/components/schemas/basicAuthModel'
+          nullable: true
+    kubeblocksEndpoint:
+      type: object
+      properties:
+        environmentID:
+          type: string
+        environmentName:
+          type: string
+        clusterID:
+          type: string
+        clusterName:
+          type: string
+        displayName:
+          type: string
+          nullable: true
+    dataChannelListEndpoint:
+      type: object
+      properties:
+        engineName:
+          type: string
+        endpointType:
+          $ref: '#/components/schemas/dataReplicationEndpointType'
+        custom:
+          $ref: '#/components/schemas/customEndpoint'
+          nullable: true
+        kubeblocks:
+          $ref: '#/components/schemas/kubeblocksEndpoint'
+          nullable: true
+        extraCfgs:
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+    dataChannelItem:
+      type: object
+      properties:
+        channelID:
+          type: string
+        channelName:
+          type: string
+        orgName:
+          type: string
+        channelStatus:
+          $ref: '#/components/schemas/channelStatus'
+        environmentID:
+          type: string
+        environmentName:
+          type: string
+        project:
+          type: string
+        kubernetesName:
+          type: string
+        standardDefinition:
+          type: string
+        source:
+          $ref: '#/components/schemas/dataChannelListEndpoint'
+        target:
+          $ref: '#/components/schemas/dataChannelListEndpoint'
+        replicationObjects:
+          $ref: '#/components/schemas/dataChannelObject'
+        modules:
+          type: array
+          items:
+            type: string
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/eventObject'
+        createdAt:
+          type: string
+          format: date-time
+        FinishedAt:
+          type: string
+          format: date-time
+          nullable: true
+    dataChannelList:
+      type: array
+      items:
+        $ref: '#/components/schemas/dataChannelItem'
+    customEndpointCreate:
+      type: object
+      properties:
+        connection:
+          type: string
+        authType:
+          $ref: '#/components/schemas/authType'
+        basicAuth:
+          $ref: '#/components/schemas/basicAuthModel'
+          nullable: true
+    dataChannelEndpointCreate:
+      type: object
+      properties:
+        engineName:
+          type: string
+        definitionName:
+          type: string
+        endpointType:
+          $ref: '#/components/schemas/dataReplicationEndpointType'
+        custom:
+          $ref: '#/components/schemas/customEndpointCreate'
+          nullable: true
+        kubeblocks:
+          $ref: '#/components/schemas/kubeblocksEndpoint'
+          nullable: true
+        extraCfgs:
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+    dataChannelParameterKeyValue:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+      required:
+        - key
+        - value
+    dataReplicationCreate:
+      type: object
+      properties:
+        channelName:
+          type: string
+        modules:
+          type: array
+          items:
+            type: string
+        environmentID:
+          type: string
+        project:
+          type: string
+          default: kubeblocks-cloud-ns
+        standardDefinition:
+          type: string
+        source:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+        target:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+        replicationObjects:
+          $ref: '#/components/schemas/dataChannelObject'
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/eventObject'
+        parameters:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/dataChannelParameterKeyValue'
+          nullable: true
+    dataChannelResponse:
+      type: object
+      properties:
+        channelID:
+          type: string
+        channelName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+          nullable: true
+    dataChannelModuleProgress:
+      type: object
+      properties:
+        moduleName:
+          type: string
+        kubernetesName:
+          type: string
+          nullable: true
+        progress:
+          type: number
+          format: double
+          nullable: true
+        status:
+          type: string
+        message:
+          type: string
+          nullable: true
+    dataChannelProgress:
+      type: object
+      properties:
+        progress:
+          type: number
+          format: double
+          nullable: true
+        moduleProgress:
+          type: array
+          items:
+            $ref: '#/components/schemas/dataChannelModuleProgress'
+    dataChannelDetail:
+      type: object
+      properties:
+        channel:
+          $ref: '#/components/schemas/dataChannelItem'
+        progress:
+          $ref: '#/components/schemas/dataChannelProgress'
+    dataReplicationUpdate:
+      type: object
+      properties:
+        clusterUpdates:
+          $ref: '#/components/schemas/dataReplicationCreate'
+        isRestart:
+          type: boolean
+          nullable: true
+    replicationObjectQuery:
+      type: object
+      properties:
+        sourceEngineDefinition:
+          type: string
+        targetEngineDefinition:
+          type: string
+        endpoint:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+        nodeType:
+          type: string
+          nullable: true
+        nodeValue:
+          type: string
+          nullable: true
+        queryNodeType:
+          type: string
+          nullable: true
+    preCheckCreate:
+      type: object
+      properties:
+        modules:
+          type: array
+          items:
+            type: string
+        environmentID:
+          type: string
+        source:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+        target:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+        replicationObjects:
+          $ref: '#/components/schemas/dataChannelObject'
+    dataReplicationChannelContainer:
+      type: object
+      properties:
+        name:
+          type: string
+        isMainContainer:
+          type: boolean
+          default: false
+        isInitContainer:
+          type: boolean
+          default: false
+    dataReplicationParametersResponseDetail:
+      type: object
+      properties:
+        displayName:
+          type: string
+        desc:
+          $ref: '#/components/schemas/internationalDesc'
+        key:
+          type: string
+        defaultValue:
+          type: string
+        value:
+          type: string
+        valueType:
+          $ref: '#/components/schemas/parameterValueType'
+      required:
+        - key
+    dataReplicationParametersResponse:
+      type: object
+      description: the parameters of the data channel, the key is the module name, the value is the parameter template
+      additionalProperties:
+        type: array
+        items:
+          $ref: '#/components/schemas/dataReplicationParametersResponseDetail'
+    dataCheckType:
+      type: string
+      description: Type of check to run. A standalone check runs exactly one type.
+      enum:
+        - struct
+        - snapshot
+    dataCheckStatus:
+      type: string
+      enum:
+        - Running
+        - Finished
+        - Failed
+    dataCheckListSummary:
+      type: object
+      properties:
+        is_consistent:
+          type: boolean
+          nullable: true
+        miss_count:
+          type: integer
+          format: int64
+        diff_count:
+          type: integer
+          format: int64
+        skip_count:
+          type: integer
+          format: int64
+        sql_count:
+          type: integer
+          format: int64
+    dataCheckListItem:
+      type: object
+      properties:
+        checkID:
+          type: string
+        checkName:
+          type: string
+        orgName:
+          type: string
+        checkType:
+          $ref: '#/components/schemas/dataCheckType'
+        checkStatus:
+          $ref: '#/components/schemas/dataCheckStatus'
+        checkSummary:
+          $ref: '#/components/schemas/dataCheckListSummary'
+          nullable: true
+        environmentID:
+          type: string
+        environmentName:
+          type: string
+        project:
+          type: string
+        source:
+          $ref: '#/components/schemas/dataChannelListEndpoint'
+        target:
+          $ref: '#/components/schemas/dataChannelListEndpoint'
+        replicationObjects:
+          $ref: '#/components/schemas/dataChannelObject'
+        errorMessage:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+          nullable: true
+    dataCheckList:
+      type: array
+      items:
+        $ref: '#/components/schemas/dataCheckListItem'
+    dataCheckCreate:
+      type: object
+      required:
+        - checkType
+      description: Exactly one entry point must be used. Provide channelID with checkType to create from an existing channel, or provide environmentID, project, source, target, replicationObjects, and checkType for direct creation.
+      properties:
+        checkType:
+          $ref: '#/components/schemas/dataCheckType'
+        channelID:
+          type: string
+          description: Existing data replication channel ID used only as a create-time shortcut.
+        checkName:
+          type: string
+          nullable: true
+        environmentID:
+          type: string
+          description: Environment UUID for direct check creation.
+        project:
+          type: string
+          description: Kubernetes namespace for direct check creation.
+        source:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+          nullable: true
+        target:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+          nullable: true
+        replicationObjects:
+          $ref: '#/components/schemas/dataChannelObject'
+          nullable: true
+    dataCheckResponse:
+      type: object
+      properties:
+        checkID:
+          type: string
+        checkName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    dataCheckTableSummary:
+      type: object
+      properties:
+        schema:
+          type: string
+        tb:
+          type: string
+        target_schema:
+          type: string
+        target_tb:
+          type: string
+        checked_count:
+          type: integer
+          format: int64
+        miss_count:
+          type: integer
+          format: int64
+        diff_count:
+          type: integer
+          format: int64
+        skip_count:
+          type: integer
+          format: int64
+    dataCheckSummary:
+      type: object
+      properties:
+        is_consistent:
+          type: boolean
+          nullable: true
+        miss_count:
+          type: integer
+          format: int64
+        diff_count:
+          type: integer
+          format: int64
+        skip_count:
+          type: integer
+          format: int64
+        sql_count:
+          type: integer
+          format: int64
+        tables:
+          type: array
+          items:
+            $ref: '#/components/schemas/dataCheckTableSummary'
+    dataCheckItem:
+      type: object
+      properties:
+        orgName:
+          type: string
+        checkID:
+          type: string
+        checkName:
+          type: string
+        checkType:
+          $ref: '#/components/schemas/dataCheckType'
+        checkStatus:
+          $ref: '#/components/schemas/dataCheckStatus'
+        checkSummary:
+          $ref: '#/components/schemas/dataCheckSummary'
+          nullable: true
+        environmentID:
+          type: string
+        environmentName:
+          type: string
+        project:
+          type: string
+        source:
+          $ref: '#/components/schemas/dataChannelListEndpoint'
+        target:
+          $ref: '#/components/schemas/dataChannelListEndpoint'
+        replicationObjects:
+          $ref: '#/components/schemas/dataChannelObject'
+        errorMessage:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+          nullable: true
+    dataCheckDetailType:
+      type: string
+      enum:
+        - miss
+        - diff
+    dataCheckDiffValue:
+      type: object
+      properties:
+        src:
+          type: string
+          nullable: true
+        dst:
+          type: string
+          nullable: true
+        src_type:
+          type: string
+          nullable: true
+        dst_type:
+          type: string
+          nullable: true
+    dataCheckDetailItem:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Struct check object key. Present for struct details; omitted for snapshot row details.
+        schema:
+          type: string
+          description: Source schema or database from the requested detail scope.
+        tb:
+          type: string
+          description: Source table from the requested detail scope.
+        target_schema:
+          type: string
+          nullable: true
+          description: Target schema or database for snapshot details when routing changes the target object.
+        target_tb:
+          type: string
+          nullable: true
+          description: Target table for snapshot details when routing changes the target object.
+        id_col_values:
+          type: object
+          additionalProperties: {}
+        src_sql:
+          type: string
+          nullable: true
+        diff_col_values:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/dataCheckDiffValue'
+          nullable: true
+        src_row:
+          type: object
+          additionalProperties: true
+          nullable: true
+        dst_row:
+          type: object
+          additionalProperties: true
+          nullable: true
+        dst_sql:
+          type: string
+          nullable: true
+    dataCheckDetails:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/dataCheckDetailItem'
+        pagination:
+          $ref: '#/components/schemas/paginationResult'
+    dataReplicationOpsType:
+      description: data replication ops type
+      enum:
+        - pause
+        - resume
+        - restart
+      type: string
+    eventItem:
+      type: object
+      properties:
+        eventID:
+          type: string
+        eventName:
+          type: string
+        eventTime:
+          type: string
+          format: date-time
+        eventMessage:
+          type: string
+        operator:
+          type: string
+        operatorID:
+          type: string
+          nullable: true
+    dataReplicationEventList:
+      type: array
+      items:
+        $ref: '#/components/schemas/eventItem'
   responses:
     '204':
       description: No Content
@@ -45473,6 +48886,15 @@ components:
       name: query
       schema:
         type: string
+    dashboardConfigKey:
+      in: path
+      name: key
+      required: true
+      description: Frontend-defined non-blank configuration key, up to 512 Unicode characters. URL-encode the key when used in a request path.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 512
 x-tagGroups:
   - name: User
     tags:
