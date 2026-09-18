@@ -248,8 +248,9 @@ func (a *InspectionApi) CreateInspectionTaskByEnv(ctx _context.Context, environm
 	return localVarHTTPResponse, nil
 }
 
-// CreateInspectionTaskByOrg create inspection task by org.
-func (a *InspectionApi) CreateInspectionTaskByOrg(ctx _context.Context, orgName string, body InspectionTask) (*_nethttp.Response, error) {
+// CreateInspectionTaskByOrg Trigger inspection for selected clusters in an organization.
+// Creates one inspection task per matching non-stopped cluster in the path organization. Omit engines or pass an empty array to select all engines. Omit clusterIDs or pass an empty array to select all clusters. When both arrays are non-empty, clusters must match both filters. All tasks and items are persisted in one transaction before asynchronous execution starts.
+func (a *InspectionApi) CreateInspectionTaskByOrg(ctx _context.Context, orgName string, body InspectionTaskCreate) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
@@ -276,7 +277,7 @@ func (a *InspectionApi) CreateInspectionTaskByOrg(ctx _context.Context, orgName 
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] = "application/json"
+	localVarHeaderParams["Accept"] = "*/*"
 
 	// body params
 	localVarPostBody = &body
@@ -304,6 +305,15 @@ func (a *InspectionApi) CreateInspectionTaskByOrg(ctx _context.Context, orgName 
 		newErr := common.GenericOpenAPIError{
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v None
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
