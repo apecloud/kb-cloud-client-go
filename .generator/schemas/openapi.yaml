@@ -21450,14 +21450,9 @@ paths:
               $ref: '#/components/schemas/inspectionTaskCreate'
         required: true
       responses:
-        '202':
+        '204':
           description: Inspection tasks created and accepted for asynchronous execution.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/inspectionTask'
+          content: {}
         '400':
           description: Invalid request, invalid cluster selection, or no eligible clusters.
         '401':
