@@ -248,12 +248,13 @@ func (a *InspectionApi) CreateInspectionTaskByEnv(ctx _context.Context, environm
 	return localVarHTTPResponse, nil
 }
 
-// CreateInspectionTaskByOrg Trigger inspection for a selected cluster.
-// Use this endpoint for a specific cluster within the path organization, selecting the cluster with clusterID or clusterName in the request body. This endpoint remains supported. Requests without a cluster selector retain their existing organization-wide behavior for compatibility. Use POST /api/v1/inspectionTasks/batch (or the corresponding /admin/v1 endpoint) for organization/engine scope selection, including single-element selections that may match multiple clusters. Cluster selectors are not required by the server during migration.
-func (a *InspectionApi) CreateInspectionTaskByOrg(ctx _context.Context, orgName string, body InspectionTask) (*_nethttp.Response, error) {
+// CreateInspectionTaskByOrg Trigger inspection for selected clusters in an organization.
+// Creates one inspection task per matching non-stopped cluster in the path organization. Omit engines or pass an empty array to select all engines. Omit clusterIDs or pass an empty array to select all clusters. When both arrays are non-empty, clusters must match both filters. All tasks and items are persisted in one transaction before asynchronous execution starts.
+func (a *InspectionApi) CreateInspectionTaskByOrg(ctx _context.Context, orgName string, body InspectionTaskCreate) ([]InspectionTask, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodPost
-		localVarPostBody   interface{}
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue []InspectionTask
 	)
 
 	// Add api info to context
@@ -267,83 +268,11 @@ func (a *InspectionApi) CreateInspectionTaskByOrg(ctx _context.Context, orgName 
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InspectionApi.CreateInspectionTaskByOrg")
 	if err != nil {
-		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/inspectionTasksByOrg"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] = "application/json"
-
-	// body params
-	localVarPostBody = &body
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"DigestAuth", "Authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
-}
-
-// CreateInspectionTasksBatch Trigger inspection across selected organizations and engines.
-// Use this endpoint to inspect clusters selected by organization and engine scope, rather than selecting a specific cluster. Both arrays support single-element selections, which can still match multiple clusters. Validates access to all organizations before creating any tasks. Creates one task per matching non-stopped cluster in a single transaction, then starts asynchronous execution. Returns 400 if no eligible clusters match. For a specific cluster, use POST /organizations/{orgName}/inspectionTasksByOrg under the same API prefix.
-func (a *InspectionApi) CreateInspectionTasksBatch(ctx _context.Context, body InspectionTaskBatchCreate) ([]InspectionTask, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue []InspectionTask
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "inspection",
-		OperationID: "createInspectionTasksBatch",
-		Path:        "/admin/v1/inspectionTasks/batch",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InspectionApi.CreateInspectionTasksBatch")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/inspectionTasks/batch"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}

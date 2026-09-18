@@ -16,7 +16,7 @@ type ComponentItemCreate struct {
 	Component string `json:"component"`
 	// The number of components, if often used as shards number
 	CompNum *int32 `json:"compNum,omitempty"`
-	// The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
+	// Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas.
 	Replicas *int32 `json:"replicas,omitempty"`
 	// Whether to skip resource constraint validation when creating cluster
 	SkipResourceConstraints *bool   `json:"skipResourceConstraints,omitempty"`
