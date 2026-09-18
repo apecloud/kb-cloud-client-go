@@ -17844,6 +17844,525 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - platformComponent
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups:
+    get:
+      tags:
+        - computeGroup
+      operationId: listComputeGroups
+      summary: List compute groups
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Supported engine name (doris or selectdb).
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/computeGroupList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - computeGroup
+      operationId: createComputeGroup
+      summary: Create compute group
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Supported engine name (doris or selectdb).
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Accepted; poll taskId for convergence.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opsRequestName'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/computeGroupCreate'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}:
+    get:
+      tags:
+        - computeGroup
+      operationId: getComputeGroup
+      summary: Get compute group
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Supported engine name (doris or selectdb).
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: groupName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/computeGroup'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - computeGroup
+      operationId: deleteComputeGroup
+      summary: Delete compute group
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Supported engine name (doris or selectdb).
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: groupName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Accepted; poll taskId for convergence.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opsRequestName'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/scale:
+    post:
+      tags:
+        - computeGroup
+      operationId: scaleComputeGroup
+      summary: Scale compute group
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Supported engine name (doris or selectdb).
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: groupName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Accepted; poll taskId for convergence.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opsRequestName'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/computeGroupScale'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/start:
+    post:
+      tags:
+        - computeGroup
+      operationId: startComputeGroup
+      summary: Start compute group
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Supported engine name (doris or selectdb).
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: groupName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Accepted; poll taskId for convergence.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opsRequestName'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/stop:
+    post:
+      tags:
+        - computeGroup
+      operationId: stopComputeGroup
+      summary: Stop compute group
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Supported engine name (doris or selectdb).
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: groupName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Accepted; poll taskId for convergence.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opsRequestName'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/accounts:
+    get:
+      tags:
+        - computeGroup
+      operationId: listComputeGroupAccounts
+      summary: List compute group accounts
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Supported engine name (doris or selectdb).
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: groupName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/computeGroupAccountList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/accounts/{accountName}:
+    put:
+      tags:
+        - computeGroup
+      operationId: grantComputeGroupAccount
+      summary: Grant compute group account
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Supported engine name (doris or selectdb).
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: groupName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Updated
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - computeGroup
+      operationId: revokeComputeGroupAccount
+      summary: Revoke compute group account
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Supported engine name (doris or selectdb).
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: groupName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Updated
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/accounts/{accountName}/default:
+    put:
+      tags:
+        - computeGroup
+      operationId: setDefaultComputeGroup
+      summary: Set default compute group
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Supported engine name (doris or selectdb).
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: groupName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Updated
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/brokers:
     get:
       summary: Get all brokers in cluster
@@ -42573,6 +43092,147 @@ components:
       required:
         - name
         - status
+    computeGroupBackend:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Opaque backend ID; do not convert to a JavaScript number.
+        host:
+          type: string
+        heartbeatPort:
+          type: integer
+          format: int64
+        alive:
+          type: boolean
+        decommissioned:
+          type: boolean
+        tabletCount:
+          type: integer
+          format: int64
+        lastHeartbeat:
+          type: string
+        version:
+          type: string
+        errorMessage:
+          type: string
+    computeGroup:
+      type: object
+      properties:
+        name:
+          type: string
+        componentName:
+          type: string
+        managed:
+          type: boolean
+        isDefault:
+          type: boolean
+        phase:
+          type: string
+          description: Kubernetes component phase, independent of engine membership.
+        stopped:
+          type: boolean
+        replicas:
+          type: integer
+          format: int64
+        classCode:
+          type: string
+        cpu:
+          type: number
+        memory:
+          type: number
+        backendCount:
+          type: integer
+          format: int64
+        aliveBackendCount:
+          type: integer
+          format: int64
+        defaultUsers:
+          type: array
+          items:
+            type: string
+        backends:
+          type: array
+          items:
+            $ref: '#/components/schemas/computeGroupBackend'
+        allowedActions:
+          type: array
+          items:
+            type: string
+    computeGroupList:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/computeGroup'
+        managementSupported:
+          type: boolean
+        unsupportedReason:
+          type: string
+    computeGroupCreate:
+      type: object
+      required:
+        - name
+        - replicas
+        - classCode
+      properties:
+        name:
+          type: string
+          pattern: ^[A-Za-z][A-Za-z0-9_]{0,63}$
+        replicas:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 1000
+        classCode:
+          type: string
+          minLength: 1
+          maxLength: 128
+      additionalProperties: false
+    computeGroupScale:
+      type: object
+      properties:
+        replicas:
+          x-nullable: true
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 1000
+        classCode:
+          type: string
+          minLength: 1
+          maxLength: 128
+      additionalProperties: false
+    computeGroupAccount:
+      type: object
+      properties:
+        identity:
+          type: string
+        accountName:
+          type: string
+        manageable:
+          type: boolean
+        globalGrants:
+          type: string
+        computeGrants:
+          type: string
+        roles:
+          type: string
+        isDefault:
+          type: boolean
+      description: Grants reported by the engine can include role inheritance. Revoking a direct grant does not remove inherited permissions.
+    computeGroupAccountList:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/computeGroupAccount'
     Broker:
       x-go-name: KafkaBroker
       type: object
