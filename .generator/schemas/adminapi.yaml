@@ -37665,14 +37665,36 @@ components:
             Object storage serviceRef configs supported by this mode. Use this when different object
             storage engines may require different serviceRef or Helm value mappings. When it is set,
             the cluster create request selects one item by objectStorageConfig.serviceRef.name.
+    envRerender:
+      type: object
+      description: Rule telling whether the env of an existing component is re-rendered when the mode transitions.
+      properties:
+        allEnv:
+          type: boolean
+          description: Re-render the whole env of the component.
+        includeEnvs:
+          type: array
+          description: Re-render only these env vars, when allEnv is not set.
+          items:
+            type: string
     engineModeTransition:
       type: object
       required:
         - mode
       properties:
+        envRerender:
+          $ref: '#/components/schemas/envRerender'
         mode:
           type: string
           description: Target mode name.
+        waitComponentsRunningAfterModeChange:
+          type: array
+          description: |
+            Components that must be running once the mode change is done, in addition to the ones the
+            transition creates. Declare a component here when the transition re-renders it instead of
+            creating it, so it must settle before the transition is considered finished.
+          items:
+            type: string
     modeOption:
       type: object
       required:
