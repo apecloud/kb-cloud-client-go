@@ -21953,7 +21953,8 @@ paths:
       tags:
         - inspection
       operationId: createInspectionTaskByOrg
-      summary: create inspection task by org
+      summary: Trigger inspection for selected clusters in an organization
+      description: Creates one inspection task per matching non-stopped cluster in the path organization. Omit engines or pass an empty array to select all engines. Omit clusterIDs or pass an empty array to select all clusters. When both arrays are non-empty, clusters must match both filters. All tasks and items are persisted in one transaction before asynchronous execution starts.
       parameters:
         - description: name of the Org
           in: path
@@ -21965,12 +21966,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/inspectionTask'
+              $ref: '#/components/schemas/inspectionTaskCreate'
         required: true
       responses:
         '204':
-          description: No content.
+          description: Inspection tasks created and accepted for asynchronous execution.
           content: {}
+        '400':
+          description: Invalid request, invalid cluster selection, or no eligible clusters.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -41026,6 +41029,35 @@ components:
         timeRangeEnd:
           format: date-time
           type: string
+    inspectionTaskCreate:
+      type: object
+      properties:
+        engines:
+          description: Engine names to inspect in the path organization. Omit or pass an empty array to inspect all engines.
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            pattern: ^[^,\s]+$
+        clusterIDs:
+          description: Cluster IDs to inspect in the path organization. Omit or pass an empty array to inspect all clusters selected by engines.
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            pattern: ^[1-9][0-9]*$
+        timeRangeStart:
+          type: string
+          format: date-time
+          description: Start of the inspection window. If either bound is omitted, defaults to the preceding 24 hours.
+        timeRangeEnd:
+          type: string
+          format: date-time
+        savedDays:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Report retention in days. Zero uses the existing default retention policy.
     inspectionTaskFormat:
       description: Specifies the format of the task in the aggregate task result.
       enum:
