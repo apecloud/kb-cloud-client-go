@@ -18,7 +18,7 @@ import (
 type ComputeGroupApi common.Service
 
 // CreateComputeGroup Create compute group.
-func (a *ComputeGroupApi) CreateComputeGroup(ctx _context.Context, orgName string, clusterName string, body ComputeGroupCreate) (OpsRequestName, *_nethttp.Response, error) {
+func (a *ComputeGroupApi) CreateComputeGroup(ctx _context.Context, engineName string, orgName string, clusterName string, body ComputeGroupCreate) (OpsRequestName, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -29,7 +29,7 @@ func (a *ComputeGroupApi) CreateComputeGroup(ctx _context.Context, orgName strin
 	apiInfo := common.APIInfo{
 		Tag:         "computeGroup",
 		OperationID: "createComputeGroup",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -39,7 +39,8 @@ func (a *ComputeGroupApi) CreateComputeGroup(ctx _context.Context, orgName strin
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -100,7 +101,7 @@ func (a *ComputeGroupApi) CreateComputeGroup(ctx _context.Context, orgName strin
 }
 
 // DeleteComputeGroup Delete compute group.
-func (a *ComputeGroupApi) DeleteComputeGroup(ctx _context.Context, orgName string, clusterName string, groupName string) (OpsRequestName, *_nethttp.Response, error) {
+func (a *ComputeGroupApi) DeleteComputeGroup(ctx _context.Context, engineName string, orgName string, clusterName string, groupName string) (OpsRequestName, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
 		localVarPostBody    interface{}
@@ -111,7 +112,7 @@ func (a *ComputeGroupApi) DeleteComputeGroup(ctx _context.Context, orgName strin
 	apiInfo := common.APIInfo{
 		Tag:         "computeGroup",
 		OperationID: "deleteComputeGroup",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -121,7 +122,8 @@ func (a *ComputeGroupApi) DeleteComputeGroup(ctx _context.Context, orgName strin
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"groupName"+"}", _neturl.PathEscape(common.ParameterToString(groupName, "")), -1)
@@ -180,7 +182,7 @@ func (a *ComputeGroupApi) DeleteComputeGroup(ctx _context.Context, orgName strin
 }
 
 // GetComputeGroup Get compute group.
-func (a *ComputeGroupApi) GetComputeGroup(ctx _context.Context, orgName string, clusterName string, groupName string) (ComputeGroup, *_nethttp.Response, error) {
+func (a *ComputeGroupApi) GetComputeGroup(ctx _context.Context, engineName string, orgName string, clusterName string, groupName string) (ComputeGroup, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -191,7 +193,7 @@ func (a *ComputeGroupApi) GetComputeGroup(ctx _context.Context, orgName string, 
 	apiInfo := common.APIInfo{
 		Tag:         "computeGroup",
 		OperationID: "getComputeGroup",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -201,7 +203,8 @@ func (a *ComputeGroupApi) GetComputeGroup(ctx _context.Context, orgName string, 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"groupName"+"}", _neturl.PathEscape(common.ParameterToString(groupName, "")), -1)
@@ -260,7 +263,7 @@ func (a *ComputeGroupApi) GetComputeGroup(ctx _context.Context, orgName string, 
 }
 
 // GrantComputeGroupAccount Grant compute group account.
-func (a *ComputeGroupApi) GrantComputeGroupAccount(ctx _context.Context, orgName string, clusterName string, groupName string, accountName string) (*_nethttp.Response, error) {
+func (a *ComputeGroupApi) GrantComputeGroupAccount(ctx _context.Context, engineName string, orgName string, clusterName string, groupName string, accountName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPut
 		localVarPostBody   interface{}
@@ -270,7 +273,7 @@ func (a *ComputeGroupApi) GrantComputeGroupAccount(ctx _context.Context, orgName
 	apiInfo := common.APIInfo{
 		Tag:         "computeGroup",
 		OperationID: "grantComputeGroupAccount",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/accounts/{accountName}",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/accounts/{accountName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -280,7 +283,8 @@ func (a *ComputeGroupApi) GrantComputeGroupAccount(ctx _context.Context, orgName
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/accounts/{accountName}"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/accounts/{accountName}"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"groupName"+"}", _neturl.PathEscape(common.ParameterToString(groupName, "")), -1)
@@ -331,7 +335,7 @@ func (a *ComputeGroupApi) GrantComputeGroupAccount(ctx _context.Context, orgName
 }
 
 // ListComputeGroupAccounts List compute group accounts.
-func (a *ComputeGroupApi) ListComputeGroupAccounts(ctx _context.Context, orgName string, clusterName string, groupName string) (ComputeGroupAccountList, *_nethttp.Response, error) {
+func (a *ComputeGroupApi) ListComputeGroupAccounts(ctx _context.Context, engineName string, orgName string, clusterName string, groupName string) (ComputeGroupAccountList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -342,7 +346,7 @@ func (a *ComputeGroupApi) ListComputeGroupAccounts(ctx _context.Context, orgName
 	apiInfo := common.APIInfo{
 		Tag:         "computeGroup",
 		OperationID: "listComputeGroupAccounts",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/accounts",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/accounts",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -352,7 +356,8 @@ func (a *ComputeGroupApi) ListComputeGroupAccounts(ctx _context.Context, orgName
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/accounts"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/accounts"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"groupName"+"}", _neturl.PathEscape(common.ParameterToString(groupName, "")), -1)
@@ -411,7 +416,7 @@ func (a *ComputeGroupApi) ListComputeGroupAccounts(ctx _context.Context, orgName
 }
 
 // ListComputeGroups List compute groups.
-func (a *ComputeGroupApi) ListComputeGroups(ctx _context.Context, orgName string, clusterName string) (ComputeGroupList, *_nethttp.Response, error) {
+func (a *ComputeGroupApi) ListComputeGroups(ctx _context.Context, engineName string, orgName string, clusterName string) (ComputeGroupList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -422,7 +427,7 @@ func (a *ComputeGroupApi) ListComputeGroups(ctx _context.Context, orgName string
 	apiInfo := common.APIInfo{
 		Tag:         "computeGroup",
 		OperationID: "listComputeGroups",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -432,7 +437,8 @@ func (a *ComputeGroupApi) ListComputeGroups(ctx _context.Context, orgName string
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -490,7 +496,7 @@ func (a *ComputeGroupApi) ListComputeGroups(ctx _context.Context, orgName string
 }
 
 // RevokeComputeGroupAccount Revoke compute group account.
-func (a *ComputeGroupApi) RevokeComputeGroupAccount(ctx _context.Context, orgName string, clusterName string, groupName string, accountName string) (*_nethttp.Response, error) {
+func (a *ComputeGroupApi) RevokeComputeGroupAccount(ctx _context.Context, engineName string, orgName string, clusterName string, groupName string, accountName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
@@ -500,7 +506,7 @@ func (a *ComputeGroupApi) RevokeComputeGroupAccount(ctx _context.Context, orgNam
 	apiInfo := common.APIInfo{
 		Tag:         "computeGroup",
 		OperationID: "revokeComputeGroupAccount",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/accounts/{accountName}",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/accounts/{accountName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -510,7 +516,8 @@ func (a *ComputeGroupApi) RevokeComputeGroupAccount(ctx _context.Context, orgNam
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/accounts/{accountName}"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/accounts/{accountName}"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"groupName"+"}", _neturl.PathEscape(common.ParameterToString(groupName, "")), -1)
@@ -561,7 +568,7 @@ func (a *ComputeGroupApi) RevokeComputeGroupAccount(ctx _context.Context, orgNam
 }
 
 // ScaleComputeGroup Scale compute group.
-func (a *ComputeGroupApi) ScaleComputeGroup(ctx _context.Context, orgName string, clusterName string, groupName string, body ComputeGroupScale) (OpsRequestName, *_nethttp.Response, error) {
+func (a *ComputeGroupApi) ScaleComputeGroup(ctx _context.Context, engineName string, orgName string, clusterName string, groupName string, body ComputeGroupScale) (OpsRequestName, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -572,7 +579,7 @@ func (a *ComputeGroupApi) ScaleComputeGroup(ctx _context.Context, orgName string
 	apiInfo := common.APIInfo{
 		Tag:         "computeGroup",
 		OperationID: "scaleComputeGroup",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/scale",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/scale",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -582,7 +589,8 @@ func (a *ComputeGroupApi) ScaleComputeGroup(ctx _context.Context, orgName string
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/scale"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/scale"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"groupName"+"}", _neturl.PathEscape(common.ParameterToString(groupName, "")), -1)
@@ -644,7 +652,7 @@ func (a *ComputeGroupApi) ScaleComputeGroup(ctx _context.Context, orgName string
 }
 
 // SetDefaultComputeGroup Set default compute group.
-func (a *ComputeGroupApi) SetDefaultComputeGroup(ctx _context.Context, orgName string, clusterName string, groupName string, accountName string) (*_nethttp.Response, error) {
+func (a *ComputeGroupApi) SetDefaultComputeGroup(ctx _context.Context, engineName string, orgName string, clusterName string, groupName string, accountName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPut
 		localVarPostBody   interface{}
@@ -654,7 +662,7 @@ func (a *ComputeGroupApi) SetDefaultComputeGroup(ctx _context.Context, orgName s
 	apiInfo := common.APIInfo{
 		Tag:         "computeGroup",
 		OperationID: "setDefaultComputeGroup",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/accounts/{accountName}/default",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/accounts/{accountName}/default",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -664,7 +672,8 @@ func (a *ComputeGroupApi) SetDefaultComputeGroup(ctx _context.Context, orgName s
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/accounts/{accountName}/default"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/accounts/{accountName}/default"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"groupName"+"}", _neturl.PathEscape(common.ParameterToString(groupName, "")), -1)
@@ -715,7 +724,7 @@ func (a *ComputeGroupApi) SetDefaultComputeGroup(ctx _context.Context, orgName s
 }
 
 // StartComputeGroup Start compute group.
-func (a *ComputeGroupApi) StartComputeGroup(ctx _context.Context, orgName string, clusterName string, groupName string) (OpsRequestName, *_nethttp.Response, error) {
+func (a *ComputeGroupApi) StartComputeGroup(ctx _context.Context, engineName string, orgName string, clusterName string, groupName string) (OpsRequestName, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -726,7 +735,7 @@ func (a *ComputeGroupApi) StartComputeGroup(ctx _context.Context, orgName string
 	apiInfo := common.APIInfo{
 		Tag:         "computeGroup",
 		OperationID: "startComputeGroup",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/start",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/start",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -736,7 +745,8 @@ func (a *ComputeGroupApi) StartComputeGroup(ctx _context.Context, orgName string
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/start"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/start"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"groupName"+"}", _neturl.PathEscape(common.ParameterToString(groupName, "")), -1)
@@ -795,7 +805,7 @@ func (a *ComputeGroupApi) StartComputeGroup(ctx _context.Context, orgName string
 }
 
 // StopComputeGroup Stop compute group.
-func (a *ComputeGroupApi) StopComputeGroup(ctx _context.Context, orgName string, clusterName string, groupName string) (OpsRequestName, *_nethttp.Response, error) {
+func (a *ComputeGroupApi) StopComputeGroup(ctx _context.Context, engineName string, orgName string, clusterName string, groupName string) (OpsRequestName, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -806,7 +816,7 @@ func (a *ComputeGroupApi) StopComputeGroup(ctx _context.Context, orgName string,
 	apiInfo := common.APIInfo{
 		Tag:         "computeGroup",
 		OperationID: "stopComputeGroup",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/stop",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/stop",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -816,7 +826,8 @@ func (a *ComputeGroupApi) StopComputeGroup(ctx _context.Context, orgName string,
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/stop"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}/stop"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"groupName"+"}", _neturl.PathEscape(common.ParameterToString(groupName, "")), -1)
