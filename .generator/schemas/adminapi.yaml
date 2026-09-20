@@ -9678,6 +9678,46 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/environments/{environmentName}/namespaces/{namespace}/pvcs/{pvcName}:
+    get:
+      operationId: getEnvironmentPersistentVolumeClaim
+      summary: Get a live PersistentVolumeClaim
+      description: Returns the Kubernetes v1 PersistentVolumeClaim object, excluding metadata.managedFields. Requires environment read permission in the Admin Portal.
+      tags:
+        - environment
+      parameters:
+        - in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: namespace
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: pvcName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The live PVC, including Kubernetes metadata, spec and status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/jsonBody'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/environments:
     get:
       operationId: listEnvironment
@@ -34770,6 +34810,11 @@ components:
       required:
         - serviceName
         - serviceNamespace
+    jsonBody:
+      description: Represents a JSON body.
+      properties: {}
+      additionalProperties: true
+      type: object
     logBackendType:
       type: string
       description: Log query backend configured for this environment.
@@ -35804,11 +35849,6 @@ components:
       required:
         - items
         - updatedAt
-      type: object
-    jsonBody:
-      description: Represents a JSON body.
-      properties: {}
-      additionalProperties: true
       type: object
     instanceResourceStatsType:
       description: Type of the instance, choose cluster, system, or other

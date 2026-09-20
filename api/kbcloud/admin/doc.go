@@ -455,6 +455,7 @@
 //   - [environmentApi.getEnvironmentModuleDetails]
 //   - [environmentApi.getEnvironmentModuleInfo]
 //   - [environmentApi.getEnvironmentModuleLogs]
+//   - [environmentApi.getEnvironmentPersistentVolumeClaim]
 //   - [environmentApi.getEnvironmentProvisioningProgress]
 //   - [environmentApi.getEnvironmentStatus]
 //   - [environmentApi.getEnvironmentStatusHistory]
