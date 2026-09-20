@@ -26,6 +26,8 @@ type InstanceTemplateCreate struct {
 	Env []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
 	// Annotations merged into this template (same-name keys overwritten).
 	Annotations map[string]string `json:"annotations,omitempty"`
+	// Labels merged into this template (same-name keys overwritten).
+	Labels map[string]string `json:"labels,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -236,6 +238,34 @@ func (o *InstanceTemplateCreate) SetAnnotations(v map[string]string) {
 	o.Annotations = v
 }
 
+// GetLabels returns the Labels field value if set, zero value otherwise.
+func (o *InstanceTemplateCreate) GetLabels() map[string]string {
+	if o == nil || o.Labels == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.Labels
+}
+
+// GetLabelsOk returns a tuple with the Labels field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InstanceTemplateCreate) GetLabelsOk() (*map[string]string, bool) {
+	if o == nil || o.Labels == nil {
+		return nil, false
+	}
+	return &o.Labels, true
+}
+
+// HasLabels returns a boolean if a field has been set.
+func (o *InstanceTemplateCreate) HasLabels() bool {
+	return o != nil && o.Labels != nil
+}
+
+// SetLabels gets a reference to the given map[string]string and assigns it to the Labels field.
+func (o *InstanceTemplateCreate) SetLabels(v map[string]string) {
+	o.Labels = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o InstanceTemplateCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -259,6 +289,9 @@ func (o InstanceTemplateCreate) MarshalJSON() ([]byte, error) {
 	if o.Annotations != nil {
 		toSerialize["annotations"] = o.Annotations
 	}
+	if o.Labels != nil {
+		toSerialize["labels"] = o.Labels
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -276,6 +309,7 @@ func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 		AvailabilityZone *string                         `json:"availabilityZone,omitempty"`
 		Env              []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
 		Annotations      map[string]string               `json:"annotations,omitempty"`
+		Labels           map[string]string               `json:"labels,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -288,7 +322,7 @@ func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "replicas", "classCode", "storageClass", "availabilityZone", "env", "annotations"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "replicas", "classCode", "storageClass", "availabilityZone", "env", "annotations", "labels"})
 	} else {
 		return err
 	}
@@ -299,6 +333,7 @@ func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.AvailabilityZone = all.AvailabilityZone
 	o.Env = all.Env
 	o.Annotations = all.Annotations
+	o.Labels = all.Labels
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

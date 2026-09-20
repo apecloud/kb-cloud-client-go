@@ -18,7 +18,7 @@ type ComponentItemCreate struct {
 	CompNum *int32 `json:"compNum,omitempty"`
 	// Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas. When instanceTemplates is set, this must equal the sum of those replica counts.
 	Replicas *int32 `json:"replicas,omitempty"`
-	// Per-template replicas and optional overlays (classCode, storageClass, availabilityZone, env, annotations). Node group is cluster-level and inherited by every component and template. Required when the engine option declares instanceTemplate. Names must match instanceTemplate.names exactly. classCode and volumes on the component are copied onto each template; the apiserver does not even-split replicas.
+	// Per-template replicas and optional overlays (classCode, storageClass, availabilityZone, env, annotations, labels). Node group is cluster-level and inherited. Required when the engine option declares instanceTemplate. Request instances replace the Helm chart instances list (or add the field if the chart has none). Names must be in instanceTemplate.names; they need not already exist on the chart. Component replicas must equal the sum of these replica counts.
 	InstanceTemplates []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`
 	// Availability zone for a component without instance templates (e.g. arbiter).
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`

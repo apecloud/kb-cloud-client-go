@@ -24651,6 +24651,11 @@ components:
           additionalProperties:
             type: string
           description: Annotations merged into this template (same-name keys overwritten).
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          description: Labels merged into this template (same-name keys overwritten).
     ioQuantity:
       description: IO Quantity describes IOPS and BPS of a volume
       properties:
@@ -24733,7 +24738,7 @@ components:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Per-template replicas and optional overlays (classCode, storageClass, availabilityZone, env, annotations). Node group is cluster-level and inherited by every component and template. Required when the engine option declares instanceTemplate. Names must match instanceTemplate.names exactly. classCode and volumes on the component are copied onto each template; the apiserver does not even-split replicas.
+          description: Per-template replicas and optional overlays (classCode, storageClass, availabilityZone, env, annotations, labels). Node group is cluster-level and inherited. Required when the engine option declares instanceTemplate. Request instances replace the Helm chart instances list (or add the field if the chart has none). Names must be in instanceTemplate.names; they need not already exist on the chart. Component replicas must equal the sum of these replica counts.
           items:
             $ref: '#/components/schemas/instanceTemplateCreate'
         availabilityZone:
@@ -25677,7 +25682,7 @@ components:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Target replica count for one or more instance templates. Required for replica hscale when the engine option declares instanceTemplate with hscale. Works on sharding components (HorizontalScaling.componentName is the sharding name). Top-level replicas and shards do not override these counts; KB ops fill replicaChanges/shards and per-template instances together. Names must be unique and declared; unspecified templates are left unchanged.
+          description: Target replica count for named instance templates. If set, KB ops include scaleIn/scaleOut.instances for those names; if omitted, component-level replicaChanges/shards are used with no Instances. Works on sharding components. Top-level replicas and shards do not override these counts. Names must be unique and declared.
           items:
             $ref: '#/components/schemas/instanceTemplateReplicas'
         onlineInstancesToOffline:
@@ -26663,7 +26668,7 @@ components:
           minItems: 1
           items:
             $ref: '#/components/schemas/instanceTemplateVScale'
-          description: Per-template classCode assignments. Required when the engine option declares instanceTemplate with vscale. Only these names are updated. Each item sets name and classCode independently. Top-level classCode does not replace these values.
+          description: Per-template classCode assignments. If set, KB VerticalScaling includes instances[] for those names; if omitted, only component resources are set. Each item sets name and classCode independently. Top-level classCode does not replace these values.
           nullable: true
         schedule:
           $ref: '#/components/schemas/taskSchedule'
@@ -31869,6 +31874,7 @@ components:
         - availabilityZone
         - env
         - annotations
+        - labels
     instanceTemplateEnv:
       type: object
       description: One fillable env var on an instance template, for frontend rendering.
@@ -31914,12 +31920,10 @@ components:
           type: object
           description: |
             Declares instance-template support for this mode component.
-            Create requires instanceTemplates with name and replicas.
-            HScale replica changes require instanceTemplates with name and replicas;
-            shard-count changes use shards; they may be set together with
-            instanceTemplates (KB ops fill both).
-            VScale requires instanceTemplates with name and classCode;
-            only those names are updated.
+            Create requires instanceTemplates for every declared name; component
+            replicas must equal the sum of those replica counts.
+            HScale/vscale: if instanceTemplates names are set, KB ops include
+            per-instance config; if omitted, only the component-level fields are set.
             The platform does not even-split or fill in missing templates.
             Instance online/offline can be set together with instanceTemplates.
             When absent, the component uses component-level operations.
@@ -31934,8 +31938,9 @@ components:
               items:
                 type: string
               description: |
-                Declared instance template names. Request payloads may only use
-                these names. Names must be unique.
+                Allowed instance template names for create and ops payloads.
+                Request names must be in this list. They need not already exist
+                on the Helm-rendered Cluster; create replaces or adds spec.instances.
             ops:
               type: array
               minItems: 1
@@ -31952,7 +31957,8 @@ components:
               description: |
                 Overlay fields the frontend should render on each instance template.
                 Omitted or empty means only name and replicas. Request fields not
-                listed here are rejected.
+                listed here are rejected. Includes classCode, storageClass,
+                availabilityZone, env, annotations, labels.
             env:
               type: array
               description: |

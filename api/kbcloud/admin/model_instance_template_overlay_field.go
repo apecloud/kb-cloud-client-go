@@ -20,6 +20,7 @@ const (
 	InstanceTemplateOverlayFieldAvailabilityZone InstanceTemplateOverlayField = "availabilityZone"
 	InstanceTemplateOverlayFieldEnv              InstanceTemplateOverlayField = "env"
 	InstanceTemplateOverlayFieldAnnotations      InstanceTemplateOverlayField = "annotations"
+	InstanceTemplateOverlayFieldLabels           InstanceTemplateOverlayField = "labels"
 )
 
 var allowedInstanceTemplateOverlayFieldEnumValues = []InstanceTemplateOverlayField{
@@ -28,6 +29,7 @@ var allowedInstanceTemplateOverlayFieldEnumValues = []InstanceTemplateOverlayFie
 	InstanceTemplateOverlayFieldAvailabilityZone,
 	InstanceTemplateOverlayFieldEnv,
 	InstanceTemplateOverlayFieldAnnotations,
+	InstanceTemplateOverlayFieldLabels,
 }
 
 // GetAllowedValues returns the list of possible values.

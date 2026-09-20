@@ -18,7 +18,7 @@ type OpsHScale struct {
 	BackupName common.NullableString `json:"backupName,omitempty"`
 	// number of replicas
 	Replicas common.NullableInt32 `json:"replicas,omitempty"`
-	// Target replica count for one or more instance templates. Required for replica hscale when the engine option declares instanceTemplate with hscale. Works on sharding components (HorizontalScaling.componentName is the sharding name). Top-level replicas and shards do not override these counts; KB ops fill replicaChanges/shards and per-template instances together. Names must be unique and declared; unspecified templates are left unchanged.
+	// Target replica count for named instance templates. If set, KB ops include scaleIn/scaleOut.instances for those names; if omitted, component-level replicaChanges/shards are used with no Instances. Works on sharding components. Top-level replicas and shards do not override these counts. Names must be unique and declared.
 	InstanceTemplates []InstanceTemplateReplicas `json:"instanceTemplates,omitempty"`
 	// List of online instance names to be switched to offline during scaling in.
 	OnlineInstancesToOffline common.NullableList[string] `json:"onlineInstancesToOffline,omitempty"`

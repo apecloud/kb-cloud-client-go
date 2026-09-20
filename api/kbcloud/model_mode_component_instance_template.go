@@ -11,18 +11,17 @@ import (
 )
 
 // ModeComponentInstanceTemplate Declares instance-template support for this mode component.
-// Create requires instanceTemplates with name and replicas.
-// HScale replica changes require instanceTemplates with name and replicas;
-// shard-count changes use shards; they may be set together with
-// instanceTemplates (KB ops fill both).
-// VScale requires instanceTemplates with name and classCode;
-// only those names are updated.
+// Create requires instanceTemplates for every declared name; component
+// replicas must equal the sum of those replica counts.
+// HScale/vscale: if instanceTemplates names are set, KB ops include
+// per-instance config; if omitted, only the component-level fields are set.
 // The platform does not even-split or fill in missing templates.
 // Instance online/offline can be set together with instanceTemplates.
 // When absent, the component uses component-level operations.
 type ModeComponentInstanceTemplate struct {
-	// Declared instance template names. Request payloads may only use
-	// these names. Names must be unique.
+	// Allowed instance template names for create and ops payloads.
+	// Request names must be in this list. They need not already exist
+	// on the Helm-rendered Cluster; create replaces or adds spec.instances.
 	//
 	Names []string `json:"names"`
 	// Operations supported via instance templates.
@@ -31,7 +30,8 @@ type ModeComponentInstanceTemplate struct {
 	Ops []InstanceTemplateOp `json:"ops"`
 	// Overlay fields the frontend should render on each instance template.
 	// Omitted or empty means only name and replicas. Request fields not
-	// listed here are rejected.
+	// listed here are rejected. Includes classCode, storageClass,
+	// availabilityZone, env, annotations, labels.
 	//
 	Fields []InstanceTemplateOverlayField `json:"fields,omitempty"`
 	// Env vars the frontend may render when fields includes env.
