@@ -210,6 +210,7 @@
 //   - [damengApi.getTablespace]
 //   - [damengApi.listTablespaces]
 //   - [damengApi.updateTablespace]
+//   - [dashboardConfigApi.getDashboardConfig]
 //   - [dataReplicationApi.createDataChannel]
 //   - [dataReplicationApi.createDataChannelOps]
 //   - [dataReplicationApi.createDataCheck]

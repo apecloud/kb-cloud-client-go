@@ -20094,6 +20094,28 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+  /api/v1/dashboardConfigs/{key}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/dashboardConfigKey'
+      tags:
+        - dashboardConfig
+      operationId: getDashboardConfig
+      summary: Get dashboard configuration by key
+      description: Requires authentication. Reads platform-wide configuration; organization identifiers in a key do not restrict access. Missing keys return 200 with a null value.
+      responses:
+        '200':
+          description: Stored configuration or a null value for a missing key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dashboardConfig'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/platformParameters:
     get:
       tags:
@@ -39131,6 +39153,19 @@ components:
       required:
         - items
       type: object
+    dashboardConfig:
+      type: object
+      required:
+        - key
+      properties:
+        key:
+          type: string
+          description: Frontend-defined platform-wide key. Organization identifiers in this key do not enforce tenant isolation.
+          minLength: 1
+          maxLength: 512
+        value:
+          description: Stored JSON value, or null when the key has no configuration.
+          x-omitempty: false
     platformParameterCategory:
       type: string
       description: platformParameter category, representing the platformParameter group
@@ -41122,6 +41157,15 @@ components:
       name: query
       schema:
         type: string
+    dashboardConfigKey:
+      in: path
+      name: key
+      required: true
+      description: Frontend-defined non-blank configuration key, up to 512 Unicode characters. URL-encode the key when used in a request path.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 512
 x-tagGroups:
   - name: User
     tags:

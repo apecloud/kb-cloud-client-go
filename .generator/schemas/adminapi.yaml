@@ -16874,6 +16874,78 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - instance
+  /admin/v1/dashboardConfigs/{key}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/dashboardConfigKey'
+      tags:
+        - dashboardConfig
+      operationId: getDashboardConfig
+      summary: Get dashboard configuration by key
+      description: Requires platform configuration read access. Missing keys return 200 with a null value.
+      responses:
+        '200':
+          description: Stored configuration or a null value for a missing key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dashboardConfig'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      parameters:
+        - $ref: '#/components/parameters/dashboardConfigKey'
+      tags:
+        - dashboardConfig
+      operationId: putDashboardConfig
+      summary: Create or replace dashboard configuration by key
+      description: Requires platform configuration write access. Atomic upsert with last-write-wins semantics. Request body is limited to 1 MiB.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dashboardConfigUpdate'
+      responses:
+        '200':
+          description: Saved configuration.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dashboardConfig'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      parameters:
+        - $ref: '#/components/parameters/dashboardConfigKey'
+      tags:
+        - dashboardConfig
+      operationId: deleteDashboardConfig
+      summary: Delete dashboard configuration by key
+      description: Requires platform configuration write access. Deleting a missing key succeeds.
+      responses:
+        '204':
+          description: Configuration is absent.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/platformParameters:
     get:
       tags:
@@ -41924,6 +41996,27 @@ components:
         isVariable:
           type: boolean
           description: whether the param is tenant variable or param
+    dashboardConfig:
+      type: object
+      required:
+        - key
+      properties:
+        key:
+          type: string
+          description: Frontend-defined platform-wide key. Organization identifiers in this key do not enforce tenant isolation.
+          minLength: 1
+          maxLength: 512
+        value:
+          description: Stored JSON value, or null when the key has no configuration.
+          x-omitempty: false
+    dashboardConfigUpdate:
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          description: Any non-null JSON value. Replaces the complete stored value.
+          x-omitempty: false
     platformParameterCategory:
       type: string
       description: platformParameter category, representing the platformParameter group
@@ -48979,6 +49072,15 @@ components:
       name: query
       schema:
         type: string
+    dashboardConfigKey:
+      in: path
+      name: key
+      required: true
+      description: Frontend-defined non-blank configuration key, up to 512 Unicode characters. URL-encode the key when used in a request path.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 512
 x-tagGroups:
   - name: User
     tags:
