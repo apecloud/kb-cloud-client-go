@@ -28950,7 +28950,7 @@ components:
     instanceTemplateCreate:
       type: object
       description: |
-        Create assignment for one instance template. name and replicas are required. classCode, storageClass, availabilityZone, env, annotations, and labels are optional overlays; omitted fields inherit the component. Node group is cluster-level. Volume sizes are defined once on the component and copied onto each template. The request list fully replaces chart instances.
+        Create assignment for one instance template. name and replicas are required. storageClass, availabilityZone, env, annotations, and labels are optional overlays; omitted fields inherit the component. Node group is cluster-level. Class and volume sizes are defined once on the component and copied onto each template. The request list fully replaces chart instances.
       required:
         - name
         - replicas
@@ -28963,9 +28963,6 @@ components:
           type: integer
           minimum: 1
           description: Replica count for this instance template.
-        classCode:
-          type: string
-          description: Class code for this template. Omit to inherit the component classCode.
         storageClass:
           type: string
           description: StorageClass for this template. Omit to inherit the component storageClass.
@@ -29081,7 +29078,7 @@ components:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Per-template replicas and optional overlays (classCode, storageClass, availabilityZone, env, annotations, labels). Node group is cluster-level and inherited. Required when the engine option declares instanceTemplate. Request instances fully replace the Helm chart instances list. Names must be in instanceTemplate.names. Component replicas must equal the sum of these replica counts.
+          description: Per-template replicas and optional overlays (storageClass, availabilityZone, env, annotations, labels). Node group is cluster-level and inherited. Required when the engine option declares instanceTemplate. Request instances fully replace the Helm chart instances list. Names must be in instanceTemplate.names. Component replicas must equal the sum of these replica counts.
           items:
             $ref: '#/components/schemas/instanceTemplateCreate'
         availabilityZone:
@@ -30492,7 +30489,7 @@ components:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Target replica count for named instance templates. If set, KB ops include scaleIn/scaleOut.instances for those names; if omitted, component-level replicaChanges/shards are used with no Instances. Works on sharding components. Top-level replicas and shards do not override these counts. Names must be unique and declared.
+          description: Target replica count for named instance templates. If set, KB ops include scaleIn/scaleOut.instances for those names. Top-level replicas is component-level and is applied together (not dropped). Names must be unique and declared.
           items:
             $ref: '#/components/schemas/instanceTemplateReplicas'
         onlineInstancesToOffline:
@@ -34521,21 +34518,6 @@ components:
         - volumes
         - component
       type: object
-    instanceTemplateVScale:
-      type: object
-      description: VScale assignment for one instance template. name and classCode are required.
-      required:
-        - name
-        - classCode
-      properties:
-        name:
-          type: string
-          minLength: 1
-          description: Instance template name declared on the engine option.
-        classCode:
-          type: string
-          minLength: 1
-          description: Class code to apply to this instance template.
     opsVScale:
       description: OpsVScale is the payload to vertically scale a KubeBlocks cluster
       required:
@@ -34552,16 +34534,8 @@ components:
           description: memory size
           type: string
         classCode:
-          description: |
-            Class code for the component-level VerticalScaling resources. Does not override instanceTemplates[].classCode. Required when instanceTemplates is omitted. When both are set, KB ops fill component resources and per-template Instances together.
+          description: Class code for component-level vertical scaling.
           type: string
-        instanceTemplates:
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/instanceTemplateVScale'
-          description: Per-template classCode assignments. If set, KB VerticalScaling includes instances[] for those names; if omitted, only component resources are set. Each item sets name and classCode independently. Top-level classCode does not replace these values.
-          nullable: true
         schedule:
           $ref: '#/components/schemas/taskSchedule'
       type: object
@@ -38242,13 +38216,11 @@ components:
       type: string
       description: Operation that can be declared on instanceTemplate.ops.
       enum:
-        - vscale
         - hscale
     instanceTemplateOverlayField:
       type: string
       description: Overlay field the frontend may render on an instance template.
       enum:
-        - classCode
         - storageClass
         - availabilityZone
         - env
@@ -38301,8 +38273,9 @@ components:
             Declares instance-template support for this mode component.
             Create requires instanceTemplates for every declared name; component
             replicas must equal the sum of those replica counts.
-            HScale/vscale: if instanceTemplates names are set, KB ops include
-            per-instance config; if omitted, only the component-level fields are set.
+            HScale: if instanceTemplates names are set, KB ops include per-instance
+            replicaChanges; if omitted, only component-level fields are set.
+            VScale is component-level only (no per-template class).
             The platform does not even-split or fill in missing templates.
             Instance online/offline can be set together with instanceTemplates.
             When absent, the component uses component-level operations.
@@ -38326,8 +38299,7 @@ components:
               items:
                 $ref: '#/components/schemas/instanceTemplateOp'
               description: |
-                Operations supported via instance templates.
-                Valid values: "vscale" (vertical scaling), "hscale" (horizontal scaling).
+                Operations supported via instance templates. Currently only hscale.
             fields:
               type: array
               uniqueItems: true
@@ -38336,7 +38308,7 @@ components:
               description: |
                 Overlay fields the frontend should render on each instance template.
                 Omitted or empty means only name and replicas. Request fields not
-                listed here are rejected. Includes classCode, storageClass,
+                listed here are rejected. Includes storageClass,
                 availabilityZone, env, annotations, labels.
             env:
               type: array

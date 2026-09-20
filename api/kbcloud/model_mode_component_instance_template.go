@@ -13,8 +13,9 @@ import (
 // ModeComponentInstanceTemplate Declares instance-template support for this mode component.
 // Create requires instanceTemplates for every declared name; component
 // replicas must equal the sum of those replica counts.
-// HScale/vscale: if instanceTemplates names are set, KB ops include
-// per-instance config; if omitted, only the component-level fields are set.
+// HScale: if instanceTemplates names are set, KB ops include per-instance
+// replicaChanges; if omitted, only component-level fields are set.
+// VScale is component-level only (no per-template class).
 // The platform does not even-split or fill in missing templates.
 // Instance online/offline can be set together with instanceTemplates.
 // When absent, the component uses component-level operations.
@@ -24,13 +25,12 @@ type ModeComponentInstanceTemplate struct {
 	// from the request and replaces the chart-rendered list.
 	//
 	Names []string `json:"names"`
-	// Operations supported via instance templates.
-	// Valid values: "vscale" (vertical scaling), "hscale" (horizontal scaling).
+	// Operations supported via instance templates. Currently only hscale.
 	//
 	Ops []InstanceTemplateOp `json:"ops"`
 	// Overlay fields the frontend should render on each instance template.
 	// Omitted or empty means only name and replicas. Request fields not
-	// listed here are rejected. Includes classCode, storageClass,
+	// listed here are rejected. Includes storageClass,
 	// availabilityZone, env, annotations, labels.
 	//
 	Fields []InstanceTemplateOverlayField `json:"fields,omitempty"`

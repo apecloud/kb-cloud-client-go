@@ -15,7 +15,6 @@ type InstanceTemplateOverlayField string
 
 // List of InstanceTemplateOverlayField.
 const (
-	InstanceTemplateOverlayFieldClassCode        InstanceTemplateOverlayField = "classCode"
 	InstanceTemplateOverlayFieldStorageClass     InstanceTemplateOverlayField = "storageClass"
 	InstanceTemplateOverlayFieldAvailabilityZone InstanceTemplateOverlayField = "availabilityZone"
 	InstanceTemplateOverlayFieldEnv              InstanceTemplateOverlayField = "env"
@@ -24,7 +23,6 @@ const (
 )
 
 var allowedInstanceTemplateOverlayFieldEnumValues = []InstanceTemplateOverlayField{
-	InstanceTemplateOverlayFieldClassCode,
 	InstanceTemplateOverlayFieldStorageClass,
 	InstanceTemplateOverlayFieldAvailabilityZone,
 	InstanceTemplateOverlayFieldEnv,
