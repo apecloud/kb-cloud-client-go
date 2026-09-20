@@ -28950,7 +28950,7 @@ components:
     instanceTemplateCreate:
       type: object
       description: |
-        Create assignment for one instance template. name and replicas are required. storageClass, availabilityZone, env, and annotations are optional overlays; omitted fields inherit the component. Node group is cluster-level and is inherited by every component and template. classCode and volume sizes are defined once on the component and copied onto each template.
+        Create assignment for one instance template. name and replicas are required. classCode, storageClass, availabilityZone, env, and annotations are optional overlays; omitted fields inherit the component. Node group is cluster-level and is inherited by every component and template. Volume sizes are defined once on the component and copied onto each template.
       required:
         - name
         - replicas
@@ -28963,6 +28963,9 @@ components:
           type: integer
           minimum: 1
           description: Replica count for this instance template.
+        classCode:
+          type: string
+          description: Class code for this template. Omit to inherit the component classCode.
         storageClass:
           type: string
           description: StorageClass for this template. Omit to inherit the component storageClass.
@@ -29073,7 +29076,7 @@ components:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Per-template replicas and optional overlays (storageClass, availabilityZone, env, annotations). Node group is cluster-level and inherited by every component and template. Required when the engine option declares instanceTemplate. Names must match instanceTemplate.names exactly. classCode and volumes on the component are copied onto each template; the apiserver does not even-split replicas.
+          description: Per-template replicas and optional overlays (classCode, storageClass, availabilityZone, env, annotations). Node group is cluster-level and inherited by every component and template. Required when the engine option declares instanceTemplate. Names must match instanceTemplate.names exactly. classCode and volumes on the component are copied onto each template; the apiserver does not even-split replicas.
           items:
             $ref: '#/components/schemas/instanceTemplateCreate'
         availabilityZone:
@@ -34513,6 +34516,21 @@ components:
         - volumes
         - component
       type: object
+    instanceTemplateVScale:
+      type: object
+      description: VScale assignment for one instance template. name and classCode are required.
+      required:
+        - name
+        - classCode
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Instance template name declared on the engine option.
+        classCode:
+          type: string
+          minLength: 1
+          description: Class code to apply to this instance template.
     opsVScale:
       description: OpsVScale is the payload to vertically scale a KubeBlocks cluster
       required:
@@ -34530,15 +34548,14 @@ components:
           type: string
         classCode:
           description: |
-            Class code for this vscale. One classCode per request; all targeted instance templates receive the same resources.
+            Class code for component-level vscale. Required when instanceTemplates is omitted. Ignored for instance-template vscale; each template sets its own classCode.
           type: string
         instanceTemplates:
           type: array
           minItems: 1
-          uniqueItems: true
           items:
-            type: string
-          description: Instance template names to apply the single classCode to. Required when the engine option declares instanceTemplate with vscale. Only these names are updated. Names must be unique and declared.
+            $ref: '#/components/schemas/instanceTemplateVScale'
+          description: Per-template classCode assignments. Required when the engine option declares instanceTemplate with vscale. Only these names are updated. Each item sets name and classCode independently.
           nullable: true
         schedule:
           $ref: '#/components/schemas/taskSchedule'
@@ -38226,6 +38243,7 @@ components:
       type: string
       description: Overlay field the frontend may render on an instance template.
       enum:
+        - classCode
         - storageClass
         - availabilityZone
         - env
@@ -38278,7 +38296,7 @@ components:
             Create requires instanceTemplates with name and replicas.
             HScale replica changes require instanceTemplates with name and replicas;
             shard-count changes use shards and cannot be combined with instanceTemplates.
-            VScale uses one classCode and requires instanceTemplates names;
+            VScale requires instanceTemplates with name and classCode;
             only those names are updated.
             The platform does not even-split or fill in missing templates.
             Instance online/offline can be set together with instanceTemplates.

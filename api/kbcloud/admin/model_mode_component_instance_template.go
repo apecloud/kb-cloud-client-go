@@ -14,7 +14,7 @@ import (
 // Create requires instanceTemplates with name and replicas.
 // HScale replica changes require instanceTemplates with name and replicas;
 // shard-count changes use shards and cannot be combined with instanceTemplates.
-// VScale uses one classCode and requires instanceTemplates names;
+// VScale requires instanceTemplates with name and classCode;
 // only those names are updated.
 // The platform does not even-split or fill in missing templates.
 // Instance online/offline can be set together with instanceTemplates.

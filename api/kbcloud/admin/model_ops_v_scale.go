@@ -18,12 +18,12 @@ type OpsVScale struct {
 	Cpu *string `json:"cpu,omitempty"`
 	// memory size
 	Memory *string `json:"memory,omitempty"`
-	// Class code for this vscale. One classCode per request; all targeted instance templates receive the same resources.
+	// Class code for component-level vscale. Required when instanceTemplates is omitted. Ignored for instance-template vscale; each template sets its own classCode.
 	//
 	ClassCode *string `json:"classCode,omitempty"`
-	// Instance template names to apply the single classCode to. Required when the engine option declares instanceTemplate with vscale. Only these names are updated. Names must be unique and declared.
-	InstanceTemplates common.NullableList[string] `json:"instanceTemplates,omitempty"`
-	Schedule          *TaskSchedule               `json:"schedule,omitempty"`
+	// Per-template classCode assignments. Required when the engine option declares instanceTemplate with vscale. Only these names are updated. Each item sets name and classCode independently.
+	InstanceTemplates []InstanceTemplateVScale `json:"instanceTemplates,omitempty"`
+	Schedule          *TaskSchedule            `json:"schedule,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -155,42 +155,32 @@ func (o *OpsVScale) SetClassCode(v string) {
 }
 
 // GetInstanceTemplates returns the InstanceTemplates field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *OpsVScale) GetInstanceTemplates() []string {
-	if o == nil || o.InstanceTemplates.Get() == nil {
-		var ret []string
+func (o *OpsVScale) GetInstanceTemplates() []InstanceTemplateVScale {
+	if o == nil {
+		var ret []InstanceTemplateVScale
 		return ret
 	}
-	return *o.InstanceTemplates.Get()
+	return o.InstanceTemplates
 }
 
 // GetInstanceTemplatesOk returns a tuple with the InstanceTemplates field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *OpsVScale) GetInstanceTemplatesOk() (*[]string, bool) {
-	if o == nil {
+func (o *OpsVScale) GetInstanceTemplatesOk() (*[]InstanceTemplateVScale, bool) {
+	if o == nil || o.InstanceTemplates == nil {
 		return nil, false
 	}
-	return o.InstanceTemplates.Get(), o.InstanceTemplates.IsSet()
+	return &o.InstanceTemplates, true
 }
 
 // HasInstanceTemplates returns a boolean if a field has been set.
 func (o *OpsVScale) HasInstanceTemplates() bool {
-	return o != nil && o.InstanceTemplates.IsSet()
+	return o != nil && o.InstanceTemplates != nil
 }
 
-// SetInstanceTemplates gets a reference to the given common.NullableList[string] and assigns it to the InstanceTemplates field.
-func (o *OpsVScale) SetInstanceTemplates(v []string) {
-	o.InstanceTemplates.Set(&v)
-}
-
-// SetInstanceTemplatesNil sets the value for InstanceTemplates to be an explicit nil.
-func (o *OpsVScale) SetInstanceTemplatesNil() {
-	o.InstanceTemplates.Set(nil)
-}
-
-// UnsetInstanceTemplates ensures that no value is present for InstanceTemplates, not even an explicit nil.
-func (o *OpsVScale) UnsetInstanceTemplates() {
-	o.InstanceTemplates.Unset()
+// SetInstanceTemplates gets a reference to the given []InstanceTemplateVScale and assigns it to the InstanceTemplates field.
+func (o *OpsVScale) SetInstanceTemplates(v []InstanceTemplateVScale) {
+	o.InstanceTemplates = v
 }
 
 // GetSchedule returns the Schedule field value if set, zero value otherwise.
@@ -237,8 +227,8 @@ func (o OpsVScale) MarshalJSON() ([]byte, error) {
 	if o.ClassCode != nil {
 		toSerialize["classCode"] = o.ClassCode
 	}
-	if o.InstanceTemplates.IsSet() {
-		toSerialize["instanceTemplates"] = o.InstanceTemplates.Get()
+	if o.InstanceTemplates != nil {
+		toSerialize["instanceTemplates"] = o.InstanceTemplates
 	}
 	if o.Schedule != nil {
 		toSerialize["schedule"] = o.Schedule
@@ -253,12 +243,12 @@ func (o OpsVScale) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsVScale) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component         *string                     `json:"component"`
-		Cpu               *string                     `json:"cpu,omitempty"`
-		Memory            *string                     `json:"memory,omitempty"`
-		ClassCode         *string                     `json:"classCode,omitempty"`
-		InstanceTemplates common.NullableList[string] `json:"instanceTemplates,omitempty"`
-		Schedule          *TaskSchedule               `json:"schedule,omitempty"`
+		Component         *string                  `json:"component"`
+		Cpu               *string                  `json:"cpu,omitempty"`
+		Memory            *string                  `json:"memory,omitempty"`
+		ClassCode         *string                  `json:"classCode,omitempty"`
+		InstanceTemplates []InstanceTemplateVScale `json:"instanceTemplates,omitempty"`
+		Schedule          *TaskSchedule            `json:"schedule,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

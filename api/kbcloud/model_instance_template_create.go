@@ -10,12 +10,14 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. storageClass, availabilityZone, env, and annotations are optional overlays; omitted fields inherit the component. Node group is cluster-level and is inherited by every component and template. classCode and volume sizes are defined once on the component and copied onto each template.
+// InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. classCode, storageClass, availabilityZone, env, and annotations are optional overlays; omitted fields inherit the component. Node group is cluster-level and is inherited by every component and template. Volume sizes are defined once on the component and copied onto each template.
 type InstanceTemplateCreate struct {
 	// Instance template name declared on the engine option.
 	Name string `json:"name"`
 	// Replica count for this instance template.
 	Replicas int32 `json:"replicas"`
+	// Class code for this template. Omit to inherit the component classCode.
+	ClassCode *string `json:"classCode,omitempty"`
 	// StorageClass for this template. Omit to inherit the component storageClass.
 	StorageClass *string `json:"storageClass,omitempty"`
 	// Availability zone for this template. Omit to inherit component scheduling (no default zone is invented).
@@ -92,6 +94,34 @@ func (o *InstanceTemplateCreate) GetReplicasOk() (*int32, bool) {
 // SetReplicas sets field value.
 func (o *InstanceTemplateCreate) SetReplicas(v int32) {
 	o.Replicas = v
+}
+
+// GetClassCode returns the ClassCode field value if set, zero value otherwise.
+func (o *InstanceTemplateCreate) GetClassCode() string {
+	if o == nil || o.ClassCode == nil {
+		var ret string
+		return ret
+	}
+	return *o.ClassCode
+}
+
+// GetClassCodeOk returns a tuple with the ClassCode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InstanceTemplateCreate) GetClassCodeOk() (*string, bool) {
+	if o == nil || o.ClassCode == nil {
+		return nil, false
+	}
+	return o.ClassCode, true
+}
+
+// HasClassCode returns a boolean if a field has been set.
+func (o *InstanceTemplateCreate) HasClassCode() bool {
+	return o != nil && o.ClassCode != nil
+}
+
+// SetClassCode gets a reference to the given string and assigns it to the ClassCode field.
+func (o *InstanceTemplateCreate) SetClassCode(v string) {
+	o.ClassCode = &v
 }
 
 // GetStorageClass returns the StorageClass field value if set, zero value otherwise.
@@ -214,6 +244,9 @@ func (o InstanceTemplateCreate) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["name"] = o.Name
 	toSerialize["replicas"] = o.Replicas
+	if o.ClassCode != nil {
+		toSerialize["classCode"] = o.ClassCode
+	}
 	if o.StorageClass != nil {
 		toSerialize["storageClass"] = o.StorageClass
 	}
@@ -238,6 +271,7 @@ func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name             *string                         `json:"name"`
 		Replicas         *int32                          `json:"replicas"`
+		ClassCode        *string                         `json:"classCode,omitempty"`
 		StorageClass     *string                         `json:"storageClass,omitempty"`
 		AvailabilityZone *string                         `json:"availabilityZone,omitempty"`
 		Env              []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
@@ -254,12 +288,13 @@ func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "replicas", "storageClass", "availabilityZone", "env", "annotations"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "replicas", "classCode", "storageClass", "availabilityZone", "env", "annotations"})
 	} else {
 		return err
 	}
 	o.Name = *all.Name
 	o.Replicas = *all.Replicas
+	o.ClassCode = all.ClassCode
 	o.StorageClass = all.StorageClass
 	o.AvailabilityZone = all.AvailabilityZone
 	o.Env = all.Env
