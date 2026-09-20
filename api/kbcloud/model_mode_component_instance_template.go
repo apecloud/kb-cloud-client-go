@@ -17,7 +17,7 @@ import (
 // VScale uses one classCode and requires instanceTemplates names;
 // only those names are updated.
 // The platform does not even-split or fill in missing templates.
-// Individual instance online/offline is not supported.
+// Instance online/offline can be set together with instanceTemplates.
 // When absent, the component uses component-level operations.
 type ModeComponentInstanceTemplate struct {
 	// Declared instance template names. Request payloads may only use
