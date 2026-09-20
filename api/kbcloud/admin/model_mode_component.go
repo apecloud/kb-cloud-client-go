@@ -17,8 +17,8 @@ type ModeComponent struct {
 	// Declares instance-template support for this mode component.
 	// Create requires instanceTemplates for every declared name; component
 	// replicas must equal the sum of those replica counts.
-	// HScale: if instanceTemplates names are set, KB ops include per-instance
-	// replicaChanges; if omitted, only component-level fields are set.
+	// HScale: instanceTemplates requires top-level replicas. Named templates
+	// attach as scaleIn/scaleOut.instances; omit names for component-level only.
 	// VScale is component-level only (no per-template class).
 	// The platform does not even-split or fill in missing templates.
 	// Instance online/offline can be set together with instanceTemplates.

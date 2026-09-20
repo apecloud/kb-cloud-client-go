@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// OpsHScale OpsHScale is the payload to horizontally scale a KubeBlocks cluster. Specify replicas, shards, or instanceTemplates.
+// OpsHScale OpsHScale is the payload to horizontally scale a KubeBlocks cluster. Specify replicas or shards. instanceTemplates is an optional overlay and requires top-level replicas.
 type OpsHScale struct {
 	// component type
 	Component string `json:"component"`
@@ -18,7 +18,7 @@ type OpsHScale struct {
 	BackupName common.NullableString `json:"backupName,omitempty"`
 	// number of replicas
 	Replicas common.NullableInt32 `json:"replicas,omitempty"`
-	// Target replica count for named instance templates. If set, KB ops include scaleIn/scaleOut.instances for those names. Top-level replicas is component-level and is applied together (not dropped). Names must be unique and declared.
+	// Target replica count for named instance templates. Requires top-level replicas (component-level). If set, KB ops include scaleIn/scaleOut.instances for those names. Names must be unique and declared.
 	InstanceTemplates []InstanceTemplateReplicas `json:"instanceTemplates,omitempty"`
 	// List of online instance names to be switched to offline during scaling in.
 	OnlineInstancesToOffline common.NullableList[string] `json:"onlineInstancesToOffline,omitempty"`

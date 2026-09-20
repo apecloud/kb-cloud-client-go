@@ -30470,7 +30470,7 @@ components:
           minimum: 1
           description: Target replica count for this instance template.
     opsHScale:
-      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. Specify replicas, shards, or instanceTemplates.
+      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. Specify replicas or shards. instanceTemplates is an optional overlay and requires top-level replicas.
       required:
         - component
       properties:
@@ -30489,7 +30489,7 @@ components:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Target replica count for named instance templates. If set, KB ops include scaleIn/scaleOut.instances for those names. Top-level replicas is component-level and is applied together (not dropped). Names must be unique and declared.
+          description: Target replica count for named instance templates. Requires top-level replicas (component-level). If set, KB ops include scaleIn/scaleOut.instances for those names. Names must be unique and declared.
           items:
             $ref: '#/components/schemas/instanceTemplateReplicas'
         onlineInstancesToOffline:
@@ -38273,8 +38273,8 @@ components:
             Declares instance-template support for this mode component.
             Create requires instanceTemplates for every declared name; component
             replicas must equal the sum of those replica counts.
-            HScale: if instanceTemplates names are set, KB ops include per-instance
-            replicaChanges; if omitted, only component-level fields are set.
+            HScale: instanceTemplates requires top-level replicas. Named templates
+            attach as scaleIn/scaleOut.instances; omit names for component-level only.
             VScale is component-level only (no per-template class).
             The platform does not even-split or fill in missing templates.
             Instance online/offline can be set together with instanceTemplates.
