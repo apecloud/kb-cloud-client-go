@@ -21,7 +21,7 @@ type OpsVScale struct {
 	// Class code for this vscale. One classCode per request; all targeted instance templates receive the same resources.
 	//
 	ClassCode *string `json:"classCode,omitempty"`
-	// Optional instance template names to apply the single classCode to. When omitted on an instance-template component, the class is applied to the component and every declared template. When set, only these names are updated. Names must be unique and declared.
+	// Instance template names to apply the single classCode to. Required when the engine option declares instanceTemplate with vscale. Only these names are updated. Names must be unique and declared.
 	InstanceTemplates common.NullableList[string] `json:"instanceTemplates,omitempty"`
 	Schedule          *TaskSchedule               `json:"schedule,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct

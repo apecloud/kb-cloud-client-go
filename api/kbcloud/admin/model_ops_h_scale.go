@@ -18,7 +18,7 @@ type OpsHScale struct {
 	BackupName common.NullableString `json:"backupName,omitempty"`
 	// number of replicas
 	Replicas common.NullableInt32 `json:"replicas,omitempty"`
-	// Target replica count for one or more instance templates. Required when the engine option declares instanceTemplate with hscale. Mutually exclusive with replicas and shards. Names must be unique and declared; unspecified templates are left unchanged.
+	// Target replica count for one or more instance templates. Required for replica hscale when the engine option declares instanceTemplate with hscale. Mutually exclusive with replicas and shards. Names must be unique and declared; unspecified templates are left unchanged.
 	InstanceTemplates []InstanceTemplateReplicas `json:"instanceTemplates,omitempty"`
 	// List of online instance names to be switched to offline during scaling in.
 	OnlineInstancesToOffline common.NullableList[string] `json:"onlineInstancesToOffline,omitempty"`

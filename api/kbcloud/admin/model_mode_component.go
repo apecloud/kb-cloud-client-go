@@ -16,9 +16,10 @@ type ModeComponent struct {
 	HideOnCreate bool   `json:"hideOnCreate"`
 	// Declares instance-template support for this mode component.
 	// Create requires instanceTemplates with name and replicas.
-	// HScale requires instanceTemplates with name and replicas.
-	// VScale uses one classCode; instanceTemplates names are optional
-	// (omit to apply the class to the component and every declared template).
+	// HScale replica changes require instanceTemplates with name and replicas;
+	// shard-count changes use shards and cannot be combined with instanceTemplates.
+	// VScale uses one classCode and requires instanceTemplates names;
+	// only those names are updated.
 	// The platform does not even-split or fill in missing templates.
 	// Individual instance online/offline is not supported.
 	// When absent, the component uses component-level operations.
