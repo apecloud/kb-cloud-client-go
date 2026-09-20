@@ -114,6 +114,479 @@ tags:
   - name: blueGreenDeployment
     description: Blue Green Deployment APIs
 paths:
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/jars/config:
+    get:
+      operationId: getClusterJarConfig
+      summary: Get external JAR capability and configuration
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterJarConfig'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      operationId: configureClusterJars
+      summary: Enable external JAR management using an object storage repository
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterJarTask'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/clusterJarConfigure'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/jars:
+    get:
+      operationId: listClusterJars
+      summary: List external JAR versions and synchronization state
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterJarList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      operationId: uploadClusterJar
+      summary: Upload an immutable JAR version
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterJarPackage'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/400'
+        '413':
+          description: Upload exceeds the configured size limit
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 128
+                kind:
+                  $ref: '#/components/schemas/clusterJarKind'
+                file:
+                  type: string
+                  format: binary
+              required:
+                - name
+                - kind
+                - file
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}:
+    get:
+      operationId: getClusterJar
+      summary: Get an external JAR version
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: jarId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterJarPackage'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      operationId: deleteClusterJar
+      summary: Delete an unpublished JAR version
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: jarId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/instances:
+    get:
+      operationId: getClusterJarInstances
+      summary: Get a JAR version with current instance synchronization results
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: jarId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterJarPackage'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/download:
+    get:
+      operationId: downloadClusterJar
+      summary: Download the original JAR
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: jarId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/java-archive:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/distribute:
+    post:
+      operationId: distributeClusterJar
+      summary: Publish a JAR with optimistic manifest version checking
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: jarId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterJarTask'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/clusterJarPublish'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/retry:
+    post:
+      operationId: retryClusterJar
+      summary: Retry synchronization of published JARs
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: jarId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterJarTask'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/archive:
+    post:
+      operationId: archiveClusterJar
+      summary: Archive a JAR while retaining published files and startup synchronization
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: jarId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/user:
     get:
       description: Get authenticated login user info
@@ -22451,6 +22924,176 @@ components:
         curl --digest -u "accessKey:secretKey" https://api.example.com/api/v1/user
         ```
   schemas:
+    clusterJarConfig:
+      type: object
+      properties:
+        supported:
+          type: boolean
+        reason:
+          type: string
+        enabled:
+          type: boolean
+        backupRepoName:
+          type: string
+        generation:
+          type: integer
+          format: int64
+        maxFileBytes:
+          type: integer
+          format: int64
+        maxTotalBytes:
+          type: integer
+          format: int64
+        usedBytes:
+          type: integer
+          format: int64
+        taskId:
+          type: string
+        requiresRestart:
+          type: boolean
+      required:
+        - supported
+        - enabled
+        - generation
+        - maxFileBytes
+        - maxTotalBytes
+        - usedBytes
+        - requiresRestart
+    APIErrorResponse:
+      description: API error response.
+      properties:
+        code:
+          description: The HTTP status code.
+          type: integer
+        reason:
+          description: The reason for the error.
+          type: string
+        message:
+          description: The message for the error.
+          type: string
+      required:
+        - code
+      type: object
+    clusterJarConfigure:
+      type: object
+      properties:
+        backupRepoName:
+          type: string
+          minLength: 1
+      required:
+        - backupRepoName
+    clusterJarTask:
+      type: object
+      properties:
+        taskId:
+          type: string
+    clusterJarKind:
+      type: string
+      enum:
+        - udf
+        - jdbc
+    clusterJarReplica:
+      type: object
+      properties:
+        component:
+          type: string
+        podName:
+          type: string
+        podUID:
+          type: string
+        status:
+          type: string
+        error:
+          type: string
+        generation:
+          type: integer
+          format: int64
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - component
+        - podName
+        - podUID
+        - status
+        - generation
+    clusterJarPackage:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        kind:
+          $ref: '#/components/schemas/clusterJarKind'
+        filename:
+          type: string
+        sha256:
+          type: string
+        size:
+          type: integer
+          format: int64
+        uri:
+          type: string
+        published:
+          type: boolean
+        archived:
+          type: boolean
+        status:
+          type: string
+        synced:
+          type: integer
+          format: int64
+        total:
+          type: integer
+          format: int64
+        createdBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        instances:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterJarReplica'
+      required:
+        - id
+        - name
+        - kind
+        - filename
+        - sha256
+        - size
+        - uri
+        - published
+        - archived
+        - status
+        - synced
+        - total
+        - createdBy
+        - createdAt
+        - instances
+    clusterJarList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterJarPackage'
+        generation:
+          type: integer
+          format: int64
+      required:
+        - items
+        - generation
+    clusterJarPublish:
+      type: object
+      properties:
+        generation:
+          type: integer
+          format: int64
+          minimum: 0
+      required:
+        - generation
     phoneNumber:
       description: The phonenumber for the user.
       example: '+8618912345678'
@@ -22491,21 +23134,6 @@ components:
         - userName
         - createdAt
         - updatedAt
-    APIErrorResponse:
-      description: API error response.
-      properties:
-        code:
-          description: The HTTP status code.
-          type: integer
-        reason:
-          description: The reason for the error.
-          type: string
-        message:
-          description: The message for the error.
-          type: string
-      required:
-        - code
-      type: object
     userUpdate:
       description: User update
       properties:
