@@ -17963,6 +17963,293 @@ paths:
         - database
         - rdbms
         - shared
+  /api/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/policies:
+    get:
+      summary: listSeaweedFSPolicies
+      operationId: listSeaweedFSPolicies
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - items
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - name
+                        - document
+                      properties:
+                        name:
+                          type: string
+                        document:
+                          type: object
+                          additionalProperties: true
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Permission denied or protected identity
+        '404':
+          description: Resource not found
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
+  /api/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/policies/{policyName}:
+    put:
+      summary: putSeaweedFSPolicy
+      operationId: putSeaweedFSPolicy
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: policyName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful response
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Permission denied or protected identity
+        '404':
+          description: Resource not found
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      description: Creates or replaces a named AWS IAM JSON policy document. Updates affect every identity and group that uses this policy.
+    delete:
+      summary: deleteSeaweedFSPolicy
+      operationId: deleteSeaweedFSPolicy
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: policyName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful response
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Permission denied or protected identity
+        '404':
+          description: Resource not found
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
+      description: Deletes an unused named policy. Attached policies are rejected; no identities or groups are implicitly changed.
+  /api/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/policies:
+    put:
+      summary: bindSeaweedFSPolicies
+      operationId: bindSeaweedFSPolicies
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful response
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Permission denied or protected identity
+        '404':
+          description: Resource not found
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - policies
+              properties:
+                policies:
+                  type: array
+                  items:
+                    type: string
+      description: Replaces named policy bindings. An empty policies array removes all direct bindings. Existing credentials, legacy actions and other identity attributes are preserved.
+  /api/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/access-keys:
+    post:
+      summary: createSeaweedFSAccessKey
+      operationId: createSeaweedFSAccessKey
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Permission denied or protected identity
+        '404':
+          description: Resource not found
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+      description: Creates a credential on the identity. Account.name must match accountName, role must be BASICUSER. Optional extra.accessKey and password select the access key and secret key; omitted or empty values are generated. The returned password is disclosed only in this response.
+  /api/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/access-keys/{accessKey}:
+    delete:
+      summary: deleteSeaweedFSAccessKey
+      operationId: deleteSeaweedFSAccessKey
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: accessKey
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful response
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Permission denied or protected identity
+        '404':
+          description: Resource not found
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
   /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       description: list accounts in cluster
