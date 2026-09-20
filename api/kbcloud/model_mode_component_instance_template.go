@@ -20,8 +20,8 @@ import (
 // When absent, the component uses component-level operations.
 type ModeComponentInstanceTemplate struct {
 	// Allowed instance template names for create and ops payloads.
-	// Request names must be in this list. They need not already exist
-	// on the Helm-rendered Cluster; create replaces or adds spec.instances.
+	// Request names must be in this list. Create builds spec.instances
+	// from the request and replaces the chart-rendered list.
 	//
 	Names []string `json:"names"`
 	// Operations supported via instance templates.

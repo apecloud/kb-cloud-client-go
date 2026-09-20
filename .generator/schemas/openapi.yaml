@@ -24612,7 +24612,7 @@ components:
     instanceTemplateCreate:
       type: object
       description: |
-        Create assignment for one instance template. name and replicas are required. classCode, storageClass, availabilityZone, env, and annotations are optional overlays; omitted fields inherit the component. Node group is cluster-level and is inherited by every component and template. Volume sizes are defined once on the component and copied onto each template.
+        Create assignment for one instance template. name and replicas are required. classCode, storageClass, availabilityZone, env, annotations, and labels are optional overlays; omitted fields inherit the component. Node group is cluster-level. Volume sizes are defined once on the component and copied onto each template. The request list fully replaces chart instances.
       required:
         - name
         - replicas
@@ -24738,7 +24738,7 @@ components:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Per-template replicas and optional overlays (classCode, storageClass, availabilityZone, env, annotations, labels). Node group is cluster-level and inherited. Required when the engine option declares instanceTemplate. Request instances replace the Helm chart instances list (or add the field if the chart has none). Names must be in instanceTemplate.names; they need not already exist on the chart. Component replicas must equal the sum of these replica counts.
+          description: Per-template replicas and optional overlays (classCode, storageClass, availabilityZone, env, annotations, labels). Node group is cluster-level and inherited. Required when the engine option declares instanceTemplate. Request instances fully replace the Helm chart instances list. Names must be in instanceTemplate.names. Component replicas must equal the sum of these replica counts.
           items:
             $ref: '#/components/schemas/instanceTemplateCreate'
         availabilityZone:
@@ -31939,8 +31939,8 @@ components:
                 type: string
               description: |
                 Allowed instance template names for create and ops payloads.
-                Request names must be in this list. They need not already exist
-                on the Helm-rendered Cluster; create replaces or adds spec.instances.
+                Request names must be in this list. Create builds spec.instances
+                from the request and replaces the chart-rendered list.
             ops:
               type: array
               minItems: 1
