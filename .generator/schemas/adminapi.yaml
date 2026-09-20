@@ -30487,7 +30487,7 @@ components:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Target replica count for one or more instance templates. Required for replica hscale when the engine option declares instanceTemplate with hscale. Mutually exclusive with shards. Top-level replicas does not override these counts; KB ops fill component replicaChanges and per-template instances together. Names must be unique and declared; unspecified templates are left unchanged.
+          description: Target replica count for one or more instance templates. Required for replica hscale when the engine option declares instanceTemplate with hscale. Works on sharding components (HorizontalScaling.componentName is the sharding name). Top-level replicas and shards do not override these counts; KB ops fill replicaChanges/shards and per-template instances together. Names must be unique and declared; unspecified templates are left unchanged.
           items:
             $ref: '#/components/schemas/instanceTemplateReplicas'
         onlineInstancesToOffline:
@@ -38295,7 +38295,8 @@ components:
             Declares instance-template support for this mode component.
             Create requires instanceTemplates with name and replicas.
             HScale replica changes require instanceTemplates with name and replicas;
-            shard-count changes use shards and cannot be combined with instanceTemplates.
+            shard-count changes use shards; they may be set together with
+            instanceTemplates (KB ops fill both).
             VScale requires instanceTemplates with name and classCode;
             only those names are updated.
             The platform does not even-split or fill in missing templates.

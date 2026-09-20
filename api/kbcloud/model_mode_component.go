@@ -17,7 +17,8 @@ type ModeComponent struct {
 	// Declares instance-template support for this mode component.
 	// Create requires instanceTemplates with name and replicas.
 	// HScale replica changes require instanceTemplates with name and replicas;
-	// shard-count changes use shards and cannot be combined with instanceTemplates.
+	// shard-count changes use shards; they may be set together with
+	// instanceTemplates (KB ops fill both).
 	// VScale requires instanceTemplates with name and classCode;
 	// only those names are updated.
 	// The platform does not even-split or fill in missing templates.
