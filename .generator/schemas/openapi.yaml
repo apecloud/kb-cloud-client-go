@@ -25677,7 +25677,7 @@ components:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Target replica count for one or more instance templates. Required for replica hscale when the engine option declares instanceTemplate with hscale. Mutually exclusive with replicas and shards. Names must be unique and declared; unspecified templates are left unchanged.
+          description: Target replica count for one or more instance templates. Required for replica hscale when the engine option declares instanceTemplate with hscale. Mutually exclusive with shards. Top-level replicas does not override these counts; KB ops fill component replicaChanges and per-template instances together. Names must be unique and declared; unspecified templates are left unchanged.
           items:
             $ref: '#/components/schemas/instanceTemplateReplicas'
         onlineInstancesToOffline:
@@ -26656,14 +26656,14 @@ components:
           type: string
         classCode:
           description: |
-            Class code for component-level vscale. Required when instanceTemplates is omitted. Ignored for instance-template vscale; each template sets its own classCode.
+            Class code for the component-level VerticalScaling resources. Does not override instanceTemplates[].classCode. Required when instanceTemplates is omitted. When both are set, KB ops fill component resources and per-template Instances together.
           type: string
         instanceTemplates:
           type: array
           minItems: 1
           items:
             $ref: '#/components/schemas/instanceTemplateVScale'
-          description: Per-template classCode assignments. Required when the engine option declares instanceTemplate with vscale. Only these names are updated. Each item sets name and classCode independently.
+          description: Per-template classCode assignments. Required when the engine option declares instanceTemplate with vscale. Only these names are updated. Each item sets name and classCode independently. Top-level classCode does not replace these values.
           nullable: true
         schedule:
           $ref: '#/components/schemas/taskSchedule'

@@ -18,10 +18,10 @@ type OpsVScale struct {
 	Cpu *string `json:"cpu,omitempty"`
 	// memory size
 	Memory *string `json:"memory,omitempty"`
-	// Class code for component-level vscale. Required when instanceTemplates is omitted. Ignored for instance-template vscale; each template sets its own classCode.
+	// Class code for the component-level VerticalScaling resources. Does not override instanceTemplates[].classCode. Required when instanceTemplates is omitted. When both are set, KB ops fill component resources and per-template Instances together.
 	//
 	ClassCode *string `json:"classCode,omitempty"`
-	// Per-template classCode assignments. Required when the engine option declares instanceTemplate with vscale. Only these names are updated. Each item sets name and classCode independently.
+	// Per-template classCode assignments. Required when the engine option declares instanceTemplate with vscale. Only these names are updated. Each item sets name and classCode independently. Top-level classCode does not replace these values.
 	InstanceTemplates []InstanceTemplateVScale `json:"instanceTemplates,omitempty"`
 	Schedule          *TaskSchedule            `json:"schedule,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
