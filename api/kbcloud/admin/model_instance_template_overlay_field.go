@@ -17,7 +17,6 @@ type InstanceTemplateOverlayField string
 const (
 	InstanceTemplateOverlayFieldStorageClass     InstanceTemplateOverlayField = "storageClass"
 	InstanceTemplateOverlayFieldAvailabilityZone InstanceTemplateOverlayField = "availabilityZone"
-	InstanceTemplateOverlayFieldNodeGroup        InstanceTemplateOverlayField = "nodeGroup"
 	InstanceTemplateOverlayFieldEnv              InstanceTemplateOverlayField = "env"
 	InstanceTemplateOverlayFieldAnnotations      InstanceTemplateOverlayField = "annotations"
 )
@@ -25,7 +24,6 @@ const (
 var allowedInstanceTemplateOverlayFieldEnumValues = []InstanceTemplateOverlayField{
 	InstanceTemplateOverlayFieldStorageClass,
 	InstanceTemplateOverlayFieldAvailabilityZone,
-	InstanceTemplateOverlayFieldNodeGroup,
 	InstanceTemplateOverlayFieldEnv,
 	InstanceTemplateOverlayFieldAnnotations,
 }

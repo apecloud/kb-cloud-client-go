@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. storageClass, availabilityZone, nodeGroup, env, and annotations are optional overlays; omitted fields inherit the component. classCode and volume sizes are defined once on the component and copied onto each template.
+// InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. storageClass, availabilityZone, env, and annotations are optional overlays; omitted fields inherit the component. Node group is cluster-level and is inherited by every component and template. classCode and volume sizes are defined once on the component and copied onto each template.
 type InstanceTemplateCreate struct {
 	// Instance template name declared on the engine option.
 	Name string `json:"name"`
@@ -20,8 +20,6 @@ type InstanceTemplateCreate struct {
 	StorageClass *string `json:"storageClass,omitempty"`
 	// Availability zone for this template. Omit to inherit component scheduling (no default zone is invented).
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
-	// Node group for this template. Omit to inherit component scheduling.
-	NodeGroup *string `json:"nodeGroup,omitempty"`
 	// Env vars merged into this template (same-name keys overwritten).
 	Env []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
 	// Annotations merged into this template (same-name keys overwritten).
@@ -152,34 +150,6 @@ func (o *InstanceTemplateCreate) SetAvailabilityZone(v string) {
 	o.AvailabilityZone = &v
 }
 
-// GetNodeGroup returns the NodeGroup field value if set, zero value otherwise.
-func (o *InstanceTemplateCreate) GetNodeGroup() string {
-	if o == nil || o.NodeGroup == nil {
-		var ret string
-		return ret
-	}
-	return *o.NodeGroup
-}
-
-// GetNodeGroupOk returns a tuple with the NodeGroup field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *InstanceTemplateCreate) GetNodeGroupOk() (*string, bool) {
-	if o == nil || o.NodeGroup == nil {
-		return nil, false
-	}
-	return o.NodeGroup, true
-}
-
-// HasNodeGroup returns a boolean if a field has been set.
-func (o *InstanceTemplateCreate) HasNodeGroup() bool {
-	return o != nil && o.NodeGroup != nil
-}
-
-// SetNodeGroup gets a reference to the given string and assigns it to the NodeGroup field.
-func (o *InstanceTemplateCreate) SetNodeGroup(v string) {
-	o.NodeGroup = &v
-}
-
 // GetEnv returns the Env field value if set, zero value otherwise.
 func (o *InstanceTemplateCreate) GetEnv() []InstanceTemplateCreateEnvItem {
 	if o == nil || o.Env == nil {
@@ -250,9 +220,6 @@ func (o InstanceTemplateCreate) MarshalJSON() ([]byte, error) {
 	if o.AvailabilityZone != nil {
 		toSerialize["availabilityZone"] = o.AvailabilityZone
 	}
-	if o.NodeGroup != nil {
-		toSerialize["nodeGroup"] = o.NodeGroup
-	}
 	if o.Env != nil {
 		toSerialize["env"] = o.Env
 	}
@@ -273,7 +240,6 @@ func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 		Replicas         *int32                          `json:"replicas"`
 		StorageClass     *string                         `json:"storageClass,omitempty"`
 		AvailabilityZone *string                         `json:"availabilityZone,omitempty"`
-		NodeGroup        *string                         `json:"nodeGroup,omitempty"`
 		Env              []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
 		Annotations      map[string]string               `json:"annotations,omitempty"`
 	}{}
@@ -288,7 +254,7 @@ func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "replicas", "storageClass", "availabilityZone", "nodeGroup", "env", "annotations"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "replicas", "storageClass", "availabilityZone", "env", "annotations"})
 	} else {
 		return err
 	}
@@ -296,7 +262,6 @@ func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.Replicas = *all.Replicas
 	o.StorageClass = all.StorageClass
 	o.AvailabilityZone = all.AvailabilityZone
-	o.NodeGroup = all.NodeGroup
 	o.Env = all.Env
 	o.Annotations = all.Annotations
 

@@ -28950,7 +28950,7 @@ components:
     instanceTemplateCreate:
       type: object
       description: |
-        Create assignment for one instance template. name and replicas are required. storageClass, availabilityZone, nodeGroup, env, and annotations are optional overlays; omitted fields inherit the component. classCode and volume sizes are defined once on the component and copied onto each template.
+        Create assignment for one instance template. name and replicas are required. storageClass, availabilityZone, env, and annotations are optional overlays; omitted fields inherit the component. Node group is cluster-level and is inherited by every component and template. classCode and volume sizes are defined once on the component and copied onto each template.
       required:
         - name
         - replicas
@@ -28969,9 +28969,6 @@ components:
         availabilityZone:
           type: string
           description: Availability zone for this template. Omit to inherit component scheduling (no default zone is invented).
-        nodeGroup:
-          type: string
-          description: Node group for this template. Omit to inherit component scheduling.
         env:
           type: array
           description: Env vars merged into this template (same-name keys overwritten).
@@ -29076,15 +29073,12 @@ components:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Per-template replicas and optional overlays. Required when the engine option declares instanceTemplate. Names must match instanceTemplate.names exactly. classCode and volumes on the component are copied onto each template; the apiserver does not even-split replicas.
+          description: Per-template replicas and optional overlays (storageClass, availabilityZone, env, annotations). Node group is cluster-level and inherited by every component and template. Required when the engine option declares instanceTemplate. Names must match instanceTemplate.names exactly. classCode and volumes on the component are copied onto each template; the apiserver does not even-split replicas.
           items:
             $ref: '#/components/schemas/instanceTemplateCreate'
         availabilityZone:
           type: string
           description: Availability zone for a component without instance templates (e.g. arbiter).
-        nodeGroup:
-          type: string
-          description: Node group for a component without instance templates (e.g. arbiter).
         skipResourceConstraints:
           type: boolean
           description: Whether to skip resource constraint validation when creating cluster
@@ -38234,7 +38228,6 @@ components:
       enum:
         - storageClass
         - availabilityZone
-        - nodeGroup
         - env
         - annotations
     instanceTemplateEnv:

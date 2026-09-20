@@ -18,12 +18,10 @@ type ComponentItemCreate struct {
 	CompNum *int32 `json:"compNum,omitempty"`
 	// Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas. When instanceTemplates is set, this must equal the sum of those replica counts.
 	Replicas *int32 `json:"replicas,omitempty"`
-	// Per-template replicas and optional overlays. Required when the engine option declares instanceTemplate. Names must match instanceTemplate.names exactly. classCode and volumes on the component are copied onto each template; the apiserver does not even-split replicas.
+	// Per-template replicas and optional overlays (storageClass, availabilityZone, env, annotations). Node group is cluster-level and inherited by every component and template. Required when the engine option declares instanceTemplate. Names must match instanceTemplate.names exactly. classCode and volumes on the component are copied onto each template; the apiserver does not even-split replicas.
 	InstanceTemplates []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`
 	// Availability zone for a component without instance templates (e.g. arbiter).
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
-	// Node group for a component without instance templates (e.g. arbiter).
-	NodeGroup *string `json:"nodeGroup,omitempty"`
 	// Whether to skip resource constraint validation when creating cluster
 	SkipResourceConstraints *bool   `json:"skipResourceConstraints,omitempty"`
 	ClassCode               *string `json:"classCode,omitempty"`
@@ -198,34 +196,6 @@ func (o *ComponentItemCreate) HasAvailabilityZone() bool {
 // SetAvailabilityZone gets a reference to the given string and assigns it to the AvailabilityZone field.
 func (o *ComponentItemCreate) SetAvailabilityZone(v string) {
 	o.AvailabilityZone = &v
-}
-
-// GetNodeGroup returns the NodeGroup field value if set, zero value otherwise.
-func (o *ComponentItemCreate) GetNodeGroup() string {
-	if o == nil || o.NodeGroup == nil {
-		var ret string
-		return ret
-	}
-	return *o.NodeGroup
-}
-
-// GetNodeGroupOk returns a tuple with the NodeGroup field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ComponentItemCreate) GetNodeGroupOk() (*string, bool) {
-	if o == nil || o.NodeGroup == nil {
-		return nil, false
-	}
-	return o.NodeGroup, true
-}
-
-// HasNodeGroup returns a boolean if a field has been set.
-func (o *ComponentItemCreate) HasNodeGroup() bool {
-	return o != nil && o.NodeGroup != nil
-}
-
-// SetNodeGroup gets a reference to the given string and assigns it to the NodeGroup field.
-func (o *ComponentItemCreate) SetNodeGroup(v string) {
-	o.NodeGroup = &v
 }
 
 // GetSkipResourceConstraints returns the SkipResourceConstraints field value if set, zero value otherwise.
@@ -471,9 +441,6 @@ func (o ComponentItemCreate) MarshalJSON() ([]byte, error) {
 	if o.AvailabilityZone != nil {
 		toSerialize["availabilityZone"] = o.AvailabilityZone
 	}
-	if o.NodeGroup != nil {
-		toSerialize["nodeGroup"] = o.NodeGroup
-	}
 	if o.SkipResourceConstraints != nil {
 		toSerialize["skipResourceConstraints"] = o.SkipResourceConstraints
 	}
@@ -513,7 +480,6 @@ func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 		Replicas                *int32                   `json:"replicas,omitempty"`
 		InstanceTemplates       []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`
 		AvailabilityZone        *string                  `json:"availabilityZone,omitempty"`
-		NodeGroup               *string                  `json:"nodeGroup,omitempty"`
 		SkipResourceConstraints *bool                    `json:"skipResourceConstraints,omitempty"`
 		ClassCode               *string                  `json:"classCode,omitempty"`
 		Cpu                     *float64                 `json:"cpu,omitempty"`
@@ -531,7 +497,7 @@ func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "compNum", "replicas", "instanceTemplates", "availabilityZone", "nodeGroup", "skipResourceConstraints", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName", "network"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "compNum", "replicas", "instanceTemplates", "availabilityZone", "skipResourceConstraints", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName", "network"})
 	} else {
 		return err
 	}
@@ -542,7 +508,6 @@ func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.Replicas = all.Replicas
 	o.InstanceTemplates = all.InstanceTemplates
 	o.AvailabilityZone = all.AvailabilityZone
-	o.NodeGroup = all.NodeGroup
 	o.SkipResourceConstraints = all.SkipResourceConstraints
 	o.ClassCode = all.ClassCode
 	o.Cpu = all.Cpu
