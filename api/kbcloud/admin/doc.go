@@ -422,6 +422,7 @@
 //   - [engineApi.patchEngineSchedulingPolicy]
 //   - [engineApi.patchEngineSchedulingRule]
 //   - [engineApi.patchEngineVersion]
+//   - [engineApi.refreshEngineInEnv]
 //   - [engineApi.updateEngineResourceConstraint]
 //   - [engineApi.updateEnvironmentEngineOption]
 //   - [engineLicenseApi.createEngineLicense]
