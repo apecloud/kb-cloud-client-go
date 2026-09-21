@@ -22,8 +22,8 @@ import (
 // When absent, the component uses component-level operations.
 type ModeComponentInstanceTemplate struct {
 	// Allowed instance template names for create and ops payloads.
-	// Request names must be in this list. Create builds spec.instances
-	// from the request and replaces the chart-rendered list.
+	// Request names must be in this list. Create overlays the request
+	// onto chart-rendered instances; names must also match the chart.
 	//
 	Names []string `json:"names"`
 	// Operations supported via instance templates: hscale, vscale,
