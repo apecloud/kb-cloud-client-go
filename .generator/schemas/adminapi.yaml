@@ -14772,6 +14772,54 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: actionInfo
+  /admin/v1/environments/{environmentName}/engines/{engineName}/refresh:
+    post:
+      tags:
+        - engine
+      operationId: refreshEngineInEnv
+      summary: Refresh the installed addon without changing its version
+      description: |
+        Resolves the current chart image tag in the environment registry and applies its digest, preserving the addon version and values. No request body.
+        Returns 200 if the image reference is unchanged, or 202 when a refresh is requested.
+        Poll listEnginesInEnv for Enabling, Enabled, or Failed status.
+      parameters:
+        - name: environmentName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Chart image unchanged; no installation started.
+          content:
+            application/json:
+              schema:
+                type: string
+                example: chart image unchanged
+        '202':
+          description: Refresh accepted; completion is asynchronous.
+          content:
+            application/json:
+              schema:
+                type: string
+                example: refresh accepted
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/engines:
     get:
       operationId: listAllEngines
