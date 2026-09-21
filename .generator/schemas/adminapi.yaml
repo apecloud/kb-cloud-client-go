@@ -22232,6 +22232,281 @@ paths:
         - database
         - rdbms
         - shared
+  /admin/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      description: Lists SeaweedFS identities and access-key metadata without secret keys.
+      summary: listSeaweedFSAccounts
+      operationId: listSeaweedFSAccounts
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountList'
+          description: Success
+        '400':
+          description: Invalid request
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      x-codegen-request-body-name: body
+    post:
+      description: Creates a BASICUSER identity with named policies from extra.policies. Optional extra.accessKey and password select the credential; empty values are generated. The password is disclosed only in this response.
+      summary: createSeaweedFSAccount
+      operationId: createSeaweedFSAccount
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '201':
+          description: Identity and initial credential created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+        '400':
+          description: Invalid request
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      x-codegen-request-body-name: body
+  /admin/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    delete:
+      description: delete an account in cluster
+      summary: deleteSeaweedFSAccount
+      operationId: deleteSeaweedFSAccount
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Identity deleted
+        '400':
+          description: Invalid request
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
+      tags:
+        - account
+        - seaweedfs
+        - shared
+    patch:
+      description: Resets the secret for extra.accessKey. Account.name must match accountName. extra.accessKey is required. The returned password is disclosed only in this response.
+      summary: updateSeaweedFSAccount
+      operationId: updateSeaweedFSAccount
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '200':
+          description: Selected credential updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+        '400':
+          description: Invalid request
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      x-codegen-request-body-name: body
+  /admin/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/root-password:
+    get:
+      description: get root account password
+      summary: getRootSeaweedFSAccountPassword
+      operationId: getRootSeaweedFSAccountPassword
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: query
+          name: accountName
+          required: true
+          schema:
+            type: string
+        - description: name of the component
+          in: query
+          name: component
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get root account password success
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - seaweedfs
+        - shared
+  /admin/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/privileges:
+    patch:
+      description: Unsupported for SeaweedFS. Use the named policy binding API instead.
+      summary: updateSeaweedFSAccountPrivileges
+      operationId: updateSeaweedFSAccountPrivileges
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/privilegeList'
+        required: true
+      responses:
+        '400':
+          description: SeaweedFS uses the named policy binding API
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      x-codegen-request-body-name: body
   /admin/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/policies:
     get:
       summary: listSeaweedFSPolicies
