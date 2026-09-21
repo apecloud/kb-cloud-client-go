@@ -14,10 +14,11 @@ import (
 // Create requires instanceTemplates for every declared name; component
 // replicas must equal the sum of those replica counts.
 // HScale: instanceTemplates requires top-level replicas. Named templates
-// attach as scaleIn/scaleOut.instances; omit names for component-level only.
-// VScale is component-level only (no per-template class).
+// attach as scaleIn/scaleOut.instances.
+// ops catalogs hscale, vscale, and volumeexpansion; upgrade and restart
+// stay component-level. volumeexpansion via instance templates is 400
+// until implemented. attributes catalogs create-time overlays.
 // The platform does not even-split or fill in missing templates.
-// Instance online/offline can be set together with instanceTemplates.
 // When absent, the component uses component-level operations.
 type ModeComponentInstanceTemplate struct {
 	// Allowed instance template names for create and ops payloads.
@@ -25,16 +26,16 @@ type ModeComponentInstanceTemplate struct {
 	// from the request and replaces the chart-rendered list.
 	//
 	Names []string `json:"names"`
-	// Operations supported via instance templates. Currently only hscale.
+	// Operations supported via instance templates: hscale, vscale,
+	// volumeexpansion. Upgrade and restart stay component-level.
 	//
 	Ops []InstanceTemplateOp `json:"ops"`
-	// Overlay fields the frontend should render on each instance template.
-	// Omitted or empty means only name and replicas. Request fields not
-	// listed here are rejected. Includes storageClass,
-	// availabilityZone, env, annotations, labels.
+	// Heterogeneous attributes the frontend should render on each
+	// instance template at create. Omitted or empty means only name
+	// and replicas. Request attributes not listed here are rejected.
 	//
-	Fields []InstanceTemplateOverlayField `json:"fields,omitempty"`
-	// Env vars the frontend may render when fields includes env.
+	Attributes []InstanceTemplateAttribute `json:"attributes,omitempty"`
+	// Env vars the frontend may render when attributes includes env.
 	// Each item is one fillable env name. Request env names must be in
 	// this list.
 	//
@@ -109,32 +110,32 @@ func (o *ModeComponentInstanceTemplate) SetOps(v []InstanceTemplateOp) {
 	o.Ops = v
 }
 
-// GetFields returns the Fields field value if set, zero value otherwise.
-func (o *ModeComponentInstanceTemplate) GetFields() []InstanceTemplateOverlayField {
-	if o == nil || o.Fields == nil {
-		var ret []InstanceTemplateOverlayField
+// GetAttributes returns the Attributes field value if set, zero value otherwise.
+func (o *ModeComponentInstanceTemplate) GetAttributes() []InstanceTemplateAttribute {
+	if o == nil || o.Attributes == nil {
+		var ret []InstanceTemplateAttribute
 		return ret
 	}
-	return o.Fields
+	return o.Attributes
 }
 
-// GetFieldsOk returns a tuple with the Fields field value if set, nil otherwise
+// GetAttributesOk returns a tuple with the Attributes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModeComponentInstanceTemplate) GetFieldsOk() (*[]InstanceTemplateOverlayField, bool) {
-	if o == nil || o.Fields == nil {
+func (o *ModeComponentInstanceTemplate) GetAttributesOk() (*[]InstanceTemplateAttribute, bool) {
+	if o == nil || o.Attributes == nil {
 		return nil, false
 	}
-	return &o.Fields, true
+	return &o.Attributes, true
 }
 
-// HasFields returns a boolean if a field has been set.
-func (o *ModeComponentInstanceTemplate) HasFields() bool {
-	return o != nil && o.Fields != nil
+// HasAttributes returns a boolean if a field has been set.
+func (o *ModeComponentInstanceTemplate) HasAttributes() bool {
+	return o != nil && o.Attributes != nil
 }
 
-// SetFields gets a reference to the given []InstanceTemplateOverlayField and assigns it to the Fields field.
-func (o *ModeComponentInstanceTemplate) SetFields(v []InstanceTemplateOverlayField) {
-	o.Fields = v
+// SetAttributes gets a reference to the given []InstanceTemplateAttribute and assigns it to the Attributes field.
+func (o *ModeComponentInstanceTemplate) SetAttributes(v []InstanceTemplateAttribute) {
+	o.Attributes = v
 }
 
 // GetEnv returns the Env field value if set, zero value otherwise.
@@ -173,8 +174,8 @@ func (o ModeComponentInstanceTemplate) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["names"] = o.Names
 	toSerialize["ops"] = o.Ops
-	if o.Fields != nil {
-		toSerialize["fields"] = o.Fields
+	if o.Attributes != nil {
+		toSerialize["attributes"] = o.Attributes
 	}
 	if o.Env != nil {
 		toSerialize["env"] = o.Env
@@ -189,10 +190,10 @@ func (o ModeComponentInstanceTemplate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeComponentInstanceTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Names  *[]string                      `json:"names"`
-		Ops    *[]InstanceTemplateOp          `json:"ops"`
-		Fields []InstanceTemplateOverlayField `json:"fields,omitempty"`
-		Env    []InstanceTemplateEnv          `json:"env,omitempty"`
+		Names      *[]string                   `json:"names"`
+		Ops        *[]InstanceTemplateOp       `json:"ops"`
+		Attributes []InstanceTemplateAttribute `json:"attributes,omitempty"`
+		Env        []InstanceTemplateEnv       `json:"env,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -205,13 +206,13 @@ func (o *ModeComponentInstanceTemplate) UnmarshalJSON(bytes []byte) (err error) 
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"names", "ops", "fields", "env"})
+		common.DeleteKeys(additionalProperties, &[]string{"names", "ops", "attributes", "env"})
 	} else {
 		return err
 	}
 	o.Names = *all.Names
 	o.Ops = *all.Ops
-	o.Fields = all.Fields
+	o.Attributes = all.Attributes
 	o.Env = all.Env
 
 	if len(additionalProperties) > 0 {

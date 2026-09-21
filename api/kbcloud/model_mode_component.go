@@ -18,10 +18,11 @@ type ModeComponent struct {
 	// Create requires instanceTemplates for every declared name; component
 	// replicas must equal the sum of those replica counts.
 	// HScale: instanceTemplates requires top-level replicas. Named templates
-	// attach as scaleIn/scaleOut.instances; omit names for component-level only.
-	// VScale is component-level only (no per-template class).
+	// attach as scaleIn/scaleOut.instances.
+	// ops catalogs hscale, vscale, and volumeexpansion; upgrade and restart
+	// stay component-level. volumeexpansion via instance templates is 400
+	// until implemented. attributes catalogs create-time overlays.
 	// The platform does not even-split or fill in missing templates.
-	// Instance online/offline can be set together with instanceTemplates.
 	// When absent, the component uses component-level operations.
 	//
 	InstanceTemplate *ModeComponentInstanceTemplate `json:"instanceTemplate,omitempty"`

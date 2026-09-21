@@ -17963,6 +17963,568 @@ paths:
         - database
         - rdbms
         - shared
+  /api/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      description: Lists SeaweedFS identities and access-key metadata without secret keys.
+      summary: listSeaweedFSAccounts
+      operationId: listSeaweedFSAccounts
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountList'
+          description: Success
+        '400':
+          description: Invalid request
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      x-codegen-request-body-name: body
+    post:
+      description: Creates a BASICUSER identity with named policies from extra.policies. Optional extra.accessKey and password select the credential; empty values are generated. The password is disclosed only in this response.
+      summary: createSeaweedFSAccount
+      operationId: createSeaweedFSAccount
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '201':
+          description: Identity and initial credential created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+        '400':
+          description: Invalid request
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      x-codegen-request-body-name: body
+  /api/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    delete:
+      description: delete an account in cluster
+      summary: deleteSeaweedFSAccount
+      operationId: deleteSeaweedFSAccount
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Identity deleted
+        '400':
+          description: Invalid request
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
+      tags:
+        - account
+        - seaweedfs
+        - shared
+    patch:
+      description: Resets the secret for extra.accessKey. Account.name must match accountName. extra.accessKey is required. The returned password is disclosed only in this response.
+      summary: updateSeaweedFSAccount
+      operationId: updateSeaweedFSAccount
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '200':
+          description: Selected credential updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+        '400':
+          description: Invalid request
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      x-codegen-request-body-name: body
+  /api/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/root-password:
+    get:
+      description: get root account password
+      summary: getRootSeaweedFSAccountPassword
+      operationId: getRootSeaweedFSAccountPassword
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: query
+          name: accountName
+          required: true
+          schema:
+            type: string
+        - description: name of the component
+          in: query
+          name: component
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get root account password success
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - seaweedfs
+        - shared
+  /api/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/privileges:
+    patch:
+      description: Unsupported for SeaweedFS. Use the named policy binding API instead.
+      summary: updateSeaweedFSAccountPrivileges
+      operationId: updateSeaweedFSAccountPrivileges
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/privilegeList'
+        required: true
+      responses:
+        '400':
+          description: SeaweedFS uses the named policy binding API
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      x-codegen-request-body-name: body
+  /api/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/policies:
+    get:
+      summary: listSeaweedFSPolicies
+      operationId: listSeaweedFSPolicies
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - items
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - name
+                        - document
+                      properties:
+                        name:
+                          type: string
+                        document:
+                          type: object
+                          additionalProperties: true
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Permission denied or protected identity
+        '404':
+          description: Resource not found
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
+  /api/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/policies/{policyName}:
+    put:
+      summary: putSeaweedFSPolicy
+      operationId: putSeaweedFSPolicy
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: policyName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful response
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Permission denied or protected identity
+        '404':
+          description: Resource not found
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      description: Creates or replaces a named AWS IAM JSON policy document. Updates affect every identity and group that uses this policy.
+    delete:
+      summary: deleteSeaweedFSPolicy
+      operationId: deleteSeaweedFSPolicy
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: policyName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful response
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Permission denied or protected identity
+        '404':
+          description: Resource not found
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
+      description: Deletes an unused named policy. Attached policies are rejected; no identities or groups are implicitly changed.
+  /api/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/policies:
+    put:
+      summary: bindSeaweedFSPolicies
+      operationId: bindSeaweedFSPolicies
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful response
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Permission denied or protected identity
+        '404':
+          description: Resource not found
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - policies
+              properties:
+                policies:
+                  type: array
+                  items:
+                    type: string
+      description: Replaces named policy bindings. An empty policies array removes all direct bindings. Existing credentials, legacy actions and other identity attributes are preserved.
+  /api/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/access-keys:
+    post:
+      summary: createSeaweedFSAccessKey
+      operationId: createSeaweedFSAccessKey
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Permission denied or protected identity
+        '404':
+          description: Resource not found
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+      description: Creates a credential on the identity. Account.name must match accountName, role must be BASICUSER. Optional extra.accessKey and password select the access key and secret key; omitted or empty values are generated. The returned password is disclosed only in this response.
+  /api/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/access-keys/{accessKey}:
+    delete:
+      summary: deleteSeaweedFSAccessKey
+      operationId: deleteSeaweedFSAccessKey
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: accessKey
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful response
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Permission denied or protected identity
+        '404':
+          description: Resource not found
+        '409':
+          description: Resource conflict or policy in use
+        '503':
+          description: IAM unavailable; mutation outcome may be unknown
   /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       description: list accounts in cluster
@@ -24612,7 +25174,7 @@ components:
     instanceTemplateCreate:
       type: object
       description: |
-        Create assignment for one instance template. name and replicas are required. storageClass, availabilityZone, env, annotations, and labels are optional overlays; omitted fields inherit the component. Node group is cluster-level. Class stays on the component so later component-level vscale applies. Volume sizes are copied onto each template. The request list fully replaces chart instances.
+        Create assignment for one instance template. name and replicas are required. storageClassName, availabilityZone, env, annotations, labels, and classCode are optional overlays gated by instanceTemplate.attributes; omitted values inherit the component. Node group is cluster-level. Volume sizes are copied onto each template. The request list fully replaces chart instances.
       required:
         - name
         - replicas
@@ -24625,9 +25187,12 @@ components:
           type: integer
           minimum: 1
           description: Replica count for this instance template.
-        storageClass:
+        storageClassName:
           type: string
-          description: StorageClass for this template. Omit to inherit the component storageClass.
+          description: StorageClassName for this template. Omit to inherit the component storageClass.
+        classCode:
+          type: string
+          description: Class code for this template. Omit to inherit the component class.
         availabilityZone:
           type: string
           description: Availability zone for this template. Omit to inherit component scheduling (no default zone is invented).
@@ -24735,7 +25300,7 @@ components:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Per-template replicas and optional overlays (storageClass, availabilityZone, env, annotations, labels). Node group is cluster-level and inherited. Required when the engine option declares instanceTemplate. Request instances fully replace the Helm chart instances list. Names must be in instanceTemplate.names. Component replicas must equal the sum of these replica counts.
+          description: Per-template replicas and optional overlays (storageClassName, availabilityZone, env, annotations, labels, classCode). Node group is cluster-level and inherited. Required when the engine option declares instanceTemplate. Request instances fully replace the Helm chart instances list. Names must be in instanceTemplate.names. Component replicas must equal the sum of these replica counts.
           items:
             $ref: '#/components/schemas/instanceTemplateCreate'
         availabilityZone:
@@ -26601,12 +27166,44 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/engineServiceVersionsItem'
+    instanceTemplateVolumeExpand:
+      type: object
+      description: Volume expansion assignment for one instance template.
+      required:
+        - name
+        - volumes
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Instance template name declared on the engine option.
+        volumes:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required:
+              - name
+              - storage
+            properties:
+              name:
+                type: string
+                description: volume name
+              storage:
+                type: string
+                description: Storage size, the unit is Gi.
     opsVolumeExpand:
       description: OpsVolumeExpand is the payload to expand volume for a KubeBlocks cluster
       properties:
         component:
           type: string
           minLength: 1
+        instanceTemplates:
+          type: array
+          minItems: 1
+          description: Per-template volume expansion. Schema is complete; apiserver currently returns 400 until instance-template volumeexpansion is implemented.
+          items:
+            $ref: '#/components/schemas/instanceTemplateVolumeExpand'
         volumes:
           type: array
           minItems: 1
@@ -26626,6 +27223,21 @@ components:
         - volumes
         - component
       type: object
+    instanceTemplateVScale:
+      type: object
+      description: VScale assignment for one instance template. name and classCode.
+      required:
+        - name
+        - classCode
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Instance template name declared on the engine option.
+        classCode:
+          type: string
+          minLength: 1
+          description: Class code for this instance template.
     opsVScale:
       description: OpsVScale is the payload to vertically scale a KubeBlocks cluster
       required:
@@ -26644,6 +27256,12 @@ components:
         classCode:
           description: Class code for component-level vertical scaling.
           type: string
+        instanceTemplates:
+          type: array
+          minItems: 1
+          description: Per-template classCode. Requires instanceTemplate.ops to include vscale. Names must be unique and declared.
+          items:
+            $ref: '#/components/schemas/instanceTemplateVScale'
         schedule:
           $ref: '#/components/schemas/taskSchedule'
       type: object
@@ -31838,15 +32456,18 @@ components:
       description: Operation that can be declared on instanceTemplate.ops.
       enum:
         - hscale
-    instanceTemplateOverlayField:
+        - vscale
+        - volumeexpansion
+    instanceTemplateAttribute:
       type: string
-      description: Overlay field the frontend may render on an instance template.
+      description: Heterogeneous attribute the frontend may render on an instance template at create.
       enum:
-        - storageClass
+        - storageClassName
         - availabilityZone
         - env
         - annotations
         - labels
+        - classCode
     instanceTemplateEnv:
       type: object
       description: One fillable env var on an instance template, for frontend rendering.
@@ -31895,10 +32516,11 @@ components:
             Create requires instanceTemplates for every declared name; component
             replicas must equal the sum of those replica counts.
             HScale: instanceTemplates requires top-level replicas. Named templates
-            attach as scaleIn/scaleOut.instances; omit names for component-level only.
-            VScale is component-level only (no per-template class).
+            attach as scaleIn/scaleOut.instances.
+            ops catalogs hscale, vscale, and volumeexpansion; upgrade and restart
+            stay component-level. volumeexpansion via instance templates is 400
+            until implemented. attributes catalogs create-time overlays.
             The platform does not even-split or fill in missing templates.
-            Instance online/offline can be set together with instanceTemplates.
             When absent, the component uses component-level operations.
           required:
             - names
@@ -31920,21 +32542,21 @@ components:
               items:
                 $ref: '#/components/schemas/instanceTemplateOp'
               description: |
-                Operations supported via instance templates. Currently only hscale.
-            fields:
+                Operations supported via instance templates: hscale, vscale,
+                volumeexpansion. Upgrade and restart stay component-level.
+            attributes:
               type: array
               uniqueItems: true
               items:
-                $ref: '#/components/schemas/instanceTemplateOverlayField'
+                $ref: '#/components/schemas/instanceTemplateAttribute'
               description: |
-                Overlay fields the frontend should render on each instance template.
-                Omitted or empty means only name and replicas. Request fields not
-                listed here are rejected. Includes storageClass,
-                availabilityZone, env, annotations, labels.
+                Heterogeneous attributes the frontend should render on each
+                instance template at create. Omitted or empty means only name
+                and replicas. Request attributes not listed here are rejected.
             env:
               type: array
               description: |
-                Env vars the frontend may render when fields includes env.
+                Env vars the frontend may render when attributes includes env.
                 Each item is one fillable env name. Request env names must be in
                 this list.
               items:

@@ -19,8 +19,10 @@ type OpsVScale struct {
 	// memory size
 	Memory *string `json:"memory,omitempty"`
 	// Class code for component-level vertical scaling.
-	ClassCode *string       `json:"classCode,omitempty"`
-	Schedule  *TaskSchedule `json:"schedule,omitempty"`
+	ClassCode *string `json:"classCode,omitempty"`
+	// Per-template classCode. Requires instanceTemplate.ops to include vscale. Names must be unique and declared.
+	InstanceTemplates []InstanceTemplateVScale `json:"instanceTemplates,omitempty"`
+	Schedule          *TaskSchedule            `json:"schedule,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -151,6 +153,34 @@ func (o *OpsVScale) SetClassCode(v string) {
 	o.ClassCode = &v
 }
 
+// GetInstanceTemplates returns the InstanceTemplates field value if set, zero value otherwise.
+func (o *OpsVScale) GetInstanceTemplates() []InstanceTemplateVScale {
+	if o == nil || o.InstanceTemplates == nil {
+		var ret []InstanceTemplateVScale
+		return ret
+	}
+	return o.InstanceTemplates
+}
+
+// GetInstanceTemplatesOk returns a tuple with the InstanceTemplates field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OpsVScale) GetInstanceTemplatesOk() (*[]InstanceTemplateVScale, bool) {
+	if o == nil || o.InstanceTemplates == nil {
+		return nil, false
+	}
+	return &o.InstanceTemplates, true
+}
+
+// HasInstanceTemplates returns a boolean if a field has been set.
+func (o *OpsVScale) HasInstanceTemplates() bool {
+	return o != nil && o.InstanceTemplates != nil
+}
+
+// SetInstanceTemplates gets a reference to the given []InstanceTemplateVScale and assigns it to the InstanceTemplates field.
+func (o *OpsVScale) SetInstanceTemplates(v []InstanceTemplateVScale) {
+	o.InstanceTemplates = v
+}
+
 // GetSchedule returns the Schedule field value if set, zero value otherwise.
 func (o *OpsVScale) GetSchedule() TaskSchedule {
 	if o == nil || o.Schedule == nil {
@@ -195,6 +225,9 @@ func (o OpsVScale) MarshalJSON() ([]byte, error) {
 	if o.ClassCode != nil {
 		toSerialize["classCode"] = o.ClassCode
 	}
+	if o.InstanceTemplates != nil {
+		toSerialize["instanceTemplates"] = o.InstanceTemplates
+	}
 	if o.Schedule != nil {
 		toSerialize["schedule"] = o.Schedule
 	}
@@ -208,11 +241,12 @@ func (o OpsVScale) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsVScale) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component *string       `json:"component"`
-		Cpu       *string       `json:"cpu,omitempty"`
-		Memory    *string       `json:"memory,omitempty"`
-		ClassCode *string       `json:"classCode,omitempty"`
-		Schedule  *TaskSchedule `json:"schedule,omitempty"`
+		Component         *string                  `json:"component"`
+		Cpu               *string                  `json:"cpu,omitempty"`
+		Memory            *string                  `json:"memory,omitempty"`
+		ClassCode         *string                  `json:"classCode,omitempty"`
+		InstanceTemplates []InstanceTemplateVScale `json:"instanceTemplates,omitempty"`
+		Schedule          *TaskSchedule            `json:"schedule,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -222,7 +256,7 @@ func (o *OpsVScale) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "cpu", "memory", "classCode", "schedule"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "cpu", "memory", "classCode", "instanceTemplates", "schedule"})
 	} else {
 		return err
 	}
@@ -232,6 +266,7 @@ func (o *OpsVScale) UnmarshalJSON(bytes []byte) (err error) {
 	o.Cpu = all.Cpu
 	o.Memory = all.Memory
 	o.ClassCode = all.ClassCode
+	o.InstanceTemplates = all.InstanceTemplates
 	if all.Schedule != nil && all.Schedule.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
