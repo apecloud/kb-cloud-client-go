@@ -25198,7 +25198,7 @@ components:
           description: Availability zone for this template. Omit to inherit component scheduling (no default zone is invented).
         env:
           type: array
-          description: Env vars merged into this template (same-name keys overwritten).
+          description: Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
           items:
             type: object
             required:

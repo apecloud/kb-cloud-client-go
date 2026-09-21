@@ -22,7 +22,7 @@ type InstanceTemplateCreate struct {
 	ClassCode *string `json:"classCode,omitempty"`
 	// Availability zone for this template. Omit to inherit component scheduling (no default zone is invented).
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
-	// Env vars merged into this template (same-name keys overwritten).
+	// Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
 	Env []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
 	// Annotations merged into this template (same-name keys overwritten).
 	Annotations map[string]string `json:"annotations,omitempty"`
