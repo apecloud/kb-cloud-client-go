@@ -76,7 +76,7 @@ tags:
   - name: disasterRecovery
     description: Cluster Disaster Recovery APIs
 paths:
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/jars/config:
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/config:
     get:
       operationId: getClusterJarConfig
       summary: Get external JAR capability and configuration
@@ -84,6 +84,12 @@ paths:
         - clusterJar
         - shared
       parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
         - name: orgName
           in: path
           required: true
@@ -113,7 +119,7 @@ paths:
           $ref: '#/components/responses/400'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/jars:
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars:
     get:
       operationId: listClusterJars
       summary: List external JAR versions and synchronization state
@@ -121,6 +127,12 @@ paths:
         - clusterJar
         - shared
       parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
         - name: orgName
           in: path
           required: true
@@ -157,6 +169,12 @@ paths:
         - clusterJar
         - shared
       parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
         - name: orgName
           in: path
           required: true
@@ -215,7 +233,7 @@ paths:
                 - name
                 - kind
                 - file
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}:
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}:
     get:
       operationId: getClusterJar
       summary: Get an external JAR version
@@ -223,6 +241,12 @@ paths:
         - clusterJar
         - shared
       parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
         - name: orgName
           in: path
           required: true
@@ -264,6 +288,12 @@ paths:
         - clusterJar
         - shared
       parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
         - name: orgName
           in: path
           required: true
@@ -294,7 +324,7 @@ paths:
           $ref: '#/components/responses/400'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/instances:
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/instances:
     get:
       operationId: getClusterJarInstances
       summary: Get a JAR version with current instance synchronization results
@@ -302,6 +332,12 @@ paths:
         - clusterJar
         - shared
       parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
         - name: orgName
           in: path
           required: true
@@ -336,7 +372,7 @@ paths:
           $ref: '#/components/responses/400'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/download:
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/download:
     get:
       operationId: downloadClusterJar
       summary: Download the original JAR
@@ -344,6 +380,12 @@ paths:
         - clusterJar
         - shared
       parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
         - name: orgName
           in: path
           required: true
@@ -379,7 +421,7 @@ paths:
           $ref: '#/components/responses/400'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/distribute:
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/distribute:
     post:
       operationId: distributeClusterJar
       summary: Publish a JAR with optimistic manifest version checking
@@ -387,6 +429,12 @@ paths:
         - clusterJar
         - shared
       parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
         - name: orgName
           in: path
           required: true
@@ -427,7 +475,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/clusterJarPublish'
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/retry:
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/retry:
     post:
       operationId: retryClusterJar
       summary: Retry synchronization of published JARs
@@ -435,6 +483,12 @@ paths:
         - clusterJar
         - shared
       parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
         - name: orgName
           in: path
           required: true
@@ -469,7 +523,7 @@ paths:
           $ref: '#/components/responses/400'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/archive:
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/archive:
     post:
       operationId: archiveClusterJar
       summary: Archive a JAR while retaining published files and startup synchronization
@@ -477,6 +531,12 @@ paths:
         - clusterJar
         - shared
       parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
         - name: orgName
           in: path
           required: true

@@ -19,7 +19,7 @@ import (
 type ClusterJarApi common.Service
 
 // ArchiveClusterJar Archive a JAR while retaining published files and startup synchronization.
-func (a *ClusterJarApi) ArchiveClusterJar(ctx _context.Context, orgName string, clusterName string, jarId string) (*_nethttp.Response, error) {
+func (a *ClusterJarApi) ArchiveClusterJar(ctx _context.Context, engineName string, orgName string, clusterName string, jarId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
@@ -29,7 +29,7 @@ func (a *ClusterJarApi) ArchiveClusterJar(ctx _context.Context, orgName string, 
 	apiInfo := common.APIInfo{
 		Tag:         "clusterJar",
 		OperationID: "archiveClusterJar",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/archive",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/archive",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -39,7 +39,8 @@ func (a *ClusterJarApi) ArchiveClusterJar(ctx _context.Context, orgName string, 
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/archive"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/archive"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"jarId"+"}", _neturl.PathEscape(common.ParameterToString(jarId, "")), -1)
@@ -89,7 +90,7 @@ func (a *ClusterJarApi) ArchiveClusterJar(ctx _context.Context, orgName string, 
 }
 
 // DeleteClusterJar Delete an unpublished JAR version.
-func (a *ClusterJarApi) DeleteClusterJar(ctx _context.Context, orgName string, clusterName string, jarId string) (*_nethttp.Response, error) {
+func (a *ClusterJarApi) DeleteClusterJar(ctx _context.Context, engineName string, orgName string, clusterName string, jarId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
@@ -99,7 +100,7 @@ func (a *ClusterJarApi) DeleteClusterJar(ctx _context.Context, orgName string, c
 	apiInfo := common.APIInfo{
 		Tag:         "clusterJar",
 		OperationID: "deleteClusterJar",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -109,7 +110,8 @@ func (a *ClusterJarApi) DeleteClusterJar(ctx _context.Context, orgName string, c
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"jarId"+"}", _neturl.PathEscape(common.ParameterToString(jarId, "")), -1)
@@ -159,7 +161,7 @@ func (a *ClusterJarApi) DeleteClusterJar(ctx _context.Context, orgName string, c
 }
 
 // DistributeClusterJar Publish a JAR with optimistic manifest version checking.
-func (a *ClusterJarApi) DistributeClusterJar(ctx _context.Context, orgName string, clusterName string, jarId string, body ClusterJarPublish) (ClusterJarTask, *_nethttp.Response, error) {
+func (a *ClusterJarApi) DistributeClusterJar(ctx _context.Context, engineName string, orgName string, clusterName string, jarId string, body ClusterJarPublish) (ClusterJarTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -170,7 +172,7 @@ func (a *ClusterJarApi) DistributeClusterJar(ctx _context.Context, orgName strin
 	apiInfo := common.APIInfo{
 		Tag:         "clusterJar",
 		OperationID: "distributeClusterJar",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/distribute",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/distribute",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -180,7 +182,8 @@ func (a *ClusterJarApi) DistributeClusterJar(ctx _context.Context, orgName strin
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/distribute"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/distribute"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"jarId"+"}", _neturl.PathEscape(common.ParameterToString(jarId, "")), -1)
@@ -242,7 +245,7 @@ func (a *ClusterJarApi) DistributeClusterJar(ctx _context.Context, orgName strin
 }
 
 // DownloadClusterJar Download the original JAR.
-func (a *ClusterJarApi) DownloadClusterJar(ctx _context.Context, orgName string, clusterName string, jarId string) (_io.Reader, *_nethttp.Response, error) {
+func (a *ClusterJarApi) DownloadClusterJar(ctx _context.Context, engineName string, orgName string, clusterName string, jarId string) (_io.Reader, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -253,7 +256,7 @@ func (a *ClusterJarApi) DownloadClusterJar(ctx _context.Context, orgName string,
 	apiInfo := common.APIInfo{
 		Tag:         "clusterJar",
 		OperationID: "downloadClusterJar",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/download",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/download",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -263,7 +266,8 @@ func (a *ClusterJarApi) DownloadClusterJar(ctx _context.Context, orgName string,
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/download"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/download"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"jarId"+"}", _neturl.PathEscape(common.ParameterToString(jarId, "")), -1)
@@ -314,7 +318,7 @@ func (a *ClusterJarApi) DownloadClusterJar(ctx _context.Context, orgName string,
 }
 
 // GetClusterJar Get an external JAR version.
-func (a *ClusterJarApi) GetClusterJar(ctx _context.Context, orgName string, clusterName string, jarId string) (ClusterJarPackage, *_nethttp.Response, error) {
+func (a *ClusterJarApi) GetClusterJar(ctx _context.Context, engineName string, orgName string, clusterName string, jarId string) (ClusterJarPackage, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -325,7 +329,7 @@ func (a *ClusterJarApi) GetClusterJar(ctx _context.Context, orgName string, clus
 	apiInfo := common.APIInfo{
 		Tag:         "clusterJar",
 		OperationID: "getClusterJar",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -335,7 +339,8 @@ func (a *ClusterJarApi) GetClusterJar(ctx _context.Context, orgName string, clus
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"jarId"+"}", _neturl.PathEscape(common.ParameterToString(jarId, "")), -1)
@@ -394,7 +399,7 @@ func (a *ClusterJarApi) GetClusterJar(ctx _context.Context, orgName string, clus
 }
 
 // GetClusterJarConfig Get external JAR capability and configuration.
-func (a *ClusterJarApi) GetClusterJarConfig(ctx _context.Context, orgName string, clusterName string) (ClusterJarConfig, *_nethttp.Response, error) {
+func (a *ClusterJarApi) GetClusterJarConfig(ctx _context.Context, engineName string, orgName string, clusterName string) (ClusterJarConfig, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -405,7 +410,7 @@ func (a *ClusterJarApi) GetClusterJarConfig(ctx _context.Context, orgName string
 	apiInfo := common.APIInfo{
 		Tag:         "clusterJar",
 		OperationID: "getClusterJarConfig",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars/config",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/config",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -415,7 +420,8 @@ func (a *ClusterJarApi) GetClusterJarConfig(ctx _context.Context, orgName string
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars/config"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/config"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -473,7 +479,7 @@ func (a *ClusterJarApi) GetClusterJarConfig(ctx _context.Context, orgName string
 }
 
 // GetClusterJarInstances Get a JAR version with current instance synchronization results.
-func (a *ClusterJarApi) GetClusterJarInstances(ctx _context.Context, orgName string, clusterName string, jarId string) (ClusterJarPackage, *_nethttp.Response, error) {
+func (a *ClusterJarApi) GetClusterJarInstances(ctx _context.Context, engineName string, orgName string, clusterName string, jarId string) (ClusterJarPackage, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -484,7 +490,7 @@ func (a *ClusterJarApi) GetClusterJarInstances(ctx _context.Context, orgName str
 	apiInfo := common.APIInfo{
 		Tag:         "clusterJar",
 		OperationID: "getClusterJarInstances",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/instances",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/instances",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -494,7 +500,8 @@ func (a *ClusterJarApi) GetClusterJarInstances(ctx _context.Context, orgName str
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/instances"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/instances"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"jarId"+"}", _neturl.PathEscape(common.ParameterToString(jarId, "")), -1)
@@ -553,7 +560,7 @@ func (a *ClusterJarApi) GetClusterJarInstances(ctx _context.Context, orgName str
 }
 
 // ListClusterJars List external JAR versions and synchronization state.
-func (a *ClusterJarApi) ListClusterJars(ctx _context.Context, orgName string, clusterName string) (ClusterJarList, *_nethttp.Response, error) {
+func (a *ClusterJarApi) ListClusterJars(ctx _context.Context, engineName string, orgName string, clusterName string) (ClusterJarList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -564,7 +571,7 @@ func (a *ClusterJarApi) ListClusterJars(ctx _context.Context, orgName string, cl
 	apiInfo := common.APIInfo{
 		Tag:         "clusterJar",
 		OperationID: "listClusterJars",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -574,7 +581,8 @@ func (a *ClusterJarApi) ListClusterJars(ctx _context.Context, orgName string, cl
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -632,7 +640,7 @@ func (a *ClusterJarApi) ListClusterJars(ctx _context.Context, orgName string, cl
 }
 
 // RetryClusterJar Retry synchronization of published JARs.
-func (a *ClusterJarApi) RetryClusterJar(ctx _context.Context, orgName string, clusterName string, jarId string) (ClusterJarTask, *_nethttp.Response, error) {
+func (a *ClusterJarApi) RetryClusterJar(ctx _context.Context, engineName string, orgName string, clusterName string, jarId string) (ClusterJarTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -643,7 +651,7 @@ func (a *ClusterJarApi) RetryClusterJar(ctx _context.Context, orgName string, cl
 	apiInfo := common.APIInfo{
 		Tag:         "clusterJar",
 		OperationID: "retryClusterJar",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/retry",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/retry",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -653,7 +661,8 @@ func (a *ClusterJarApi) RetryClusterJar(ctx _context.Context, orgName string, cl
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/retry"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/retry"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"jarId"+"}", _neturl.PathEscape(common.ParameterToString(jarId, "")), -1)
@@ -712,7 +721,7 @@ func (a *ClusterJarApi) RetryClusterJar(ctx _context.Context, orgName string, cl
 }
 
 // UploadClusterJar Upload an immutable JAR version.
-func (a *ClusterJarApi) UploadClusterJar(ctx _context.Context, orgName string, clusterName string, idempotencyKey string, name string, kind ClusterJarKind, file _io.Reader) (ClusterJarPackage, *_nethttp.Response, error) {
+func (a *ClusterJarApi) UploadClusterJar(ctx _context.Context, engineName string, orgName string, clusterName string, idempotencyKey string, name string, kind ClusterJarKind, file _io.Reader) (ClusterJarPackage, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -723,7 +732,7 @@ func (a *ClusterJarApi) UploadClusterJar(ctx _context.Context, orgName string, c
 	apiInfo := common.APIInfo{
 		Tag:         "clusterJar",
 		OperationID: "uploadClusterJar",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -733,7 +742,8 @@ func (a *ClusterJarApi) UploadClusterJar(ctx _context.Context, orgName string, c
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/jars"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
