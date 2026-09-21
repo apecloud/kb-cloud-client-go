@@ -196,7 +196,6 @@
 //   - [clusterAlertSwitchApi.getClusterAlertDisabled]
 //   - [clusterAlertSwitchApi.setClusterAlertDisabled]
 //   - [clusterJarApi.archiveClusterJar]
-//   - [clusterJarApi.configureClusterJars]
 //   - [clusterJarApi.deleteClusterJar]
 //   - [clusterJarApi.distributeClusterJar]
 //   - [clusterJarApi.downloadClusterJar]

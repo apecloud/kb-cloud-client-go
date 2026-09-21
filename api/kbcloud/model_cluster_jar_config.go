@@ -11,16 +11,13 @@ import (
 )
 
 type ClusterJarConfig struct {
-	Supported       bool    `json:"supported"`
-	Reason          *string `json:"reason,omitempty"`
-	Enabled         bool    `json:"enabled"`
-	BackupRepoName  *string `json:"backupRepoName,omitempty"`
-	Generation      int64   `json:"generation"`
-	MaxFileBytes    int64   `json:"maxFileBytes"`
-	MaxTotalBytes   int64   `json:"maxTotalBytes"`
-	UsedBytes       int64   `json:"usedBytes"`
-	TaskId          *string `json:"taskId,omitempty"`
-	RequiresRestart bool    `json:"requiresRestart"`
+	Supported     bool    `json:"supported"`
+	Reason        *string `json:"reason,omitempty"`
+	Generation    int64   `json:"generation"`
+	MaxFileBytes  int64   `json:"maxFileBytes"`
+	MaxTotalBytes int64   `json:"maxTotalBytes"`
+	UsedBytes     int64   `json:"usedBytes"`
+	TaskId        *string `json:"taskId,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -30,15 +27,13 @@ type ClusterJarConfig struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewClusterJarConfig(supported bool, enabled bool, generation int64, maxFileBytes int64, maxTotalBytes int64, usedBytes int64, requiresRestart bool) *ClusterJarConfig {
+func NewClusterJarConfig(supported bool, generation int64, maxFileBytes int64, maxTotalBytes int64, usedBytes int64) *ClusterJarConfig {
 	this := ClusterJarConfig{}
 	this.Supported = supported
-	this.Enabled = enabled
 	this.Generation = generation
 	this.MaxFileBytes = maxFileBytes
 	this.MaxTotalBytes = maxTotalBytes
 	this.UsedBytes = usedBytes
-	this.RequiresRestart = requiresRestart
 	return &this
 }
 
@@ -99,57 +94,6 @@ func (o *ClusterJarConfig) HasReason() bool {
 // SetReason gets a reference to the given string and assigns it to the Reason field.
 func (o *ClusterJarConfig) SetReason(v string) {
 	o.Reason = &v
-}
-
-// GetEnabled returns the Enabled field value.
-func (o *ClusterJarConfig) GetEnabled() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-	return o.Enabled
-}
-
-// GetEnabledOk returns a tuple with the Enabled field value
-// and a boolean to check if the value has been set.
-func (o *ClusterJarConfig) GetEnabledOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Enabled, true
-}
-
-// SetEnabled sets field value.
-func (o *ClusterJarConfig) SetEnabled(v bool) {
-	o.Enabled = v
-}
-
-// GetBackupRepoName returns the BackupRepoName field value if set, zero value otherwise.
-func (o *ClusterJarConfig) GetBackupRepoName() string {
-	if o == nil || o.BackupRepoName == nil {
-		var ret string
-		return ret
-	}
-	return *o.BackupRepoName
-}
-
-// GetBackupRepoNameOk returns a tuple with the BackupRepoName field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ClusterJarConfig) GetBackupRepoNameOk() (*string, bool) {
-	if o == nil || o.BackupRepoName == nil {
-		return nil, false
-	}
-	return o.BackupRepoName, true
-}
-
-// HasBackupRepoName returns a boolean if a field has been set.
-func (o *ClusterJarConfig) HasBackupRepoName() bool {
-	return o != nil && o.BackupRepoName != nil
-}
-
-// SetBackupRepoName gets a reference to the given string and assigns it to the BackupRepoName field.
-func (o *ClusterJarConfig) SetBackupRepoName(v string) {
-	o.BackupRepoName = &v
 }
 
 // GetGeneration returns the Generation field value.
@@ -272,29 +216,6 @@ func (o *ClusterJarConfig) SetTaskId(v string) {
 	o.TaskId = &v
 }
 
-// GetRequiresRestart returns the RequiresRestart field value.
-func (o *ClusterJarConfig) GetRequiresRestart() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-	return o.RequiresRestart
-}
-
-// GetRequiresRestartOk returns a tuple with the RequiresRestart field value
-// and a boolean to check if the value has been set.
-func (o *ClusterJarConfig) GetRequiresRestartOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.RequiresRestart, true
-}
-
-// SetRequiresRestart sets field value.
-func (o *ClusterJarConfig) SetRequiresRestart(v bool) {
-	o.RequiresRestart = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterJarConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -305,10 +226,6 @@ func (o ClusterJarConfig) MarshalJSON() ([]byte, error) {
 	if o.Reason != nil {
 		toSerialize["reason"] = o.Reason
 	}
-	toSerialize["enabled"] = o.Enabled
-	if o.BackupRepoName != nil {
-		toSerialize["backupRepoName"] = o.BackupRepoName
-	}
 	toSerialize["generation"] = o.Generation
 	toSerialize["maxFileBytes"] = o.MaxFileBytes
 	toSerialize["maxTotalBytes"] = o.MaxTotalBytes
@@ -316,7 +233,6 @@ func (o ClusterJarConfig) MarshalJSON() ([]byte, error) {
 	if o.TaskId != nil {
 		toSerialize["taskId"] = o.TaskId
 	}
-	toSerialize["requiresRestart"] = o.RequiresRestart
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -327,25 +243,19 @@ func (o ClusterJarConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterJarConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Supported       *bool   `json:"supported"`
-		Reason          *string `json:"reason,omitempty"`
-		Enabled         *bool   `json:"enabled"`
-		BackupRepoName  *string `json:"backupRepoName,omitempty"`
-		Generation      *int64  `json:"generation"`
-		MaxFileBytes    *int64  `json:"maxFileBytes"`
-		MaxTotalBytes   *int64  `json:"maxTotalBytes"`
-		UsedBytes       *int64  `json:"usedBytes"`
-		TaskId          *string `json:"taskId,omitempty"`
-		RequiresRestart *bool   `json:"requiresRestart"`
+		Supported     *bool   `json:"supported"`
+		Reason        *string `json:"reason,omitempty"`
+		Generation    *int64  `json:"generation"`
+		MaxFileBytes  *int64  `json:"maxFileBytes"`
+		MaxTotalBytes *int64  `json:"maxTotalBytes"`
+		UsedBytes     *int64  `json:"usedBytes"`
+		TaskId        *string `json:"taskId,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	if all.Supported == nil {
 		return fmt.Errorf("required field supported missing")
-	}
-	if all.Enabled == nil {
-		return fmt.Errorf("required field enabled missing")
 	}
 	if all.Generation == nil {
 		return fmt.Errorf("required field generation missing")
@@ -359,25 +269,19 @@ func (o *ClusterJarConfig) UnmarshalJSON(bytes []byte) (err error) {
 	if all.UsedBytes == nil {
 		return fmt.Errorf("required field usedBytes missing")
 	}
-	if all.RequiresRestart == nil {
-		return fmt.Errorf("required field requiresRestart missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"supported", "reason", "enabled", "backupRepoName", "generation", "maxFileBytes", "maxTotalBytes", "usedBytes", "taskId", "requiresRestart"})
+		common.DeleteKeys(additionalProperties, &[]string{"supported", "reason", "generation", "maxFileBytes", "maxTotalBytes", "usedBytes", "taskId"})
 	} else {
 		return err
 	}
 	o.Supported = *all.Supported
 	o.Reason = all.Reason
-	o.Enabled = *all.Enabled
-	o.BackupRepoName = all.BackupRepoName
 	o.Generation = *all.Generation
 	o.MaxFileBytes = *all.MaxFileBytes
 	o.MaxTotalBytes = *all.MaxTotalBytes
 	o.UsedBytes = *all.UsedBytes
 	o.TaskId = all.TaskId
-	o.RequiresRestart = *all.RequiresRestart
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

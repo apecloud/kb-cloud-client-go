@@ -113,48 +113,6 @@ paths:
           $ref: '#/components/responses/400'
         '500':
           $ref: '#/components/responses/500'
-    put:
-      operationId: configureClusterJars
-      summary: Enable external JAR management using an object storage repository
-      tags:
-        - clusterJar
-        - shared
-      parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '202':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/clusterJarTask'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/400'
-        '500':
-          $ref: '#/components/responses/500'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/clusterJarConfigure'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/jars:
     get:
       operationId: listClusterJars
@@ -27998,10 +27956,6 @@ components:
           type: boolean
         reason:
           type: string
-        enabled:
-          type: boolean
-        backupRepoName:
-          type: string
         generation:
           type: integer
           format: int64
@@ -28016,16 +27970,12 @@ components:
           format: int64
         taskId:
           type: string
-        requiresRestart:
-          type: boolean
       required:
         - supported
-        - enabled
         - generation
         - maxFileBytes
         - maxTotalBytes
         - usedBytes
-        - requiresRestart
     APIErrorResponse:
       description: API error response.
       properties:
@@ -28041,19 +27991,6 @@ components:
       required:
         - code
       type: object
-    clusterJarConfigure:
-      type: object
-      properties:
-        backupRepoName:
-          type: string
-          minLength: 1
-      required:
-        - backupRepoName
-    clusterJarTask:
-      type: object
-      properties:
-        taskId:
-          type: string
     clusterJarKind:
       type: string
       enum:
@@ -28161,6 +28098,11 @@ components:
           minimum: 0
       required:
         - generation
+    clusterJarTask:
+      type: object
+      properties:
+        taskId:
+          type: string
     phoneNumber:
       description: The phonenumber for the user.
       example: '+8618912345678'
