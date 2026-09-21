@@ -122,7 +122,7 @@ paths:
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars:
     get:
       operationId: listClusterJars
-      summary: List external JAR versions and synchronization state
+      summary: List external JAR versions with metadata and per-instance synchronization state
       tags:
         - clusterJar
         - shared
@@ -234,53 +234,6 @@ paths:
                 - kind
                 - file
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}:
-    get:
-      operationId: getClusterJar
-      summary: Get an external JAR version
-      tags:
-        - clusterJar
-        - shared
-      parameters:
-        - name: engineName
-          in: path
-          required: true
-          description: Doris or SelectDB engine of the target cluster.
-          schema:
-            type: string
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: jarId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/clusterJarPackage'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/400'
-        '500':
-          $ref: '#/components/responses/500'
     delete:
       operationId: deleteClusterJar
       summary: Delete an unpublished JAR version
@@ -312,54 +265,6 @@ paths:
       responses:
         '204':
           description: Success
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/400'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/instances:
-    get:
-      operationId: getClusterJarInstances
-      summary: Get a JAR version with current instance synchronization results
-      tags:
-        - clusterJar
-        - shared
-      parameters:
-        - name: engineName
-          in: path
-          required: true
-          description: Doris or SelectDB engine of the target cluster.
-          schema:
-            type: string
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: jarId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/clusterJarPackage'
         '400':
           $ref: '#/components/responses/400'
         '401':
