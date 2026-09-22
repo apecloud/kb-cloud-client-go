@@ -30047,7 +30047,7 @@ components:
     instanceTemplateCreate:
       type: object
       description: |
-        Create assignment for one instance template. name and replicas are required. storageClassName, availabilityZone, env, annotations, and labels are optional overlays gated by instanceTemplate.attributes; omitted values inherit the component. Node group is cluster-level. Create overlays the request onto chart-rendered instances and keeps chart identity fields.
+        Create assignment for one instance template. name and replicas are required. storageClassName, availabilityZone, env, annotations, and labels are optional overlays gated by instanceTemplate.attributes; omitted values inherit the component. Node group is cluster-level. Create overlays the request onto chart-rendered instances and keeps chart identity fields. classCode is not supported on templates.
       required:
         - name
         - replicas
@@ -30073,11 +30073,14 @@ components:
             type: object
             required:
               - name
+              - value
             properties:
               name:
                 type: string
               value:
                 type: string
+                minLength: 1
+                description: Plain string value only. valueFrom is not supported.
         annotations:
           type: object
           additionalProperties:

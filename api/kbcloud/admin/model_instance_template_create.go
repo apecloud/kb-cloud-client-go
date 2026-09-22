@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. storageClassName, availabilityZone, env, annotations, and labels are optional overlays gated by instanceTemplate.attributes; omitted values inherit the component. Node group is cluster-level. Create overlays the request onto chart-rendered instances and keeps chart identity fields.
+// InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. storageClassName, availabilityZone, env, annotations, and labels are optional overlays gated by instanceTemplate.attributes; omitted values inherit the component. Node group is cluster-level. Create overlays the request onto chart-rendered instances and keeps chart identity fields. classCode is not supported on templates.
 type InstanceTemplateCreate struct {
 	// Instance template name declared on the engine option.
 	Name string `json:"name"`

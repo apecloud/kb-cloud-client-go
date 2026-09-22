@@ -11,8 +11,9 @@ import (
 )
 
 type InstanceTemplateCreateEnvItem struct {
-	Name  string  `json:"name"`
-	Value *string `json:"value,omitempty"`
+	Name string `json:"name"`
+	// Plain string value only. valueFrom is not supported.
+	Value string `json:"value"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -22,9 +23,10 @@ type InstanceTemplateCreateEnvItem struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewInstanceTemplateCreateEnvItem(name string) *InstanceTemplateCreateEnvItem {
+func NewInstanceTemplateCreateEnvItem(name string, value string) *InstanceTemplateCreateEnvItem {
 	this := InstanceTemplateCreateEnvItem{}
 	this.Name = name
+	this.Value = value
 	return &this
 }
 
@@ -59,32 +61,27 @@ func (o *InstanceTemplateCreateEnvItem) SetName(v string) {
 	o.Name = v
 }
 
-// GetValue returns the Value field value if set, zero value otherwise.
+// GetValue returns the Value field value.
 func (o *InstanceTemplateCreateEnvItem) GetValue() string {
-	if o == nil || o.Value == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Value
+	return o.Value
 }
 
-// GetValueOk returns a tuple with the Value field value if set, nil otherwise
+// GetValueOk returns a tuple with the Value field value
 // and a boolean to check if the value has been set.
 func (o *InstanceTemplateCreateEnvItem) GetValueOk() (*string, bool) {
-	if o == nil || o.Value == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Value, true
+	return &o.Value, true
 }
 
-// HasValue returns a boolean if a field has been set.
-func (o *InstanceTemplateCreateEnvItem) HasValue() bool {
-	return o != nil && o.Value != nil
-}
-
-// SetValue gets a reference to the given string and assigns it to the Value field.
+// SetValue sets field value.
 func (o *InstanceTemplateCreateEnvItem) SetValue(v string) {
-	o.Value = &v
+	o.Value = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -94,9 +91,7 @@ func (o InstanceTemplateCreateEnvItem) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["name"] = o.Name
-	if o.Value != nil {
-		toSerialize["value"] = o.Value
-	}
+	toSerialize["value"] = o.Value
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -108,13 +103,16 @@ func (o InstanceTemplateCreateEnvItem) MarshalJSON() ([]byte, error) {
 func (o *InstanceTemplateCreateEnvItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name  *string `json:"name"`
-		Value *string `json:"value,omitempty"`
+		Value *string `json:"value"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
+	}
+	if all.Value == nil {
+		return fmt.Errorf("required field value missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -123,7 +121,7 @@ func (o *InstanceTemplateCreateEnvItem) UnmarshalJSON(bytes []byte) (err error) 
 		return err
 	}
 	o.Name = *all.Name
-	o.Value = all.Value
+	o.Value = *all.Value
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
