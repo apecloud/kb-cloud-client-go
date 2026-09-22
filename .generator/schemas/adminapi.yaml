@@ -4622,11 +4622,18 @@ paths:
     post:
       operationId: createParameterTemplate
       summary: Create parameter template
+      description: Create a parameter template in the target organization from an existing template. To copy a custom template from another organization, specify oriOrgName and provide a new name. Cross-organization creation only supports non-private custom source templates. The created template is always non-private; any isPrivate value in the request body is ignored.
       parameters:
-        - description: name of the Org
+        - description: Name of the target organization
           in: query
           name: orgName
           required: true
+          schema:
+            type: string
+        - description: 'Name of the source organization. When omitted, empty, or equal to orgName, existing creation behavior is preserved: custom templates are read from the target organization and default templates from the system organization. A different source organization requires oriPartition to be custom and name to differ from oriName. Both organizations must be active. The source may be the system organization, but the target must not be the system organization. A non-empty value containing only whitespace is invalid.'
+          in: query
+          name: oriOrgName
+          required: false
           schema:
             type: string
       requestBody:
@@ -4642,12 +4649,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/paramTplListItem'
           description: create parameter template successfully
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
       tags:
         - parameterTemplate
       x-codegen-request-body-name: body
