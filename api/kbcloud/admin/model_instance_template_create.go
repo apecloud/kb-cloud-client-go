@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. storageClassName, availabilityZone, env, annotations, labels, and classCode are optional overlays gated by instanceTemplate.attributes; omitted values inherit the component. Node group is cluster-level. Create overlays the request onto chart-rendered instances and keeps chart identity fields.
+// InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. storageClassName, availabilityZone, env, annotations, and labels are optional overlays gated by instanceTemplate.attributes; omitted values inherit the component. Node group is cluster-level. Create overlays the request onto chart-rendered instances and keeps chart identity fields.
 type InstanceTemplateCreate struct {
 	// Instance template name declared on the engine option.
 	Name string `json:"name"`
@@ -18,8 +18,6 @@ type InstanceTemplateCreate struct {
 	Replicas int32 `json:"replicas"`
 	// StorageClassName for this template. Omit to inherit the component storageClass.
 	StorageClassName *string `json:"storageClassName,omitempty"`
-	// Class code for this template. Omit to inherit the component class.
-	ClassCode *string `json:"classCode,omitempty"`
 	// Availability zone for this template. Omit to inherit component scheduling (no default zone is invented).
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 	// Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
@@ -124,34 +122,6 @@ func (o *InstanceTemplateCreate) HasStorageClassName() bool {
 // SetStorageClassName gets a reference to the given string and assigns it to the StorageClassName field.
 func (o *InstanceTemplateCreate) SetStorageClassName(v string) {
 	o.StorageClassName = &v
-}
-
-// GetClassCode returns the ClassCode field value if set, zero value otherwise.
-func (o *InstanceTemplateCreate) GetClassCode() string {
-	if o == nil || o.ClassCode == nil {
-		var ret string
-		return ret
-	}
-	return *o.ClassCode
-}
-
-// GetClassCodeOk returns a tuple with the ClassCode field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *InstanceTemplateCreate) GetClassCodeOk() (*string, bool) {
-	if o == nil || o.ClassCode == nil {
-		return nil, false
-	}
-	return o.ClassCode, true
-}
-
-// HasClassCode returns a boolean if a field has been set.
-func (o *InstanceTemplateCreate) HasClassCode() bool {
-	return o != nil && o.ClassCode != nil
-}
-
-// SetClassCode gets a reference to the given string and assigns it to the ClassCode field.
-func (o *InstanceTemplateCreate) SetClassCode(v string) {
-	o.ClassCode = &v
 }
 
 // GetAvailabilityZone returns the AvailabilityZone field value if set, zero value otherwise.
@@ -277,9 +247,6 @@ func (o InstanceTemplateCreate) MarshalJSON() ([]byte, error) {
 	if o.StorageClassName != nil {
 		toSerialize["storageClassName"] = o.StorageClassName
 	}
-	if o.ClassCode != nil {
-		toSerialize["classCode"] = o.ClassCode
-	}
 	if o.AvailabilityZone != nil {
 		toSerialize["availabilityZone"] = o.AvailabilityZone
 	}
@@ -305,7 +272,6 @@ func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 		Name             *string                         `json:"name"`
 		Replicas         *int32                          `json:"replicas"`
 		StorageClassName *string                         `json:"storageClassName,omitempty"`
-		ClassCode        *string                         `json:"classCode,omitempty"`
 		AvailabilityZone *string                         `json:"availabilityZone,omitempty"`
 		Env              []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
 		Annotations      map[string]string               `json:"annotations,omitempty"`
@@ -322,14 +288,13 @@ func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "replicas", "storageClassName", "classCode", "availabilityZone", "env", "annotations", "labels"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "replicas", "storageClassName", "availabilityZone", "env", "annotations", "labels"})
 	} else {
 		return err
 	}
 	o.Name = *all.Name
 	o.Replicas = *all.Replicas
 	o.StorageClassName = all.StorageClassName
-	o.ClassCode = all.ClassCode
 	o.AvailabilityZone = all.AvailabilityZone
 	o.Env = all.Env
 	o.Annotations = all.Annotations

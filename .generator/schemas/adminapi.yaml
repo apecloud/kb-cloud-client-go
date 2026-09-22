@@ -76,6 +76,402 @@ tags:
   - name: disasterRecovery
     description: Cluster Disaster Recovery APIs
 paths:
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/config:
+    get:
+      operationId: getClusterJarConfig
+      summary: Get external JAR capability and configuration
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterJarConfig'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars:
+    get:
+      operationId: listClusterJars
+      summary: List external JAR versions with metadata and per-instance synchronization state
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterJarList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      operationId: uploadClusterJar
+      summary: Upload an immutable JAR version
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterJarPackage'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/400'
+        '413':
+          description: Upload exceeds the configured size limit
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 128
+                kind:
+                  $ref: '#/components/schemas/clusterJarKind'
+                file:
+                  type: string
+                  format: binary
+              required:
+                - name
+                - kind
+                - file
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}:
+    delete:
+      operationId: deleteClusterJar
+      summary: Delete an unpublished JAR version
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: jarId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/download:
+    get:
+      operationId: downloadClusterJar
+      summary: Download the original JAR
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: jarId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/java-archive:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/distribute:
+    post:
+      operationId: distributeClusterJar
+      summary: Publish a JAR with optimistic manifest version checking
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: jarId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterJarTask'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/clusterJarPublish'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/retry:
+    post:
+      operationId: retryClusterJar
+      summary: Retry synchronization of published JARs
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: jarId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterJarTask'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/archive:
+    post:
+      operationId: archiveClusterJar
+      summary: Archive a JAR while retaining published files and startup synchronization
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: jarId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/user:
     get:
       description: Get authenticated login user info
@@ -28080,6 +28476,160 @@ components:
         curl --digest -u "accessKey:secretKey" https://api.example.com/admin/v1/user
         ```
   schemas:
+    clusterJarConfig:
+      type: object
+      properties:
+        supported:
+          type: boolean
+        reason:
+          type: string
+        generation:
+          type: integer
+          format: int64
+        maxFileBytes:
+          type: integer
+          format: int64
+        maxTotalBytes:
+          type: integer
+          format: int64
+        usedBytes:
+          type: integer
+          format: int64
+        taskId:
+          type: string
+      required:
+        - supported
+        - generation
+        - maxFileBytes
+        - maxTotalBytes
+        - usedBytes
+    APIErrorResponse:
+      description: API error response.
+      properties:
+        code:
+          description: The HTTP status code.
+          type: integer
+        reason:
+          description: The reason for the error.
+          type: string
+        message:
+          description: The message for the error.
+          type: string
+      required:
+        - code
+      type: object
+    clusterJarKind:
+      type: string
+      enum:
+        - udf
+        - jdbc
+    clusterJarReplica:
+      type: object
+      properties:
+        component:
+          type: string
+        podName:
+          type: string
+        podUID:
+          type: string
+        status:
+          type: string
+        error:
+          type: string
+        generation:
+          type: integer
+          format: int64
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - component
+        - podName
+        - podUID
+        - status
+        - generation
+    clusterJarPackage:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        kind:
+          $ref: '#/components/schemas/clusterJarKind'
+        filename:
+          type: string
+        sha256:
+          type: string
+        size:
+          type: integer
+          format: int64
+        uri:
+          type: string
+        published:
+          type: boolean
+        archived:
+          type: boolean
+        status:
+          type: string
+        synced:
+          type: integer
+          format: int64
+        total:
+          type: integer
+          format: int64
+        createdBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        instances:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterJarReplica'
+      required:
+        - id
+        - name
+        - kind
+        - filename
+        - sha256
+        - size
+        - uri
+        - published
+        - archived
+        - status
+        - synced
+        - total
+        - createdBy
+        - createdAt
+        - instances
+    clusterJarList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterJarPackage'
+        generation:
+          type: integer
+          format: int64
+      required:
+        - items
+        - generation
+    clusterJarPublish:
+      type: object
+      properties:
+        generation:
+          type: integer
+          format: int64
+          minimum: 0
+      required:
+        - generation
+    clusterJarTask:
+      type: object
+      properties:
+        taskId:
+          type: string
     phoneNumber:
       description: The phonenumber for the user.
       example: '+8618912345678'
@@ -28120,21 +28670,6 @@ components:
         - userName
         - createdAt
         - updatedAt
-    APIErrorResponse:
-      description: API error response.
-      properties:
-        code:
-          description: The HTTP status code.
-          type: integer
-        reason:
-          description: The reason for the error.
-          type: string
-        message:
-          description: The message for the error.
-          type: string
-      required:
-        - code
-      type: object
     userUpdate:
       description: User update
       properties:
@@ -29512,7 +30047,7 @@ components:
     instanceTemplateCreate:
       type: object
       description: |
-        Create assignment for one instance template. name and replicas are required. storageClassName, availabilityZone, env, annotations, labels, and classCode are optional overlays gated by instanceTemplate.attributes; omitted values inherit the component. Node group is cluster-level. Create overlays the request onto chart-rendered instances and keeps chart identity fields.
+        Create assignment for one instance template. name and replicas are required. storageClassName, availabilityZone, env, annotations, and labels are optional overlays gated by instanceTemplate.attributes; omitted values inherit the component. Node group is cluster-level. Create overlays the request onto chart-rendered instances and keeps chart identity fields.
       required:
         - name
         - replicas
@@ -29528,9 +30063,6 @@ components:
         storageClassName:
           type: string
           description: StorageClassName for this template. Omit to inherit the component storageClass.
-        classCode:
-          type: string
-          description: Class code for this template. Omit to inherit the component class.
         availabilityZone:
           type: string
           description: Availability zone for this template. Omit to inherit component scheduling (no default zone is invented).
@@ -29643,7 +30175,7 @@ components:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Per-template replicas and optional overlays (storageClassName, availabilityZone, env, annotations, labels, classCode). Node group is cluster-level and inherited. Required when the engine option declares instanceTemplate. Request names must match both instanceTemplate.names and the chart instances. Component replicas must equal the sum of these replica counts.
+          description: Per-template replicas and optional overlays (storageClassName, availabilityZone, env, annotations, labels). Node group is cluster-level and inherited. Required when the engine option declares instanceTemplate. Request names must match both instanceTemplate.names and the chart instances. Component replicas must equal the sum of these replica counts.
           items:
             $ref: '#/components/schemas/instanceTemplateCreate'
         availabilityZone:
@@ -35115,21 +35647,6 @@ components:
         - volumes
         - component
       type: object
-    instanceTemplateVScale:
-      type: object
-      description: VScale assignment for one instance template. name and classCode.
-      required:
-        - name
-        - classCode
-      properties:
-        name:
-          type: string
-          minLength: 1
-          description: Instance template name declared on the engine option.
-        classCode:
-          type: string
-          minLength: 1
-          description: Class code for this instance template.
     opsVScale:
       description: OpsVScale is the payload to vertically scale a KubeBlocks cluster
       required:
@@ -35148,12 +35665,6 @@ components:
         classCode:
           description: Class code for component-level vertical scaling.
           type: string
-        instanceTemplates:
-          type: array
-          minItems: 1
-          description: Per-template classCode. Requires instanceTemplate.ops to include vscale. Names must be unique and declared.
-          items:
-            $ref: '#/components/schemas/instanceTemplateVScale'
         schedule:
           $ref: '#/components/schemas/taskSchedule'
       type: object
@@ -38846,7 +39357,6 @@ components:
         - env
         - annotations
         - labels
-        - classCode
     instanceTemplateEnv:
       type: object
       description: One fillable env var on an instance template, for frontend rendering.
