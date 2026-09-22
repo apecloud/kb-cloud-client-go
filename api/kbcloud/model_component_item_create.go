@@ -20,7 +20,7 @@ type ComponentItemCreate struct {
 	Replicas *int32 `json:"replicas,omitempty"`
 	// Per-template replicas and optional overlays (storageClassName, availabilityZone, env, annotations, labels). Node group is cluster-level and inherited. Required when the engine option declares instanceTemplate. Request names must match both instanceTemplate.names and the chart instances. Component replicas must equal the sum of these replica counts.
 	InstanceTemplates []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`
-	// Availability zone for a component without instance templates (e.g. arbiter).
+	// Default availability zone for this component. Instance templates inherit it unless they set their own availabilityZone (template wins).
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 	// Whether to skip resource constraint validation when creating cluster
 	SkipResourceConstraints *bool   `json:"skipResourceConstraints,omitempty"`

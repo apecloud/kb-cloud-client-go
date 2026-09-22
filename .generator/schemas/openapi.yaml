@@ -25727,7 +25727,7 @@ components:
           description: StorageClassName for this template. Omit to inherit the component storageClass.
         availabilityZone:
           type: string
-          description: Availability zone for this template. Omit to inherit component scheduling (no default zone is invented).
+          description: Availability zone for this template. Highest priority. Omit to inherit the component availabilityZone, or cluster scheduling if the component did not set one.
         env:
           type: array
           description: Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
@@ -25744,12 +25744,12 @@ components:
           type: object
           additionalProperties:
             type: string
-          description: Annotations merged into this template (same-name keys overwritten).
+          description: Annotation map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
         labels:
           type: object
           additionalProperties:
             type: string
-          description: Labels merged into this template (same-name keys overwritten).
+          description: Label map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
     ioQuantity:
       description: IO Quantity describes IOPS and BPS of a volume
       properties:
@@ -25837,7 +25837,7 @@ components:
             $ref: '#/components/schemas/instanceTemplateCreate'
         availabilityZone:
           type: string
-          description: Availability zone for a component without instance templates (e.g. arbiter).
+          description: Default availability zone for this component. Instance templates inherit it unless they set their own availabilityZone (template wins).
         skipResourceConstraints:
           type: boolean
           description: Whether to skip resource constraint validation when creating cluster
@@ -27698,44 +27698,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/engineServiceVersionsItem'
-    instanceTemplateVolumeExpand:
-      type: object
-      description: Volume expansion assignment for one instance template.
-      required:
-        - name
-        - volumes
-      properties:
-        name:
-          type: string
-          minLength: 1
-          description: Instance template name declared on the engine option.
-        volumes:
-          type: array
-          minItems: 1
-          items:
-            type: object
-            required:
-              - name
-              - storage
-            properties:
-              name:
-                type: string
-                description: volume name
-              storage:
-                type: string
-                description: Storage size, the unit is Gi.
     opsVolumeExpand:
       description: OpsVolumeExpand is the payload to expand volume for a KubeBlocks cluster
       properties:
         component:
           type: string
           minLength: 1
-        instanceTemplates:
-          type: array
-          minItems: 1
-          description: Per-template volume expansion. Schema is complete; apiserver currently returns 400 until instance-template volumeexpansion is implemented.
-          items:
-            $ref: '#/components/schemas/instanceTemplateVolumeExpand'
         volumes:
           type: array
           minItems: 1
@@ -32968,7 +32936,6 @@ components:
       enum:
         - hscale
         - vscale
-        - volumeexpansion
     instanceTemplateAttribute:
       type: string
       description: Heterogeneous attribute the frontend may render on an instance template at create.
@@ -33027,9 +32994,9 @@ components:
             replicas must equal the sum of those replica counts.
             HScale: instanceTemplates requires top-level replicas. Named templates
             attach as scaleIn/scaleOut.instances.
-            ops catalogs hscale, vscale, and volumeexpansion; upgrade and restart
-            stay component-level. volumeexpansion via instance templates is 400
-            until implemented. attributes catalogs create-time overlays.
+            ops catalogs hscale and vscale (vscale is reserved; class stays
+            component-level). volumeexpansion is not supported. upgrade and restart
+            stay component-level. attributes catalogs create-time overlays.
             The platform does not even-split or fill in missing templates.
             When absent, the component uses component-level operations.
           required:
@@ -33052,8 +33019,8 @@ components:
               items:
                 $ref: '#/components/schemas/instanceTemplateOp'
               description: |
-                Operations supported via instance templates: hscale, vscale,
-                volumeexpansion. Upgrade and restart stay component-level.
+                Operations supported via instance templates: hscale, vscale.
+                volumeexpansion is not supported. Upgrade and restart stay component-level.
             attributes:
               type: array
               uniqueItems: true

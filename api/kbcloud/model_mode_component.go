@@ -19,9 +19,9 @@ type ModeComponent struct {
 	// replicas must equal the sum of those replica counts.
 	// HScale: instanceTemplates requires top-level replicas. Named templates
 	// attach as scaleIn/scaleOut.instances.
-	// ops catalogs hscale, vscale, and volumeexpansion; upgrade and restart
-	// stay component-level. volumeexpansion via instance templates is 400
-	// until implemented. attributes catalogs create-time overlays.
+	// ops catalogs hscale and vscale (vscale is reserved; class stays
+	// component-level). volumeexpansion is not supported. upgrade and restart
+	// stay component-level. attributes catalogs create-time overlays.
 	// The platform does not even-split or fill in missing templates.
 	// When absent, the component uses component-level operations.
 	//

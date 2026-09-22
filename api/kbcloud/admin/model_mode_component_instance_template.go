@@ -15,9 +15,9 @@ import (
 // replicas must equal the sum of those replica counts.
 // HScale: instanceTemplates requires top-level replicas. Named templates
 // attach as scaleIn/scaleOut.instances.
-// ops catalogs hscale, vscale, and volumeexpansion; upgrade and restart
-// stay component-level. volumeexpansion via instance templates is 400
-// until implemented. attributes catalogs create-time overlays.
+// ops catalogs hscale and vscale (vscale is reserved; class stays
+// component-level). volumeexpansion is not supported. upgrade and restart
+// stay component-level. attributes catalogs create-time overlays.
 // The platform does not even-split or fill in missing templates.
 // When absent, the component uses component-level operations.
 type ModeComponentInstanceTemplate struct {
@@ -26,8 +26,8 @@ type ModeComponentInstanceTemplate struct {
 	// onto chart-rendered instances; names must also match the chart.
 	//
 	Names []string `json:"names"`
-	// Operations supported via instance templates: hscale, vscale,
-	// volumeexpansion. Upgrade and restart stay component-level.
+	// Operations supported via instance templates: hscale, vscale.
+	// volumeexpansion is not supported. Upgrade and restart stay component-level.
 	//
 	Ops []InstanceTemplateOp `json:"ops"`
 	// Heterogeneous attributes the frontend should render on each

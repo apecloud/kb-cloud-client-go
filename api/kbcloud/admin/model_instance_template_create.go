@@ -18,13 +18,13 @@ type InstanceTemplateCreate struct {
 	Replicas int32 `json:"replicas"`
 	// StorageClassName for this template. Omit to inherit the component storageClass.
 	StorageClassName *string `json:"storageClassName,omitempty"`
-	// Availability zone for this template. Omit to inherit component scheduling (no default zone is invented).
+	// Availability zone for this template. Highest priority. Omit to inherit the component availabilityZone, or cluster scheduling if the component did not set one.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 	// Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
 	Env []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
-	// Annotations merged into this template (same-name keys overwritten).
+	// Annotation map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
 	Annotations map[string]string `json:"annotations,omitempty"`
-	// Labels merged into this template (same-name keys overwritten).
+	// Label map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
 	Labels map[string]string `json:"labels,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
