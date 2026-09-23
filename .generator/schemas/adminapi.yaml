@@ -76,6 +76,402 @@ tags:
   - name: disasterRecovery
     description: Cluster Disaster Recovery APIs
 paths:
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/config:
+    get:
+      operationId: getClusterJarConfig
+      summary: Get external JAR capability and configuration
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterJarConfig'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars:
+    get:
+      operationId: listClusterJars
+      summary: List external JAR versions with metadata and per-instance synchronization state
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterJarList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      operationId: uploadClusterJar
+      summary: Upload an immutable JAR version
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterJarPackage'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '413':
+          $ref: '#/components/responses/413'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 128
+                kind:
+                  $ref: '#/components/schemas/clusterJarKind'
+                file:
+                  type: string
+                  format: binary
+              required:
+                - name
+                - kind
+                - file
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}:
+    delete:
+      operationId: deleteClusterJar
+      summary: Delete an unpublished JAR version
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: jarId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/download:
+    get:
+      operationId: downloadClusterJar
+      summary: Download the original JAR
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: jarId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/java-archive:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/distribute:
+    post:
+      operationId: distributeClusterJar
+      summary: Publish a JAR with optimistic manifest version checking
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: jarId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterJarTask'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/clusterJarPublish'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/retry:
+    post:
+      operationId: retryClusterJar
+      summary: Retry synchronization of published JARs
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: jarId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterJarTask'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/archive:
+    post:
+      operationId: archiveClusterJar
+      summary: Archive a JAR while retaining published files and startup synchronization
+      tags:
+        - clusterJar
+        - shared
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Doris or SelectDB engine of the target cluster.
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: jarId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/user:
     get:
       description: Get authenticated login user info
@@ -9682,7 +10078,7 @@ paths:
     get:
       operationId: getEnvironmentResource
       summary: Get a live Kubernetes resource
-      description: Returns one named Kubernetes object, excluding metadata.managedFields. Supports discovered built-in and custom resource kinds. Requires Admin environment read permission, including for sensitive resources such as Secrets, matching the environment kubeconfig permission boundary. Does not support lists, subresources or writes.
+      description: Returns one named Kubernetes object, excluding metadata.managedFields. The code allowlist currently permits only apiVersion v1 with kind PersistentVolumeClaim; other valid resource types return 403 before Kubernetes access. Requires Admin environment read permission. Does not support lists, subresources or writes.
       tags:
         - environment
       parameters:
@@ -9698,13 +10094,13 @@ paths:
             type: string
         - in: query
           name: apiVersion
-          description: Kubernetes API version, such as v1 or apps/v1.
+          description: Kubernetes API version. Currently only v1 with kind PersistentVolumeClaim is allowed.
           required: true
           schema:
             type: string
         - in: query
           name: kind
-          description: Kubernetes kind, such as PersistentVolumeClaim, Deployment or a custom resource kind.
+          description: Kubernetes kind. Currently only PersistentVolumeClaim with apiVersion v1 is allowed.
           required: true
           schema:
             type: string
@@ -16213,7 +16609,7 @@ paths:
           description: Inspection tasks created and accepted for asynchronous execution.
           content: {}
         '400':
-          description: Invalid request, invalid cluster selection, or no eligible clusters.
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -22284,6 +22680,568 @@ paths:
         - database
         - rdbms
         - shared
+  /admin/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      description: Lists SeaweedFS identities and access-key metadata without secret keys.
+      summary: listSeaweedFSAccounts
+      operationId: listSeaweedFSAccounts
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountList'
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '503':
+          $ref: '#/components/responses/503'
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      x-codegen-request-body-name: body
+    post:
+      description: Creates a BASICUSER identity with named policies from extra.policies. Optional extra.accessKey and password select the credential; empty values are generated. The password is disclosed only in this response.
+      summary: createSeaweedFSAccount
+      operationId: createSeaweedFSAccount
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '201':
+          description: Identity and initial credential created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '503':
+          $ref: '#/components/responses/503'
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      x-codegen-request-body-name: body
+  /admin/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    delete:
+      description: delete an account in cluster
+      summary: deleteSeaweedFSAccount
+      operationId: deleteSeaweedFSAccount
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Identity deleted
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '503':
+          $ref: '#/components/responses/503'
+      tags:
+        - account
+        - seaweedfs
+        - shared
+    patch:
+      description: Resets the secret for extra.accessKey. Account.name must match accountName. extra.accessKey is required. The returned password is disclosed only in this response.
+      summary: updateSeaweedFSAccount
+      operationId: updateSeaweedFSAccount
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '200':
+          description: Selected credential updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '503':
+          $ref: '#/components/responses/503'
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      x-codegen-request-body-name: body
+  /admin/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/root-password:
+    get:
+      description: get root account password
+      summary: getRootSeaweedFSAccountPassword
+      operationId: getRootSeaweedFSAccountPassword
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: query
+          name: accountName
+          required: true
+          schema:
+            type: string
+        - description: name of the component
+          in: query
+          name: component
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get root account password success
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - seaweedfs
+        - shared
+  /admin/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/privileges:
+    patch:
+      description: Unsupported for SeaweedFS. Use the named policy binding API instead.
+      summary: updateSeaweedFSAccountPrivileges
+      operationId: updateSeaweedFSAccountPrivileges
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/privilegeList'
+        required: true
+      responses:
+        '400':
+          $ref: '#/components/responses/400'
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      x-codegen-request-body-name: body
+  /admin/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/policies:
+    get:
+      summary: listSeaweedFSPolicies
+      operationId: listSeaweedFSPolicies
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - items
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - name
+                        - document
+                      properties:
+                        name:
+                          type: string
+                        document:
+                          type: object
+                          additionalProperties: true
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '503':
+          $ref: '#/components/responses/503'
+  /admin/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/policies/{policyName}:
+    put:
+      summary: putSeaweedFSPolicy
+      operationId: putSeaweedFSPolicy
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: policyName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful response
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '503':
+          $ref: '#/components/responses/503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      description: Creates or replaces a named AWS IAM JSON policy document. Updates affect every identity and group that uses this policy.
+    delete:
+      summary: deleteSeaweedFSPolicy
+      operationId: deleteSeaweedFSPolicy
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: policyName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful response
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '503':
+          $ref: '#/components/responses/503'
+      description: Deletes an unused named policy. Attached policies are rejected; no identities or groups are implicitly changed.
+  /admin/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/policies:
+    put:
+      summary: bindSeaweedFSPolicies
+      operationId: bindSeaweedFSPolicies
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful response
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '503':
+          $ref: '#/components/responses/503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - policies
+              properties:
+                policies:
+                  type: array
+                  items:
+                    type: string
+      description: Replaces named policy bindings. An empty policies array removes all direct bindings. Existing credentials, legacy actions and other identity attributes are preserved.
+  /admin/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/access-keys:
+    post:
+      summary: createSeaweedFSAccessKey
+      operationId: createSeaweedFSAccessKey
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '503':
+          $ref: '#/components/responses/503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+      description: Creates a credential on the identity. Account.name must match accountName, role must be BASICUSER. Optional extra.accessKey and password select the access key and secret key; omitted or empty values are generated. The returned password is disclosed only in this response.
+  /admin/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/access-keys/{accessKey}:
+    delete:
+      summary: deleteSeaweedFSAccessKey
+      operationId: deleteSeaweedFSAccessKey
+      tags:
+        - account
+        - seaweedfs
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: accessKey
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful response
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '503':
+          $ref: '#/components/responses/503'
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       description: list accounts in cluster
@@ -27570,6 +28528,160 @@ components:
         curl --digest -u "accessKey:secretKey" https://api.example.com/admin/v1/user
         ```
   schemas:
+    clusterJarConfig:
+      type: object
+      properties:
+        supported:
+          type: boolean
+        reason:
+          type: string
+        generation:
+          type: integer
+          format: int64
+        maxFileBytes:
+          type: integer
+          format: int64
+        maxTotalBytes:
+          type: integer
+          format: int64
+        usedBytes:
+          type: integer
+          format: int64
+        taskId:
+          type: string
+      required:
+        - supported
+        - generation
+        - maxFileBytes
+        - maxTotalBytes
+        - usedBytes
+    APIErrorResponse:
+      description: API error response.
+      properties:
+        code:
+          description: The HTTP status code.
+          type: integer
+        reason:
+          description: The reason for the error.
+          type: string
+        message:
+          description: The message for the error.
+          type: string
+      required:
+        - code
+      type: object
+    clusterJarKind:
+      type: string
+      enum:
+        - udf
+        - jdbc
+    clusterJarReplica:
+      type: object
+      properties:
+        component:
+          type: string
+        podName:
+          type: string
+        podUID:
+          type: string
+        status:
+          type: string
+        error:
+          type: string
+        generation:
+          type: integer
+          format: int64
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - component
+        - podName
+        - podUID
+        - status
+        - generation
+    clusterJarPackage:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        kind:
+          $ref: '#/components/schemas/clusterJarKind'
+        filename:
+          type: string
+        sha256:
+          type: string
+        size:
+          type: integer
+          format: int64
+        uri:
+          type: string
+        published:
+          type: boolean
+        archived:
+          type: boolean
+        status:
+          type: string
+        synced:
+          type: integer
+          format: int64
+        total:
+          type: integer
+          format: int64
+        createdBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        instances:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterJarReplica'
+      required:
+        - id
+        - name
+        - kind
+        - filename
+        - sha256
+        - size
+        - uri
+        - published
+        - archived
+        - status
+        - synced
+        - total
+        - createdBy
+        - createdAt
+        - instances
+    clusterJarList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterJarPackage'
+        generation:
+          type: integer
+          format: int64
+      required:
+        - items
+        - generation
+    clusterJarPublish:
+      type: object
+      properties:
+        generation:
+          type: integer
+          format: int64
+          minimum: 0
+      required:
+        - generation
+    clusterJarTask:
+      type: object
+      properties:
+        taskId:
+          type: string
     phoneNumber:
       description: The phonenumber for the user.
       example: '+8618912345678'
@@ -27610,21 +28722,6 @@ components:
         - userName
         - createdAt
         - updatedAt
-    APIErrorResponse:
-      description: API error response.
-      properties:
-        code:
-          description: The HTTP status code.
-          type: integer
-        reason:
-          description: The reason for the error.
-          type: string
-        message:
-          description: The message for the error.
-          type: string
-      required:
-        - code
-      type: object
     userUpdate:
       description: User update
       properties:
@@ -49308,6 +50405,12 @@ components:
           schema:
             $ref: '#/components/schemas/APIErrorResponse'
       description: Conflict
+    '413':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIErrorResponse'
+      description: Payload Too Large
     '429':
       content:
         application/json:
