@@ -477,6 +477,7 @@
 //   - [environmentApi.getEnvironmentModuleInfo]
 //   - [environmentApi.getEnvironmentModuleLogs]
 //   - [environmentApi.getEnvironmentProvisioningProgress]
+//   - [environmentApi.getEnvironmentResource]
 //   - [environmentApi.getEnvironmentStatus]
 //   - [environmentApi.getEnvironmentStatusHistory]
 //   - [environmentApi.getKoordinatorReservationSummary]
