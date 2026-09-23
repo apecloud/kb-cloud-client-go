@@ -12652,6 +12652,8 @@ paths:
         '204':
           description: No content.
           content: {}
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -16906,7 +16908,7 @@ paths:
                 $ref: '#/components/schemas/accountList'
           description: Success
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -16914,9 +16916,9 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
       tags:
         - account
         - seaweedfs
@@ -16953,7 +16955,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/account'
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -16961,9 +16963,9 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
       tags:
         - account
         - seaweedfs
@@ -16998,7 +17000,7 @@ paths:
           content: {}
           description: Identity deleted
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -17006,9 +17008,9 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
       tags:
         - account
         - seaweedfs
@@ -17050,7 +17052,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/account'
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -17058,9 +17060,9 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
       tags:
         - account
         - seaweedfs
@@ -17149,7 +17151,7 @@ paths:
         required: true
       responses:
         '400':
-          description: SeaweedFS uses the named policy binding API
+          $ref: '#/components/responses/400'
       tags:
         - account
         - seaweedfs
@@ -17198,17 +17200,17 @@ paths:
                           type: object
                           additionalProperties: true
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
-          description: Unauthenticated
+          $ref: '#/components/responses/401'
         '403':
-          description: Permission denied or protected identity
+          $ref: '#/components/responses/403'
         '404':
-          description: Resource not found
+          $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
   /admin/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/policies/{policyName}:
     put:
       summary: putSeaweedFSPolicy
@@ -17237,17 +17239,17 @@ paths:
         '204':
           description: Successful response
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
-          description: Unauthenticated
+          $ref: '#/components/responses/401'
         '403':
-          description: Permission denied or protected identity
+          $ref: '#/components/responses/403'
         '404':
-          description: Resource not found
+          $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
       requestBody:
         required: true
         content:
@@ -17283,17 +17285,17 @@ paths:
         '204':
           description: Successful response
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
-          description: Unauthenticated
+          $ref: '#/components/responses/401'
         '403':
-          description: Permission denied or protected identity
+          $ref: '#/components/responses/403'
         '404':
-          description: Resource not found
+          $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
       description: Deletes an unused named policy. Attached policies are rejected; no identities or groups are implicitly changed.
   /admin/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/policies:
     put:
@@ -17323,17 +17325,17 @@ paths:
         '204':
           description: Successful response
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
-          description: Unauthenticated
+          $ref: '#/components/responses/401'
         '403':
-          description: Permission denied or protected identity
+          $ref: '#/components/responses/403'
         '404':
-          description: Resource not found
+          $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
       requestBody:
         required: true
         content:
@@ -17380,17 +17382,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/account'
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
-          description: Unauthenticated
+          $ref: '#/components/responses/401'
         '403':
-          description: Permission denied or protected identity
+          $ref: '#/components/responses/403'
         '404':
-          description: Resource not found
+          $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
       requestBody:
         required: true
         content:
@@ -17431,17 +17433,17 @@ paths:
         '204':
           description: Successful response
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
-          description: Unauthenticated
+          $ref: '#/components/responses/401'
         '403':
-          description: Permission denied or protected identity
+          $ref: '#/components/responses/403'
         '404':
-          description: Resource not found
+          $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       description: list accounts in cluster
