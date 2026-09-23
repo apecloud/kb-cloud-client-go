@@ -1,0 +1,10 @@
+// Unless explicitly stated otherwise all files in this repository are licensed under the Apache-2.0 License.
+// This product includes software developed at ApeCloud (https://www.apecloud.com/).
+// Copyright 2022-Present ApeCloud Co., Ltd
+
+package admin
+
+// None is the Go type emitted for OpenAPI error responses that declare a
+// status code without a content schema. The generator previously rendered
+// Python None as the identifier `None`, which does not compile.
+type None struct{}

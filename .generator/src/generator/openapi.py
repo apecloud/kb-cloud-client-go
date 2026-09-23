@@ -127,6 +127,10 @@ def responses_by_types(operation):
         if int(response_code) < 300:
             continue
         response_type = get_type_for_response(response)
+        # Status-only error responses have no schema. Skip typed decode so
+        # generated Go does not emit `var v None` (Python None in Jinja).
+        if not response_type:
+            continue
         if response_type in result:
             result[response_type][1].append(response_code)
         else:
