@@ -14,14 +14,16 @@ import (
 type EnvironmentModule struct {
 	// Environment module name
 	Name string `json:"name"`
-	// Environment module version
+	// Currently installed environment module version
 	Version *string `json:"version,omitempty"`
-	// Status of environment module
+	// Status of an environment module. Enabled is only used as the desired state when creating an environment. NotInstalled, Installing, and InstallationFailed describe quick installation; Upgradeable, Upgrading, and UpgradeFailed describe quick upgrade. Upgradeable means the component is running but an ApeCloud-bundled newer version is available. Unknown means the current state could not be determined.
 	Status EnvironmentModuleStatus `json:"status"`
 	// Number of replicas
 	Replicas *int32 `json:"replicas,omitempty"`
 	// Deployment location
 	Location *string `json:"location,omitempty"`
+	// ID of the asynchronous task associated with the module's current operation state. It is omitted when the current state is not associated with a task.
+	OperationTaskId *string `json:"operationTaskId,omitempty"`
 	// Cluster information
 	ClusterInfo *ClusterInfo          `json:"clusterInfo,omitempty"`
 	Description *LocalizedDescription `json:"description,omitempty"`
@@ -29,7 +31,8 @@ type EnvironmentModule struct {
 	// indicate module is optional. If false, the module is required and must be installed
 	Optional *bool `json:"optional,omitempty"`
 	// indicate whether module is enabled by default when creating environment. Only effective when optional is true
-	DefaultEnabled *bool `json:"defaultEnabled,omitempty"`
+	DefaultEnabled *bool                 `json:"defaultEnabled,omitempty"`
+	ActionWarning  *LocalizedDescription `json:"actionWarning,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -184,6 +187,34 @@ func (o *EnvironmentModule) SetLocation(v string) {
 	o.Location = &v
 }
 
+// GetOperationTaskId returns the OperationTaskId field value if set, zero value otherwise.
+func (o *EnvironmentModule) GetOperationTaskId() string {
+	if o == nil || o.OperationTaskId == nil {
+		var ret string
+		return ret
+	}
+	return *o.OperationTaskId
+}
+
+// GetOperationTaskIdOk returns a tuple with the OperationTaskId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentModule) GetOperationTaskIdOk() (*string, bool) {
+	if o == nil || o.OperationTaskId == nil {
+		return nil, false
+	}
+	return o.OperationTaskId, true
+}
+
+// HasOperationTaskId returns a boolean if a field has been set.
+func (o *EnvironmentModule) HasOperationTaskId() bool {
+	return o != nil && o.OperationTaskId != nil
+}
+
+// SetOperationTaskId gets a reference to the given string and assigns it to the OperationTaskId field.
+func (o *EnvironmentModule) SetOperationTaskId(v string) {
+	o.OperationTaskId = &v
+}
+
 // GetClusterInfo returns the ClusterInfo field value if set, zero value otherwise.
 func (o *EnvironmentModule) GetClusterInfo() ClusterInfo {
 	if o == nil || o.ClusterInfo == nil {
@@ -324,6 +355,34 @@ func (o *EnvironmentModule) SetDefaultEnabled(v bool) {
 	o.DefaultEnabled = &v
 }
 
+// GetActionWarning returns the ActionWarning field value if set, zero value otherwise.
+func (o *EnvironmentModule) GetActionWarning() LocalizedDescription {
+	if o == nil || o.ActionWarning == nil {
+		var ret LocalizedDescription
+		return ret
+	}
+	return *o.ActionWarning
+}
+
+// GetActionWarningOk returns a tuple with the ActionWarning field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentModule) GetActionWarningOk() (*LocalizedDescription, bool) {
+	if o == nil || o.ActionWarning == nil {
+		return nil, false
+	}
+	return o.ActionWarning, true
+}
+
+// HasActionWarning returns a boolean if a field has been set.
+func (o *EnvironmentModule) HasActionWarning() bool {
+	return o != nil && o.ActionWarning != nil
+}
+
+// SetActionWarning gets a reference to the given LocalizedDescription and assigns it to the ActionWarning field.
+func (o *EnvironmentModule) SetActionWarning(v LocalizedDescription) {
+	o.ActionWarning = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -341,6 +400,9 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	if o.Location != nil {
 		toSerialize["location"] = o.Location
 	}
+	if o.OperationTaskId != nil {
+		toSerialize["operationTaskId"] = o.OperationTaskId
+	}
 	if o.ClusterInfo != nil {
 		toSerialize["clusterInfo"] = o.ClusterInfo
 	}
@@ -356,6 +418,9 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	if o.DefaultEnabled != nil {
 		toSerialize["defaultEnabled"] = o.DefaultEnabled
 	}
+	if o.ActionWarning != nil {
+		toSerialize["actionWarning"] = o.ActionWarning
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -366,16 +431,18 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name           *string                  `json:"name"`
-		Version        *string                  `json:"version,omitempty"`
-		Status         *EnvironmentModuleStatus `json:"status"`
-		Replicas       *int32                   `json:"replicas,omitempty"`
-		Location       *string                  `json:"location,omitempty"`
-		ClusterInfo    *ClusterInfo             `json:"clusterInfo,omitempty"`
-		Description    *LocalizedDescription    `json:"description,omitempty"`
-		DisplayName    *LocalizedDescription    `json:"displayName,omitempty"`
-		Optional       *bool                    `json:"optional,omitempty"`
-		DefaultEnabled *bool                    `json:"defaultEnabled,omitempty"`
+		Name            *string                  `json:"name"`
+		Version         *string                  `json:"version,omitempty"`
+		Status          *EnvironmentModuleStatus `json:"status"`
+		Replicas        *int32                   `json:"replicas,omitempty"`
+		Location        *string                  `json:"location,omitempty"`
+		OperationTaskId *string                  `json:"operationTaskId,omitempty"`
+		ClusterInfo     *ClusterInfo             `json:"clusterInfo,omitempty"`
+		Description     *LocalizedDescription    `json:"description,omitempty"`
+		DisplayName     *LocalizedDescription    `json:"displayName,omitempty"`
+		Optional        *bool                    `json:"optional,omitempty"`
+		DefaultEnabled  *bool                    `json:"defaultEnabled,omitempty"`
+		ActionWarning   *LocalizedDescription    `json:"actionWarning,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -388,7 +455,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "replicas", "location", "clusterInfo", "description", "displayName", "optional", "defaultEnabled"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "replicas", "location", "operationTaskId", "clusterInfo", "description", "displayName", "optional", "defaultEnabled", "actionWarning"})
 	} else {
 		return err
 	}
@@ -403,6 +470,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Replicas = all.Replicas
 	o.Location = all.Location
+	o.OperationTaskId = all.OperationTaskId
 	if all.ClusterInfo != nil && all.ClusterInfo.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
@@ -417,6 +485,10 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	o.DisplayName = all.DisplayName
 	o.Optional = all.Optional
 	o.DefaultEnabled = all.DefaultEnabled
+	if all.ActionWarning != nil && all.ActionWarning.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ActionWarning = all.ActionWarning
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

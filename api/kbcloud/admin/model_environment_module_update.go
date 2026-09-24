@@ -17,11 +17,11 @@ type EnvironmentModuleUpdate struct {
 	// Action to perform on the environment module:
 	// - Enable: Enable the module
 	// - Disable: Disable the module
-	// - Upgrade: Upgrade the module to specified version
+	// - Upgrade: Upgrade the module
 	//
 	Action EnvironmentModuleAction `json:"action"`
-	// Version of the environment module to upgrade to
-	Version *string `json:"version,omitempty"`
+	// For a supported quick install or upgrade action, only run synchronous checks when true. When false or omitted, repeat the checks and submit the asynchronous task if all checks pass.
+	DryRun *bool `json:"dryRun,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -35,6 +35,8 @@ func NewEnvironmentModuleUpdate(name string, action EnvironmentModuleAction) *En
 	this := EnvironmentModuleUpdate{}
 	this.Name = name
 	this.Action = action
+	var dryRun bool = false
+	this.DryRun = &dryRun
 	return &this
 }
 
@@ -43,6 +45,8 @@ func NewEnvironmentModuleUpdate(name string, action EnvironmentModuleAction) *En
 // but it doesn't guarantee that properties required by API are set.
 func NewEnvironmentModuleUpdateWithDefaults() *EnvironmentModuleUpdate {
 	this := EnvironmentModuleUpdate{}
+	var dryRun bool = false
+	this.DryRun = &dryRun
 	return &this
 }
 
@@ -92,32 +96,32 @@ func (o *EnvironmentModuleUpdate) SetAction(v EnvironmentModuleAction) {
 	o.Action = v
 }
 
-// GetVersion returns the Version field value if set, zero value otherwise.
-func (o *EnvironmentModuleUpdate) GetVersion() string {
-	if o == nil || o.Version == nil {
-		var ret string
+// GetDryRun returns the DryRun field value if set, zero value otherwise.
+func (o *EnvironmentModuleUpdate) GetDryRun() bool {
+	if o == nil || o.DryRun == nil {
+		var ret bool
 		return ret
 	}
-	return *o.Version
+	return *o.DryRun
 }
 
-// GetVersionOk returns a tuple with the Version field value if set, nil otherwise
+// GetDryRunOk returns a tuple with the DryRun field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModuleUpdate) GetVersionOk() (*string, bool) {
-	if o == nil || o.Version == nil {
+func (o *EnvironmentModuleUpdate) GetDryRunOk() (*bool, bool) {
+	if o == nil || o.DryRun == nil {
 		return nil, false
 	}
-	return o.Version, true
+	return o.DryRun, true
 }
 
-// HasVersion returns a boolean if a field has been set.
-func (o *EnvironmentModuleUpdate) HasVersion() bool {
-	return o != nil && o.Version != nil
+// HasDryRun returns a boolean if a field has been set.
+func (o *EnvironmentModuleUpdate) HasDryRun() bool {
+	return o != nil && o.DryRun != nil
 }
 
-// SetVersion gets a reference to the given string and assigns it to the Version field.
-func (o *EnvironmentModuleUpdate) SetVersion(v string) {
-	o.Version = &v
+// SetDryRun gets a reference to the given bool and assigns it to the DryRun field.
+func (o *EnvironmentModuleUpdate) SetDryRun(v bool) {
+	o.DryRun = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -128,8 +132,8 @@ func (o EnvironmentModuleUpdate) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["name"] = o.Name
 	toSerialize["action"] = o.Action
-	if o.Version != nil {
-		toSerialize["version"] = o.Version
+	if o.DryRun != nil {
+		toSerialize["dryRun"] = o.DryRun
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -141,9 +145,9 @@ func (o EnvironmentModuleUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModuleUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name    *string                  `json:"name"`
-		Action  *EnvironmentModuleAction `json:"action"`
-		Version *string                  `json:"version,omitempty"`
+		Name   *string                  `json:"name"`
+		Action *EnvironmentModuleAction `json:"action"`
+		DryRun *bool                    `json:"dryRun,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -156,7 +160,7 @@ func (o *EnvironmentModuleUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "action", "version"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "action", "dryRun"})
 	} else {
 		return err
 	}
@@ -168,7 +172,7 @@ func (o *EnvironmentModuleUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.Action = *all.Action
 	}
-	o.Version = all.Version
+	o.DryRun = all.DryRun
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

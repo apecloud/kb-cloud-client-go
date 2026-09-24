@@ -14021,7 +14021,8 @@ paths:
         - environment
     patch:
       operationId: updateEnvironmentModule
-      summary: update environment module
+      summary: Update an environment module
+      description: Performs the requested module action. Supported quick install and upgrade actions use dryRun=true for synchronous checks without changes; dryRun=false or omitted repeats the checks and submits an asynchronous task only when all checks pass. Other module actions keep their original behavior.
       parameters:
         - name: environmentName
           in: path
@@ -14036,15 +14037,11 @@ paths:
               $ref: '#/components/schemas/environmentModuleUpdate'
       responses:
         '200':
-          description: Success
+          description: The module action succeeded. A successful dry run returns an empty object; an asynchronous action returns taskId.
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  taskId:
-                    type: string
-                    description: the task id
+                $ref: '#/components/schemas/environmentModuleActionResult'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -24863,13 +24860,20 @@ components:
               description: judge whether to set the backup is default which will be init
     environmentModuleStatus:
       type: string
-      description: Status of environment module
+      description: Status of an environment module. Enabled is only used as the desired state when creating an environment. NotInstalled, Installing, and InstallationFailed describe quick installation; Upgradeable, Upgrading, and UpgradeFailed describe quick upgrade. Upgradeable means the component is running but an ApeCloud-bundled newer version is available. Unknown means the current state could not be determined.
       enum:
         - Running
         - Updating
         - Error
         - Disabled
         - Enabled
+        - NotInstalled
+        - Installing
+        - InstallationFailed
+        - Upgradeable
+        - Upgrading
+        - UpgradeFailed
+        - Unknown
     clusterInfo:
       type: object
       description: Cluster information
@@ -24892,7 +24896,7 @@ components:
           description: Environment module name
         version:
           type: string
-          description: Environment module version
+          description: Currently installed environment module version
         status:
           $ref: '#/components/schemas/environmentModuleStatus'
         replicas:
@@ -24901,6 +24905,9 @@ components:
         location:
           type: string
           description: Deployment location
+        operationTaskId:
+          type: string
+          description: ID of the asynchronous task associated with the module's current operation state. It is omitted when the current state is not associated with a task.
         clusterInfo:
           $ref: '#/components/schemas/clusterInfo'
           description: Cluster information
@@ -24916,6 +24923,9 @@ components:
         defaultEnabled:
           type: boolean
           description: indicate whether module is enabled by default when creating environment. Only effective when optional is true
+        actionWarning:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Localized business-impact warning for the component action represented by the current status.
       required:
         - name
         - status
@@ -32519,7 +32529,7 @@ components:
         Action to perform on the environment module:
         - Enable: Enable the module
         - Disable: Disable the module
-        - Upgrade: Upgrade the module to specified version
+        - Upgrade: Upgrade the module
       enum:
         - Enable
         - Disable
@@ -32533,12 +32543,20 @@ components:
           description: Name of the environment module to update
         action:
           $ref: '#/components/schemas/environmentModuleAction'
-        version:
-          type: string
-          description: Version of the environment module to upgrade to
+        dryRun:
+          type: boolean
+          default: false
+          description: For a supported quick install or upgrade action, only run synchronous checks when true. When false or omitted, repeat the checks and submit the asynchronous task if all checks pass.
       required:
         - name
         - action
+    environmentModuleActionResult:
+      type: object
+      description: Result of an environment module action. A successful dry run returns an empty object; an asynchronous action returns taskId; failed checks use the standard API error response.
+      properties:
+        taskId:
+          type: string
+          description: ID of the submitted asynchronous module action task. It is absent for successful dry runs; failed checks return an API error.
     podResources:
       type: object
       description: Resource usage information for a pod
