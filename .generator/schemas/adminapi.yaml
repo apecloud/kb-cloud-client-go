@@ -17814,7 +17814,7 @@ paths:
   /admin/v1/tasks/{taskId}/retry:
     patch:
       summary: Retry a task
-      description: retry task
+      description: Restart a failed or stopped task. Resume requires the task type to declare resume in allowActions. The default mode is restart, which reruns all steps; resume preserves successful steps.
       operationId: retryTask
       parameters:
         - description: ID of the task
@@ -17823,6 +17823,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: mode
+          in: query
+          description: restart reruns all steps; resume preserves successful steps and reruns unfinished steps and PreFinish hooks.
+          required: false
+          schema:
+            $ref: '#/components/schemas/taskRetryMode'
       responses:
         '200':
           description: Current status of the task
@@ -17838,6 +17844,12 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '405':
+          description: The task type does not support resume.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
         '500':
           $ref: '#/components/responses/500'
       tags:
@@ -44044,6 +44056,13 @@ components:
         - interrupt
         - ignore
       description: Policy to handle failures
+    taskRetryMode:
+      type: string
+      enum:
+        - restart
+        - resume
+      default: restart
+      description: restart reruns all steps; resume preserves successful steps.
     task:
       type: object
       required:
@@ -44109,6 +44128,11 @@ components:
           description: Degree of parallelism for the task
         failurePolicy:
           $ref: '#/components/schemas/taskFailurePolicy'
+        retryModes:
+          type: array
+          description: Supported manual retry modes for this task. Runtime conflicts are checked when retrying.
+          items:
+            $ref: '#/components/schemas/taskRetryMode'
         retryLimit:
           type: integer
           description: Maximum number of retries for the task

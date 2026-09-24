@@ -35514,6 +35514,13 @@ components:
         - interrupt
         - ignore
       description: Policy to handle failures
+    taskRetryMode:
+      type: string
+      enum:
+        - restart
+        - resume
+      default: restart
+      description: restart reruns all steps; resume preserves successful steps.
     task:
       type: object
       required:
@@ -35579,6 +35586,11 @@ components:
           description: Degree of parallelism for the task
         failurePolicy:
           $ref: '#/components/schemas/taskFailurePolicy'
+        retryModes:
+          type: array
+          description: Supported manual retry modes for this task. Runtime conflicts are checked when retrying.
+          items:
+            $ref: '#/components/schemas/taskRetryMode'
         retryLimit:
           type: integer
           description: Maximum number of retries for the task
