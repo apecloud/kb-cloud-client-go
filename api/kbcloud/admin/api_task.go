@@ -674,7 +674,7 @@ func (r *RetryTaskOptionalParameters) WithMode(mode TaskRetryMode) *RetryTaskOpt
 }
 
 // RetryTask Retry a task.
-// Restart a failed or stopped task. By default all steps rerun; resume preserves successful steps and requires resume in the task type allowActions.
+// Restart a failed or stopped task. The selected mode must be declared in the task type allowActions. The default mode is retry, which reruns all steps; resume preserves successful steps.
 func (a *TaskApi) RetryTask(ctx _context.Context, taskId string, o ...RetryTaskOptionalParameters) (Task, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
@@ -740,7 +740,7 @@ func (a *TaskApi) RetryTask(ctx _context.Context, taskId string, o ...RetryTaskO
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 405 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

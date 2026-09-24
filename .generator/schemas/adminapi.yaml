@@ -17776,7 +17776,7 @@ paths:
   /admin/v1/tasks/{taskId}/retry:
     patch:
       summary: Retry a task
-      description: Restart a failed or stopped task. By default all steps rerun; resume preserves successful steps and requires resume in the task type allowActions.
+      description: Restart a failed or stopped task. The selected mode must be declared in the task type allowActions. The default mode is retry, which reruns all steps; resume preserves successful steps.
       operationId: retryTask
       parameters:
         - description: ID of the task
@@ -17806,6 +17806,12 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '405':
+          description: The task type does not support the selected mode.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
         '500':
           $ref: '#/components/responses/500'
       tags:
