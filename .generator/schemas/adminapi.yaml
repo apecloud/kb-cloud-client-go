@@ -40419,6 +40419,49 @@ components:
                       In rebuildinstance ops, only `ops` object is available.
                 type: object
               type: array
+        dependentReconfigure:
+          type: object
+          description: |
+            Reconfigure ops submitted after the current ops succeeds on KubeBlocks 1.0.
+            Use this to update engine parameters that must follow a resource change.
+            KubeBlocks 0.9 ignores this field.
+            when and parameter values are Go templates with the same built-in objects as dependentCustomOps.
+            Read the parent OpsRequest with a spec expression, for example
+            {{ (index $.ops.spec.verticalScaling 0).limits.memory }}.
+            Arithmetic comes from sprig. quantity parses that expression's Kubernetes quantity string into bytes.
+          properties:
+            component:
+              type: string
+              description: |
+                Target component type in the same cluster, resolved through engineOption.components.
+                Empty means the component type of the current ops. All matching components and shardings are reconfigured.
+                This allows an operation on component A to update parameters on component B.
+                An unknown type or a type with no matching cluster components fails before the parent ops is submitted.
+            when:
+              type: string
+              description: |
+                Go template expression. The reconfigure ops is submitted only when the expression evaluates to "true".
+                Same built-in objects as dependentCustomOps.
+            parameters:
+              description: |
+                Parameter key-value pairs applied by the reconfigure ops.
+                value is a Go template over $.ops.spec. Example:
+                {{ mulf (quantity (index $.ops.spec.verticalScaling 0).limits.memory) 0.9 | int }}
+              items:
+                type: object
+                required:
+                  - key
+                  - value
+                properties:
+                  key:
+                    type: string
+                    description: parameter name.
+                  value:
+                    type: string
+                    description: |
+                      Go template expression. Same built-in objects as dependentCustomOps params.
+                      Arithmetic uses sprig. quantity parses a Kubernetes quantity string from the spec expression into bytes.
+              type: array
     engineOptionLicenseFile:
       type: object
       additionalProperties: false

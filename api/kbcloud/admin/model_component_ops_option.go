@@ -31,6 +31,15 @@ type ComponentOpsOption struct {
 	// indicate whether rollback is supported for this ops
 	RollbackSupported  *bool                                 `json:"rollbackSupported,omitempty"`
 	DependentCustomOps *ComponentOpsOptionDependentCustomOps `json:"dependentCustomOps,omitempty"`
+	// Reconfigure ops submitted after the current ops succeeds on KubeBlocks 1.0.
+	// Use this to update engine parameters that must follow a resource change.
+	// KubeBlocks 0.9 ignores this field.
+	// when and parameter values are Go templates with the same built-in objects as dependentCustomOps.
+	// Read the parent OpsRequest with a spec expression, for example
+	// {{ (index $.ops.spec.verticalScaling 0).limits.memory }}.
+	// Arithmetic comes from sprig. quantity parses that expression's Kubernetes quantity string into bytes.
+	//
+	DependentReconfigure *ComponentOpsOptionDependentReconfigure `json:"dependentReconfigure,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -417,6 +426,34 @@ func (o *ComponentOpsOption) SetDependentCustomOps(v ComponentOpsOptionDependent
 	o.DependentCustomOps = &v
 }
 
+// GetDependentReconfigure returns the DependentReconfigure field value if set, zero value otherwise.
+func (o *ComponentOpsOption) GetDependentReconfigure() ComponentOpsOptionDependentReconfigure {
+	if o == nil || o.DependentReconfigure == nil {
+		var ret ComponentOpsOptionDependentReconfigure
+		return ret
+	}
+	return *o.DependentReconfigure
+}
+
+// GetDependentReconfigureOk returns a tuple with the DependentReconfigure field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentOpsOption) GetDependentReconfigureOk() (*ComponentOpsOptionDependentReconfigure, bool) {
+	if o == nil || o.DependentReconfigure == nil {
+		return nil, false
+	}
+	return o.DependentReconfigure, true
+}
+
+// HasDependentReconfigure returns a boolean if a field has been set.
+func (o *ComponentOpsOption) HasDependentReconfigure() bool {
+	return o != nil && o.DependentReconfigure != nil
+}
+
+// SetDependentReconfigure gets a reference to the given ComponentOpsOptionDependentReconfigure and assigns it to the DependentReconfigure field.
+func (o *ComponentOpsOption) SetDependentReconfigure(v ComponentOpsOptionDependentReconfigure) {
+	o.DependentReconfigure = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ComponentOpsOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -457,6 +494,9 @@ func (o ComponentOpsOption) MarshalJSON() ([]byte, error) {
 	if o.DependentCustomOps != nil {
 		toSerialize["dependentCustomOps"] = o.DependentCustomOps
 	}
+	if o.DependentReconfigure != nil {
+		toSerialize["dependentReconfigure"] = o.DependentReconfigure
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -467,18 +507,19 @@ func (o ComponentOpsOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentOpsOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Modes                       []string                              `json:"modes,omitempty"`
-		Component                   *string                               `json:"component"`
-		DisableHa                   *bool                                 `json:"disableHA,omitempty"`
-		InPlace                     *bool                                 `json:"inPlace,omitempty"`
-		NeedBackupWhenInPlace       *bool                                 `json:"needBackupWhenInPlace,omitempty"`
-		BackupRequired              *bool                                 `json:"backupRequired,omitempty"`
-		BackupMethod                *ComponentOpsOptionBackupMethod       `json:"backupMethod,omitempty"`
-		RestoreEnv                  []ComponentOpsOptionRestoreEnvItem    `json:"restoreEnv,omitempty"`
-		DisableOfflineInstance      common.NullableBool                   `json:"disableOfflineInstance,omitempty"`
-		DisableOfflineInstanceRoles []string                              `json:"disableOfflineInstanceRoles,omitempty"`
-		RollbackSupported           *bool                                 `json:"rollbackSupported,omitempty"`
-		DependentCustomOps          *ComponentOpsOptionDependentCustomOps `json:"dependentCustomOps,omitempty"`
+		Modes                       []string                                `json:"modes,omitempty"`
+		Component                   *string                                 `json:"component"`
+		DisableHa                   *bool                                   `json:"disableHA,omitempty"`
+		InPlace                     *bool                                   `json:"inPlace,omitempty"`
+		NeedBackupWhenInPlace       *bool                                   `json:"needBackupWhenInPlace,omitempty"`
+		BackupRequired              *bool                                   `json:"backupRequired,omitempty"`
+		BackupMethod                *ComponentOpsOptionBackupMethod         `json:"backupMethod,omitempty"`
+		RestoreEnv                  []ComponentOpsOptionRestoreEnvItem      `json:"restoreEnv,omitempty"`
+		DisableOfflineInstance      common.NullableBool                     `json:"disableOfflineInstance,omitempty"`
+		DisableOfflineInstanceRoles []string                                `json:"disableOfflineInstanceRoles,omitempty"`
+		RollbackSupported           *bool                                   `json:"rollbackSupported,omitempty"`
+		DependentCustomOps          *ComponentOpsOptionDependentCustomOps   `json:"dependentCustomOps,omitempty"`
+		DependentReconfigure        *ComponentOpsOptionDependentReconfigure `json:"dependentReconfigure,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -488,7 +529,7 @@ func (o *ComponentOpsOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"modes", "component", "disableHA", "inPlace", "needBackupWhenInPlace", "backupRequired", "backupMethod", "restoreEnv", "disableOfflineInstance", "disableOfflineInstanceRoles", "rollbackSupported", "dependentCustomOps"})
+		common.DeleteKeys(additionalProperties, &[]string{"modes", "component", "disableHA", "inPlace", "needBackupWhenInPlace", "backupRequired", "backupMethod", "restoreEnv", "disableOfflineInstance", "disableOfflineInstanceRoles", "rollbackSupported", "dependentCustomOps", "dependentReconfigure"})
 	} else {
 		return err
 	}
@@ -512,6 +553,10 @@ func (o *ComponentOpsOption) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.DependentCustomOps = all.DependentCustomOps
+	if all.DependentReconfigure != nil && all.DependentReconfigure.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.DependentReconfigure = all.DependentReconfigure
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
