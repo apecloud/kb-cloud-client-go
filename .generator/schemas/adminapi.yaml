@@ -11435,6 +11435,44 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - vipPool
+    put:
+      operationId: updateVIPPool
+      summary: Update environment VIP Pool
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: id of the VIP Pool
+          in: path
+          name: poolID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/vipPoolUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/vipPool'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - vipPool
+      x-codegen-request-body-name: body
   /admin/v1/environments/{environmentName}/storageClasses:
     get:
       description: Provides a summary of storage class statistics.
@@ -30337,6 +30375,10 @@ components:
         networkMode:
           description: Specify the network mode for intra-cluster communication
           $ref: '#/components/schemas/networkMode'
+        vipPoolName:
+          title: VIP Pool Name
+          description: Name of the VIP Pool (VIP Pool poolName) used as the MetalLB address pool for LoadBalancer services. Only effective when networkMode is LoadBalancer.
+          type: string
         serviceRefs:
           type: array
           items:
@@ -37147,6 +37189,14 @@ components:
           description: ID of VIP Pool
           title: ID
           type: string
+        name:
+          description: Name of VIP Pool. It is the MetalLB IPAddressPool resource name, generated as kb-<id>.
+          title: Name
+          type: string
+        poolName:
+          description: User facing name of the VIP Pool, used to select the pool when creating a cluster. It falls back to the IPAddressPool resource name.
+          title: Pool Name
+          type: string
         total:
           description: Total number of IP addresses
           format: int64
@@ -37183,6 +37233,21 @@ components:
       type: object
     vipPoolCreate:
       description: VIP Pool create
+      properties:
+        addresses:
+          description: IP Addresses
+          title: IP Addresses
+          type: string
+        poolName:
+          description: Name of the VIP Pool. It is what a cluster selects the pool by, so it is not restricted by Kubernetes resource naming rules. The MetalLB IPAddressPool resource name stays the generated kb-<id>.
+          title: Pool Name
+          type: string
+      required:
+        - addresses
+        - poolName
+      type: object
+    vipPoolUpdate:
+      description: VIP Pool update
       properties:
         addresses:
           description: IP Addresses
