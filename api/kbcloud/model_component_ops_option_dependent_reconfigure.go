@@ -4,7 +4,11 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // ComponentOpsOptionDependentReconfigure Reconfigure ops submitted after the current ops succeeds on KubeBlocks 1.0.
 // Use this to update engine parameters that must follow a resource change.
@@ -12,12 +16,18 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 // when and parameter values are Go templates with the same built-in objects as dependentCustomOps.
 // Read the parent OpsRequest with a spec expression, for example
 // {{ (index $.ops.spec.verticalScaling 0).limits.memory }}.
-// Arithmetic comes from sprig. quantity parses that expression's Kubernetes quantity string into bytes.
+// Arithmetic comes from sprig; env, expandenv and getHostByName are unavailable for dependent templates.
+// quantity is intended for memory/storage quantities and returns whole bytes; do not use it for CPU millicores.
+// It uses Quantity.Value(), which rounds fractional base units up (for example, 500m becomes 1).
+// Targets must support the KubeBlocks Parameter pipeline with the required ParamConfigRenderer/ParametersDefinition.
+// This always submits an OpsRequest; it does not use the interactive reconfigure path's direct template ConfigMap fallback.
+// Configurations that rely on that fallback are not supported by this dependent operation.
 type ComponentOpsOptionDependentReconfigure struct {
 	// Target component type in the same cluster, resolved through engineOption.components.
 	// Empty means the component type of the current ops. All matching components and shardings are reconfigured.
 	// This allows an operation on component A to update parameters on component B.
 	// An unknown type or a type with no matching cluster components fails before the parent ops is submitted.
+	// If the target type requires disableHA, matching multiple components fails before parent submission.
 	//
 	Component *string `json:"component,omitempty"`
 	// Go template expression. The reconfigure ops is submitted only when the expression evaluates to "true".
@@ -25,10 +35,11 @@ type ComponentOpsOptionDependentReconfigure struct {
 	//
 	When *string `json:"when,omitempty"`
 	// Parameter key-value pairs applied by the reconfigure ops.
+	// Must contain at least one parameter; missing or empty parameters fail before parent submission.
 	// value is a Go template over $.ops.spec. Example:
 	// {{ mulf (quantity (index $.ops.spec.verticalScaling 0).limits.memory) 0.9 | int }}
 	//
-	Parameters []ComponentOpsOptionDependentReconfigureParametersItem `json:"parameters,omitempty"`
+	Parameters []ComponentOpsOptionDependentReconfigureParametersItem `json:"parameters"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -38,8 +49,9 @@ type ComponentOpsOptionDependentReconfigure struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewComponentOpsOptionDependentReconfigure() *ComponentOpsOptionDependentReconfigure {
+func NewComponentOpsOptionDependentReconfigure(parameters []ComponentOpsOptionDependentReconfigureParametersItem) *ComponentOpsOptionDependentReconfigure {
 	this := ComponentOpsOptionDependentReconfigure{}
+	this.Parameters = parameters
 	return &this
 }
 
@@ -107,30 +119,25 @@ func (o *ComponentOpsOptionDependentReconfigure) SetWhen(v string) {
 	o.When = &v
 }
 
-// GetParameters returns the Parameters field value if set, zero value otherwise.
+// GetParameters returns the Parameters field value.
 func (o *ComponentOpsOptionDependentReconfigure) GetParameters() []ComponentOpsOptionDependentReconfigureParametersItem {
-	if o == nil || o.Parameters == nil {
+	if o == nil {
 		var ret []ComponentOpsOptionDependentReconfigureParametersItem
 		return ret
 	}
 	return o.Parameters
 }
 
-// GetParametersOk returns a tuple with the Parameters field value if set, nil otherwise
+// GetParametersOk returns a tuple with the Parameters field value
 // and a boolean to check if the value has been set.
 func (o *ComponentOpsOptionDependentReconfigure) GetParametersOk() (*[]ComponentOpsOptionDependentReconfigureParametersItem, bool) {
-	if o == nil || o.Parameters == nil {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Parameters, true
 }
 
-// HasParameters returns a boolean if a field has been set.
-func (o *ComponentOpsOptionDependentReconfigure) HasParameters() bool {
-	return o != nil && o.Parameters != nil
-}
-
-// SetParameters gets a reference to the given []ComponentOpsOptionDependentReconfigureParametersItem and assigns it to the Parameters field.
+// SetParameters sets field value.
 func (o *ComponentOpsOptionDependentReconfigure) SetParameters(v []ComponentOpsOptionDependentReconfigureParametersItem) {
 	o.Parameters = v
 }
@@ -147,9 +154,7 @@ func (o ComponentOpsOptionDependentReconfigure) MarshalJSON() ([]byte, error) {
 	if o.When != nil {
 		toSerialize["when"] = o.When
 	}
-	if o.Parameters != nil {
-		toSerialize["parameters"] = o.Parameters
-	}
+	toSerialize["parameters"] = o.Parameters
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -160,12 +165,15 @@ func (o ComponentOpsOptionDependentReconfigure) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentOpsOptionDependentReconfigure) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component  *string                                                `json:"component,omitempty"`
-		When       *string                                                `json:"when,omitempty"`
-		Parameters []ComponentOpsOptionDependentReconfigureParametersItem `json:"parameters,omitempty"`
+		Component  *string                                                 `json:"component,omitempty"`
+		When       *string                                                 `json:"when,omitempty"`
+		Parameters *[]ComponentOpsOptionDependentReconfigureParametersItem `json:"parameters"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
+	}
+	if all.Parameters == nil {
+		return fmt.Errorf("required field parameters missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -175,7 +183,7 @@ func (o *ComponentOpsOptionDependentReconfigure) UnmarshalJSON(bytes []byte) (er
 	}
 	o.Component = all.Component
 	o.When = all.When
-	o.Parameters = all.Parameters
+	o.Parameters = *all.Parameters
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

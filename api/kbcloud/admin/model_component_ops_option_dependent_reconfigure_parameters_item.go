@@ -14,7 +14,7 @@ type ComponentOpsOptionDependentReconfigureParametersItem struct {
 	// parameter name.
 	Key string `json:"key"`
 	// Go template expression. Same built-in objects as dependentCustomOps params.
-	// Arithmetic uses sprig. quantity parses a Kubernetes quantity string from the spec expression into bytes.
+	// Arithmetic uses sprig. quantity converts memory/storage quantities to whole bytes; it is not suitable for CPU millicores.
 	//
 	Value string `json:"value"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct

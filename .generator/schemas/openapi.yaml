@@ -24661,6 +24661,14 @@ components:
           description: ID of VIP Pool
           title: ID
           type: string
+        name:
+          description: Name of VIP Pool. It is the MetalLB IPAddressPool resource name, generated as kb-<id>.
+          title: Name
+          type: string
+        poolName:
+          description: User facing name of the VIP Pool, used to select the pool when creating a cluster. It falls back to the IPAddressPool resource name.
+          title: Pool Name
+          type: string
         total:
           description: Total number of IP addresses
           format: int64
@@ -26113,6 +26121,10 @@ components:
         networkMode:
           description: Specify the network mode for intra-cluster communication
           $ref: '#/components/schemas/networkMode'
+        vipPoolName:
+          title: VIP Pool Name
+          description: Name of the VIP Pool (VIP Pool poolName) used as the MetalLB address pool for LoadBalancer services. Only effective when networkMode is LoadBalancer.
+          type: string
         serviceRefs:
           type: array
           items:
@@ -33979,6 +33991,8 @@ components:
               type: array
         dependentReconfigure:
           type: object
+          required:
+            - parameters
           description: |
             Reconfigure ops submitted after the current ops succeeds on KubeBlocks 1.0.
             Use this to update engine parameters that must follow a resource change.
@@ -33986,7 +34000,12 @@ components:
             when and parameter values are Go templates with the same built-in objects as dependentCustomOps.
             Read the parent OpsRequest with a spec expression, for example
             {{ (index $.ops.spec.verticalScaling 0).limits.memory }}.
-            Arithmetic comes from sprig. quantity parses that expression's Kubernetes quantity string into bytes.
+            Arithmetic comes from sprig; env, expandenv and getHostByName are unavailable for dependent templates.
+            quantity is intended for memory/storage quantities and returns whole bytes; do not use it for CPU millicores.
+            It uses Quantity.Value(), which rounds fractional base units up (for example, 500m becomes 1).
+            Targets must support the KubeBlocks Parameter pipeline with the required ParamConfigRenderer/ParametersDefinition.
+            This always submits an OpsRequest; it does not use the interactive reconfigure path's direct template ConfigMap fallback.
+            Configurations that rely on that fallback are not supported by this dependent operation.
           properties:
             component:
               type: string
@@ -33995,14 +34014,17 @@ components:
                 Empty means the component type of the current ops. All matching components and shardings are reconfigured.
                 This allows an operation on component A to update parameters on component B.
                 An unknown type or a type with no matching cluster components fails before the parent ops is submitted.
+                If the target type requires disableHA, matching multiple components fails before parent submission.
             when:
               type: string
               description: |
                 Go template expression. The reconfigure ops is submitted only when the expression evaluates to "true".
                 Same built-in objects as dependentCustomOps.
             parameters:
+              minItems: 1
               description: |
                 Parameter key-value pairs applied by the reconfigure ops.
+                Must contain at least one parameter; missing or empty parameters fail before parent submission.
                 value is a Go template over $.ops.spec. Example:
                 {{ mulf (quantity (index $.ops.spec.verticalScaling 0).limits.memory) 0.9 | int }}
               items:
@@ -34018,7 +34040,7 @@ components:
                     type: string
                     description: |
                       Go template expression. Same built-in objects as dependentCustomOps params.
-                      Arithmetic uses sprig. quantity parses a Kubernetes quantity string from the spec expression into bytes.
+                      Arithmetic uses sprig. quantity converts memory/storage quantities to whole bytes; it is not suitable for CPU millicores.
               type: array
     engineOptionLicenseFile:
       type: object

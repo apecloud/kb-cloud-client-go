@@ -37,7 +37,12 @@ type ComponentOpsOption struct {
 	// when and parameter values are Go templates with the same built-in objects as dependentCustomOps.
 	// Read the parent OpsRequest with a spec expression, for example
 	// {{ (index $.ops.spec.verticalScaling 0).limits.memory }}.
-	// Arithmetic comes from sprig. quantity parses that expression's Kubernetes quantity string into bytes.
+	// Arithmetic comes from sprig; env, expandenv and getHostByName are unavailable for dependent templates.
+	// quantity is intended for memory/storage quantities and returns whole bytes; do not use it for CPU millicores.
+	// It uses Quantity.Value(), which rounds fractional base units up (for example, 500m becomes 1).
+	// Targets must support the KubeBlocks Parameter pipeline with the required ParamConfigRenderer/ParametersDefinition.
+	// This always submits an OpsRequest; it does not use the interactive reconfigure path's direct template ConfigMap fallback.
+	// Configurations that rely on that fallback are not supported by this dependent operation.
 	//
 	DependentReconfigure *ComponentOpsOptionDependentReconfigure `json:"dependentReconfigure,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
