@@ -24661,6 +24661,14 @@ components:
           description: ID of VIP Pool
           title: ID
           type: string
+        name:
+          description: Name of VIP Pool. It is the MetalLB IPAddressPool resource name, generated as kb-<id>.
+          title: Name
+          type: string
+        poolName:
+          description: User facing name of the VIP Pool, used to select the pool when creating a cluster. It falls back to the IPAddressPool resource name.
+          title: Pool Name
+          type: string
         total:
           description: Total number of IP addresses
           format: int64
@@ -26113,6 +26121,10 @@ components:
         networkMode:
           description: Specify the network mode for intra-cluster communication
           $ref: '#/components/schemas/networkMode'
+        vipPoolName:
+          title: VIP Pool Name
+          description: Name of the VIP Pool (VIP Pool poolName) used as the MetalLB address pool for LoadBalancer services. Only effective when networkMode is LoadBalancer.
+          type: string
         serviceRefs:
           type: array
           items:
