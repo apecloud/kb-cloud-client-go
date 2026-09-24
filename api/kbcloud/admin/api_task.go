@@ -674,7 +674,7 @@ func (r *RetryTaskOptionalParameters) WithMode(mode TaskRetryMode) *RetryTaskOpt
 }
 
 // RetryTask Retry a task.
-// Restart a failed or stopped task. The selected mode must be declared in the task type allowActions. The default mode is restart, which reruns all steps; resume preserves successful steps.
+// Restart a failed or stopped task. Resume requires the task type to declare resume in allowActions. The default mode is restart, which reruns all steps; resume preserves successful steps.
 func (a *TaskApi) RetryTask(ctx _context.Context, taskId string, o ...RetryTaskOptionalParameters) (Task, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch

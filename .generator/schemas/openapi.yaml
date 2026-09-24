@@ -25706,6 +25706,48 @@ components:
       enum:
         - DoNotTerminate
         - Delete
+    instanceTemplateCreate:
+      type: object
+      additionalProperties: false
+      description: |
+        Create assignment for one instance template. name and replicas are required. env, annotations, and labels are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once.
+      required:
+        - name
+        - replicas
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Instance template name; must match a chart-rendered instance.
+        replicas:
+          type: integer
+          minimum: 0
+          description: Replica count for this instance template.
+        env:
+          type: array
+          description: Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
+          items:
+            type: object
+            required:
+              - name
+              - value
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+                minLength: 1
+                description: Plain string value only. valueFrom is not supported.
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+          description: Annotation map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          description: Label map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
     ioQuantity:
       description: IO Quantity describes IOPS and BPS of a volume
       properties:
@@ -25784,7 +25826,13 @@ components:
           title: Replicas
           type: integer
           x-nullable: true
-          description: Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas.
+          description: Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas. If the rendered component has instance templates, this must equal the sum of all template replica counts in the complete instanceTemplates list.
+        instanceTemplates:
+          type: array
+          minItems: 1
+          description: Per-template replicas and optional overlays (env, annotations, labels). Required when the chart renders instance templates. Names must exactly match all chart-rendered instances, without missing, extra, or duplicate names; order does not matter. Component replicas must equal the sum of all requested instance template replica counts.
+          items:
+            $ref: '#/components/schemas/instanceTemplateCreate'
         skipResourceConstraints:
           type: boolean
           description: Whether to skip resource constraint validation when creating cluster
@@ -26688,8 +26736,23 @@ components:
           x-nullable: true
       required:
         - type
+    instanceTemplateReplicas:
+      type: object
+      description: HScale assignment for one instance template. name and replicas only.
+      required:
+        - name
+        - replicas
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Instance template name on the live Cluster spec.
+        replicas:
+          type: integer
+          minimum: 0
+          description: Target replica count for this instance template.
     opsHScale:
-      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
+      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. Specify replicas or shards. instanceTemplates is an optional overlay and requires top-level replicas.
       required:
         - component
       properties:
@@ -26705,6 +26768,12 @@ components:
           description: number of replicas
           type: integer
           nullable: true
+        instanceTemplates:
+          type: array
+          minItems: 1
+          description: Target replica count for named instance templates. Requires top-level replicas. Mapped onto the live Cluster spec to build scaleIn/scaleOut.instances. Required for replica scaling when the live component has instance templates. Names must exactly match all live instance templates, without missing, extra, or duplicate names; order does not matter. Top-level replicas must equal the sum of all requested template replica counts. Shard-count scaling does not check templates and cannot include this list.
+          items:
+            $ref: '#/components/schemas/instanceTemplateReplicas'
         onlineInstancesToOffline:
           type: array
           items:
@@ -27665,7 +27734,7 @@ components:
           description: memory size
           type: string
         classCode:
-          description: class code of the cluster
+          description: Class code for component-level vertical scaling.
           type: string
         schedule:
           $ref: '#/components/schemas/taskSchedule'
@@ -32856,6 +32925,39 @@ components:
       enum:
         - '0.9'
         - '1.0'
+    instanceTemplateOp:
+      type: string
+      description: Operation that can be declared on instanceTemplate.ops.
+      enum:
+        - hscale
+        - vscale
+    instanceTemplateAttribute:
+      type: string
+      description: Heterogeneous attribute the frontend may render on an instance template at create.
+      enum:
+        - env
+        - annotations
+        - labels
+    instanceTemplateEnv:
+      type: object
+      description: One fillable env var on an instance template, for frontend rendering.
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Env var name written to the instance template.
+        label:
+          $ref: '#/components/schemas/localizedDescription'
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+        required:
+          type: boolean
+          description: If true, the frontend should treat this env as required. Create does not re-check.
+        default:
+          type: string
+          description: Default value shown by the frontend.
     modeReadonlyEndpoint:
       type: object
       required:
@@ -32877,6 +32979,64 @@ components:
           type: boolean
         hideOnCreate:
           type: boolean
+        instanceTemplate:
+          type: object
+          description: |
+            Frontend catalog of instance templates for this mode component.
+            names, ops, attributes, and env are for UI rendering. Create
+            validates the request against chart-rendered Cluster instances,
+            not this catalog. HScale does not re-check this catalog; it
+            builds the OpsRequest from the request and the live Cluster.
+            HScale instanceTemplates still requires top-level replicas.
+            ops lists hscale and vscale for the UI (vscale is reserved;
+            class stays component-level). Only HScale processes instance templates.
+            VolumeExpansion, VScale, Upgrade, Restart, and other operations silently
+            ignore instance templates and keep their component-level behavior.
+            Template-level volumeexpansion is not implemented.
+            The platform does not even-split or fill in missing templates.
+            When absent, the frontend should use component-level operations.
+          required:
+            - names
+            - ops
+          properties:
+            names:
+              type: array
+              minItems: 1
+              uniqueItems: true
+              items:
+                type: string
+              description: |
+                Instance template names the frontend should render.
+                Create and hscale check names against the chart or live Cluster,
+                not this list.
+            ops:
+              type: array
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/instanceTemplateOp'
+              description: |
+                Operations the frontend should offer per template: hscale, vscale.
+                Not re-checked when creating a cluster or building an hscale OpsRequest.
+                Only hscale currently acts per template; vscale is reserved.
+                VolumeExpansion, VScale, Upgrade, and Restart ignore instance templates
+                and keep their component-level behavior.
+            attributes:
+              type: array
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/instanceTemplateAttribute'
+              description: |
+                Heterogeneous attributes the frontend should render on each
+                instance template at create. Omitted or empty means only name
+                and replicas. Create overlays the request onto the chart and
+                does not re-check this list.
+            env:
+              type: array
+              description: |
+                Env vars the frontend may render when attributes includes env.
+                Create does not re-check this list.
+              items:
+                $ref: '#/components/schemas/instanceTemplateEnv'
         serviceRef:
           type: string
           description: |
