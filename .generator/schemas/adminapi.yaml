@@ -17776,8 +17776,39 @@ paths:
   /admin/v1/tasks/{taskId}/retry:
     patch:
       summary: Retry a task
-      description: retry task
+      description: Restart a failed or stopped task by rerunning all steps.
       operationId: retryTask
+      parameters:
+        - description: ID of the task
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Current status of the task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/task'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - task
+  /admin/v1/tasks/{taskId}/resume:
+    patch:
+      summary: Resume a failed or stopped task
+      description: Preserve successful steps and resume unfinished work. Requires resume in the task type allowActions.
+      operationId: resumeTask
       parameters:
         - description: ID of the task
           in: path

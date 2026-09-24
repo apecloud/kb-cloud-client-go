@@ -728,6 +728,7 @@
 //   - [taskApi.listTaskEvents]
 //   - [taskApi.listTaskTypes]
 //   - [taskApi.listTasks]
+//   - [taskApi.resumeTask]
 //   - [taskApi.retryTask]
 //   - [taskApi.stopTask]
 //   - [tlsApi.getTLSCertificate]
