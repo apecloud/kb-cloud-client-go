@@ -10,17 +10,17 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// TaskRetryMode retry reruns all steps; resume preserves successful steps.
+// TaskRetryMode restart reruns all steps; resume preserves successful steps.
 type TaskRetryMode string
 
 // List of TaskRetryMode.
 const (
-	TaskRetryModeRetry  TaskRetryMode = "retry"
-	TaskRetryModeResume TaskRetryMode = "resume"
+	TaskRetryModeRestart TaskRetryMode = "restart"
+	TaskRetryModeResume  TaskRetryMode = "resume"
 )
 
 var allowedTaskRetryModeEnumValues = []TaskRetryMode{
-	TaskRetryModeRetry,
+	TaskRetryModeRestart,
 	TaskRetryModeResume,
 }
 

@@ -17776,7 +17776,7 @@ paths:
   /admin/v1/tasks/{taskId}/retry:
     patch:
       summary: Retry a task
-      description: Restart a failed or stopped task. The selected mode must be declared in the task type allowActions. The default mode is retry, which reruns all steps; resume preserves successful steps.
+      description: Restart a failed or stopped task. The selected mode must be declared in the task type allowActions. The default mode is restart, which reruns all steps; resume preserves successful steps.
       operationId: retryTask
       parameters:
         - description: ID of the task
@@ -17787,7 +17787,7 @@ paths:
             type: string
         - name: mode
           in: query
-          description: retry reruns all steps; resume preserves successful steps and reruns unfinished steps and PreFinish hooks.
+          description: restart reruns all steps; resume preserves successful steps and reruns unfinished steps and PreFinish hooks.
           required: false
           schema:
             $ref: '#/components/schemas/taskRetryMode'
@@ -43925,10 +43925,10 @@ components:
     taskRetryMode:
       type: string
       enum:
-        - retry
+        - restart
         - resume
-      default: retry
-      description: retry reruns all steps; resume preserves successful steps.
+      default: restart
+      description: restart reruns all steps; resume preserves successful steps.
     availableClusterList:
       type: array
       items:
