@@ -16,8 +16,10 @@ type ComponentItemCreate struct {
 	Component string `json:"component"`
 	// The number of components, if often used as shards number
 	CompNum *int32 `json:"compNum,omitempty"`
-	// The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
+	// The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3. If the rendered component has instance templates, this must equal the sum of all template replica counts in the complete instanceTemplates list.
 	Replicas *int32 `json:"replicas,omitempty"`
+	// Per-template replicas and optional overlays (env, annotations, labels). Required when the chart renders instance templates. Names must exactly match all chart-rendered instances, without missing, extra, or duplicate names; order does not matter. Component replicas must equal the sum of all requested instance template replica counts.
+	InstanceTemplates []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`
 	// Whether to skip resource constraint validation when creating cluster
 	SkipResourceConstraints *bool   `json:"skipResourceConstraints,omitempty"`
 	ClassCode               *string `json:"classCode,omitempty"`
@@ -136,6 +138,34 @@ func (o *ComponentItemCreate) HasReplicas() bool {
 // SetReplicas gets a reference to the given int32 and assigns it to the Replicas field.
 func (o *ComponentItemCreate) SetReplicas(v int32) {
 	o.Replicas = &v
+}
+
+// GetInstanceTemplates returns the InstanceTemplates field value if set, zero value otherwise.
+func (o *ComponentItemCreate) GetInstanceTemplates() []InstanceTemplateCreate {
+	if o == nil || o.InstanceTemplates == nil {
+		var ret []InstanceTemplateCreate
+		return ret
+	}
+	return o.InstanceTemplates
+}
+
+// GetInstanceTemplatesOk returns a tuple with the InstanceTemplates field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentItemCreate) GetInstanceTemplatesOk() (*[]InstanceTemplateCreate, bool) {
+	if o == nil || o.InstanceTemplates == nil {
+		return nil, false
+	}
+	return &o.InstanceTemplates, true
+}
+
+// HasInstanceTemplates returns a boolean if a field has been set.
+func (o *ComponentItemCreate) HasInstanceTemplates() bool {
+	return o != nil && o.InstanceTemplates != nil
+}
+
+// SetInstanceTemplates gets a reference to the given []InstanceTemplateCreate and assigns it to the InstanceTemplates field.
+func (o *ComponentItemCreate) SetInstanceTemplates(v []InstanceTemplateCreate) {
+	o.InstanceTemplates = v
 }
 
 // GetSkipResourceConstraints returns the SkipResourceConstraints field value if set, zero value otherwise.
@@ -375,6 +405,9 @@ func (o ComponentItemCreate) MarshalJSON() ([]byte, error) {
 	if o.Replicas != nil {
 		toSerialize["replicas"] = o.Replicas
 	}
+	if o.InstanceTemplates != nil {
+		toSerialize["instanceTemplates"] = o.InstanceTemplates
+	}
 	if o.SkipResourceConstraints != nil {
 		toSerialize["skipResourceConstraints"] = o.SkipResourceConstraints
 	}
@@ -409,17 +442,18 @@ func (o ComponentItemCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component               *string               `json:"component"`
-		CompNum                 *int32                `json:"compNum,omitempty"`
-		Replicas                *int32                `json:"replicas,omitempty"`
-		SkipResourceConstraints *bool                 `json:"skipResourceConstraints,omitempty"`
-		ClassCode               *string               `json:"classCode,omitempty"`
-		Cpu                     *float64              `json:"cpu,omitempty"`
-		Memory                  *float64              `json:"memory,omitempty"`
-		StorageClass            *string               `json:"storageClass,omitempty"`
-		Volumes                 []ComponentVolumeItem `json:"volumes,omitempty"`
-		SystemAccountSecretName *string               `json:"systemAccountSecretName,omitempty"`
-		Network                 *ComponentNetwork     `json:"network,omitempty"`
+		Component               *string                  `json:"component"`
+		CompNum                 *int32                   `json:"compNum,omitempty"`
+		Replicas                *int32                   `json:"replicas,omitempty"`
+		InstanceTemplates       []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`
+		SkipResourceConstraints *bool                    `json:"skipResourceConstraints,omitempty"`
+		ClassCode               *string                  `json:"classCode,omitempty"`
+		Cpu                     *float64                 `json:"cpu,omitempty"`
+		Memory                  *float64                 `json:"memory,omitempty"`
+		StorageClass            *string                  `json:"storageClass,omitempty"`
+		Volumes                 []ComponentVolumeItem    `json:"volumes,omitempty"`
+		SystemAccountSecretName *string                  `json:"systemAccountSecretName,omitempty"`
+		Network                 *ComponentNetwork        `json:"network,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -429,7 +463,7 @@ func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "compNum", "replicas", "skipResourceConstraints", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName", "network"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "compNum", "replicas", "instanceTemplates", "skipResourceConstraints", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName", "network"})
 	} else {
 		return err
 	}
@@ -438,6 +472,7 @@ func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.Component = *all.Component
 	o.CompNum = all.CompNum
 	o.Replicas = all.Replicas
+	o.InstanceTemplates = all.InstanceTemplates
 	o.SkipResourceConstraints = all.SkipResourceConstraints
 	o.ClassCode = all.ClassCode
 	o.Cpu = all.Cpu

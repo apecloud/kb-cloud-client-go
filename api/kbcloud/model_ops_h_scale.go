@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// OpsHScale OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
+// OpsHScale OpsHScale is the payload to horizontally scale a KubeBlocks cluster. Specify replicas or shards. instanceTemplates is an optional overlay and requires top-level replicas.
 type OpsHScale struct {
 	// component type
 	Component string `json:"component"`
@@ -18,6 +18,8 @@ type OpsHScale struct {
 	BackupName common.NullableString `json:"backupName,omitempty"`
 	// number of replicas
 	Replicas common.NullableInt32 `json:"replicas,omitempty"`
+	// Target replica count for named instance templates. Requires top-level replicas. Mapped onto the live Cluster spec to build scaleIn/scaleOut.instances. Required for replica scaling when the live component has instance templates. Names must exactly match all live instance templates, without missing, extra, or duplicate names; order does not matter. Top-level replicas must equal the sum of all requested template replica counts. Shard-count scaling does not check templates and cannot include this list.
+	InstanceTemplates []InstanceTemplateReplicas `json:"instanceTemplates,omitempty"`
 	// List of online instance names to be switched to offline during scaling in.
 	OnlineInstancesToOffline common.NullableList[string] `json:"onlineInstancesToOffline,omitempty"`
 	// List of offline instance names to be switched to online during scaling out.
@@ -155,6 +157,34 @@ func (o *OpsHScale) SetReplicasNil() {
 // UnsetReplicas ensures that no value is present for Replicas, not even an explicit nil.
 func (o *OpsHScale) UnsetReplicas() {
 	o.Replicas.Unset()
+}
+
+// GetInstanceTemplates returns the InstanceTemplates field value if set, zero value otherwise.
+func (o *OpsHScale) GetInstanceTemplates() []InstanceTemplateReplicas {
+	if o == nil || o.InstanceTemplates == nil {
+		var ret []InstanceTemplateReplicas
+		return ret
+	}
+	return o.InstanceTemplates
+}
+
+// GetInstanceTemplatesOk returns a tuple with the InstanceTemplates field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OpsHScale) GetInstanceTemplatesOk() (*[]InstanceTemplateReplicas, bool) {
+	if o == nil || o.InstanceTemplates == nil {
+		return nil, false
+	}
+	return &o.InstanceTemplates, true
+}
+
+// HasInstanceTemplates returns a boolean if a field has been set.
+func (o *OpsHScale) HasInstanceTemplates() bool {
+	return o != nil && o.InstanceTemplates != nil
+}
+
+// SetInstanceTemplates gets a reference to the given []InstanceTemplateReplicas and assigns it to the InstanceTemplates field.
+func (o *OpsHScale) SetInstanceTemplates(v []InstanceTemplateReplicas) {
+	o.InstanceTemplates = v
 }
 
 // GetOnlineInstancesToOffline returns the OnlineInstancesToOffline field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -382,6 +412,9 @@ func (o OpsHScale) MarshalJSON() ([]byte, error) {
 	if o.Replicas.IsSet() {
 		toSerialize["replicas"] = o.Replicas.Get()
 	}
+	if o.InstanceTemplates != nil {
+		toSerialize["instanceTemplates"] = o.InstanceTemplates
+	}
 	if o.OnlineInstancesToOffline.IsSet() {
 		toSerialize["onlineInstancesToOffline"] = o.OnlineInstancesToOffline.Get()
 	}
@@ -413,6 +446,7 @@ func (o *OpsHScale) UnmarshalJSON(bytes []byte) (err error) {
 		Component                   *string                     `json:"component"`
 		BackupName                  common.NullableString       `json:"backupName,omitempty"`
 		Replicas                    common.NullableInt32        `json:"replicas,omitempty"`
+		InstanceTemplates           []InstanceTemplateReplicas  `json:"instanceTemplates,omitempty"`
 		OnlineInstancesToOffline    common.NullableList[string] `json:"onlineInstancesToOffline,omitempty"`
 		OfflineInstancesToOnline    common.NullableList[string] `json:"OfflineInstancesToOnline,omitempty"`
 		Shards                      common.NullableInt32        `json:"shards,omitempty"`
@@ -428,7 +462,7 @@ func (o *OpsHScale) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "backupName", "replicas", "onlineInstancesToOffline", "OfflineInstancesToOnline", "shards", "preConditionDeadlineSeconds", "force", "schedule"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "backupName", "replicas", "instanceTemplates", "onlineInstancesToOffline", "OfflineInstancesToOnline", "shards", "preConditionDeadlineSeconds", "force", "schedule"})
 	} else {
 		return err
 	}
@@ -437,6 +471,7 @@ func (o *OpsHScale) UnmarshalJSON(bytes []byte) (err error) {
 	o.Component = *all.Component
 	o.BackupName = all.BackupName
 	o.Replicas = all.Replicas
+	o.InstanceTemplates = all.InstanceTemplates
 	o.OnlineInstancesToOffline = all.OnlineInstancesToOffline
 	o.OfflineInstancesToOnline = all.OfflineInstancesToOnline
 	o.Shards = all.Shards
