@@ -16,6 +16,8 @@ type VipPool struct {
 	Addresses string `json:"addresses"`
 	// ID of VIP Pool
 	Id *string `json:"id,omitempty"`
+	// Name of VIP Pool. It is also the MetalLB IPAddressPool resource name.
+	Name *string `json:"name,omitempty"`
 	// Total number of IP addresses
 	Total int64 `json:"total"`
 	// Used number of IP addresses
@@ -98,6 +100,34 @@ func (o *VipPool) HasId() bool {
 // SetId gets a reference to the given string and assigns it to the Id field.
 func (o *VipPool) SetId(v string) {
 	o.Id = &v
+}
+
+// GetName returns the Name field value if set, zero value otherwise.
+func (o *VipPool) GetName() string {
+	if o == nil || o.Name == nil {
+		var ret string
+		return ret
+	}
+	return *o.Name
+}
+
+// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *VipPool) GetNameOk() (*string, bool) {
+	if o == nil || o.Name == nil {
+		return nil, false
+	}
+	return o.Name, true
+}
+
+// HasName returns a boolean if a field has been set.
+func (o *VipPool) HasName() bool {
+	return o != nil && o.Name != nil
+}
+
+// SetName gets a reference to the given string and assigns it to the Name field.
+func (o *VipPool) SetName(v string) {
+	o.Name = &v
 }
 
 // GetTotal returns the Total field value.
@@ -212,6 +242,9 @@ func (o VipPool) MarshalJSON() ([]byte, error) {
 	if o.Id != nil {
 		toSerialize["id"] = o.Id
 	}
+	if o.Name != nil {
+		toSerialize["name"] = o.Name
+	}
 	toSerialize["total"] = o.Total
 	toSerialize["used"] = o.Used
 	if o.UsedIPs != nil {
@@ -232,6 +265,7 @@ func (o *VipPool) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Addresses    *string  `json:"addresses"`
 		Id           *string  `json:"id,omitempty"`
+		Name         *string  `json:"name,omitempty"`
 		Total        *int64   `json:"total"`
 		Used         *int64   `json:"used"`
 		UsedIPs      []string `json:"usedIPs,omitempty"`
@@ -251,12 +285,13 @@ func (o *VipPool) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"addresses", "id", "total", "used", "usedIPs", "availableIPs"})
+		common.DeleteKeys(additionalProperties, &[]string{"addresses", "id", "name", "total", "used", "usedIPs", "availableIPs"})
 	} else {
 		return err
 	}
 	o.Addresses = *all.Addresses
 	o.Id = all.Id
+	o.Name = all.Name
 	o.Total = *all.Total
 	o.Used = *all.Used
 	o.UsedIPs = all.UsedIPs

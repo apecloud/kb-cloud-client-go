@@ -54,6 +54,8 @@ type ClusterCreate struct {
 	// if cluster is static cluster
 	Static      *bool        `json:"static,omitempty"`
 	NetworkMode *NetworkMode `json:"networkMode,omitempty"`
+	// Name of the VIP Pool used as the MetalLB address pool for LoadBalancer services. Only effective when networkMode is LoadBalancer.
+	VipPoolName *string      `json:"vipPoolName,omitempty"`
 	ServiceRefs []ServiceRef `json:"serviceRefs,omitempty"`
 	// Specify the object storage config for cluster like starrocks
 	ObjectStorageConfig *ClusterObjectStorageConfig `json:"objectStorageConfig,omitempty"`
@@ -746,6 +748,34 @@ func (o *ClusterCreate) SetNetworkMode(v NetworkMode) {
 	o.NetworkMode = &v
 }
 
+// GetVipPoolName returns the VipPoolName field value if set, zero value otherwise.
+func (o *ClusterCreate) GetVipPoolName() string {
+	if o == nil || o.VipPoolName == nil {
+		var ret string
+		return ret
+	}
+	return *o.VipPoolName
+}
+
+// GetVipPoolNameOk returns a tuple with the VipPoolName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterCreate) GetVipPoolNameOk() (*string, bool) {
+	if o == nil || o.VipPoolName == nil {
+		return nil, false
+	}
+	return o.VipPoolName, true
+}
+
+// HasVipPoolName returns a boolean if a field has been set.
+func (o *ClusterCreate) HasVipPoolName() bool {
+	return o != nil && o.VipPoolName != nil
+}
+
+// SetVipPoolName gets a reference to the given string and assigns it to the VipPoolName field.
+func (o *ClusterCreate) SetVipPoolName(v string) {
+	o.VipPoolName = &v
+}
+
 // GetServiceRefs returns the ServiceRefs field value if set, zero value otherwise.
 func (o *ClusterCreate) GetServiceRefs() []ServiceRef {
 	if o == nil || o.ServiceRefs == nil {
@@ -991,6 +1021,9 @@ func (o ClusterCreate) MarshalJSON() ([]byte, error) {
 	if o.NetworkMode != nil {
 		toSerialize["networkMode"] = o.NetworkMode
 	}
+	if o.VipPoolName != nil {
+		toSerialize["vipPoolName"] = o.VipPoolName
+	}
 	if o.ServiceRefs != nil {
 		toSerialize["serviceRefs"] = o.ServiceRefs
 	}
@@ -1041,6 +1074,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 		DisplayName              *string                              `json:"displayName,omitempty"`
 		Static                   *bool                                `json:"static,omitempty"`
 		NetworkMode              *NetworkMode                         `json:"networkMode,omitempty"`
+		VipPoolName              *string                              `json:"vipPoolName,omitempty"`
 		ServiceRefs              []ServiceRef                         `json:"serviceRefs,omitempty"`
 		ObjectStorageConfig      *ClusterObjectStorageConfig          `json:"objectStorageConfig,omitempty"`
 		MaintainceWindow         *ClusterMaintainceWindow             `json:"maintainceWindow,omitempty"`
@@ -1062,7 +1096,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"parentId", "clusterType", "orgName", "environmentName", "project", "name", "engine", "license", "paramTpls", "version", "terminationPolicy", "mode", "components", "extra", "initOptions", "singleZone", "availabilityZones", "backup", "nodeGroup", "displayName", "static", "networkMode", "serviceRefs", "objectStorageConfig", "maintainceWindow", "schedulingPolicy", "schedulerName", "reservationResourceClass"})
+		common.DeleteKeys(additionalProperties, &[]string{"parentId", "clusterType", "orgName", "environmentName", "project", "name", "engine", "license", "paramTpls", "version", "terminationPolicy", "mode", "components", "extra", "initOptions", "singleZone", "availabilityZones", "backup", "nodeGroup", "displayName", "static", "networkMode", "vipPoolName", "serviceRefs", "objectStorageConfig", "maintainceWindow", "schedulingPolicy", "schedulerName", "reservationResourceClass"})
 	} else {
 		return err
 	}
@@ -1108,6 +1142,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.NetworkMode = all.NetworkMode
 	}
+	o.VipPoolName = all.VipPoolName
 	o.ServiceRefs = all.ServiceRefs
 	if all.ObjectStorageConfig != nil && all.ObjectStorageConfig.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
