@@ -10,16 +10,12 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. storageClassName, availabilityZone, env, annotations, and labels are optional overlays gated by instanceTemplate.attributes; omitted values inherit the component. Node group is cluster-level. Create overlays the request onto chart-rendered instances and keeps chart identity fields. classCode is not supported on templates.
+// InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. env, annotations, and labels are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once.
 type InstanceTemplateCreate struct {
-	// Instance template name declared on the engine option.
+	// Instance template name; must match a chart-rendered instance.
 	Name string `json:"name"`
 	// Replica count for this instance template.
 	Replicas int32 `json:"replicas"`
-	// StorageClassName for this template. Omit to inherit the component storageClass.
-	StorageClassName *string `json:"storageClassName,omitempty"`
-	// Availability zone for this template. Highest priority. Omit to inherit the component availabilityZone, or cluster scheduling if the component did not set one.
-	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 	// Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
 	Env []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
 	// Annotation map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
@@ -27,8 +23,7 @@ type InstanceTemplateCreate struct {
 	// Label map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
 	Labels map[string]string `json:"labels,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
-	AdditionalProperties map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 }
 
 // NewInstanceTemplateCreate instantiates a new InstanceTemplateCreate object.
@@ -94,62 +89,6 @@ func (o *InstanceTemplateCreate) GetReplicasOk() (*int32, bool) {
 // SetReplicas sets field value.
 func (o *InstanceTemplateCreate) SetReplicas(v int32) {
 	o.Replicas = v
-}
-
-// GetStorageClassName returns the StorageClassName field value if set, zero value otherwise.
-func (o *InstanceTemplateCreate) GetStorageClassName() string {
-	if o == nil || o.StorageClassName == nil {
-		var ret string
-		return ret
-	}
-	return *o.StorageClassName
-}
-
-// GetStorageClassNameOk returns a tuple with the StorageClassName field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *InstanceTemplateCreate) GetStorageClassNameOk() (*string, bool) {
-	if o == nil || o.StorageClassName == nil {
-		return nil, false
-	}
-	return o.StorageClassName, true
-}
-
-// HasStorageClassName returns a boolean if a field has been set.
-func (o *InstanceTemplateCreate) HasStorageClassName() bool {
-	return o != nil && o.StorageClassName != nil
-}
-
-// SetStorageClassName gets a reference to the given string and assigns it to the StorageClassName field.
-func (o *InstanceTemplateCreate) SetStorageClassName(v string) {
-	o.StorageClassName = &v
-}
-
-// GetAvailabilityZone returns the AvailabilityZone field value if set, zero value otherwise.
-func (o *InstanceTemplateCreate) GetAvailabilityZone() string {
-	if o == nil || o.AvailabilityZone == nil {
-		var ret string
-		return ret
-	}
-	return *o.AvailabilityZone
-}
-
-// GetAvailabilityZoneOk returns a tuple with the AvailabilityZone field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *InstanceTemplateCreate) GetAvailabilityZoneOk() (*string, bool) {
-	if o == nil || o.AvailabilityZone == nil {
-		return nil, false
-	}
-	return o.AvailabilityZone, true
-}
-
-// HasAvailabilityZone returns a boolean if a field has been set.
-func (o *InstanceTemplateCreate) HasAvailabilityZone() bool {
-	return o != nil && o.AvailabilityZone != nil
-}
-
-// SetAvailabilityZone gets a reference to the given string and assigns it to the AvailabilityZone field.
-func (o *InstanceTemplateCreate) SetAvailabilityZone(v string) {
-	o.AvailabilityZone = &v
 }
 
 // GetEnv returns the Env field value if set, zero value otherwise.
@@ -244,12 +183,6 @@ func (o InstanceTemplateCreate) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["name"] = o.Name
 	toSerialize["replicas"] = o.Replicas
-	if o.StorageClassName != nil {
-		toSerialize["storageClassName"] = o.StorageClassName
-	}
-	if o.AvailabilityZone != nil {
-		toSerialize["availabilityZone"] = o.AvailabilityZone
-	}
 	if o.Env != nil {
 		toSerialize["env"] = o.Env
 	}
@@ -259,23 +192,17 @@ func (o InstanceTemplateCreate) MarshalJSON() ([]byte, error) {
 	if o.Labels != nil {
 		toSerialize["labels"] = o.Labels
 	}
-
-	for key, value := range o.AdditionalProperties {
-		toSerialize[key] = value
-	}
 	return common.Marshal(toSerialize)
 }
 
 // UnmarshalJSON deserializes the given payload.
 func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name             *string                         `json:"name"`
-		Replicas         *int32                          `json:"replicas"`
-		StorageClassName *string                         `json:"storageClassName,omitempty"`
-		AvailabilityZone *string                         `json:"availabilityZone,omitempty"`
-		Env              []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
-		Annotations      map[string]string               `json:"annotations,omitempty"`
-		Labels           map[string]string               `json:"labels,omitempty"`
+		Name        *string                         `json:"name"`
+		Replicas    *int32                          `json:"replicas"`
+		Env         []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
+		Annotations map[string]string               `json:"annotations,omitempty"`
+		Labels      map[string]string               `json:"labels,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -286,23 +213,11 @@ func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Replicas == nil {
 		return fmt.Errorf("required field replicas missing")
 	}
-	additionalProperties := make(map[string]interface{})
-	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "replicas", "storageClassName", "availabilityZone", "env", "annotations", "labels"})
-	} else {
-		return err
-	}
 	o.Name = *all.Name
 	o.Replicas = *all.Replicas
-	o.StorageClassName = all.StorageClassName
-	o.AvailabilityZone = all.AvailabilityZone
 	o.Env = all.Env
 	o.Annotations = all.Annotations
 	o.Labels = all.Labels
-
-	if len(additionalProperties) > 0 {
-		o.AdditionalProperties = additionalProperties
-	}
 
 	return nil
 }

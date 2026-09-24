@@ -15,16 +15,12 @@ type InstanceTemplateAttribute string
 
 // List of InstanceTemplateAttribute.
 const (
-	InstanceTemplateAttributeStorageClassName InstanceTemplateAttribute = "storageClassName"
-	InstanceTemplateAttributeAvailabilityZone InstanceTemplateAttribute = "availabilityZone"
-	InstanceTemplateAttributeEnv              InstanceTemplateAttribute = "env"
-	InstanceTemplateAttributeAnnotations      InstanceTemplateAttribute = "annotations"
-	InstanceTemplateAttributeLabels           InstanceTemplateAttribute = "labels"
+	InstanceTemplateAttributeEnv         InstanceTemplateAttribute = "env"
+	InstanceTemplateAttributeAnnotations InstanceTemplateAttribute = "annotations"
+	InstanceTemplateAttributeLabels      InstanceTemplateAttribute = "labels"
 )
 
 var allowedInstanceTemplateAttributeEnumValues = []InstanceTemplateAttribute{
-	InstanceTemplateAttributeStorageClassName,
-	InstanceTemplateAttributeAvailabilityZone,
 	InstanceTemplateAttributeEnv,
 	InstanceTemplateAttributeAnnotations,
 	InstanceTemplateAttributeLabels,

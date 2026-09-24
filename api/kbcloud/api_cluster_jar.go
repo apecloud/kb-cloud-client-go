@@ -601,7 +601,7 @@ func (a *ClusterJarApi) UploadClusterJar(ctx _context.Context, engineName string
 		return localVarReturnValue, nil, common.ReportError("name must have less than 128 elements")
 	}
 	localVarHeaderParams["Content-Type"] = "multipart/form-data"
-	localVarHeaderParams["Accept"] = "*/*"
+	localVarHeaderParams["Accept"] = "application/json"
 
 	localVarHeaderParams["Idempotency-Key"] = common.ParameterToString(idempotencyKey, "")
 	localVarFormParams.Set("name", common.ParameterToString(name, ""))
@@ -641,17 +641,8 @@ func (a *ClusterJarApi) UploadClusterJar(ctx _context.Context, engineName string
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 409 || localVarHTTPResponse.StatusCode == 500 {
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 409 || localVarHTTPResponse.StatusCode == 413 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 413 {
-			var v None
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				return localVarReturnValue, localVarHTTPResponse, newErr

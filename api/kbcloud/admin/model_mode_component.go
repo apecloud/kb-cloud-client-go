@@ -14,16 +14,19 @@ type ModeComponent struct {
 	Component    string `json:"component"`
 	HideEnpoints bool   `json:"hideEnpoints"`
 	HideOnCreate bool   `json:"hideOnCreate"`
-	// Declares instance-template support for this mode component.
-	// Create requires instanceTemplates for every declared name; component
-	// replicas must equal the sum of those replica counts.
-	// HScale: instanceTemplates requires top-level replicas. Named templates
-	// attach as scaleIn/scaleOut.instances.
-	// ops catalogs hscale and vscale (vscale is reserved; class stays
-	// component-level). volumeexpansion is not supported. upgrade and restart
-	// stay component-level. attributes catalogs create-time overlays.
+	// Frontend catalog of instance templates for this mode component.
+	// names, ops, attributes, and env are for UI rendering. Create
+	// validates the request against chart-rendered Cluster instances,
+	// not this catalog. HScale does not re-check this catalog; it
+	// builds the OpsRequest from the request and the live Cluster.
+	// HScale instanceTemplates still requires top-level replicas.
+	// ops lists hscale and vscale for the UI (vscale is reserved;
+	// class stays component-level). Only HScale processes instance templates.
+	// VolumeExpansion, VScale, Upgrade, Restart, and other operations silently
+	// ignore instance templates and keep their component-level behavior.
+	// Template-level volumeexpansion is not implemented.
 	// The platform does not even-split or fill in missing templates.
-	// When absent, the component uses component-level operations.
+	// When absent, the frontend should use component-level operations.
 	//
 	InstanceTemplate *ModeComponentInstanceTemplate `json:"instanceTemplate,omitempty"`
 	// the name of the serviceRef defined in mode's serviceRefs.

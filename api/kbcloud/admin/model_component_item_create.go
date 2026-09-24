@@ -16,12 +16,10 @@ type ComponentItemCreate struct {
 	Component string `json:"component"`
 	// The number of components, if often used as shards number
 	CompNum *int32 `json:"compNum,omitempty"`
-	// Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas. When instanceTemplates is set, this must equal the sum of those replica counts.
+	// Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas. If the rendered component has instance templates, this must equal the sum of all template replica counts in the complete instanceTemplates list.
 	Replicas *int32 `json:"replicas,omitempty"`
-	// Per-template replicas and optional overlays (storageClassName, availabilityZone, env, annotations, labels). Node group is cluster-level and inherited. Required when the engine option declares instanceTemplate. Request names must match both instanceTemplate.names and the chart instances. Component replicas must equal the sum of these replica counts.
+	// Per-template replicas and optional overlays (env, annotations, labels). Required when the chart renders instance templates. Names must exactly match all chart-rendered instances, without missing, extra, or duplicate names; order does not matter. Component replicas must equal the sum of all requested instance template replica counts.
 	InstanceTemplates []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`
-	// Default availability zone for this component. Instance templates inherit it unless they set their own availabilityZone (template wins).
-	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 	// Whether to skip resource constraint validation when creating cluster
 	SkipResourceConstraints *bool   `json:"skipResourceConstraints,omitempty"`
 	ClassCode               *string `json:"classCode,omitempty"`
@@ -168,34 +166,6 @@ func (o *ComponentItemCreate) HasInstanceTemplates() bool {
 // SetInstanceTemplates gets a reference to the given []InstanceTemplateCreate and assigns it to the InstanceTemplates field.
 func (o *ComponentItemCreate) SetInstanceTemplates(v []InstanceTemplateCreate) {
 	o.InstanceTemplates = v
-}
-
-// GetAvailabilityZone returns the AvailabilityZone field value if set, zero value otherwise.
-func (o *ComponentItemCreate) GetAvailabilityZone() string {
-	if o == nil || o.AvailabilityZone == nil {
-		var ret string
-		return ret
-	}
-	return *o.AvailabilityZone
-}
-
-// GetAvailabilityZoneOk returns a tuple with the AvailabilityZone field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ComponentItemCreate) GetAvailabilityZoneOk() (*string, bool) {
-	if o == nil || o.AvailabilityZone == nil {
-		return nil, false
-	}
-	return o.AvailabilityZone, true
-}
-
-// HasAvailabilityZone returns a boolean if a field has been set.
-func (o *ComponentItemCreate) HasAvailabilityZone() bool {
-	return o != nil && o.AvailabilityZone != nil
-}
-
-// SetAvailabilityZone gets a reference to the given string and assigns it to the AvailabilityZone field.
-func (o *ComponentItemCreate) SetAvailabilityZone(v string) {
-	o.AvailabilityZone = &v
 }
 
 // GetSkipResourceConstraints returns the SkipResourceConstraints field value if set, zero value otherwise.
@@ -438,9 +408,6 @@ func (o ComponentItemCreate) MarshalJSON() ([]byte, error) {
 	if o.InstanceTemplates != nil {
 		toSerialize["instanceTemplates"] = o.InstanceTemplates
 	}
-	if o.AvailabilityZone != nil {
-		toSerialize["availabilityZone"] = o.AvailabilityZone
-	}
 	if o.SkipResourceConstraints != nil {
 		toSerialize["skipResourceConstraints"] = o.SkipResourceConstraints
 	}
@@ -479,7 +446,6 @@ func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 		CompNum                 *int32                   `json:"compNum,omitempty"`
 		Replicas                *int32                   `json:"replicas,omitempty"`
 		InstanceTemplates       []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`
-		AvailabilityZone        *string                  `json:"availabilityZone,omitempty"`
 		SkipResourceConstraints *bool                    `json:"skipResourceConstraints,omitempty"`
 		ClassCode               *string                  `json:"classCode,omitempty"`
 		Cpu                     *float64                 `json:"cpu,omitempty"`
@@ -497,7 +463,7 @@ func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "compNum", "replicas", "instanceTemplates", "availabilityZone", "skipResourceConstraints", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName", "network"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "compNum", "replicas", "instanceTemplates", "skipResourceConstraints", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName", "network"})
 	} else {
 		return err
 	}
@@ -507,7 +473,6 @@ func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.CompNum = all.CompNum
 	o.Replicas = all.Replicas
 	o.InstanceTemplates = all.InstanceTemplates
-	o.AvailabilityZone = all.AvailabilityZone
 	o.SkipResourceConstraints = all.SkipResourceConstraints
 	o.ClassCode = all.ClassCode
 	o.Cpu = all.Cpu

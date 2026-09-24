@@ -116,7 +116,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          $ref: '#/components/responses/400'
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars:
@@ -159,7 +159,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          $ref: '#/components/responses/400'
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
     post:
@@ -208,9 +208,9 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          $ref: '#/components/responses/400'
+          $ref: '#/components/responses/409'
         '413':
-          description: Upload exceeds the configured size limit
+          $ref: '#/components/responses/413'
         '500':
           $ref: '#/components/responses/500'
       requestBody:
@@ -274,7 +274,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          $ref: '#/components/responses/400'
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/download:
@@ -323,7 +323,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          $ref: '#/components/responses/400'
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/distribute:
@@ -371,7 +371,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          $ref: '#/components/responses/400'
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
       requestBody:
@@ -425,7 +425,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          $ref: '#/components/responses/400'
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/archive:
@@ -469,7 +469,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          $ref: '#/components/responses/400'
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
   /admin/v1/user:
@@ -4622,11 +4622,18 @@ paths:
     post:
       operationId: createParameterTemplate
       summary: Create parameter template
+      description: Create a parameter template in the target organization from an existing template. To copy a custom template from another organization, specify oriOrgName and provide a new name. Cross-organization creation only supports non-private custom source templates. The created template is always non-private; any isPrivate value in the request body is ignored.
       parameters:
-        - description: name of the Org
+        - description: Name of the target organization
           in: query
           name: orgName
           required: true
+          schema:
+            type: string
+        - description: 'Name of the source organization. When omitted, empty, or equal to orgName, existing creation behavior is preserved: custom templates are read from the target organization and default templates from the system organization. A different source organization requires oriPartition to be custom and name to differ from oriName. Both organizations must be active. The source may be the system organization, but the target must not be the system organization. A non-empty value containing only whitespace is invalid.'
+          in: query
+          name: oriOrgName
+          required: false
           schema:
             type: string
       requestBody:
@@ -4642,12 +4649,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/paramTplListItem'
           description: create parameter template successfully
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
       tags:
         - parameterTemplate
       x-codegen-request-body-name: body
@@ -10074,6 +10085,58 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/environments/{environmentName}/resources/{resourceName}:
+    get:
+      operationId: getEnvironmentResource
+      summary: Get a live Kubernetes resource
+      description: Returns one named Kubernetes object, excluding metadata.managedFields. The code allowlist currently permits only apiVersion v1 with kind PersistentVolumeClaim; other valid resource types return 403 before Kubernetes access. Requires Admin environment read permission. Does not support lists, subresources or writes.
+      tags:
+        - environment
+      parameters:
+        - in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: resourceName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: apiVersion
+          description: Kubernetes API version. Currently only v1 with kind PersistentVolumeClaim is allowed.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: kind
+          description: Kubernetes kind. Currently only PersistentVolumeClaim with apiVersion v1 is allowed.
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: namespace
+          description: Required for namespaced kinds; must be omitted for cluster-scoped kinds.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The live Kubernetes resource, including metadata, spec and status when present.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/jsonBody'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/environments:
     get:
       operationId: listEnvironment
@@ -16557,7 +16620,7 @@ paths:
           description: Inspection tasks created and accepted for asynchronous execution.
           content: {}
         '400':
-          description: Invalid request, invalid cluster selection, or no eligible clusters.
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -22654,7 +22717,7 @@ paths:
                 $ref: '#/components/schemas/accountList'
           description: Success
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -22662,9 +22725,9 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
       tags:
         - account
         - seaweedfs
@@ -22701,7 +22764,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/account'
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -22709,9 +22772,9 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
       tags:
         - account
         - seaweedfs
@@ -22746,7 +22809,7 @@ paths:
           content: {}
           description: Identity deleted
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -22754,9 +22817,9 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
       tags:
         - account
         - seaweedfs
@@ -22798,7 +22861,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/account'
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -22806,9 +22869,9 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
       tags:
         - account
         - seaweedfs
@@ -22897,7 +22960,7 @@ paths:
         required: true
       responses:
         '400':
-          description: SeaweedFS uses the named policy binding API
+          $ref: '#/components/responses/400'
       tags:
         - account
         - seaweedfs
@@ -22946,17 +23009,17 @@ paths:
                           type: object
                           additionalProperties: true
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
-          description: Unauthenticated
+          $ref: '#/components/responses/401'
         '403':
-          description: Permission denied or protected identity
+          $ref: '#/components/responses/403'
         '404':
-          description: Resource not found
+          $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
   /admin/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/policies/{policyName}:
     put:
       summary: putSeaweedFSPolicy
@@ -22985,17 +23048,17 @@ paths:
         '204':
           description: Successful response
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
-          description: Unauthenticated
+          $ref: '#/components/responses/401'
         '403':
-          description: Permission denied or protected identity
+          $ref: '#/components/responses/403'
         '404':
-          description: Resource not found
+          $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
       requestBody:
         required: true
         content:
@@ -23031,17 +23094,17 @@ paths:
         '204':
           description: Successful response
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
-          description: Unauthenticated
+          $ref: '#/components/responses/401'
         '403':
-          description: Permission denied or protected identity
+          $ref: '#/components/responses/403'
         '404':
-          description: Resource not found
+          $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
       description: Deletes an unused named policy. Attached policies are rejected; no identities or groups are implicitly changed.
   /admin/v1/data/seaweedfs/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/policies:
     put:
@@ -23071,17 +23134,17 @@ paths:
         '204':
           description: Successful response
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
-          description: Unauthenticated
+          $ref: '#/components/responses/401'
         '403':
-          description: Permission denied or protected identity
+          $ref: '#/components/responses/403'
         '404':
-          description: Resource not found
+          $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
       requestBody:
         required: true
         content:
@@ -23128,17 +23191,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/account'
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
-          description: Unauthenticated
+          $ref: '#/components/responses/401'
         '403':
-          description: Permission denied or protected identity
+          $ref: '#/components/responses/403'
         '404':
-          description: Resource not found
+          $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
       requestBody:
         required: true
         content:
@@ -23179,17 +23242,17 @@ paths:
         '204':
           description: Successful response
         '400':
-          description: Invalid request
+          $ref: '#/components/responses/400'
         '401':
-          description: Unauthenticated
+          $ref: '#/components/responses/401'
         '403':
-          description: Permission denied or protected identity
+          $ref: '#/components/responses/403'
         '404':
-          description: Resource not found
+          $ref: '#/components/responses/404'
         '409':
-          description: Resource conflict or policy in use
+          $ref: '#/components/responses/409'
         '503':
-          description: IAM unavailable; mutation outcome may be unknown
+          $ref: '#/components/responses/503'
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       description: list accounts in cluster
@@ -30046,8 +30109,9 @@ components:
         - Delete
     instanceTemplateCreate:
       type: object
+      additionalProperties: false
       description: |
-        Create assignment for one instance template. name and replicas are required. storageClassName, availabilityZone, env, annotations, and labels are optional overlays gated by instanceTemplate.attributes; omitted values inherit the component. Node group is cluster-level. Create overlays the request onto chart-rendered instances and keeps chart identity fields. classCode is not supported on templates.
+        Create assignment for one instance template. name and replicas are required. env, annotations, and labels are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once.
       required:
         - name
         - replicas
@@ -30055,17 +30119,11 @@ components:
         name:
           type: string
           minLength: 1
-          description: Instance template name declared on the engine option.
+          description: Instance template name; must match a chart-rendered instance.
         replicas:
           type: integer
-          minimum: 1
+          minimum: 0
           description: Replica count for this instance template.
-        storageClassName:
-          type: string
-          description: StorageClassName for this template. Omit to inherit the component storageClass.
-        availabilityZone:
-          type: string
-          description: Availability zone for this template. Highest priority. Omit to inherit the component availabilityZone, or cluster scheduling if the component did not set one.
         env:
           type: array
           description: Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
@@ -30174,16 +30232,13 @@ components:
           title: Replicas
           type: integer
           x-nullable: true
-          description: Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas. When instanceTemplates is set, this must equal the sum of those replica counts.
+          description: Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas. If the rendered component has instance templates, this must equal the sum of all template replica counts in the complete instanceTemplates list.
         instanceTemplates:
           type: array
           minItems: 1
-          description: Per-template replicas and optional overlays (storageClassName, availabilityZone, env, annotations, labels). Node group is cluster-level and inherited. Required when the engine option declares instanceTemplate. Request names must match both instanceTemplate.names and the chart instances. Component replicas must equal the sum of these replica counts.
+          description: Per-template replicas and optional overlays (env, annotations, labels). Required when the chart renders instance templates. Names must exactly match all chart-rendered instances, without missing, extra, or duplicate names; order does not matter. Component replicas must equal the sum of all requested instance template replica counts.
           items:
             $ref: '#/components/schemas/instanceTemplateCreate'
-        availabilityZone:
-          type: string
-          description: Default availability zone for this component. Instance templates inherit it unless they set their own availabilityZone (template wins).
         skipResourceConstraints:
           type: boolean
           description: Whether to skip resource constraint validation when creating cluster
@@ -31564,10 +31619,10 @@ components:
         name:
           type: string
           minLength: 1
-          description: Instance template name declared on the engine option.
+          description: Instance template name on the live Cluster spec.
         replicas:
           type: integer
-          minimum: 1
+          minimum: 0
           description: Target replica count for this instance template.
     opsHScale:
       description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. Specify replicas or shards. instanceTemplates is an optional overlay and requires top-level replicas.
@@ -31589,7 +31644,7 @@ components:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Target replica count for named instance templates. Requires top-level replicas (component-level). If set, KB ops include scaleIn/scaleOut.instances for those names. Names must be unique and declared.
+          description: Target replica count for named instance templates. Requires top-level replicas. Mapped onto the live Cluster spec to build scaleIn/scaleOut.instances. Required for replica scaling when the live component has instance templates. Names must exactly match all live instance templates, without missing, extra, or duplicate names; order does not matter. Top-level replicas must equal the sum of all requested template replica counts. Shard-count scaling does not check templates and cannot include this list.
           items:
             $ref: '#/components/schemas/instanceTemplateReplicas'
         onlineInstancesToOffline:
@@ -35944,6 +35999,11 @@ components:
       required:
         - serviceName
         - serviceNamespace
+    jsonBody:
+      description: Represents a JSON body.
+      properties: {}
+      additionalProperties: true
+      type: object
     logBackendType:
       type: string
       description: Log query backend configured for this environment.
@@ -36978,11 +37038,6 @@ components:
       required:
         - items
         - updatedAt
-      type: object
-    jsonBody:
-      description: Represents a JSON body.
-      properties: {}
-      additionalProperties: true
       type: object
     instanceResourceStatsType:
       description: Type of the instance, choose cluster, system, or other
@@ -39322,8 +39377,6 @@ components:
       type: string
       description: Heterogeneous attribute the frontend may render on an instance template at create.
       enum:
-        - storageClassName
-        - availabilityZone
         - env
         - annotations
         - labels
@@ -39343,7 +39396,7 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         required:
           type: boolean
-          description: If true, create requests must set this env on every template.
+          description: If true, the frontend should treat this env as required. Create does not re-check.
         default:
           type: string
           description: Default value shown by the frontend.
@@ -39371,16 +39424,19 @@ components:
         instanceTemplate:
           type: object
           description: |
-            Declares instance-template support for this mode component.
-            Create requires instanceTemplates for every declared name; component
-            replicas must equal the sum of those replica counts.
-            HScale: instanceTemplates requires top-level replicas. Named templates
-            attach as scaleIn/scaleOut.instances.
-            ops catalogs hscale and vscale (vscale is reserved; class stays
-            component-level). volumeexpansion is not supported. upgrade and restart
-            stay component-level. attributes catalogs create-time overlays.
+            Frontend catalog of instance templates for this mode component.
+            names, ops, attributes, and env are for UI rendering. Create
+            validates the request against chart-rendered Cluster instances,
+            not this catalog. HScale does not re-check this catalog; it
+            builds the OpsRequest from the request and the live Cluster.
+            HScale instanceTemplates still requires top-level replicas.
+            ops lists hscale and vscale for the UI (vscale is reserved;
+            class stays component-level). Only HScale processes instance templates.
+            VolumeExpansion, VScale, Upgrade, Restart, and other operations silently
+            ignore instance templates and keep their component-level behavior.
+            Template-level volumeexpansion is not implemented.
             The platform does not even-split or fill in missing templates.
-            When absent, the component uses component-level operations.
+            When absent, the frontend should use component-level operations.
           required:
             - names
             - ops
@@ -39392,17 +39448,20 @@ components:
               items:
                 type: string
               description: |
-                Allowed instance template names for create and ops payloads.
-                Request names must be in this list. Create overlays the request
-                onto chart-rendered instances; names must also match the chart.
+                Instance template names the frontend should render.
+                Create and hscale check names against the chart or live Cluster,
+                not this list.
             ops:
               type: array
               minItems: 1
               items:
                 $ref: '#/components/schemas/instanceTemplateOp'
               description: |
-                Operations supported via instance templates: hscale, vscale.
-                volumeexpansion is not supported. Upgrade and restart stay component-level.
+                Operations the frontend should offer per template: hscale, vscale.
+                Not re-checked when creating a cluster or building an hscale OpsRequest.
+                Only hscale currently acts per template; vscale is reserved.
+                VolumeExpansion, VScale, Upgrade, and Restart ignore instance templates
+                and keep their component-level behavior.
             attributes:
               type: array
               uniqueItems: true
@@ -39411,13 +39470,13 @@ components:
               description: |
                 Heterogeneous attributes the frontend should render on each
                 instance template at create. Omitted or empty means only name
-                and replicas. Request attributes not listed here are rejected.
+                and replicas. Create overlays the request onto the chart and
+                does not re-check this list.
             env:
               type: array
               description: |
                 Env vars the frontend may render when attributes includes env.
-                Each item is one fillable env name. Request env names must be in
-                this list.
+                Create does not re-check this list.
               items:
                 $ref: '#/components/schemas/instanceTemplateEnv'
         serviceRef:
@@ -41650,7 +41709,13 @@ components:
         modifierEmail:
           type: string
         option:
-          $ref: '#/components/schemas/engineOption'
+          description: |
+            Engine option document stored when this history row was written.
+            This is a point-in-time snapshot, not the current engineOption
+            create/update contract. Nested fields such as endpoints.protocol
+            may be absent on older rows.
+          type: object
+          additionalProperties: true
         createdAt:
           type: string
           format: date-time
@@ -50517,6 +50582,12 @@ components:
           schema:
             $ref: '#/components/schemas/APIErrorResponse'
       description: Conflict
+    '413':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIErrorResponse'
+      description: Payload Too Large
     '429':
       content:
         application/json:

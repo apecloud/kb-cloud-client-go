@@ -17,13 +17,39 @@ import (
 // ParameterTemplateApi service type
 type ParameterTemplateApi common.Service
 
+// CreateParameterTemplateOptionalParameters holds optional parameters for CreateParameterTemplate.
+type CreateParameterTemplateOptionalParameters struct {
+	OriOrgName *string
+}
+
+// NewCreateParameterTemplateOptionalParameters creates an empty struct for parameters.
+func NewCreateParameterTemplateOptionalParameters() *CreateParameterTemplateOptionalParameters {
+	this := CreateParameterTemplateOptionalParameters{}
+	return &this
+}
+
+// WithOriOrgName sets the corresponding parameter name and returns the struct.
+func (r *CreateParameterTemplateOptionalParameters) WithOriOrgName(oriOrgName string) *CreateParameterTemplateOptionalParameters {
+	r.OriOrgName = &oriOrgName
+	return r
+}
+
 // CreateParameterTemplate Create parameter template.
-func (a *ParameterTemplateApi) CreateParameterTemplate(ctx _context.Context, orgName string, body ParamTplCreate) (ParamTplListItem, *_nethttp.Response, error) {
+// Create a parameter template in the target organization from an existing template. To copy a custom template from another organization, specify oriOrgName and provide a new name. Cross-organization creation only supports non-private custom source templates. The created template is always non-private; any isPrivate value in the request body is ignored.
+func (a *ParameterTemplateApi) CreateParameterTemplate(ctx _context.Context, orgName string, body ParamTplCreate, o ...CreateParameterTemplateOptionalParameters) (ParamTplListItem, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue ParamTplListItem
+		optionalParams      CreateParameterTemplateOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateParameterTemplateOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -45,6 +71,9 @@ func (a *ParameterTemplateApi) CreateParameterTemplate(ctx _context.Context, org
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("orgName", common.ParameterToString(orgName, ""))
+	if optionalParams.OriOrgName != nil {
+		localVarQueryParams.Add("oriOrgName", common.ParameterToString(*optionalParams.OriOrgName, ""))
+	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -75,7 +104,7 @@ func (a *ParameterTemplateApi) CreateParameterTemplate(ctx _context.Context, org
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 409 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

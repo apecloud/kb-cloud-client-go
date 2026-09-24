@@ -18,7 +18,7 @@ type OpsHScale struct {
 	BackupName common.NullableString `json:"backupName,omitempty"`
 	// number of replicas
 	Replicas common.NullableInt32 `json:"replicas,omitempty"`
-	// Target replica count for named instance templates. Requires top-level replicas (component-level). If set, KB ops include scaleIn/scaleOut.instances for those names. Names must be unique and declared.
+	// Target replica count for named instance templates. Requires top-level replicas. Mapped onto the live Cluster spec to build scaleIn/scaleOut.instances. Required for replica scaling when the live component has instance templates. Names must exactly match all live instance templates, without missing, extra, or duplicate names; order does not matter. Top-level replicas must equal the sum of all requested template replica counts. Shard-count scaling does not check templates and cannot include this list.
 	InstanceTemplates []InstanceTemplateReplicas `json:"instanceTemplates,omitempty"`
 	// List of online instance names to be switched to offline during scaling in.
 	OnlineInstancesToOffline common.NullableList[string] `json:"onlineInstancesToOffline,omitempty"`

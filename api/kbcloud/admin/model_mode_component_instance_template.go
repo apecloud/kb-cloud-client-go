@@ -10,34 +10,40 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ModeComponentInstanceTemplate Declares instance-template support for this mode component.
-// Create requires instanceTemplates for every declared name; component
-// replicas must equal the sum of those replica counts.
-// HScale: instanceTemplates requires top-level replicas. Named templates
-// attach as scaleIn/scaleOut.instances.
-// ops catalogs hscale and vscale (vscale is reserved; class stays
-// component-level). volumeexpansion is not supported. upgrade and restart
-// stay component-level. attributes catalogs create-time overlays.
+// ModeComponentInstanceTemplate Frontend catalog of instance templates for this mode component.
+// names, ops, attributes, and env are for UI rendering. Create
+// validates the request against chart-rendered Cluster instances,
+// not this catalog. HScale does not re-check this catalog; it
+// builds the OpsRequest from the request and the live Cluster.
+// HScale instanceTemplates still requires top-level replicas.
+// ops lists hscale and vscale for the UI (vscale is reserved;
+// class stays component-level). Only HScale processes instance templates.
+// VolumeExpansion, VScale, Upgrade, Restart, and other operations silently
+// ignore instance templates and keep their component-level behavior.
+// Template-level volumeexpansion is not implemented.
 // The platform does not even-split or fill in missing templates.
-// When absent, the component uses component-level operations.
+// When absent, the frontend should use component-level operations.
 type ModeComponentInstanceTemplate struct {
-	// Allowed instance template names for create and ops payloads.
-	// Request names must be in this list. Create overlays the request
-	// onto chart-rendered instances; names must also match the chart.
+	// Instance template names the frontend should render.
+	// Create and hscale check names against the chart or live Cluster,
+	// not this list.
 	//
 	Names []string `json:"names"`
-	// Operations supported via instance templates: hscale, vscale.
-	// volumeexpansion is not supported. Upgrade and restart stay component-level.
+	// Operations the frontend should offer per template: hscale, vscale.
+	// Not re-checked when creating a cluster or building an hscale OpsRequest.
+	// Only hscale currently acts per template; vscale is reserved.
+	// VolumeExpansion, VScale, Upgrade, and Restart ignore instance templates
+	// and keep their component-level behavior.
 	//
 	Ops []InstanceTemplateOp `json:"ops"`
 	// Heterogeneous attributes the frontend should render on each
 	// instance template at create. Omitted or empty means only name
-	// and replicas. Request attributes not listed here are rejected.
+	// and replicas. Create overlays the request onto the chart and
+	// does not re-check this list.
 	//
 	Attributes []InstanceTemplateAttribute `json:"attributes,omitempty"`
 	// Env vars the frontend may render when attributes includes env.
-	// Each item is one fillable env name. Request env names must be in
-	// this list.
+	// Create does not re-check this list.
 	//
 	Env []InstanceTemplateEnv `json:"env,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct

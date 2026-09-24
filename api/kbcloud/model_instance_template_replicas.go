@@ -12,7 +12,7 @@ import (
 
 // InstanceTemplateReplicas HScale assignment for one instance template. name and replicas only.
 type InstanceTemplateReplicas struct {
-	// Instance template name declared on the engine option.
+	// Instance template name on the live Cluster spec.
 	Name string `json:"name"`
 	// Target replica count for this instance template.
 	Replicas int32 `json:"replicas"`

@@ -16,7 +16,7 @@ type InstanceTemplateEnv struct {
 	Name        string                `json:"name"`
 	Label       *LocalizedDescription `json:"label,omitempty"`
 	Description *LocalizedDescription `json:"description,omitempty"`
-	// If true, create requests must set this env on every template.
+	// If true, the frontend should treat this env as required. Create does not re-check.
 	Required *bool `json:"required,omitempty"`
 	// Default value shown by the frontend.
 	Default *string `json:"default,omitempty"`
