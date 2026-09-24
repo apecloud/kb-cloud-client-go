@@ -16,8 +16,10 @@ type VipPool struct {
 	Addresses string `json:"addresses"`
 	// ID of VIP Pool
 	Id *string `json:"id,omitempty"`
-	// Name of VIP Pool. It is also the MetalLB IPAddressPool resource name.
+	// Name of VIP Pool. It is the MetalLB IPAddressPool resource name, generated as kb-<id>.
 	Name *string `json:"name,omitempty"`
+	// User facing name of the VIP Pool, used to select the pool when creating a cluster. It falls back to the IPAddressPool resource name.
+	PoolName *string `json:"poolName,omitempty"`
 	// Total number of IP addresses
 	Total int64 `json:"total"`
 	// Used number of IP addresses
@@ -128,6 +130,34 @@ func (o *VipPool) HasName() bool {
 // SetName gets a reference to the given string and assigns it to the Name field.
 func (o *VipPool) SetName(v string) {
 	o.Name = &v
+}
+
+// GetPoolName returns the PoolName field value if set, zero value otherwise.
+func (o *VipPool) GetPoolName() string {
+	if o == nil || o.PoolName == nil {
+		var ret string
+		return ret
+	}
+	return *o.PoolName
+}
+
+// GetPoolNameOk returns a tuple with the PoolName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *VipPool) GetPoolNameOk() (*string, bool) {
+	if o == nil || o.PoolName == nil {
+		return nil, false
+	}
+	return o.PoolName, true
+}
+
+// HasPoolName returns a boolean if a field has been set.
+func (o *VipPool) HasPoolName() bool {
+	return o != nil && o.PoolName != nil
+}
+
+// SetPoolName gets a reference to the given string and assigns it to the PoolName field.
+func (o *VipPool) SetPoolName(v string) {
+	o.PoolName = &v
 }
 
 // GetTotal returns the Total field value.
@@ -245,6 +275,9 @@ func (o VipPool) MarshalJSON() ([]byte, error) {
 	if o.Name != nil {
 		toSerialize["name"] = o.Name
 	}
+	if o.PoolName != nil {
+		toSerialize["poolName"] = o.PoolName
+	}
 	toSerialize["total"] = o.Total
 	toSerialize["used"] = o.Used
 	if o.UsedIPs != nil {
@@ -266,6 +299,7 @@ func (o *VipPool) UnmarshalJSON(bytes []byte) (err error) {
 		Addresses    *string  `json:"addresses"`
 		Id           *string  `json:"id,omitempty"`
 		Name         *string  `json:"name,omitempty"`
+		PoolName     *string  `json:"poolName,omitempty"`
 		Total        *int64   `json:"total"`
 		Used         *int64   `json:"used"`
 		UsedIPs      []string `json:"usedIPs,omitempty"`
@@ -285,13 +319,14 @@ func (o *VipPool) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"addresses", "id", "name", "total", "used", "usedIPs", "availableIPs"})
+		common.DeleteKeys(additionalProperties, &[]string{"addresses", "id", "name", "poolName", "total", "used", "usedIPs", "availableIPs"})
 	} else {
 		return err
 	}
 	o.Addresses = *all.Addresses
 	o.Id = all.Id
 	o.Name = all.Name
+	o.PoolName = all.PoolName
 	o.Total = *all.Total
 	o.Used = *all.Used
 	o.UsedIPs = all.UsedIPs

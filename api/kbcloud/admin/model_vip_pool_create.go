@@ -14,8 +14,8 @@ import (
 type VipPoolCreate struct {
 	// IP Addresses
 	Addresses string `json:"addresses"`
-	// Name of the VIP Pool. Optional, a default name kb-<id> is generated when it is omitted. It is also used as the MetalLB IPAddressPool resource name, so it must be a valid Kubernetes resource name.
-	Name *string `json:"name,omitempty"`
+	// Name of the VIP Pool. It is what a cluster selects the pool by, so it is not restricted by Kubernetes resource naming rules. The MetalLB IPAddressPool resource name stays the generated kb-<id>.
+	PoolName string `json:"poolName"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -25,9 +25,10 @@ type VipPoolCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewVipPoolCreate(addresses string) *VipPoolCreate {
+func NewVipPoolCreate(addresses string, poolName string) *VipPoolCreate {
 	this := VipPoolCreate{}
 	this.Addresses = addresses
+	this.PoolName = poolName
 	return &this
 }
 
@@ -62,32 +63,27 @@ func (o *VipPoolCreate) SetAddresses(v string) {
 	o.Addresses = v
 }
 
-// GetName returns the Name field value if set, zero value otherwise.
-func (o *VipPoolCreate) GetName() string {
-	if o == nil || o.Name == nil {
+// GetPoolName returns the PoolName field value.
+func (o *VipPoolCreate) GetPoolName() string {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Name
+	return o.PoolName
 }
 
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// GetPoolNameOk returns a tuple with the PoolName field value
 // and a boolean to check if the value has been set.
-func (o *VipPoolCreate) GetNameOk() (*string, bool) {
-	if o == nil || o.Name == nil {
+func (o *VipPoolCreate) GetPoolNameOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Name, true
+	return &o.PoolName, true
 }
 
-// HasName returns a boolean if a field has been set.
-func (o *VipPoolCreate) HasName() bool {
-	return o != nil && o.Name != nil
-}
-
-// SetName gets a reference to the given string and assigns it to the Name field.
-func (o *VipPoolCreate) SetName(v string) {
-	o.Name = &v
+// SetPoolName sets field value.
+func (o *VipPoolCreate) SetPoolName(v string) {
+	o.PoolName = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -97,9 +93,7 @@ func (o VipPoolCreate) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["addresses"] = o.Addresses
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
-	}
+	toSerialize["poolName"] = o.PoolName
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -111,7 +105,7 @@ func (o VipPoolCreate) MarshalJSON() ([]byte, error) {
 func (o *VipPoolCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Addresses *string `json:"addresses"`
-		Name      *string `json:"name,omitempty"`
+		PoolName  *string `json:"poolName"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -119,14 +113,17 @@ func (o *VipPoolCreate) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Addresses == nil {
 		return fmt.Errorf("required field addresses missing")
 	}
+	if all.PoolName == nil {
+		return fmt.Errorf("required field poolName missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"addresses", "name"})
+		common.DeleteKeys(additionalProperties, &[]string{"addresses", "poolName"})
 	} else {
 		return err
 	}
 	o.Addresses = *all.Addresses
-	o.Name = all.Name
+	o.PoolName = *all.PoolName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

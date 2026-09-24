@@ -54,7 +54,7 @@ type ClusterCreate struct {
 	// if cluster is static cluster
 	Static      *bool        `json:"static,omitempty"`
 	NetworkMode *NetworkMode `json:"networkMode,omitempty"`
-	// Name of the VIP Pool used as the MetalLB address pool for LoadBalancer services. Only effective when networkMode is LoadBalancer.
+	// Name of the VIP Pool (VIP Pool poolName) used as the MetalLB address pool for LoadBalancer services. Only effective when networkMode is LoadBalancer.
 	VipPoolName *string      `json:"vipPoolName,omitempty"`
 	ServiceRefs []ServiceRef `json:"serviceRefs,omitempty"`
 	// Specify the object storage config for cluster like starrocks
