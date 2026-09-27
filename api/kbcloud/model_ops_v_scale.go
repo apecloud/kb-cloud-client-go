@@ -18,7 +18,7 @@ type OpsVScale struct {
 	Cpu *string `json:"cpu,omitempty"`
 	// memory size
 	Memory *string `json:"memory,omitempty"`
-	// class code of the cluster
+	// Class code for component-level vertical scaling.
 	ClassCode *string       `json:"classCode,omitempty"`
 	Schedule  *TaskSchedule `json:"schedule,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct

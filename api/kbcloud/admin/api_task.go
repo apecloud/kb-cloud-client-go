@@ -656,14 +656,39 @@ func (a *TaskApi) ListTasks(ctx _context.Context, start int64, end int64, o ...L
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// RetryTaskOptionalParameters holds optional parameters for RetryTask.
+type RetryTaskOptionalParameters struct {
+	Mode *TaskRetryMode
+}
+
+// NewRetryTaskOptionalParameters creates an empty struct for parameters.
+func NewRetryTaskOptionalParameters() *RetryTaskOptionalParameters {
+	this := RetryTaskOptionalParameters{}
+	return &this
+}
+
+// WithMode sets the corresponding parameter name and returns the struct.
+func (r *RetryTaskOptionalParameters) WithMode(mode TaskRetryMode) *RetryTaskOptionalParameters {
+	r.Mode = &mode
+	return r
+}
+
 // RetryTask Retry a task.
-// retry task
-func (a *TaskApi) RetryTask(ctx _context.Context, taskId string) (Task, *_nethttp.Response, error) {
+// Restart a failed or stopped task. Resume requires the task type to declare resume in allowActions. The default mode is restart, which reruns all steps; resume preserves successful steps.
+func (a *TaskApi) RetryTask(ctx _context.Context, taskId string, o ...RetryTaskOptionalParameters) (Task, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
 		localVarReturnValue Task
+		optionalParams      RetryTaskOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type RetryTaskOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -685,6 +710,9 @@ func (a *TaskApi) RetryTask(ctx _context.Context, taskId string) (Task, *_nethtt
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Mode != nil {
+		localVarQueryParams.Add("mode", common.ParameterToString(*optionalParams.Mode, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -712,7 +740,7 @@ func (a *TaskApi) RetryTask(ctx _context.Context, taskId string) (Task, *_nethtt
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 405 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
