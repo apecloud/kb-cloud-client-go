@@ -30161,7 +30161,7 @@ components:
       type: object
       additionalProperties: false
       description: |
-        Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, and storageClass are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once.
+        Create assignment for one instance template. name and replicas are required. env, annotations, labels, and availabilityZone are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once.
       required:
         - name
         - replicas
@@ -30177,9 +30177,6 @@ components:
         availabilityZone:
           type: string
           description: Availability zone for this template (topology.kubernetes.io/zone). When non-empty, overrides the inherited zone selection while preserving other scheduling constraints. Chart instance scheduling policies are cleared; omitted or empty leaves the instance policy unset to inherit the component policy.
-        storageClass:
-          type: string
-          description: StorageClass name for all persistent volumes in this template. Copied from component volumeClaimTemplates, preserving volume sizes and other settings while overriding storageClassName. Chart instance volume templates are cleared; omitted or empty leaves instance volumeClaimTemplates unset.
         env:
           type: array
           description: Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
@@ -39464,7 +39461,6 @@ components:
         - annotations
         - labels
         - availabilityZone
-        - storageClass
     instanceTemplateEnv:
       type: object
       description: One fillable env var on an instance template, for frontend rendering.
