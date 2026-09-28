@@ -26476,6 +26476,9 @@ components:
     instance:
       description: Instance is the information of KubeBlocks cluster instances
       properties:
+        instanceTemplate:
+          type: string
+          description: Instance template name from the Pod label, empty for default instances.
         accessMode:
           description: Access mode for instance
           type: string
@@ -27705,9 +27708,40 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/engineServiceVersionsItem'
+    instanceTemplateVolumeExpand:
+      type: object
+      required:
+        - name
+        - volumes
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Existing instance template name.
+        volumes:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required:
+              - name
+              - storage
+            properties:
+              name:
+                type: string
+                minLength: 1
+              storage:
+                type: string
+                description: Desired size with Gi suffix, for example 30Gi.
     opsVolumeExpand:
       description: OpsVolumeExpand is the payload to expand volume for a KubeBlocks cluster
       properties:
+        instanceTemplates:
+          type: array
+          minItems: 1
+          description: Expand selected instance templates (KubeBlocks >= 1.0.3-beta.16). Names identify templates, not Pods. Only selected templates get explicit overrides; inherited volumes still follow any component-level targets. Template volumes override component targets for the same volume. At least one of volumes or instanceTemplates is required.
+          items:
+            $ref: '#/components/schemas/instanceTemplateVolumeExpand'
         component:
           type: string
           minLength: 1
@@ -27727,7 +27761,6 @@ components:
               - name
               - storage
       required:
-        - volumes
         - component
       type: object
     opsVScale:
@@ -32943,6 +32976,7 @@ components:
       enum:
         - hscale
         - vscale
+        - storageExpansion
     instanceTemplateAttribute:
       type: string
       description: Heterogeneous attribute the frontend may render on an instance template at create.
@@ -33000,11 +33034,9 @@ components:
             not this catalog. HScale does not re-check this catalog; it
             builds the OpsRequest from the request and the live Cluster.
             HScale instanceTemplates still requires top-level replicas.
-            ops lists hscale and vscale for the UI (vscale is reserved;
-            class stays component-level). Only HScale processes instance templates.
-            VolumeExpansion, VScale, Upgrade, Restart, and other operations silently
-            ignore instance templates and keep their component-level behavior.
-            Template-level volumeexpansion is not implemented.
+            ops lists hscale, storageExpansion, and reserved vscale for the UI.
+            VolumeExpansion supports selected instance templates on KubeBlocks >= 1.0.3-beta.16.
+            VScale, Upgrade, Restart, and other operations keep component-level behavior.
             The platform does not even-split or fill in missing templates.
             When absent, the frontend should use component-level operations.
           required:

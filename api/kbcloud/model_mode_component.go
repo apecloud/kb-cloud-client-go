@@ -20,11 +20,9 @@ type ModeComponent struct {
 	// not this catalog. HScale does not re-check this catalog; it
 	// builds the OpsRequest from the request and the live Cluster.
 	// HScale instanceTemplates still requires top-level replicas.
-	// ops lists hscale and vscale for the UI (vscale is reserved;
-	// class stays component-level). Only HScale processes instance templates.
-	// VolumeExpansion, VScale, Upgrade, Restart, and other operations silently
-	// ignore instance templates and keep their component-level behavior.
-	// Template-level volumeexpansion is not implemented.
+	// ops lists hscale, storageExpansion, and reserved vscale for the UI.
+	// VolumeExpansion supports selected instance templates on KubeBlocks >= 1.0.3-beta.16.
+	// VScale, Upgrade, Restart, and other operations keep component-level behavior.
 	// The platform does not even-split or fill in missing templates.
 	// When absent, the frontend should use component-level operations.
 	//

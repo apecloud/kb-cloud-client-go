@@ -12,8 +12,10 @@ import (
 
 // OpsVolumeExpand OpsVolumeExpand is the payload to expand volume for a KubeBlocks cluster
 type OpsVolumeExpand struct {
-	Component string                       `json:"component"`
-	Volumes   []OpsVolumeExpandVolumesItem `json:"volumes"`
+	// Expand selected instance templates (KubeBlocks >= 1.0.3-beta.16). Names identify templates, not Pods. Only selected templates get explicit overrides; inherited volumes still follow any component-level targets. Template volumes override component targets for the same volume. At least one of volumes or instanceTemplates is required.
+	InstanceTemplates []InstanceTemplateVolumeExpand `json:"instanceTemplates,omitempty"`
+	Component         string                         `json:"component"`
+	Volumes           []OpsVolumeExpandVolumesItem   `json:"volumes,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -23,10 +25,9 @@ type OpsVolumeExpand struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOpsVolumeExpand(component string, volumes []OpsVolumeExpandVolumesItem) *OpsVolumeExpand {
+func NewOpsVolumeExpand(component string) *OpsVolumeExpand {
 	this := OpsVolumeExpand{}
 	this.Component = component
-	this.Volumes = volumes
 	return &this
 }
 
@@ -36,6 +37,34 @@ func NewOpsVolumeExpand(component string, volumes []OpsVolumeExpandVolumesItem) 
 func NewOpsVolumeExpandWithDefaults() *OpsVolumeExpand {
 	this := OpsVolumeExpand{}
 	return &this
+}
+
+// GetInstanceTemplates returns the InstanceTemplates field value if set, zero value otherwise.
+func (o *OpsVolumeExpand) GetInstanceTemplates() []InstanceTemplateVolumeExpand {
+	if o == nil || o.InstanceTemplates == nil {
+		var ret []InstanceTemplateVolumeExpand
+		return ret
+	}
+	return o.InstanceTemplates
+}
+
+// GetInstanceTemplatesOk returns a tuple with the InstanceTemplates field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OpsVolumeExpand) GetInstanceTemplatesOk() (*[]InstanceTemplateVolumeExpand, bool) {
+	if o == nil || o.InstanceTemplates == nil {
+		return nil, false
+	}
+	return &o.InstanceTemplates, true
+}
+
+// HasInstanceTemplates returns a boolean if a field has been set.
+func (o *OpsVolumeExpand) HasInstanceTemplates() bool {
+	return o != nil && o.InstanceTemplates != nil
+}
+
+// SetInstanceTemplates gets a reference to the given []InstanceTemplateVolumeExpand and assigns it to the InstanceTemplates field.
+func (o *OpsVolumeExpand) SetInstanceTemplates(v []InstanceTemplateVolumeExpand) {
+	o.InstanceTemplates = v
 }
 
 // GetComponent returns the Component field value.
@@ -61,25 +90,30 @@ func (o *OpsVolumeExpand) SetComponent(v string) {
 	o.Component = v
 }
 
-// GetVolumes returns the Volumes field value.
+// GetVolumes returns the Volumes field value if set, zero value otherwise.
 func (o *OpsVolumeExpand) GetVolumes() []OpsVolumeExpandVolumesItem {
-	if o == nil {
+	if o == nil || o.Volumes == nil {
 		var ret []OpsVolumeExpandVolumesItem
 		return ret
 	}
 	return o.Volumes
 }
 
-// GetVolumesOk returns a tuple with the Volumes field value
+// GetVolumesOk returns a tuple with the Volumes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *OpsVolumeExpand) GetVolumesOk() (*[]OpsVolumeExpandVolumesItem, bool) {
-	if o == nil {
+	if o == nil || o.Volumes == nil {
 		return nil, false
 	}
 	return &o.Volumes, true
 }
 
-// SetVolumes sets field value.
+// HasVolumes returns a boolean if a field has been set.
+func (o *OpsVolumeExpand) HasVolumes() bool {
+	return o != nil && o.Volumes != nil
+}
+
+// SetVolumes gets a reference to the given []OpsVolumeExpandVolumesItem and assigns it to the Volumes field.
 func (o *OpsVolumeExpand) SetVolumes(v []OpsVolumeExpandVolumesItem) {
 	o.Volumes = v
 }
@@ -90,8 +124,13 @@ func (o OpsVolumeExpand) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.InstanceTemplates != nil {
+		toSerialize["instanceTemplates"] = o.InstanceTemplates
+	}
 	toSerialize["component"] = o.Component
-	toSerialize["volumes"] = o.Volumes
+	if o.Volumes != nil {
+		toSerialize["volumes"] = o.Volumes
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -102,8 +141,9 @@ func (o OpsVolumeExpand) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsVolumeExpand) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component *string                       `json:"component"`
-		Volumes   *[]OpsVolumeExpandVolumesItem `json:"volumes"`
+		InstanceTemplates []InstanceTemplateVolumeExpand `json:"instanceTemplates,omitempty"`
+		Component         *string                        `json:"component"`
+		Volumes           []OpsVolumeExpandVolumesItem   `json:"volumes,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -111,17 +151,15 @@ func (o *OpsVolumeExpand) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Component == nil {
 		return fmt.Errorf("required field component missing")
 	}
-	if all.Volumes == nil {
-		return fmt.Errorf("required field volumes missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "volumes"})
+		common.DeleteKeys(additionalProperties, &[]string{"instanceTemplates", "component", "volumes"})
 	} else {
 		return err
 	}
+	o.InstanceTemplates = all.InstanceTemplates
 	o.Component = *all.Component
-	o.Volumes = *all.Volumes
+	o.Volumes = all.Volumes
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
