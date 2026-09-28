@@ -13,6 +13,28 @@ import (
 
 // StorageClassInfo StorageClassInfo provides detailed information about a specific storage class.
 type StorageClassInfo struct {
+	// Configured apelocal RawDisk identifier, not a node device path.
+	DiskId *string `json:"diskID,omitempty"`
+	// Configured apelocal RawDiskGroup identifier.
+	DiskGroupId *string `json:"diskGroupID,omitempty"`
+	// Device name selection patterns, not the devices actually selected on nodes.
+	DiskDeviceNamePatterns []string `json:"diskDeviceNamePatterns,omitempty"`
+	// Minimum candidate disk capacity as a Kubernetes quantity.
+	DiskMinimumCapacity *string `json:"diskMinimumCapacity,omitempty"`
+	// Filesystem configured for disk initialization in the resolved HostPathDefinition.
+	FileSystemType *string `json:"fileSystemType,omitempty"`
+	// Project quota mount configuration in the resolved HostPathDefinition, not runtime verification. Omitted when unknown or inapplicable.
+	EnableProjectQuota *bool `json:"enableProjectQuota,omitempty"`
+	// Resolved apelocal HostPathDefinition name.
+	DefinitionName *string `json:"definitionName,omitempty"`
+	// apelocal storage backend (HostDir, RawDisk or RawDiskGroup).
+	BackendType *string `json:"backendType,omitempty"`
+	// CSI capacity policy; unlimited does not represent physical capacity.
+	CapacityMode *StorageCapacityMode `json:"capacityMode,omitempty"`
+	// Capacity multiplier (1.2 means 120 percent).
+	CapacityMultiplier *float64 `json:"capacityMultiplier,omitempty"`
+	// Configured fixed capacity per node in GiB.
+	FixedCapacity *float64 `json:"fixedCapacity,omitempty"`
 	// the name of the storage class
 	Name string `json:"name"`
 	// the creation time of the storage class
@@ -94,6 +116,314 @@ func NewStorageClassInfo(name string, creationTimestamp string, provisioner stri
 func NewStorageClassInfoWithDefaults() *StorageClassInfo {
 	this := StorageClassInfo{}
 	return &this
+}
+
+// GetDiskId returns the DiskId field value if set, zero value otherwise.
+func (o *StorageClassInfo) GetDiskId() string {
+	if o == nil || o.DiskId == nil {
+		var ret string
+		return ret
+	}
+	return *o.DiskId
+}
+
+// GetDiskIdOk returns a tuple with the DiskId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageClassInfo) GetDiskIdOk() (*string, bool) {
+	if o == nil || o.DiskId == nil {
+		return nil, false
+	}
+	return o.DiskId, true
+}
+
+// HasDiskId returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasDiskId() bool {
+	return o != nil && o.DiskId != nil
+}
+
+// SetDiskId gets a reference to the given string and assigns it to the DiskId field.
+func (o *StorageClassInfo) SetDiskId(v string) {
+	o.DiskId = &v
+}
+
+// GetDiskGroupId returns the DiskGroupId field value if set, zero value otherwise.
+func (o *StorageClassInfo) GetDiskGroupId() string {
+	if o == nil || o.DiskGroupId == nil {
+		var ret string
+		return ret
+	}
+	return *o.DiskGroupId
+}
+
+// GetDiskGroupIdOk returns a tuple with the DiskGroupId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageClassInfo) GetDiskGroupIdOk() (*string, bool) {
+	if o == nil || o.DiskGroupId == nil {
+		return nil, false
+	}
+	return o.DiskGroupId, true
+}
+
+// HasDiskGroupId returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasDiskGroupId() bool {
+	return o != nil && o.DiskGroupId != nil
+}
+
+// SetDiskGroupId gets a reference to the given string and assigns it to the DiskGroupId field.
+func (o *StorageClassInfo) SetDiskGroupId(v string) {
+	o.DiskGroupId = &v
+}
+
+// GetDiskDeviceNamePatterns returns the DiskDeviceNamePatterns field value if set, zero value otherwise.
+func (o *StorageClassInfo) GetDiskDeviceNamePatterns() []string {
+	if o == nil || o.DiskDeviceNamePatterns == nil {
+		var ret []string
+		return ret
+	}
+	return o.DiskDeviceNamePatterns
+}
+
+// GetDiskDeviceNamePatternsOk returns a tuple with the DiskDeviceNamePatterns field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageClassInfo) GetDiskDeviceNamePatternsOk() (*[]string, bool) {
+	if o == nil || o.DiskDeviceNamePatterns == nil {
+		return nil, false
+	}
+	return &o.DiskDeviceNamePatterns, true
+}
+
+// HasDiskDeviceNamePatterns returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasDiskDeviceNamePatterns() bool {
+	return o != nil && o.DiskDeviceNamePatterns != nil
+}
+
+// SetDiskDeviceNamePatterns gets a reference to the given []string and assigns it to the DiskDeviceNamePatterns field.
+func (o *StorageClassInfo) SetDiskDeviceNamePatterns(v []string) {
+	o.DiskDeviceNamePatterns = v
+}
+
+// GetDiskMinimumCapacity returns the DiskMinimumCapacity field value if set, zero value otherwise.
+func (o *StorageClassInfo) GetDiskMinimumCapacity() string {
+	if o == nil || o.DiskMinimumCapacity == nil {
+		var ret string
+		return ret
+	}
+	return *o.DiskMinimumCapacity
+}
+
+// GetDiskMinimumCapacityOk returns a tuple with the DiskMinimumCapacity field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageClassInfo) GetDiskMinimumCapacityOk() (*string, bool) {
+	if o == nil || o.DiskMinimumCapacity == nil {
+		return nil, false
+	}
+	return o.DiskMinimumCapacity, true
+}
+
+// HasDiskMinimumCapacity returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasDiskMinimumCapacity() bool {
+	return o != nil && o.DiskMinimumCapacity != nil
+}
+
+// SetDiskMinimumCapacity gets a reference to the given string and assigns it to the DiskMinimumCapacity field.
+func (o *StorageClassInfo) SetDiskMinimumCapacity(v string) {
+	o.DiskMinimumCapacity = &v
+}
+
+// GetFileSystemType returns the FileSystemType field value if set, zero value otherwise.
+func (o *StorageClassInfo) GetFileSystemType() string {
+	if o == nil || o.FileSystemType == nil {
+		var ret string
+		return ret
+	}
+	return *o.FileSystemType
+}
+
+// GetFileSystemTypeOk returns a tuple with the FileSystemType field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageClassInfo) GetFileSystemTypeOk() (*string, bool) {
+	if o == nil || o.FileSystemType == nil {
+		return nil, false
+	}
+	return o.FileSystemType, true
+}
+
+// HasFileSystemType returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasFileSystemType() bool {
+	return o != nil && o.FileSystemType != nil
+}
+
+// SetFileSystemType gets a reference to the given string and assigns it to the FileSystemType field.
+func (o *StorageClassInfo) SetFileSystemType(v string) {
+	o.FileSystemType = &v
+}
+
+// GetEnableProjectQuota returns the EnableProjectQuota field value if set, zero value otherwise.
+func (o *StorageClassInfo) GetEnableProjectQuota() bool {
+	if o == nil || o.EnableProjectQuota == nil {
+		var ret bool
+		return ret
+	}
+	return *o.EnableProjectQuota
+}
+
+// GetEnableProjectQuotaOk returns a tuple with the EnableProjectQuota field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageClassInfo) GetEnableProjectQuotaOk() (*bool, bool) {
+	if o == nil || o.EnableProjectQuota == nil {
+		return nil, false
+	}
+	return o.EnableProjectQuota, true
+}
+
+// HasEnableProjectQuota returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasEnableProjectQuota() bool {
+	return o != nil && o.EnableProjectQuota != nil
+}
+
+// SetEnableProjectQuota gets a reference to the given bool and assigns it to the EnableProjectQuota field.
+func (o *StorageClassInfo) SetEnableProjectQuota(v bool) {
+	o.EnableProjectQuota = &v
+}
+
+// GetDefinitionName returns the DefinitionName field value if set, zero value otherwise.
+func (o *StorageClassInfo) GetDefinitionName() string {
+	if o == nil || o.DefinitionName == nil {
+		var ret string
+		return ret
+	}
+	return *o.DefinitionName
+}
+
+// GetDefinitionNameOk returns a tuple with the DefinitionName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageClassInfo) GetDefinitionNameOk() (*string, bool) {
+	if o == nil || o.DefinitionName == nil {
+		return nil, false
+	}
+	return o.DefinitionName, true
+}
+
+// HasDefinitionName returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasDefinitionName() bool {
+	return o != nil && o.DefinitionName != nil
+}
+
+// SetDefinitionName gets a reference to the given string and assigns it to the DefinitionName field.
+func (o *StorageClassInfo) SetDefinitionName(v string) {
+	o.DefinitionName = &v
+}
+
+// GetBackendType returns the BackendType field value if set, zero value otherwise.
+func (o *StorageClassInfo) GetBackendType() string {
+	if o == nil || o.BackendType == nil {
+		var ret string
+		return ret
+	}
+	return *o.BackendType
+}
+
+// GetBackendTypeOk returns a tuple with the BackendType field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageClassInfo) GetBackendTypeOk() (*string, bool) {
+	if o == nil || o.BackendType == nil {
+		return nil, false
+	}
+	return o.BackendType, true
+}
+
+// HasBackendType returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasBackendType() bool {
+	return o != nil && o.BackendType != nil
+}
+
+// SetBackendType gets a reference to the given string and assigns it to the BackendType field.
+func (o *StorageClassInfo) SetBackendType(v string) {
+	o.BackendType = &v
+}
+
+// GetCapacityMode returns the CapacityMode field value if set, zero value otherwise.
+func (o *StorageClassInfo) GetCapacityMode() StorageCapacityMode {
+	if o == nil || o.CapacityMode == nil {
+		var ret StorageCapacityMode
+		return ret
+	}
+	return *o.CapacityMode
+}
+
+// GetCapacityModeOk returns a tuple with the CapacityMode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageClassInfo) GetCapacityModeOk() (*StorageCapacityMode, bool) {
+	if o == nil || o.CapacityMode == nil {
+		return nil, false
+	}
+	return o.CapacityMode, true
+}
+
+// HasCapacityMode returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasCapacityMode() bool {
+	return o != nil && o.CapacityMode != nil
+}
+
+// SetCapacityMode gets a reference to the given StorageCapacityMode and assigns it to the CapacityMode field.
+func (o *StorageClassInfo) SetCapacityMode(v StorageCapacityMode) {
+	o.CapacityMode = &v
+}
+
+// GetCapacityMultiplier returns the CapacityMultiplier field value if set, zero value otherwise.
+func (o *StorageClassInfo) GetCapacityMultiplier() float64 {
+	if o == nil || o.CapacityMultiplier == nil {
+		var ret float64
+		return ret
+	}
+	return *o.CapacityMultiplier
+}
+
+// GetCapacityMultiplierOk returns a tuple with the CapacityMultiplier field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageClassInfo) GetCapacityMultiplierOk() (*float64, bool) {
+	if o == nil || o.CapacityMultiplier == nil {
+		return nil, false
+	}
+	return o.CapacityMultiplier, true
+}
+
+// HasCapacityMultiplier returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasCapacityMultiplier() bool {
+	return o != nil && o.CapacityMultiplier != nil
+}
+
+// SetCapacityMultiplier gets a reference to the given float64 and assigns it to the CapacityMultiplier field.
+func (o *StorageClassInfo) SetCapacityMultiplier(v float64) {
+	o.CapacityMultiplier = &v
+}
+
+// GetFixedCapacity returns the FixedCapacity field value if set, zero value otherwise.
+func (o *StorageClassInfo) GetFixedCapacity() float64 {
+	if o == nil || o.FixedCapacity == nil {
+		var ret float64
+		return ret
+	}
+	return *o.FixedCapacity
+}
+
+// GetFixedCapacityOk returns a tuple with the FixedCapacity field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageClassInfo) GetFixedCapacityOk() (*float64, bool) {
+	if o == nil || o.FixedCapacity == nil {
+		return nil, false
+	}
+	return o.FixedCapacity, true
+}
+
+// HasFixedCapacity returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasFixedCapacity() bool {
+	return o != nil && o.FixedCapacity != nil
+}
+
+// SetFixedCapacity gets a reference to the given float64 and assigns it to the FixedCapacity field.
+func (o *StorageClassInfo) SetFixedCapacity(v float64) {
+	o.FixedCapacity = &v
 }
 
 // GetName returns the Name field value.
@@ -693,6 +1023,39 @@ func (o StorageClassInfo) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.DiskId != nil {
+		toSerialize["diskID"] = o.DiskId
+	}
+	if o.DiskGroupId != nil {
+		toSerialize["diskGroupID"] = o.DiskGroupId
+	}
+	if o.DiskDeviceNamePatterns != nil {
+		toSerialize["diskDeviceNamePatterns"] = o.DiskDeviceNamePatterns
+	}
+	if o.DiskMinimumCapacity != nil {
+		toSerialize["diskMinimumCapacity"] = o.DiskMinimumCapacity
+	}
+	if o.FileSystemType != nil {
+		toSerialize["fileSystemType"] = o.FileSystemType
+	}
+	if o.EnableProjectQuota != nil {
+		toSerialize["enableProjectQuota"] = o.EnableProjectQuota
+	}
+	if o.DefinitionName != nil {
+		toSerialize["definitionName"] = o.DefinitionName
+	}
+	if o.BackendType != nil {
+		toSerialize["backendType"] = o.BackendType
+	}
+	if o.CapacityMode != nil {
+		toSerialize["capacityMode"] = o.CapacityMode
+	}
+	if o.CapacityMultiplier != nil {
+		toSerialize["capacityMultiplier"] = o.CapacityMultiplier
+	}
+	if o.FixedCapacity != nil {
+		toSerialize["fixedCapacity"] = o.FixedCapacity
+	}
 	toSerialize["name"] = o.Name
 	toSerialize["creationTimestamp"] = o.CreationTimestamp
 	toSerialize["provisioner"] = o.Provisioner
@@ -742,29 +1105,40 @@ func (o StorageClassInfo) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageClassInfo) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name                 *string             `json:"name"`
-		CreationTimestamp    *string             `json:"creationTimestamp"`
-		Provisioner          *string             `json:"provisioner"`
-		Parameters           map[string]string   `json:"parameters,omitempty"`
-		Labels               map[string]string   `json:"labels,omitempty"`
-		Annotations          map[string]string   `json:"annotations,omitempty"`
-		ReclaimPolicy        *string             `json:"reclaimPolicy"`
-		AllowVolumeExpansion *bool               `json:"allowVolumeExpansion"`
-		VolumeBindingMode    *string             `json:"volumeBindingMode"`
-		PvcCount             *string             `json:"pvcCount"`
-		AllowClone           *bool               `json:"allowClone"`
-		AllowSnapshot        *bool               `json:"allowSnapshot"`
-		IsDefaultClass       *bool               `json:"isDefaultClass"`
-		Type                 *string             `json:"type"`
-		HostPath             *string             `json:"hostPath,omitempty"`
-		MountOptions         []string            `json:"mountOptions,omitempty"`
-		CreatedAt            common.NullableTime `json:"createdAt,omitempty"`
-		Description          *string             `json:"description"`
-		DisplayName          *string             `json:"displayName"`
-		Enabled              *bool               `json:"enabled"`
-		Id                   *string             `json:"id"`
-		UpdatedAt            common.NullableTime `json:"updatedAt,omitempty"`
-		MinSizeGi            *int32              `json:"minSizeGi,omitempty"`
+		DiskId                 *string              `json:"diskID,omitempty"`
+		DiskGroupId            *string              `json:"diskGroupID,omitempty"`
+		DiskDeviceNamePatterns []string             `json:"diskDeviceNamePatterns,omitempty"`
+		DiskMinimumCapacity    *string              `json:"diskMinimumCapacity,omitempty"`
+		FileSystemType         *string              `json:"fileSystemType,omitempty"`
+		EnableProjectQuota     *bool                `json:"enableProjectQuota,omitempty"`
+		DefinitionName         *string              `json:"definitionName,omitempty"`
+		BackendType            *string              `json:"backendType,omitempty"`
+		CapacityMode           *StorageCapacityMode `json:"capacityMode,omitempty"`
+		CapacityMultiplier     *float64             `json:"capacityMultiplier,omitempty"`
+		FixedCapacity          *float64             `json:"fixedCapacity,omitempty"`
+		Name                   *string              `json:"name"`
+		CreationTimestamp      *string              `json:"creationTimestamp"`
+		Provisioner            *string              `json:"provisioner"`
+		Parameters             map[string]string    `json:"parameters,omitempty"`
+		Labels                 map[string]string    `json:"labels,omitempty"`
+		Annotations            map[string]string    `json:"annotations,omitempty"`
+		ReclaimPolicy          *string              `json:"reclaimPolicy"`
+		AllowVolumeExpansion   *bool                `json:"allowVolumeExpansion"`
+		VolumeBindingMode      *string              `json:"volumeBindingMode"`
+		PvcCount               *string              `json:"pvcCount"`
+		AllowClone             *bool                `json:"allowClone"`
+		AllowSnapshot          *bool                `json:"allowSnapshot"`
+		IsDefaultClass         *bool                `json:"isDefaultClass"`
+		Type                   *string              `json:"type"`
+		HostPath               *string              `json:"hostPath,omitempty"`
+		MountOptions           []string             `json:"mountOptions,omitempty"`
+		CreatedAt              common.NullableTime  `json:"createdAt,omitempty"`
+		Description            *string              `json:"description"`
+		DisplayName            *string              `json:"displayName"`
+		Enabled                *bool                `json:"enabled"`
+		Id                     *string              `json:"id"`
+		UpdatedAt              common.NullableTime  `json:"updatedAt,omitempty"`
+		MinSizeGi              *int32               `json:"minSizeGi,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -816,10 +1190,27 @@ func (o *StorageClassInfo) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "creationTimestamp", "provisioner", "parameters", "labels", "annotations", "reclaimPolicy", "allowVolumeExpansion", "volumeBindingMode", "pvcCount", "allowClone", "allowSnapshot", "isDefaultClass", "type", "hostPath", "mountOptions", "createdAt", "description", "displayName", "enabled", "id", "updatedAt", "minSizeGi"})
+		common.DeleteKeys(additionalProperties, &[]string{"diskID", "diskGroupID", "diskDeviceNamePatterns", "diskMinimumCapacity", "fileSystemType", "enableProjectQuota", "definitionName", "backendType", "capacityMode", "capacityMultiplier", "fixedCapacity", "name", "creationTimestamp", "provisioner", "parameters", "labels", "annotations", "reclaimPolicy", "allowVolumeExpansion", "volumeBindingMode", "pvcCount", "allowClone", "allowSnapshot", "isDefaultClass", "type", "hostPath", "mountOptions", "createdAt", "description", "displayName", "enabled", "id", "updatedAt", "minSizeGi"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
+	o.DiskId = all.DiskId
+	o.DiskGroupId = all.DiskGroupId
+	o.DiskDeviceNamePatterns = all.DiskDeviceNamePatterns
+	o.DiskMinimumCapacity = all.DiskMinimumCapacity
+	o.FileSystemType = all.FileSystemType
+	o.EnableProjectQuota = all.EnableProjectQuota
+	o.DefinitionName = all.DefinitionName
+	o.BackendType = all.BackendType
+	if all.CapacityMode != nil && !all.CapacityMode.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.CapacityMode = all.CapacityMode
+	}
+	o.CapacityMultiplier = all.CapacityMultiplier
+	o.FixedCapacity = all.FixedCapacity
 	o.Name = *all.Name
 	o.CreationTimestamp = *all.CreationTimestamp
 	o.Provisioner = *all.Provisioner
@@ -846,6 +1237,10 @@ func (o *StorageClassInfo) UnmarshalJSON(bytes []byte) (err error) {
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

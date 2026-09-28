@@ -10089,7 +10089,7 @@ paths:
     get:
       operationId: getEnvironmentResource
       summary: Get a live Kubernetes resource
-      description: Returns one named Kubernetes object, excluding metadata.managedFields. The code allowlist currently permits only apiVersion v1 with kind PersistentVolumeClaim; other valid resource types return 403 before Kubernetes access. Requires Admin environment read permission. Does not support lists, subresources or writes.
+      description: Returns one named Kubernetes object, excluding metadata.managedFields. The code allowlist permits v1 PersistentVolumeClaim, storage.k8s.io/v1 StorageClass and apelocal.csi.apecloud.com/v1alpha1 HostPathDefinition; other valid resource types return 403 before Kubernetes access. Requires Admin environment read permission. Does not support lists, subresources or writes.
       tags:
         - environment
       parameters:
@@ -10105,13 +10105,13 @@ paths:
             type: string
         - in: query
           name: apiVersion
-          description: Kubernetes API version. Currently only v1 with kind PersistentVolumeClaim is allowed.
+          description: Kubernetes API version. Must match an explicitly allowed storage resource kind.
           required: true
           schema:
             type: string
         - in: query
           name: kind
-          description: Kubernetes kind. Currently only PersistentVolumeClaim with apiVersion v1 is allowed.
+          description: Kubernetes kind. Allowed kinds are PersistentVolumeClaim, StorageClass and HostPathDefinition with their corresponding API versions.
           required: true
           schema:
             type: string
@@ -35931,9 +35931,56 @@ components:
           description: The base64 encoded kubeconfig file contents to connect to this Kubernetes
           format: byte
           type: string
+    storageCapacityMode:
+      type: string
+      enum:
+        - asIs
+        - multiplier
+        - fixed
+        - unlimited
+      description: CSI capacity policy; unlimited does not represent physical capacity.
     storageClassInfo:
       description: StorageClassInfo provides detailed information about a specific storage class.
       properties:
+        diskID:
+          type: string
+          description: Configured apelocal RawDisk identifier, not a node device path.
+        diskGroupID:
+          type: string
+          description: Configured apelocal RawDiskGroup identifier.
+        diskDeviceNamePatterns:
+          type: array
+          items:
+            type: string
+          description: Device name selection patterns, not the devices actually selected on nodes.
+        diskMinimumCapacity:
+          type: string
+          description: Minimum candidate disk capacity as a Kubernetes quantity.
+        fileSystemType:
+          type: string
+          description: Filesystem configured for disk initialization in the resolved HostPathDefinition.
+        enableProjectQuota:
+          type: boolean
+          x-nullable: true
+          description: Project quota mount configuration in the resolved HostPathDefinition, not runtime verification. Omitted when unknown or inapplicable.
+        definitionName:
+          type: string
+          description: Resolved apelocal HostPathDefinition name.
+        backendType:
+          type: string
+          description: apelocal storage backend (HostDir, RawDisk or RawDiskGroup).
+        capacityMode:
+          $ref: '#/components/schemas/storageCapacityMode'
+        capacityMultiplier:
+          type: number
+          format: double
+          x-nullable: true
+          description: Capacity multiplier (1.2 means 120 percent).
+        fixedCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: Configured fixed capacity per node in GiB.
         name:
           type: string
           description: the name of the storage class
@@ -37611,9 +37658,93 @@ components:
           format: int64
           type: integer
       type: object
+    storageCapacitySummaryMode:
+      type: string
+      enum:
+        - finite
+        - unlimited
+        - conflict
+      description: Conflicting shared quotas cannot form a single logical total.
+    localStorageStats:
+      description: Deduplicated apelocal statistics. Does not include other storage drivers. Missing measurements are omitted, never treated as zero.
+      type: object
+      properties:
+        capacityMode:
+          $ref: '#/components/schemas/storageCapacitySummaryMode'
+        complete:
+          type: boolean
+          x-omitempty: false
+          description: Whether all required measurements for the selected capacity mode are present.
+        nodeCount:
+          type: integer
+          x-omitempty: false
+        unavailableNodeCount:
+          type: integer
+          x-omitempty: false
+        physicalCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: Physical capacity in GiB, deduplicated by backing filesystem.
+        physicalUsage:
+          type: number
+          format: double
+          x-nullable: true
+          description: Physical filesystem usage in GiB, including other files.
+        allocatableCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: Logical total in GiB; omitted for unlimited or conflicting quotas.
+        allocatedCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: CSI allocated capacity in GiB, deduplicated by backing allocation resource.
+        availableCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: Remaining logical capacity in GiB on ready schedulable nodes only.
     storageClassNodeStats:
       description: storageClassNodeStats is a storage class node stats.
       properties:
+        allocationResourceID:
+          type: string
+          description: Node-local backing allocation resource identity, used to deduplicate SC aliases.
+        physicalResourceID:
+          type: string
+          description: Node-local observed filesystem identity, used to deduplicate shared physical capacity.
+        physicalCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: Observed filesystem capacity in GiB; omitted when the backing filesystem cannot be identified completely.
+        physicalUsage:
+          type: number
+          format: double
+          x-nullable: true
+          description: Observed filesystem used bytes in GiB, including other data on the same filesystem.
+        allocatableCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: CSI total allocatable capacity in GiB; omitted for unlimited capacity.
+        availableCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: CSI remaining allocatable capacity in GiB; omitted for unlimited capacity.
+        allocatedCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: Capacity accounted for by CSI in GiB, including shared definitions; omitted when it cannot be determined exactly.
+        maximumVolumeSize:
+          type: number
+          format: double
+          x-nullable: true
+          description: Largest volume CSI can allocate on this node in GiB.
         nodeName:
           description: the name of the node
           type: string
@@ -37646,6 +37777,29 @@ components:
     storageClassNodeStatsList:
       description: storageClassNodeStatsList is a list of storageClassNodeStats.
       properties:
+        summary:
+          $ref: '#/components/schemas/localStorageStats'
+        definitionName:
+          type: string
+          description: Resolved apelocal HostPathDefinition name.
+        backendType:
+          type: string
+          description: apelocal storage backend (HostDir, RawDisk or RawDiskGroup).
+        capacityMode:
+          $ref: '#/components/schemas/storageCapacityMode'
+        capacityMultiplier:
+          type: number
+          format: double
+          x-nullable: true
+          description: Capacity multiplier (1.2 means 120 percent).
+        fixedCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: Configured fixed capacity per node in GiB.
+        metricsAvailable:
+          type: boolean
+          description: Whether the metrics query succeeded; individual measurements can still be absent.
         items:
           description: the list of storage class node stats
           type: array
