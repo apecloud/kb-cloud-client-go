@@ -24388,56 +24388,9 @@ components:
             $ref: '#/components/schemas/ipPoolProviderList'
       required:
         - providers
-    storageCapacityMode:
-      type: string
-      enum:
-        - asIs
-        - multiplier
-        - fixed
-        - unlimited
-      description: CSI capacity policy; unlimited does not represent physical capacity.
     storageClassInfo:
       description: StorageClassInfo provides detailed information about a specific storage class.
       properties:
-        diskID:
-          type: string
-          description: Configured apelocal RawDisk identifier, not a node device path.
-        diskGroupID:
-          type: string
-          description: Configured apelocal RawDiskGroup identifier.
-        diskDeviceNamePatterns:
-          type: array
-          items:
-            type: string
-          description: Device name selection patterns, not the devices actually selected on nodes.
-        diskMinimumCapacity:
-          type: string
-          description: Minimum candidate disk capacity as a Kubernetes quantity.
-        fileSystemType:
-          type: string
-          description: Filesystem configured for disk initialization in the resolved HostPathDefinition.
-        enableProjectQuota:
-          type: boolean
-          x-nullable: true
-          description: Project quota mount configuration in the resolved HostPathDefinition, not runtime verification. Omitted when unknown or inapplicable.
-        definitionName:
-          type: string
-          description: Resolved apelocal HostPathDefinition name.
-        backendType:
-          type: string
-          description: apelocal storage backend (HostDir, RawDisk or RawDiskGroup).
-        capacityMode:
-          $ref: '#/components/schemas/storageCapacityMode'
-        capacityMultiplier:
-          type: number
-          format: double
-          x-nullable: true
-          description: Capacity multiplier (1.2 means 120 percent).
-        fixedCapacity:
-          type: number
-          format: double
-          x-nullable: true
-          description: Configured fixed capacity per node in GiB.
         name:
           type: string
           description: the name of the storage class
