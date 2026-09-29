@@ -16,7 +16,7 @@ type InstanceTemplateCreate struct {
 	Name string `json:"name"`
 	// Replica count for this instance template.
 	Replicas int32 `json:"replicas"`
-	// Availability zone for this template (topology.kubernetes.io/zone); omitted or empty inherits the component zone selection. Must be enabled in the environment and included in the effective cluster availabilityZones (an omitted or empty list defaults to all environment zones). Cannot be specified when singleZone is true.
+	// Availability zone for this template (topology.kubernetes.io/zone); omitted or empty inherits the component zone selection. Must be enabled in the environment and included in the effective cluster availabilityZones (an omitted or empty list defaults to all environment zones).
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 	// Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
 	Env []InstanceTemplateCreateEnvItem `json:"env,omitempty"`

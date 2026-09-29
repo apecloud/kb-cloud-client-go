@@ -25686,7 +25686,7 @@ components:
           description: Replica count for this instance template.
         availabilityZone:
           type: string
-          description: Availability zone for this template (topology.kubernetes.io/zone); omitted or empty inherits the component zone selection. Must be enabled in the environment and included in the effective cluster availabilityZones (an omitted or empty list defaults to all environment zones). Cannot be specified when singleZone is true.
+          description: Availability zone for this template (topology.kubernetes.io/zone); omitted or empty inherits the component zone selection. Must be enabled in the environment and included in the effective cluster availabilityZones (an omitted or empty list defaults to all environment zones).
         env:
           type: array
           description: Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
