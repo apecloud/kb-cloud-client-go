@@ -30114,7 +30114,7 @@ components:
       type: object
       additionalProperties: false
       description: |
-        Create assignment for one instance template. name and replicas are required. env, annotations, labels, and availabilityZone are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once. When any template specifies a zone, automatic zone anti-affinity and zone spreading are disabled for that component, including templates inheriting its zone range. Hostname anti-affinity still follows the scheduling policy; explicit rules and additional topology keys are preserved. Chart instance scheduling policies are cleared; an omitted or empty availabilityZone leaves the instance policy unset to inherit the component policy.
+        Create assignment for one instance template. name and replicas are required. env, annotations, labels, and availabilityZone are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once. A template with an explicit zone uses single-zone scheduling: hostname anti-affinity follows the scheduling policy, while explicit rules and additional topology keys are preserved. Component scheduling remains unchanged; templates without a zone inherit it, including its zone anti-affinity constraints. Chart instance scheduling policies are cleared; an omitted or empty availabilityZone leaves the instance policy unset to inherit the component policy.
       required:
         - name
         - replicas
