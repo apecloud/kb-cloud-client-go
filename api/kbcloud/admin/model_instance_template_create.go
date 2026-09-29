@@ -10,13 +10,13 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. env, annotations, labels, and availabilityZone are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once.
+// InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. env, annotations, labels, and availabilityZone are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once. When any template specifies a zone, automatic zone anti-affinity and zone spreading are disabled for that component, including templates inheriting its zone range. Hostname anti-affinity still follows the scheduling policy; explicit rules and additional topology keys are preserved. Chart instance scheduling policies are cleared; an omitted or empty availabilityZone leaves the instance policy unset to inherit the component policy.
 type InstanceTemplateCreate struct {
 	// Instance template name; must match a chart-rendered instance.
 	Name string `json:"name"`
 	// Replica count for this instance template.
 	Replicas int32 `json:"replicas"`
-	// Availability zone for this template (topology.kubernetes.io/zone). When non-empty, overrides the inherited zone selection while preserving other scheduling constraints. The zone must be enabled in the environment and included in the effective cluster availabilityZones list (an omitted or empty list defaults to all environment zones). Cannot be specified when singleZone is true. When any template specifies a zone, automatic zone anti-affinity and zone spreading are disabled for that component, including templates inheriting its zone range. Hostname anti-affinity still follows the scheduling policy; explicit rules and additional topology keys are preserved. Chart instance scheduling policies are cleared; omitted or empty leaves the instance policy unset to inherit the component policy.
+	// Availability zone for this template (topology.kubernetes.io/zone); omitted or empty inherits the component zone selection. Must be enabled in the environment and included in the effective cluster availabilityZones (an omitted or empty list defaults to all environment zones). Cannot be specified when singleZone is true.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 	// Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
 	Env []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
