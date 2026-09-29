@@ -36295,6 +36295,24 @@ components:
             defaultBackupRepo:
               type: boolean
               description: judge whether to set the backup is default which will be init
+    victoriaLogsConfig:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/staticCluster'
+        - type: object
+          properties:
+            retentionPeriod:
+              type: string
+              x-nullable: false
+              default: 100y
+              description: Environment installation log retention, explicitly overriding the addon default. Defaults to 100y when omitted. Accepts a number with s (seconds), h (hours), d (days), w (weeks), M (months), or y (years); a bare number means months. Must be between 1d and 100y. Disk usage retention limits still apply.
+            retentionMaxDiskUsagePercent:
+              type: integer
+              nullable: true
+              default: 80
+              minimum: 1
+              maximum: 100
+              description: Maximum disk usage percentage before VictoriaLogs deletes older log partitions. Defaults to 80 when omitted. Applies independently of retentionPeriod.
     environmentModuleStatus:
       type: string
       description: Status of an environment module. Enabled is only used as the desired state when creating an environment. NotInstalled, Installing, and InstallationFailed describe quick installation; Upgradeable, Upgrading, and UpgradeFailed describe quick upgrade. Upgradeable means the component is running but an ApeCloud-bundled newer version is available. Unknown means the current state could not be determined.
@@ -36386,8 +36404,8 @@ components:
           description: Optional vm-storage spec (replicas, disk, classCode) when adding an environment. vm-insert and vm-select keep installer defaults.
           $ref: '#/components/schemas/staticCluster'
         victoriaLogs:
-          description: Optional vlstorage spec (replicas, disk, classCode) when adding an environment. vlinsert and vlselect keep installer defaults.
-          $ref: '#/components/schemas/staticCluster'
+          description: Optional vlstorage resources and log retention when adding an environment. vlinsert and vlselect keep installer defaults.
+          $ref: '#/components/schemas/victoriaLogsConfig'
         modules:
           type: array
           description: option modules of environment
