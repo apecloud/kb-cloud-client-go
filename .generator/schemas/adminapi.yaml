@@ -32634,6 +32634,34 @@ components:
     DmsPagination:
       type: object
       properties:
+        offset:
+          type: integer
+          format: int64
+          nullable: true
+          description: Zero-based offset of this showData page.
+        limit:
+          type: integer
+          format: int64
+          nullable: true
+        hasMore:
+          type: boolean
+          nullable: true
+          description: Whether another showData page exists; determined by reading one extra row.
+        nextOffset:
+          type: integer
+          format: int64
+          nullable: true
+          description: Present only when hasMore is true.
+        totalRows:
+          type: integer
+          format: int64
+          nullable: true
+          description: Exact count returned only by countOnly requests (including zero).
+        orderColumns:
+          type: array
+          items:
+            type: string
+          description: Primary-key columns used for ordering; empty means ordering is not guaranteed. Pages are not a fixed snapshot.
         rows_count:
           type: integer
         page:
@@ -33559,8 +33587,19 @@ components:
           description: the target table or view name
         limit:
           type: integer
-          description: return limited number of data
+          description: Rows per batch, from 1 to 2000; defaults to 200.
+          minimum: 1
+          maximum: 2000
           nullable: true
+        offset:
+          type: integer
+          format: int64
+          minimum: 0
+          nullable: true
+          description: Zero-based offset. Include 0 for the first paged request; omit for legacy data plus total-count behavior. Paged requests do not count the table.
+        countOnly:
+          type: boolean
+          description: Only return pagination.totalRows, without loading data.
     RedisACLContext:
       type: object
       properties:
