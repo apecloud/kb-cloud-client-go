@@ -428,50 +428,6 @@ paths:
           $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/archive:
-    post:
-      operationId: archiveClusterJar
-      summary: Archive a JAR while retaining published files and startup synchronization
-      tags:
-        - clusterJar
-        - shared
-      parameters:
-        - name: engineName
-          in: path
-          required: true
-          description: Doris or SelectDB engine of the target cluster.
-          schema:
-            type: string
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: jarId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Success
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/409'
-        '500':
-          $ref: '#/components/responses/500'
   /admin/v1/user:
     get:
       description: Get authenticated login user info
@@ -28681,8 +28637,6 @@ components:
           type: string
         published:
           type: boolean
-        archived:
-          type: boolean
         status:
           type: string
         synced:
@@ -28709,7 +28663,6 @@ components:
         - size
         - uri
         - published
-        - archived
         - status
         - synced
         - total
@@ -30176,7 +30129,7 @@ components:
           description: Replica count for this instance template.
         availabilityZone:
           type: string
-          description: Availability zone for this template (topology.kubernetes.io/zone). When non-empty, overrides the inherited zone selection while preserving other scheduling constraints. Chart instance scheduling policies are cleared; omitted or empty leaves the instance policy unset to inherit the component policy.
+          description: Availability zone for this template (topology.kubernetes.io/zone). When non-empty, overrides the inherited zone selection while preserving other scheduling constraints. The zone must be enabled in the environment and included in the cluster availabilityZones list. When any template specifies a zone, automatic zone anti-affinity and zone spreading are disabled for that component, including templates inheriting its zone range. Hostname anti-affinity still follows the scheduling policy; explicit rules and additional topology keys are preserved. Chart instance scheduling policies are cleared; omitted or empty leaves the instance policy unset to inherit the component policy.
         env:
           type: array
           description: Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
