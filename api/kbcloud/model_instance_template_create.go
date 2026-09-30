@@ -10,13 +10,13 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, and storageClass are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once.
+// InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, and storageClass are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once. A template with an explicit zone uses single-zone scheduling: hostname anti-affinity follows the scheduling policy, while explicit rules and additional topology keys are preserved. Component scheduling remains unchanged; templates without a zone inherit it, including its zone anti-affinity constraints. Chart instance scheduling policies are cleared; an omitted or empty availabilityZone leaves the instance policy unset to inherit the component policy.
 type InstanceTemplateCreate struct {
 	// Instance template name; must match a chart-rendered instance.
 	Name string `json:"name"`
 	// Replica count for this instance template.
 	Replicas int32 `json:"replicas"`
-	// Availability zone for this template (topology.kubernetes.io/zone). When non-empty, overrides the inherited zone selection while preserving other scheduling constraints. Chart instance scheduling policies are cleared; omitted or empty leaves the instance policy unset to inherit the component policy.
+	// Availability zone for this template (topology.kubernetes.io/zone); omitted or empty inherits the component zone selection. Must be enabled in the environment. If the request explicitly supplies a non-empty cluster availabilityZones list, the template zone must also belong to that list.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 	// StorageClass name for all persistent volumes in this template. Copied from component volumeClaimTemplates, preserving volume sizes and other settings while overriding storageClassName. Chart instance volume templates are cleared; omitted or empty leaves instance volumeClaimTemplates unset.
 	StorageClass *string `json:"storageClass,omitempty"`

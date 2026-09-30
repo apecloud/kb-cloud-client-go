@@ -10,28 +10,17 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ModeComponentInstanceTemplate Frontend catalog of instance templates for this mode component.
-// names, ops, attributes, and env are for UI rendering. Create
-// validates the request against chart-rendered Cluster instances,
-// not this catalog. HScale does not re-check this catalog; it
-// builds the OpsRequest from the request and the live Cluster.
-// HScale instanceTemplates still requires top-level replicas.
-// ops lists hscale, storageExpansion, and reserved vscale for the UI.
-// VolumeExpansion supports selected instance templates on KubeBlocks >= 1.0.3-beta.16.
-// VScale, Upgrade, Restart, and other operations keep component-level behavior.
-// The platform does not even-split or fill in missing templates.
-// When absent, the frontend should use component-level operations.
+// ModeComponentInstanceTemplate Template fields and operations shared by the frontend and backend.
+// Template volume expansion requires storageExpansion in ops and targets
+// for every name. Otherwise, use component-level expansion.
 type ModeComponentInstanceTemplate struct {
 	// Instance template names the frontend should render.
 	// Create and hscale check names against the chart or live Cluster,
 	// not this list.
 	//
 	Names []string `json:"names"`
-	// Operations the frontend should offer per template: hscale, vscale.
-	// Not re-checked when creating a cluster or building an hscale OpsRequest.
-	// Only hscale currently acts per template; vscale is reserved.
-	// VolumeExpansion, VScale, Upgrade, and Restart ignore instance templates
-	// and keep their component-level behavior.
+	// Template operations: hscale, storageExpansion, and reserved vscale. Expansion requires explicit targets with equal
+	// final capacities for component and template volumes.
 	//
 	Ops []InstanceTemplateOp `json:"ops"`
 	// Heterogeneous attributes the frontend should render on each

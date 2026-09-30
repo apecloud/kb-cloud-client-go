@@ -466,50 +466,6 @@ paths:
           $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/{jarId}/archive:
-    post:
-      operationId: archiveClusterJar
-      summary: Archive a JAR while retaining published files and startup synchronization
-      tags:
-        - clusterJar
-        - shared
-      parameters:
-        - name: engineName
-          in: path
-          required: true
-          description: Doris or SelectDB engine of the target cluster.
-          schema:
-            type: string
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: jarId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Success
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/409'
-        '500':
-          $ref: '#/components/responses/500'
   /api/v1/user:
     get:
       description: Get authenticated login user info
@@ -23501,8 +23457,6 @@ components:
           type: string
         published:
           type: boolean
-        archived:
-          type: boolean
         status:
           type: string
         synced:
@@ -23529,7 +23483,6 @@ components:
         - size
         - uri
         - published
-        - archived
         - status
         - synced
         - total
@@ -25718,7 +25671,7 @@ components:
       type: object
       additionalProperties: false
       description: |
-        Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, and storageClass are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once.
+        Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, and storageClass are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once. A template with an explicit zone uses single-zone scheduling: hostname anti-affinity follows the scheduling policy, while explicit rules and additional topology keys are preserved. Component scheduling remains unchanged; templates without a zone inherit it, including its zone anti-affinity constraints. Chart instance scheduling policies are cleared; an omitted or empty availabilityZone leaves the instance policy unset to inherit the component policy.
       required:
         - name
         - replicas
@@ -25733,7 +25686,7 @@ components:
           description: Replica count for this instance template.
         availabilityZone:
           type: string
-          description: Availability zone for this template (topology.kubernetes.io/zone). When non-empty, overrides the inherited zone selection while preserving other scheduling constraints. Chart instance scheduling policies are cleared; omitted or empty leaves the instance policy unset to inherit the component policy.
+          description: Availability zone for this template (topology.kubernetes.io/zone); omitted or empty inherits the component zone selection. Must be enabled in the environment. If the request explicitly supplies a non-empty cluster availabilityZones list, the template zone must also belong to that list.
         storageClass:
           type: string
           description: StorageClass name for all persistent volumes in this template. Copied from component volumeClaimTemplates, preserving volume sizes and other settings while overriding storageClassName. Chart instance volume templates are cleared; omitted or empty leaves instance volumeClaimTemplates unset.
@@ -26185,11 +26138,6 @@ components:
           title: StorageClass
           type: string
           description: StorageClass name
-        storageTotal:
-          type: number
-          format: double
-          x-nullable: true
-          description: Total requested storage in Gi across all replicas of one component, including instance template volume overrides. Multiply by compNum for shardings. When absent, derive usage from component volumes and replicas.
         volumes:
           type: array
           items:
@@ -26487,9 +26435,6 @@ components:
     instance:
       description: Instance is the information of KubeBlocks cluster instances
       properties:
-        instanceTemplate:
-          type: string
-          description: Instance template name from the Pod label, empty for default instances.
         accessMode:
           description: Access mode for instance
           type: string
@@ -26985,6 +26930,34 @@ components:
     DmsPagination:
       type: object
       properties:
+        offset:
+          type: integer
+          format: int64
+          nullable: true
+          description: Zero-based offset of this showData page.
+        limit:
+          type: integer
+          format: int64
+          nullable: true
+        hasMore:
+          type: boolean
+          nullable: true
+          description: Whether another showData page exists; determined by reading one extra row.
+        nextOffset:
+          type: integer
+          format: int64
+          nullable: true
+          description: Present only when hasMore is true.
+        totalRows:
+          type: integer
+          format: int64
+          nullable: true
+          description: Exact count returned only by countOnly requests (including zero).
+        orderColumns:
+          type: array
+          items:
+            type: string
+          description: Primary-key columns used for ordering; empty means ordering is not guaranteed. Pages are not a fixed snapshot.
         rows_count:
           type: integer
         page:
@@ -27719,6 +27692,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/engineServiceVersionsItem'
+    opsVolumeExpandVolumesItems0:
+      type: object
+      required:
+        - name
+        - storage
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Volume name.
+        storage:
+          type: string
+          description: Desired size with Gi suffix, for example 30Gi.
     instanceTemplateVolumeExpand:
       type: object
       required:
@@ -27733,24 +27719,14 @@ components:
           type: array
           minItems: 1
           items:
-            type: object
-            required:
-              - name
-              - storage
-            properties:
-              name:
-                type: string
-                minLength: 1
-              storage:
-                type: string
-                description: Desired size with Gi suffix, for example 30Gi.
+            $ref: '#/components/schemas/opsVolumeExpandVolumesItems0'
     opsVolumeExpand:
       description: OpsVolumeExpand is the payload to expand volume for a KubeBlocks cluster
       properties:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Expand selected instance templates (KubeBlocks >= 1.0.3-beta.16). Names identify templates, not Pods. Only selected templates get explicit overrides; inherited volumes still follow any component-level targets. Template volumes override component targets for the same volume. At least one of volumes or instanceTemplates is required.
+          description: Requires storageExpansion in the current mode component instanceTemplate.ops. Every configured template must explicitly specify the same volume names and target capacities as component-level volumes. Names identify templates, not Pods. Targets are forwarded together in one OpsRequest without filling in, merging, or removing template targets. KubeBlocks may materialize template volumeClaimTemplates for explicitly targeted inherited volumes.
           items:
             $ref: '#/components/schemas/instanceTemplateVolumeExpand'
         component:
@@ -27760,18 +27736,9 @@ components:
           type: array
           minItems: 1
           items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: volume name
-              storage:
-                type: string
-                description: Storage size, the unit is Gi.
-            required:
-              - name
-              - storage
+            $ref: '#/components/schemas/opsVolumeExpandVolumesItems0'
       required:
+        - volumes
         - component
       type: object
     opsVScale:
@@ -33041,17 +33008,9 @@ components:
         instanceTemplate:
           type: object
           description: |
-            Frontend catalog of instance templates for this mode component.
-            names, ops, attributes, and env are for UI rendering. Create
-            validates the request against chart-rendered Cluster instances,
-            not this catalog. HScale does not re-check this catalog; it
-            builds the OpsRequest from the request and the live Cluster.
-            HScale instanceTemplates still requires top-level replicas.
-            ops lists hscale, storageExpansion, and reserved vscale for the UI.
-            VolumeExpansion supports selected instance templates on KubeBlocks >= 1.0.3-beta.16.
-            VScale, Upgrade, Restart, and other operations keep component-level behavior.
-            The platform does not even-split or fill in missing templates.
-            When absent, the frontend should use component-level operations.
+            Template fields and operations shared by the frontend and backend.
+            Template volume expansion requires storageExpansion in ops and targets
+            for every name. Otherwise, use component-level expansion.
           required:
             - names
             - ops
@@ -33072,11 +33031,8 @@ components:
               items:
                 $ref: '#/components/schemas/instanceTemplateOp'
               description: |
-                Operations the frontend should offer per template: hscale, vscale.
-                Not re-checked when creating a cluster or building an hscale OpsRequest.
-                Only hscale currently acts per template; vscale is reserved.
-                VolumeExpansion, VScale, Upgrade, and Restart ignore instance templates
-                and keep their component-level behavior.
+                Template operations: hscale, storageExpansion, and reserved vscale. Expansion requires explicit targets with equal
+                final capacities for component and template volumes.
             attributes:
               type: array
               uniqueItems: true
@@ -36241,8 +36197,19 @@ components:
           description: the target table or view name
         limit:
           type: integer
-          description: return limited number of data
+          description: Rows per batch, from 1 to 2000; defaults to 200.
+          minimum: 1
+          maximum: 2000
           nullable: true
+        offset:
+          type: integer
+          format: int64
+          minimum: 0
+          nullable: true
+          description: Zero-based offset. Include 0 for the first paged request; omit for legacy data plus total-count behavior. Paged requests do not count the table.
+        countOnly:
+          type: boolean
+          description: Only return pagination.totalRows, without loading data.
     RedisACLContext:
       type: object
       properties:

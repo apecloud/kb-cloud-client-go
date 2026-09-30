@@ -24,9 +24,7 @@ type ComponentItem struct {
 	// Memory, the unit is Gi.
 	Memory *float64 `json:"memory,omitempty"`
 	// StorageClass name
-	StorageClass *string `json:"storageClass,omitempty"`
-	// Total requested storage in Gi across all replicas of one component, including instance template volume overrides. Multiply by compNum for shardings. When absent, derive usage from component volumes and replicas.
-	StorageTotal *float64              `json:"storageTotal,omitempty"`
+	StorageClass *string               `json:"storageClass,omitempty"`
 	Volumes      []ComponentVolumeItem `json:"volumes,omitempty"`
 	// Cluster main component codeShort
 	CodeShort *string `json:"codeShort,omitempty"`
@@ -280,34 +278,6 @@ func (o *ComponentItem) SetStorageClass(v string) {
 	o.StorageClass = &v
 }
 
-// GetStorageTotal returns the StorageTotal field value if set, zero value otherwise.
-func (o *ComponentItem) GetStorageTotal() float64 {
-	if o == nil || o.StorageTotal == nil {
-		var ret float64
-		return ret
-	}
-	return *o.StorageTotal
-}
-
-// GetStorageTotalOk returns a tuple with the StorageTotal field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ComponentItem) GetStorageTotalOk() (*float64, bool) {
-	if o == nil || o.StorageTotal == nil {
-		return nil, false
-	}
-	return o.StorageTotal, true
-}
-
-// HasStorageTotal returns a boolean if a field has been set.
-func (o *ComponentItem) HasStorageTotal() bool {
-	return o != nil && o.StorageTotal != nil
-}
-
-// SetStorageTotal gets a reference to the given float64 and assigns it to the StorageTotal field.
-func (o *ComponentItem) SetStorageTotal(v float64) {
-	o.StorageTotal = &v
-}
-
 // GetVolumes returns the Volumes field value if set, zero value otherwise.
 func (o *ComponentItem) GetVolumes() []ComponentVolumeItem {
 	if o == nil || o.Volumes == nil {
@@ -450,9 +420,6 @@ func (o ComponentItem) MarshalJSON() ([]byte, error) {
 	if o.StorageClass != nil {
 		toSerialize["storageClass"] = o.StorageClass
 	}
-	if o.StorageTotal != nil {
-		toSerialize["storageTotal"] = o.StorageTotal
-	}
 	if o.Volumes != nil {
 		toSerialize["volumes"] = o.Volumes
 	}
@@ -483,7 +450,6 @@ func (o *ComponentItem) UnmarshalJSON(bytes []byte) (err error) {
 		Cpu                     *float64              `json:"cpu,omitempty"`
 		Memory                  *float64              `json:"memory,omitempty"`
 		StorageClass            *string               `json:"storageClass,omitempty"`
-		StorageTotal            *float64              `json:"storageTotal,omitempty"`
 		Volumes                 []ComponentVolumeItem `json:"volumes,omitempty"`
 		CodeShort               *string               `json:"codeShort,omitempty"`
 		SystemAccountSecretName *string               `json:"systemAccountSecretName,omitempty"`
@@ -494,7 +460,7 @@ func (o *ComponentItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "component", "compNum", "replicas", "classCode", "cpu", "memory", "storageClass", "storageTotal", "volumes", "codeShort", "systemAccountSecretName", "network"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "component", "compNum", "replicas", "classCode", "cpu", "memory", "storageClass", "volumes", "codeShort", "systemAccountSecretName", "network"})
 	} else {
 		return err
 	}
@@ -508,7 +474,6 @@ func (o *ComponentItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.Cpu = all.Cpu
 	o.Memory = all.Memory
 	o.StorageClass = all.StorageClass
-	o.StorageTotal = all.StorageTotal
 	o.Volumes = all.Volumes
 	o.CodeShort = all.CodeShort
 	o.SystemAccountSecretName = all.SystemAccountSecretName

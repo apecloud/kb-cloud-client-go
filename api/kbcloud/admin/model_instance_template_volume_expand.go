@@ -12,8 +12,8 @@ import (
 
 type InstanceTemplateVolumeExpand struct {
 	// Existing instance template name.
-	Name    string                                    `json:"name"`
-	Volumes []InstanceTemplateVolumeExpandVolumesItem `json:"volumes"`
+	Name    string                         `json:"name"`
+	Volumes []OpsVolumeExpandVolumesItems0 `json:"volumes"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -23,7 +23,7 @@ type InstanceTemplateVolumeExpand struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewInstanceTemplateVolumeExpand(name string, volumes []InstanceTemplateVolumeExpandVolumesItem) *InstanceTemplateVolumeExpand {
+func NewInstanceTemplateVolumeExpand(name string, volumes []OpsVolumeExpandVolumesItems0) *InstanceTemplateVolumeExpand {
 	this := InstanceTemplateVolumeExpand{}
 	this.Name = name
 	this.Volumes = volumes
@@ -62,9 +62,9 @@ func (o *InstanceTemplateVolumeExpand) SetName(v string) {
 }
 
 // GetVolumes returns the Volumes field value.
-func (o *InstanceTemplateVolumeExpand) GetVolumes() []InstanceTemplateVolumeExpandVolumesItem {
+func (o *InstanceTemplateVolumeExpand) GetVolumes() []OpsVolumeExpandVolumesItems0 {
 	if o == nil {
-		var ret []InstanceTemplateVolumeExpandVolumesItem
+		var ret []OpsVolumeExpandVolumesItems0
 		return ret
 	}
 	return o.Volumes
@@ -72,7 +72,7 @@ func (o *InstanceTemplateVolumeExpand) GetVolumes() []InstanceTemplateVolumeExpa
 
 // GetVolumesOk returns a tuple with the Volumes field value
 // and a boolean to check if the value has been set.
-func (o *InstanceTemplateVolumeExpand) GetVolumesOk() (*[]InstanceTemplateVolumeExpandVolumesItem, bool) {
+func (o *InstanceTemplateVolumeExpand) GetVolumesOk() (*[]OpsVolumeExpandVolumesItems0, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -80,7 +80,7 @@ func (o *InstanceTemplateVolumeExpand) GetVolumesOk() (*[]InstanceTemplateVolume
 }
 
 // SetVolumes sets field value.
-func (o *InstanceTemplateVolumeExpand) SetVolumes(v []InstanceTemplateVolumeExpandVolumesItem) {
+func (o *InstanceTemplateVolumeExpand) SetVolumes(v []OpsVolumeExpandVolumesItems0) {
 	o.Volumes = v
 }
 
@@ -102,8 +102,8 @@ func (o InstanceTemplateVolumeExpand) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InstanceTemplateVolumeExpand) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name    *string                                    `json:"name"`
-		Volumes *[]InstanceTemplateVolumeExpandVolumesItem `json:"volumes"`
+		Name    *string                         `json:"name"`
+		Volumes *[]OpsVolumeExpandVolumesItems0 `json:"volumes"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
