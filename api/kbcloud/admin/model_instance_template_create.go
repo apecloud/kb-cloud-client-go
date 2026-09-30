@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. env, annotations, labels, and availabilityZone are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once. A template with an explicit zone uses single-zone scheduling: hostname anti-affinity follows the scheduling policy, while explicit rules and additional topology keys are preserved. Component scheduling remains unchanged; templates without a zone inherit it, including its zone anti-affinity constraints. Chart instance scheduling policies are cleared; an omitted or empty availabilityZone leaves the instance policy unset to inherit the component policy.
+// InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, and storageClass are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once. A template with an explicit zone uses single-zone scheduling: hostname anti-affinity follows the scheduling policy, while explicit rules and additional topology keys are preserved. Component scheduling remains unchanged; templates without a zone inherit it, including its zone anti-affinity constraints. Chart instance scheduling policies are cleared; an omitted or empty availabilityZone leaves the instance policy unset to inherit the component policy.
 type InstanceTemplateCreate struct {
 	// Instance template name; must match a chart-rendered instance.
 	Name string `json:"name"`
@@ -18,6 +18,8 @@ type InstanceTemplateCreate struct {
 	Replicas int32 `json:"replicas"`
 	// Availability zone for this template (topology.kubernetes.io/zone); omitted or empty inherits the component zone selection. Must be enabled in the environment. If the request explicitly supplies a non-empty cluster availabilityZones list, the template zone must also belong to that list.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
+	// StorageClass name for all persistent volumes in this template. Copied from component volumeClaimTemplates, preserving volume sizes and other settings while overriding storageClassName. Chart instance volume templates are cleared; omitted or empty leaves instance volumeClaimTemplates unset.
+	StorageClass *string `json:"storageClass,omitempty"`
 	// Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
 	Env []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
 	// Annotation map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
@@ -121,6 +123,34 @@ func (o *InstanceTemplateCreate) SetAvailabilityZone(v string) {
 	o.AvailabilityZone = &v
 }
 
+// GetStorageClass returns the StorageClass field value if set, zero value otherwise.
+func (o *InstanceTemplateCreate) GetStorageClass() string {
+	if o == nil || o.StorageClass == nil {
+		var ret string
+		return ret
+	}
+	return *o.StorageClass
+}
+
+// GetStorageClassOk returns a tuple with the StorageClass field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InstanceTemplateCreate) GetStorageClassOk() (*string, bool) {
+	if o == nil || o.StorageClass == nil {
+		return nil, false
+	}
+	return o.StorageClass, true
+}
+
+// HasStorageClass returns a boolean if a field has been set.
+func (o *InstanceTemplateCreate) HasStorageClass() bool {
+	return o != nil && o.StorageClass != nil
+}
+
+// SetStorageClass gets a reference to the given string and assigns it to the StorageClass field.
+func (o *InstanceTemplateCreate) SetStorageClass(v string) {
+	o.StorageClass = &v
+}
+
 // GetEnv returns the Env field value if set, zero value otherwise.
 func (o *InstanceTemplateCreate) GetEnv() []InstanceTemplateCreateEnvItem {
 	if o == nil || o.Env == nil {
@@ -216,6 +246,9 @@ func (o InstanceTemplateCreate) MarshalJSON() ([]byte, error) {
 	if o.AvailabilityZone != nil {
 		toSerialize["availabilityZone"] = o.AvailabilityZone
 	}
+	if o.StorageClass != nil {
+		toSerialize["storageClass"] = o.StorageClass
+	}
 	if o.Env != nil {
 		toSerialize["env"] = o.Env
 	}
@@ -234,6 +267,7 @@ func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 		Name             *string                         `json:"name"`
 		Replicas         *int32                          `json:"replicas"`
 		AvailabilityZone *string                         `json:"availabilityZone,omitempty"`
+		StorageClass     *string                         `json:"storageClass,omitempty"`
 		Env              []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
 		Annotations      map[string]string               `json:"annotations,omitempty"`
 		Labels           map[string]string               `json:"labels,omitempty"`
@@ -250,6 +284,7 @@ func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.Name = *all.Name
 	o.Replicas = *all.Replicas
 	o.AvailabilityZone = all.AvailabilityZone
+	o.StorageClass = all.StorageClass
 	o.Env = all.Env
 	o.Annotations = all.Annotations
 	o.Labels = all.Labels
