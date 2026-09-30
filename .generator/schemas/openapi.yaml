@@ -27721,12 +27721,12 @@ components:
           items:
             $ref: '#/components/schemas/opsVolumeExpandVolumesItems0'
     opsVolumeExpand:
-      description: Expand component volumes with optional explicit instance template targets.
+      description: Expand component volumes and explicit targets for components with template expansion enabled.
       properties:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Optional template targets; omit to use component-level expansion. When supplied, requires storageExpansion in the current mode component instanceTemplate.ops. Every configured template must explicitly specify the same volume names and target capacities as component-level volumes. Names identify templates, not Pods. Targets are forwarded together in one OpsRequest without filling in, merging, or removing template targets. KubeBlocks may materialize template volumeClaimTemplates for explicitly targeted inherited volumes.
+          description: Required when the current mode component instanceTemplate.ops includes storageExpansion; otherwise omit for component-level expansion. Explicit targets require this capability. Every configured template must explicitly specify the same volume names and target capacities as component-level volumes. Names identify templates, not Pods. Targets are forwarded together in one OpsRequest without filling in, merging, or removing template targets. KubeBlocks may materialize template volumeClaimTemplates for explicitly targeted inherited volumes.
           items:
             $ref: '#/components/schemas/instanceTemplateVolumeExpand'
         component:
@@ -33009,8 +33009,8 @@ components:
           type: object
           description: |
             Template fields and operations shared by the frontend and backend.
-            Volume expansion checks template targets only when supplied, requiring
-            storageExpansion in ops and targets for every name.
+            Declaring storageExpansion in ops requires explicit volume expansion targets
+            for every name. Components without this capability use component-level expansion.
           required:
             - names
             - ops

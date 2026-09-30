@@ -11,8 +11,8 @@ import (
 )
 
 // ModeComponentInstanceTemplate Template fields and operations shared by the frontend and backend.
-// Volume expansion checks template targets only when supplied, requiring
-// storageExpansion in ops and targets for every name.
+// Declaring storageExpansion in ops requires explicit volume expansion targets
+// for every name. Components without this capability use component-level expansion.
 type ModeComponentInstanceTemplate struct {
 	// Instance template names the frontend should render.
 	// Create and hscale check names against the chart or live Cluster,
