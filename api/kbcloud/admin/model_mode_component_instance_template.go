@@ -11,17 +11,17 @@ import (
 )
 
 // ModeComponentInstanceTemplate Template fields and operations shared by the frontend and backend.
-// Declaring storageExpansion in ops requires explicit volume expansion targets
-// for every name. Components without this capability use component-level expansion.
+// Declaring hscale or storageExpansion in ops requires explicit targets
+// for every name. The hscale requirement applies to replica scaling only.
 type ModeComponentInstanceTemplate struct {
 	// Instance template names the frontend should render.
-	// Create and hscale check names against the chart or live Cluster,
-	// not this list. Explicit volume expansion targets must include every name in this list.
+	// Create checks names against the chart. Replica hscale and volume expansion
+	// targets must include every name in this list.
 	//
 	Names []string `json:"names"`
 	// Template operations: hscale, storageExpansion, and reserved vscale.
-	// Explicit volume expansion targets must match component volume names
-	// and target capacities.
+	// Template hscale replicas must sum to the component target.
+	// Volume expansion targets must match component volume names and capacities.
 	//
 	Ops []InstanceTemplateOp `json:"ops"`
 	// Heterogeneous attributes the frontend should render on each
