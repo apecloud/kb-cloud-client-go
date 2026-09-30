@@ -27714,19 +27714,19 @@ components:
         name:
           type: string
           minLength: 1
-          description: Existing instance template name.
+          description: Template name from the current mode component instanceTemplate.names.
         volumes:
           type: array
           minItems: 1
           items:
             $ref: '#/components/schemas/opsVolumeExpandVolumesItems0'
     opsVolumeExpand:
-      description: OpsVolumeExpand is the payload to expand volume for a KubeBlocks cluster
+      description: Expand component volumes with optional explicit instance template targets.
       properties:
         instanceTemplates:
           type: array
           minItems: 1
-          description: When supplied, requires storageExpansion in the current mode component instanceTemplate.ops. Every configured template must explicitly specify the same volume names and target capacities as component-level volumes. Names identify templates, not Pods. Targets are forwarded together in one OpsRequest without filling in, merging, or removing template targets. KubeBlocks may materialize template volumeClaimTemplates for explicitly targeted inherited volumes.
+          description: Optional template targets; omit to use component-level expansion. When supplied, requires storageExpansion in the current mode component instanceTemplate.ops. Every configured template must explicitly specify the same volume names and target capacities as component-level volumes. Names identify templates, not Pods. Targets are forwarded together in one OpsRequest without filling in, merging, or removing template targets. KubeBlocks may materialize template volumeClaimTemplates for explicitly targeted inherited volumes.
           items:
             $ref: '#/components/schemas/instanceTemplateVolumeExpand'
         component:
@@ -33024,7 +33024,7 @@ components:
               description: |
                 Instance template names the frontend should render.
                 Create and hscale check names against the chart or live Cluster,
-                not this list.
+                not this list. Explicit volume expansion targets must include every name in this list.
             ops:
               type: array
               minItems: 1
@@ -33032,8 +33032,8 @@ components:
                 $ref: '#/components/schemas/instanceTemplateOp'
               description: |
                 Template operations: hscale, storageExpansion, and reserved vscale.
-                Expansion requests with template targets must specify the same
-                volume names and target capacities.
+                Explicit volume expansion targets must match component volume names
+                and target capacities.
             attributes:
               type: array
               uniqueItems: true

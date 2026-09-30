@@ -11,7 +11,7 @@ import (
 )
 
 type InstanceTemplateVolumeExpand struct {
-	// Existing instance template name.
+	// Template name from the current mode component instanceTemplate.names.
 	Name    string                         `json:"name"`
 	Volumes []OpsVolumeExpandVolumesItems0 `json:"volumes"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct

@@ -16,12 +16,12 @@ import (
 type ModeComponentInstanceTemplate struct {
 	// Instance template names the frontend should render.
 	// Create and hscale check names against the chart or live Cluster,
-	// not this list.
+	// not this list. Explicit volume expansion targets must include every name in this list.
 	//
 	Names []string `json:"names"`
 	// Template operations: hscale, storageExpansion, and reserved vscale.
-	// Expansion requests with template targets must specify the same
-	// volume names and target capacities.
+	// Explicit volume expansion targets must match component volume names
+	// and target capacities.
 	//
 	Ops []InstanceTemplateOp `json:"ops"`
 	// Heterogeneous attributes the frontend should render on each
