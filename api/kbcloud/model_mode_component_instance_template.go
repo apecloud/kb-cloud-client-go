@@ -19,8 +19,9 @@ type ModeComponentInstanceTemplate struct {
 	// not this list.
 	//
 	Names []string `json:"names"`
-	// Template operations: hscale, storageExpansion, and reserved vscale. Expansion requires explicit targets with equal
-	// final capacities for component and template volumes.
+	// Template operations: hscale, storageExpansion, and reserved vscale.
+	// Expansion requires component and template targets to specify the same
+	// volume names and target capacities.
 	//
 	Ops []InstanceTemplateOp `json:"ops"`
 	// Heterogeneous attributes the frontend should render on each

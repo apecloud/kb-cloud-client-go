@@ -33031,8 +33031,9 @@ components:
               items:
                 $ref: '#/components/schemas/instanceTemplateOp'
               description: |
-                Template operations: hscale, storageExpansion, and reserved vscale. Expansion requires explicit targets with equal
-                final capacities for component and template volumes.
+                Template operations: hscale, storageExpansion, and reserved vscale.
+                Expansion requires component and template targets to specify the same
+                volume names and target capacities.
             attributes:
               type: array
               uniqueItems: true
