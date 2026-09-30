@@ -12,7 +12,7 @@ import (
 
 // OpsVolumeExpand OpsVolumeExpand is the payload to expand volume for a KubeBlocks cluster
 type OpsVolumeExpand struct {
-	// Requires storageExpansion in the current mode component instanceTemplate.ops. Every configured template must explicitly specify the same volume names and target capacities as component-level volumes. Names identify templates, not Pods. Targets are forwarded together in one OpsRequest without filling in, merging, or removing template targets. KubeBlocks may materialize template volumeClaimTemplates for explicitly targeted inherited volumes.
+	// When supplied, requires storageExpansion in the current mode component instanceTemplate.ops. Every configured template must explicitly specify the same volume names and target capacities as component-level volumes. Names identify templates, not Pods. Targets are forwarded together in one OpsRequest without filling in, merging, or removing template targets. KubeBlocks may materialize template volumeClaimTemplates for explicitly targeted inherited volumes.
 	InstanceTemplates []InstanceTemplateVolumeExpand `json:"instanceTemplates,omitempty"`
 	Component         string                         `json:"component"`
 	Volumes           []OpsVolumeExpandVolumesItems0 `json:"volumes"`

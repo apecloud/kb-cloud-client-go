@@ -15,8 +15,8 @@ type ModeComponent struct {
 	HideEnpoints bool   `json:"hideEnpoints"`
 	HideOnCreate bool   `json:"hideOnCreate"`
 	// Template fields and operations shared by the frontend and backend.
-	// Template volume expansion requires storageExpansion in ops and targets
-	// for every name. Otherwise, use component-level expansion.
+	// Volume expansion checks template targets only when supplied, requiring
+	// storageExpansion in ops and targets for every name.
 	//
 	InstanceTemplate *ModeComponentInstanceTemplate `json:"instanceTemplate,omitempty"`
 	// the name of the serviceRef defined in mode's serviceRefs.
