@@ -33690,6 +33690,14 @@ components:
         - defaultMethod
         - fullMethod
       properties:
+        modes:
+          type: array
+          x-omitempty: false
+          description: |
+            Engine modes that support backup and restore. Omitted or null means all modes
+            (legacy behavior); an empty array disables backup and restore for all modes.
+          items:
+            type: string
         defaultMethod:
           type: string
         defaultComponent:
