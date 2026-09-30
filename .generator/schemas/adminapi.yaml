@@ -29920,7 +29920,7 @@ components:
       type: object
       additionalProperties: false
       description: |
-        Create assignment for one instance template. name and replicas are required. env, annotations, and labels are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once.
+        Create assignment for one instance template. name and replicas are required. env, annotations, labels, and availabilityZone are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once. A template with an explicit zone uses single-zone scheduling: hostname anti-affinity follows the scheduling policy, while explicit rules and additional topology keys are preserved. Component scheduling remains unchanged; templates without a zone inherit it, including its zone anti-affinity constraints. Chart instance scheduling policies are cleared; an omitted or empty availabilityZone leaves the instance policy unset to inherit the component policy.
       required:
         - name
         - replicas
@@ -29933,6 +29933,9 @@ components:
           type: integer
           minimum: 0
           description: Replica count for this instance template.
+        availabilityZone:
+          type: string
+          description: Availability zone for this template (topology.kubernetes.io/zone); omitted or empty inherits the component zone selection. Must be enabled in the environment. If the request explicitly supplies a non-empty cluster availabilityZones list, the template zone must also belong to that list.
         env:
           type: array
           description: Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
@@ -39301,6 +39304,7 @@ components:
         - env
         - annotations
         - labels
+        - availabilityZone
     instanceTemplateEnv:
       type: object
       description: One fillable env var on an instance template, for frontend rendering.
