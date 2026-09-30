@@ -30114,7 +30114,7 @@ components:
       type: object
       additionalProperties: false
       description: |
-        Create assignment for one instance template. name and replicas are required. env, annotations, labels, and availabilityZone are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once. A template with an explicit zone uses single-zone scheduling: hostname anti-affinity follows the scheduling policy, while explicit rules and additional topology keys are preserved. Component scheduling remains unchanged; templates without a zone inherit it, including its zone anti-affinity constraints. Chart instance scheduling policies are cleared; an omitted or empty availabilityZone leaves the instance policy unset to inherit the component policy.
+        Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, and storageClass are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once. A template with an explicit zone uses single-zone scheduling: hostname anti-affinity follows the scheduling policy, while explicit rules and additional topology keys are preserved. Component scheduling remains unchanged; templates without a zone inherit it, including its zone anti-affinity constraints. Chart instance scheduling policies are cleared; an omitted or empty availabilityZone leaves the instance policy unset to inherit the component policy.
       required:
         - name
         - replicas
@@ -30130,6 +30130,9 @@ components:
         availabilityZone:
           type: string
           description: Availability zone for this template (topology.kubernetes.io/zone); omitted or empty inherits the component zone selection. Must be enabled in the environment. If the request explicitly supplies a non-empty cluster availabilityZones list, the template zone must also belong to that list.
+        storageClass:
+          type: string
+          description: StorageClass name for all persistent volumes in this template. Copied from component volumeClaimTemplates, preserving volume sizes and other settings while overriding storageClassName. Chart instance volume templates are cleared; omitted or empty leaves instance volumeClaimTemplates unset.
         env:
           type: array
           description: Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
@@ -35697,9 +35700,43 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/engineServiceVersionsItem'
-    opsVolumeExpand:
-      description: OpsVolumeExpand is the payload to expand volume for a KubeBlocks cluster
+    opsVolumeExpandVolumesItems0:
+      type: object
+      required:
+        - name
+        - storage
       properties:
+        name:
+          type: string
+          minLength: 1
+          description: Volume name.
+        storage:
+          type: string
+          description: Desired size with Gi suffix, for example 30Gi.
+    instanceTemplateVolumeExpand:
+      type: object
+      required:
+        - name
+        - volumes
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Template name from the current mode component instanceTemplate.names.
+        volumes:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/opsVolumeExpandVolumesItems0'
+    opsVolumeExpand:
+      description: Expand component volumes and explicit targets for components with template expansion enabled.
+      properties:
+        instanceTemplates:
+          type: array
+          minItems: 1
+          description: Required when the current mode component instanceTemplate.ops includes storageExpansion; otherwise omit for component-level expansion. Explicit targets require this capability. Every configured template must explicitly specify the same volume names and target capacities as component-level volumes. Names identify templates, not Pods. Targets are forwarded together in one OpsRequest without filling in, merging, or removing template targets. KubeBlocks may materialize template volumeClaimTemplates for explicitly targeted inherited volumes.
+          items:
+            $ref: '#/components/schemas/instanceTemplateVolumeExpand'
         component:
           type: string
           minLength: 1
@@ -35707,17 +35744,7 @@ components:
           type: array
           minItems: 1
           items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: volume name
-              storage:
-                type: string
-                description: Storage size, the unit is Gi.
-            required:
-              - name
-              - storage
+            $ref: '#/components/schemas/opsVolumeExpandVolumesItems0'
       required:
         - volumes
         - component
@@ -39445,6 +39472,7 @@ components:
       enum:
         - hscale
         - vscale
+        - storageExpansion
     instanceTemplateAttribute:
       type: string
       description: Heterogeneous attribute the frontend may render on an instance template at create.
@@ -39453,6 +39481,7 @@ components:
         - annotations
         - labels
         - availabilityZone
+        - storageClass
     instanceTemplateEnv:
       type: object
       description: One fillable env var on an instance template, for frontend rendering.
@@ -39497,19 +39526,9 @@ components:
         instanceTemplate:
           type: object
           description: |
-            Frontend catalog of instance templates for this mode component.
-            names, ops, attributes, and env are for UI rendering. Create
-            validates the request against chart-rendered Cluster instances,
-            not this catalog. HScale does not re-check this catalog; it
-            builds the OpsRequest from the request and the live Cluster.
-            HScale instanceTemplates still requires top-level replicas.
-            ops lists hscale and vscale for the UI (vscale is reserved;
-            class stays component-level). Only HScale processes instance templates.
-            VolumeExpansion, VScale, Upgrade, Restart, and other operations silently
-            ignore instance templates and keep their component-level behavior.
-            Template-level volumeexpansion is not implemented.
-            The platform does not even-split or fill in missing templates.
-            When absent, the frontend should use component-level operations.
+            Template fields and operations shared by the frontend and backend.
+            Declaring storageExpansion in ops requires explicit volume expansion targets
+            for every name. Components without this capability use component-level expansion.
           required:
             - names
             - ops
@@ -39523,18 +39542,16 @@ components:
               description: |
                 Instance template names the frontend should render.
                 Create and hscale check names against the chart or live Cluster,
-                not this list.
+                not this list. Explicit volume expansion targets must include every name in this list.
             ops:
               type: array
               minItems: 1
               items:
                 $ref: '#/components/schemas/instanceTemplateOp'
               description: |
-                Operations the frontend should offer per template: hscale, vscale.
-                Not re-checked when creating a cluster or building an hscale OpsRequest.
-                Only hscale currently acts per template; vscale is reserved.
-                VolumeExpansion, VScale, Upgrade, and Restart ignore instance templates
-                and keep their component-level behavior.
+                Template operations: hscale, storageExpansion, and reserved vscale.
+                Explicit volume expansion targets must match component volume names
+                and target capacities.
             attributes:
               type: array
               uniqueItems: true

@@ -10,37 +10,36 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type OpsVolumeExpandVolumesItem struct {
-	// volume name
-	Name string `json:"name"`
-	// Storage size, the unit is Gi.
-	Storage string `json:"storage"`
+type InstanceTemplateVolumeExpand struct {
+	// Template name from the current mode component instanceTemplate.names.
+	Name    string                         `json:"name"`
+	Volumes []OpsVolumeExpandVolumesItems0 `json:"volumes"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewOpsVolumeExpandVolumesItem instantiates a new OpsVolumeExpandVolumesItem object.
+// NewInstanceTemplateVolumeExpand instantiates a new InstanceTemplateVolumeExpand object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOpsVolumeExpandVolumesItem(name string, storage string) *OpsVolumeExpandVolumesItem {
-	this := OpsVolumeExpandVolumesItem{}
+func NewInstanceTemplateVolumeExpand(name string, volumes []OpsVolumeExpandVolumesItems0) *InstanceTemplateVolumeExpand {
+	this := InstanceTemplateVolumeExpand{}
 	this.Name = name
-	this.Storage = storage
+	this.Volumes = volumes
 	return &this
 }
 
-// NewOpsVolumeExpandVolumesItemWithDefaults instantiates a new OpsVolumeExpandVolumesItem object.
+// NewInstanceTemplateVolumeExpandWithDefaults instantiates a new InstanceTemplateVolumeExpand object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewOpsVolumeExpandVolumesItemWithDefaults() *OpsVolumeExpandVolumesItem {
-	this := OpsVolumeExpandVolumesItem{}
+func NewInstanceTemplateVolumeExpandWithDefaults() *InstanceTemplateVolumeExpand {
+	this := InstanceTemplateVolumeExpand{}
 	return &this
 }
 
 // GetName returns the Name field value.
-func (o *OpsVolumeExpandVolumesItem) GetName() string {
+func (o *InstanceTemplateVolumeExpand) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -50,7 +49,7 @@ func (o *OpsVolumeExpandVolumesItem) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *OpsVolumeExpandVolumesItem) GetNameOk() (*string, bool) {
+func (o *InstanceTemplateVolumeExpand) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -58,41 +57,41 @@ func (o *OpsVolumeExpandVolumesItem) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value.
-func (o *OpsVolumeExpandVolumesItem) SetName(v string) {
+func (o *InstanceTemplateVolumeExpand) SetName(v string) {
 	o.Name = v
 }
 
-// GetStorage returns the Storage field value.
-func (o *OpsVolumeExpandVolumesItem) GetStorage() string {
+// GetVolumes returns the Volumes field value.
+func (o *InstanceTemplateVolumeExpand) GetVolumes() []OpsVolumeExpandVolumesItems0 {
 	if o == nil {
-		var ret string
+		var ret []OpsVolumeExpandVolumesItems0
 		return ret
 	}
-	return o.Storage
+	return o.Volumes
 }
 
-// GetStorageOk returns a tuple with the Storage field value
+// GetVolumesOk returns a tuple with the Volumes field value
 // and a boolean to check if the value has been set.
-func (o *OpsVolumeExpandVolumesItem) GetStorageOk() (*string, bool) {
+func (o *InstanceTemplateVolumeExpand) GetVolumesOk() (*[]OpsVolumeExpandVolumesItems0, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Storage, true
+	return &o.Volumes, true
 }
 
-// SetStorage sets field value.
-func (o *OpsVolumeExpandVolumesItem) SetStorage(v string) {
-	o.Storage = v
+// SetVolumes sets field value.
+func (o *InstanceTemplateVolumeExpand) SetVolumes(v []OpsVolumeExpandVolumesItems0) {
+	o.Volumes = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o OpsVolumeExpandVolumesItem) MarshalJSON() ([]byte, error) {
+func (o InstanceTemplateVolumeExpand) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["name"] = o.Name
-	toSerialize["storage"] = o.Storage
+	toSerialize["volumes"] = o.Volumes
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -101,10 +100,10 @@ func (o OpsVolumeExpandVolumesItem) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *OpsVolumeExpandVolumesItem) UnmarshalJSON(bytes []byte) (err error) {
+func (o *InstanceTemplateVolumeExpand) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name    *string `json:"name"`
-		Storage *string `json:"storage"`
+		Name    *string                         `json:"name"`
+		Volumes *[]OpsVolumeExpandVolumesItems0 `json:"volumes"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -112,17 +111,17 @@ func (o *OpsVolumeExpandVolumesItem) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
 	}
-	if all.Storage == nil {
-		return fmt.Errorf("required field storage missing")
+	if all.Volumes == nil {
+		return fmt.Errorf("required field volumes missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "storage"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "volumes"})
 	} else {
 		return err
 	}
 	o.Name = *all.Name
-	o.Storage = *all.Storage
+	o.Volumes = *all.Volumes
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -19,6 +19,7 @@ const (
 	InstanceTemplateAttributeAnnotations      InstanceTemplateAttribute = "annotations"
 	InstanceTemplateAttributeLabels           InstanceTemplateAttribute = "labels"
 	InstanceTemplateAttributeAvailabilityZone InstanceTemplateAttribute = "availabilityZone"
+	InstanceTemplateAttributeStorageClass     InstanceTemplateAttribute = "storageClass"
 )
 
 var allowedInstanceTemplateAttributeEnumValues = []InstanceTemplateAttribute{
@@ -26,6 +27,7 @@ var allowedInstanceTemplateAttributeEnumValues = []InstanceTemplateAttribute{
 	InstanceTemplateAttributeAnnotations,
 	InstanceTemplateAttributeLabels,
 	InstanceTemplateAttributeAvailabilityZone,
+	InstanceTemplateAttributeStorageClass,
 }
 
 // GetAllowedValues returns the list of possible values.
