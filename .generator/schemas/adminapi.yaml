@@ -5307,7 +5307,10 @@ paths:
                 properties:
                   taskId:
                     type: string
-                    description: the task id
+                    description: Cloud TaskFlow task ID; query using the unified task API
+                  workflowEngine:
+                    type: string
+                    description: Always taskflow for new import tasks
         '401':
           $ref: '#/components/responses/401'
         '403':
