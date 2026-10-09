@@ -177,6 +177,7 @@
 //   - [clusterApi.updateTDE]
 //   - [clusterApi.validateClusterCreation]
 //   - [clusterAlertSwitchApi.getClusterAlertDisabled]
+//   - [clusterAlertSwitchApi.listClusterAlertRules]
 //   - [clusterAlertSwitchApi.setClusterAlertDisabled]
 //   - [clusterJarApi.deleteClusterJar]
 //   - [clusterJarApi.distributeClusterJar]

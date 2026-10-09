@@ -13886,13 +13886,46 @@ paths:
         '401':
           $ref: '#/components/responses/401'
       x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/alerts/cluster/{clusterName}/rules:
+    get:
+      tags:
+        - clusterAlertSwitch
+        - shared
+      operationId: listClusterAlertRules
+      summary: List applicable alert rules for a cluster
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertRuleList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/organizations/{orgName}/alerts/cluster/{clusterName}:
     get:
       tags:
         - clusterAlertSwitch
         - shared
       operationId: getClusterAlertDisabled
-      summary: Check if cluster alert is disabled
+      summary: Get cluster alert settings
       parameters:
         - name: orgName
           in: path
@@ -13924,7 +13957,7 @@ paths:
         - clusterAlertSwitch
         - shared
       operationId: setClusterAlertDisabled
-      summary: Set cluster alert disabled or enabled
+      summary: Update cluster alert settings
       parameters:
         - name: orgName
           in: path
@@ -38978,46 +39011,6 @@ components:
       required:
         - items
       type: object
-    alertCluster:
-      required:
-        - disabled
-      type: object
-      properties:
-        disabled:
-          type: boolean
-    URLCheck:
-      type: object
-      required:
-        - url
-      properties:
-        url:
-          type: string
-          format: uri
-          example: https://example.com
-        isConnectable:
-          type: boolean
-          example: true
-          default: false
-        timeout:
-          type: integer
-          minimum: 1
-          maximum: 30
-          default: 5
-          example: 5
-        error:
-          type: string
-          example: null
-    alertStatistic:
-      type: object
-      properties:
-        total:
-          type: integer
-        critical:
-          type: integer
-        warning:
-          type: integer
-        info:
-          type: integer
     alertSeverity:
       enum:
         - critical
@@ -39081,6 +39074,112 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertRuleList is a list of alert rules
+    alertClusterSilenceMode:
+      type: string
+      enum:
+        - once
+        - weekly
+      description: Required when enabled. Once uses absolute timestamps; weekly uses weekdays and local times in timeZone.
+    alertClusterSilence:
+      type: object
+      required:
+        - enabled
+      description: Pause notifications while continuing to record alerts. Set enabled to false to cancel. Time windows include their start and exclude their end.
+      properties:
+        enabled:
+          type: boolean
+        rules:
+          type: array
+          maxItems: 1000
+          description: Alert names to silence. Empty or omitted means all cluster alerts.
+          items:
+            type: string
+            minLength: 1
+            maxLength: 255
+        mode:
+          $ref: '#/components/schemas/alertClusterSilenceMode'
+        startsAt:
+          type: string
+          format: date-time
+          description: Required for once. Absolute start of the silence window.
+        endsAt:
+          type: string
+          format: date-time
+          description: Required for once. Must be later than startsAt.
+        weekdays:
+          type: array
+          maxItems: 7
+          description: Required for weekly. Sunday is 0. Overnight windows belong to the weekday on which they start.
+          items:
+            type: integer
+            minimum: 0
+            maximum: 6
+        startTime:
+          type: string
+          description: Required for weekly, in HH:mm format.
+        endTime:
+          type: string
+          description: Required for weekly, in HH:mm format. Earlier than startTime means the following day; equal times are invalid.
+        timeZone:
+          type: string
+          maxLength: 100
+          description: Required for weekly. IANA timezone, e.g. Asia/Shanghai or UTC.
+    alertCluster:
+      type: object
+      description: Cluster-scoped alert settings. PATCH updates only supplied fields; settings apply to both tenant and administrator notifications.
+      properties:
+        disabled:
+          type: boolean
+          x-nullable: true
+          description: Disable all cluster alerts. Existing rule and silence settings are preserved.
+        disabledRules:
+          type: array
+          maxItems: 1000
+          x-omitempty: false
+          description: Alert names disabled only for this cluster. An empty array clears all rule overrides; omission preserves them.
+          items:
+            type: string
+            minLength: 1
+            maxLength: 255
+        silence:
+          $ref: '#/components/schemas/alertClusterSilence'
+        silenceActive:
+          type: boolean
+          readOnly: true
+          description: Whether the configured silence window is active now, regardless of the alert master switch.
+    URLCheck:
+      type: object
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          format: uri
+          example: https://example.com
+        isConnectable:
+          type: boolean
+          example: true
+          default: false
+        timeout:
+          type: integer
+          minimum: 1
+          maximum: 30
+          default: 5
+          example: 5
+        error:
+          type: string
+          example: null
+    alertStatistic:
+      type: object
+      properties:
+        total:
+          type: integer
+        critical:
+          type: integer
+        warning:
+          type: integer
+        info:
+          type: integer
     alertStatus:
       enum:
         - resolved
