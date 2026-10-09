@@ -5317,90 +5317,6 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/task:
-    get:
-      tags:
-        - dms
-        - shared
-      summary: Get the task progress
-      operationId: GetTaskProgress
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          description: name of the cluster
-          required: true
-          schema:
-            type: string
-        - name: id
-          in: path
-          description: id of the datasource
-          required: true
-          schema:
-            type: string
-        - name: taskId
-          in: query
-          description: the task id
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Get the task success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DmsTaskInfo'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/tasks:
-    get:
-      tags:
-        - dms
-        - shared
-      summary: Get the task list
-      operationId: GetTaskList
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          description: name of the cluster
-          required: true
-          schema:
-            type: string
-        - name: id
-          in: path
-          description: id of the datasource
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Get the task list success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DmsTaskList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases:
     get:
       tags:
@@ -32788,38 +32704,6 @@ components:
           type: string
           format: binary
           description: the data file, csv or other format
-    DmsTaskInfo:
-      type: object
-      properties:
-        id:
-          type: string
-          description: task id
-        datasource:
-          type: string
-          description: datasource id
-        message:
-          type: string
-          description: if task failed, this will show why
-          nullable: true
-        status:
-          type: string
-          description: task status
-        type:
-          type: string
-          description: task type
-        updatedAt:
-          type: string
-          format: date-time
-        createdAt:
-          type: string
-          format: date-time
-    DmsTaskList:
-      type: object
-      properties:
-        tasks:
-          type: array
-          items:
-            $ref: '#/components/schemas/DmsTaskInfo'
     DmsSchemaList:
       type: array
       items:
