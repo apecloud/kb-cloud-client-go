@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// OpsHScale OpsHScale is the payload to horizontally scale a KubeBlocks cluster. Specify replicas or shards. instanceTemplates is an optional overlay and requires top-level replicas.
+// OpsHScale OpsHScale is the payload to horizontally scale a KubeBlocks cluster. Specify replicas or shards. Replica scaling requires explicit template targets when the current mode component declares instanceTemplate.ops hscale.
 type OpsHScale struct {
 	// component type
 	Component string `json:"component"`
@@ -18,7 +18,7 @@ type OpsHScale struct {
 	BackupName common.NullableString `json:"backupName,omitempty"`
 	// number of replicas
 	Replicas common.NullableInt32 `json:"replicas,omitempty"`
-	// Target replica count for named instance templates. Requires top-level replicas. Mapped onto the live Cluster spec to build scaleIn/scaleOut.instances. Required for replica scaling when the live component has instance templates. Names must exactly match all live instance templates, without missing, extra, or duplicate names; order does not matter. Top-level replicas must equal the sum of all requested template replica counts. Shard-count scaling does not check templates and cannot include this list.
+	// Explicit template replica targets, required when the current mode component instanceTemplate.ops includes hscale. Otherwise omit for component-level scaling. Requires top-level replicas and every name from instanceTemplate.names, without missing, extra, or duplicate names. Template replica counts must sum to the component target; equal distribution is not required by the API. Component and template changes are sent together in one OpsRequest using current Cluster replicas to calculate scaleIn/scaleOut deltas. Shard-count scaling cannot include this list.
 	InstanceTemplates []InstanceTemplateReplicas `json:"instanceTemplates,omitempty"`
 	// List of online instance names to be switched to offline during scaling in.
 	OnlineInstancesToOffline common.NullableList[string] `json:"onlineInstancesToOffline,omitempty"`

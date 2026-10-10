@@ -30170,11 +30170,11 @@ components:
           title: Replicas
           type: integer
           x-nullable: true
-          description: Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas. If the rendered component has instance templates, this must equal the sum of all template replica counts in the complete instanceTemplates list.
+          description: Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas. When instanceTemplates is provided, this must equal the sum of all template replica counts.
         instanceTemplates:
           type: array
           minItems: 1
-          description: Per-template replicas and optional overlays (env, annotations, labels). Required when the chart renders instance templates. Names must exactly match all chart-rendered instances, without missing, extra, or duplicate names; order does not matter. Component replicas must equal the sum of all requested instance template replica counts.
+          description: Per-template replicas and optional overlays (env, annotations, labels, availability zone, storage class). Required when the current mode component declares instanceTemplate in engine_options; otherwise omit. Names must exactly match all chart-rendered instances, without missing, extra, or duplicate names; order does not matter. Component replicas must equal the sum of all requested instance template replica counts.
           items:
             $ref: '#/components/schemas/instanceTemplateCreate'
         skipResourceConstraints:
@@ -31567,7 +31567,7 @@ components:
           minimum: 0
           description: Target replica count for this instance template.
     opsHScale:
-      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. Specify replicas or shards. instanceTemplates is an optional overlay and requires top-level replicas.
+      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. Specify replicas or shards. Replica scaling requires explicit template targets when the current mode component declares instanceTemplate.ops hscale.
       required:
         - component
       properties:
@@ -31586,7 +31586,7 @@ components:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Target replica count for named instance templates. Requires top-level replicas. Mapped onto the live Cluster spec to build scaleIn/scaleOut.instances. Required for replica scaling when the live component has instance templates. Names must exactly match all live instance templates, without missing, extra, or duplicate names; order does not matter. Top-level replicas must equal the sum of all requested template replica counts. Shard-count scaling does not check templates and cannot include this list.
+          description: Explicit template replica targets, required when the current mode component instanceTemplate.ops includes hscale. Otherwise omit for component-level scaling. Requires top-level replicas and every name from instanceTemplate.names, without missing, extra, or duplicate names. Template replica counts must sum to the component target; equal distribution is not required by the API. Component and template changes are sent together in one OpsRequest using current Cluster replicas to calculate scaleIn/scaleOut deltas. Shard-count scaling cannot include this list.
           items:
             $ref: '#/components/schemas/instanceTemplateReplicas'
         onlineInstancesToOffline:
@@ -39442,8 +39442,9 @@ components:
           type: object
           description: |
             Template fields and operations shared by the frontend and backend.
-            Declaring storageExpansion in ops requires explicit volume expansion targets
-            for every name. Components without this capability use component-level expansion.
+            Requested components require creation template targets when instanceTemplate is declared.
+            Declaring hscale or storageExpansion in ops requires explicit targets
+            for every name. The hscale requirement applies to replica scaling only.
           required:
             - names
             - ops
@@ -39456,8 +39457,8 @@ components:
                 type: string
               description: |
                 Instance template names the frontend should render.
-                Create and hscale check names against the chart or live Cluster,
-                not this list. Explicit volume expansion targets must include every name in this list.
+                Create checks names against the chart. Replica hscale and volume expansion
+                targets must include every name in this list.
             ops:
               type: array
               minItems: 1
@@ -39465,8 +39466,8 @@ components:
                 $ref: '#/components/schemas/instanceTemplateOp'
               description: |
                 Template operations: hscale, storageExpansion, and reserved vscale.
-                Explicit volume expansion targets must match component volume names
-                and target capacities.
+                Template hscale replicas must sum to the component target.
+                Volume expansion targets must match component volume names and capacities.
             attributes:
               type: array
               uniqueItems: true
