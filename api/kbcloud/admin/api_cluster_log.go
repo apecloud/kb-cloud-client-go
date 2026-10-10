@@ -1188,6 +1188,7 @@ type QueryAuditLogsOptionalParameters struct {
 	ComponentName *string
 	InstanceName  *string
 	Query         *string
+	Filename      *string
 	SortType      *SortType
 }
 
@@ -1218,6 +1219,12 @@ func (r *QueryAuditLogsOptionalParameters) WithInstanceName(instanceName string)
 // WithQuery sets the corresponding parameter name and returns the struct.
 func (r *QueryAuditLogsOptionalParameters) WithQuery(query string) *QueryAuditLogsOptionalParameters {
 	r.Query = &query
+	return r
+}
+
+// WithFilename sets the corresponding parameter name and returns the struct.
+func (r *QueryAuditLogsOptionalParameters) WithFilename(filename string) *QueryAuditLogsOptionalParameters {
+	r.Filename = &filename
 	return r
 }
 
@@ -1278,6 +1285,9 @@ func (a *ClusterLogApi) QueryAuditLogs(ctx _context.Context, orgName string, clu
 	}
 	if optionalParams.Query != nil {
 		localVarQueryParams.Add("query", common.ParameterToString(*optionalParams.Query, ""))
+	}
+	if optionalParams.Filename != nil {
+		localVarQueryParams.Add("filename", common.ParameterToString(*optionalParams.Filename, ""))
 	}
 	if optionalParams.SortType != nil {
 		localVarQueryParams.Add("sortType", common.ParameterToString(*optionalParams.SortType, ""))
