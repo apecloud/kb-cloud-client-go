@@ -3688,6 +3688,14 @@ paths:
           schema:
             type: string
         - in: query
+          name: query
+          schema:
+            type: string
+        - in: query
+          name: filename
+          schema:
+            type: string
+        - in: query
           name: sortType
           schema:
             $ref: '#/components/schemas/sortType'
@@ -4351,6 +4359,8 @@ paths:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
+        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/filename'
         - $ref: '#/components/parameters/sortType'
       responses:
         '200':
