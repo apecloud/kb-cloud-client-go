@@ -30160,11 +30160,11 @@ components:
           title: Replicas
           type: integer
           x-nullable: true
-          description: Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas. If the rendered component has instance templates, this must equal the sum of all template replica counts in the complete instanceTemplates list.
+          description: Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas. When instanceTemplates is provided, this must equal the sum of all template replica counts.
         instanceTemplates:
           type: array
           minItems: 1
-          description: Per-template replicas and optional overlays (env, annotations, labels). Required when the chart renders instance templates. Names must exactly match all chart-rendered instances, without missing, extra, or duplicate names; order does not matter. Component replicas must equal the sum of all requested instance template replica counts.
+          description: Per-template replicas and optional overlays (env, annotations, labels, availability zone, storage class). Required when the current mode component declares instanceTemplate in engine_options; otherwise omit. Names must exactly match all chart-rendered instances, without missing, extra, or duplicate names; order does not matter. Component replicas must equal the sum of all requested instance template replica counts.
           items:
             $ref: '#/components/schemas/instanceTemplateCreate'
         skipResourceConstraints:
@@ -39432,6 +39432,7 @@ components:
           type: object
           description: |
             Template fields and operations shared by the frontend and backend.
+            Declaring instanceTemplate requires creation request templates; otherwise omit them.
             Declaring hscale or storageExpansion in ops requires explicit targets
             for every name. The hscale requirement applies to replica scaling only.
           required:

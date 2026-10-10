@@ -11,6 +11,7 @@ import (
 )
 
 // ModeComponentInstanceTemplate Template fields and operations shared by the frontend and backend.
+// Declaring instanceTemplate requires creation request templates; otherwise omit them.
 // Declaring hscale or storageExpansion in ops requires explicit targets
 // for every name. The hscale requirement applies to replica scaling only.
 type ModeComponentInstanceTemplate struct {
