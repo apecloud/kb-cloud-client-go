@@ -314,6 +314,7 @@ type QueryLokiAuditLogsOptionalParameters struct {
 	Limit         *string
 	ComponentName *string
 	InstanceName  *string
+	Query         *string
 	SortType      *SortType
 }
 
@@ -338,6 +339,12 @@ func (r *QueryLokiAuditLogsOptionalParameters) WithComponentName(componentName s
 // WithInstanceName sets the corresponding parameter name and returns the struct.
 func (r *QueryLokiAuditLogsOptionalParameters) WithInstanceName(instanceName string) *QueryLokiAuditLogsOptionalParameters {
 	r.InstanceName = &instanceName
+	return r
+}
+
+// WithQuery sets the corresponding parameter name and returns the struct.
+func (r *QueryLokiAuditLogsOptionalParameters) WithQuery(query string) *QueryLokiAuditLogsOptionalParameters {
+	r.Query = &query
 	return r
 }
 
@@ -395,6 +402,9 @@ func (a *ClusterLokiLogApi) QueryLokiAuditLogs(ctx _context.Context, orgName str
 	}
 	if optionalParams.InstanceName != nil {
 		localVarQueryParams.Add("instanceName", common.ParameterToString(*optionalParams.InstanceName, ""))
+	}
+	if optionalParams.Query != nil {
+		localVarQueryParams.Add("query", common.ParameterToString(*optionalParams.Query, ""))
 	}
 	if optionalParams.SortType != nil {
 		localVarQueryParams.Add("sortType", common.ParameterToString(*optionalParams.SortType, ""))
