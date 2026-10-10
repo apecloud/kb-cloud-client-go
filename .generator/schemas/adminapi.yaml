@@ -5307,91 +5307,10 @@ paths:
                 properties:
                   taskId:
                     type: string
-                    description: the task id
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/task:
-    get:
-      tags:
-        - dms
-        - shared
-      summary: Get the task progress
-      operationId: GetTaskProgress
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          description: name of the cluster
-          required: true
-          schema:
-            type: string
-        - name: id
-          in: path
-          description: id of the datasource
-          required: true
-          schema:
-            type: string
-        - name: taskId
-          in: query
-          description: the task id
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Get the task success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DmsTaskInfo'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/tasks:
-    get:
-      tags:
-        - dms
-        - shared
-      summary: Get the task list
-      operationId: GetTaskList
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          description: name of the cluster
-          required: true
-          schema:
-            type: string
-        - name: id
-          in: path
-          description: id of the datasource
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Get the task list success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DmsTaskList'
+                    description: Cloud TaskFlow task ID; query using the unified task API
+                  workflowEngine:
+                    type: string
+                    description: Always taskflow for new import tasks
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -32785,38 +32704,6 @@ components:
           type: string
           format: binary
           description: the data file, csv or other format
-    DmsTaskInfo:
-      type: object
-      properties:
-        id:
-          type: string
-          description: task id
-        datasource:
-          type: string
-          description: datasource id
-        message:
-          type: string
-          description: if task failed, this will show why
-          nullable: true
-        status:
-          type: string
-          description: task status
-        type:
-          type: string
-          description: task type
-        updatedAt:
-          type: string
-          format: date-time
-        createdAt:
-          type: string
-          format: date-time
-    DmsTaskList:
-      type: object
-      properties:
-        tasks:
-          type: array
-          items:
-            $ref: '#/components/schemas/DmsTaskInfo'
     DmsSchemaList:
       type: array
       items:
@@ -36364,6 +36251,24 @@ components:
             defaultBackupRepo:
               type: boolean
               description: judge whether to set the backup is default which will be init
+    victoriaLogsConfig:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/staticCluster'
+        - type: object
+          properties:
+            retentionPeriod:
+              type: string
+              x-nullable: false
+              default: 100y
+              description: Environment installation log retention, explicitly overriding the addon default. Defaults to 100y when omitted. Accepts a number with s (seconds), h (hours), d (days), w (weeks), M (months), or y (years); a bare number means months. Must be between 1d and 100y. Disk usage retention limits still apply.
+            retentionMaxDiskUsagePercent:
+              type: integer
+              nullable: true
+              default: 80
+              minimum: 1
+              maximum: 100
+              description: Maximum disk usage percentage before VictoriaLogs deletes older log partitions. Defaults to 80 when omitted. Applies independently of retentionPeriod.
     environmentModuleStatus:
       type: string
       description: Status of an environment module. Enabled is only used as the desired state when creating an environment. NotInstalled, Installing, and InstallationFailed describe quick installation; Upgradeable, Upgrading, and UpgradeFailed describe quick upgrade. Upgradeable means the component is running but an ApeCloud-bundled newer version is available. Unknown means the current state could not be determined.
@@ -36455,8 +36360,8 @@ components:
           description: Optional vm-storage spec (replicas, disk, classCode) when adding an environment. vm-insert and vm-select keep installer defaults.
           $ref: '#/components/schemas/staticCluster'
         victoriaLogs:
-          description: Optional vlstorage spec (replicas, disk, classCode) when adding an environment. vlinsert and vlselect keep installer defaults.
-          $ref: '#/components/schemas/staticCluster'
+          description: Optional vlstorage resources and log retention when adding an environment. vlinsert and vlselect keep installer defaults.
+          $ref: '#/components/schemas/victoriaLogsConfig'
         modules:
           type: array
           description: option modules of environment
