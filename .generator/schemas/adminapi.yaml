@@ -39412,6 +39412,21 @@ components:
                           type: string
             architecture:
               $ref: '#/components/schemas/componentVersionArchitecture'
+            blockedUpgradeFrom:
+              type: array
+              description: Upgrades that must not be offered or accepted for this component, keyed by the service version the cluster currently runs. Use it when a target version is not a drop-in replacement for a source version, for example when the source image ships modules the target image no longer carries. Upgrades matching no rule stay untouched.
+              items:
+                type: object
+                description: One upgrade restriction while the cluster runs a service version matching from, upgrading to a service version matching to is not allowed.
+                required:
+                  - from
+                properties:
+                  from:
+                    type: string
+                    description: Pattern of the service version the cluster currently runs. Supports exact version "7.4.7", version prefix "7.4", and comparisons ">=7.4.5", ">7.4.4", "<=7.4.7", "<7.4.8".
+                  to:
+                    type: string
+                    description: Pattern of the service version the upgrade is blocked to, with the same syntax as from. Omit to block every upgrade target, which makes from the end of the line for the component.
         main:
           description: Main component flag
           type: boolean
