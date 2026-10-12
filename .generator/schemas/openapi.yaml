@@ -9502,13 +9502,46 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/alerts/cluster/{clusterName}/rules:
+    get:
+      tags:
+        - clusterAlertSwitch
+        - shared
+      operationId: listClusterAlertRules
+      summary: List applicable alert rules for a cluster
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertRuleList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/alerts/cluster/{clusterName}:
     get:
       tags:
         - clusterAlertSwitch
         - shared
       operationId: getClusterAlertDisabled
-      summary: Check if cluster alert is disabled
+      summary: Get cluster alert settings
       parameters:
         - name: orgName
           in: path
@@ -9540,7 +9573,7 @@ paths:
         - clusterAlertSwitch
         - shared
       operationId: setClusterAlertDisabled
-      summary: Set cluster alert disabled or enabled
+      summary: Update cluster alert settings
       parameters:
         - name: orgName
           in: path
@@ -19048,6 +19081,124 @@ paths:
       tags:
         - account
         - shared
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/table-privileges:
+    get:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: Inspect native table and column privileges
+      operationId: getAccountTablePrivileges
+      description: Available alongside preset account privileges. Supports MySQL and PostgreSQL; direct grants do not represent all effective access.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: databaseName
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: schemaName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: tableName
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: host
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Native privilege snapshot
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TablePrivilegeSnapshot'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: Grant or revoke native table and column privileges
+      operationId: changeAccountTablePrivileges
+      description: Additive native GRANT/REVOKE, independent of preset control. Does not replace existing grants. PostgreSQL table REVOKE can remove corresponding column grants; MySQL GRANT OPTION is table-wide.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TablePrivilegeChange'
+      responses:
+        '204':
+          description: Native statement completed. Query privileges again to inspect remaining access.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
   /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/privileges:
     patch:
       description: update account privileges for rdbms engine
@@ -32532,13 +32683,79 @@ components:
           format: date-time
           description: response generation time
       description: Cluster alert summary
-    alertCluster:
-      required:
-        - disabled
+    alertClusterSilenceMode:
+      type: string
+      enum:
+        - once
+        - weekly
+      description: Required when enabled. Once uses absolute timestamps; weekly uses weekdays and local times in timeZone.
+    alertClusterSilence:
       type: object
+      required:
+        - enabled
+      description: Pause notifications while continuing to record alerts. Set enabled to false to cancel. Time windows include their start and exclude their end.
+      properties:
+        enabled:
+          type: boolean
+        rules:
+          type: array
+          maxItems: 1000
+          description: Alert names to silence. Empty or omitted means all cluster alerts.
+          items:
+            type: string
+            minLength: 1
+            maxLength: 255
+        mode:
+          $ref: '#/components/schemas/alertClusterSilenceMode'
+        startsAt:
+          type: string
+          format: date-time
+          description: Required for once. Absolute start of the silence window.
+        endsAt:
+          type: string
+          format: date-time
+          description: Required for once. Must be later than startsAt.
+        weekdays:
+          type: array
+          maxItems: 7
+          description: Required for weekly. Sunday is 0. Overnight windows belong to the weekday on which they start.
+          items:
+            type: integer
+            minimum: 0
+            maximum: 6
+        startTime:
+          type: string
+          description: Required for weekly, in HH:mm format.
+        endTime:
+          type: string
+          description: Required for weekly, in HH:mm format. Earlier than startTime means the following day; equal times are invalid.
+        timeZone:
+          type: string
+          maxLength: 100
+          description: Required for weekly. IANA timezone, e.g. Asia/Shanghai or UTC.
+    alertCluster:
+      type: object
+      description: Cluster-scoped alert settings. PATCH updates only supplied fields; settings apply to both tenant and administrator notifications.
       properties:
         disabled:
           type: boolean
+          x-nullable: true
+          description: Disable all cluster alerts. Existing rule and silence settings are preserved.
+        disabledRules:
+          type: array
+          maxItems: 1000
+          x-omitempty: false
+          description: Alert names disabled only for this cluster. An empty array clears all rule overrides; omission preserves them.
+          items:
+            type: string
+            minLength: 1
+            maxLength: 255
+        silence:
+          $ref: '#/components/schemas/alertClusterSilence'
+        silenceActive:
+          type: boolean
+          readOnly: true
+          description: Whether the configured silence window is active now, regardless of the alert master switch.
     alertConfig:
       required:
         - timeZoneOffset
@@ -39687,6 +39904,139 @@ components:
       required:
         - name
       type: object
+    TablePrivilegeTarget:
+      type: object
+      required:
+        - databaseName
+        - tableName
+      properties:
+        databaseName:
+          type: string
+          minLength: 1
+          description: Exact database name; no wildcard expansion.
+        schemaName:
+          type: string
+          description: Required for PostgreSQL; omitted for MySQL.
+        tableName:
+          type: string
+          minLength: 1
+          description: Exact existing table or view name.
+        host:
+          type: string
+          description: MySQL account host, defaults to %. Omitted for PostgreSQL.
+    TablePrivilegeGrant:
+      type: object
+      required:
+        - name
+        - grantable
+      properties:
+        name:
+          type: string
+        column:
+          type: string
+          description: Empty means a table-level privilege.
+        grantable:
+          type: boolean
+        grantor:
+          type: string
+          description: PostgreSQL ACL grantor. Omitted for MySQL and effective privilege results.
+    TablePrivilegeSnapshot:
+      type: object
+      required:
+        - target
+        - username
+        - supportedTablePrivileges
+        - supportedColumnPrivileges
+        - directPrivileges
+        - effectivePrivilegesKnown
+      properties:
+        target:
+          $ref: '#/components/schemas/TablePrivilegeTarget'
+        username:
+          type: string
+        supportedTablePrivileges:
+          type: array
+          items:
+            type: string
+        supportedColumnPrivileges:
+          type: array
+          items:
+            type: string
+        directPrivileges:
+          type: array
+          items:
+            $ref: '#/components/schemas/TablePrivilegeGrant'
+          description: Exact table/column grants to this account. Does not represent all effective access.
+        effectivePrivilegesKnown:
+          type: boolean
+          description: True for PostgreSQL native privilege checks. False for MySQL because active roles depend on the login session; do not interpret an omitted effectivePrivileges list as no access.
+        effectivePrivileges:
+          type: array
+          items:
+            $ref: '#/components/schemas/TablePrivilegeGrant'
+          description: PostgreSQL has_table_privilege/has_column_privilege including inherited and PUBLIC grants; excludes RLS, session SET ROLE and other execution prerequisites.
+        databaseConnect:
+          type: boolean
+          x-nullable: true
+          description: PostgreSQL CONNECT prerequisite; omitted for MySQL.
+        schemaUsage:
+          type: boolean
+          x-nullable: true
+          description: PostgreSQL USAGE prerequisite; omitted for MySQL.
+        accountGrants:
+          type: array
+          items:
+            type: string
+          description: MySQL SHOW GRANTS output including database/global grants and role memberships; roles are not expanded or assumed active.
+        warnings:
+          type: array
+          items:
+            type: string
+    TablePrivilegeSpec:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Native privilege keyword returned by supportedTablePrivileges or supportedColumnPrivileges.
+        columns:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+          description: Exact column names. Empty or omitted means the whole table.
+    TablePrivilegeChange:
+      type: object
+      required:
+        - target
+        - action
+      properties:
+        target:
+          $ref: '#/components/schemas/TablePrivilegeTarget'
+        action:
+          type: string
+          description: Operation, either grant or revoke.
+        privileges:
+          type: array
+          maxItems: 128
+          items:
+            $ref: '#/components/schemas/TablePrivilegeSpec'
+          description: Required unless revoking the MySQL table-wide GRANT OPTION.
+        grantPrerequisites:
+          type: boolean
+          description: PostgreSQL grant only. Explicitly grant database CONNECT and schema USAGE in the same transaction; never grants sequence privileges. Table/column revocation does not revoke these prerequisites.
+        grantOption:
+          type: boolean
+          description: Grant with delegation rights. MySQL applies GRANT OPTION to the whole table, including existing column/table privileges.
+        grantOptionOnly:
+          type: boolean
+          description: Revoke delegation only. PostgreSQL applies to listed privileges; MySQL requires an empty privileges list and revokes the table-wide GRANT OPTION.
+        cascade:
+          type: boolean
+          description: PostgreSQL revoke only; defaults to RESTRICT. Explicitly allows revoking dependent grants.
     DmsServiceAccount:
       description: MinIO service account access-key
       type: object
