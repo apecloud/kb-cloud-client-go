@@ -15,7 +15,7 @@ type ClusterModeTransition struct {
 	// Target engine mode.
 	Mode     string        `json:"mode"`
 	Schedule *TaskSchedule `json:"schedule,omitempty"`
-	// OpsHScale is the payload to horizontally scale a KubeBlocks cluster. Specify replicas or shards. instanceTemplates is an optional overlay and requires top-level replicas.
+	// OpsHScale is the payload to horizontally scale a KubeBlocks cluster. Specify replicas or shards. Replica scaling requires explicit template targets when the current mode component declares instanceTemplate.ops hscale.
 	HScale      *OpsHScale   `json:"hScale,omitempty"`
 	NetworkMode *NetworkMode `json:"networkMode,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
