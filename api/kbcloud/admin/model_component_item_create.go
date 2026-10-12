@@ -12,6 +12,8 @@ import (
 
 // ComponentItemCreate ComponentItem is the information of a component
 type ComponentItemCreate struct {
+	// Single AZ for a component declaring component placement in its engine mode. Must be enabled in the environment and belong to an explicitly supplied cluster availabilityZones range. Required for component targets in deploymentUnit modes. Cannot be combined with template placement.
+	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 	// component type, refer to componentDef and support NamePrefix
 	Component string `json:"component"`
 	// The number of components, if often used as shards number
@@ -59,6 +61,34 @@ func NewComponentItemCreateWithDefaults() *ComponentItemCreate {
 	var skipResourceConstraints bool = false
 	this.SkipResourceConstraints = &skipResourceConstraints
 	return &this
+}
+
+// GetAvailabilityZone returns the AvailabilityZone field value if set, zero value otherwise.
+func (o *ComponentItemCreate) GetAvailabilityZone() string {
+	if o == nil || o.AvailabilityZone == nil {
+		var ret string
+		return ret
+	}
+	return *o.AvailabilityZone
+}
+
+// GetAvailabilityZoneOk returns a tuple with the AvailabilityZone field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentItemCreate) GetAvailabilityZoneOk() (*string, bool) {
+	if o == nil || o.AvailabilityZone == nil {
+		return nil, false
+	}
+	return o.AvailabilityZone, true
+}
+
+// HasAvailabilityZone returns a boolean if a field has been set.
+func (o *ComponentItemCreate) HasAvailabilityZone() bool {
+	return o != nil && o.AvailabilityZone != nil
+}
+
+// SetAvailabilityZone gets a reference to the given string and assigns it to the AvailabilityZone field.
+func (o *ComponentItemCreate) SetAvailabilityZone(v string) {
+	o.AvailabilityZone = &v
 }
 
 // GetComponent returns the Component field value.
@@ -398,6 +428,9 @@ func (o ComponentItemCreate) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.AvailabilityZone != nil {
+		toSerialize["availabilityZone"] = o.AvailabilityZone
+	}
 	toSerialize["component"] = o.Component
 	if o.CompNum != nil {
 		toSerialize["compNum"] = o.CompNum
@@ -442,6 +475,7 @@ func (o ComponentItemCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		AvailabilityZone        *string                  `json:"availabilityZone,omitempty"`
 		Component               *string                  `json:"component"`
 		CompNum                 *int32                   `json:"compNum,omitempty"`
 		Replicas                *int32                   `json:"replicas,omitempty"`
@@ -463,12 +497,13 @@ func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "compNum", "replicas", "instanceTemplates", "skipResourceConstraints", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName", "network"})
+		common.DeleteKeys(additionalProperties, &[]string{"availabilityZone", "component", "compNum", "replicas", "instanceTemplates", "skipResourceConstraints", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName", "network"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.AvailabilityZone = all.AvailabilityZone
 	o.Component = *all.Component
 	o.CompNum = all.CompNum
 	o.Replicas = all.Replicas

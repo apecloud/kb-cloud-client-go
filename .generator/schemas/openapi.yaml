@@ -9502,13 +9502,46 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/alerts/cluster/{clusterName}/rules:
+    get:
+      tags:
+        - clusterAlertSwitch
+        - shared
+      operationId: listClusterAlertRules
+      summary: List applicable alert rules for a cluster
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertRuleList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/alerts/cluster/{clusterName}:
     get:
       tags:
         - clusterAlertSwitch
         - shared
       operationId: getClusterAlertDisabled
-      summary: Check if cluster alert is disabled
+      summary: Get cluster alert settings
       parameters:
         - name: orgName
           in: path
@@ -9540,7 +9573,7 @@ paths:
         - clusterAlertSwitch
         - shared
       operationId: setClusterAlertDisabled
-      summary: Set cluster alert disabled or enabled
+      summary: Update cluster alert settings
       parameters:
         - name: orgName
           in: path
@@ -25711,6 +25744,9 @@ components:
       required:
         - component
       properties:
+        availabilityZone:
+          type: string
+          description: Single AZ for a component declaring component placement in its engine mode. Must be enabled in the environment and belong to an explicitly supplied cluster availabilityZones range. Required for component targets in deploymentUnit modes. Cannot be combined with template placement.
         component:
           type: string
           description: component type, refer to componentDef and support NamePrefix
@@ -26037,6 +26073,14 @@ components:
       type: object
       description: ComponentItem is the information of a component
       properties:
+        availabilityZone:
+          type: string
+          description: Explicit component AZ selection, if configured.
+        instanceTemplates:
+          type: array
+          description: Resolved instance templates, including their explicit AZ selections.
+          items:
+            $ref: '#/components/schemas/instanceTemplateCreate'
         name:
           type: string
           description: component name
@@ -32532,13 +32576,79 @@ components:
           format: date-time
           description: response generation time
       description: Cluster alert summary
-    alertCluster:
-      required:
-        - disabled
+    alertClusterSilenceMode:
+      type: string
+      enum:
+        - once
+        - weekly
+      description: Required when enabled. Once uses absolute timestamps; weekly uses weekdays and local times in timeZone.
+    alertClusterSilence:
       type: object
+      required:
+        - enabled
+      description: Pause notifications while continuing to record alerts. Set enabled to false to cancel. Time windows include their start and exclude their end.
+      properties:
+        enabled:
+          type: boolean
+        rules:
+          type: array
+          maxItems: 1000
+          description: Alert names to silence. Empty or omitted means all cluster alerts.
+          items:
+            type: string
+            minLength: 1
+            maxLength: 255
+        mode:
+          $ref: '#/components/schemas/alertClusterSilenceMode'
+        startsAt:
+          type: string
+          format: date-time
+          description: Required for once. Absolute start of the silence window.
+        endsAt:
+          type: string
+          format: date-time
+          description: Required for once. Must be later than startsAt.
+        weekdays:
+          type: array
+          maxItems: 7
+          description: Required for weekly. Sunday is 0. Overnight windows belong to the weekday on which they start.
+          items:
+            type: integer
+            minimum: 0
+            maximum: 6
+        startTime:
+          type: string
+          description: Required for weekly, in HH:mm format.
+        endTime:
+          type: string
+          description: Required for weekly, in HH:mm format. Earlier than startTime means the following day; equal times are invalid.
+        timeZone:
+          type: string
+          maxLength: 100
+          description: Required for weekly. IANA timezone, e.g. Asia/Shanghai or UTC.
+    alertCluster:
+      type: object
+      description: Cluster-scoped alert settings. PATCH updates only supplied fields; settings apply to both tenant and administrator notifications.
       properties:
         disabled:
           type: boolean
+          x-nullable: true
+          description: Disable all cluster alerts. Existing rule and silence settings are preserved.
+        disabledRules:
+          type: array
+          maxItems: 1000
+          x-omitempty: false
+          description: Alert names disabled only for this cluster. An empty array clears all rule overrides; omission preserves them.
+          items:
+            type: string
+            minLength: 1
+            maxLength: 255
+        silence:
+          $ref: '#/components/schemas/alertClusterSilence'
+        silenceActive:
+          type: boolean
+          readOnly: true
+          description: Whether the configured silence window is active now, regardless of the alert master switch.
     alertConfig:
       required:
         - timeZoneOffset
@@ -32885,6 +32995,12 @@ components:
           type: boolean
           description: whether the component supports custom secret
           x-nullable: false
+    modeAvailabilityZonePlacement:
+      type: string
+      enum:
+        - cluster
+        - deploymentUnit
+      description: AZ selection granularity. Omitted means cluster placement. deploymentUnit requires an explicit AZ for every deployed component or instance template at the granularity declared by its mode component.
     modeCompatibleKubeblocksVersion:
       type: string
       description: |
@@ -32892,6 +33008,12 @@ components:
       enum:
         - '0.9'
         - '1.0'
+    componentAvailabilityZonePlacement:
+      type: string
+      enum:
+        - component
+        - instanceTemplate
+      description: Explicit AZ target in a deploymentUnit mode. component selects one AZ for the component; instanceTemplate selects one AZ for each declared template. Required for deployed components in deploymentUnit modes.
     instanceTemplateOp:
       type: string
       description: Operation that can be declared on instanceTemplate.ops.
@@ -32943,6 +33065,8 @@ components:
         - hideEnpoints
         - hideOnCreate
       properties:
+        availabilityZonePlacement:
+          $ref: '#/components/schemas/componentAvailabilityZonePlacement'
         component:
           type: string
         hideEnpoints:
@@ -33282,6 +33406,8 @@ components:
         - description
         - components
       properties:
+        availabilityZonePlacement:
+          $ref: '#/components/schemas/modeAvailabilityZonePlacement'
         name:
           type: string
         title:

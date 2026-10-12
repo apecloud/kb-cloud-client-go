@@ -11,9 +11,11 @@ import (
 )
 
 type ModeComponent struct {
-	Component    string `json:"component"`
-	HideEnpoints bool   `json:"hideEnpoints"`
-	HideOnCreate bool   `json:"hideOnCreate"`
+	// Explicit AZ target in a deploymentUnit mode. component selects one AZ for the component; instanceTemplate selects one AZ for each declared template. Required for deployed components in deploymentUnit modes.
+	AvailabilityZonePlacement *ComponentAvailabilityZonePlacement `json:"availabilityZonePlacement,omitempty"`
+	Component                 string                              `json:"component"`
+	HideEnpoints              bool                                `json:"hideEnpoints"`
+	HideOnCreate              bool                                `json:"hideOnCreate"`
 	// Template fields and operations shared by the frontend and backend.
 	// Requested components require creation template targets when instanceTemplate is declared.
 	// Declaring hscale or storageExpansion in ops requires explicit targets
@@ -48,6 +50,34 @@ func NewModeComponent(component string, hideEnpoints bool, hideOnCreate bool) *M
 func NewModeComponentWithDefaults() *ModeComponent {
 	this := ModeComponent{}
 	return &this
+}
+
+// GetAvailabilityZonePlacement returns the AvailabilityZonePlacement field value if set, zero value otherwise.
+func (o *ModeComponent) GetAvailabilityZonePlacement() ComponentAvailabilityZonePlacement {
+	if o == nil || o.AvailabilityZonePlacement == nil {
+		var ret ComponentAvailabilityZonePlacement
+		return ret
+	}
+	return *o.AvailabilityZonePlacement
+}
+
+// GetAvailabilityZonePlacementOk returns a tuple with the AvailabilityZonePlacement field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeComponent) GetAvailabilityZonePlacementOk() (*ComponentAvailabilityZonePlacement, bool) {
+	if o == nil || o.AvailabilityZonePlacement == nil {
+		return nil, false
+	}
+	return o.AvailabilityZonePlacement, true
+}
+
+// HasAvailabilityZonePlacement returns a boolean if a field has been set.
+func (o *ModeComponent) HasAvailabilityZonePlacement() bool {
+	return o != nil && o.AvailabilityZonePlacement != nil
+}
+
+// SetAvailabilityZonePlacement gets a reference to the given ComponentAvailabilityZonePlacement and assigns it to the AvailabilityZonePlacement field.
+func (o *ModeComponent) SetAvailabilityZonePlacement(v ComponentAvailabilityZonePlacement) {
+	o.AvailabilityZonePlacement = &v
 }
 
 // GetComponent returns the Component field value.
@@ -209,6 +239,9 @@ func (o ModeComponent) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.AvailabilityZonePlacement != nil {
+		toSerialize["availabilityZonePlacement"] = o.AvailabilityZonePlacement
+	}
 	toSerialize["component"] = o.Component
 	toSerialize["hideEnpoints"] = o.HideEnpoints
 	toSerialize["hideOnCreate"] = o.HideOnCreate
@@ -231,12 +264,13 @@ func (o ModeComponent) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeComponent) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component        *string                        `json:"component"`
-		HideEnpoints     *bool                          `json:"hideEnpoints"`
-		HideOnCreate     *bool                          `json:"hideOnCreate"`
-		InstanceTemplate *ModeComponentInstanceTemplate `json:"instanceTemplate,omitempty"`
-		ServiceRef       *string                        `json:"serviceRef,omitempty"`
-		ReadonlyEndpoint *ModeReadonlyEndpoint          `json:"readonlyEndpoint,omitempty"`
+		AvailabilityZonePlacement *ComponentAvailabilityZonePlacement `json:"availabilityZonePlacement,omitempty"`
+		Component                 *string                             `json:"component"`
+		HideEnpoints              *bool                               `json:"hideEnpoints"`
+		HideOnCreate              *bool                               `json:"hideOnCreate"`
+		InstanceTemplate          *ModeComponentInstanceTemplate      `json:"instanceTemplate,omitempty"`
+		ServiceRef                *string                             `json:"serviceRef,omitempty"`
+		ReadonlyEndpoint          *ModeReadonlyEndpoint               `json:"readonlyEndpoint,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -252,12 +286,17 @@ func (o *ModeComponent) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "hideEnpoints", "hideOnCreate", "instanceTemplate", "serviceRef", "readonlyEndpoint"})
+		common.DeleteKeys(additionalProperties, &[]string{"availabilityZonePlacement", "component", "hideEnpoints", "hideOnCreate", "instanceTemplate", "serviceRef", "readonlyEndpoint"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	if all.AvailabilityZonePlacement != nil && !all.AvailabilityZonePlacement.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.AvailabilityZonePlacement = all.AvailabilityZonePlacement
+	}
 	o.Component = *all.Component
 	o.HideEnpoints = *all.HideEnpoints
 	o.HideOnCreate = *all.HideOnCreate

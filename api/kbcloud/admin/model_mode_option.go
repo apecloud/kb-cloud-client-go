@@ -11,10 +11,12 @@ import (
 )
 
 type ModeOption struct {
-	Name             string                      `json:"name"`
-	Title            LocalizedDescription        `json:"title"`
-	Description      LocalizedDescription        `json:"description"`
-	SchedulingPolicy *ModeOptionSchedulingPolicy `json:"schedulingPolicy,omitempty"`
+	// AZ selection granularity. Omitted means cluster placement. deploymentUnit requires an explicit AZ for every deployed component or instance template at the granularity declared by its mode component.
+	AvailabilityZonePlacement *ModeAvailabilityZonePlacement `json:"availabilityZonePlacement,omitempty"`
+	Name                      string                         `json:"name"`
+	Title                     LocalizedDescription           `json:"title"`
+	Description               LocalizedDescription           `json:"description"`
+	SchedulingPolicy          *ModeOptionSchedulingPolicy    `json:"schedulingPolicy,omitempty"`
 	// specify the compatible kubeblocks version. If empty, it means all versions are supported.
 	//
 	CompatibleKubeblocksVersion *ModeCompatibleKubeblocksVersion `json:"compatibleKubeblocksVersion,omitempty"`
@@ -55,6 +57,34 @@ func NewModeOption(name string, title LocalizedDescription, description Localize
 func NewModeOptionWithDefaults() *ModeOption {
 	this := ModeOption{}
 	return &this
+}
+
+// GetAvailabilityZonePlacement returns the AvailabilityZonePlacement field value if set, zero value otherwise.
+func (o *ModeOption) GetAvailabilityZonePlacement() ModeAvailabilityZonePlacement {
+	if o == nil || o.AvailabilityZonePlacement == nil {
+		var ret ModeAvailabilityZonePlacement
+		return ret
+	}
+	return *o.AvailabilityZonePlacement
+}
+
+// GetAvailabilityZonePlacementOk returns a tuple with the AvailabilityZonePlacement field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeOption) GetAvailabilityZonePlacementOk() (*ModeAvailabilityZonePlacement, bool) {
+	if o == nil || o.AvailabilityZonePlacement == nil {
+		return nil, false
+	}
+	return o.AvailabilityZonePlacement, true
+}
+
+// HasAvailabilityZonePlacement returns a boolean if a field has been set.
+func (o *ModeOption) HasAvailabilityZonePlacement() bool {
+	return o != nil && o.AvailabilityZonePlacement != nil
+}
+
+// SetAvailabilityZonePlacement gets a reference to the given ModeAvailabilityZonePlacement and assigns it to the AvailabilityZonePlacement field.
+func (o *ModeOption) SetAvailabilityZonePlacement(v ModeAvailabilityZonePlacement) {
+	o.AvailabilityZonePlacement = &v
 }
 
 // GetName returns the Name field value.
@@ -446,6 +476,9 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.AvailabilityZonePlacement != nil {
+		toSerialize["availabilityZonePlacement"] = o.AvailabilityZonePlacement
+	}
 	toSerialize["name"] = o.Name
 	toSerialize["title"] = o.Title
 	toSerialize["description"] = o.Description
@@ -490,6 +523,7 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		AvailabilityZonePlacement   *ModeAvailabilityZonePlacement   `json:"availabilityZonePlacement,omitempty"`
 		Name                        *string                          `json:"name"`
 		Title                       *LocalizedDescription            `json:"title"`
 		Description                 *LocalizedDescription            `json:"description"`
@@ -522,12 +556,17 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "schedulingPolicy", "compatibleKubeblocksVersion", "components", "proxy", "versions", "extra", "serviceRefs", "objectStorage", "valuesMappings", "hideOnCreate", "transition"})
+		common.DeleteKeys(additionalProperties, &[]string{"availabilityZonePlacement", "name", "title", "description", "schedulingPolicy", "compatibleKubeblocksVersion", "components", "proxy", "versions", "extra", "serviceRefs", "objectStorage", "valuesMappings", "hideOnCreate", "transition"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	if all.AvailabilityZonePlacement != nil && !all.AvailabilityZonePlacement.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.AvailabilityZonePlacement = all.AvailabilityZonePlacement
+	}
 	o.Name = *all.Name
 	if all.Title.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
