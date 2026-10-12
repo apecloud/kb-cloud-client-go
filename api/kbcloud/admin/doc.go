@@ -327,8 +327,6 @@
 //   - [dmsApi.DataExport]
 //   - [dmsApi.DataImport]
 //   - [dmsApi.GetObjectInfo]
-//   - [dmsApi.GetTaskList]
-//   - [dmsApi.GetTaskProgress]
 //   - [dmsApi.ListObjectNamesByType]
 //   - [dmsApi.ListObjectTypesInSchema]
 //   - [dmsApi.alterParameter]
