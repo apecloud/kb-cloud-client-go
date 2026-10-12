@@ -30081,6 +30081,9 @@ components:
         - name
         - replicas
       properties:
+        nodeGroup:
+          type: string
+          description: Optional host group for this deployment unit; must have nodes in its selected availability zone. Only supported with deploymentUnit placement.
         name:
           type: string
           minLength: 1
@@ -30119,7 +30122,7 @@ components:
           type: object
           additionalProperties:
             type: string
-          description: Label map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
+          description: Label map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted. The apps.kubeblocks.io/instance-template label is managed by the system and must equal the template name if supplied.
     ioQuantity:
       description: IO Quantity describes IOPS and BPS of a volume
       properties:
@@ -30192,6 +30195,9 @@ components:
       required:
         - component
       properties:
+        nodeGroup:
+          type: string
+          description: Optional host group for this deployment unit; must have nodes in its selected availability zone. Only supported with deploymentUnit placement.
         availabilityZone:
           type: string
           description: Single AZ for a component declaring component placement in its engine mode. Must be enabled in the environment and belong to an explicitly supplied cluster availabilityZones range. Required for component targets in deploymentUnit modes. Cannot be combined with template placement.
@@ -30534,6 +30540,9 @@ components:
       type: object
       description: ComponentItem is the information of a component
       properties:
+        nodeGroup:
+          type: string
+          description: Optional host group for this deployment unit; must have nodes in its selected availability zone. Only supported with deploymentUnit placement.
         availabilityZone:
           type: string
           description: Explicit component AZ selection, if configured.
@@ -30886,6 +30895,9 @@ components:
           type: string
         componentDef:
           description: ComponentDefinition name
+          type: string
+        instanceTemplate:
+          description: Instance template name within the actual component. Omitted when no template identity is available.
           type: string
         component:
           description: component type, refer to componentDef and support NamePrefix
@@ -39533,6 +39545,7 @@ components:
         - annotations
         - labels
         - availabilityZone
+        - nodeGroup
         - storageClass
     instanceTemplateEnv:
       type: object

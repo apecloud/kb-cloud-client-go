@@ -10,6 +10,8 @@ import (
 
 // ComponentItem ComponentItem is the information of a component
 type ComponentItem struct {
+	// Optional host group for this deployment unit; must have nodes in its selected availability zone. Only supported with deploymentUnit placement.
+	NodeGroup *string `json:"nodeGroup,omitempty"`
 	// Explicit component AZ selection, if configured.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 	// Resolved instance templates, including their explicit AZ selections.
@@ -56,6 +58,34 @@ func NewComponentItem() *ComponentItem {
 func NewComponentItemWithDefaults() *ComponentItem {
 	this := ComponentItem{}
 	return &this
+}
+
+// GetNodeGroup returns the NodeGroup field value if set, zero value otherwise.
+func (o *ComponentItem) GetNodeGroup() string {
+	if o == nil || o.NodeGroup == nil {
+		var ret string
+		return ret
+	}
+	return *o.NodeGroup
+}
+
+// GetNodeGroupOk returns a tuple with the NodeGroup field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentItem) GetNodeGroupOk() (*string, bool) {
+	if o == nil || o.NodeGroup == nil {
+		return nil, false
+	}
+	return o.NodeGroup, true
+}
+
+// HasNodeGroup returns a boolean if a field has been set.
+func (o *ComponentItem) HasNodeGroup() bool {
+	return o != nil && o.NodeGroup != nil
+}
+
+// SetNodeGroup gets a reference to the given string and assigns it to the NodeGroup field.
+func (o *ComponentItem) SetNodeGroup(v string) {
+	o.NodeGroup = &v
 }
 
 // GetAvailabilityZone returns the AvailabilityZone field value if set, zero value otherwise.
@@ -456,6 +486,9 @@ func (o ComponentItem) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.NodeGroup != nil {
+		toSerialize["nodeGroup"] = o.NodeGroup
+	}
 	if o.AvailabilityZone != nil {
 		toSerialize["availabilityZone"] = o.AvailabilityZone
 	}
@@ -508,6 +541,7 @@ func (o ComponentItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		NodeGroup               *string                  `json:"nodeGroup,omitempty"`
 		AvailabilityZone        *string                  `json:"availabilityZone,omitempty"`
 		InstanceTemplates       []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`
 		Name                    *string                  `json:"name,omitempty"`
@@ -528,12 +562,13 @@ func (o *ComponentItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"availabilityZone", "instanceTemplates", "name", "component", "compNum", "replicas", "classCode", "cpu", "memory", "storageClass", "volumes", "codeShort", "systemAccountSecretName", "network"})
+		common.DeleteKeys(additionalProperties, &[]string{"nodeGroup", "availabilityZone", "instanceTemplates", "name", "component", "compNum", "replicas", "classCode", "cpu", "memory", "storageClass", "volumes", "codeShort", "systemAccountSecretName", "network"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.NodeGroup = all.NodeGroup
 	o.AvailabilityZone = all.AvailabilityZone
 	o.InstanceTemplates = all.InstanceTemplates
 	o.Name = all.Name

@@ -19,6 +19,7 @@ const (
 	InstanceTemplateAttributeAnnotations      InstanceTemplateAttribute = "annotations"
 	InstanceTemplateAttributeLabels           InstanceTemplateAttribute = "labels"
 	InstanceTemplateAttributeAvailabilityZone InstanceTemplateAttribute = "availabilityZone"
+	InstanceTemplateAttributeNodeGroup        InstanceTemplateAttribute = "nodeGroup"
 	InstanceTemplateAttributeStorageClass     InstanceTemplateAttribute = "storageClass"
 )
 
@@ -27,6 +28,7 @@ var allowedInstanceTemplateAttributeEnumValues = []InstanceTemplateAttribute{
 	InstanceTemplateAttributeAnnotations,
 	InstanceTemplateAttributeLabels,
 	InstanceTemplateAttributeAvailabilityZone,
+	InstanceTemplateAttributeNodeGroup,
 	InstanceTemplateAttributeStorageClass,
 }
 
