@@ -25676,7 +25676,7 @@ components:
           type: object
           additionalProperties:
             type: string
-          description: Label map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
+          description: Label map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted. The apps.kubeblocks.io/instance-template label is managed by the system and must equal the template name if supplied.
     ioQuantity:
       description: IO Quantity describes IOPS and BPS of a volume
       properties:
@@ -26425,6 +26425,9 @@ components:
           type: string
         componentDef:
           description: ComponentDefinition name
+          type: string
+        instanceTemplate:
+          description: Instance template name within the actual component. Omitted when no template identity is available.
           type: string
         component:
           description: component type, refer to componentDef and support NamePrefix

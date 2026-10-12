@@ -24,7 +24,7 @@ type InstanceTemplateCreate struct {
 	Env []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
 	// Annotation map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
 	Annotations map[string]string `json:"annotations,omitempty"`
-	// Label map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
+	// Label map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted. The apps.kubeblocks.io/instance-template label is managed by the system and must equal the template name if supplied.
 	Labels map[string]string `json:"labels,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject map[string]interface{} `json:"-"`
