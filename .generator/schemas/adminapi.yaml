@@ -30081,9 +30081,6 @@ components:
         - name
         - replicas
       properties:
-        nodeGroup:
-          type: string
-          description: Optional host group for this deployment unit; must have nodes in its selected availability zone. Only supported with deploymentUnit placement.
         name:
           type: string
           minLength: 1
@@ -30195,12 +30192,9 @@ components:
       required:
         - component
       properties:
-        nodeGroup:
-          type: string
-          description: Optional host group for this deployment unit; must have nodes in its selected availability zone. Only supported with deploymentUnit placement.
         availabilityZone:
           type: string
-          description: Single AZ for a component declaring component placement in its engine mode. Must be enabled in the environment and belong to an explicitly supplied cluster availabilityZones range. Required for component targets in deploymentUnit modes. Cannot be combined with template placement.
+          description: Optional single AZ for a component declaring component placement in its engine mode. Must be enabled in the environment and belong to an explicitly supplied cluster availabilityZones range. When omitted, inherit cluster scheduling. Cannot be combined with template placement.
         component:
           type: string
           description: component type, refer to componentDef and support NamePrefix
@@ -30540,9 +30534,6 @@ components:
       type: object
       description: ComponentItem is the information of a component
       properties:
-        nodeGroup:
-          type: string
-          description: Optional host group for this deployment unit; must have nodes in its selected availability zone. Only supported with deploymentUnit placement.
         availabilityZone:
           type: string
           description: Explicit component AZ selection, if configured.
@@ -39515,8 +39506,8 @@ components:
       type: string
       enum:
         - cluster
-        - deploymentUnit
-      description: AZ selection granularity. Omitted means cluster placement. deploymentUnit requires an explicit AZ for every deployed component or instance template at the granularity declared by its mode component.
+        - component
+      description: AZ selection controls shown by the frontend. Omitted means cluster placement. component enables optional AZ selection at the granularity declared by each mode component. Omitting an AZ preserves inherited scheduling.
     modeCompatibleKubeblocksVersion:
       type: string
       description: |
@@ -39529,7 +39520,7 @@ components:
       enum:
         - component
         - instanceTemplate
-      description: Explicit AZ target in a deploymentUnit mode. component selects one AZ for the component; instanceTemplate selects one AZ for each declared template. Required for deployed components in deploymentUnit modes.
+      description: Optional AZ selection target in a component mode. component selects one AZ for the component; instanceTemplate selects one AZ for each declared template. This declares the UI target; it does not require an AZ in create requests.
     instanceTemplateOp:
       type: string
       description: Operation that can be declared on instanceTemplate.ops.
@@ -39545,7 +39536,6 @@ components:
         - annotations
         - labels
         - availabilityZone
-        - nodeGroup
         - storageClass
     instanceTemplateEnv:
       type: object

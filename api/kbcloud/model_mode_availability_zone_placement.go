@@ -10,18 +10,18 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ModeAvailabilityZonePlacement AZ selection granularity. Omitted means cluster placement. deploymentUnit requires an explicit AZ for every deployed component or instance template at the granularity declared by its mode component.
+// ModeAvailabilityZonePlacement AZ selection controls shown by the frontend. Omitted means cluster placement. component enables optional AZ selection at the granularity declared by each mode component. Omitting an AZ preserves inherited scheduling.
 type ModeAvailabilityZonePlacement string
 
 // List of ModeAvailabilityZonePlacement.
 const (
-	ModeAvailabilityZonePlacementCluster        ModeAvailabilityZonePlacement = "cluster"
-	ModeAvailabilityZonePlacementDeploymentUnit ModeAvailabilityZonePlacement = "deploymentUnit"
+	ModeAvailabilityZonePlacementCluster   ModeAvailabilityZonePlacement = "cluster"
+	ModeAvailabilityZonePlacementComponent ModeAvailabilityZonePlacement = "component"
 )
 
 var allowedModeAvailabilityZonePlacementEnumValues = []ModeAvailabilityZonePlacement{
 	ModeAvailabilityZonePlacementCluster,
-	ModeAvailabilityZonePlacementDeploymentUnit,
+	ModeAvailabilityZonePlacementComponent,
 }
 
 // GetAllowedValues returns the list of possible values.

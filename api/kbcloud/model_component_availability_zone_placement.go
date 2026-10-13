@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ComponentAvailabilityZonePlacement Explicit AZ target in a deploymentUnit mode. component selects one AZ for the component; instanceTemplate selects one AZ for each declared template. Required for deployed components in deploymentUnit modes.
+// ComponentAvailabilityZonePlacement Optional AZ selection target in a component mode. component selects one AZ for the component; instanceTemplate selects one AZ for each declared template. This declares the UI target; it does not require an AZ in create requests.
 type ComponentAvailabilityZonePlacement string
 
 // List of ComponentAvailabilityZonePlacement.

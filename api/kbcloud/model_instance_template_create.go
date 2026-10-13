@@ -12,8 +12,6 @@ import (
 
 // InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, and storageClass are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once. A template with an explicit zone uses single-zone scheduling: hostname anti-affinity follows the scheduling policy, while explicit rules and additional topology keys are preserved. Component scheduling remains unchanged; templates without a zone inherit it, including its zone anti-affinity constraints. Chart instance scheduling policies are cleared; an omitted or empty availabilityZone leaves the instance policy unset to inherit the component policy.
 type InstanceTemplateCreate struct {
-	// Optional host group for this deployment unit; must have nodes in its selected availability zone. Only supported with deploymentUnit placement.
-	NodeGroup *string `json:"nodeGroup,omitempty"`
 	// Instance template name; must match a chart-rendered instance.
 	Name string `json:"name"`
 	// Replica count for this instance template.
@@ -49,34 +47,6 @@ func NewInstanceTemplateCreate(name string, replicas int32) *InstanceTemplateCre
 func NewInstanceTemplateCreateWithDefaults() *InstanceTemplateCreate {
 	this := InstanceTemplateCreate{}
 	return &this
-}
-
-// GetNodeGroup returns the NodeGroup field value if set, zero value otherwise.
-func (o *InstanceTemplateCreate) GetNodeGroup() string {
-	if o == nil || o.NodeGroup == nil {
-		var ret string
-		return ret
-	}
-	return *o.NodeGroup
-}
-
-// GetNodeGroupOk returns a tuple with the NodeGroup field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *InstanceTemplateCreate) GetNodeGroupOk() (*string, bool) {
-	if o == nil || o.NodeGroup == nil {
-		return nil, false
-	}
-	return o.NodeGroup, true
-}
-
-// HasNodeGroup returns a boolean if a field has been set.
-func (o *InstanceTemplateCreate) HasNodeGroup() bool {
-	return o != nil && o.NodeGroup != nil
-}
-
-// SetNodeGroup gets a reference to the given string and assigns it to the NodeGroup field.
-func (o *InstanceTemplateCreate) SetNodeGroup(v string) {
-	o.NodeGroup = &v
 }
 
 // GetName returns the Name field value.
@@ -271,9 +241,6 @@ func (o InstanceTemplateCreate) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.NodeGroup != nil {
-		toSerialize["nodeGroup"] = o.NodeGroup
-	}
 	toSerialize["name"] = o.Name
 	toSerialize["replicas"] = o.Replicas
 	if o.AvailabilityZone != nil {
@@ -297,7 +264,6 @@ func (o InstanceTemplateCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		NodeGroup        *string                         `json:"nodeGroup,omitempty"`
 		Name             *string                         `json:"name"`
 		Replicas         *int32                          `json:"replicas"`
 		AvailabilityZone *string                         `json:"availabilityZone,omitempty"`
@@ -315,7 +281,6 @@ func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Replicas == nil {
 		return fmt.Errorf("required field replicas missing")
 	}
-	o.NodeGroup = all.NodeGroup
 	o.Name = *all.Name
 	o.Replicas = *all.Replicas
 	o.AvailabilityZone = all.AvailabilityZone

@@ -11,7 +11,7 @@ import (
 )
 
 type ModeOption struct {
-	// AZ selection granularity. Omitted means cluster placement. deploymentUnit requires an explicit AZ for every deployed component or instance template at the granularity declared by its mode component.
+	// AZ selection controls shown by the frontend. Omitted means cluster placement. component enables optional AZ selection at the granularity declared by each mode component. Omitting an AZ preserves inherited scheduling.
 	AvailabilityZonePlacement *ModeAvailabilityZonePlacement `json:"availabilityZonePlacement,omitempty"`
 	Name                      string                         `json:"name"`
 	Title                     LocalizedDescription           `json:"title"`
