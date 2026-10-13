@@ -7627,7 +7627,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/environmentLogRetentionConfig'
+                $ref: '#/components/schemas/logRetention'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -7637,7 +7637,7 @@ paths:
         '500':
           $ref: '#/components/responses/500'
     put:
-      summary: Replace environment log retention
+      summary: Set environment log retention
       description: Replaces the current settings. Applies to the next cleanup.
       operationId: putEnvironmentLogRetention
       parameters:
@@ -7653,14 +7653,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/environmentLogRetentionConfig'
+              $ref: '#/components/schemas/logRetention'
       responses:
         '200':
           description: Log retention settings
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/environmentLogRetentionConfig'
+                $ref: '#/components/schemas/logRetention'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -7694,7 +7694,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/clusterLogRetentionPolicy'
+                $ref: '#/components/schemas/logRetention'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -7704,7 +7704,7 @@ paths:
         '500':
           $ref: '#/components/responses/500'
     put:
-      summary: Replace cluster log retention
+      summary: Set cluster log retention
       description: Replaces the current settings. Applies to the next cleanup.
       operationId: putClusterLogRetention
       parameters:
@@ -7725,14 +7725,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/clusterLogRetentionConfig'
+              $ref: '#/components/schemas/logRetention'
       responses:
         '200':
           description: Log retention settings
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/clusterLogRetentionPolicy'
+                $ref: '#/components/schemas/logRetention'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -34951,76 +34951,36 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/DmsSession'
-    environmentLogRetentionConfig:
+    logRetention:
       type: object
-      description: Environment log retention days.
+      description: Log retention in days.
       required:
-        - podLogRetentionDays
-        - runningLogRetentionDays
-        - errorLogRetentionDays
-        - slowLogRetentionDays
-        - auditLogRetentionDays
+        - pod
+        - running
+        - error
+        - slow
+        - audit
       properties:
-        podLogRetentionDays:
+        pod:
           type: integer
           format: int64
           minimum: 1
-        runningLogRetentionDays:
+        running:
           type: integer
           format: int64
           minimum: 1
-        errorLogRetentionDays:
+        error:
           type: integer
           format: int64
           minimum: 1
-        slowLogRetentionDays:
+        slow:
           type: integer
           format: int64
           minimum: 1
-        auditLogRetentionDays:
+        audit:
           type: integer
           format: int64
           minimum: 1
-    clusterLogRetentionConfig:
-      type: object
-      description: Cluster log retention overrides. Omitted fields inherit from the environment.
-      properties:
-        podLogRetentionDays:
-          type: integer
-          format: int64
-          minimum: 1
-          nullable: true
-        runningLogRetentionDays:
-          type: integer
-          format: int64
-          minimum: 1
-          nullable: true
-        errorLogRetentionDays:
-          type: integer
-          format: int64
-          minimum: 1
-          nullable: true
-        slowLogRetentionDays:
-          type: integer
-          format: int64
-          minimum: 1
-          nullable: true
-        auditLogRetentionDays:
-          type: integer
-          format: int64
-          minimum: 1
-          nullable: true
-    clusterLogRetentionPolicy:
-      type: object
-      description: Effective cluster log retention and its cluster-level overrides.
-      required:
-        - effective
-        - overrides
-      properties:
-        effective:
-          $ref: '#/components/schemas/environmentLogRetentionConfig'
-        overrides:
-          $ref: '#/components/schemas/clusterLogRetentionConfig'
     sortType:
       description: Represents the type of sorting.
       enum:
