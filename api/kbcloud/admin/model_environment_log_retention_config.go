@@ -10,11 +10,13 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// EnvironmentLogRetentionConfig Environment log retention days.
 type EnvironmentLogRetentionConfig struct {
-	// Default retention days.
-	DefaultRetentionDays int64 `json:"defaultRetentionDays"`
-	// Retention days by log type. Omitted types use the default.
-	RetentionDaysByType map[string]int64 `json:"retentionDaysByType"`
+	PodLogRetentionDays     int64 `json:"podLogRetentionDays"`
+	RunningLogRetentionDays int64 `json:"runningLogRetentionDays"`
+	ErrorLogRetentionDays   int64 `json:"errorLogRetentionDays"`
+	SlowLogRetentionDays    int64 `json:"slowLogRetentionDays"`
+	AuditLogRetentionDays   int64 `json:"auditLogRetentionDays"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -24,10 +26,13 @@ type EnvironmentLogRetentionConfig struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentLogRetentionConfig(defaultRetentionDays int64, retentionDaysByType map[string]int64) *EnvironmentLogRetentionConfig {
+func NewEnvironmentLogRetentionConfig(podLogRetentionDays int64, runningLogRetentionDays int64, errorLogRetentionDays int64, slowLogRetentionDays int64, auditLogRetentionDays int64) *EnvironmentLogRetentionConfig {
 	this := EnvironmentLogRetentionConfig{}
-	this.DefaultRetentionDays = defaultRetentionDays
-	this.RetentionDaysByType = retentionDaysByType
+	this.PodLogRetentionDays = podLogRetentionDays
+	this.RunningLogRetentionDays = runningLogRetentionDays
+	this.ErrorLogRetentionDays = errorLogRetentionDays
+	this.SlowLogRetentionDays = slowLogRetentionDays
+	this.AuditLogRetentionDays = auditLogRetentionDays
 	return &this
 }
 
@@ -39,50 +44,119 @@ func NewEnvironmentLogRetentionConfigWithDefaults() *EnvironmentLogRetentionConf
 	return &this
 }
 
-// GetDefaultRetentionDays returns the DefaultRetentionDays field value.
-func (o *EnvironmentLogRetentionConfig) GetDefaultRetentionDays() int64 {
+// GetPodLogRetentionDays returns the PodLogRetentionDays field value.
+func (o *EnvironmentLogRetentionConfig) GetPodLogRetentionDays() int64 {
 	if o == nil {
 		var ret int64
 		return ret
 	}
-	return o.DefaultRetentionDays
+	return o.PodLogRetentionDays
 }
 
-// GetDefaultRetentionDaysOk returns a tuple with the DefaultRetentionDays field value
+// GetPodLogRetentionDaysOk returns a tuple with the PodLogRetentionDays field value
 // and a boolean to check if the value has been set.
-func (o *EnvironmentLogRetentionConfig) GetDefaultRetentionDaysOk() (*int64, bool) {
+func (o *EnvironmentLogRetentionConfig) GetPodLogRetentionDaysOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.DefaultRetentionDays, true
+	return &o.PodLogRetentionDays, true
 }
 
-// SetDefaultRetentionDays sets field value.
-func (o *EnvironmentLogRetentionConfig) SetDefaultRetentionDays(v int64) {
-	o.DefaultRetentionDays = v
+// SetPodLogRetentionDays sets field value.
+func (o *EnvironmentLogRetentionConfig) SetPodLogRetentionDays(v int64) {
+	o.PodLogRetentionDays = v
 }
 
-// GetRetentionDaysByType returns the RetentionDaysByType field value.
-func (o *EnvironmentLogRetentionConfig) GetRetentionDaysByType() map[string]int64 {
+// GetRunningLogRetentionDays returns the RunningLogRetentionDays field value.
+func (o *EnvironmentLogRetentionConfig) GetRunningLogRetentionDays() int64 {
 	if o == nil {
-		var ret map[string]int64
+		var ret int64
 		return ret
 	}
-	return o.RetentionDaysByType
+	return o.RunningLogRetentionDays
 }
 
-// GetRetentionDaysByTypeOk returns a tuple with the RetentionDaysByType field value
+// GetRunningLogRetentionDaysOk returns a tuple with the RunningLogRetentionDays field value
 // and a boolean to check if the value has been set.
-func (o *EnvironmentLogRetentionConfig) GetRetentionDaysByTypeOk() (*map[string]int64, bool) {
+func (o *EnvironmentLogRetentionConfig) GetRunningLogRetentionDaysOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.RetentionDaysByType, true
+	return &o.RunningLogRetentionDays, true
 }
 
-// SetRetentionDaysByType sets field value.
-func (o *EnvironmentLogRetentionConfig) SetRetentionDaysByType(v map[string]int64) {
-	o.RetentionDaysByType = v
+// SetRunningLogRetentionDays sets field value.
+func (o *EnvironmentLogRetentionConfig) SetRunningLogRetentionDays(v int64) {
+	o.RunningLogRetentionDays = v
+}
+
+// GetErrorLogRetentionDays returns the ErrorLogRetentionDays field value.
+func (o *EnvironmentLogRetentionConfig) GetErrorLogRetentionDays() int64 {
+	if o == nil {
+		var ret int64
+		return ret
+	}
+	return o.ErrorLogRetentionDays
+}
+
+// GetErrorLogRetentionDaysOk returns a tuple with the ErrorLogRetentionDays field value
+// and a boolean to check if the value has been set.
+func (o *EnvironmentLogRetentionConfig) GetErrorLogRetentionDaysOk() (*int64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ErrorLogRetentionDays, true
+}
+
+// SetErrorLogRetentionDays sets field value.
+func (o *EnvironmentLogRetentionConfig) SetErrorLogRetentionDays(v int64) {
+	o.ErrorLogRetentionDays = v
+}
+
+// GetSlowLogRetentionDays returns the SlowLogRetentionDays field value.
+func (o *EnvironmentLogRetentionConfig) GetSlowLogRetentionDays() int64 {
+	if o == nil {
+		var ret int64
+		return ret
+	}
+	return o.SlowLogRetentionDays
+}
+
+// GetSlowLogRetentionDaysOk returns a tuple with the SlowLogRetentionDays field value
+// and a boolean to check if the value has been set.
+func (o *EnvironmentLogRetentionConfig) GetSlowLogRetentionDaysOk() (*int64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.SlowLogRetentionDays, true
+}
+
+// SetSlowLogRetentionDays sets field value.
+func (o *EnvironmentLogRetentionConfig) SetSlowLogRetentionDays(v int64) {
+	o.SlowLogRetentionDays = v
+}
+
+// GetAuditLogRetentionDays returns the AuditLogRetentionDays field value.
+func (o *EnvironmentLogRetentionConfig) GetAuditLogRetentionDays() int64 {
+	if o == nil {
+		var ret int64
+		return ret
+	}
+	return o.AuditLogRetentionDays
+}
+
+// GetAuditLogRetentionDaysOk returns a tuple with the AuditLogRetentionDays field value
+// and a boolean to check if the value has been set.
+func (o *EnvironmentLogRetentionConfig) GetAuditLogRetentionDaysOk() (*int64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.AuditLogRetentionDays, true
+}
+
+// SetAuditLogRetentionDays sets field value.
+func (o *EnvironmentLogRetentionConfig) SetAuditLogRetentionDays(v int64) {
+	o.AuditLogRetentionDays = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -91,8 +165,11 @@ func (o EnvironmentLogRetentionConfig) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["defaultRetentionDays"] = o.DefaultRetentionDays
-	toSerialize["retentionDaysByType"] = o.RetentionDaysByType
+	toSerialize["podLogRetentionDays"] = o.PodLogRetentionDays
+	toSerialize["runningLogRetentionDays"] = o.RunningLogRetentionDays
+	toSerialize["errorLogRetentionDays"] = o.ErrorLogRetentionDays
+	toSerialize["slowLogRetentionDays"] = o.SlowLogRetentionDays
+	toSerialize["auditLogRetentionDays"] = o.AuditLogRetentionDays
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -103,26 +180,41 @@ func (o EnvironmentLogRetentionConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentLogRetentionConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		DefaultRetentionDays *int64            `json:"defaultRetentionDays"`
-		RetentionDaysByType  *map[string]int64 `json:"retentionDaysByType"`
+		PodLogRetentionDays     *int64 `json:"podLogRetentionDays"`
+		RunningLogRetentionDays *int64 `json:"runningLogRetentionDays"`
+		ErrorLogRetentionDays   *int64 `json:"errorLogRetentionDays"`
+		SlowLogRetentionDays    *int64 `json:"slowLogRetentionDays"`
+		AuditLogRetentionDays   *int64 `json:"auditLogRetentionDays"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.DefaultRetentionDays == nil {
-		return fmt.Errorf("required field defaultRetentionDays missing")
+	if all.PodLogRetentionDays == nil {
+		return fmt.Errorf("required field podLogRetentionDays missing")
 	}
-	if all.RetentionDaysByType == nil {
-		return fmt.Errorf("required field retentionDaysByType missing")
+	if all.RunningLogRetentionDays == nil {
+		return fmt.Errorf("required field runningLogRetentionDays missing")
+	}
+	if all.ErrorLogRetentionDays == nil {
+		return fmt.Errorf("required field errorLogRetentionDays missing")
+	}
+	if all.SlowLogRetentionDays == nil {
+		return fmt.Errorf("required field slowLogRetentionDays missing")
+	}
+	if all.AuditLogRetentionDays == nil {
+		return fmt.Errorf("required field auditLogRetentionDays missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"defaultRetentionDays", "retentionDaysByType"})
+		common.DeleteKeys(additionalProperties, &[]string{"podLogRetentionDays", "runningLogRetentionDays", "errorLogRetentionDays", "slowLogRetentionDays", "auditLogRetentionDays"})
 	} else {
 		return err
 	}
-	o.DefaultRetentionDays = *all.DefaultRetentionDays
-	o.RetentionDaysByType = *all.RetentionDaysByType
+	o.PodLogRetentionDays = *all.PodLogRetentionDays
+	o.RunningLogRetentionDays = *all.RunningLogRetentionDays
+	o.ErrorLogRetentionDays = *all.ErrorLogRetentionDays
+	o.SlowLogRetentionDays = *all.SlowLogRetentionDays
+	o.AuditLogRetentionDays = *all.AuditLogRetentionDays
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

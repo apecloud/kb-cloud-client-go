@@ -1345,11 +1345,11 @@ func (a *EnvironmentApi) GetEnvironmentKubeconfig(ctx _context.Context, environm
 }
 
 // GetEnvironmentLogRetention Get environment log retention.
-func (a *EnvironmentApi) GetEnvironmentLogRetention(ctx _context.Context, environmentName string) (LogRetentionPolicy, *_nethttp.Response, error) {
+func (a *EnvironmentApi) GetEnvironmentLogRetention(ctx _context.Context, environmentName string) (EnvironmentLogRetentionConfig, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue LogRetentionPolicy
+		localVarReturnValue EnvironmentLogRetentionConfig
 	)
 
 	// Add api info to context
@@ -3877,11 +3877,11 @@ func (a *EnvironmentApi) PreflightEnvironment(ctx _context.Context, body Kubecon
 
 // PutEnvironmentLogRetention Replace environment log retention.
 // Replaces the current settings. Applies to the next cleanup.
-func (a *EnvironmentApi) PutEnvironmentLogRetention(ctx _context.Context, environmentName string, body EnvironmentLogRetentionConfig) (LogRetentionPolicy, *_nethttp.Response, error) {
+func (a *EnvironmentApi) PutEnvironmentLogRetention(ctx _context.Context, environmentName string, body EnvironmentLogRetentionConfig) (EnvironmentLogRetentionConfig, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPut
 		localVarPostBody    interface{}
-		localVarReturnValue LogRetentionPolicy
+		localVarReturnValue EnvironmentLogRetentionConfig
 	)
 
 	// Add api info to context

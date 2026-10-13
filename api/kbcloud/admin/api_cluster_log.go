@@ -662,11 +662,11 @@ func (a *ClusterLogApi) ExplainSlowLogTemplate(ctx _context.Context, orgName str
 }
 
 // GetClusterLogRetention Get cluster log retention.
-func (a *ClusterLogApi) GetClusterLogRetention(ctx _context.Context, orgName string, clusterName string) (LogRetentionPolicy, *_nethttp.Response, error) {
+func (a *ClusterLogApi) GetClusterLogRetention(ctx _context.Context, orgName string, clusterName string) (ClusterLogRetentionPolicy, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue LogRetentionPolicy
+		localVarReturnValue ClusterLogRetentionPolicy
 	)
 
 	// Add api info to context
@@ -1263,11 +1263,11 @@ func (a *ClusterLogApi) GetSlowLogTemplate(ctx _context.Context, orgName string,
 
 // PutClusterLogRetention Replace cluster log retention.
 // Replaces the current settings. Applies to the next cleanup.
-func (a *ClusterLogApi) PutClusterLogRetention(ctx _context.Context, orgName string, clusterName string, body ClusterLogRetentionConfig) (LogRetentionPolicy, *_nethttp.Response, error) {
+func (a *ClusterLogApi) PutClusterLogRetention(ctx _context.Context, orgName string, clusterName string, body ClusterLogRetentionConfig) (ClusterLogRetentionPolicy, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPut
 		localVarPostBody    interface{}
-		localVarReturnValue LogRetentionPolicy
+		localVarReturnValue ClusterLogRetentionPolicy
 	)
 
 	// Add api info to context
