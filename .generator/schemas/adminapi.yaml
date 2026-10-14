@@ -30093,7 +30093,7 @@ components:
           description: Replica count for this instance template.
         availabilityZone:
           type: string
-          description: Availability zone for this template (topology.kubernetes.io/zone); omitted or empty inherits the component zone selection. Must be enabled in the environment. Providing availabilityZone or nodeGroup defines template placement without inheriting component or cluster AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks inheritance.
+          description: Availability zone for this template (topology.kubernetes.io/zone); must be enabled in the environment. Providing availabilityZone or nodeGroup defines template placement without inheriting component or cluster AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks inheritance.
         storageClass:
           type: string
           description: StorageClass name for all persistent volumes in this template. Copied from component volumeClaimTemplates, preserving volume sizes and other settings while overriding storageClassName. Chart instance volume templates are cleared; omitted or empty leaves instance volumeClaimTemplates unset.

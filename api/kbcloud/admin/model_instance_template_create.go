@@ -18,7 +18,7 @@ type InstanceTemplateCreate struct {
 	Name string `json:"name"`
 	// Replica count for this instance template.
 	Replicas int32 `json:"replicas"`
-	// Availability zone for this template (topology.kubernetes.io/zone); omitted or empty inherits the component zone selection. Must be enabled in the environment. Providing availabilityZone or nodeGroup defines template placement without inheriting component or cluster AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks inheritance.
+	// Availability zone for this template (topology.kubernetes.io/zone); must be enabled in the environment. Providing availabilityZone or nodeGroup defines template placement without inheriting component or cluster AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks inheritance.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 	// StorageClass name for all persistent volumes in this template. Copied from component volumeClaimTemplates, preserving volume sizes and other settings while overriding storageClassName. Chart instance volume templates are cleared; omitted or empty leaves instance volumeClaimTemplates unset.
 	StorageClass *string `json:"storageClass,omitempty"`
