@@ -188,6 +188,7 @@
 //   - [clusterJarApi.uploadClusterJar]
 //   - [clusterLogApi.aggregateAuditLogs]
 //   - [clusterLogApi.aggregateSlowLogs]
+//   - [clusterLogApi.deleteClusterLogRetention]
 //   - [clusterLogApi.explainSlowLog]
 //   - [clusterLogApi.explainSlowLogTemplate]
 //   - [clusterLogApi.exportClusterLogs]

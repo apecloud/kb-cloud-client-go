@@ -7671,6 +7671,35 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+    delete:
+      summary: Reset environment log retention
+      description: Removes environment settings and returns the built-in defaults.
+      operationId: deleteEnvironmentLogRetention
+      parameters:
+        - in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      tags:
+        - environment
+      responses:
+        '200':
+          description: Default log retention settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/logRetention'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/retention:
     get:
       summary: Get cluster log retention
@@ -7729,6 +7758,40 @@ paths:
       responses:
         '200':
           description: Log retention settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/logRetention'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: Reset cluster log retention
+      description: Removes cluster overrides and returns the retention inherited from the environment.
+      operationId: deleteClusterLogRetention
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - clusterLog
+      responses:
+        '200':
+          description: Effective log retention settings
           content:
             application/json:
               schema:
