@@ -12,9 +12,9 @@ import (
 
 // ComponentItemCreate ComponentItem is the information of a component
 type ComponentItemCreate struct {
-	// Optional host group in this environment. Explicit placement does not inherit an upper-level host group.
+	// Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
 	NodeGroup *string `json:"nodeGroup,omitempty"`
-	// Optional single AZ for this component. Must be enabled in the environment. Providing availabilityZone or nodeGroup defines component placement without inheriting cluster AZ or NodeGroup. Omitting both retains cluster scheduling.
+	// Single AZ for explicit component placement. Must be enabled in the environment and is required when nodeGroup is specified. An omitted nodeGroup does not inherit the cluster host group. Omitting both retains cluster scheduling.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 	// component type, refer to componentDef and support NamePrefix
 	Component string `json:"component"`

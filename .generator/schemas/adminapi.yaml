@@ -30075,14 +30075,14 @@ components:
     instanceTemplateCreate:
       type: object
       additionalProperties: false
-      description: Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, nodeGroup and storageClass are optional overlays. The request must include every chart-rendered instance template exactly once. Providing availabilityZone or nodeGroup defines explicit placement without inheriting upper-level AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks default inheritance. Hostname, user scheduling rules and additional topology keys are preserved.
+      description: Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, nodeGroup and storageClass are optional overlays. The request must include every chart-rendered instance template exactly once. Explicit placement requires availabilityZone and optionally accepts nodeGroup, without inheriting upper-level AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks default inheritance. Hostname, user scheduling rules and additional topology keys are preserved.
       required:
         - name
         - replicas
       properties:
         nodeGroup:
           type: string
-          description: Optional host group in this environment. Explicit placement does not inherit an upper-level host group.
+          description: Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
         name:
           type: string
           minLength: 1
@@ -30093,7 +30093,7 @@ components:
           description: Replica count for this instance template.
         availabilityZone:
           type: string
-          description: Availability zone for this template (topology.kubernetes.io/zone); must be enabled in the environment. Providing availabilityZone or nodeGroup defines template placement without inheriting component or cluster AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks inheritance.
+          description: Single AZ for explicit template placement (topology.kubernetes.io/zone). Must be enabled in the environment and is required when nodeGroup is specified. An omitted nodeGroup does not inherit the component or cluster host group. Omitting both leaves SchedulingPolicy unset for KubeBlocks inheritance.
         storageClass:
           type: string
           description: StorageClass name for all persistent volumes in this template. Copied from component volumeClaimTemplates, preserving volume sizes and other settings while overriding storageClassName. Chart instance volume templates are cleared; omitted or empty leaves instance volumeClaimTemplates unset.
@@ -30196,10 +30196,10 @@ components:
       properties:
         nodeGroup:
           type: string
-          description: Optional host group in this environment. Explicit placement does not inherit an upper-level host group.
+          description: Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
         availabilityZone:
           type: string
-          description: Optional single AZ for this component. Must be enabled in the environment. Providing availabilityZone or nodeGroup defines component placement without inheriting cluster AZ or NodeGroup. Omitting both retains cluster scheduling.
+          description: Single AZ for explicit component placement. Must be enabled in the environment and is required when nodeGroup is specified. An omitted nodeGroup does not inherit the cluster host group. Omitting both retains cluster scheduling.
         component:
           type: string
           description: component type, refer to componentDef and support NamePrefix
