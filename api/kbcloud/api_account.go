@@ -91,6 +91,129 @@ func (a *AccountApi) BindSeaweedFSPolicies(ctx _context.Context, orgName string,
 	return localVarHTTPResponse, nil
 }
 
+// ChangeAccountObjectPrivilegesOptionalParameters holds optional parameters for ChangeAccountObjectPrivileges.
+type ChangeAccountObjectPrivilegesOptionalParameters struct {
+	SubjectType       *ObjectPrivilegeSubjectType
+	Host              *string
+	SubjectQualifiers *string
+}
+
+// NewChangeAccountObjectPrivilegesOptionalParameters creates an empty struct for parameters.
+func NewChangeAccountObjectPrivilegesOptionalParameters() *ChangeAccountObjectPrivilegesOptionalParameters {
+	this := ChangeAccountObjectPrivilegesOptionalParameters{}
+	return &this
+}
+
+// WithSubjectType sets the corresponding parameter name and returns the struct.
+func (r *ChangeAccountObjectPrivilegesOptionalParameters) WithSubjectType(subjectType ObjectPrivilegeSubjectType) *ChangeAccountObjectPrivilegesOptionalParameters {
+	r.SubjectType = &subjectType
+	return r
+}
+
+// WithHost sets the corresponding parameter name and returns the struct.
+func (r *ChangeAccountObjectPrivilegesOptionalParameters) WithHost(host string) *ChangeAccountObjectPrivilegesOptionalParameters {
+	r.Host = &host
+	return r
+}
+
+// WithSubjectQualifiers sets the corresponding parameter name and returns the struct.
+func (r *ChangeAccountObjectPrivilegesOptionalParameters) WithSubjectQualifiers(subjectQualifiers string) *ChangeAccountObjectPrivilegesOptionalParameters {
+	r.SubjectQualifiers = &subjectQualifiers
+	return r
+}
+
+// ChangeAccountObjectPrivileges Grant or revoke native object and column privileges.
+// Native object GRANT/REVOKE alongside presets. Consult capabilities for engine/version-specific object types and privileges. PostgreSQL RESTRICT is the default; MySQL static GRANT OPTION is scope-wide.
+func (a *AccountApi) ChangeAccountObjectPrivileges(ctx _context.Context, engineName string, orgName string, clusterName string, accountName string, body ObjectPrivilegeChange, o ...ChangeAccountObjectPrivilegesOptionalParameters) (*_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod = _nethttp.MethodPatch
+		localVarPostBody   interface{}
+		optionalParams     ChangeAccountObjectPrivilegesOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return nil, common.ReportError("only one argument of type ChangeAccountObjectPrivilegesOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "account",
+		OperationID: "changeAccountObjectPrivileges",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.ChangeAccountObjectPrivileges")
+	if err != nil {
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"accountName"+"}", _neturl.PathEscape(common.ParameterToString(accountName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.SubjectType != nil {
+		localVarQueryParams.Add("subjectType", common.ParameterToString(*optionalParams.SubjectType, ""))
+	}
+	if optionalParams.Host != nil {
+		localVarQueryParams.Add("host", common.ParameterToString(*optionalParams.Host, ""))
+	}
+	if optionalParams.SubjectQualifiers != nil {
+		localVarQueryParams.Add("subjectQualifiers", common.ParameterToString(*optionalParams.SubjectQualifiers, ""))
+	}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "*/*"
+
+	// body params
+	localVarPostBody = &body
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 409 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 // CreateAccount Create cluster account.
 // create an account in cluster
 func (a *AccountApi) CreateAccount(ctx _context.Context, engineName string, orgName string, clusterName string, body Account) (Account, *_nethttp.Response, error) {
@@ -1469,6 +1592,269 @@ func (a *AccountApi) DeleteServiceAccount(ctx _context.Context, engineName strin
 	return localVarHTTPResponse, nil
 }
 
+// GetAccountObjectPrivilegeCapabilities List native object privilege capabilities for the connected server.
+// Native object GRANT/REVOKE alongside presets. Consult capabilities for engine/version-specific object types and privileges. PostgreSQL RESTRICT is the default; MySQL static GRANT OPTION is scope-wide.
+func (a *AccountApi) GetAccountObjectPrivilegeCapabilities(ctx _context.Context, engineName string, orgName string, clusterName string, accountName string) (ObjectPrivilegeCapabilities, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ObjectPrivilegeCapabilities
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "account",
+		OperationID: "getAccountObjectPrivilegeCapabilities",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/capabilities",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.GetAccountObjectPrivilegeCapabilities")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/capabilities"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"accountName"+"}", _neturl.PathEscape(common.ParameterToString(accountName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetAccountObjectPrivilegesOptionalParameters holds optional parameters for GetAccountObjectPrivileges.
+type GetAccountObjectPrivilegesOptionalParameters struct {
+	DatabaseName      *string
+	SchemaName        *string
+	ObjectName        *string
+	ObjectId          *string
+	SubjectType       *ObjectPrivilegeSubjectType
+	Host              *string
+	CatalogName       *string
+	SubjectQualifiers *string
+}
+
+// NewGetAccountObjectPrivilegesOptionalParameters creates an empty struct for parameters.
+func NewGetAccountObjectPrivilegesOptionalParameters() *GetAccountObjectPrivilegesOptionalParameters {
+	this := GetAccountObjectPrivilegesOptionalParameters{}
+	return &this
+}
+
+// WithDatabaseName sets the corresponding parameter name and returns the struct.
+func (r *GetAccountObjectPrivilegesOptionalParameters) WithDatabaseName(databaseName string) *GetAccountObjectPrivilegesOptionalParameters {
+	r.DatabaseName = &databaseName
+	return r
+}
+
+// WithSchemaName sets the corresponding parameter name and returns the struct.
+func (r *GetAccountObjectPrivilegesOptionalParameters) WithSchemaName(schemaName string) *GetAccountObjectPrivilegesOptionalParameters {
+	r.SchemaName = &schemaName
+	return r
+}
+
+// WithObjectName sets the corresponding parameter name and returns the struct.
+func (r *GetAccountObjectPrivilegesOptionalParameters) WithObjectName(objectName string) *GetAccountObjectPrivilegesOptionalParameters {
+	r.ObjectName = &objectName
+	return r
+}
+
+// WithObjectId sets the corresponding parameter name and returns the struct.
+func (r *GetAccountObjectPrivilegesOptionalParameters) WithObjectId(objectId string) *GetAccountObjectPrivilegesOptionalParameters {
+	r.ObjectId = &objectId
+	return r
+}
+
+// WithSubjectType sets the corresponding parameter name and returns the struct.
+func (r *GetAccountObjectPrivilegesOptionalParameters) WithSubjectType(subjectType ObjectPrivilegeSubjectType) *GetAccountObjectPrivilegesOptionalParameters {
+	r.SubjectType = &subjectType
+	return r
+}
+
+// WithHost sets the corresponding parameter name and returns the struct.
+func (r *GetAccountObjectPrivilegesOptionalParameters) WithHost(host string) *GetAccountObjectPrivilegesOptionalParameters {
+	r.Host = &host
+	return r
+}
+
+// WithCatalogName sets the corresponding parameter name and returns the struct.
+func (r *GetAccountObjectPrivilegesOptionalParameters) WithCatalogName(catalogName string) *GetAccountObjectPrivilegesOptionalParameters {
+	r.CatalogName = &catalogName
+	return r
+}
+
+// WithSubjectQualifiers sets the corresponding parameter name and returns the struct.
+func (r *GetAccountObjectPrivilegesOptionalParameters) WithSubjectQualifiers(subjectQualifiers string) *GetAccountObjectPrivilegesOptionalParameters {
+	r.SubjectQualifiers = &subjectQualifiers
+	return r
+}
+
+// GetAccountObjectPrivileges Inspect native object and column privileges.
+// Native object GRANT/REVOKE alongside presets. Consult capabilities for engine/version-specific object types and privileges. PostgreSQL RESTRICT is the default; MySQL static GRANT OPTION is scope-wide.
+func (a *AccountApi) GetAccountObjectPrivileges(ctx _context.Context, engineName string, orgName string, clusterName string, accountName string, objectType string, o ...GetAccountObjectPrivilegesOptionalParameters) (ObjectPrivilegeSnapshot, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ObjectPrivilegeSnapshot
+		optionalParams      GetAccountObjectPrivilegesOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetAccountObjectPrivilegesOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "account",
+		OperationID: "getAccountObjectPrivileges",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.GetAccountObjectPrivileges")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"accountName"+"}", _neturl.PathEscape(common.ParameterToString(accountName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("objectType", common.ParameterToString(objectType, ""))
+	if optionalParams.DatabaseName != nil {
+		localVarQueryParams.Add("databaseName", common.ParameterToString(*optionalParams.DatabaseName, ""))
+	}
+	if optionalParams.SchemaName != nil {
+		localVarQueryParams.Add("schemaName", common.ParameterToString(*optionalParams.SchemaName, ""))
+	}
+	if optionalParams.ObjectName != nil {
+		localVarQueryParams.Add("objectName", common.ParameterToString(*optionalParams.ObjectName, ""))
+	}
+	if optionalParams.ObjectId != nil {
+		localVarQueryParams.Add("objectId", common.ParameterToString(*optionalParams.ObjectId, ""))
+	}
+	if optionalParams.SubjectType != nil {
+		localVarQueryParams.Add("subjectType", common.ParameterToString(*optionalParams.SubjectType, ""))
+	}
+	if optionalParams.Host != nil {
+		localVarQueryParams.Add("host", common.ParameterToString(*optionalParams.Host, ""))
+	}
+	if optionalParams.CatalogName != nil {
+		localVarQueryParams.Add("catalogName", common.ParameterToString(*optionalParams.CatalogName, ""))
+	}
+	if optionalParams.SubjectQualifiers != nil {
+		localVarQueryParams.Add("subjectQualifiers", common.ParameterToString(*optionalParams.SubjectQualifiers, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // GetMilvusRole Get Milvus role.
 // Get a Milvus native role and its privilege grants.
 func (a *AccountApi) GetMilvusRole(ctx _context.Context, orgName string, clusterName string, roleName string) (MilvusRole, *_nethttp.Response, error) {
@@ -1829,6 +2215,157 @@ func (a *AccountApi) GetServiceAccount(ctx _context.Context, engineName string, 
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// ListAccountObjectPrivilegeObjectsOptionalParameters holds optional parameters for ListAccountObjectPrivilegeObjects.
+type ListAccountObjectPrivilegeObjectsOptionalParameters struct {
+	DatabaseName *string
+	SchemaName   *string
+	Offset       *int64
+	Limit        *int64
+	CatalogName  *string
+}
+
+// NewListAccountObjectPrivilegeObjectsOptionalParameters creates an empty struct for parameters.
+func NewListAccountObjectPrivilegeObjectsOptionalParameters() *ListAccountObjectPrivilegeObjectsOptionalParameters {
+	this := ListAccountObjectPrivilegeObjectsOptionalParameters{}
+	return &this
+}
+
+// WithDatabaseName sets the corresponding parameter name and returns the struct.
+func (r *ListAccountObjectPrivilegeObjectsOptionalParameters) WithDatabaseName(databaseName string) *ListAccountObjectPrivilegeObjectsOptionalParameters {
+	r.DatabaseName = &databaseName
+	return r
+}
+
+// WithSchemaName sets the corresponding parameter name and returns the struct.
+func (r *ListAccountObjectPrivilegeObjectsOptionalParameters) WithSchemaName(schemaName string) *ListAccountObjectPrivilegeObjectsOptionalParameters {
+	r.SchemaName = &schemaName
+	return r
+}
+
+// WithOffset sets the corresponding parameter name and returns the struct.
+func (r *ListAccountObjectPrivilegeObjectsOptionalParameters) WithOffset(offset int64) *ListAccountObjectPrivilegeObjectsOptionalParameters {
+	r.Offset = &offset
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *ListAccountObjectPrivilegeObjectsOptionalParameters) WithLimit(limit int64) *ListAccountObjectPrivilegeObjectsOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// WithCatalogName sets the corresponding parameter name and returns the struct.
+func (r *ListAccountObjectPrivilegeObjectsOptionalParameters) WithCatalogName(catalogName string) *ListAccountObjectPrivilegeObjectsOptionalParameters {
+	r.CatalogName = &catalogName
+	return r
+}
+
+// ListAccountObjectPrivilegeObjects Discover existing native privilege objects with stable routine identities.
+// Lists existing objects of one supported kind. Pagination is not a fixed snapshot. PostgreSQL requires a connection database; schema-contained kinds require schemaName. MySQL global/database listing omits databaseName; other kinds require it.
+func (a *AccountApi) ListAccountObjectPrivilegeObjects(ctx _context.Context, engineName string, orgName string, clusterName string, accountName string, objectType string, o ...ListAccountObjectPrivilegeObjectsOptionalParameters) (ObjectPrivilegeObjectList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ObjectPrivilegeObjectList
+		optionalParams      ListAccountObjectPrivilegeObjectsOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListAccountObjectPrivilegeObjectsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "account",
+		OperationID: "listAccountObjectPrivilegeObjects",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/objects",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.ListAccountObjectPrivilegeObjects")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/objects"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"accountName"+"}", _neturl.PathEscape(common.ParameterToString(accountName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("objectType", common.ParameterToString(objectType, ""))
+	if optionalParams.DatabaseName != nil {
+		localVarQueryParams.Add("databaseName", common.ParameterToString(*optionalParams.DatabaseName, ""))
+	}
+	if optionalParams.SchemaName != nil {
+		localVarQueryParams.Add("schemaName", common.ParameterToString(*optionalParams.SchemaName, ""))
+	}
+	if optionalParams.Offset != nil {
+		localVarQueryParams.Add("offset", common.ParameterToString(*optionalParams.Offset, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.CatalogName != nil {
+		localVarQueryParams.Add("catalogName", common.ParameterToString(*optionalParams.CatalogName, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
