@@ -12,7 +12,9 @@ import (
 
 // ComponentItemCreate ComponentItem is the information of a component
 type ComponentItemCreate struct {
-	// Optional single AZ for a component declaring component placement in its engine mode. Must be enabled in the environment and belong to an explicitly supplied cluster availabilityZones range. When omitted, inherit cluster scheduling. Cannot be combined with template placement.
+	// Optional host group in this environment. Explicit placement does not inherit an upper-level host group.
+	NodeGroup *string `json:"nodeGroup,omitempty"`
+	// Optional single AZ for this component. Must be enabled in the environment. Providing availabilityZone or nodeGroup defines component placement without inheriting cluster AZ or NodeGroup. Omitting both retains cluster scheduling.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 	// component type, refer to componentDef and support NamePrefix
 	Component string `json:"component"`
@@ -61,6 +63,34 @@ func NewComponentItemCreateWithDefaults() *ComponentItemCreate {
 	var skipResourceConstraints bool = false
 	this.SkipResourceConstraints = &skipResourceConstraints
 	return &this
+}
+
+// GetNodeGroup returns the NodeGroup field value if set, zero value otherwise.
+func (o *ComponentItemCreate) GetNodeGroup() string {
+	if o == nil || o.NodeGroup == nil {
+		var ret string
+		return ret
+	}
+	return *o.NodeGroup
+}
+
+// GetNodeGroupOk returns a tuple with the NodeGroup field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentItemCreate) GetNodeGroupOk() (*string, bool) {
+	if o == nil || o.NodeGroup == nil {
+		return nil, false
+	}
+	return o.NodeGroup, true
+}
+
+// HasNodeGroup returns a boolean if a field has been set.
+func (o *ComponentItemCreate) HasNodeGroup() bool {
+	return o != nil && o.NodeGroup != nil
+}
+
+// SetNodeGroup gets a reference to the given string and assigns it to the NodeGroup field.
+func (o *ComponentItemCreate) SetNodeGroup(v string) {
+	o.NodeGroup = &v
 }
 
 // GetAvailabilityZone returns the AvailabilityZone field value if set, zero value otherwise.
@@ -428,6 +458,9 @@ func (o ComponentItemCreate) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.NodeGroup != nil {
+		toSerialize["nodeGroup"] = o.NodeGroup
+	}
 	if o.AvailabilityZone != nil {
 		toSerialize["availabilityZone"] = o.AvailabilityZone
 	}
@@ -475,6 +508,7 @@ func (o ComponentItemCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		NodeGroup               *string                  `json:"nodeGroup,omitempty"`
 		AvailabilityZone        *string                  `json:"availabilityZone,omitempty"`
 		Component               *string                  `json:"component"`
 		CompNum                 *int32                   `json:"compNum,omitempty"`
@@ -497,12 +531,13 @@ func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"availabilityZone", "component", "compNum", "replicas", "instanceTemplates", "skipResourceConstraints", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName", "network"})
+		common.DeleteKeys(additionalProperties, &[]string{"nodeGroup", "availabilityZone", "component", "compNum", "replicas", "instanceTemplates", "skipResourceConstraints", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName", "network"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.NodeGroup = all.NodeGroup
 	o.AvailabilityZone = all.AvailabilityZone
 	o.Component = *all.Component
 	o.CompNum = all.CompNum

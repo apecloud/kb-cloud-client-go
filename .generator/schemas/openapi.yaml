@@ -25632,12 +25632,14 @@ components:
     instanceTemplateCreate:
       type: object
       additionalProperties: false
-      description: |
-        Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, and storageClass are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once. A template with an explicit zone uses single-zone scheduling: hostname anti-affinity follows the scheduling policy, while explicit rules and additional topology keys are preserved. Component scheduling remains unchanged; templates without a zone inherit it, including its zone anti-affinity constraints. Chart instance scheduling policies are cleared; an omitted or empty availabilityZone leaves the instance policy unset to inherit the component policy.
+      description: Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, nodeGroup and storageClass are optional overlays. The request must include every chart-rendered instance template exactly once. Providing availabilityZone or nodeGroup defines explicit placement without inheriting upper-level AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks default inheritance. Hostname, user scheduling rules and additional topology keys are preserved.
       required:
         - name
         - replicas
       properties:
+        nodeGroup:
+          type: string
+          description: Optional host group in this environment. Explicit placement does not inherit an upper-level host group.
         name:
           type: string
           minLength: 1
@@ -25648,7 +25650,7 @@ components:
           description: Replica count for this instance template.
         availabilityZone:
           type: string
-          description: Availability zone for this template (topology.kubernetes.io/zone); omitted or empty inherits the component zone selection. Must be enabled in the environment. If the request explicitly supplies a non-empty cluster availabilityZones list, the template zone must also belong to that list.
+          description: Availability zone for this template (topology.kubernetes.io/zone); omitted or empty inherits the component zone selection. Must be enabled in the environment. Providing availabilityZone or nodeGroup defines template placement without inheriting component or cluster AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks inheritance.
         storageClass:
           type: string
           description: StorageClass name for all persistent volumes in this template. Copied from component volumeClaimTemplates, preserving volume sizes and other settings while overriding storageClassName. Chart instance volume templates are cleared; omitted or empty leaves instance volumeClaimTemplates unset.
@@ -25744,9 +25746,12 @@ components:
       required:
         - component
       properties:
+        nodeGroup:
+          type: string
+          description: Optional host group in this environment. Explicit placement does not inherit an upper-level host group.
         availabilityZone:
           type: string
-          description: Optional single AZ for a component declaring component placement in its engine mode. Must be enabled in the environment and belong to an explicitly supplied cluster availabilityZones range. When omitted, inherit cluster scheduling. Cannot be combined with template placement.
+          description: Optional single AZ for this component. Must be enabled in the environment. Providing availabilityZone or nodeGroup defines component placement without inheriting cluster AZ or NodeGroup. Omitting both retains cluster scheduling.
         component:
           type: string
           description: component type, refer to componentDef and support NamePrefix
@@ -26073,6 +26078,9 @@ components:
       type: object
       description: ComponentItem is the information of a component
       properties:
+        nodeGroup:
+          type: string
+          description: Optional host group in this environment. Explicit placement does not inherit an upper-level host group.
         availabilityZone:
           type: string
           description: Explicit component AZ selection, if configured.
@@ -32998,12 +33006,12 @@ components:
           type: boolean
           description: whether the component supports custom secret
           x-nullable: false
-    modeAvailabilityZonePlacement:
+    placementScope:
       type: string
+      description: UI placement input scope for this mode. Omitted defaults to cluster. cluster displays AZ and NodeGroup selection for the cluster. component hides cluster placement and displays selection for each component, or for each instance template when the component declares templates. This does not restrict API placement overrides.
       enum:
         - cluster
         - component
-      description: AZ selection controls shown by the frontend. Omitted means cluster placement. component enables optional AZ selection at the granularity declared by each mode component. Omitting an AZ preserves inherited scheduling.
     modeCompatibleKubeblocksVersion:
       type: string
       description: |
@@ -33011,12 +33019,6 @@ components:
       enum:
         - '0.9'
         - '1.0'
-    componentAvailabilityZonePlacement:
-      type: string
-      enum:
-        - component
-        - instanceTemplate
-      description: Optional AZ selection target in a component mode. component selects one AZ for the component; instanceTemplate selects one AZ for each declared template. This declares the UI target; it does not require an AZ in create requests.
     instanceTemplateOp:
       type: string
       description: Operation that can be declared on instanceTemplate.ops.
@@ -33031,7 +33033,6 @@ components:
         - env
         - annotations
         - labels
-        - availabilityZone
         - storageClass
     instanceTemplateEnv:
       type: object
@@ -33068,8 +33069,6 @@ components:
         - hideEnpoints
         - hideOnCreate
       properties:
-        availabilityZonePlacement:
-          $ref: '#/components/schemas/componentAvailabilityZonePlacement'
         component:
           type: string
         hideEnpoints:
@@ -33409,8 +33408,8 @@ components:
         - description
         - components
       properties:
-        availabilityZonePlacement:
-          $ref: '#/components/schemas/modeAvailabilityZonePlacement'
+        placementScope:
+          $ref: '#/components/schemas/placementScope'
         name:
           type: string
         title:

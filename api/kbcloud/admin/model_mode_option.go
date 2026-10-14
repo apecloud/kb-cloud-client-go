@@ -11,12 +11,12 @@ import (
 )
 
 type ModeOption struct {
-	// AZ selection controls shown by the frontend. Omitted means cluster placement. component enables optional AZ selection at the granularity declared by each mode component. Omitting an AZ preserves inherited scheduling.
-	AvailabilityZonePlacement *ModeAvailabilityZonePlacement `json:"availabilityZonePlacement,omitempty"`
-	Name                      string                         `json:"name"`
-	Title                     LocalizedDescription           `json:"title"`
-	Description               LocalizedDescription           `json:"description"`
-	SchedulingPolicy          *ModeOptionSchedulingPolicy    `json:"schedulingPolicy,omitempty"`
+	// UI placement input scope for this mode. Omitted defaults to cluster. cluster displays AZ and NodeGroup selection for the cluster. component hides cluster placement and displays selection for each component, or for each instance template when the component declares templates. This does not restrict API placement overrides.
+	PlacementScope   *PlacementScope             `json:"placementScope,omitempty"`
+	Name             string                      `json:"name"`
+	Title            LocalizedDescription        `json:"title"`
+	Description      LocalizedDescription        `json:"description"`
+	SchedulingPolicy *ModeOptionSchedulingPolicy `json:"schedulingPolicy,omitempty"`
 	// specify the compatible kubeblocks version. If empty, it means all versions are supported.
 	//
 	CompatibleKubeblocksVersion *ModeCompatibleKubeblocksVersion `json:"compatibleKubeblocksVersion,omitempty"`
@@ -59,32 +59,32 @@ func NewModeOptionWithDefaults() *ModeOption {
 	return &this
 }
 
-// GetAvailabilityZonePlacement returns the AvailabilityZonePlacement field value if set, zero value otherwise.
-func (o *ModeOption) GetAvailabilityZonePlacement() ModeAvailabilityZonePlacement {
-	if o == nil || o.AvailabilityZonePlacement == nil {
-		var ret ModeAvailabilityZonePlacement
+// GetPlacementScope returns the PlacementScope field value if set, zero value otherwise.
+func (o *ModeOption) GetPlacementScope() PlacementScope {
+	if o == nil || o.PlacementScope == nil {
+		var ret PlacementScope
 		return ret
 	}
-	return *o.AvailabilityZonePlacement
+	return *o.PlacementScope
 }
 
-// GetAvailabilityZonePlacementOk returns a tuple with the AvailabilityZonePlacement field value if set, nil otherwise
+// GetPlacementScopeOk returns a tuple with the PlacementScope field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModeOption) GetAvailabilityZonePlacementOk() (*ModeAvailabilityZonePlacement, bool) {
-	if o == nil || o.AvailabilityZonePlacement == nil {
+func (o *ModeOption) GetPlacementScopeOk() (*PlacementScope, bool) {
+	if o == nil || o.PlacementScope == nil {
 		return nil, false
 	}
-	return o.AvailabilityZonePlacement, true
+	return o.PlacementScope, true
 }
 
-// HasAvailabilityZonePlacement returns a boolean if a field has been set.
-func (o *ModeOption) HasAvailabilityZonePlacement() bool {
-	return o != nil && o.AvailabilityZonePlacement != nil
+// HasPlacementScope returns a boolean if a field has been set.
+func (o *ModeOption) HasPlacementScope() bool {
+	return o != nil && o.PlacementScope != nil
 }
 
-// SetAvailabilityZonePlacement gets a reference to the given ModeAvailabilityZonePlacement and assigns it to the AvailabilityZonePlacement field.
-func (o *ModeOption) SetAvailabilityZonePlacement(v ModeAvailabilityZonePlacement) {
-	o.AvailabilityZonePlacement = &v
+// SetPlacementScope gets a reference to the given PlacementScope and assigns it to the PlacementScope field.
+func (o *ModeOption) SetPlacementScope(v PlacementScope) {
+	o.PlacementScope = &v
 }
 
 // GetName returns the Name field value.
@@ -476,8 +476,8 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.AvailabilityZonePlacement != nil {
-		toSerialize["availabilityZonePlacement"] = o.AvailabilityZonePlacement
+	if o.PlacementScope != nil {
+		toSerialize["placementScope"] = o.PlacementScope
 	}
 	toSerialize["name"] = o.Name
 	toSerialize["title"] = o.Title
@@ -523,7 +523,7 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		AvailabilityZonePlacement   *ModeAvailabilityZonePlacement   `json:"availabilityZonePlacement,omitempty"`
+		PlacementScope              *PlacementScope                  `json:"placementScope,omitempty"`
 		Name                        *string                          `json:"name"`
 		Title                       *LocalizedDescription            `json:"title"`
 		Description                 *LocalizedDescription            `json:"description"`
@@ -556,16 +556,16 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"availabilityZonePlacement", "name", "title", "description", "schedulingPolicy", "compatibleKubeblocksVersion", "components", "proxy", "versions", "extra", "serviceRefs", "objectStorage", "valuesMappings", "hideOnCreate", "transition"})
+		common.DeleteKeys(additionalProperties, &[]string{"placementScope", "name", "title", "description", "schedulingPolicy", "compatibleKubeblocksVersion", "components", "proxy", "versions", "extra", "serviceRefs", "objectStorage", "valuesMappings", "hideOnCreate", "transition"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	if all.AvailabilityZonePlacement != nil && !all.AvailabilityZonePlacement.IsValid() {
+	if all.PlacementScope != nil && !all.PlacementScope.IsValid() {
 		hasInvalidField = true
 	} else {
-		o.AvailabilityZonePlacement = all.AvailabilityZonePlacement
+		o.PlacementScope = all.PlacementScope
 	}
 	o.Name = *all.Name
 	if all.Title.UnparsedObject != nil && o.UnparsedObject == nil {
