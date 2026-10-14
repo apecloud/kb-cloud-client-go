@@ -10,36 +10,36 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type TablePrivilegeSpec struct {
-	// Native privilege keyword returned by supportedTablePrivileges or supportedColumnPrivileges.
+type ObjectPrivilegeSpec struct {
+	// Native keyword from the capability for the requested object type.
 	Name string `json:"name"`
-	// Exact column names. Empty or omitted means the whole table.
+	// Exact columns, supported only on table/view objects. Empty means object-level privileges.
 	Columns []string `json:"columns,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewTablePrivilegeSpec instantiates a new TablePrivilegeSpec object.
+// NewObjectPrivilegeSpec instantiates a new ObjectPrivilegeSpec object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewTablePrivilegeSpec(name string) *TablePrivilegeSpec {
-	this := TablePrivilegeSpec{}
+func NewObjectPrivilegeSpec(name string) *ObjectPrivilegeSpec {
+	this := ObjectPrivilegeSpec{}
 	this.Name = name
 	return &this
 }
 
-// NewTablePrivilegeSpecWithDefaults instantiates a new TablePrivilegeSpec object.
+// NewObjectPrivilegeSpecWithDefaults instantiates a new ObjectPrivilegeSpec object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewTablePrivilegeSpecWithDefaults() *TablePrivilegeSpec {
-	this := TablePrivilegeSpec{}
+func NewObjectPrivilegeSpecWithDefaults() *ObjectPrivilegeSpec {
+	this := ObjectPrivilegeSpec{}
 	return &this
 }
 
 // GetName returns the Name field value.
-func (o *TablePrivilegeSpec) GetName() string {
+func (o *ObjectPrivilegeSpec) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -49,7 +49,7 @@ func (o *TablePrivilegeSpec) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *TablePrivilegeSpec) GetNameOk() (*string, bool) {
+func (o *ObjectPrivilegeSpec) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -57,12 +57,12 @@ func (o *TablePrivilegeSpec) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value.
-func (o *TablePrivilegeSpec) SetName(v string) {
+func (o *ObjectPrivilegeSpec) SetName(v string) {
 	o.Name = v
 }
 
 // GetColumns returns the Columns field value if set, zero value otherwise.
-func (o *TablePrivilegeSpec) GetColumns() []string {
+func (o *ObjectPrivilegeSpec) GetColumns() []string {
 	if o == nil || o.Columns == nil {
 		var ret []string
 		return ret
@@ -72,7 +72,7 @@ func (o *TablePrivilegeSpec) GetColumns() []string {
 
 // GetColumnsOk returns a tuple with the Columns field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TablePrivilegeSpec) GetColumnsOk() (*[]string, bool) {
+func (o *ObjectPrivilegeSpec) GetColumnsOk() (*[]string, bool) {
 	if o == nil || o.Columns == nil {
 		return nil, false
 	}
@@ -80,17 +80,17 @@ func (o *TablePrivilegeSpec) GetColumnsOk() (*[]string, bool) {
 }
 
 // HasColumns returns a boolean if a field has been set.
-func (o *TablePrivilegeSpec) HasColumns() bool {
+func (o *ObjectPrivilegeSpec) HasColumns() bool {
 	return o != nil && o.Columns != nil
 }
 
 // SetColumns gets a reference to the given []string and assigns it to the Columns field.
-func (o *TablePrivilegeSpec) SetColumns(v []string) {
+func (o *ObjectPrivilegeSpec) SetColumns(v []string) {
 	o.Columns = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o TablePrivilegeSpec) MarshalJSON() ([]byte, error) {
+func (o ObjectPrivilegeSpec) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -107,7 +107,7 @@ func (o TablePrivilegeSpec) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *TablePrivilegeSpec) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ObjectPrivilegeSpec) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name    *string  `json:"name"`
 		Columns []string `json:"columns,omitempty"`

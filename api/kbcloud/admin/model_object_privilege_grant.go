@@ -10,9 +10,9 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type TablePrivilegeGrant struct {
+type ObjectPrivilegeGrant struct {
 	Name string `json:"name"`
-	// Empty means a table-level privilege.
+	// Empty means an object-level privilege.
 	Column    *string `json:"column,omitempty"`
 	Grantable bool    `json:"grantable"`
 	// PostgreSQL ACL grantor. Omitted for MySQL and effective privilege results.
@@ -22,27 +22,27 @@ type TablePrivilegeGrant struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewTablePrivilegeGrant instantiates a new TablePrivilegeGrant object.
+// NewObjectPrivilegeGrant instantiates a new ObjectPrivilegeGrant object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewTablePrivilegeGrant(name string, grantable bool) *TablePrivilegeGrant {
-	this := TablePrivilegeGrant{}
+func NewObjectPrivilegeGrant(name string, grantable bool) *ObjectPrivilegeGrant {
+	this := ObjectPrivilegeGrant{}
 	this.Name = name
 	this.Grantable = grantable
 	return &this
 }
 
-// NewTablePrivilegeGrantWithDefaults instantiates a new TablePrivilegeGrant object.
+// NewObjectPrivilegeGrantWithDefaults instantiates a new ObjectPrivilegeGrant object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewTablePrivilegeGrantWithDefaults() *TablePrivilegeGrant {
-	this := TablePrivilegeGrant{}
+func NewObjectPrivilegeGrantWithDefaults() *ObjectPrivilegeGrant {
+	this := ObjectPrivilegeGrant{}
 	return &this
 }
 
 // GetName returns the Name field value.
-func (o *TablePrivilegeGrant) GetName() string {
+func (o *ObjectPrivilegeGrant) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -52,7 +52,7 @@ func (o *TablePrivilegeGrant) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *TablePrivilegeGrant) GetNameOk() (*string, bool) {
+func (o *ObjectPrivilegeGrant) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -60,12 +60,12 @@ func (o *TablePrivilegeGrant) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value.
-func (o *TablePrivilegeGrant) SetName(v string) {
+func (o *ObjectPrivilegeGrant) SetName(v string) {
 	o.Name = v
 }
 
 // GetColumn returns the Column field value if set, zero value otherwise.
-func (o *TablePrivilegeGrant) GetColumn() string {
+func (o *ObjectPrivilegeGrant) GetColumn() string {
 	if o == nil || o.Column == nil {
 		var ret string
 		return ret
@@ -75,7 +75,7 @@ func (o *TablePrivilegeGrant) GetColumn() string {
 
 // GetColumnOk returns a tuple with the Column field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TablePrivilegeGrant) GetColumnOk() (*string, bool) {
+func (o *ObjectPrivilegeGrant) GetColumnOk() (*string, bool) {
 	if o == nil || o.Column == nil {
 		return nil, false
 	}
@@ -83,17 +83,17 @@ func (o *TablePrivilegeGrant) GetColumnOk() (*string, bool) {
 }
 
 // HasColumn returns a boolean if a field has been set.
-func (o *TablePrivilegeGrant) HasColumn() bool {
+func (o *ObjectPrivilegeGrant) HasColumn() bool {
 	return o != nil && o.Column != nil
 }
 
 // SetColumn gets a reference to the given string and assigns it to the Column field.
-func (o *TablePrivilegeGrant) SetColumn(v string) {
+func (o *ObjectPrivilegeGrant) SetColumn(v string) {
 	o.Column = &v
 }
 
 // GetGrantable returns the Grantable field value.
-func (o *TablePrivilegeGrant) GetGrantable() bool {
+func (o *ObjectPrivilegeGrant) GetGrantable() bool {
 	if o == nil {
 		var ret bool
 		return ret
@@ -103,7 +103,7 @@ func (o *TablePrivilegeGrant) GetGrantable() bool {
 
 // GetGrantableOk returns a tuple with the Grantable field value
 // and a boolean to check if the value has been set.
-func (o *TablePrivilegeGrant) GetGrantableOk() (*bool, bool) {
+func (o *ObjectPrivilegeGrant) GetGrantableOk() (*bool, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -111,12 +111,12 @@ func (o *TablePrivilegeGrant) GetGrantableOk() (*bool, bool) {
 }
 
 // SetGrantable sets field value.
-func (o *TablePrivilegeGrant) SetGrantable(v bool) {
+func (o *ObjectPrivilegeGrant) SetGrantable(v bool) {
 	o.Grantable = v
 }
 
 // GetGrantor returns the Grantor field value if set, zero value otherwise.
-func (o *TablePrivilegeGrant) GetGrantor() string {
+func (o *ObjectPrivilegeGrant) GetGrantor() string {
 	if o == nil || o.Grantor == nil {
 		var ret string
 		return ret
@@ -126,7 +126,7 @@ func (o *TablePrivilegeGrant) GetGrantor() string {
 
 // GetGrantorOk returns a tuple with the Grantor field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TablePrivilegeGrant) GetGrantorOk() (*string, bool) {
+func (o *ObjectPrivilegeGrant) GetGrantorOk() (*string, bool) {
 	if o == nil || o.Grantor == nil {
 		return nil, false
 	}
@@ -134,17 +134,17 @@ func (o *TablePrivilegeGrant) GetGrantorOk() (*string, bool) {
 }
 
 // HasGrantor returns a boolean if a field has been set.
-func (o *TablePrivilegeGrant) HasGrantor() bool {
+func (o *ObjectPrivilegeGrant) HasGrantor() bool {
 	return o != nil && o.Grantor != nil
 }
 
 // SetGrantor gets a reference to the given string and assigns it to the Grantor field.
-func (o *TablePrivilegeGrant) SetGrantor(v string) {
+func (o *ObjectPrivilegeGrant) SetGrantor(v string) {
 	o.Grantor = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o TablePrivilegeGrant) MarshalJSON() ([]byte, error) {
+func (o ObjectPrivilegeGrant) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -165,7 +165,7 @@ func (o TablePrivilegeGrant) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *TablePrivilegeGrant) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ObjectPrivilegeGrant) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name      *string `json:"name"`
 		Column    *string `json:"column,omitempty"`
