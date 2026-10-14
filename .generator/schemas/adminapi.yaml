@@ -23911,6 +23911,299 @@ paths:
       tags:
         - account
         - shared
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges:
+    get:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: Inspect native object and column privileges
+      operationId: getAccountObjectPrivileges
+      description: Native object GRANT/REVOKE alongside presets. Consult capabilities for engine/version-specific object types and privileges. PostgreSQL RESTRICT is the default; MySQL static GRANT OPTION is scope-wide.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: objectType
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: databaseName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: schemaName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: objectName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: objectId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: subjectType
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/ObjectPrivilegeSubjectType'
+          description: Native subject kind; path account name identifies the subject.
+        - name: host
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Deprecated MySQL host alias. Prefer subjectQualifiers. Do not specify host in both.
+        - name: catalogName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: subjectQualifiers
+          in: query
+          required: false
+          schema:
+            type: string
+          description: JSON object of string identity qualifiers, e.g. {"host":"%"}. Allowed keys and defaults come from capabilities. Unknown keys or duplicate identity inputs are rejected.
+      responses:
+        '200':
+          description: Native privilege snapshot
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectPrivilegeSnapshot'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: Grant or revoke native object and column privileges
+      operationId: changeAccountObjectPrivileges
+      description: Native object GRANT/REVOKE alongside presets. Consult capabilities for engine/version-specific object types and privileges. PostgreSQL RESTRICT is the default; MySQL static GRANT OPTION is scope-wide.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subjectType
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/ObjectPrivilegeSubjectType'
+          description: Native subject kind; path account name identifies the subject.
+        - name: host
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Deprecated MySQL host alias. Prefer subjectQualifiers. Do not specify host in both.
+        - name: subjectQualifiers
+          in: query
+          required: false
+          schema:
+            type: string
+          description: JSON object of string identity qualifiers, e.g. {"host":"%"}. Allowed keys and defaults come from capabilities. Unknown keys or duplicate identity inputs are rejected.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectPrivilegeChange'
+      responses:
+        '204':
+          description: Native statement completed. Query privileges again to inspect remaining access.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/capabilities:
+    get:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: List native object privilege capabilities for the connected server
+      operationId: getAccountObjectPrivilegeCapabilities
+      description: Native object GRANT/REVOKE alongside presets. Consult capabilities for engine/version-specific object types and privileges. PostgreSQL RESTRICT is the default; MySQL static GRANT OPTION is scope-wide.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Native privilege snapshot
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectPrivilegeCapabilities'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/objects:
+    get:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: Discover existing native privilege objects with stable routine identities
+      operationId: listAccountObjectPrivilegeObjects
+      description: Lists existing objects of one supported kind. Pagination is not a fixed snapshot. PostgreSQL requires a connection database; schema-contained kinds require schemaName. MySQL global/database listing omits databaseName; other kinds require it.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: objectType
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: databaseName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: schemaName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+            default: 0
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 200
+            default: 100
+        - name: catalogName
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Native privilege snapshot
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectPrivilegeObjectList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/privileges:
     patch:
       description: update account privileges for rdbms engine
@@ -46490,6 +46783,388 @@ components:
           type: string
           format: date-time
           description: Optional service account expiration time. Use the Unix epoch to clear expiration.
+    ObjectPrivilegeSubjectType:
+      type: string
+      default: account
+      x-nullable: false
+      enum:
+        - account
+        - role
+      description: Native authorization subject kind. Does not create accounts or roles, or change memberships.
+    ObjectPrivilegeTarget:
+      type: object
+      required:
+        - objectType
+      properties:
+        objectType:
+          type: string
+          x-nullable: false
+          description: Native object kind returned by capabilities. Table includes views; view/foreignTable/materializedView also validate the concrete kind.
+        databaseName:
+          type: string
+          description: Database name used to locate the resource. PostgreSQL also uses this as the connection database, including cluster-wide objects.
+        schemaName:
+          type: string
+          description: Native schema containing the object, or the schema itself for schema objects.
+        objectName:
+          type: string
+          description: Exact object name, never a SQL fragment. Required except for global, database, schema, and largeObject.
+        objectId:
+          type: string
+          description: Opaque native identity returned by discovery. Interpretation and validation belong to the engine. PostgreSQL routines and large objects require a nonzero uint32 OID; routine names must also match.
+        catalogName:
+          type: string
+          description: Native catalog name when required by engine capabilities. Unsupported fields are rejected.
+    ObjectPrivilegeGrant:
+      type: object
+      required:
+        - name
+        - grantable
+      properties:
+        name:
+          type: string
+        column:
+          type: string
+          description: Empty means an object-level privilege.
+        grantable:
+          type: boolean
+        grantor:
+          type: string
+          description: PostgreSQL ACL grantor. Omitted for MySQL and effective privilege results.
+    ObjectPrivilegeSubject:
+      type: object
+      required:
+        - name
+        - type
+      properties:
+        name:
+          type: string
+          x-nullable: false
+          minLength: 1
+          description: Exact native database account or role name.
+        type:
+          $ref: '#/components/schemas/ObjectPrivilegeSubjectType'
+        qualifiers:
+          type: object
+          additionalProperties:
+            type: string
+          description: Engine-declared native identity qualifiers. MySQL host defaults to %. Unknown keys are rejected, including empty values.
+    ObjectPrivilegePrerequisiteStatus:
+      type: string
+      x-nullable: false
+      enum:
+        - granted
+        - denied
+        - unknown
+    ObjectPrivilegePrerequisiteCheck:
+      type: object
+      required:
+        - target
+        - privilege
+        - status
+      properties:
+        target:
+          $ref: '#/components/schemas/ObjectPrivilegeTarget'
+        privilege:
+          type: string
+          x-nullable: false
+        status:
+          $ref: '#/components/schemas/ObjectPrivilegePrerequisiteStatus'
+        reason:
+          type: string
+          description: Optional explanation. Checks are not a complete proof of executable access. Missing checks do not imply granted.
+    ObjectPrivilegeEvidence:
+      type: object
+      required:
+        - kind
+        - format
+        - items
+      properties:
+        kind:
+          type: string
+          x-nullable: false
+        format:
+          type: string
+          x-nullable: false
+        items:
+          type: array
+          items:
+            type: string
+          description: Read-only native evidence; never replay as a privilege mutation.
+    ObjectPrivilegeSnapshot:
+      type: object
+      required:
+        - target
+        - supportedPrivileges
+        - supportedColumnPrivileges
+        - directPrivileges
+        - effectivePrivilegesKnown
+        - subject
+      properties:
+        target:
+          $ref: '#/components/schemas/ObjectPrivilegeTarget'
+        supportedPrivileges:
+          type: array
+          items:
+            type: string
+        supportedColumnPrivileges:
+          type: array
+          items:
+            type: string
+        directPrivileges:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegeGrant'
+          description: Native grants to this account at this exact object scope. Does not include inherited grants or prove executable access.
+        effectivePrivilegesKnown:
+          type: boolean
+          description: Native PostgreSQL checks when available. False for PostgreSQL large objects before 18 and MySQL (active roles depend on the session). False or omitted effectivePrivileges never means no access.
+        effectivePrivileges:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegeGrant'
+          description: PostgreSQL native has_*_privilege checks, including PUBLIC and inherited permissions. Other prerequisites, RLS and session SET ROLE can affect actual execution.
+        warnings:
+          type: array
+          items:
+            type: string
+          description: Native behavior and scope overlap explanations, including preset overlap and partial revokes.
+        subject:
+          $ref: '#/components/schemas/ObjectPrivilegeSubject'
+        extensions:
+          type: object
+          additionalProperties:
+            x-go-type:
+              type: RawMessage
+              import:
+                package: encoding/json
+                alias: json
+              hints:
+                kind: interface
+                noValidation: true
+                nullable: false
+          description: Versioned namespaced JSON extensions. Response keys unknown to a client may be ignored. Change keys must be registered and strictly decoded by the current engine; PG/MySQL currently accept no change extensions.
+        prerequisiteChecks:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegePrerequisiteCheck'
+        evidence:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegeEvidence'
+    ObjectPrivilegeSpec:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Native keyword from the capability for the requested object type.
+        columns:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+          description: Exact columns, supported only on table/view objects. Empty means object-level privileges.
+    ObjectPrivilegeChange:
+      type: object
+      required:
+        - target
+        - action
+      properties:
+        target:
+          $ref: '#/components/schemas/ObjectPrivilegeTarget'
+        action:
+          type: string
+          description: Operation, either grant or revoke.
+        privileges:
+          type: array
+          maxItems: 128
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegeSpec'
+          description: Required except when revoking MySQL scope-wide GRANT OPTION. Dynamic global privileges require explicit names.
+        grantOption:
+          type: boolean
+          description: Grant delegation. MySQL static GRANT OPTION is scope-wide; dynamic global privileges each have their own grant option.
+        grantOptionOnly:
+          type: boolean
+          description: Revoke delegation only. PostgreSQL applies to listed privileges. MySQL requires an empty privileges list and revokes GRANT OPTION at the entire scope; global dynamic grant options can also be removed.
+        extensions:
+          type: object
+          additionalProperties:
+            x-go-type:
+              type: RawMessage
+              import:
+                package: encoding/json
+                alias: json
+              hints:
+                kind: interface
+                noValidation: true
+                nullable: false
+          description: Versioned namespaced JSON extensions. Response keys unknown to a client may be ignored. Change keys must be registered and strictly decoded by the current engine; PG/MySQL currently accept no change extensions.
+        grantPrerequisites:
+          type: boolean
+          description: Explicitly grant advertised access prerequisites. PG schema-contained grants add CONNECT and schema USAGE in the same transaction; never sequence privileges. Defaults false; later revoke does not undo prerequisites.
+        revokeBehavior:
+          type: string
+          description: Explicit native revoke behavior from capabilities; valid only for revoke. Omitted uses the advertised default.
+    ObjectPrivilegeGrantOptionScope:
+      type: string
+      x-nullable: false
+      enum:
+        - none
+        - privilege
+        - object
+    ObjectPrivilegeDefinition:
+      type: object
+      required:
+        - name
+        - grantOptionScope
+      properties:
+        name:
+          type: string
+          minLength: 1
+          x-nullable: false
+        supportsColumns:
+          type: boolean
+        grantOptionScope:
+          $ref: '#/components/schemas/ObjectPrivilegeGrantOptionScope'
+    ObjectPrivilegeCapability:
+      type: object
+      required:
+        - objectType
+        - privileges
+        - requiredTargetFields
+        - requiredDiscoveryFields
+        - revokeBehaviors
+        - defaultRevokeBehavior
+      properties:
+        objectType:
+          type: string
+          x-nullable: false
+        privileges:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegeDefinition'
+        requiredTargetFields:
+          type: array
+          items:
+            type: string
+        warnings:
+          type: array
+          items:
+            type: string
+        requiredDiscoveryFields:
+          type: array
+          items:
+            type: string
+          description: Fields required to enumerate objects of this kind; distinct from fields needed to identify an individual target.
+        revokeGrantOptionScope:
+          $ref: '#/components/schemas/ObjectPrivilegeGrantOptionScope'
+          description: Delegation-only revoke scope. object requires an empty privileges list; privilege requires explicit privilege names.
+        extensions:
+          type: object
+          additionalProperties:
+            x-go-type:
+              type: RawMessage
+              import:
+                package: encoding/json
+                alias: json
+              hints:
+                kind: interface
+                noValidation: true
+                nullable: false
+          description: Versioned namespaced JSON extensions. Response keys unknown to a client may be ignored. Change keys must be registered and strictly decoded by the current engine; PG/MySQL currently accept no change extensions.
+        supportsGrantPrerequisites:
+          type: boolean
+          description: Allows explicitly granting the documented access prerequisites together with an object grant.
+        grantPrerequisitesAtomic:
+          type: boolean
+          description: When prerequisite grants are supported, whether they and the requested grant are atomic.
+        revokeBehaviors:
+          type: array
+          items:
+            type: string
+          description: Explicit revoke behaviors supported by this object kind. Omitted change behavior uses defaultRevokeBehavior.
+        defaultRevokeBehavior:
+          type: string
+          description: Default native revoke behavior. PostgreSQL restrict; MySQL native.
+          x-nullable: false
+        changeExtensions:
+          type: array
+          items:
+            type: string
+          description: Versioned namespaces accepted for change extensions by this engine/version; empty means none.
+    ObjectPrivilegeQualifier:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          x-nullable: false
+        required:
+          type: boolean
+        defaultValue:
+          type: string
+          x-nullable: true
+        description:
+          type: string
+          description: ''
+    ObjectPrivilegeCapabilities:
+      type: object
+      required:
+        - engineVersion
+        - objects
+        - subjectTypes
+      properties:
+        engineVersion:
+          type: string
+          x-nullable: false
+        objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegeCapability'
+        subjectTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegeSubjectType'
+          description: Native subject kinds supported by this connected engine version.
+        subjectQualifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegeQualifier'
+    ObjectPrivilegeObject:
+      type: object
+      required:
+        - target
+        - identity
+      properties:
+        target:
+          $ref: '#/components/schemas/ObjectPrivilegeTarget'
+        identity:
+          type: string
+          x-nullable: false
+          description: Display identity, including PostgreSQL routine input argument types. Use target for operations; identity is never accepted as SQL.
+    ObjectPrivilegeObjectList:
+      type: object
+      required:
+        - items
+        - hasMore
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegeObject'
+        hasMore:
+          type: boolean
+          x-nullable: false
+        nextOffset:
+          type: integer
+          format: int64
+          description: Offset for the next page; omitted when exhausted.
     mysqlSpaceSummary:
       type: object
       required:
