@@ -24122,6 +24122,71 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/columns:
+    get:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: List exact column names for account object privileges
+      operationId: listAccountObjectPrivilegeColumns
+      description: Read MySQL table or view column names using the account management connection. No workbench datasource is required. Names are returned verbatim for column-level grants.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: objectType
+          in: query
+          required: true
+          description: Object type, either table or view
+          schema:
+            type: string
+        - name: databaseName
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: objectName
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Exact column names in catalog order; empty if no visible columns exist
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/objects:
     get:
       tags:
