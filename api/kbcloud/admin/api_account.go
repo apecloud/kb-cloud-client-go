@@ -3167,11 +3167,11 @@ func (r *PreviewAccountPrivilegeResetOptionalParameters) WithSubjectQualifiers(s
 
 // PreviewAccountPrivilegeReset Preview clearing all MySQL account privileges.
 // MySQL only. Clears direct privileges at every scope (including columns, routines, dynamic privileges and grant options), explicit role memberships and PROXY grants for one exact user/host. Rejects protected accounts and servers with mandatory roles before writing. Preview does not mutate. Execution re-reads current grants; concurrent new grants can be included. Statements are not atomic; on failure refresh and preview before retrying. Existing sessions follow MySQL privilege-cache semantics; this does not lock the account or terminate connections.
-func (a *AccountApi) PreviewAccountPrivilegeReset(ctx _context.Context, engineName string, orgName string, clusterName string, accountName string, o ...PreviewAccountPrivilegeResetOptionalParameters) ([]string, *_nethttp.Response, error) {
+func (a *AccountApi) PreviewAccountPrivilegeReset(ctx _context.Context, engineName string, orgName string, clusterName string, accountName string, o ...PreviewAccountPrivilegeResetOptionalParameters) ([]ObjectPrivilegeResetStep, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []string
+		localVarReturnValue []ObjectPrivilegeResetStep
 		optionalParams      PreviewAccountPrivilegeResetOptionalParameters
 	)
 
