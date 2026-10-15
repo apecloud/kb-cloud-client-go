@@ -24122,6 +24122,131 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/reset:
+    get:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: Preview clearing all MySQL account privileges
+      operationId: previewAccountPrivilegeReset
+      description: MySQL only. Clears direct privileges at every scope (including columns, routines, dynamic privileges and grant options), explicit role memberships and PROXY grants for one exact user/host. Rejects protected accounts and servers with mandatory roles before writing. Preview does not mutate. Execution re-reads current grants; concurrent new grants can be included. Statements are not atomic; on failure refresh and preview before retrying. Existing sessions follow MySQL privilege-cache semantics; this does not lock the account or terminate connections.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subjectType
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/ObjectPrivilegeSubjectType'
+          description: Native subject kind; path account name identifies the subject.
+        - name: host
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Deprecated MySQL host alias. Prefer subjectQualifiers. Do not specify host in both.
+        - name: subjectQualifiers
+          in: query
+          schema:
+            type: string
+          description: JSON identity qualifiers; MySQL host defaults to %.
+      responses:
+        '200':
+          description: Server-generated SQL statements, in execution order
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: Clear all MySQL account privileges
+      operationId: resetAccountPrivileges
+      description: MySQL only. Clears direct privileges at every scope (including columns, routines, dynamic privileges and grant options), explicit role memberships and PROXY grants for one exact user/host. Rejects protected accounts and servers with mandatory roles before writing. Preview does not mutate. Execution re-reads current grants; concurrent new grants can be included. Statements are not atomic; on failure refresh and preview before retrying. Existing sessions follow MySQL privilege-cache semantics; this does not lock the account or terminate connections.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subjectType
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/ObjectPrivilegeSubjectType'
+          description: Native subject kind; path account name identifies the subject.
+        - name: host
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Deprecated MySQL host alias. Prefer subjectQualifiers. Do not specify host in both.
+        - name: subjectQualifiers
+          in: query
+          schema:
+            type: string
+          description: JSON identity qualifiers; MySQL host defaults to %.
+      responses:
+        '204':
+          description: Privileges cleared; account and password preserved
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/columns:
     get:
       tags:
