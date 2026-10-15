@@ -59,6 +59,7 @@
 //   - [accountApi.getRootAccountPassword]
 //   - [accountApi.getRootSeaweedFSAccountPassword]
 //   - [accountApi.getServiceAccount]
+//   - [accountApi.listAccountObjectPrivilegeColumns]
 //   - [accountApi.listAccountObjectPrivilegeObjects]
 //   - [accountApi.listAccounts]
 //   - [accountApi.listKafkaAccounts]
