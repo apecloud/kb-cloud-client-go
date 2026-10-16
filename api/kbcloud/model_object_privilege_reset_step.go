@@ -14,7 +14,7 @@ import (
 type ObjectPrivilegeResetStep struct {
 	// Connection database in which this statement must run. Omitted when no particular database is required, as with MySQL account-wide REVOKE. This is execution context, not the scope of objects affected by the SQL.
 	DatabaseName *string `json:"databaseName,omitempty"`
-	// Engine-generated SQL for display. Callers cannot submit or modify these steps for execution; reset rebuilds the plan from current grants.
+	// Engine-generated statement for display (SQL, or a native MongoDB command encoded as JSON). Callers cannot submit or modify these steps for execution; reset rebuilds the plan from current grants.
 	Sql string `json:"sql"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

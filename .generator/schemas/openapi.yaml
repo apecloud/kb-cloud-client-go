@@ -40910,7 +40910,7 @@ components:
           type: string
           x-nullable: false
           minLength: 1
-          description: Engine-generated SQL for display. Callers cannot submit or modify these steps for execution; reset rebuilds the plan from current grants.
+          description: Engine-generated statement for display (SQL, or a native MongoDB command encoded as JSON). Callers cannot submit or modify these steps for execution; reset rebuilds the plan from current grants.
     ObjectPrivilegeObject:
       type: object
       required:
