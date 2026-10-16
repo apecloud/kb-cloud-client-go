@@ -9,6 +9,7 @@ import (
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"reflect"
 	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
@@ -3307,6 +3308,8 @@ type PreviewAccountPrivilegeResetOptionalParameters struct {
 	SubjectType       *ObjectPrivilegeSubjectType
 	Host              *string
 	SubjectQualifiers *string
+	DatabaseNames     *[]string
+	AllDatabases      *bool
 }
 
 // NewPreviewAccountPrivilegeResetOptionalParameters creates an empty struct for parameters.
@@ -3333,8 +3336,20 @@ func (r *PreviewAccountPrivilegeResetOptionalParameters) WithSubjectQualifiers(s
 	return r
 }
 
+// WithDatabaseNames sets the corresponding parameter name and returns the struct.
+func (r *PreviewAccountPrivilegeResetOptionalParameters) WithDatabaseNames(databaseNames []string) *PreviewAccountPrivilegeResetOptionalParameters {
+	r.DatabaseNames = &databaseNames
+	return r
+}
+
+// WithAllDatabases sets the corresponding parameter name and returns the struct.
+func (r *PreviewAccountPrivilegeResetOptionalParameters) WithAllDatabases(allDatabases bool) *PreviewAccountPrivilegeResetOptionalParameters {
+	r.AllDatabases = &allDatabases
+	return r
+}
+
 // PreviewAccountPrivilegeReset Preview clearing explicit account privileges.
-// MySQL clears direct privileges at every scope (including columns, routines, dynamic privileges and grant options), explicit role memberships and PROXY grants for one exact user/host. Rejects protected accounts and servers with mandatory roles before writing. Preview does not mutate. Execution re-reads current grants; concurrent new grants can be included. Statements are not atomic; on failure refresh and preview before retrying. Existing sessions follow MySQL privilege-cache semantics; this does not lock the account or terminate connections. PostgreSQL clears direct ACLs, default ACLs, memberships and elevated role attributes across databases. PUBLIC access remains. Object ownership prevents reset; RESTRICT protects dependent grants. Each database is transactional, but cross-database reset is not atomic. No objects are dropped or reassigned.
+// MySQL clears direct privileges at every scope (including columns, routines, dynamic privileges and grant options), explicit role memberships and PROXY grants for one exact user/host. Rejects protected accounts and servers with mandatory roles before writing. Preview does not mutate. Execution re-reads current grants; concurrent new grants can be included. Statements are not atomic; on failure refresh and preview before retrying. Existing sessions follow MySQL privilege-cache semantics; this does not lock the account or terminate connections. PostgreSQL requires selected databaseNames or explicit allDatabases=true. Selected scope clears direct database/local/default ACLs only. It preserves global memberships, role attributes and privileges in other databases. Whole-account scope additionally clears memberships and elevated attributes. PUBLIC access remains. Object ownership prevents reset; RESTRICT protects dependent grants. Each database is transactional, but cross-database reset is not atomic. No objects are dropped or reassigned.
 func (a *AccountApi) PreviewAccountPrivilegeReset(ctx _context.Context, engineName string, orgName string, clusterName string, accountName string, o ...PreviewAccountPrivilegeResetOptionalParameters) ([]ObjectPrivilegeResetStep, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -3381,6 +3396,20 @@ func (a *AccountApi) PreviewAccountPrivilegeReset(ctx _context.Context, engineNa
 	}
 	if optionalParams.SubjectQualifiers != nil {
 		localVarQueryParams.Add("subjectQualifiers", common.ParameterToString(*optionalParams.SubjectQualifiers, ""))
+	}
+	if optionalParams.DatabaseNames != nil {
+		t := *optionalParams.DatabaseNames
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("databaseNames", common.ParameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("databaseNames", common.ParameterToString(t, "multi"))
+		}
+	}
+	if optionalParams.AllDatabases != nil {
+		localVarQueryParams.Add("allDatabases", common.ParameterToString(*optionalParams.AllDatabases, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -3511,6 +3540,8 @@ type ResetAccountPrivilegesOptionalParameters struct {
 	SubjectType       *ObjectPrivilegeSubjectType
 	Host              *string
 	SubjectQualifiers *string
+	DatabaseNames     *[]string
+	AllDatabases      *bool
 }
 
 // NewResetAccountPrivilegesOptionalParameters creates an empty struct for parameters.
@@ -3537,8 +3568,20 @@ func (r *ResetAccountPrivilegesOptionalParameters) WithSubjectQualifiers(subject
 	return r
 }
 
+// WithDatabaseNames sets the corresponding parameter name and returns the struct.
+func (r *ResetAccountPrivilegesOptionalParameters) WithDatabaseNames(databaseNames []string) *ResetAccountPrivilegesOptionalParameters {
+	r.DatabaseNames = &databaseNames
+	return r
+}
+
+// WithAllDatabases sets the corresponding parameter name and returns the struct.
+func (r *ResetAccountPrivilegesOptionalParameters) WithAllDatabases(allDatabases bool) *ResetAccountPrivilegesOptionalParameters {
+	r.AllDatabases = &allDatabases
+	return r
+}
+
 // ResetAccountPrivileges Clear explicit account privileges.
-// MySQL clears direct privileges at every scope (including columns, routines, dynamic privileges and grant options), explicit role memberships and PROXY grants for one exact user/host. Rejects protected accounts and servers with mandatory roles before writing. Preview does not mutate. Execution re-reads current grants; concurrent new grants can be included. Statements are not atomic; on failure refresh and preview before retrying. Existing sessions follow MySQL privilege-cache semantics; this does not lock the account or terminate connections. PostgreSQL clears direct ACLs, default ACLs, memberships and elevated role attributes across databases. PUBLIC access remains. Object ownership prevents reset; RESTRICT protects dependent grants. Each database is transactional, but cross-database reset is not atomic. No objects are dropped or reassigned.
+// MySQL clears direct privileges at every scope (including columns, routines, dynamic privileges and grant options), explicit role memberships and PROXY grants for one exact user/host. Rejects protected accounts and servers with mandatory roles before writing. Preview does not mutate. Execution re-reads current grants; concurrent new grants can be included. Statements are not atomic; on failure refresh and preview before retrying. Existing sessions follow MySQL privilege-cache semantics; this does not lock the account or terminate connections. PostgreSQL requires selected databaseNames or explicit allDatabases=true. Selected scope clears direct database/local/default ACLs only. It preserves global memberships, role attributes and privileges in other databases. Whole-account scope additionally clears memberships and elevated attributes. PUBLIC access remains. Object ownership prevents reset; RESTRICT protects dependent grants. Each database is transactional, but cross-database reset is not atomic. No objects are dropped or reassigned.
 func (a *AccountApi) ResetAccountPrivileges(ctx _context.Context, engineName string, orgName string, clusterName string, accountName string, o ...ResetAccountPrivilegesOptionalParameters) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -3584,6 +3627,20 @@ func (a *AccountApi) ResetAccountPrivileges(ctx _context.Context, engineName str
 	}
 	if optionalParams.SubjectQualifiers != nil {
 		localVarQueryParams.Add("subjectQualifiers", common.ParameterToString(*optionalParams.SubjectQualifiers, ""))
+	}
+	if optionalParams.DatabaseNames != nil {
+		t := *optionalParams.DatabaseNames
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("databaseNames", common.ParameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("databaseNames", common.ParameterToString(t, "multi"))
+		}
+	}
+	if optionalParams.AllDatabases != nil {
+		localVarQueryParams.Add("allDatabases", common.ParameterToString(*optionalParams.AllDatabases, ""))
 	}
 	localVarHeaderParams["Accept"] = "*/*"
 
