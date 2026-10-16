@@ -10,6 +10,12 @@ import (
 
 // ComponentItem ComponentItem is the information of a component
 type ComponentItem struct {
+	// Optional host group in this environment. Explicit placement does not inherit an upper-level host group.
+	NodeGroup *string `json:"nodeGroup,omitempty"`
+	// Explicit component AZ selection, if configured.
+	AvailabilityZone *string `json:"availabilityZone,omitempty"`
+	// Instance template assignments with effective replicas, placement and storage class, and user-provided env, labels and annotations.
+	InstanceTemplates []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`
 	// component name
 	Name *string `json:"name,omitempty"`
 	// component type, refer to componentDef and support NamePrefix
@@ -52,6 +58,90 @@ func NewComponentItem() *ComponentItem {
 func NewComponentItemWithDefaults() *ComponentItem {
 	this := ComponentItem{}
 	return &this
+}
+
+// GetNodeGroup returns the NodeGroup field value if set, zero value otherwise.
+func (o *ComponentItem) GetNodeGroup() string {
+	if o == nil || o.NodeGroup == nil {
+		var ret string
+		return ret
+	}
+	return *o.NodeGroup
+}
+
+// GetNodeGroupOk returns a tuple with the NodeGroup field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentItem) GetNodeGroupOk() (*string, bool) {
+	if o == nil || o.NodeGroup == nil {
+		return nil, false
+	}
+	return o.NodeGroup, true
+}
+
+// HasNodeGroup returns a boolean if a field has been set.
+func (o *ComponentItem) HasNodeGroup() bool {
+	return o != nil && o.NodeGroup != nil
+}
+
+// SetNodeGroup gets a reference to the given string and assigns it to the NodeGroup field.
+func (o *ComponentItem) SetNodeGroup(v string) {
+	o.NodeGroup = &v
+}
+
+// GetAvailabilityZone returns the AvailabilityZone field value if set, zero value otherwise.
+func (o *ComponentItem) GetAvailabilityZone() string {
+	if o == nil || o.AvailabilityZone == nil {
+		var ret string
+		return ret
+	}
+	return *o.AvailabilityZone
+}
+
+// GetAvailabilityZoneOk returns a tuple with the AvailabilityZone field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentItem) GetAvailabilityZoneOk() (*string, bool) {
+	if o == nil || o.AvailabilityZone == nil {
+		return nil, false
+	}
+	return o.AvailabilityZone, true
+}
+
+// HasAvailabilityZone returns a boolean if a field has been set.
+func (o *ComponentItem) HasAvailabilityZone() bool {
+	return o != nil && o.AvailabilityZone != nil
+}
+
+// SetAvailabilityZone gets a reference to the given string and assigns it to the AvailabilityZone field.
+func (o *ComponentItem) SetAvailabilityZone(v string) {
+	o.AvailabilityZone = &v
+}
+
+// GetInstanceTemplates returns the InstanceTemplates field value if set, zero value otherwise.
+func (o *ComponentItem) GetInstanceTemplates() []InstanceTemplateCreate {
+	if o == nil || o.InstanceTemplates == nil {
+		var ret []InstanceTemplateCreate
+		return ret
+	}
+	return o.InstanceTemplates
+}
+
+// GetInstanceTemplatesOk returns a tuple with the InstanceTemplates field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentItem) GetInstanceTemplatesOk() (*[]InstanceTemplateCreate, bool) {
+	if o == nil || o.InstanceTemplates == nil {
+		return nil, false
+	}
+	return &o.InstanceTemplates, true
+}
+
+// HasInstanceTemplates returns a boolean if a field has been set.
+func (o *ComponentItem) HasInstanceTemplates() bool {
+	return o != nil && o.InstanceTemplates != nil
+}
+
+// SetInstanceTemplates gets a reference to the given []InstanceTemplateCreate and assigns it to the InstanceTemplates field.
+func (o *ComponentItem) SetInstanceTemplates(v []InstanceTemplateCreate) {
+	o.InstanceTemplates = v
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
@@ -396,6 +486,15 @@ func (o ComponentItem) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.NodeGroup != nil {
+		toSerialize["nodeGroup"] = o.NodeGroup
+	}
+	if o.AvailabilityZone != nil {
+		toSerialize["availabilityZone"] = o.AvailabilityZone
+	}
+	if o.InstanceTemplates != nil {
+		toSerialize["instanceTemplates"] = o.InstanceTemplates
+	}
 	if o.Name != nil {
 		toSerialize["name"] = o.Name
 	}
@@ -442,30 +541,36 @@ func (o ComponentItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name                    *string               `json:"name,omitempty"`
-		Component               *string               `json:"component,omitempty"`
-		CompNum                 *int32                `json:"compNum,omitempty"`
-		Replicas                *int32                `json:"replicas,omitempty"`
-		ClassCode               *string               `json:"classCode,omitempty"`
-		Cpu                     *float64              `json:"cpu,omitempty"`
-		Memory                  *float64              `json:"memory,omitempty"`
-		StorageClass            *string               `json:"storageClass,omitempty"`
-		Volumes                 []ComponentVolumeItem `json:"volumes,omitempty"`
-		CodeShort               *string               `json:"codeShort,omitempty"`
-		SystemAccountSecretName *string               `json:"systemAccountSecretName,omitempty"`
-		Network                 *ComponentNetwork     `json:"network,omitempty"`
+		NodeGroup               *string                  `json:"nodeGroup,omitempty"`
+		AvailabilityZone        *string                  `json:"availabilityZone,omitempty"`
+		InstanceTemplates       []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`
+		Name                    *string                  `json:"name,omitempty"`
+		Component               *string                  `json:"component,omitempty"`
+		CompNum                 *int32                   `json:"compNum,omitempty"`
+		Replicas                *int32                   `json:"replicas,omitempty"`
+		ClassCode               *string                  `json:"classCode,omitempty"`
+		Cpu                     *float64                 `json:"cpu,omitempty"`
+		Memory                  *float64                 `json:"memory,omitempty"`
+		StorageClass            *string                  `json:"storageClass,omitempty"`
+		Volumes                 []ComponentVolumeItem    `json:"volumes,omitempty"`
+		CodeShort               *string                  `json:"codeShort,omitempty"`
+		SystemAccountSecretName *string                  `json:"systemAccountSecretName,omitempty"`
+		Network                 *ComponentNetwork        `json:"network,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "component", "compNum", "replicas", "classCode", "cpu", "memory", "storageClass", "volumes", "codeShort", "systemAccountSecretName", "network"})
+		common.DeleteKeys(additionalProperties, &[]string{"nodeGroup", "availabilityZone", "instanceTemplates", "name", "component", "compNum", "replicas", "classCode", "cpu", "memory", "storageClass", "volumes", "codeShort", "systemAccountSecretName", "network"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.NodeGroup = all.NodeGroup
+	o.AvailabilityZone = all.AvailabilityZone
+	o.InstanceTemplates = all.InstanceTemplates
 	o.Name = all.Name
 	o.Component = all.Component
 	o.CompNum = all.CompNum

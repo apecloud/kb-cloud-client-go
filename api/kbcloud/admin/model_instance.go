@@ -24,6 +24,8 @@ type Instance struct {
 	ComponentName *string `json:"componentName,omitempty"`
 	// ComponentDefinition name
 	ComponentDef *string `json:"componentDef,omitempty"`
+	// Instance template name within the actual component. Omitted when no template identity is available.
+	InstanceTemplate *string `json:"instanceTemplate,omitempty"`
 	// component type, refer to componentDef and support NamePrefix
 	Component string `json:"component"`
 	// cpu with uint cores.
@@ -236,6 +238,34 @@ func (o *Instance) HasComponentDef() bool {
 // SetComponentDef gets a reference to the given string and assigns it to the ComponentDef field.
 func (o *Instance) SetComponentDef(v string) {
 	o.ComponentDef = &v
+}
+
+// GetInstanceTemplate returns the InstanceTemplate field value if set, zero value otherwise.
+func (o *Instance) GetInstanceTemplate() string {
+	if o == nil || o.InstanceTemplate == nil {
+		var ret string
+		return ret
+	}
+	return *o.InstanceTemplate
+}
+
+// GetInstanceTemplateOk returns a tuple with the InstanceTemplate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Instance) GetInstanceTemplateOk() (*string, bool) {
+	if o == nil || o.InstanceTemplate == nil {
+		return nil, false
+	}
+	return o.InstanceTemplate, true
+}
+
+// HasInstanceTemplate returns a boolean if a field has been set.
+func (o *Instance) HasInstanceTemplate() bool {
+	return o != nil && o.InstanceTemplate != nil
+}
+
+// SetInstanceTemplate gets a reference to the given string and assigns it to the InstanceTemplate field.
+func (o *Instance) SetInstanceTemplate(v string) {
+	o.InstanceTemplate = &v
 }
 
 // GetComponent returns the Component field value.
@@ -570,6 +600,9 @@ func (o Instance) MarshalJSON() ([]byte, error) {
 	if o.ComponentDef != nil {
 		toSerialize["componentDef"] = o.ComponentDef
 	}
+	if o.InstanceTemplate != nil {
+		toSerialize["instanceTemplate"] = o.InstanceTemplate
+	}
 	toSerialize["component"] = o.Component
 	toSerialize["cpu"] = o.Cpu
 	toSerialize["createdAt"] = o.CreatedAt
@@ -599,25 +632,26 @@ func (o Instance) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		AccessMode    *string               `json:"accessMode"`
-		OrgName       *string               `json:"orgName,omitempty"`
-		Cloud         *string               `json:"cloud"`
-		Cluster       *string               `json:"cluster"`
-		ComponentName *string               `json:"componentName,omitempty"`
-		ComponentDef  *string               `json:"componentDef,omitempty"`
-		Component     *string               `json:"component"`
-		Cpu           *string               `json:"cpu"`
-		CreatedAt     *string               `json:"createdAt"`
-		Memory        *string               `json:"memory"`
-		Name          *string               `json:"name"`
-		Node          *string               `json:"node"`
-		Containers    []string              `json:"containers,omitempty"`
-		PodIp         *string               `json:"podIP,omitempty"`
-		Region        *string               `json:"region"`
-		Role          *string               `json:"role"`
-		Status        *InstanceStatus       `json:"status"`
-		Storage       []InstanceStorageItem `json:"storage,omitempty"`
-		Zone          *string               `json:"zone"`
+		AccessMode       *string               `json:"accessMode"`
+		OrgName          *string               `json:"orgName,omitempty"`
+		Cloud            *string               `json:"cloud"`
+		Cluster          *string               `json:"cluster"`
+		ComponentName    *string               `json:"componentName,omitempty"`
+		ComponentDef     *string               `json:"componentDef,omitempty"`
+		InstanceTemplate *string               `json:"instanceTemplate,omitempty"`
+		Component        *string               `json:"component"`
+		Cpu              *string               `json:"cpu"`
+		CreatedAt        *string               `json:"createdAt"`
+		Memory           *string               `json:"memory"`
+		Name             *string               `json:"name"`
+		Node             *string               `json:"node"`
+		Containers       []string              `json:"containers,omitempty"`
+		PodIp            *string               `json:"podIP,omitempty"`
+		Region           *string               `json:"region"`
+		Role             *string               `json:"role"`
+		Status           *InstanceStatus       `json:"status"`
+		Storage          []InstanceStorageItem `json:"storage,omitempty"`
+		Zone             *string               `json:"zone"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -663,7 +697,7 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"accessMode", "orgName", "cloud", "cluster", "componentName", "componentDef", "component", "cpu", "createdAt", "memory", "name", "node", "containers", "podIP", "region", "role", "status", "storage", "zone"})
+		common.DeleteKeys(additionalProperties, &[]string{"accessMode", "orgName", "cloud", "cluster", "componentName", "componentDef", "instanceTemplate", "component", "cpu", "createdAt", "memory", "name", "node", "containers", "podIP", "region", "role", "status", "storage", "zone"})
 	} else {
 		return err
 	}
@@ -675,6 +709,7 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	o.Cluster = *all.Cluster
 	o.ComponentName = all.ComponentName
 	o.ComponentDef = all.ComponentDef
+	o.InstanceTemplate = all.InstanceTemplate
 	o.Component = *all.Component
 	o.Cpu = *all.Cpu
 	o.CreatedAt = *all.CreatedAt
