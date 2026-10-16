@@ -1860,6 +1860,7 @@ type GetAccountPrivilegeOverviewOptionalParameters struct {
 	SubjectType       *ObjectPrivilegeSubjectType
 	Host              *string
 	SubjectQualifiers *string
+	DatabaseName      *string
 }
 
 // NewGetAccountPrivilegeOverviewOptionalParameters creates an empty struct for parameters.
@@ -1886,8 +1887,14 @@ func (r *GetAccountPrivilegeOverviewOptionalParameters) WithSubjectQualifiers(su
 	return r
 }
 
-// GetAccountPrivilegeOverview Read native account privilege evidence across databases.
-// Returns native role attributes, memberships and ACL evidence grouped by database. Explicit grants to membership roles and PUBLIC are included but do not imply automatic inheritance or exhaustive effective access. SQL is read-only evidence.
+// WithDatabaseName sets the corresponding parameter name and returns the struct.
+func (r *GetAccountPrivilegeOverviewOptionalParameters) WithDatabaseName(databaseName string) *GetAccountPrivilegeOverviewOptionalParameters {
+	r.DatabaseName = &databaseName
+	return r
+}
+
+// GetAccountPrivilegeOverview Read native account privilege summary or selected database evidence.
+// Without databaseName, returns role attributes, memberships, database access summaries and shared ACLs without connecting to other databases. PostgreSQL databaseName reads schema, object, ownership and PUBLIC evidence from that database only. Failed reads return an error, never an empty grant list. SQL is read-only evidence, not an exhaustive effective-access decision.
 func (a *AccountApi) GetAccountPrivilegeOverview(ctx _context.Context, engineName string, orgName string, clusterName string, accountName string, o ...GetAccountPrivilegeOverviewOptionalParameters) ([]ObjectPrivilegeEvidence, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -1934,6 +1941,9 @@ func (a *AccountApi) GetAccountPrivilegeOverview(ctx _context.Context, engineNam
 	}
 	if optionalParams.SubjectQualifiers != nil {
 		localVarQueryParams.Add("subjectQualifiers", common.ParameterToString(*optionalParams.SubjectQualifiers, ""))
+	}
+	if optionalParams.DatabaseName != nil {
+		localVarQueryParams.Add("databaseName", common.ParameterToString(*optionalParams.DatabaseName, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

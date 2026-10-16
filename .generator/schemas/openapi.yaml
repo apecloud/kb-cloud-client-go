@@ -19404,9 +19404,9 @@ paths:
         - account
         - rdbms
         - shared
-      summary: Read native account privilege evidence across databases
+      summary: Read native account privilege summary or selected database evidence
       operationId: getAccountPrivilegeOverview
-      description: Returns native role attributes, memberships and ACL evidence grouped by database. Explicit grants to membership roles and PUBLIC are included but do not imply automatic inheritance or exhaustive effective access. SQL is read-only evidence.
+      description: Without databaseName, returns role attributes, memberships, database access summaries and shared ACLs without connecting to other databases. PostgreSQL databaseName reads schema, object, ownership and PUBLIC evidence from that database only. Failed reads return an error, never an empty grant list. SQL is read-only evidence, not an exhaustive effective-access decision.
       parameters:
         - name: engineName
           in: path
@@ -19444,9 +19444,15 @@ paths:
           in: query
           schema:
             type: string
+        - name: databaseName
+          in: query
+          description: PostgreSQL database to inspect on demand. Omit for the global summary.
+          required: false
+          schema:
+            type: string
       responses:
         '200':
-          description: Native evidence groups, including unavailable database notices
+          description: Native evidence groups for the requested scope
           content:
             application/json:
               schema:
