@@ -19398,15 +19398,86 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/overview:
+    get:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: Read native account privilege summary or selected database evidence
+      operationId: getAccountPrivilegeOverview
+      description: Without databaseName, returns role attributes, memberships, database access summaries and shared ACLs without connecting to other databases. PostgreSQL databaseName reads schema, object, ownership and PUBLIC evidence from that database only. Failed reads return an error, never an empty grant list. SQL is read-only evidence, not an exhaustive effective-access decision.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subjectType
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/ObjectPrivilegeSubjectType'
+          description: Native subject kind; path account name identifies the subject.
+        - name: host
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Deprecated MySQL host alias. Prefer subjectQualifiers. Do not specify host in both.
+        - name: subjectQualifiers
+          in: query
+          schema:
+            type: string
+        - name: databaseName
+          in: query
+          description: PostgreSQL database to inspect on demand. Omit for the global summary.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Native evidence groups for the requested scope
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ObjectPrivilegeEvidence'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/reset:
     get:
       tags:
         - account
         - rdbms
         - shared
-      summary: Preview clearing all MySQL account privileges
+      summary: Preview clearing explicit account privileges
       operationId: previewAccountPrivilegeReset
-      description: MySQL only. Clears direct privileges at every scope (including columns, routines, dynamic privileges and grant options), explicit role memberships and PROXY grants for one exact user/host. Rejects protected accounts and servers with mandatory roles before writing. Preview does not mutate. Execution re-reads current grants; concurrent new grants can be included. Statements are not atomic; on failure refresh and preview before retrying. Existing sessions follow MySQL privilege-cache semantics; this does not lock the account or terminate connections.
+      description: MySQL clears direct privileges at every scope (including columns, routines, dynamic privileges and grant options), explicit role memberships and PROXY grants for one exact user/host. Rejects protected accounts and servers with mandatory roles before writing. Preview does not mutate. Execution re-reads current grants; concurrent new grants can be included. Statements are not atomic; on failure refresh and preview before retrying. Existing sessions follow MySQL privilege-cache semantics; this does not lock the account or terminate connections. PostgreSQL requires selected databaseNames or explicit allDatabases=true. Selected scope clears direct database/local/default ACLs only. It preserves global memberships, role attributes and privileges in other databases. Whole-account scope additionally clears memberships and elevated attributes. PUBLIC access remains. Object ownership prevents reset; RESTRICT protects dependent grants. Each database is transactional, but cross-database reset is not atomic. No objects are dropped or reassigned.
       parameters:
         - name: engineName
           in: path
@@ -19445,6 +19516,21 @@ paths:
           schema:
             type: string
           description: JSON identity qualifiers; MySQL host defaults to %.
+        - name: databaseNames
+          in: query
+          style: form
+          explode: true
+          description: PostgreSQL only; exact selected database names as repeated parameters. Mutually exclusive with allDatabases.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: allDatabases
+          in: query
+          description: PostgreSQL whole-account reset requires explicit true; otherwise databaseNames must be nonempty. Selected scope preserves global memberships/attributes and privileges outside those databases.
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Server-generated steps with connection database, in execution order
@@ -19469,9 +19555,9 @@ paths:
         - account
         - rdbms
         - shared
-      summary: Clear all MySQL account privileges
+      summary: Clear explicit account privileges
       operationId: resetAccountPrivileges
-      description: MySQL only. Clears direct privileges at every scope (including columns, routines, dynamic privileges and grant options), explicit role memberships and PROXY grants for one exact user/host. Rejects protected accounts and servers with mandatory roles before writing. Preview does not mutate. Execution re-reads current grants; concurrent new grants can be included. Statements are not atomic; on failure refresh and preview before retrying. Existing sessions follow MySQL privilege-cache semantics; this does not lock the account or terminate connections.
+      description: MySQL clears direct privileges at every scope (including columns, routines, dynamic privileges and grant options), explicit role memberships and PROXY grants for one exact user/host. Rejects protected accounts and servers with mandatory roles before writing. Preview does not mutate. Execution re-reads current grants; concurrent new grants can be included. Statements are not atomic; on failure refresh and preview before retrying. Existing sessions follow MySQL privilege-cache semantics; this does not lock the account or terminate connections. PostgreSQL requires selected databaseNames or explicit allDatabases=true. Selected scope clears direct database/local/default ACLs only. It preserves global memberships, role attributes and privileges in other databases. Whole-account scope additionally clears memberships and elevated attributes. PUBLIC access remains. Object ownership prevents reset; RESTRICT protects dependent grants. Each database is transactional, but cross-database reset is not atomic. No objects are dropped or reassigned.
       parameters:
         - name: engineName
           in: path
@@ -19510,6 +19596,21 @@ paths:
           schema:
             type: string
           description: JSON identity qualifiers; MySQL host defaults to %.
+        - name: databaseNames
+          in: query
+          style: form
+          explode: true
+          description: PostgreSQL only; exact selected database names as repeated parameters. Mutually exclusive with allDatabases.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: allDatabases
+          in: query
+          description: PostgreSQL whole-account reset requires explicit true; otherwise databaseNames must be nonempty. Selected scope preserves global memberships/attributes and privileges outside those databases.
+          schema:
+            type: boolean
+            default: false
       responses:
         '204':
           description: Privileges cleared; account and password preserved
@@ -19531,7 +19632,7 @@ paths:
         - shared
       summary: List exact column names for account object privileges
       operationId: listAccountObjectPrivilegeColumns
-      description: Read MySQL table or view column names using the account management connection. No workbench datasource is required. Names are returned verbatim for column-level grants.
+      description: Read MySQL or PostgreSQL relation column names using the account management connection. No workbench datasource is required. Names are returned verbatim for column-level grants.
       parameters:
         - name: engineName
           in: path
@@ -19556,7 +19657,7 @@ paths:
         - name: objectType
           in: query
           required: true
-          description: Object type, either table or view
+          description: Object type, table/view; PostgreSQL also supports materializedView/foreignTable
           schema:
             type: string
         - name: databaseName
@@ -19567,6 +19668,11 @@ paths:
         - name: objectName
           in: query
           required: true
+          schema:
+            type: string
+        - name: schemaName
+          in: query
+          description: Required for PostgreSQL; not accepted for MySQL
           schema:
             type: string
       responses:
@@ -40532,6 +40638,9 @@ components:
         - format
         - items
       properties:
+        databaseName:
+          type: string
+          description: Connection database for native privilege evidence.
         kind:
           type: string
           x-nullable: false

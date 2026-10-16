@@ -9,6 +9,7 @@ import (
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"reflect"
 	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
@@ -1855,6 +1856,146 @@ func (a *AccountApi) GetAccountObjectPrivileges(ctx _context.Context, engineName
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetAccountPrivilegeOverviewOptionalParameters holds optional parameters for GetAccountPrivilegeOverview.
+type GetAccountPrivilegeOverviewOptionalParameters struct {
+	SubjectType       *ObjectPrivilegeSubjectType
+	Host              *string
+	SubjectQualifiers *string
+	DatabaseName      *string
+}
+
+// NewGetAccountPrivilegeOverviewOptionalParameters creates an empty struct for parameters.
+func NewGetAccountPrivilegeOverviewOptionalParameters() *GetAccountPrivilegeOverviewOptionalParameters {
+	this := GetAccountPrivilegeOverviewOptionalParameters{}
+	return &this
+}
+
+// WithSubjectType sets the corresponding parameter name and returns the struct.
+func (r *GetAccountPrivilegeOverviewOptionalParameters) WithSubjectType(subjectType ObjectPrivilegeSubjectType) *GetAccountPrivilegeOverviewOptionalParameters {
+	r.SubjectType = &subjectType
+	return r
+}
+
+// WithHost sets the corresponding parameter name and returns the struct.
+func (r *GetAccountPrivilegeOverviewOptionalParameters) WithHost(host string) *GetAccountPrivilegeOverviewOptionalParameters {
+	r.Host = &host
+	return r
+}
+
+// WithSubjectQualifiers sets the corresponding parameter name and returns the struct.
+func (r *GetAccountPrivilegeOverviewOptionalParameters) WithSubjectQualifiers(subjectQualifiers string) *GetAccountPrivilegeOverviewOptionalParameters {
+	r.SubjectQualifiers = &subjectQualifiers
+	return r
+}
+
+// WithDatabaseName sets the corresponding parameter name and returns the struct.
+func (r *GetAccountPrivilegeOverviewOptionalParameters) WithDatabaseName(databaseName string) *GetAccountPrivilegeOverviewOptionalParameters {
+	r.DatabaseName = &databaseName
+	return r
+}
+
+// GetAccountPrivilegeOverview Read native account privilege summary or selected database evidence.
+// Without databaseName, returns role attributes, memberships, database access summaries and shared ACLs without connecting to other databases. PostgreSQL databaseName reads schema, object, ownership and PUBLIC evidence from that database only. Failed reads return an error, never an empty grant list. SQL is read-only evidence, not an exhaustive effective-access decision.
+func (a *AccountApi) GetAccountPrivilegeOverview(ctx _context.Context, engineName string, orgName string, clusterName string, accountName string, o ...GetAccountPrivilegeOverviewOptionalParameters) ([]ObjectPrivilegeEvidence, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []ObjectPrivilegeEvidence
+		optionalParams      GetAccountPrivilegeOverviewOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetAccountPrivilegeOverviewOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "account",
+		OperationID: "getAccountPrivilegeOverview",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/overview",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.GetAccountPrivilegeOverview")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/overview"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"accountName"+"}", _neturl.PathEscape(common.ParameterToString(accountName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.SubjectType != nil {
+		localVarQueryParams.Add("subjectType", common.ParameterToString(*optionalParams.SubjectType, ""))
+	}
+	if optionalParams.Host != nil {
+		localVarQueryParams.Add("host", common.ParameterToString(*optionalParams.Host, ""))
+	}
+	if optionalParams.SubjectQualifiers != nil {
+		localVarQueryParams.Add("subjectQualifiers", common.ParameterToString(*optionalParams.SubjectQualifiers, ""))
+	}
+	if optionalParams.DatabaseName != nil {
+		localVarQueryParams.Add("databaseName", common.ParameterToString(*optionalParams.DatabaseName, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // GetMilvusRole Get Milvus role.
 // Get a Milvus native role and its privilege grants.
 func (a *AccountApi) GetMilvusRole(ctx _context.Context, orgName string, clusterName string, roleName string) (MilvusRole, *_nethttp.Response, error) {
@@ -2237,14 +2378,39 @@ func (a *AccountApi) GetServiceAccount(ctx _context.Context, engineName string, 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// ListAccountObjectPrivilegeColumnsOptionalParameters holds optional parameters for ListAccountObjectPrivilegeColumns.
+type ListAccountObjectPrivilegeColumnsOptionalParameters struct {
+	SchemaName *string
+}
+
+// NewListAccountObjectPrivilegeColumnsOptionalParameters creates an empty struct for parameters.
+func NewListAccountObjectPrivilegeColumnsOptionalParameters() *ListAccountObjectPrivilegeColumnsOptionalParameters {
+	this := ListAccountObjectPrivilegeColumnsOptionalParameters{}
+	return &this
+}
+
+// WithSchemaName sets the corresponding parameter name and returns the struct.
+func (r *ListAccountObjectPrivilegeColumnsOptionalParameters) WithSchemaName(schemaName string) *ListAccountObjectPrivilegeColumnsOptionalParameters {
+	r.SchemaName = &schemaName
+	return r
+}
+
 // ListAccountObjectPrivilegeColumns List exact column names for account object privileges.
-// Read MySQL table or view column names using the account management connection. No workbench datasource is required. Names are returned verbatim for column-level grants.
-func (a *AccountApi) ListAccountObjectPrivilegeColumns(ctx _context.Context, engineName string, orgName string, clusterName string, accountName string, objectType string, databaseName string, objectName string) ([]string, *_nethttp.Response, error) {
+// Read MySQL or PostgreSQL relation column names using the account management connection. No workbench datasource is required. Names are returned verbatim for column-level grants.
+func (a *AccountApi) ListAccountObjectPrivilegeColumns(ctx _context.Context, engineName string, orgName string, clusterName string, accountName string, objectType string, databaseName string, objectName string, o ...ListAccountObjectPrivilegeColumnsOptionalParameters) ([]string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue []string
+		optionalParams      ListAccountObjectPrivilegeColumnsOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListAccountObjectPrivilegeColumnsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -2272,6 +2438,9 @@ func (a *AccountApi) ListAccountObjectPrivilegeColumns(ctx _context.Context, eng
 	localVarQueryParams.Add("objectType", common.ParameterToString(objectType, ""))
 	localVarQueryParams.Add("databaseName", common.ParameterToString(databaseName, ""))
 	localVarQueryParams.Add("objectName", common.ParameterToString(objectName, ""))
+	if optionalParams.SchemaName != nil {
+		localVarQueryParams.Add("schemaName", common.ParameterToString(*optionalParams.SchemaName, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -3139,6 +3308,8 @@ type PreviewAccountPrivilegeResetOptionalParameters struct {
 	SubjectType       *ObjectPrivilegeSubjectType
 	Host              *string
 	SubjectQualifiers *string
+	DatabaseNames     *[]string
+	AllDatabases      *bool
 }
 
 // NewPreviewAccountPrivilegeResetOptionalParameters creates an empty struct for parameters.
@@ -3165,8 +3336,20 @@ func (r *PreviewAccountPrivilegeResetOptionalParameters) WithSubjectQualifiers(s
 	return r
 }
 
-// PreviewAccountPrivilegeReset Preview clearing all MySQL account privileges.
-// MySQL only. Clears direct privileges at every scope (including columns, routines, dynamic privileges and grant options), explicit role memberships and PROXY grants for one exact user/host. Rejects protected accounts and servers with mandatory roles before writing. Preview does not mutate. Execution re-reads current grants; concurrent new grants can be included. Statements are not atomic; on failure refresh and preview before retrying. Existing sessions follow MySQL privilege-cache semantics; this does not lock the account or terminate connections.
+// WithDatabaseNames sets the corresponding parameter name and returns the struct.
+func (r *PreviewAccountPrivilegeResetOptionalParameters) WithDatabaseNames(databaseNames []string) *PreviewAccountPrivilegeResetOptionalParameters {
+	r.DatabaseNames = &databaseNames
+	return r
+}
+
+// WithAllDatabases sets the corresponding parameter name and returns the struct.
+func (r *PreviewAccountPrivilegeResetOptionalParameters) WithAllDatabases(allDatabases bool) *PreviewAccountPrivilegeResetOptionalParameters {
+	r.AllDatabases = &allDatabases
+	return r
+}
+
+// PreviewAccountPrivilegeReset Preview clearing explicit account privileges.
+// MySQL clears direct privileges at every scope (including columns, routines, dynamic privileges and grant options), explicit role memberships and PROXY grants for one exact user/host. Rejects protected accounts and servers with mandatory roles before writing. Preview does not mutate. Execution re-reads current grants; concurrent new grants can be included. Statements are not atomic; on failure refresh and preview before retrying. Existing sessions follow MySQL privilege-cache semantics; this does not lock the account or terminate connections. PostgreSQL requires selected databaseNames or explicit allDatabases=true. Selected scope clears direct database/local/default ACLs only. It preserves global memberships, role attributes and privileges in other databases. Whole-account scope additionally clears memberships and elevated attributes. PUBLIC access remains. Object ownership prevents reset; RESTRICT protects dependent grants. Each database is transactional, but cross-database reset is not atomic. No objects are dropped or reassigned.
 func (a *AccountApi) PreviewAccountPrivilegeReset(ctx _context.Context, engineName string, orgName string, clusterName string, accountName string, o ...PreviewAccountPrivilegeResetOptionalParameters) ([]ObjectPrivilegeResetStep, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -3213,6 +3396,20 @@ func (a *AccountApi) PreviewAccountPrivilegeReset(ctx _context.Context, engineNa
 	}
 	if optionalParams.SubjectQualifiers != nil {
 		localVarQueryParams.Add("subjectQualifiers", common.ParameterToString(*optionalParams.SubjectQualifiers, ""))
+	}
+	if optionalParams.DatabaseNames != nil {
+		t := *optionalParams.DatabaseNames
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("databaseNames", common.ParameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("databaseNames", common.ParameterToString(t, "multi"))
+		}
+	}
+	if optionalParams.AllDatabases != nil {
+		localVarQueryParams.Add("allDatabases", common.ParameterToString(*optionalParams.AllDatabases, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -3343,6 +3540,8 @@ type ResetAccountPrivilegesOptionalParameters struct {
 	SubjectType       *ObjectPrivilegeSubjectType
 	Host              *string
 	SubjectQualifiers *string
+	DatabaseNames     *[]string
+	AllDatabases      *bool
 }
 
 // NewResetAccountPrivilegesOptionalParameters creates an empty struct for parameters.
@@ -3369,8 +3568,20 @@ func (r *ResetAccountPrivilegesOptionalParameters) WithSubjectQualifiers(subject
 	return r
 }
 
-// ResetAccountPrivileges Clear all MySQL account privileges.
-// MySQL only. Clears direct privileges at every scope (including columns, routines, dynamic privileges and grant options), explicit role memberships and PROXY grants for one exact user/host. Rejects protected accounts and servers with mandatory roles before writing. Preview does not mutate. Execution re-reads current grants; concurrent new grants can be included. Statements are not atomic; on failure refresh and preview before retrying. Existing sessions follow MySQL privilege-cache semantics; this does not lock the account or terminate connections.
+// WithDatabaseNames sets the corresponding parameter name and returns the struct.
+func (r *ResetAccountPrivilegesOptionalParameters) WithDatabaseNames(databaseNames []string) *ResetAccountPrivilegesOptionalParameters {
+	r.DatabaseNames = &databaseNames
+	return r
+}
+
+// WithAllDatabases sets the corresponding parameter name and returns the struct.
+func (r *ResetAccountPrivilegesOptionalParameters) WithAllDatabases(allDatabases bool) *ResetAccountPrivilegesOptionalParameters {
+	r.AllDatabases = &allDatabases
+	return r
+}
+
+// ResetAccountPrivileges Clear explicit account privileges.
+// MySQL clears direct privileges at every scope (including columns, routines, dynamic privileges and grant options), explicit role memberships and PROXY grants for one exact user/host. Rejects protected accounts and servers with mandatory roles before writing. Preview does not mutate. Execution re-reads current grants; concurrent new grants can be included. Statements are not atomic; on failure refresh and preview before retrying. Existing sessions follow MySQL privilege-cache semantics; this does not lock the account or terminate connections. PostgreSQL requires selected databaseNames or explicit allDatabases=true. Selected scope clears direct database/local/default ACLs only. It preserves global memberships, role attributes and privileges in other databases. Whole-account scope additionally clears memberships and elevated attributes. PUBLIC access remains. Object ownership prevents reset; RESTRICT protects dependent grants. Each database is transactional, but cross-database reset is not atomic. No objects are dropped or reassigned.
 func (a *AccountApi) ResetAccountPrivileges(ctx _context.Context, engineName string, orgName string, clusterName string, accountName string, o ...ResetAccountPrivilegesOptionalParameters) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -3416,6 +3627,20 @@ func (a *AccountApi) ResetAccountPrivileges(ctx _context.Context, engineName str
 	}
 	if optionalParams.SubjectQualifiers != nil {
 		localVarQueryParams.Add("subjectQualifiers", common.ParameterToString(*optionalParams.SubjectQualifiers, ""))
+	}
+	if optionalParams.DatabaseNames != nil {
+		t := *optionalParams.DatabaseNames
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("databaseNames", common.ParameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("databaseNames", common.ParameterToString(t, "multi"))
+		}
+	}
+	if optionalParams.AllDatabases != nil {
+		localVarQueryParams.Add("allDatabases", common.ParameterToString(*optionalParams.AllDatabases, ""))
 	}
 	localVarHeaderParams["Accept"] = "*/*"
 
