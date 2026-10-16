@@ -47,6 +47,7 @@
 //   - [accountApi.deleteServiceAccount]
 //   - [accountApi.getAccountObjectPrivilegeCapabilities]
 //   - [accountApi.getAccountObjectPrivileges]
+//   - [accountApi.getAccountPrivilegeOverview]
 //   - [accountApi.getMilvusRole]
 //   - [accountApi.getRootAccountPassword]
 //   - [accountApi.getRootSeaweedFSAccountPassword]
