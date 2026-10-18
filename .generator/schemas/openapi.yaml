@@ -19398,6 +19398,232 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/overview:
+    get:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: Read native account privilege summary or selected database evidence
+      operationId: getAccountPrivilegeOverview
+      description: Without databaseName, returns role attributes, memberships, database access summaries and shared ACLs without connecting to other databases. PostgreSQL databaseName reads schema, object, ownership and PUBLIC evidence from that database only. Failed reads return an error, never an empty grant list. SQL is read-only evidence, not an exhaustive effective-access decision.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subjectType
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/ObjectPrivilegeSubjectType'
+          description: Native subject kind; path account name identifies the subject.
+        - name: host
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Deprecated MySQL host alias. Prefer subjectQualifiers. Do not specify host in both.
+        - name: subjectQualifiers
+          in: query
+          schema:
+            type: string
+        - name: databaseName
+          in: query
+          description: PostgreSQL database to inspect on demand. Omit for the global summary.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Native evidence groups for the requested scope
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ObjectPrivilegeEvidence'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/reset:
+    get:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: Preview clearing explicit account privileges
+      operationId: previewAccountPrivilegeReset
+      description: MySQL clears direct privileges at every scope (including columns, routines, dynamic privileges and grant options), explicit role memberships and PROXY grants for one exact user/host. Rejects protected accounts and servers with mandatory roles before writing. Preview does not mutate. Execution re-reads current grants; concurrent new grants can be included. Statements are not atomic; on failure refresh and preview before retrying. Existing sessions follow MySQL privilege-cache semantics; this does not lock the account or terminate connections. PostgreSQL requires selected databaseNames or explicit allDatabases=true. Selected scope clears direct database/local/default ACLs only. It preserves global memberships, role attributes and privileges in other databases. Whole-account scope additionally clears memberships and elevated attributes. PUBLIC access remains. Object ownership prevents reset; RESTRICT protects dependent grants. Each database is transactional, but cross-database reset is not atomic. No objects are dropped or reassigned.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subjectType
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/ObjectPrivilegeSubjectType'
+          description: Native subject kind; path account name identifies the subject.
+        - name: host
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Deprecated MySQL host alias. Prefer subjectQualifiers. Do not specify host in both.
+        - name: subjectQualifiers
+          in: query
+          schema:
+            type: string
+          description: JSON identity qualifiers; MySQL host defaults to %.
+        - name: databaseNames
+          in: query
+          style: form
+          explode: true
+          description: PostgreSQL only; exact selected database names as repeated parameters. Mutually exclusive with allDatabases.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: allDatabases
+          in: query
+          description: PostgreSQL whole-account reset requires explicit true; otherwise databaseNames must be nonempty. Selected scope preserves global memberships/attributes and privileges outside those databases.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Server-generated steps with connection database, in execution order
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ObjectPrivilegeResetStep'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: Clear explicit account privileges
+      operationId: resetAccountPrivileges
+      description: MySQL clears direct privileges at every scope (including columns, routines, dynamic privileges and grant options), explicit role memberships and PROXY grants for one exact user/host. Rejects protected accounts and servers with mandatory roles before writing. Preview does not mutate. Execution re-reads current grants; concurrent new grants can be included. Statements are not atomic; on failure refresh and preview before retrying. Existing sessions follow MySQL privilege-cache semantics; this does not lock the account or terminate connections. PostgreSQL requires selected databaseNames or explicit allDatabases=true. Selected scope clears direct database/local/default ACLs only. It preserves global memberships, role attributes and privileges in other databases. Whole-account scope additionally clears memberships and elevated attributes. PUBLIC access remains. Object ownership prevents reset; RESTRICT protects dependent grants. Each database is transactional, but cross-database reset is not atomic. No objects are dropped or reassigned.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subjectType
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/ObjectPrivilegeSubjectType'
+          description: Native subject kind; path account name identifies the subject.
+        - name: host
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Deprecated MySQL host alias. Prefer subjectQualifiers. Do not specify host in both.
+        - name: subjectQualifiers
+          in: query
+          schema:
+            type: string
+          description: JSON identity qualifiers; MySQL host defaults to %.
+        - name: databaseNames
+          in: query
+          style: form
+          explode: true
+          description: PostgreSQL only; exact selected database names as repeated parameters. Mutually exclusive with allDatabases.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: allDatabases
+          in: query
+          description: PostgreSQL whole-account reset requires explicit true; otherwise databaseNames must be nonempty. Selected scope preserves global memberships/attributes and privileges outside those databases.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '204':
+          description: Privileges cleared; account and password preserved
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/columns:
     get:
       tags:
@@ -19406,7 +19632,7 @@ paths:
         - shared
       summary: List exact column names for account object privileges
       operationId: listAccountObjectPrivilegeColumns
-      description: Read MySQL table or view column names using the account management connection. No workbench datasource is required. Names are returned verbatim for column-level grants.
+      description: Read MySQL or PostgreSQL relation column names using the account management connection. No workbench datasource is required. Names are returned verbatim for column-level grants.
       parameters:
         - name: engineName
           in: path
@@ -19431,7 +19657,7 @@ paths:
         - name: objectType
           in: query
           required: true
-          description: Object type, either table or view
+          description: Object type, table/view; PostgreSQL also supports materializedView/foreignTable
           schema:
             type: string
         - name: databaseName
@@ -19442,6 +19668,11 @@ paths:
         - name: objectName
           in: query
           required: true
+          schema:
+            type: string
+        - name: schemaName
+          in: query
+          description: Required for PostgreSQL; not accepted for MySQL
           schema:
             type: string
       responses:
@@ -26096,12 +26327,14 @@ components:
     instanceTemplateCreate:
       type: object
       additionalProperties: false
-      description: |
-        Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, and storageClass are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once. A template with an explicit zone uses single-zone scheduling: hostname anti-affinity follows the scheduling policy, while explicit rules and additional topology keys are preserved. Component scheduling remains unchanged; templates without a zone inherit it, including its zone anti-affinity constraints. Chart instance scheduling policies are cleared; an omitted or empty availabilityZone leaves the instance policy unset to inherit the component policy.
+      description: Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, nodeGroup and storageClass are optional overlays. The request must include every chart-rendered instance template exactly once. Explicit placement requires availabilityZone and optionally accepts nodeGroup, without inheriting upper-level AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks default inheritance. Hostname, user scheduling rules and additional topology keys are preserved.
       required:
         - name
         - replicas
       properties:
+        nodeGroup:
+          type: string
+          description: Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
         name:
           type: string
           minLength: 1
@@ -26112,7 +26345,7 @@ components:
           description: Replica count for this instance template.
         availabilityZone:
           type: string
-          description: Availability zone for this template (topology.kubernetes.io/zone); omitted or empty inherits the component zone selection. Must be enabled in the environment. If the request explicitly supplies a non-empty cluster availabilityZones list, the template zone must also belong to that list.
+          description: Single AZ for explicit template placement (topology.kubernetes.io/zone). Must be enabled in the environment and is required when nodeGroup is specified. An omitted nodeGroup does not inherit the component or cluster host group. Omitting both leaves SchedulingPolicy unset for KubeBlocks inheritance.
         storageClass:
           type: string
           description: StorageClass name for all persistent volumes in this template. Copied from component volumeClaimTemplates, preserving volume sizes and other settings while overriding storageClassName. Chart instance volume templates are cleared; omitted or empty leaves instance volumeClaimTemplates unset.
@@ -26140,7 +26373,7 @@ components:
           type: object
           additionalProperties:
             type: string
-          description: Label map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
+          description: Label map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted. The apps.kubeblocks.io/instance-template label is managed by the system and must equal the template name if supplied.
     ioQuantity:
       description: IO Quantity describes IOPS and BPS of a volume
       properties:
@@ -26208,6 +26441,12 @@ components:
       required:
         - component
       properties:
+        nodeGroup:
+          type: string
+          description: Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
+        availabilityZone:
+          type: string
+          description: Single AZ for explicit component placement. Must be enabled in the environment and is required when nodeGroup is specified. An omitted nodeGroup does not inherit the cluster host group. Omitting both retains cluster scheduling.
         component:
           type: string
           description: component type, refer to componentDef and support NamePrefix
@@ -26534,6 +26773,18 @@ components:
       type: object
       description: ComponentItem is the information of a component
       properties:
+        nodeGroup:
+          type: string
+          description: Optional host group in this environment. Explicit placement does not inherit an upper-level host group.
+        availabilityZone:
+          type: string
+          description: Explicit component AZ selection, if configured.
+        instanceTemplates:
+          type: array
+          x-omitempty: true
+          description: Instance template assignments with effective replicas, placement and storage class, and user-provided env, labels and annotations.
+          items:
+            $ref: '#/components/schemas/instanceTemplateCreate'
         name:
           type: string
           description: component name
@@ -26878,6 +27129,9 @@ components:
           type: string
         componentDef:
           description: ComponentDefinition name
+          type: string
+        instanceTemplate:
+          description: Instance template name within the actual component. Omitted when no template identity is available.
           type: string
         component:
           description: component type, refer to componentDef and support NamePrefix
@@ -33478,6 +33732,12 @@ components:
           type: boolean
           description: whether the component supports custom secret
           x-nullable: false
+    placementScope:
+      type: string
+      description: UI placement input scope for this mode. Omitted defaults to cluster. cluster displays AZ and NodeGroup selection for the cluster. component hides cluster placement and displays selection for each component, or for each instance template when the component declares templates. This does not restrict API placement overrides.
+      enum:
+        - cluster
+        - component
     modeCompatibleKubeblocksVersion:
       type: string
       description: |
@@ -33499,7 +33759,6 @@ components:
         - env
         - annotations
         - labels
-        - availabilityZone
         - storageClass
     instanceTemplateEnv:
       type: object
@@ -33875,6 +34134,8 @@ components:
         - description
         - components
       properties:
+        placementScope:
+          $ref: '#/components/schemas/placementScope'
         name:
           type: string
         title:
@@ -40388,6 +40649,9 @@ components:
         - format
         - items
       properties:
+        databaseName:
+          type: string
+          description: Connection database for native privilege evidence.
         kind:
           type: string
           x-nullable: false
@@ -40644,6 +40908,20 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ObjectPrivilegeQualifier'
+    ObjectPrivilegeResetStep:
+      type: object
+      description: One ordered, engine-generated step of an account privilege reset.
+      required:
+        - sql
+      properties:
+        databaseName:
+          type: string
+          description: Connection database in which this statement must run. Omitted when no particular database is required, as with MySQL account-wide REVOKE. This is execution context, not the scope of objects affected by the SQL.
+        sql:
+          type: string
+          x-nullable: false
+          minLength: 1
+          description: Engine-generated SQL for display. Callers cannot submit or modify these steps for execution; reset rebuilds the plan from current grants.
     ObjectPrivilegeObject:
       type: object
       required:

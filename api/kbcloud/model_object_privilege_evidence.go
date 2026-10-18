@@ -11,8 +11,10 @@ import (
 )
 
 type ObjectPrivilegeEvidence struct {
-	Kind   string `json:"kind"`
-	Format string `json:"format"`
+	// Connection database for native privilege evidence.
+	DatabaseName *string `json:"databaseName,omitempty"`
+	Kind         string  `json:"kind"`
+	Format       string  `json:"format"`
 	// Read-only native evidence; never replay as a privilege mutation.
 	Items []string `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -38,6 +40,34 @@ func NewObjectPrivilegeEvidence(kind string, format string, items []string) *Obj
 func NewObjectPrivilegeEvidenceWithDefaults() *ObjectPrivilegeEvidence {
 	this := ObjectPrivilegeEvidence{}
 	return &this
+}
+
+// GetDatabaseName returns the DatabaseName field value if set, zero value otherwise.
+func (o *ObjectPrivilegeEvidence) GetDatabaseName() string {
+	if o == nil || o.DatabaseName == nil {
+		var ret string
+		return ret
+	}
+	return *o.DatabaseName
+}
+
+// GetDatabaseNameOk returns a tuple with the DatabaseName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ObjectPrivilegeEvidence) GetDatabaseNameOk() (*string, bool) {
+	if o == nil || o.DatabaseName == nil {
+		return nil, false
+	}
+	return o.DatabaseName, true
+}
+
+// HasDatabaseName returns a boolean if a field has been set.
+func (o *ObjectPrivilegeEvidence) HasDatabaseName() bool {
+	return o != nil && o.DatabaseName != nil
+}
+
+// SetDatabaseName gets a reference to the given string and assigns it to the DatabaseName field.
+func (o *ObjectPrivilegeEvidence) SetDatabaseName(v string) {
+	o.DatabaseName = &v
 }
 
 // GetKind returns the Kind field value.
@@ -115,6 +145,9 @@ func (o ObjectPrivilegeEvidence) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.DatabaseName != nil {
+		toSerialize["databaseName"] = o.DatabaseName
+	}
 	toSerialize["kind"] = o.Kind
 	toSerialize["format"] = o.Format
 	toSerialize["items"] = o.Items
@@ -128,9 +161,10 @@ func (o ObjectPrivilegeEvidence) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ObjectPrivilegeEvidence) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Kind   *string   `json:"kind"`
-		Format *string   `json:"format"`
-		Items  *[]string `json:"items"`
+		DatabaseName *string   `json:"databaseName,omitempty"`
+		Kind         *string   `json:"kind"`
+		Format       *string   `json:"format"`
+		Items        *[]string `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -146,10 +180,11 @@ func (o *ObjectPrivilegeEvidence) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"kind", "format", "items"})
+		common.DeleteKeys(additionalProperties, &[]string{"databaseName", "kind", "format", "items"})
 	} else {
 		return err
 	}
+	o.DatabaseName = all.DatabaseName
 	o.Kind = *all.Kind
 	o.Format = *all.Format
 	o.Items = *all.Items
