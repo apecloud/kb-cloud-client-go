@@ -254,6 +254,89 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/MongoRBACUserCreate'
+  /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/databases:
+    get:
+      summary: List MongoDB cluster databases
+      description: Lists existing database names using the cluster management connection. Does not require a personal Workbench datasource.
+      operationId: mongoListClusterDatabases
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Database names, sorted; an empty result is an empty array.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/databases/{database}/collections:
+    get:
+      summary: List MongoDB cluster database objects
+      description: Lists existing collections, views and time-series collections in a database using the cluster management connection. Returns metadata, not document contents.
+      operationId: mongoListClusterCollections
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Database objects; an empty database returns an empty array.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MongoCollectionInfo'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/capabilities:
     get:
       summary: GetRBACCapabilities
@@ -24673,6 +24756,42 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MongoRBACRoleRef'
+    MongoCollectionCapabilities:
+      type: object
+      properties:
+        canReadDocuments:
+          type: boolean
+          x-omitempty: false
+        canWriteDocuments:
+          type: boolean
+          x-omitempty: false
+        canManageIndexes:
+          type: boolean
+          x-omitempty: false
+        canSetValidation:
+          type: boolean
+          x-omitempty: false
+        canDrop:
+          type: boolean
+          x-omitempty: false
+    MongoCollectionInfo:
+      type: object
+      properties:
+        name:
+          type: string
+          description: collection or view name
+        type:
+          type: string
+          description: collection type (collection or view)
+        isSystem:
+          type: boolean
+          description: whether this is a MongoDB system collection
+          x-omitempty: false
+        capabilities:
+          $ref: '#/components/schemas/MongoCollectionCapabilities'
+        options:
+          type: object
+          description: collection options, including viewOn/pipeline when type is view
     MongoRBACResourceCapability:
       type: object
       properties:
@@ -38464,42 +38583,6 @@ components:
         isSystem:
           type: boolean
           x-omitempty: false
-    MongoCollectionCapabilities:
-      type: object
-      properties:
-        canReadDocuments:
-          type: boolean
-          x-omitempty: false
-        canWriteDocuments:
-          type: boolean
-          x-omitempty: false
-        canManageIndexes:
-          type: boolean
-          x-omitempty: false
-        canSetValidation:
-          type: boolean
-          x-omitempty: false
-        canDrop:
-          type: boolean
-          x-omitempty: false
-    MongoCollectionInfo:
-      type: object
-      properties:
-        name:
-          type: string
-          description: collection or view name
-        type:
-          type: string
-          description: collection type (collection or view)
-        isSystem:
-          type: boolean
-          description: whether this is a MongoDB system collection
-          x-omitempty: false
-        capabilities:
-          $ref: '#/components/schemas/MongoCollectionCapabilities'
-        options:
-          type: object
-          description: collection options, including viewOn/pipeline when type is view
     MongoCollectionStats:
       type: object
       properties:
