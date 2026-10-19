@@ -17,6 +17,8 @@ type EngineOptionLicense struct {
 	SecretName string `json:"secretName"`
 	// the license file name
 	FileName *string `json:"fileName,omitempty"`
+	// Require an associated environment for NodeScope licenses. Omit to preserve legacy unbound licenses.
+	NodeScopeRequiresEnvironment *bool `json:"nodeScopeRequiresEnvironment,omitempty"`
 	// Allowed engine license types. Omit to retain unrestricted license types.
 	AllowedTypes []string `json:"allowedTypes,omitempty"`
 	// Explicit license file upload slots. Each item maps one UI upload field to the file name written into the license Secret.
@@ -125,6 +127,34 @@ func (o *EngineOptionLicense) SetFileName(v string) {
 	o.FileName = &v
 }
 
+// GetNodeScopeRequiresEnvironment returns the NodeScopeRequiresEnvironment field value if set, zero value otherwise.
+func (o *EngineOptionLicense) GetNodeScopeRequiresEnvironment() bool {
+	if o == nil || o.NodeScopeRequiresEnvironment == nil {
+		var ret bool
+		return ret
+	}
+	return *o.NodeScopeRequiresEnvironment
+}
+
+// GetNodeScopeRequiresEnvironmentOk returns a tuple with the NodeScopeRequiresEnvironment field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOptionLicense) GetNodeScopeRequiresEnvironmentOk() (*bool, bool) {
+	if o == nil || o.NodeScopeRequiresEnvironment == nil {
+		return nil, false
+	}
+	return o.NodeScopeRequiresEnvironment, true
+}
+
+// HasNodeScopeRequiresEnvironment returns a boolean if a field has been set.
+func (o *EngineOptionLicense) HasNodeScopeRequiresEnvironment() bool {
+	return o != nil && o.NodeScopeRequiresEnvironment != nil
+}
+
+// SetNodeScopeRequiresEnvironment gets a reference to the given bool and assigns it to the NodeScopeRequiresEnvironment field.
+func (o *EngineOptionLicense) SetNodeScopeRequiresEnvironment(v bool) {
+	o.NodeScopeRequiresEnvironment = &v
+}
+
 // GetAllowedTypes returns the AllowedTypes field value if set, zero value otherwise.
 func (o *EngineOptionLicense) GetAllowedTypes() []string {
 	if o == nil || o.AllowedTypes == nil {
@@ -222,6 +252,9 @@ func (o EngineOptionLicense) MarshalJSON() ([]byte, error) {
 	if o.FileName != nil {
 		toSerialize["fileName"] = o.FileName
 	}
+	if o.NodeScopeRequiresEnvironment != nil {
+		toSerialize["nodeScopeRequiresEnvironment"] = o.NodeScopeRequiresEnvironment
+	}
 	if o.AllowedTypes != nil {
 		toSerialize["allowedTypes"] = o.AllowedTypes
 	}
@@ -241,12 +274,13 @@ func (o EngineOptionLicense) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineOptionLicense) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Required     *bool                     `json:"required,omitempty"`
-		SecretName   *string                   `json:"secretName"`
-		FileName     *string                   `json:"fileName,omitempty"`
-		AllowedTypes []string                  `json:"allowedTypes,omitempty"`
-		Files        []EngineOptionLicenseFile `json:"files,omitempty"`
-		Components   []LicenseOption           `json:"components,omitempty"`
+		Required                     *bool                     `json:"required,omitempty"`
+		SecretName                   *string                   `json:"secretName"`
+		FileName                     *string                   `json:"fileName,omitempty"`
+		NodeScopeRequiresEnvironment *bool                     `json:"nodeScopeRequiresEnvironment,omitempty"`
+		AllowedTypes                 []string                  `json:"allowedTypes,omitempty"`
+		Files                        []EngineOptionLicenseFile `json:"files,omitempty"`
+		Components                   []LicenseOption           `json:"components,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -256,13 +290,14 @@ func (o *EngineOptionLicense) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"required", "secretName", "fileName", "allowedTypes", "files", "components"})
+		common.DeleteKeys(additionalProperties, &[]string{"required", "secretName", "fileName", "nodeScopeRequiresEnvironment", "allowedTypes", "files", "components"})
 	} else {
 		return err
 	}
 	o.Required = all.Required
 	o.SecretName = *all.SecretName
 	o.FileName = all.FileName
+	o.NodeScopeRequiresEnvironment = all.NodeScopeRequiresEnvironment
 	o.AllowedTypes = all.AllowedTypes
 	o.Files = all.Files
 	o.Components = all.Components

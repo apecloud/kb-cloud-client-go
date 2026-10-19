@@ -36003,6 +36003,9 @@ components:
             fileName:
               type: string
               description: the license file name
+            nodeScopeRequiresEnvironment:
+              type: boolean
+              description: Require an associated environment for NodeScope licenses. Omit to preserve legacy unbound licenses.
             allowedTypes:
               type: array
               description: Allowed engine license types. Omit to retain unrestricted license types.
