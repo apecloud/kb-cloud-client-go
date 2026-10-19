@@ -114,6 +114,548 @@ tags:
   - name: blueGreenDeployment
     description: Blue Green Deployment APIs
 paths:
+  /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/users/{database}/{username}/password:
+    put:
+      summary: ChangeRBACUserPassword
+      operationId: mongoChangeRBACUserPassword
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Conflict; refresh or remove role bindings first
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoRBACPasswordChange'
+  /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/users:
+    get:
+      summary: ListRBACUsers
+      operationId: mongoListRBACUsers
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          schema:
+            type: string
+            default: admin
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MongoRBACUser'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Conflict; refresh or remove role bindings first
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: CreateRBACUser
+      operationId: mongoCreateRBACUser
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Conflict; refresh or remove role bindings first
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoRBACUserCreate'
+  /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/capabilities:
+    get:
+      summary: GetRBACCapabilities
+      operationId: mongoGetRBACCapabilities
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoRBACCapabilities'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Conflict; refresh or remove role bindings first
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/roles:
+    get:
+      summary: ListRBACRoles
+      operationId: mongoListRBACRoles
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          schema:
+            type: string
+            default: admin
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MongoRBACRole'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Conflict; refresh or remove role bindings first
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: CreateRBACRole
+      operationId: mongoCreateRBACRole
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Conflict; refresh or remove role bindings first
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoRBACRoleWrite'
+  /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/roles/{database}/{roleName}:
+    get:
+      summary: GetRBACRole
+      operationId: mongoGetRBACRole
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoRBACRole'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Conflict; refresh or remove role bindings first
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      summary: UpdateRBACRole
+      operationId: mongoUpdateRBACRole
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Conflict; refresh or remove role bindings first
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoRBACRoleWrite'
+    delete:
+      summary: DeleteRBACRole
+      operationId: mongoDeleteRBACRole
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expectedRevision
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Conflict; refresh or remove role bindings first
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/users/{database}/{username}:
+    get:
+      summary: GetRBACUser
+      operationId: mongoGetRBACUser
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoRBACUser'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Conflict; refresh or remove role bindings first
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: DeleteRBACUser
+      operationId: mongoDeleteRBACUser
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Conflict; refresh or remove role bindings first
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/users/{database}/{username}/roles:
+    patch:
+      summary: ChangeRBACUserRoles
+      operationId: mongoChangeRBACUserRoles
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Conflict; refresh or remove role bindings first
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoRBACBindingChange'
   /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/config:
     get:
       operationId: getClusterJarConfig
@@ -712,6 +1254,107 @@ paths:
       tags:
         - organization
       x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/deletionPreview:
+    get:
+      summary: Preview organization deletion or purge
+      operationId: previewOrgDeletion
+      tags:
+        - organization
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgID
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: ^[1-9][0-9]*$
+        - name: action
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/orgDeletionAction'
+      responses:
+        '200':
+          description: Read-only preview; actual mutations revalidate all conditions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgDeletionPreview'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '409':
+          $ref: '#/components/responses/409'
+  /api/v1/organizations/{orgName}/restoreOrganization:
+    post:
+      summary: Restore organization
+      operationId: restoreOrg
+      tags:
+        - organization
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgLifecycleRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '409':
+          $ref: '#/components/responses/409'
+  /api/v1/organizations/{orgName}/purge:
+    post:
+      summary: Purge organization
+      operationId: purgeOrg
+      tags:
+        - organization
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgLifecycleRequest'
+      responses:
+        '202':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgPurgeResult'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '409':
+          $ref: '#/components/responses/409'
   /api/v1/organizations/{orgName}:
     get:
       description: read the specified Org
@@ -787,6 +1430,12 @@ paths:
           required: true
           schema:
             type: string
+        - in: query
+          name: orgID
+          required: true
+          schema:
+            type: string
+            pattern: ^[1-9][0-9]*$
       responses:
         '204':
           content: {}
@@ -24022,6 +24671,194 @@ components:
         curl --digest -u "accessKey:secretKey" https://api.example.com/api/v1/user
         ```
   schemas:
+    MongoRBACPasswordChange:
+      type: object
+      required:
+        - password
+      properties:
+        password:
+          type: string
+          format: password
+    APIErrorResponse:
+      description: API error response.
+      properties:
+        code:
+          description: The HTTP status code.
+          type: integer
+        reason:
+          description: The reason for the error.
+          type: string
+        message:
+          description: The message for the error.
+          type: string
+      required:
+        - code
+      type: object
+    MongoRBACRoleRef:
+      type: object
+      properties:
+        role:
+          type: string
+        db:
+          type: string
+      required:
+        - role
+        - db
+    MongoRBACResource:
+      type: object
+      properties:
+        cluster:
+          type: boolean
+        db:
+          type: string
+          x-nullable: true
+          description: Preserve an explicit empty string for native wildcard scope; omit only for cluster resources.
+        collection:
+          type: string
+          x-nullable: true
+          description: Preserve an explicit empty string for native wildcard scope; omit only for cluster resources.
+        anyResource:
+          type: boolean
+          description: Read-only native evidence; write requests reject this internal resource.
+      description: Native MongoDB resource. cluster:true is system operations, not all database data. Empty db/collection are explicit wildcard scopes; system collections need explicit resources.
+    MongoRBACPrivilege:
+      type: object
+      properties:
+        resource:
+          $ref: '#/components/schemas/MongoRBACResource'
+        actions:
+          type: array
+          items:
+            type: string
+      required:
+        - resource
+        - actions
+    MongoRBACUser:
+      type: object
+      properties:
+        db:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACRoleRef'
+        inheritedRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACRoleRef'
+        inheritedPrivileges:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACPrivilege'
+        user:
+          type: string
+        readOnly:
+          type: boolean
+          description: Platform-protected account; mutations are rejected.
+    MongoRBACUserCreate:
+      type: object
+      required:
+        - user
+        - db
+        - password
+        - roles
+      properties:
+        user:
+          type: string
+        db:
+          type: string
+        password:
+          type: string
+          format: password
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACRoleRef'
+    MongoRBACResourceCapability:
+      type: object
+      properties:
+        type:
+          type: string
+          description: cluster, database, collection, allDatabases, collectionAcrossDatabases
+        actions:
+          type: array
+          items:
+            type: string
+      required:
+        - type
+        - actions
+    MongoRBACCapabilities:
+      type: object
+      properties:
+        engineVersion:
+          type: string
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACResourceCapability'
+    MongoRBACRole:
+      type: object
+      properties:
+        role:
+          type: string
+        db:
+          type: string
+        isBuiltin:
+          type: boolean
+        privileges:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACPrivilege'
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACRoleRef'
+        inheritedRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACRoleRef'
+        inheritedPrivileges:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACPrivilege'
+        revision:
+          type: string
+          description: Stale-form fingerprint. updateRole has no native CAS; external concurrent writes are not transactional.
+    MongoRBACRoleWrite:
+      type: object
+      properties:
+        role:
+          type: string
+        db:
+          type: string
+        privileges:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACPrivilege'
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACRoleRef'
+        expectedRevision:
+          type: string
+      required:
+        - role
+        - db
+        - privileges
+        - roles
+    MongoRBACBindingChange:
+      type: object
+      properties:
+        action:
+          type: string
+          description: grant or revoke. Incremental; all other native roles are retained.
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACRoleRef'
+      required:
+        - action
+        - roles
     clusterJarConfig:
       type: object
       properties:
@@ -24049,21 +24886,6 @@ components:
         - maxFileBytes
         - maxTotalBytes
         - usedBytes
-    APIErrorResponse:
-      description: API error response.
-      properties:
-        code:
-          description: The HTTP status code.
-          type: integer
-        reason:
-          description: The reason for the error.
-          type: string
-        message:
-          description: The message for the error.
-          type: string
-      required:
-        - code
-      type: object
     clusterJarKind:
       type: string
       enum:
@@ -24325,9 +25147,31 @@ components:
         - description
         - createAt
       type: object
+    orgStatus:
+      x-nullable: false
+      type: string
+      enum:
+        - Active
+        - DeletionLocked
+        - Purging
+        - PurgeFailed
+        - Deleted
     userOrg:
       description: UserOrg is the payload for user organization
       properties:
+        status:
+          x-nullable: false
+          $ref: '#/components/schemas/orgStatus'
+        expiredAt:
+          type: string
+          format: date-time
+          nullable: true
+        purgeError:
+          type: string
+        allowedActions:
+          type: array
+          items:
+            type: string
         orgId:
           description: The ID of the organization
           type: string
@@ -24344,6 +25188,9 @@ components:
           description: The description of the organization
           type: string
       required:
+        - status
+        - expiredAt
+        - allowedActions
         - orgId
         - role
         - name
@@ -24379,6 +25226,19 @@ components:
     org:
       description: Org info
       properties:
+        status:
+          x-nullable: false
+          $ref: '#/components/schemas/orgStatus'
+        expiredAt:
+          type: string
+          format: date-time
+          nullable: true
+        purgeError:
+          type: string
+        allowedActions:
+          type: array
+          items:
+            type: string
         createdAt:
           description: |-
             CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
@@ -24409,11 +25269,167 @@ components:
           description: return true if the organization is enabled
           type: boolean
       required:
+        - status
+        - expiredAt
+        - allowedActions
         - createdAt
         - name
         - updatedAt
         - enabled
       type: object
+    orgDeletionAction:
+      type: string
+      enum:
+        - delete
+        - purge
+    orgDeletionBlocker:
+      type: object
+      required:
+        - code
+        - resourceType
+        - count
+      properties:
+        code:
+          x-nullable: false
+          type: string
+        resourceType:
+          x-nullable: false
+          type: string
+        count:
+          x-nullable: false
+          type: integer
+          format: int64
+    orgConfigurationItem:
+      type: object
+      required:
+        - id
+        - displayName
+      properties:
+        id:
+          x-nullable: false
+          type: string
+        displayName:
+          x-nullable: false
+          type: string
+    orgConfigurationSummary:
+      type: object
+      required:
+        - type
+        - count
+        - items
+        - truncated
+        - actionEffect
+        - purgeEffect
+      properties:
+        type:
+          x-nullable: false
+          type: string
+        count:
+          x-nullable: false
+          type: integer
+          format: int64
+        items:
+          x-nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/orgConfigurationItem'
+        truncated:
+          x-nullable: false
+          type: boolean
+        actionEffect:
+          x-nullable: false
+          type: string
+        purgeEffect:
+          x-nullable: false
+          type: string
+    orgRetainedResource:
+      type: object
+      required:
+        - type
+        - count
+        - retentionPolicy
+      properties:
+        type:
+          x-nullable: false
+          type: string
+        count:
+          x-nullable: false
+          type: integer
+          format: int64
+        retentionPolicy:
+          x-nullable: false
+          type: string
+    orgDeletionPreview:
+      type: object
+      required:
+        - orgID
+        - name
+        - status
+        - expiredAt
+        - action
+        - canProceed
+        - blockers
+        - configurations
+        - retainedResources
+      properties:
+        orgID:
+          x-nullable: false
+          type: string
+        name:
+          x-nullable: false
+          type: string
+        status:
+          x-nullable: false
+          type: string
+        expiredAt:
+          type: string
+          format: date-time
+          nullable: true
+        purgeError:
+          type: string
+        action:
+          x-nullable: false
+          type: string
+        canProceed:
+          x-nullable: false
+          type: boolean
+        blockers:
+          x-nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/orgDeletionBlocker'
+        configurations:
+          x-nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/orgConfigurationSummary'
+        retainedResources:
+          x-nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/orgRetainedResource'
+    orgLifecycleRequest:
+      type: object
+      required:
+        - orgID
+        - expectedExpiredAt
+      properties:
+        orgID:
+          type: string
+          pattern: ^[1-9][0-9]*$
+        expectedExpiredAt:
+          type: string
+          format: date-time
+    orgPurgeResult:
+      type: object
+      properties:
+        orgID:
+          type: string
+        status:
+          type: string
+        expiredAt:
+          type: string
+          format: date-time
     orgUpdate:
       description: Organization update
       properties:
@@ -40910,7 +41926,7 @@ components:
           type: string
           x-nullable: false
           minLength: 1
-          description: Engine-generated SQL for display. Callers cannot submit or modify these steps for execution; reset rebuilds the plan from current grants.
+          description: Engine-generated statement for display (SQL, or a native MongoDB command encoded as JSON). Callers cannot submit or modify these steps for execution; reset rebuilds the plan from current grants.
     ObjectPrivilegeObject:
       type: object
       required:
