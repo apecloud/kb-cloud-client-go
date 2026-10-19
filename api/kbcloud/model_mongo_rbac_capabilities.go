@@ -7,8 +7,10 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type MongoRBACCapabilities struct {
-	EngineVersion *string                       `json:"engineVersion,omitempty"`
-	Resources     []MongoRBACResourceCapability `json:"resources,omitempty"`
+	// Supports allDatabases on the account list endpoint.
+	AllDatabaseUsers *bool                         `json:"allDatabaseUsers,omitempty"`
+	EngineVersion    *string                       `json:"engineVersion,omitempty"`
+	Resources        []MongoRBACResourceCapability `json:"resources,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -29,6 +31,34 @@ func NewMongoRBACCapabilities() *MongoRBACCapabilities {
 func NewMongoRBACCapabilitiesWithDefaults() *MongoRBACCapabilities {
 	this := MongoRBACCapabilities{}
 	return &this
+}
+
+// GetAllDatabaseUsers returns the AllDatabaseUsers field value if set, zero value otherwise.
+func (o *MongoRBACCapabilities) GetAllDatabaseUsers() bool {
+	if o == nil || o.AllDatabaseUsers == nil {
+		var ret bool
+		return ret
+	}
+	return *o.AllDatabaseUsers
+}
+
+// GetAllDatabaseUsersOk returns a tuple with the AllDatabaseUsers field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MongoRBACCapabilities) GetAllDatabaseUsersOk() (*bool, bool) {
+	if o == nil || o.AllDatabaseUsers == nil {
+		return nil, false
+	}
+	return o.AllDatabaseUsers, true
+}
+
+// HasAllDatabaseUsers returns a boolean if a field has been set.
+func (o *MongoRBACCapabilities) HasAllDatabaseUsers() bool {
+	return o != nil && o.AllDatabaseUsers != nil
+}
+
+// SetAllDatabaseUsers gets a reference to the given bool and assigns it to the AllDatabaseUsers field.
+func (o *MongoRBACCapabilities) SetAllDatabaseUsers(v bool) {
+	o.AllDatabaseUsers = &v
 }
 
 // GetEngineVersion returns the EngineVersion field value if set, zero value otherwise.
@@ -93,6 +123,9 @@ func (o MongoRBACCapabilities) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.AllDatabaseUsers != nil {
+		toSerialize["allDatabaseUsers"] = o.AllDatabaseUsers
+	}
 	if o.EngineVersion != nil {
 		toSerialize["engineVersion"] = o.EngineVersion
 	}
@@ -109,18 +142,20 @@ func (o MongoRBACCapabilities) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *MongoRBACCapabilities) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EngineVersion *string                       `json:"engineVersion,omitempty"`
-		Resources     []MongoRBACResourceCapability `json:"resources,omitempty"`
+		AllDatabaseUsers *bool                         `json:"allDatabaseUsers,omitempty"`
+		EngineVersion    *string                       `json:"engineVersion,omitempty"`
+		Resources        []MongoRBACResourceCapability `json:"resources,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineVersion", "resources"})
+		common.DeleteKeys(additionalProperties, &[]string{"allDatabaseUsers", "engineVersion", "resources"})
 	} else {
 		return err
 	}
+	o.AllDatabaseUsers = all.AllDatabaseUsers
 	o.EngineVersion = all.EngineVersion
 	o.Resources = all.Resources
 

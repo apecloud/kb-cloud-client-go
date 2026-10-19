@@ -892,7 +892,8 @@ func (a *MongodbApi) MongoListRBACRoles(ctx _context.Context, orgName string, cl
 
 // MongoListRBACUsersOptionalParameters holds optional parameters for MongoListRBACUsers.
 type MongoListRBACUsersOptionalParameters struct {
-	Database *string
+	Database     *string
+	AllDatabases *bool
 }
 
 // NewMongoListRBACUsersOptionalParameters creates an empty struct for parameters.
@@ -904,6 +905,12 @@ func NewMongoListRBACUsersOptionalParameters() *MongoListRBACUsersOptionalParame
 // WithDatabase sets the corresponding parameter name and returns the struct.
 func (r *MongoListRBACUsersOptionalParameters) WithDatabase(database string) *MongoListRBACUsersOptionalParameters {
 	r.Database = &database
+	return r
+}
+
+// WithAllDatabases sets the corresponding parameter name and returns the struct.
+func (r *MongoListRBACUsersOptionalParameters) WithAllDatabases(allDatabases bool) *MongoListRBACUsersOptionalParameters {
+	r.AllDatabases = &allDatabases
 	return r
 }
 
@@ -946,6 +953,9 @@ func (a *MongodbApi) MongoListRBACUsers(ctx _context.Context, orgName string, cl
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.Database != nil {
 		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	if optionalParams.AllDatabases != nil {
+		localVarQueryParams.Add("allDatabases", common.ParameterToString(*optionalParams.AllDatabases, ""))
 	}
 	localVarHeaderParams["Accept"] = "*/*"
 

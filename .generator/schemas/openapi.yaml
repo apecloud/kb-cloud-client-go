@@ -188,6 +188,12 @@ paths:
           schema:
             type: string
             default: admin
+        - name: allDatabases
+          in: query
+          description: List accounts from all authentication databases. Overrides database; returns role memberships without effective privileges. Use the user detail endpoint for privileges. Requires viewUser and viewRole on the relevant databases.
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Success
@@ -24683,6 +24689,9 @@ components:
     MongoRBACCapabilities:
       type: object
       properties:
+        allDatabaseUsers:
+          type: boolean
+          description: Supports allDatabases on the account list endpoint.
         engineVersion:
           type: string
         resources:
