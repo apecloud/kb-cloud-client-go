@@ -34855,6 +34855,14 @@ components:
             serviceDescriptor:
               type: string
               description: the name of the referenced serviceDescriptor
+            backendMode:
+              type: string
+              description: |
+                Opt-in path for the deployment mode of an existing referenced Cluster.
+                When configured, resolve only a Cluster whose engine matches engineName
+                and whose nonempty mode is allowed by modes (empty modes allows all).
+                Map its actual mode to this Helm value path, overriding client values.
+                References without this field keep their existing behavior.
             mode:
               type: string
               description: |
