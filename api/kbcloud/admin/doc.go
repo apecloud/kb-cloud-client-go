@@ -614,6 +614,8 @@
 //   - [mongodbApi.mongoGetRBACCapabilities]
 //   - [mongodbApi.mongoGetRBACRole]
 //   - [mongodbApi.mongoGetRBACUser]
+//   - [mongodbApi.mongoListClusterCollections]
+//   - [mongodbApi.mongoListClusterDatabases]
 //   - [mongodbApi.mongoListRBACRoles]
 //   - [mongodbApi.mongoListRBACUsers]
 //   - [mongodbApi.mongoUpdateRBACRole]
