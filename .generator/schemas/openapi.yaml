@@ -34071,6 +34071,12 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertRuleList is a list of alert rules
+    objectTypeEnum:
+      type: string
+      enum:
+        - cluster
+        - channel
+        - unknown
     alertStatus:
       enum:
         - resolved
@@ -34089,6 +34095,12 @@ components:
           type: string
         clusterName:
           type: string
+        objectType:
+          $ref: '#/components/schemas/objectTypeEnum'
+          nullable: true
+        objectID:
+          type: string
+          nullable: true
         objectName:
           type: string
         engine:
