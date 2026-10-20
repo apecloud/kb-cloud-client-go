@@ -774,6 +774,167 @@ func (a *MongodbApi) MongoGetRBACUser(ctx _context.Context, orgName string, clus
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// MongoListClusterCollections List MongoDB cluster database objects.
+// Lists existing collections, views and time-series collections in a database using the cluster management connection. Returns metadata, not document contents.
+func (a *MongodbApi) MongoListClusterCollections(ctx _context.Context, orgName string, clusterName string, database string) ([]MongoCollectionInfo, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []MongoCollectionInfo
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "mongodb",
+		OperationID: "mongoListClusterCollections",
+		Path:        "/api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/databases/{database}/collections",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MongodbApi.MongoListClusterCollections")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/databases/{database}/collections"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"database"+"}", _neturl.PathEscape(common.ParameterToString(database, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// MongoListClusterDatabases List MongoDB cluster databases.
+// Lists existing database names using the cluster management connection. Does not require a personal Workbench datasource.
+func (a *MongodbApi) MongoListClusterDatabases(ctx _context.Context, orgName string, clusterName string) ([]string, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []string
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "mongodb",
+		OperationID: "mongoListClusterDatabases",
+		Path:        "/api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/databases",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MongodbApi.MongoListClusterDatabases")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/databases"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // MongoListRBACRolesOptionalParameters holds optional parameters for MongoListRBACRoles.
 type MongoListRBACRolesOptionalParameters struct {
 	Database *string
@@ -892,7 +1053,8 @@ func (a *MongodbApi) MongoListRBACRoles(ctx _context.Context, orgName string, cl
 
 // MongoListRBACUsersOptionalParameters holds optional parameters for MongoListRBACUsers.
 type MongoListRBACUsersOptionalParameters struct {
-	Database *string
+	Database     *string
+	AllDatabases *bool
 }
 
 // NewMongoListRBACUsersOptionalParameters creates an empty struct for parameters.
@@ -904,6 +1066,12 @@ func NewMongoListRBACUsersOptionalParameters() *MongoListRBACUsersOptionalParame
 // WithDatabase sets the corresponding parameter name and returns the struct.
 func (r *MongoListRBACUsersOptionalParameters) WithDatabase(database string) *MongoListRBACUsersOptionalParameters {
 	r.Database = &database
+	return r
+}
+
+// WithAllDatabases sets the corresponding parameter name and returns the struct.
+func (r *MongoListRBACUsersOptionalParameters) WithAllDatabases(allDatabases bool) *MongoListRBACUsersOptionalParameters {
+	r.AllDatabases = &allDatabases
 	return r
 }
 
@@ -946,6 +1114,9 @@ func (a *MongodbApi) MongoListRBACUsers(ctx _context.Context, orgName string, cl
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.Database != nil {
 		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	if optionalParams.AllDatabases != nil {
+		localVarQueryParams.Add("allDatabases", common.ParameterToString(*optionalParams.AllDatabases, ""))
 	}
 	localVarHeaderParams["Accept"] = "*/*"
 
