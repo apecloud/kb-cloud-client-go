@@ -36863,6 +36863,16 @@ components:
               description: Allowed engine license types. Omit to retain unrestricted license types.
               items:
                 type: string
+            versions:
+              type: array
+              description: Engine versions that support license installation. Entries match an exact service version or its major version according to the main component version rule. Omit or leave empty for unrestricted versions.
+              items:
+                type: string
+            networkModes:
+              type: array
+              description: Effective cluster network modes that support license installation. Omit or leave empty for unrestricted network modes.
+              items:
+                $ref: '#/components/schemas/networkMode'
             files:
               type: array
               description: Explicit license file upload slots. Each item maps one UI upload field to the file name written into the license Secret.
