@@ -181,7 +181,7 @@ func (a *OpsrequestApi) CustomOps(ctx _context.Context, orgName string, clusterN
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ExposeCluster Expose cluster loadbalancer endpoint.
+// ExposeCluster Expose cluster endpoint.
 func (a *OpsrequestApi) ExposeCluster(ctx _context.Context, orgName string, clusterName string, body OpsExpose) (OpsRequestName, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
