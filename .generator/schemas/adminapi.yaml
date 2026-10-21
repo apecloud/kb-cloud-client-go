@@ -43422,12 +43422,12 @@ components:
               description: Allowed engine license types. Omit to retain unrestricted license types.
               items:
                 type: string
-            supportedVersions:
+            versions:
               type: array
               description: Engine versions that support license installation. Entries match an exact service version or its major version according to the main component version rule. Omit or leave empty for unrestricted versions.
               items:
                 type: string
-            supportedNetworkModes:
+            networkModes:
               type: array
               description: Effective cluster network modes that support license installation. Omit or leave empty for unrestricted network modes.
               items:
