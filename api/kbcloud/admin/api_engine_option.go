@@ -169,7 +169,11 @@ func (a *EngineOptionApi) DeleteEngineOption(ctx _context.Context, engineName st
 
 // GetEngineOptionOptionalParameters holds optional parameters for GetEngineOption.
 type GetEngineOptionOptionalParameters struct {
-	Version *EngineOptionVersion
+	Version         *EngineOptionVersion
+	OrgName         *string
+	EnvironmentName *string
+	EngineMode      *string
+	ServiceVersion  *string
 }
 
 // NewGetEngineOptionOptionalParameters creates an empty struct for parameters.
@@ -181,6 +185,30 @@ func NewGetEngineOptionOptionalParameters() *GetEngineOptionOptionalParameters {
 // WithVersion sets the corresponding parameter name and returns the struct.
 func (r *GetEngineOptionOptionalParameters) WithVersion(version EngineOptionVersion) *GetEngineOptionOptionalParameters {
 	r.Version = &version
+	return r
+}
+
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *GetEngineOptionOptionalParameters) WithOrgName(orgName string) *GetEngineOptionOptionalParameters {
+	r.OrgName = &orgName
+	return r
+}
+
+// WithEnvironmentName sets the corresponding parameter name and returns the struct.
+func (r *GetEngineOptionOptionalParameters) WithEnvironmentName(environmentName string) *GetEngineOptionOptionalParameters {
+	r.EnvironmentName = &environmentName
+	return r
+}
+
+// WithEngineMode sets the corresponding parameter name and returns the struct.
+func (r *GetEngineOptionOptionalParameters) WithEngineMode(engineMode string) *GetEngineOptionOptionalParameters {
+	r.EngineMode = &engineMode
+	return r
+}
+
+// WithServiceVersion sets the corresponding parameter name and returns the struct.
+func (r *GetEngineOptionOptionalParameters) WithServiceVersion(serviceVersion string) *GetEngineOptionOptionalParameters {
+	r.ServiceVersion = &serviceVersion
 	return r
 }
 
@@ -224,6 +252,18 @@ func (a *EngineOptionApi) GetEngineOption(ctx _context.Context, engineName strin
 	if optionalParams.Version != nil {
 		localVarQueryParams.Add("version", common.ParameterToString(*optionalParams.Version, ""))
 	}
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
+	if optionalParams.EnvironmentName != nil {
+		localVarQueryParams.Add("environmentName", common.ParameterToString(*optionalParams.EnvironmentName, ""))
+	}
+	if optionalParams.EngineMode != nil {
+		localVarQueryParams.Add("engineMode", common.ParameterToString(*optionalParams.EngineMode, ""))
+	}
+	if optionalParams.ServiceVersion != nil {
+		localVarQueryParams.Add("serviceVersion", common.ParameterToString(*optionalParams.ServiceVersion, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -251,7 +291,7 @@ func (a *EngineOptionApi) GetEngineOption(ctx _context.Context, engineName strin
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

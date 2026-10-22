@@ -15536,6 +15536,30 @@ paths:
           required: false
           schema:
             $ref: '#/components/schemas/engineOptionVersion'
+        - description: Organization with access to the environment. Supply orgName, environmentName, engineMode and serviceVersion together; omit all four for the global option.
+          in: query
+          name: orgName
+          required: false
+          schema:
+            type: string
+        - description: Environment in which to check optional component support. Supply orgName, environmentName, engineMode and serviceVersion together; omit all four for the global option.
+          in: query
+          name: environmentName
+          required: false
+          schema:
+            type: string
+        - description: Engine mode to filter. Supply orgName, environmentName, engineMode and serviceVersion together; omit all four for the global option.
+          in: query
+          name: engineMode
+          required: false
+          schema:
+            type: string
+        - description: Database service version, distinct from the engineOption data version. Supply orgName, environmentName, engineMode and serviceVersion together; omit all four for the global option.
+          in: query
+          name: serviceVersion
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -15543,10 +15567,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/engineOption'
           description: OK
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       tags:
         - engineOption
         - shared
