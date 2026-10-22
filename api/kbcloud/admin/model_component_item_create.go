@@ -12,6 +12,8 @@ import (
 
 // ComponentItemCreate ComponentItem is the information of a component
 type ComponentItemCreate struct {
+	// User-provided component annotations, merged over chart defaults. Platform-managed keys cannot be overridden. Omitted or empty preserves defaults; empty string values are literal values, not deletions.
+	Annotations map[string]string `json:"annotations,omitempty"`
 	// Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
 	NodeGroup *string `json:"nodeGroup,omitempty"`
 	// Single AZ for explicit component placement. Must be enabled in the environment and is required when nodeGroup is specified. An omitted nodeGroup does not inherit the cluster host group. Omitting both retains cluster scheduling.
@@ -63,6 +65,34 @@ func NewComponentItemCreateWithDefaults() *ComponentItemCreate {
 	var skipResourceConstraints bool = false
 	this.SkipResourceConstraints = &skipResourceConstraints
 	return &this
+}
+
+// GetAnnotations returns the Annotations field value if set, zero value otherwise.
+func (o *ComponentItemCreate) GetAnnotations() map[string]string {
+	if o == nil || o.Annotations == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.Annotations
+}
+
+// GetAnnotationsOk returns a tuple with the Annotations field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentItemCreate) GetAnnotationsOk() (*map[string]string, bool) {
+	if o == nil || o.Annotations == nil {
+		return nil, false
+	}
+	return &o.Annotations, true
+}
+
+// HasAnnotations returns a boolean if a field has been set.
+func (o *ComponentItemCreate) HasAnnotations() bool {
+	return o != nil && o.Annotations != nil
+}
+
+// SetAnnotations gets a reference to the given map[string]string and assigns it to the Annotations field.
+func (o *ComponentItemCreate) SetAnnotations(v map[string]string) {
+	o.Annotations = v
 }
 
 // GetNodeGroup returns the NodeGroup field value if set, zero value otherwise.
@@ -458,6 +488,9 @@ func (o ComponentItemCreate) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Annotations != nil {
+		toSerialize["annotations"] = o.Annotations
+	}
 	if o.NodeGroup != nil {
 		toSerialize["nodeGroup"] = o.NodeGroup
 	}
@@ -508,6 +541,7 @@ func (o ComponentItemCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		Annotations             map[string]string        `json:"annotations,omitempty"`
 		NodeGroup               *string                  `json:"nodeGroup,omitempty"`
 		AvailabilityZone        *string                  `json:"availabilityZone,omitempty"`
 		Component               *string                  `json:"component"`
@@ -531,12 +565,13 @@ func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"nodeGroup", "availabilityZone", "component", "compNum", "replicas", "instanceTemplates", "skipResourceConstraints", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName", "network"})
+		common.DeleteKeys(additionalProperties, &[]string{"annotations", "nodeGroup", "availabilityZone", "component", "compNum", "replicas", "instanceTemplates", "skipResourceConstraints", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName", "network"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.Annotations = all.Annotations
 	o.NodeGroup = all.NodeGroup
 	o.AvailabilityZone = all.AvailabilityZone
 	o.Component = *all.Component
