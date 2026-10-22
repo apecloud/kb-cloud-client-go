@@ -750,6 +750,7 @@
 //   - [storageClassApi.listStorageClasses]
 //   - [storageClassApi.listStorageProvisioners]
 //   - [storageClassApi.updateStorageClass]
+//   - [taskApi.abortTask]
 //   - [taskApi.cancelTask]
 //   - [taskApi.getTask]
 //   - [taskApi.getTaskLog]
