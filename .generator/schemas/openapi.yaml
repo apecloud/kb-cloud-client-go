@@ -5681,7 +5681,7 @@ paths:
   /api/v1/organizations/{orgName}/clusters/{clusterName}/expose:
     post:
       operationId: exposeCluster
-      summary: Expose cluster loadbalancer endpoint
+      summary: Expose cluster endpoint
       parameters:
         - description: name of the Org
           in: path
@@ -10954,6 +10954,40 @@ paths:
         '204':
           content: {}
           description: Task cancelled successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - task
+  /api/v1/organizations/{orgName}/tasks/{taskId}/abort:
+    post:
+      summary: Force abort a task
+      description: Forcefully abort a running task. Pending steps or OpsRequests are cancelled, running ones are aborted.
+      operationId: abortTask
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - description: ID of the task
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Task aborted successfully
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -29342,10 +29376,11 @@ components:
       type: object
     opsExposeType:
       type: string
-      description: Specifies the type of exposure for the KubeBlocks cluster.
+      description: Specifies the type of exposure for the KubeBlocks cluster. Internal exposure creates an internal-ro ClusterIP service and requires readonly=true; it is independent of vpc and internet exposure.
       enum:
         - vpc
         - internet
+        - internal
     opsExposeVPCServiceType:
       description: Specifies the type of service for the KubeBlocks cluster.
       enum:
@@ -29362,10 +29397,12 @@ components:
         enable:
           type: boolean
         readonly:
+          description: Select the configured read-only role. Must be true for internal exposure.
           type: boolean
         type:
           $ref: '#/components/schemas/opsExposeType'
         vpcServiceType:
+          description: Service type for vpc exposure. Omit for internal exposure, which always uses ClusterIP.
           $ref: '#/components/schemas/opsExposeVPCServiceType'
         portsMapping:
           type: array
@@ -34195,7 +34232,7 @@ components:
         rules:
           type: array
           maxItems: 1000
-          description: Alert names to silence. Empty or omitted means all cluster alerts.
+          description: Alert names to silence. Empty or omitted means all alerts for the resource.
           items:
             type: string
             minLength: 1
@@ -34230,17 +34267,17 @@ components:
           description: Required for weekly. IANA timezone, e.g. Asia/Shanghai or UTC.
     alertCluster:
       type: object
-      description: Cluster-scoped alert settings. PATCH updates only supplied fields; settings apply to both tenant and administrator notifications.
+      description: Resource-scoped alert settings, shared by cluster and node endpoints. PATCH updates only supplied fields. Cluster settings apply to both tenant and administrator notifications.
       properties:
         disabled:
           type: boolean
           x-nullable: true
-          description: Disable all cluster alerts. Existing rule and silence settings are preserved.
+          description: Disable all alerts for the resource. Existing rule and silence settings are preserved.
         disabledRules:
           type: array
           maxItems: 1000
           x-omitempty: false
-          description: Alert names disabled only for this cluster. An empty array clears all rule overrides; omission preserves them.
+          description: Alert names disabled only for this resource. An empty array clears all rule overrides; omission preserves them.
           items:
             type: string
             minLength: 1
@@ -37061,6 +37098,7 @@ components:
         - Failed
         - Cancelling
         - Cancelled
+        - Aborted
       description: Current status of the task
     taskListItem:
       type: object

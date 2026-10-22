@@ -6,11 +6,11 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// AlertCluster Cluster-scoped alert settings. PATCH updates only supplied fields; settings apply to both tenant and administrator notifications.
+// AlertCluster Resource-scoped alert settings, shared by cluster and node endpoints. PATCH updates only supplied fields. Cluster settings apply to both tenant and administrator notifications.
 type AlertCluster struct {
-	// Disable all cluster alerts. Existing rule and silence settings are preserved.
+	// Disable all alerts for the resource. Existing rule and silence settings are preserved.
 	Disabled *bool `json:"disabled,omitempty"`
-	// Alert names disabled only for this cluster. An empty array clears all rule overrides; omission preserves them.
+	// Alert names disabled only for this resource. An empty array clears all rule overrides; omission preserves them.
 	DisabledRules []string `json:"disabledRules,omitempty"`
 	// Pause notifications while continuing to record alerts. Set enabled to false to cancel. Time windows include their start and exclude their end.
 	Silence *AlertClusterSilence `json:"silence,omitempty"`
