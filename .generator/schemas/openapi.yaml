@@ -44656,10 +44656,10 @@ components:
           type: integer
           format: int64
           x-nullable: true
-          description: Weighted health score from 0 to 100 over evaluable inspection items only. Unknown results and items with info importance are excluded from both the numerator and denominator. The field is omitted when no item is evaluable; a present value of 0 is a valid evaluated score.
+          description: Weighted health score from 0 to 100 over evaluable inspection items only. Unknown results and items with info importance are excluded from both the numerator and denominator. The field is omitted when no item is evaluable. Doris and SelectDB also omit it when risk-check evidence is unavailable, and score correlated findings once per failure family. A present value of 0 is a valid evaluated score.
         result:
           type: string
-          description: Task health conclusion derived from evaluable item states and criticality-aware score caps. Valid conclusions are red, yellow, green, and unknown. Unknown means no item is evaluable. Unknown items remain visible in the item list but do not override a red, yellow, or green conclusion derived from evaluable items.
+          description: Task health conclusion derived from evaluable item states and criticality-aware score caps. Valid conclusions are red, yellow, green, and unknown. Unknown means no item is evaluable, or a Doris/SelectDB inspection has unavailable risk-check evidence without an observed red or yellow finding. Unavailable evidence never hides an observed red or yellow finding.
         latestRunAt:
           format: date-time
           type: string
