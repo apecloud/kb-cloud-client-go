@@ -5681,7 +5681,7 @@ paths:
   /api/v1/organizations/{orgName}/clusters/{clusterName}/expose:
     post:
       operationId: exposeCluster
-      summary: Expose cluster loadbalancer endpoint
+      summary: Expose cluster endpoint
       parameters:
         - description: name of the Org
           in: path
@@ -29366,10 +29366,11 @@ components:
       type: object
     opsExposeType:
       type: string
-      description: Specifies the type of exposure for the KubeBlocks cluster.
+      description: Specifies the type of exposure for the KubeBlocks cluster. Internal exposure creates an internal-ro ClusterIP service and requires readonly=true; it is independent of vpc and internet exposure.
       enum:
         - vpc
         - internet
+        - internal
     opsExposeVPCServiceType:
       description: Specifies the type of service for the KubeBlocks cluster.
       enum:
@@ -29386,10 +29387,12 @@ components:
         enable:
           type: boolean
         readonly:
+          description: Select the configured read-only role. Must be true for internal exposure.
           type: boolean
         type:
           $ref: '#/components/schemas/opsExposeType'
         vpcServiceType:
+          description: Service type for vpc exposure. Omit for internal exposure, which always uses ClusterIP.
           $ref: '#/components/schemas/opsExposeVPCServiceType'
         portsMapping:
           type: array
