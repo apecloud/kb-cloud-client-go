@@ -1663,6 +1663,107 @@ paths:
       tags:
         - organization
       x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/deletionPreview:
+    get:
+      summary: Preview organization deletion or purge
+      operationId: previewOrgDeletion
+      tags:
+        - organization
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgID
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: ^[1-9][0-9]*$
+        - name: action
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/orgDeletionAction'
+      responses:
+        '200':
+          description: Read-only preview; actual mutations revalidate all conditions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgDeletionPreview'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '409':
+          $ref: '#/components/responses/409'
+  /admin/v1/organizations/{orgName}/restoreOrganization:
+    post:
+      summary: Restore organization
+      operationId: restoreOrg
+      tags:
+        - organization
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgLifecycleRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '409':
+          $ref: '#/components/responses/409'
+  /admin/v1/organizations/{orgName}/purge:
+    post:
+      summary: Purge organization
+      operationId: purgeOrg
+      tags:
+        - organization
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgLifecycleRequest'
+      responses:
+        '202':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgPurgeResult'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '409':
+          $ref: '#/components/responses/409'
   /admin/v1/organizations/{orgName}:
     get:
       description: read the specified Org
@@ -1738,6 +1839,12 @@ paths:
           required: true
           schema:
             type: string
+        - in: query
+          name: orgID
+          required: true
+          schema:
+            type: string
+            pattern: ^[1-9][0-9]*$
       responses:
         '204':
           content: {}
@@ -30709,15 +30816,44 @@ components:
           description: The list of series items aggregated in the time range.
           items:
             $ref: '#/components/schemas/seriesItem'
+    orgStatus:
+      x-nullable: false
+      type: string
+      enum:
+        - Active
+        - DeletionLocked
+        - Purging
+        - PurgeFailed
+        - Deleted
     organizationItem:
       description: Organization items.
       type: object
       required:
+        - id
+        - status
+        - expiredAt
+        - allowedActions
         - name
         - displayName
         - clusterTotal
         - createdAt
       properties:
+        id:
+          x-nullable: false
+          type: string
+        status:
+          x-nullable: false
+          $ref: '#/components/schemas/orgStatus'
+        expiredAt:
+          type: string
+          format: date-time
+          nullable: true
+        purgeError:
+          type: string
+        allowedActions:
+          type: array
+          items:
+            type: string
         name:
           type: string
           description: The name of the organization.
@@ -30767,6 +30903,19 @@ components:
     org:
       description: Org info
       properties:
+        status:
+          x-nullable: false
+          $ref: '#/components/schemas/orgStatus'
+        expiredAt:
+          type: string
+          format: date-time
+          nullable: true
+        purgeError:
+          type: string
+        allowedActions:
+          type: array
+          items:
+            type: string
         createdAt:
           description: |-
             CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
@@ -30797,11 +30946,167 @@ components:
           description: return true if the organization is enabled
           type: boolean
       required:
+        - status
+        - expiredAt
+        - allowedActions
         - createdAt
         - name
         - updatedAt
         - enabled
       type: object
+    orgDeletionAction:
+      type: string
+      enum:
+        - delete
+        - purge
+    orgDeletionBlocker:
+      type: object
+      required:
+        - code
+        - resourceType
+        - count
+      properties:
+        code:
+          x-nullable: false
+          type: string
+        resourceType:
+          x-nullable: false
+          type: string
+        count:
+          x-nullable: false
+          type: integer
+          format: int64
+    orgConfigurationItem:
+      type: object
+      required:
+        - id
+        - displayName
+      properties:
+        id:
+          x-nullable: false
+          type: string
+        displayName:
+          x-nullable: false
+          type: string
+    orgConfigurationSummary:
+      type: object
+      required:
+        - type
+        - count
+        - items
+        - truncated
+        - actionEffect
+        - purgeEffect
+      properties:
+        type:
+          x-nullable: false
+          type: string
+        count:
+          x-nullable: false
+          type: integer
+          format: int64
+        items:
+          x-nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/orgConfigurationItem'
+        truncated:
+          x-nullable: false
+          type: boolean
+        actionEffect:
+          x-nullable: false
+          type: string
+        purgeEffect:
+          x-nullable: false
+          type: string
+    orgRetainedResource:
+      type: object
+      required:
+        - type
+        - count
+        - retentionPolicy
+      properties:
+        type:
+          x-nullable: false
+          type: string
+        count:
+          x-nullable: false
+          type: integer
+          format: int64
+        retentionPolicy:
+          x-nullable: false
+          type: string
+    orgDeletionPreview:
+      type: object
+      required:
+        - orgID
+        - name
+        - status
+        - expiredAt
+        - action
+        - canProceed
+        - blockers
+        - configurations
+        - retainedResources
+      properties:
+        orgID:
+          x-nullable: false
+          type: string
+        name:
+          x-nullable: false
+          type: string
+        status:
+          x-nullable: false
+          type: string
+        expiredAt:
+          type: string
+          format: date-time
+          nullable: true
+        purgeError:
+          type: string
+        action:
+          x-nullable: false
+          type: string
+        canProceed:
+          x-nullable: false
+          type: boolean
+        blockers:
+          x-nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/orgDeletionBlocker'
+        configurations:
+          x-nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/orgConfigurationSummary'
+        retainedResources:
+          x-nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/orgRetainedResource'
+    orgLifecycleRequest:
+      type: object
+      required:
+        - orgID
+        - expectedExpiredAt
+      properties:
+        orgID:
+          type: string
+          pattern: ^[1-9][0-9]*$
+        expectedExpiredAt:
+          type: string
+          format: date-time
+    orgPurgeResult:
+      type: object
+      properties:
+        orgID:
+          type: string
+        status:
+          type: string
+        expiredAt:
+          type: string
+          format: date-time
     orgUpdate:
       description: Organization update
       properties:
