@@ -572,6 +572,7 @@
 //   - [storageApi.getStorage]
 //   - [storageApi.listStorages]
 //   - [storageClassApi.getStorageClassStats]
+//   - [taskApi.abortTask]
 //   - [taskApi.cancelTask]
 //   - [taskApi.getTask]
 //   - [taskApi.listTaskEvents]
