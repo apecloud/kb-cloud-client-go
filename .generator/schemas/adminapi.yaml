@@ -11694,6 +11694,107 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/alert/settings:
+    get:
+      tags:
+        - nodeAlert
+      operationId: getNodeAlertSettings
+      summary: Get alert settings for a node in an environment
+      parameters:
+        - name: environmentName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: nodeName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertCluster'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - nodeAlert
+      operationId: patchNodeAlertSettings
+      summary: Update supplied node alert settings; omitted fields are preserved
+      parameters:
+        - name: environmentName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: nodeName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/alertCluster'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertCluster'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/alert/rules:
+    get:
+      tags:
+        - nodeAlert
+      operationId: listNodeAlertRules
+      summary: List node metric and NodeDown event alert rules
+      parameters:
+        - name: environmentName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: nodeName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertRuleList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/environments/{environmentName}/nodes/{nodeName}:
     get:
       description: Get specified node info for environment
@@ -18616,6 +18717,34 @@ paths:
         '204':
           content: {}
           description: Task cancelled successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - task
+  /admin/v1/tasks/{taskId}/abort:
+    post:
+      summary: Force abort a task
+      description: Forcefully abort a running task. Pending steps or OpsRequests are cancelled, running ones are aborted.
+      operationId: abortTask
+      parameters:
+        - description: ID of the task
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Task aborted successfully
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -38811,6 +38940,142 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/koordinatorReservationSummaryItem'
+    alertClusterSilenceMode:
+      type: string
+      enum:
+        - once
+        - weekly
+      description: Required when enabled. Once uses absolute timestamps; weekly uses weekdays and local times in timeZone.
+    alertClusterSilence:
+      type: object
+      required:
+        - enabled
+      description: Pause notifications while continuing to record alerts. Set enabled to false to cancel. Time windows include their start and exclude their end.
+      properties:
+        enabled:
+          type: boolean
+        rules:
+          type: array
+          maxItems: 1000
+          description: Alert names to silence. Empty or omitted means all alerts for the resource.
+          items:
+            type: string
+            minLength: 1
+            maxLength: 255
+        mode:
+          $ref: '#/components/schemas/alertClusterSilenceMode'
+        startsAt:
+          type: string
+          format: date-time
+          description: Required for once. Absolute start of the silence window.
+        endsAt:
+          type: string
+          format: date-time
+          description: Required for once. Must be later than startsAt.
+        weekdays:
+          type: array
+          maxItems: 7
+          description: Required for weekly. Sunday is 0. Overnight windows belong to the weekday on which they start.
+          items:
+            type: integer
+            minimum: 0
+            maximum: 6
+        startTime:
+          type: string
+          description: Required for weekly, in HH:mm format.
+        endTime:
+          type: string
+          description: Required for weekly, in HH:mm format. Earlier than startTime means the following day; equal times are invalid.
+        timeZone:
+          type: string
+          maxLength: 100
+          description: Required for weekly. IANA timezone, e.g. Asia/Shanghai or UTC.
+    alertCluster:
+      type: object
+      description: Resource-scoped alert settings, shared by cluster and node endpoints. PATCH updates only supplied fields. Cluster settings apply to both tenant and administrator notifications.
+      properties:
+        disabled:
+          type: boolean
+          x-nullable: true
+          description: Disable all alerts for the resource. Existing rule and silence settings are preserved.
+        disabledRules:
+          type: array
+          maxItems: 1000
+          x-omitempty: false
+          description: Alert names disabled only for this resource. An empty array clears all rule overrides; omission preserves them.
+          items:
+            type: string
+            minLength: 1
+            maxLength: 255
+        silence:
+          $ref: '#/components/schemas/alertClusterSilence'
+        silenceActive:
+          type: boolean
+          readOnly: true
+          description: Whether the configured silence window is active now, regardless of the alert master switch.
+    alertSeverity:
+      enum:
+        - critical
+        - warning
+        - info
+      type: string
+    alertRule:
+      required:
+        - alertName
+        - for
+        - groupName
+        - severity
+      type: object
+      properties:
+        description:
+          type: string
+        summary:
+          type: string
+        alertName:
+          type: string
+        expr:
+          type: string
+          description: Expression. Required if metric is not provided.
+        for:
+          type: string
+        groupName:
+          type: string
+        disabled:
+          type: boolean
+          default: false
+        severity:
+          $ref: '#/components/schemas/alertSeverity'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        orgName:
+          type: string
+      description: Alert rule information. Either provide 'expr' for custom expressions, or 'metric' for predefined metrics.
+    alertRuleGroup:
+      type: object
+      properties:
+        name:
+          type: string
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/alertRule'
+    alertRuleList:
+      required:
+        - items
+      type: object
+      properties:
+        items:
+          type: array
+          description: Items is the list of alert rule objects in the list
+          items:
+            $ref: '#/components/schemas/alertRuleGroup'
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      description: AlertRuleList is a list of alert rules
     listBody:
       description: Represents a list of JSON bodies.
       items:
@@ -40557,142 +40822,6 @@ components:
       required:
         - items
       type: object
-    alertSeverity:
-      enum:
-        - critical
-        - warning
-        - info
-      type: string
-    alertRule:
-      required:
-        - alertName
-        - for
-        - groupName
-        - severity
-      type: object
-      properties:
-        description:
-          type: string
-        summary:
-          type: string
-        alertName:
-          type: string
-        expr:
-          type: string
-          description: Expression. Required if metric is not provided.
-        for:
-          type: string
-        groupName:
-          type: string
-        disabled:
-          type: boolean
-          default: false
-        severity:
-          $ref: '#/components/schemas/alertSeverity'
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-        orgName:
-          type: string
-      description: Alert rule information. Either provide 'expr' for custom expressions, or 'metric' for predefined metrics.
-    alertRuleGroup:
-      type: object
-      properties:
-        name:
-          type: string
-        rules:
-          type: array
-          items:
-            $ref: '#/components/schemas/alertRule'
-    alertRuleList:
-      required:
-        - items
-      type: object
-      properties:
-        items:
-          type: array
-          description: Items is the list of alert rule objects in the list
-          items:
-            $ref: '#/components/schemas/alertRuleGroup'
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      description: AlertRuleList is a list of alert rules
-    alertClusterSilenceMode:
-      type: string
-      enum:
-        - once
-        - weekly
-      description: Required when enabled. Once uses absolute timestamps; weekly uses weekdays and local times in timeZone.
-    alertClusterSilence:
-      type: object
-      required:
-        - enabled
-      description: Pause notifications while continuing to record alerts. Set enabled to false to cancel. Time windows include their start and exclude their end.
-      properties:
-        enabled:
-          type: boolean
-        rules:
-          type: array
-          maxItems: 1000
-          description: Alert names to silence. Empty or omitted means all cluster alerts.
-          items:
-            type: string
-            minLength: 1
-            maxLength: 255
-        mode:
-          $ref: '#/components/schemas/alertClusterSilenceMode'
-        startsAt:
-          type: string
-          format: date-time
-          description: Required for once. Absolute start of the silence window.
-        endsAt:
-          type: string
-          format: date-time
-          description: Required for once. Must be later than startsAt.
-        weekdays:
-          type: array
-          maxItems: 7
-          description: Required for weekly. Sunday is 0. Overnight windows belong to the weekday on which they start.
-          items:
-            type: integer
-            minimum: 0
-            maximum: 6
-        startTime:
-          type: string
-          description: Required for weekly, in HH:mm format.
-        endTime:
-          type: string
-          description: Required for weekly, in HH:mm format. Earlier than startTime means the following day; equal times are invalid.
-        timeZone:
-          type: string
-          maxLength: 100
-          description: Required for weekly. IANA timezone, e.g. Asia/Shanghai or UTC.
-    alertCluster:
-      type: object
-      description: Cluster-scoped alert settings. PATCH updates only supplied fields; settings apply to both tenant and administrator notifications.
-      properties:
-        disabled:
-          type: boolean
-          x-nullable: true
-          description: Disable all cluster alerts. Existing rule and silence settings are preserved.
-        disabledRules:
-          type: array
-          maxItems: 1000
-          x-omitempty: false
-          description: Alert names disabled only for this cluster. An empty array clears all rule overrides; omission preserves them.
-          items:
-            type: string
-            minLength: 1
-            maxLength: 255
-        silence:
-          $ref: '#/components/schemas/alertClusterSilence'
-        silenceActive:
-          type: boolean
-          readOnly: true
-          description: Whether the configured silence window is active now, regardless of the alert master switch.
     URLCheck:
       type: object
       required:
@@ -45644,6 +45773,7 @@ components:
         - Failed
         - Cancelling
         - Cancelled
+        - Aborted
       description: Current status of the task
     taskListItem:
       type: object
