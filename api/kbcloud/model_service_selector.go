@@ -14,12 +14,14 @@ import (
 // appsv1.ServiceRefServiceSelector. Read kubeblocks documentation for more information.
 type ServiceSelector struct {
 	// referenced cluster's mode
-	Mode                string  `json:"mode"`
-	Component           string  `json:"component"`
-	Service             string  `json:"service"`
-	Port                string  `json:"port"`
-	CredentialComponent *string `json:"credentialComponent,omitempty"`
-	CredentialName      *string `json:"credentialName,omitempty"`
+	Mode      string `json:"mode"`
+	Component string `json:"component"`
+	Service   string `json:"service"`
+	Port      string `json:"port"`
+	// Ensure the referenced component has an internal readonly endpoint before creating the consumer. Uses the existing asynchronous Expose operation on KubeBlocks 1.0; the endpoint belongs to the referenced cluster.
+	EnsureReadonlyEndpoint *bool   `json:"ensureReadonlyEndpoint,omitempty"`
+	CredentialComponent    *string `json:"credentialComponent,omitempty"`
+	CredentialName         *string `json:"credentialName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -138,6 +140,34 @@ func (o *ServiceSelector) SetPort(v string) {
 	o.Port = v
 }
 
+// GetEnsureReadonlyEndpoint returns the EnsureReadonlyEndpoint field value if set, zero value otherwise.
+func (o *ServiceSelector) GetEnsureReadonlyEndpoint() bool {
+	if o == nil || o.EnsureReadonlyEndpoint == nil {
+		var ret bool
+		return ret
+	}
+	return *o.EnsureReadonlyEndpoint
+}
+
+// GetEnsureReadonlyEndpointOk returns a tuple with the EnsureReadonlyEndpoint field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ServiceSelector) GetEnsureReadonlyEndpointOk() (*bool, bool) {
+	if o == nil || o.EnsureReadonlyEndpoint == nil {
+		return nil, false
+	}
+	return o.EnsureReadonlyEndpoint, true
+}
+
+// HasEnsureReadonlyEndpoint returns a boolean if a field has been set.
+func (o *ServiceSelector) HasEnsureReadonlyEndpoint() bool {
+	return o != nil && o.EnsureReadonlyEndpoint != nil
+}
+
+// SetEnsureReadonlyEndpoint gets a reference to the given bool and assigns it to the EnsureReadonlyEndpoint field.
+func (o *ServiceSelector) SetEnsureReadonlyEndpoint(v bool) {
+	o.EnsureReadonlyEndpoint = &v
+}
+
 // GetCredentialComponent returns the CredentialComponent field value if set, zero value otherwise.
 func (o *ServiceSelector) GetCredentialComponent() string {
 	if o == nil || o.CredentialComponent == nil {
@@ -204,6 +234,9 @@ func (o ServiceSelector) MarshalJSON() ([]byte, error) {
 	toSerialize["component"] = o.Component
 	toSerialize["service"] = o.Service
 	toSerialize["port"] = o.Port
+	if o.EnsureReadonlyEndpoint != nil {
+		toSerialize["ensureReadonlyEndpoint"] = o.EnsureReadonlyEndpoint
+	}
 	if o.CredentialComponent != nil {
 		toSerialize["credentialComponent"] = o.CredentialComponent
 	}
@@ -220,12 +253,13 @@ func (o ServiceSelector) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ServiceSelector) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Mode                *string `json:"mode"`
-		Component           *string `json:"component"`
-		Service             *string `json:"service"`
-		Port                *string `json:"port"`
-		CredentialComponent *string `json:"credentialComponent,omitempty"`
-		CredentialName      *string `json:"credentialName,omitempty"`
+		Mode                   *string `json:"mode"`
+		Component              *string `json:"component"`
+		Service                *string `json:"service"`
+		Port                   *string `json:"port"`
+		EnsureReadonlyEndpoint *bool   `json:"ensureReadonlyEndpoint,omitempty"`
+		CredentialComponent    *string `json:"credentialComponent,omitempty"`
+		CredentialName         *string `json:"credentialName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -244,7 +278,7 @@ func (o *ServiceSelector) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"mode", "component", "service", "port", "credentialComponent", "credentialName"})
+		common.DeleteKeys(additionalProperties, &[]string{"mode", "component", "service", "port", "ensureReadonlyEndpoint", "credentialComponent", "credentialName"})
 	} else {
 		return err
 	}
@@ -252,6 +286,7 @@ func (o *ServiceSelector) UnmarshalJSON(bytes []byte) (err error) {
 	o.Component = *all.Component
 	o.Service = *all.Service
 	o.Port = *all.Port
+	o.EnsureReadonlyEndpoint = all.EnsureReadonlyEndpoint
 	o.CredentialComponent = all.CredentialComponent
 	o.CredentialName = all.CredentialName
 

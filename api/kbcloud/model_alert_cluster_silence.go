@@ -14,7 +14,7 @@ import (
 // AlertClusterSilence Pause notifications while continuing to record alerts. Set enabled to false to cancel. Time windows include their start and exclude their end.
 type AlertClusterSilence struct {
 	Enabled bool `json:"enabled"`
-	// Alert names to silence. Empty or omitted means all cluster alerts.
+	// Alert names to silence. Empty or omitted means all alerts for the resource.
 	Rules []string `json:"rules,omitempty"`
 	// Required when enabled. Once uses absolute timestamps; weekly uses weekdays and local times in timeZone.
 	Mode *AlertClusterSilenceMode `json:"mode,omitempty"`

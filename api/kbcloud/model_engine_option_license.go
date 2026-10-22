@@ -19,6 +19,10 @@ type EngineOptionLicense struct {
 	FileName *string `json:"fileName,omitempty"`
 	// Allowed engine license types. Omit to retain unrestricted license types.
 	AllowedTypes []string `json:"allowedTypes,omitempty"`
+	// Engine versions that support license installation. Entries match an exact service version or its major version according to the main component version rule. Omit or leave empty for unrestricted versions.
+	Versions []string `json:"versions,omitempty"`
+	// Effective cluster network modes that support license installation. Omit or leave empty for unrestricted network modes.
+	NetworkModes []NetworkMode `json:"networkModes,omitempty"`
 	// Explicit license file upload slots. Each item maps one UI upload field to the file name written into the license Secret.
 	Files []EngineOptionLicenseFile `json:"files,omitempty"`
 	// set the custom ops to update license for different components
@@ -153,6 +157,62 @@ func (o *EngineOptionLicense) SetAllowedTypes(v []string) {
 	o.AllowedTypes = v
 }
 
+// GetVersions returns the Versions field value if set, zero value otherwise.
+func (o *EngineOptionLicense) GetVersions() []string {
+	if o == nil || o.Versions == nil {
+		var ret []string
+		return ret
+	}
+	return o.Versions
+}
+
+// GetVersionsOk returns a tuple with the Versions field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOptionLicense) GetVersionsOk() (*[]string, bool) {
+	if o == nil || o.Versions == nil {
+		return nil, false
+	}
+	return &o.Versions, true
+}
+
+// HasVersions returns a boolean if a field has been set.
+func (o *EngineOptionLicense) HasVersions() bool {
+	return o != nil && o.Versions != nil
+}
+
+// SetVersions gets a reference to the given []string and assigns it to the Versions field.
+func (o *EngineOptionLicense) SetVersions(v []string) {
+	o.Versions = v
+}
+
+// GetNetworkModes returns the NetworkModes field value if set, zero value otherwise.
+func (o *EngineOptionLicense) GetNetworkModes() []NetworkMode {
+	if o == nil || o.NetworkModes == nil {
+		var ret []NetworkMode
+		return ret
+	}
+	return o.NetworkModes
+}
+
+// GetNetworkModesOk returns a tuple with the NetworkModes field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOptionLicense) GetNetworkModesOk() (*[]NetworkMode, bool) {
+	if o == nil || o.NetworkModes == nil {
+		return nil, false
+	}
+	return &o.NetworkModes, true
+}
+
+// HasNetworkModes returns a boolean if a field has been set.
+func (o *EngineOptionLicense) HasNetworkModes() bool {
+	return o != nil && o.NetworkModes != nil
+}
+
+// SetNetworkModes gets a reference to the given []NetworkMode and assigns it to the NetworkModes field.
+func (o *EngineOptionLicense) SetNetworkModes(v []NetworkMode) {
+	o.NetworkModes = v
+}
+
 // GetFiles returns the Files field value if set, zero value otherwise.
 func (o *EngineOptionLicense) GetFiles() []EngineOptionLicenseFile {
 	if o == nil || o.Files == nil {
@@ -225,6 +285,12 @@ func (o EngineOptionLicense) MarshalJSON() ([]byte, error) {
 	if o.AllowedTypes != nil {
 		toSerialize["allowedTypes"] = o.AllowedTypes
 	}
+	if o.Versions != nil {
+		toSerialize["versions"] = o.Versions
+	}
+	if o.NetworkModes != nil {
+		toSerialize["networkModes"] = o.NetworkModes
+	}
 	if o.Files != nil {
 		toSerialize["files"] = o.Files
 	}
@@ -245,6 +311,8 @@ func (o *EngineOptionLicense) UnmarshalJSON(bytes []byte) (err error) {
 		SecretName   *string                   `json:"secretName"`
 		FileName     *string                   `json:"fileName,omitempty"`
 		AllowedTypes []string                  `json:"allowedTypes,omitempty"`
+		Versions     []string                  `json:"versions,omitempty"`
+		NetworkModes []NetworkMode             `json:"networkModes,omitempty"`
 		Files        []EngineOptionLicenseFile `json:"files,omitempty"`
 		Components   []LicenseOption           `json:"components,omitempty"`
 	}{}
@@ -256,7 +324,7 @@ func (o *EngineOptionLicense) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"required", "secretName", "fileName", "allowedTypes", "files", "components"})
+		common.DeleteKeys(additionalProperties, &[]string{"required", "secretName", "fileName", "allowedTypes", "versions", "networkModes", "files", "components"})
 	} else {
 		return err
 	}
@@ -264,6 +332,8 @@ func (o *EngineOptionLicense) UnmarshalJSON(bytes []byte) (err error) {
 	o.SecretName = *all.SecretName
 	o.FileName = all.FileName
 	o.AllowedTypes = all.AllowedTypes
+	o.Versions = all.Versions
+	o.NetworkModes = all.NetworkModes
 	o.Files = all.Files
 	o.Components = all.Components
 
