@@ -10657,7 +10657,7 @@ paths:
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/expose:
     post:
       operationId: exposeCluster
-      summary: Expose cluster loadbalancer endpoint
+      summary: Expose cluster endpoint
       parameters:
         - description: name of the Org
           in: path
@@ -32257,6 +32257,11 @@ components:
       required:
         - component
       properties:
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+          description: User-provided component annotations, merged over chart defaults. Platform-managed keys cannot be overridden. Omitted or empty preserves defaults; empty string values are literal values, not deletions.
         nodeGroup:
           type: string
           description: Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
@@ -32602,6 +32607,11 @@ components:
       type: object
       description: ComponentItem is the information of a component
       properties:
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+          description: User-provided component annotations. Does not include chart defaults or system-generated values.
         nodeGroup:
           type: string
           description: Optional host group in this environment. Explicit placement does not inherit an upper-level host group.
@@ -37815,10 +37825,11 @@ components:
       type: object
     opsExposeType:
       type: string
-      description: Specifies the type of exposure for the KubeBlocks cluster.
+      description: Specifies the type of exposure for the KubeBlocks cluster. Internal exposure creates an internal-ro ClusterIP service and requires readonly=true; it is independent of vpc and internet exposure.
       enum:
         - vpc
         - internet
+        - internal
     opsExposeVPCServiceType:
       description: Specifies the type of service for the KubeBlocks cluster.
       enum:
@@ -37835,10 +37846,12 @@ components:
         enable:
           type: boolean
         readonly:
+          description: Select the configured read-only role. Must be true for internal exposure.
           type: boolean
         type:
           $ref: '#/components/schemas/opsExposeType'
         vpcServiceType:
+          description: Service type for vpc exposure. Omit for internal exposure, which always uses ClusterIP.
           $ref: '#/components/schemas/opsExposeVPCServiceType'
         portsMapping:
           type: array
@@ -41575,6 +41588,10 @@ components:
         main:
           description: Main component flag
           type: boolean
+          x-nullable: false
+        customAnnotations:
+          type: boolean
+          description: Whether to show the component annotations editor during cluster creation. Omitted or false hides the editor. This is a UI visibility hint and does not restrict the cluster creation API. Applies to this component in every engine mode, including sharding templates, on KubeBlocks 0.9 and 1.0.
           x-nullable: false
         customSecret:
           type: boolean
