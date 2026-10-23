@@ -2406,11 +2406,13 @@ paths:
             type: string
         - name: after
           in: query
+          description: Raw action cursor from the preceding response's nextCursor.
           required: false
           schema:
             type: string
         - name: limit
           in: query
+          description: Raw action page budget. The last turn is read in full before coalescing; use hasMore and nextCursor rather than the returned item count.
           required: false
           schema:
             type: integer
@@ -31705,6 +31707,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/aiAgentTurnAction'
+        nextCursor:
+          type: string
+          description: Raw action cursor for the next page; independent of coalesced item IDs and timestamps.
+        hasMore:
+          type: boolean
+          description: Whether more actions are available. Pages finish the last turn before coalescing, so item counts must not be used to detect the final page.
     aiAgentEvent:
       type: object
       required:
