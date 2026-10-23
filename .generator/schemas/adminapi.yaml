@@ -118,6 +118,10 @@ paths:
           $ref: '#/components/responses/404'
         '409':
           description: Conflict; refresh or remove role bindings first
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
         '500':
           $ref: '#/components/responses/500'
       requestBody:
@@ -175,6 +179,10 @@ paths:
           $ref: '#/components/responses/404'
         '409':
           description: Conflict; refresh or remove role bindings first
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
         '500':
           $ref: '#/components/responses/500'
     post:
@@ -208,6 +216,10 @@ paths:
           $ref: '#/components/responses/404'
         '409':
           description: Conflict; refresh or remove role bindings first
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
         '500':
           $ref: '#/components/responses/500'
       requestBody:
@@ -335,6 +347,10 @@ paths:
           $ref: '#/components/responses/404'
         '409':
           description: Conflict; refresh or remove role bindings first
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
         '500':
           $ref: '#/components/responses/500'
   /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/roles:
@@ -380,6 +396,10 @@ paths:
           $ref: '#/components/responses/404'
         '409':
           description: Conflict; refresh or remove role bindings first
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
         '500':
           $ref: '#/components/responses/500'
     post:
@@ -413,6 +433,10 @@ paths:
           $ref: '#/components/responses/404'
         '409':
           description: Conflict; refresh or remove role bindings first
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
         '500':
           $ref: '#/components/responses/500'
       requestBody:
@@ -467,6 +491,10 @@ paths:
           $ref: '#/components/responses/404'
         '409':
           description: Conflict; refresh or remove role bindings first
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
         '500':
           $ref: '#/components/responses/500'
     put:
@@ -510,6 +538,10 @@ paths:
           $ref: '#/components/responses/404'
         '409':
           description: Conflict; refresh or remove role bindings first
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
         '500':
           $ref: '#/components/responses/500'
       requestBody:
@@ -564,6 +596,10 @@ paths:
           $ref: '#/components/responses/404'
         '409':
           description: Conflict; refresh or remove role bindings first
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
         '500':
           $ref: '#/components/responses/500'
   /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/users/{database}/{username}:
@@ -612,6 +648,10 @@ paths:
           $ref: '#/components/responses/404'
         '409':
           description: Conflict; refresh or remove role bindings first
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
         '500':
           $ref: '#/components/responses/500'
     delete:
@@ -655,6 +695,10 @@ paths:
           $ref: '#/components/responses/404'
         '409':
           description: Conflict; refresh or remove role bindings first
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
         '500':
           $ref: '#/components/responses/500'
   /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/users/{database}/{username}/roles:
@@ -699,6 +743,10 @@ paths:
           $ref: '#/components/responses/404'
         '409':
           description: Conflict; refresh or remove role bindings first
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
         '500':
           $ref: '#/components/responses/500'
       requestBody:
