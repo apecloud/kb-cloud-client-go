@@ -12068,7 +12068,7 @@ paths:
         - name: taskId
           in: path
           required: true
-          description: Platform TaskFlow task ID used as the RDR report file suffix.
+          description: Platform TaskFlow task ID.
           schema:
             type: string
       responses:
