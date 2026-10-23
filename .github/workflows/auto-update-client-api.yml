@@ -78,6 +78,8 @@ jobs:
           if [[ ! -z "$FILE_CHANGES" ]]; then
               echo $FILE_CHANGES
               bash ./generate.sh
+              # Generation can succeed and still emit Go that does not compile.
+              go build ./api/...
               git config --local user.name "$GITHUB_ACTOR"
               git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
               git add .
