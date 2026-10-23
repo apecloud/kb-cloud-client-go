@@ -2406,11 +2406,13 @@ paths:
             type: string
         - name: after
           in: query
+          description: Raw action cursor from the preceding response's nextCursor.
           required: false
           schema:
             type: string
         - name: limit
           in: query
+          description: Raw action page budget. The last turn is read in full before coalescing; use hasMore and nextCursor rather than the returned item count.
           required: false
           schema:
             type: integer
@@ -14933,6 +14935,124 @@ paths:
         - name: clusterName
           in: path
           description: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/alertCluster'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertCluster'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/alerts/resource/{resourceType}/{resourceID}/rules:
+    get:
+      tags:
+        - alertRule
+        - shared
+      operationId: listResourceAlertRules
+      summary: List applicable alert rules for a resource
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: resourceType
+          in: path
+          description: resourceType
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertResourceType'
+        - name: resourceID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertRuleList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/alerts/resource/{resourceType}/{resourceID}:
+    get:
+      tags:
+        - alertRule
+        - shared
+      operationId: getResourceAlertDisabled
+      summary: Get resource alert settings
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: resourceType
+          in: path
+          description: resourceType
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertResourceType'
+        - name: resourceID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertCluster'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - alertRule
+        - shared
+      operationId: setResourceAlertDisabled
+      summary: Update resource alert settings
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: resourceType
+          in: path
+          description: resourceType
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertResourceType'
+        - name: resourceID
+          in: path
           required: true
           schema:
             type: string
@@ -31587,6 +31707,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/aiAgentTurnAction'
+        nextCursor:
+          type: string
+          description: Raw action cursor for the next page; independent of coalesced item IDs and timestamps.
+        hasMore:
+          type: boolean
+          description: Whether more actions are available. Pages finish the last turn before coalescing, so item counts must not be used to detect the final page.
     aiAgentEvent:
       type: object
       required:
@@ -41137,6 +41263,11 @@ components:
       required:
         - items
       type: object
+    alertResourceType:
+      type: string
+      enum:
+        - cluster
+        - channel
     URLCheck:
       type: object
       required:
