@@ -9740,6 +9740,124 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/alerts/resource/{resourceType}/{resourceID}/rules:
+    get:
+      tags:
+        - alertRule
+        - shared
+      operationId: listResourceAlertRules
+      summary: List applicable alert rules for a resource
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: resourceType
+          in: path
+          description: resourceType
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertResourceType'
+        - name: resourceID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertRuleList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/alerts/resource/{resourceType}/{resourceID}:
+    get:
+      tags:
+        - alertRule
+        - shared
+      operationId: getResourceAlertDisabled
+      summary: Get resource alert settings
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: resourceType
+          in: path
+          description: resourceType
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertResourceType'
+        - name: resourceID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertCluster'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - alertRule
+        - shared
+      operationId: setResourceAlertDisabled
+      summary: Update resource alert settings
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: resourceType
+          in: path
+          description: resourceType
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertResourceType'
+        - name: resourceID
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/alertCluster'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertCluster'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/alerts/config:
     get:
       tags:
@@ -32903,6 +33021,11 @@ components:
           type: boolean
           readOnly: true
           description: Whether the configured silence window is active now, regardless of the alert master switch.
+    alertResourceType:
+      type: string
+      enum:
+        - cluster
+        - channel
     alertConfig:
       required:
         - timeZoneOffset
