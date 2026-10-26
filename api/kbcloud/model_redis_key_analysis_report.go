@@ -32,9 +32,9 @@ type RedisKeyAnalysisReport struct {
 	ExpireStat        map[string]interface{} `json:"expireStat,omitempty"`
 	TopBigKeyByteStat []RedisKeyEntry        `json:"topBigKeyByteStat,omitempty"`
 	TopBigKeyElemStat []RedisKeyEntry        `json:"topBigKeyElemStat,omitempty"`
-	// Top cluster slots by memory usage: [{slot: bytes}].
+	// Top cluster slots by memory usage: [{slot: bytes}]. Only populated for Redis Cluster mode.
 	TopSlotKeyByteStat []map[string]int64 `json:"topSlotKeyByteStat,omitempty"`
-	// Top cluster slots by key count: [{slot: count}].
+	// Top cluster slots by key count: [{slot: count}]. Only populated for Redis Cluster mode.
 	TopSlotKeyCountStat []map[string]int64 `json:"topSlotKeyCountStat,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

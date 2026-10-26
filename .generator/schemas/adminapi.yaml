@@ -52986,7 +52986,7 @@ components:
             $ref: '#/components/schemas/RedisKeyEntry'
         topSlotKeyByteStat:
           type: array
-          description: 'Top cluster slots by memory usage: [{slot: bytes}].'
+          description: 'Top cluster slots by memory usage: [{slot: bytes}]. Only populated for Redis Cluster mode.'
           items:
             type: object
             additionalProperties:
@@ -52994,7 +52994,7 @@ components:
               format: int64
         topSlotKeyCountStat:
           type: array
-          description: 'Top cluster slots by key count: [{slot: count}].'
+          description: 'Top cluster slots by key count: [{slot: count}]. Only populated for Redis Cluster mode.'
           items:
             type: object
             additionalProperties:
