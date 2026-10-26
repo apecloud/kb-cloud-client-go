@@ -35735,7 +35735,7 @@ components:
           description: Whether the engine supports service account access-key management.
         protectedAccounts:
           type: array
-          description: Account names that cannot be deleted. This does not hide accounts or restrict password, privilege, lock, or unlock actions.
+          description: Account names that cannot be deleted, locked, or unlocked. This does not hide accounts or restrict password or privilege actions.
           items:
             type: string
         displayRootAccount:
