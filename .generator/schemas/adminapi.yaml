@@ -29057,6 +29057,7 @@ components:
           properties:
             compatibleKBVersions:
               type: array
+              description: if omitted, all KB versions are compatible
               items:
                 type: string
             mappings:

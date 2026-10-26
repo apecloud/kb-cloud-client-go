@@ -7,6 +7,7 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type ModeOptionValuesMappings struct {
+	// if omitted, all KB versions are compatible
 	CompatibleKbVersions []string                               `json:"compatibleKBVersions,omitempty"`
 	Mappings             []ModeOptionValuesMappingsMappingsItem `json:"mappings,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
