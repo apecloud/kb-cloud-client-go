@@ -97,6 +97,8 @@ tags:
     description: Project APIs
   - name: disasterRecovery
     description: Cluster Disaster Recovery APIs
+  - name: redisKeyAnalysis
+    description: Redis Keys Analysis APIs
   - name: llm
     description: LLM APIs
   - name: AI Agent
@@ -11974,6 +11976,138 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DmsResult'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/redis/keyAnalysis:
+    post:
+      tags:
+        - redisKeyAnalysis
+      operationId: createRedisKeyAnalysis
+      summary: Create a Redis keys analysis task
+      description: |
+        Submits the redis-rdr-keys-analysis OpsDefinition. After the operation succeeds, the
+        platform reads /data/rdr-report.json from every primary pod and persists one
+        report row per shard. Poll the task and then call the report API with the returned taskId.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                parameters:
+                  type: object
+                  properties:
+                    topBigKey:
+                      type: integer
+                      format: int64
+                      minimum: 1
+                      maximum: 500
+                      default: 100
+                    numOfElemMin:
+                      type: integer
+                      format: int64
+                      minimum: 1
+                      default: 3000
+                    bigKeySizeMin:
+                      type: string
+                      default: 10kb
+                    topSlot:
+                      type: integer
+                      format: int64
+                      minimum: 1
+                      maximum: 500
+                      default: 100
+      responses:
+        '200':
+          description: Analysis task submitted.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - taskId
+                properties:
+                  taskId:
+                    type: string
+                  status:
+                    type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/redis/keyAnalysis/{taskId}:
+    get:
+      tags:
+        - redisKeyAnalysis
+      operationId: getRedisKeyAnalysisReport
+      summary: Get a Redis keys analysis report
+      description: |
+        Returns one persisted row per shard. For a cluster with multiple shards, one
+        additional aggregate row with isSummary=true is appended; it is not persisted.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: taskId
+          in: path
+          required: true
+          description: Platform TaskFlow task ID.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Report rows plus an optional aggregate row.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RedisKeyAnalysisReport'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - redisKeyAnalysis
+      operationId: deleteRedisKeyAnalysisReport
+      summary: Delete a Redis keys analysis report
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Report deleted.
+        '404':
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/redis/context:
     get:
       tags:
@@ -38340,6 +38474,138 @@ components:
         countOnly:
           type: boolean
           description: Only return pagination.totalRows, without loading data.
+    RedisKeyEntry:
+      type: object
+      properties:
+        Key:
+          type: string
+        Bytes:
+          type: integer
+          format: int64
+        Type:
+          type: string
+        NumOfElem:
+          type: integer
+          format: int64
+        LenOfLargestElem:
+          type: integer
+          format: int64
+        FieldOfLargestElem:
+          type: string
+        Db:
+          type: integer
+        Encoding:
+          type: string
+        Expiration:
+          type: integer
+          format: int64
+        LruIdle:
+          type: integer
+          format: int64
+        LfuFreq:
+          type: integer
+    RedisKeyAnalysisReport:
+      type: object
+      description: |
+        One Redis keys analysis report row. Rows are persisted per shard. The query
+        response appends one non-persisted aggregate row with isSummary=true.
+      properties:
+        taskId:
+          type: string
+        clusterId:
+          type: string
+        shardName:
+          type: string
+        isSummary:
+          type: boolean
+          description: True for the aggregate row that is not persisted.
+        createTime:
+          type: string
+          format: date-time
+        parameters:
+          type: object
+          description: |
+            Parameters for a Redis keys analysis task. topBigKey and topSlot are capped at 500.
+            numOfElemMin filters keys whose element count is below the threshold. bigKeySizeMin
+            filters keys whose memory usage is below the threshold (for example "10kb").
+          properties:
+            topBigKey:
+              type: integer
+              format: int64
+              minimum: 1
+              maximum: 500
+              default: 100
+            numOfElemMin:
+              type: integer
+              format: int64
+              minimum: 1
+              default: 3000
+            bigKeySizeMin:
+              type: string
+              default: 10kb
+            topSlot:
+              type: integer
+              format: int64
+              minimum: 1
+              maximum: 500
+              default: 100
+        typeStat:
+          type: object
+          description: 'Key statistics by Redis data type: {type: {count, bytes}}.'
+          additionalProperties:
+            type: object
+            properties:
+              count:
+                type: integer
+                format: int64
+              bytes:
+                type: string
+        byteLevelStat:
+          type: object
+          description: 'Key statistics by memory size bucket: {bucket: {count, bytes}}.'
+          additionalProperties:
+            type: object
+            properties:
+              count:
+                type: integer
+                format: int64
+              bytes:
+                type: string
+        expireStat:
+          type: object
+          description: 'Key statistics by remaining TTL bucket: {bucket: {count, bytes}}.'
+          additionalProperties:
+            type: object
+            properties:
+              count:
+                type: integer
+                format: int64
+              bytes:
+                type: string
+        topBigKeyByteStat:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedisKeyEntry'
+        topBigKeyElemStat:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedisKeyEntry'
+        topSlotKeyByteStat:
+          type: array
+          description: 'Top cluster slots by memory usage: [{slot: bytes}]. Only populated for Redis Cluster mode.'
+          items:
+            type: object
+            additionalProperties:
+              type: integer
+              format: int64
+        topSlotKeyCountStat:
+          type: array
+          description: 'Top cluster slots by key count: [{slot: count}]. Only populated for Redis Cluster mode.'
+          items:
+            type: object
+            additionalProperties:
+              type: integer
+              format: int64
     RedisACLContext:
       type: object
       properties:
