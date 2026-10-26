@@ -38571,6 +38571,13 @@ components:
                 format: int64
               bytes:
                 type: string
+        totalNumKeys:
+          type: integer
+          format: int64
+          description: Sum of counts across all byteLevelStat buckets.
+        totlSizeKeys:
+          type: string
+          description: Sum of bytes across all byteLevelStat buckets.
         expireStat:
           type: object
           description: 'Key statistics by remaining TTL bucket: {bucket: {count, bytes}}.'
