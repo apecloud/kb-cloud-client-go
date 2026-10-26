@@ -34,7 +34,7 @@ type AccountOption struct {
 	SupportLock *bool `json:"supportLock,omitempty"`
 	// Whether the engine supports service account access-key management.
 	SupportServiceAccount *bool `json:"supportServiceAccount,omitempty"`
-	// Account names that are protected from update, delete, lock, and unlock actions.
+	// Account names that cannot be deleted, locked, or unlocked. This does not hide accounts or restrict password or privilege actions.
 	ProtectedAccounts        []string `json:"protectedAccounts,omitempty"`
 	DisplayRootAccount       *bool    `json:"displayRootAccount,omitempty"`
 	ResetRootPassword        *bool    `json:"resetRootPassword,omitempty"`
