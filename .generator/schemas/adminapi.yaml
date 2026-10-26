@@ -40997,6 +40997,12 @@ components:
           type: string
         opsDefName:
           type: string
+        fileDigestParameter:
+          type: string
+          description: Optional custom Ops parameter receiving a JSON object of candidate file SHA256 digests.
+        restartAfterUpdate:
+          type: boolean
+          description: Create a standard restart dependent on successful license installation.
     engineOptionsMetricsQueryType:
       type: string
       description: |
@@ -42173,6 +42179,21 @@ components:
             fileName:
               type: string
               description: the license file name
+            allowedTypes:
+              type: array
+              description: Allowed engine license types. Omit to retain unrestricted license types.
+              items:
+                type: string
+            versions:
+              type: array
+              description: Engine versions that support license installation. Entries match an exact service version or its major version according to the main component version rule. Omit or leave empty for unrestricted versions.
+              items:
+                type: string
+            networkModes:
+              type: array
+              description: Effective cluster network modes that support license installation. Omit or leave empty for unrestricted network modes.
+              items:
+                $ref: '#/components/schemas/networkMode'
             files:
               type: array
               description: Explicit license file upload slots. Each item maps one UI upload field to the file name written into the license Secret.
