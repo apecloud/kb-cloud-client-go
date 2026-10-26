@@ -42395,7 +42395,7 @@ components:
           description: Whether the engine supports service account access-key management.
         protectedAccounts:
           type: array
-          description: Account names that are protected from update, delete, lock, and unlock actions.
+          description: Account names that cannot be deleted, locked, or unlocked. This does not hide accounts or restrict password or privilege actions.
           items:
             type: string
         displayRootAccount:
@@ -52965,6 +52965,13 @@ components:
                 format: int64
               bytes:
                 type: string
+        totalNumKeys:
+          type: integer
+          format: int64
+          description: Sum of counts across all byteLevelStat buckets.
+        totlSizeKeys:
+          type: string
+          description: Sum of bytes across all byteLevelStat buckets.
         expireStat:
           type: object
           description: 'Key statistics by remaining TTL bucket: {bucket: {count, bytes}}.'

@@ -28,6 +28,10 @@ type RedisKeyAnalysisReport struct {
 	TypeStat map[string]interface{} `json:"typeStat,omitempty"`
 	// Key statistics by memory size bucket: {bucket: {count, bytes}}.
 	ByteLevelStat map[string]interface{} `json:"byteLevelStat,omitempty"`
+	// Sum of counts across all byteLevelStat buckets.
+	TotalNumKeys *int64 `json:"totalNumKeys,omitempty"`
+	// Sum of bytes across all byteLevelStat buckets.
+	TotlSizeKeys *string `json:"totlSizeKeys,omitempty"`
 	// Key statistics by remaining TTL bucket: {bucket: {count, bytes}}.
 	ExpireStat        map[string]interface{} `json:"expireStat,omitempty"`
 	TopBigKeyByteStat []RedisKeyEntry        `json:"topBigKeyByteStat,omitempty"`
@@ -282,6 +286,62 @@ func (o *RedisKeyAnalysisReport) SetByteLevelStat(v map[string]interface{}) {
 	o.ByteLevelStat = v
 }
 
+// GetTotalNumKeys returns the TotalNumKeys field value if set, zero value otherwise.
+func (o *RedisKeyAnalysisReport) GetTotalNumKeys() int64 {
+	if o == nil || o.TotalNumKeys == nil {
+		var ret int64
+		return ret
+	}
+	return *o.TotalNumKeys
+}
+
+// GetTotalNumKeysOk returns a tuple with the TotalNumKeys field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RedisKeyAnalysisReport) GetTotalNumKeysOk() (*int64, bool) {
+	if o == nil || o.TotalNumKeys == nil {
+		return nil, false
+	}
+	return o.TotalNumKeys, true
+}
+
+// HasTotalNumKeys returns a boolean if a field has been set.
+func (o *RedisKeyAnalysisReport) HasTotalNumKeys() bool {
+	return o != nil && o.TotalNumKeys != nil
+}
+
+// SetTotalNumKeys gets a reference to the given int64 and assigns it to the TotalNumKeys field.
+func (o *RedisKeyAnalysisReport) SetTotalNumKeys(v int64) {
+	o.TotalNumKeys = &v
+}
+
+// GetTotlSizeKeys returns the TotlSizeKeys field value if set, zero value otherwise.
+func (o *RedisKeyAnalysisReport) GetTotlSizeKeys() string {
+	if o == nil || o.TotlSizeKeys == nil {
+		var ret string
+		return ret
+	}
+	return *o.TotlSizeKeys
+}
+
+// GetTotlSizeKeysOk returns a tuple with the TotlSizeKeys field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RedisKeyAnalysisReport) GetTotlSizeKeysOk() (*string, bool) {
+	if o == nil || o.TotlSizeKeys == nil {
+		return nil, false
+	}
+	return o.TotlSizeKeys, true
+}
+
+// HasTotlSizeKeys returns a boolean if a field has been set.
+func (o *RedisKeyAnalysisReport) HasTotlSizeKeys() bool {
+	return o != nil && o.TotlSizeKeys != nil
+}
+
+// SetTotlSizeKeys gets a reference to the given string and assigns it to the TotlSizeKeys field.
+func (o *RedisKeyAnalysisReport) SetTotlSizeKeys(v string) {
+	o.TotlSizeKeys = &v
+}
+
 // GetExpireStat returns the ExpireStat field value if set, zero value otherwise.
 func (o *RedisKeyAnalysisReport) GetExpireStat() map[string]interface{} {
 	if o == nil || o.ExpireStat == nil {
@@ -456,6 +516,12 @@ func (o RedisKeyAnalysisReport) MarshalJSON() ([]byte, error) {
 	if o.ByteLevelStat != nil {
 		toSerialize["byteLevelStat"] = o.ByteLevelStat
 	}
+	if o.TotalNumKeys != nil {
+		toSerialize["totalNumKeys"] = o.TotalNumKeys
+	}
+	if o.TotlSizeKeys != nil {
+		toSerialize["totlSizeKeys"] = o.TotlSizeKeys
+	}
 	if o.ExpireStat != nil {
 		toSerialize["expireStat"] = o.ExpireStat
 	}
@@ -489,6 +555,8 @@ func (o *RedisKeyAnalysisReport) UnmarshalJSON(bytes []byte) (err error) {
 		Parameters          *RedisKeyAnalysisReportParameters `json:"parameters,omitempty"`
 		TypeStat            map[string]interface{}            `json:"typeStat,omitempty"`
 		ByteLevelStat       map[string]interface{}            `json:"byteLevelStat,omitempty"`
+		TotalNumKeys        *int64                            `json:"totalNumKeys,omitempty"`
+		TotlSizeKeys        *string                           `json:"totlSizeKeys,omitempty"`
 		ExpireStat          map[string]interface{}            `json:"expireStat,omitempty"`
 		TopBigKeyByteStat   []RedisKeyEntry                   `json:"topBigKeyByteStat,omitempty"`
 		TopBigKeyElemStat   []RedisKeyEntry                   `json:"topBigKeyElemStat,omitempty"`
@@ -500,7 +568,7 @@ func (o *RedisKeyAnalysisReport) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"taskId", "clusterId", "shardName", "isSummary", "createTime", "parameters", "typeStat", "byteLevelStat", "expireStat", "topBigKeyByteStat", "topBigKeyElemStat", "topSlotKeyByteStat", "topSlotKeyCountStat"})
+		common.DeleteKeys(additionalProperties, &[]string{"taskId", "clusterId", "shardName", "isSummary", "createTime", "parameters", "typeStat", "byteLevelStat", "totalNumKeys", "totlSizeKeys", "expireStat", "topBigKeyByteStat", "topBigKeyElemStat", "topSlotKeyByteStat", "topSlotKeyCountStat"})
 	} else {
 		return err
 	}
@@ -517,6 +585,8 @@ func (o *RedisKeyAnalysisReport) UnmarshalJSON(bytes []byte) (err error) {
 	o.Parameters = all.Parameters
 	o.TypeStat = all.TypeStat
 	o.ByteLevelStat = all.ByteLevelStat
+	o.TotalNumKeys = all.TotalNumKeys
+	o.TotlSizeKeys = all.TotlSizeKeys
 	o.ExpireStat = all.ExpireStat
 	o.TopBigKeyByteStat = all.TopBigKeyByteStat
 	o.TopBigKeyElemStat = all.TopBigKeyElemStat
