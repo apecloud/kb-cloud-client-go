@@ -16,11 +16,13 @@ type DataReplicationEndpointType string
 const (
 	DataReplicationEndpointTypeCustom     DataReplicationEndpointType = "custom"
 	DataReplicationEndpointTypeKubeblocks DataReplicationEndpointType = "kubeblocks"
+	DataReplicationEndpointTypeDefinition DataReplicationEndpointType = "definition"
 )
 
 var allowedDataReplicationEndpointTypeEnumValues = []DataReplicationEndpointType{
 	DataReplicationEndpointTypeCustom,
 	DataReplicationEndpointTypeKubeblocks,
+	DataReplicationEndpointTypeDefinition,
 }
 
 // GetAllowedValues returns the list of possible values.

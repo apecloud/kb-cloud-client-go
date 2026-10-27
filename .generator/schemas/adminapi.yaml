@@ -30540,6 +30540,174 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - dataReplication
+  /admin/v1/replication/endpoints:
+    get:
+      operationId: listAdminDataEndpoints
+      summary: List Data Endpoints
+      description: Retrieve a list of data endpoints.
+      parameters:
+        - description: The Name of the organization
+          in: query
+          name: orgName
+          required: false
+          schema:
+            type: string
+        - description: The name of the data endpoint
+          in: query
+          name: name
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataEndpointList'
+          description: A list of data endpoints.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /admin/v1/organizations/{orgName}/replication/endpoint:
+    post:
+      operationId: createAdminDataEndpoint
+      summary: Create a new data endpoint
+      description: Create a new data endpoint.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataEndpointCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataEndpointResponse'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+      x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/replication/endpoint/{endpointID}:
+    get:
+      operationId: getDataEndpoint
+      summary: Get Data Endpoint Details
+      description: Retrieve a data endpoint detail.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data endpoint
+          in: path
+          name: endpointID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataChannelListEndpoint'
+          description: A detail of data endpoint.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+    delete:
+      operationId: deleteDataEndpoint
+      summary: Delete a data endpoint
+      description: Delete a data endpoint.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data endpoint
+          in: path
+          name: endpointID
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when endpoint is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+    patch:
+      operationId: updateDataEndpoint
+      summary: Update a data endpoint
+      description: Update an existing data endpoint.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data endpoint
+          in: path
+          name: endpointID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataEndpointCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataEndpointResponse'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+      x-codegen-request-body-name: body
   /admin/v1/checks:
     get:
       operationId: listAdminDataChecks
@@ -53689,6 +53857,7 @@ components:
       enum:
         - custom
         - kubeblocks
+        - definition
       type: string
     authType:
       enum:
@@ -53730,9 +53899,24 @@ components:
         displayName:
           type: string
           nullable: true
+    definitionEndpoint:
+      type: object
+      description: Reference to an existing data endpoint in the same organization.
+      required:
+        - endpointID
+      properties:
+        endpointID:
+          type: string
+          minLength: 1
     dataChannelListEndpoint:
       type: object
       properties:
+        id:
+          type: string
+          nullable: true
+        name:
+          type: string
+          nullable: true
         engineName:
           type: string
         endpointType:
@@ -53742,6 +53926,12 @@ components:
           nullable: true
         kubeblocks:
           $ref: '#/components/schemas/kubeblocksEndpoint'
+          nullable: true
+        definition:
+          $ref: '#/components/schemas/definitionEndpoint'
+          nullable: true
+        description:
+          type: string
           nullable: true
         extraCfgs:
           type: object
@@ -53806,7 +53996,11 @@ components:
           nullable: true
     dataChannelEndpointCreate:
       type: object
+      description: Use endpointType custom or kubeblocks with the corresponding inline connection configuration, or endpointType definition with definition.endpointID to reuse an existing data endpoint. Inline connection configuration is not used for endpointType definition.
       properties:
+        name:
+          type: string
+          nullable: true
         engineName:
           type: string
         definitionName:
@@ -53818,6 +54012,12 @@ components:
           nullable: true
         kubeblocks:
           $ref: '#/components/schemas/kubeblocksEndpoint'
+          nullable: true
+        definition:
+          $ref: '#/components/schemas/definitionEndpoint'
+          nullable: true
+        description:
+          type: string
           nullable: true
         extraCfgs:
           type: object
@@ -53992,6 +54192,56 @@ components:
         type: array
         items:
           $ref: '#/components/schemas/dataReplicationParametersResponseDetail'
+    dataEndpointList:
+      type: array
+      items:
+        $ref: '#/components/schemas/dataChannelListEndpoint'
+    dataEndpointTypeCreation:
+      enum:
+        - custom
+        - kubeblocks
+      type: string
+    dataEndpointCreate:
+      type: object
+      description: Connection configuration for an independently managed data endpoint.
+      properties:
+        name:
+          type: string
+          nullable: true
+        engineName:
+          type: string
+        definitionName:
+          type: string
+        endpointType:
+          $ref: '#/components/schemas/dataEndpointTypeCreation'
+        custom:
+          $ref: '#/components/schemas/customEndpointCreate'
+          nullable: true
+        kubeblocks:
+          $ref: '#/components/schemas/kubeblocksEndpoint'
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        extraCfgs:
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+    dataEndpointResponse:
+      type: object
+      properties:
+        endpointID:
+          type: string
+        endpointName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+          nullable: true
     dataCheckType:
       type: string
       description: Type of check to run. A standalone check runs exactly one type.
