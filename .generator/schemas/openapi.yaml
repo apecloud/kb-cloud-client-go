@@ -8228,6 +8228,270 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/sessions:
+    get:
+      tags:
+        - diagnostics
+      summary: List active ClickHouse queries
+      description: List active queries from system.processes across every shard and replica via clusterAllReplicas. Returns elapsed time, current and peak memory usage, read/write progress and the server host for each query so long-running or memory-heavy queries can be located quickly. The diagnostics query itself is excluded from the result.
+      operationId: listDiagnosticsClickhouseSessions
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of queries to return. Defaults to 100 and is capped at 1000.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: orderBy
+          in: query
+          description: 'Sort metric. Defaults to elapsed. Allowed values: elapsed, memoryUsage, memoryUsageRatio, peakMemoryUsage, readRows, readBytes.'
+          required: false
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: Filter by current database. Omit or empty = all databases.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clickhouseSessionList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/sessions/{queryId}:
+    delete:
+      tags:
+        - diagnostics
+      summary: Kill a ClickHouse query
+      description: Terminate a running query by query_id. In cluster mode KILL QUERY ON CLUSTER is used so the initial query and its remote sub-queries are terminated together; otherwise KILL QUERY runs on the connected node.
+      operationId: killDiagnosticsClickhouseQuery
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: queryId
+          in: path
+          description: ClickHouse query_id to terminate.
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Query killed successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/sqlAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get ClickHouse SQL analysis
+      description: Analyze system.query_log for the selected range. Returns the slowest queries by query_duration_ms, query patterns grouped by normalized_query_hash, and failed queries (ExceptionWhileProcessing) with exception_code. When log_queries is disabled or system.query_log is missing, the endpoint returns status=unavailable together with guidance instead of failing.
+      operationId: getDiagnosticsClickhouseSQLAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: range
+          in: query
+          description: 'Time range based on query_log event_time. Defaults to 24h. Allowed values: 1h, 6h, 24h, 7d.'
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of entries per list. Defaults to 20 and is capped at 200.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: orderBy
+          in: query
+          description: 'Pattern ordering metric. Defaults to totalDuration. Allowed values: totalDuration, meanDuration, maxDuration, calls, memory, readRows, failures.'
+          required: false
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: Filter by current_database. Omit or empty = all databases.
+          required: false
+          schema:
+            type: string
+        - name: user
+          in: query
+          description: Filter by ClickHouse user. Omit or empty = all users.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clickhouseSQLAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/spaceAnalysis:
+    get:
+      tags:
+        - diagnostics
+      summary: Get ClickHouse space analysis
+      description: Analyze system.parts, system.merges and system.mutations across the cluster. Returns table and partition level disk usage, compression efficiency, per-disk and per-host distribution, part explosion risk (parts_to_delay_insert / parts_to_throw_insert), running merges and unfinished mutations.
+      operationId: getDiagnosticsClickhouseSpaceAnalysis
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          description: Filter by database. Omit or empty = all databases.
+          required: false
+          schema:
+            type: string
+        - name: tableLimit
+          in: query
+          description: Maximum number of top tables. Defaults to 20 and is capped at 200.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: partitionLimit
+          in: query
+          description: Maximum number of top partitions. Defaults to 20 and is capped at 200.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: mergeLimit
+          in: query
+          description: Maximum number of merges and unfinished mutations. Defaults to 20 and is capped at 200.
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clickhouseSpaceAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/clusterHealth:
+    get:
+      tags:
+        - diagnostics
+      summary: Get ClickHouse replica and cluster health
+      description: Analyze system.replicas and system.clusters. Returns replication delay, Keeper queue backlog, readonly/session-expired replicas and shard/replica topology with per-node connection errors. Replica rows are collected through clusterAllReplicas, while the topology is read from the connected node's system.clusters view.
+      operationId: getDiagnosticsClickhouseClusterHealth
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clickhouseClusterHealth'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/metrics:
     get:
       description: Query cluster metrics by specified metric name and instance name, support instant and range query
@@ -23660,249 +23924,6 @@ paths:
       tags:
         - dataReplication
       x-codegen-request-body-name: body
-  /api/v1/organizations/{orgName}/checks:
-    get:
-      operationId: listDataChecks
-      summary: List Data Checks
-      description: Retrieve a list of standalone data checks.
-      parameters:
-        - description: The Name of the organization
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: The name of the check
-          in: query
-          name: name
-          required: false
-          schema:
-            type: string
-        - description: The status of the check
-          in: query
-          name: status
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/dataCheckList'
-          description: A list of checks.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - dataReplication
-    post:
-      operationId: createDataCheck
-      summary: Create a data check
-      description: 'Create an independent data check. The request must use exactly one entry point: provide channelID with checkType, or provide the full direct check configuration.'
-      parameters:
-        - description: The Name of the organization
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/dataCheckCreate'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/dataCheckResponse'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - dataReplication
-      x-codegen-request-body-name: body
-  /api/v1/organizations/{orgName}/checks/{checkID}:
-    get:
-      operationId: getDataCheck
-      summary: Get Data Check
-      description: Retrieve a standalone data check detail.
-      parameters:
-        - description: The Name of the organization
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: The ID of the check
-          in: path
-          name: checkID
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/dataCheckItem'
-          description: A check detail.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - dataReplication
-    delete:
-      operationId: deleteDataCheck
-      summary: Delete a data check
-      description: Delete a standalone data check and its runtime resources.
-      parameters:
-        - description: The Name of the organization
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: The ID of the check
-          in: path
-          name: checkID
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          content: {}
-          description: Returned when check is deleted successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - dataReplication
-  /api/v1/organizations/{orgName}/checks/{checkID}/details:
-    get:
-      operationId: getDataCheckDetails
-      summary: Get Data Check Difference Details
-      description: Read typed check miss or diff details from the latest parsed check result.
-      parameters:
-        - description: The Name of the organization
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: The ID of the check
-          in: path
-          name: checkID
-          required: true
-          schema:
-            type: string
-        - description: The detail type
-          in: query
-          name: type
-          required: true
-          schema:
-            $ref: '#/components/schemas/dataCheckDetailType'
-        - description: Source schema or database. Required for snapshot checks.
-          in: query
-          name: schema
-          required: false
-          schema:
-            type: string
-        - description: Source table. Required for snapshot checks.
-          in: query
-          name: table
-          required: false
-          schema:
-            type: string
-        - description: Struct object key. Optional for struct checks; omitted to page all struct details.
-          in: query
-          name: key
-          required: false
-          schema:
-            type: string
-        - description: Page number for pagination.
-          in: query
-          name: page
-          required: false
-          schema:
-            type: integer
-            minimum: 1
-            default: 1
-        - description: Number of items per page.
-          in: query
-          name: pageSize
-          required: false
-          schema:
-            type: integer
-            minimum: 1
-            maximum: 1000
-            default: 100
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/dataCheckDetails'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - dataReplication
-  /api/v1/organizations/{orgName}/checks/{checkID}/sqlLogs:
-    get:
-      operationId: getDataCheckSQLLogs
-      summary: Get Data Check SQL Logs
-      description: Read raw SQL lines emitted by check sql_logger entries.
-      parameters:
-        - description: The Name of the organization
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: The ID of the check
-          in: path
-          name: checkID
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            text/plain:
-              schema:
-                type: string
-          description: Raw SQL lines.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - dataReplication
   /api/v1/organizations/{orgName}/replication/channel/{channelID}/ops/{opsType}:
     post:
       operationId: createDataChannelOps
@@ -24232,6 +24253,416 @@ paths:
               schema:
                 $ref: '#/components/schemas/dataReplicationParametersResponse'
           description: A list of data channel parameters.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /api/v1/organizations/{orgName}/replication/endpoints:
+    get:
+      operationId: listDataEndpoints
+      summary: List Data Endpoints
+      description: Retrieve a list of data endpoints.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The name of the data endpoint
+          in: query
+          name: name
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataEndpointList'
+          description: A list of data endpoints.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+    post:
+      operationId: createDataEndpoint
+      summary: Create a new data endpoint
+      description: Create a new data endpoint.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataEndpointCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataEndpointResponse'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+      x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/replication/endpoint/{endpointID}:
+    get:
+      operationId: getDataEndpoint
+      summary: Get Data Endpoint Details
+      description: Retrieve a data endpoint detail.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data endpoint
+          in: path
+          name: endpointID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataChannelListEndpoint'
+          description: A detail of data endpoint.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+    delete:
+      operationId: deleteDataEndpoint
+      summary: Delete a data endpoint
+      description: Delete a data endpoint.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data endpoint
+          in: path
+          name: endpointID
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when endpoint is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+    patch:
+      operationId: updateDataEndpoint
+      summary: Update a data endpoint
+      description: Update an existing data endpoint.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data endpoint
+          in: path
+          name: endpointID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataEndpointCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataEndpointResponse'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+      x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/checks:
+    get:
+      operationId: listDataChecks
+      summary: List Data Checks
+      description: Retrieve a list of standalone data checks.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The name of the check
+          in: query
+          name: name
+          required: false
+          schema:
+            type: string
+        - description: The status of the check
+          in: query
+          name: status
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataCheckList'
+          description: A list of checks.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+    post:
+      operationId: createDataCheck
+      summary: Create a data check
+      description: 'Create an independent data check. The request must use exactly one entry point: provide channelID with checkType, or provide the full direct check configuration.'
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataCheckCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataCheckResponse'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+      x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/checks/{checkID}:
+    get:
+      operationId: getDataCheck
+      summary: Get Data Check
+      description: Retrieve a standalone data check detail.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the check
+          in: path
+          name: checkID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataCheckItem'
+          description: A check detail.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+    delete:
+      operationId: deleteDataCheck
+      summary: Delete a data check
+      description: Delete a standalone data check and its runtime resources.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the check
+          in: path
+          name: checkID
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when check is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /api/v1/organizations/{orgName}/checks/{checkID}/details:
+    get:
+      operationId: getDataCheckDetails
+      summary: Get Data Check Difference Details
+      description: Read typed check miss or diff details from the latest parsed check result.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the check
+          in: path
+          name: checkID
+          required: true
+          schema:
+            type: string
+        - description: The detail type
+          in: query
+          name: type
+          required: true
+          schema:
+            $ref: '#/components/schemas/dataCheckDetailType'
+        - description: Source schema or database. Required for snapshot checks.
+          in: query
+          name: schema
+          required: false
+          schema:
+            type: string
+        - description: Source table. Required for snapshot checks.
+          in: query
+          name: table
+          required: false
+          schema:
+            type: string
+        - description: Struct object key. Optional for struct checks; omitted to page all struct details.
+          in: query
+          name: key
+          required: false
+          schema:
+            type: string
+        - description: Page number for pagination.
+          in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - description: Number of items per page.
+          in: query
+          name: pageSize
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+            default: 100
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataCheckDetails'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /api/v1/organizations/{orgName}/checks/{checkID}/sqlLogs:
+    get:
+      operationId: getDataCheckSQLLogs
+      summary: Get Data Check SQL Logs
+      description: Read raw SQL lines emitted by check sql_logger entries.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the check
+          in: path
+          name: checkID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Raw SQL lines.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -33691,6 +34122,917 @@ components:
             type: string
         collectedAt:
           type: string
+    clickhouseSession:
+      type: object
+      required:
+        - queryId
+      properties:
+        queryId:
+          type: string
+          description: ClickHouse query_id. Use it with the KILL QUERY endpoint.
+        initialQueryId:
+          type: string
+          description: query_id of the initial (distributed) query when this row is a remote sub-query.
+        user:
+          type: string
+          description: User that started the query.
+        address:
+          type: string
+          description: Client address.
+        port:
+          type: integer
+          format: int64
+          description: Client port.
+        database:
+          type: string
+          description: Current database of the query.
+        hostName:
+          type: string
+          description: ClickHouse server host that reported the query.
+        elapsedSeconds:
+          type: number
+          format: double
+          description: Seconds elapsed since the query started.
+        readRows:
+          type: integer
+          format: int64
+          description: Rows read so far.
+        readBytes:
+          type: integer
+          format: int64
+          description: Bytes read so far.
+        writtenRows:
+          type: integer
+          format: int64
+          description: Rows written so far.
+        writtenBytes:
+          type: integer
+          format: int64
+          description: Bytes written so far.
+        resultRows:
+          type: integer
+          format: int64
+          description: Rows in the result so far.
+        resultBytes:
+          type: integer
+          format: int64
+          description: Bytes in the result so far.
+        memoryUsageBytes:
+          type: integer
+          format: int64
+          description: Current memory usage in bytes.
+        memoryLimitBytes:
+          type: integer
+          format: int64
+          description: Effective max_memory_usage setting for the query. Zero means unlimited/unknown.
+        memoryUsageRatio:
+          type: number
+          format: double
+          description: memory_usage / max_memory_usage (0-1). Zero when the limit is unknown. Values close to 1 indicate the query is about to hit its memory limit.
+        peakMemoryUsageBytes:
+          type: integer
+          format: int64
+          description: Peak memory usage in bytes. Zero when the server version does not expose peak_memory_usage.
+        queryKind:
+          type: string
+          description: Query kind reported by ClickHouse (Select, Insert, InitialQuery, ...).
+        isInitialQuery:
+          type: boolean
+          description: Whether this row is the initial query rather than a remote sub-query.
+        queryStartTime:
+          type: string
+          description: Query start time in RFC3339 UTC.
+        query:
+          type: string
+          description: Full query text, truncated by the client for display when necessary.
+        querySummary:
+          type: string
+          description: Single-line query summary suitable for list rendering.
+    clickhouseSource:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Source expression, for example clusterAllReplicas('ck', system.processes).
+        kind:
+          type: string
+          description: Logical source kind (system table or collection step).
+        status:
+          type: string
+          description: Collection status (success, partial, failed).
+        message:
+          type: string
+          description: Short human-readable status detail.
+    clickhouseSessionList:
+      type: object
+      required:
+        - collectedAt
+        - items
+        - sources
+      properties:
+        collectedAt:
+          type: string
+          description: Collection time in RFC3339 UTC.
+        clusterMode:
+          type: string
+          description: Detected deployment mode (standalone or cluster). When clusterAllReplicas fails and the local node is used instead, this is reported as standalone.
+        items:
+          type: array
+          description: Active queries collected from system.processes, ordered by the requested metric.
+          items:
+            $ref: '#/components/schemas/clickhouseSession'
+        sources:
+          type: array
+          description: Per-source collection status. In cluster mode one entry is returned per clusterAllReplicas expression.
+          items:
+            $ref: '#/components/schemas/clickhouseSource'
+    clickhouseSQLAnalysisRange:
+      type: object
+      properties:
+        label:
+          type: string
+          description: Requested range label (1h, 6h, 24h, 7d).
+        start:
+          type: string
+          description: Range start in RFC3339 UTC.
+        end:
+          type: string
+          description: Range end in RFC3339 UTC.
+        durationSeconds:
+          type: integer
+          format: int64
+          description: Range duration in seconds.
+    clickhouseSQLSummary:
+      type: object
+      properties:
+        queryCount:
+          type: integer
+          format: int64
+          description: Finished and failed queries in the selected range.
+        failedCount:
+          type: integer
+          format: int64
+          description: Queries that ended with ExceptionWhileProcessing.
+        slowQueryCount:
+          type: integer
+          format: int64
+          description: Queries whose duration is at least 1000 ms.
+        totalDurationMs:
+          type: number
+          format: double
+          description: Sum of query_duration_ms for all finished and failed queries.
+    clickhouseSlowQuery:
+      type: object
+      properties:
+        queryId:
+          type: string
+          description: ClickHouse query_id.
+        initialQueryId:
+          type: string
+          description: Initial query_id for a distributed query.
+        type:
+          type: string
+          description: query_log type (QueryFinish or ExceptionWhileProcessing).
+        user:
+          type: string
+          description: User that ran the query.
+        database:
+          type: string
+          description: Current database at execution time.
+        queryKind:
+          type: string
+          description: Query kind reported by ClickHouse.
+        query:
+          type: string
+          description: Full query text.
+        normalizedQueryHash:
+          type: string
+          description: normalized_query_hash as a string to avoid precision loss in clients.
+        durationMs:
+          type: number
+          format: double
+          description: query_duration_ms.
+        readRows:
+          type: integer
+          format: int64
+          description: Rows read by the query.
+        readBytes:
+          type: integer
+          format: int64
+          description: Bytes read by the query.
+        memoryUsageBytes:
+          type: integer
+          format: int64
+          description: Memory usage in bytes.
+        resultRows:
+          type: integer
+          format: int64
+          description: Rows returned by the query.
+        resultBytes:
+          type: integer
+          format: int64
+          description: Bytes returned by the query.
+        exceptionCode:
+          type: integer
+          format: int64
+          description: ClickHouse exception code, zero for successful queries.
+        exception:
+          type: string
+          description: Exception text for failed queries.
+        eventTime:
+          type: string
+          description: query_log event time in RFC3339 UTC.
+        hostName:
+          type: string
+          description: ClickHouse server host that ran the query.
+        clientName:
+          type: string
+          description: Client name reported by ClickHouse.
+        isInitialQuery:
+          type: boolean
+          description: Whether this is the initial query rather than a remote sub-query.
+    clickhouseQueryPattern:
+      type: object
+      properties:
+        normalizedQueryHash:
+          type: string
+          description: normalized_query_hash as a string.
+        sampleQuery:
+          type: string
+          description: One representative query text for the pattern.
+        calls:
+          type: integer
+          format: int64
+          description: Number of executions of the pattern.
+        totalDurationMs:
+          type: number
+          format: double
+          description: Sum of query_duration_ms across all executions.
+        meanDurationMs:
+          type: number
+          format: double
+          description: Average query_duration_ms.
+        maxDurationMs:
+          type: number
+          format: double
+          description: Maximum query_duration_ms.
+        readRows:
+          type: integer
+          format: int64
+          description: Sum of read_rows.
+        memoryUsageBytes:
+          type: integer
+          format: int64
+          description: Sum of memory_usage in bytes.
+        failureCount:
+          type: integer
+          format: int64
+          description: Executions that ended with ExceptionWhileProcessing.
+        slowCallCount:
+          type: integer
+          format: int64
+          description: Executions whose duration is at least 1000 ms.
+        firstSeen:
+          type: string
+          description: First event_time in RFC3339 UTC.
+        lastSeen:
+          type: string
+          description: Last event_time in RFC3339 UTC.
+    clickhouseFailedQuery:
+      type: object
+      properties:
+        eventTime:
+          type: string
+          description: query_log event time in RFC3339 UTC.
+        queryId:
+          type: string
+          description: ClickHouse query_id.
+        user:
+          type: string
+          description: User that ran the query.
+        database:
+          type: string
+          description: Current database at execution time.
+        query:
+          type: string
+          description: Full query text.
+        exceptionCode:
+          type: integer
+          format: int64
+          description: ClickHouse exception code.
+        exceptionCategory:
+          type: string
+          description: Best-effort category such as memory_limit_exceeded, timeout, too_many_parts, readonly, unknown_table or syntax_error.
+        exception:
+          type: string
+          description: Full exception text.
+        durationMs:
+          type: number
+          format: double
+          description: query_duration_ms before the failure.
+        memoryUsageBytes:
+          type: integer
+          format: int64
+          description: Memory usage in bytes.
+        hostName:
+          type: string
+          description: ClickHouse server host that ran the query.
+    clickhouseSQLAnalysis:
+      type: object
+      required:
+        - collectedAt
+        - status
+        - slowestQueries
+        - patterns
+        - failures
+        - sources
+      properties:
+        collectedAt:
+          type: string
+          description: Collection time in RFC3339 UTC.
+        status:
+          type: string
+          description: available when system.query_log was collected, unavailable when query logging is disabled or the table is missing.
+        unavailableReason:
+          type: string
+          description: Stable reason code when status is unavailable, for example query_log_unavailable.
+        message:
+          type: string
+          description: Human-readable guidance when the analysis is unavailable.
+        range:
+          $ref: '#/components/schemas/clickhouseSQLAnalysisRange'
+        summary:
+          $ref: '#/components/schemas/clickhouseSQLSummary'
+        slowestQueries:
+          type: array
+          description: Top queries ordered by query_duration_ms descending.
+          items:
+            $ref: '#/components/schemas/clickhouseSlowQuery'
+        patterns:
+          type: array
+          description: Query patterns grouped by normalized_query_hash and ordered by the requested metric.
+          items:
+            $ref: '#/components/schemas/clickhouseQueryPattern'
+        failures:
+          type: array
+          description: Failed queries (type = ExceptionWhileProcessing) ordered by event_time descending.
+          items:
+            $ref: '#/components/schemas/clickhouseFailedQuery'
+        sources:
+          type: array
+          description: Per-source collection status.
+          items:
+            $ref: '#/components/schemas/clickhouseSource'
+    clickhouseSpaceSummary:
+      type: object
+      properties:
+        databaseCount:
+          type: integer
+          format: int64
+          description: Number of databases with active parts.
+        tableCount:
+          type: integer
+          format: int64
+          description: Number of tables with active parts.
+        totalBytes:
+          type: integer
+          format: int64
+          description: Physical bytes_on_disk across all hosts.
+        dataCompressedBytes:
+          type: integer
+          format: int64
+          description: Sum of data_compressed_bytes.
+        dataUncompressedBytes:
+          type: integer
+          format: int64
+          description: Sum of data_uncompressed_bytes.
+        compressionRatio:
+          type: number
+          format: double
+          description: data_compressed_bytes / data_uncompressed_bytes. Lower is better; zero when uncompressed size is unknown.
+        totalRows:
+          type: integer
+          format: int64
+          description: Sum of active part rows across all hosts.
+        activeParts:
+          type: integer
+          format: int64
+          description: Number of active parts across all hosts.
+        partitionCount:
+          type: integer
+          format: int64
+          description: Sum of per-table partition counts. Replicated partitions can be counted more than once.
+        warningTables:
+          type: integer
+          format: int64
+          description: Tables whose active part count reached parts_to_delay_insert.
+        criticalTables:
+          type: integer
+          format: int64
+          description: Tables whose active part count reached parts_to_throw_insert.
+        partsToDelayInsert:
+          type: integer
+          format: int64
+          description: Effective parts_to_delay_insert from system.merge_tree_settings (default 150).
+        partsToThrowInsert:
+          type: integer
+          format: int64
+          description: Effective parts_to_throw_insert from system.merge_tree_settings (default 300).
+    clickhouseDiskUsage:
+      type: object
+      properties:
+        diskName:
+          type: string
+          description: ClickHouse disk name.
+        hostName:
+          type: string
+          description: ClickHouse server host.
+        bytesOnDisk:
+          type: integer
+          format: int64
+          description: bytes_on_disk for this disk and host.
+        dataCompressedBytes:
+          type: integer
+          format: int64
+          description: data_compressed_bytes for this disk and host.
+        dataUncompressedBytes:
+          type: integer
+          format: int64
+          description: data_uncompressed_bytes for this disk and host.
+        rows:
+          type: integer
+          format: int64
+          description: Rows on this disk and host.
+        activeParts:
+          type: integer
+          format: int64
+          description: Active parts on this disk and host.
+    clickhouseTableSpace:
+      type: object
+      properties:
+        database:
+          type: string
+          description: Database name.
+        table:
+          type: string
+          description: Table name.
+        engine:
+          type: string
+          description: Table engine.
+        bytesOnDisk:
+          type: integer
+          format: int64
+          description: Physical bytes_on_disk across all hosts and disks.
+        dataCompressedBytes:
+          type: integer
+          format: int64
+          description: Sum of data_compressed_bytes.
+        dataUncompressedBytes:
+          type: integer
+          format: int64
+          description: Sum of data_uncompressed_bytes.
+        compressionRatio:
+          type: number
+          format: double
+          description: data_compressed_bytes / data_uncompressed_bytes.
+        rows:
+          type: integer
+          format: int64
+          description: Sum of active part rows.
+        activeParts:
+          type: integer
+          format: int64
+          description: Active part count used for the Too many parts risk check.
+        partitionCount:
+          type: integer
+          format: int64
+          description: Distinct partitions across disks and hosts.
+        hosts:
+          type: integer
+          format: int64
+          description: Number of hosts that own active parts for this table.
+        lastModifiedAt:
+          type: string
+          description: Latest part modification time in RFC3339 UTC.
+        risk:
+          type: string
+          description: normal, warning (parts >= parts_to_delay_insert) or critical (parts >= parts_to_throw_insert).
+        disks:
+          type: array
+          description: Per-disk and per-host breakdown.
+          items:
+            $ref: '#/components/schemas/clickhouseDiskUsage'
+    clickhousePartitionSpace:
+      type: object
+      properties:
+        database:
+          type: string
+          description: Database name.
+        table:
+          type: string
+          description: Table name.
+        partitionId:
+          type: string
+          description: partition_id from system.parts.
+        partition:
+          type: string
+          description: Human-readable partition expression.
+        rows:
+          type: integer
+          format: int64
+          description: Sum of rows across hosts.
+        bytesOnDisk:
+          type: integer
+          format: int64
+          description: Physical bytes_on_disk across hosts.
+        dataCompressedBytes:
+          type: integer
+          format: int64
+          description: Sum of data_compressed_bytes.
+        dataUncompressedBytes:
+          type: integer
+          format: int64
+          description: Sum of data_uncompressed_bytes.
+        activeParts:
+          type: integer
+          format: int64
+          description: Active part count across hosts.
+        hosts:
+          type: integer
+          format: int64
+          description: Number of hosts that own this partition.
+        minDate:
+          type: string
+          description: Minimum min_date in the partition.
+        maxDate:
+          type: string
+          description: Maximum max_date in the partition.
+    clickhouseMerge:
+      type: object
+      properties:
+        database:
+          type: string
+          description: Database name.
+        table:
+          type: string
+          description: Table name.
+        hostName:
+          type: string
+          description: ClickHouse server host running the merge.
+        elapsedSeconds:
+          type: number
+          format: double
+          description: Seconds elapsed since the merge started.
+        progress:
+          type: number
+          format: double
+          description: Merge progress (0-1).
+        numParts:
+          type: integer
+          format: int64
+          description: Number of source parts.
+        resultPartName:
+          type: string
+          description: Resulting part name.
+        partitionId:
+          type: string
+          description: Partition being merged.
+        isMutation:
+          type: boolean
+          description: Whether this merge also applies a mutation.
+        memoryUsageBytes:
+          type: integer
+          format: int64
+          description: Memory usage in bytes.
+        rowsRead:
+          type: integer
+          format: int64
+          description: Rows read by the merge.
+        rowsWritten:
+          type: integer
+          format: int64
+          description: Rows written by the merge.
+        totalSizeBytesCompressed:
+          type: integer
+          format: int64
+          description: Compressed size of the source parts.
+        diskName:
+          type: string
+          description: Disk used for the merge.
+    clickhouseMutation:
+      type: object
+      properties:
+        database:
+          type: string
+          description: Database name.
+        table:
+          type: string
+          description: Table name.
+        hostName:
+          type: string
+          description: ClickHouse server host running the mutation.
+        mutationId:
+          type: string
+          description: Mutation identifier.
+        command:
+          type: string
+          description: Mutation command (ALTER/UPDATE/DELETE).
+        createTime:
+          type: string
+          description: Mutation creation time in RFC3339 UTC.
+        partsToDo:
+          type: integer
+          format: int64
+          description: Parts still waiting to be mutated.
+        latestFailedPart:
+          type: string
+          description: Most recent part that failed mutation.
+        latestFailTime:
+          type: string
+          description: Most recent mutation failure time in RFC3339 UTC.
+        latestFailReason:
+          type: string
+          description: Most recent mutation failure reason.
+    clickhouseSpaceAnalysis:
+      type: object
+      required:
+        - collectedAt
+        - status
+        - tables
+        - partitions
+        - merges
+        - mutations
+        - sources
+      properties:
+        collectedAt:
+          type: string
+          description: Collection time in RFC3339 UTC.
+        status:
+          type: string
+          description: success when all sources were collected, partial when at least one best-effort source failed.
+        database:
+          type: string
+          description: Database filter applied to the collection, empty when all databases are included.
+        summary:
+          $ref: '#/components/schemas/clickhouseSpaceSummary'
+        tables:
+          type: array
+          description: Top tables ordered by physical bytes_on_disk. Totals are physical usage across all hosts, not deduplicated logical usage.
+          items:
+            $ref: '#/components/schemas/clickhouseTableSpace'
+        partitions:
+          type: array
+          description: Top partitions ordered by physical bytes_on_disk.
+          items:
+            $ref: '#/components/schemas/clickhousePartitionSpace'
+        merges:
+          type: array
+          description: In-progress background merges from system.merges ordered by elapsed time.
+          items:
+            $ref: '#/components/schemas/clickhouseMerge'
+        mutations:
+          type: array
+          description: Unfinished mutations from system.mutations ordered by creation time.
+          items:
+            $ref: '#/components/schemas/clickhouseMutation'
+        sources:
+          type: array
+          description: Per-source collection status.
+          items:
+            $ref: '#/components/schemas/clickhouseSource'
+    clickhouseClusterHealthSummary:
+      type: object
+      properties:
+        replicaCount:
+          type: integer
+          format: int64
+          description: Number of replicated table replicas collected.
+        nodeCount:
+          type: integer
+          format: int64
+          description: Number of nodes in system.clusters.
+        clusterCount:
+          type: integer
+          format: int64
+          description: Number of distinct cluster names.
+        totalReplicas:
+          type: integer
+          format: int64
+          description: Sum of total_replicas across replicated tables.
+        activeReplicas:
+          type: integer
+          format: int64
+          description: Sum of active_replicas across replicated tables.
+        readonlyReplicas:
+          type: integer
+          format: int64
+          description: Replicas currently in readonly mode.
+        sessionExpiredReplicas:
+          type: integer
+          format: int64
+          description: Replicas whose Keeper session expired.
+        maxAbsoluteDelaySeconds:
+          type: number
+          format: double
+          description: Maximum absolute_delay in seconds.
+        totalQueueSize:
+          type: integer
+          format: int64
+          description: Sum of replication queue sizes.
+        warningReplicas:
+          type: integer
+          format: int64
+          description: Replicas classified as warning.
+        criticalReplicas:
+          type: integer
+          format: int64
+          description: Replicas classified as critical.
+        unhealthyNodes:
+          type: integer
+          format: int64
+          description: Nodes with connection errors, slowdowns or a non-zero estimated recovery time.
+    clickhouseReplicaHealth:
+      type: object
+      properties:
+        database:
+          type: string
+          description: Database name.
+        table:
+          type: string
+          description: Table name.
+        hostName:
+          type: string
+          description: ClickHouse server host that reported this replica.
+        isReadonly:
+          type: boolean
+          description: Replica is in readonly mode. Usually indicates Keeper or network problems.
+        isSessionExpired:
+          type: boolean
+          description: Keeper session expired.
+        absoluteDelaySeconds:
+          type: number
+          format: double
+          description: absolute_delay from system.replicas.
+        queueSize:
+          type: integer
+          format: int64
+          description: replication queue size.
+        insertsInQueue:
+          type: integer
+          format: int64
+          description: Number of inserts waiting in the replication queue.
+        mergesInQueue:
+          type: integer
+          format: int64
+          description: Number of merges waiting in the replication queue.
+        futureParts:
+          type: integer
+          format: int64
+          description: Number of future parts.
+        partsToCheck:
+          type: integer
+          format: int64
+          description: Number of parts to check.
+        totalReplicas:
+          type: integer
+          format: int64
+          description: total_replicas for the table.
+        activeReplicas:
+          type: integer
+          format: int64
+          description: active_replicas for the table.
+        logMaxIndex:
+          type: integer
+          format: int64
+          description: Maximum log index in Keeper.
+        logPointer:
+          type: integer
+          format: int64
+          description: Last applied log index.
+        lastQueueUpdate:
+          type: string
+          description: Last replication queue update time in RFC3339 UTC.
+        zookeeperPath:
+          type: string
+          description: Keeper path of the table.
+        replicaName:
+          type: string
+          description: Replica name.
+        replicaPath:
+          type: string
+          description: Replica path in Keeper.
+        zookeeperException:
+          type: string
+          description: Last Keeper exception, empty when healthy.
+        lastQueueUpdateException:
+          type: string
+          description: Last replication queue update exception, empty when healthy.
+        risk:
+          type: string
+          description: normal, warning or critical.
+        issues:
+          type: array
+          description: Detected issue codes such as readonly, session_expired, replication_delay, queue_backlog, missing_replicas, keeper_error or queue_update_error.
+          items:
+            type: string
+    clickhouseClusterNode:
+      type: object
+      properties:
+        cluster:
+          type: string
+          description: Cluster name.
+        shardNum:
+          type: integer
+          format: int64
+          description: Shard number.
+        shardWeight:
+          type: integer
+          format: int64
+          description: Shard weight.
+        replicaNum:
+          type: integer
+          format: int64
+          description: Replica number inside the shard.
+        hostName:
+          type: string
+          description: Configured host name.
+        hostAddress:
+          type: string
+          description: Configured host address.
+        port:
+          type: integer
+          format: int64
+          description: Configured TCP port.
+        isLocal:
+          type: boolean
+          description: Whether this node is the connected node.
+        user:
+          type: string
+          description: Configured user.
+        defaultDatabase:
+          type: string
+          description: Configured default database.
+        internalReplication:
+          type: boolean
+          description: Whether the cluster uses internal replication.
+        errorsCount:
+          type: integer
+          format: int64
+          description: Connection errors observed for this node.
+        slowdownsCount:
+          type: integer
+          format: int64
+          description: Slowdown events observed for this node.
+        estimatedRecoveryTime:
+          type: integer
+          format: int64
+          description: Estimated recovery time in seconds, zero when the node is healthy.
+        risk:
+          type: string
+          description: normal or warning.
+        issues:
+          type: array
+          description: Detected issue codes such as connection_errors, slowdowns or estimated_recovery_time.
+          items:
+            type: string
+    clickhouseClusterHealth:
+      type: object
+      required:
+        - collectedAt
+        - status
+        - replicas
+        - nodes
+        - sources
+      properties:
+        collectedAt:
+          type: string
+          description: Collection time in RFC3339 UTC.
+        status:
+          type: string
+          description: Collection status. success when every source was collected, partial when topology or replicas could only be partially read.
+        overallStatus:
+          type: string
+          description: Derived health status. normal, warning or critical.
+        clusterMode:
+          type: string
+          description: Detected deployment mode (standalone or cluster).
+        summary:
+          $ref: '#/components/schemas/clickhouseClusterHealthSummary'
+        replicas:
+          type: array
+          description: Replicated tables ordered by risk, absolute delay and queue size.
+          items:
+            $ref: '#/components/schemas/clickhouseReplicaHealth'
+        nodes:
+          type: array
+          description: Shard and replica topology from system.clusters on the connected node.
+          items:
+            $ref: '#/components/schemas/clickhouseClusterNode'
+        sources:
+          type: array
+          description: Per-source collection status.
+          items:
+            $ref: '#/components/schemas/clickhouseSource'
     metricsQueryType:
       type: string
       enum:
@@ -39238,9 +40580,12 @@ components:
         totalNumKeys:
           type: integer
           format: int64
+          x-omitempty: false
           description: Sum of counts across all byteLevelStat buckets.
-        totlSizeKeys:
-          type: string
+        totalSizeKeys:
+          type: integer
+          format: int64
+          x-omitempty: false
           description: Sum of bytes across all byteLevelStat buckets.
         expireStat:
           type: object
@@ -44319,6 +45664,7 @@ components:
       enum:
         - custom
         - kubeblocks
+        - definition
       type: string
     authType:
       enum:
@@ -44360,9 +45706,24 @@ components:
         displayName:
           type: string
           nullable: true
+    definitionEndpoint:
+      type: object
+      description: Reference to an existing data endpoint in the same organization.
+      required:
+        - endpointID
+      properties:
+        endpointID:
+          type: string
+          minLength: 1
     dataChannelListEndpoint:
       type: object
       properties:
+        id:
+          type: string
+          nullable: true
+        name:
+          type: string
+          nullable: true
         engineName:
           type: string
         endpointType:
@@ -44372,6 +45733,12 @@ components:
           nullable: true
         kubeblocks:
           $ref: '#/components/schemas/kubeblocksEndpoint'
+          nullable: true
+        definition:
+          $ref: '#/components/schemas/definitionEndpoint'
+          nullable: true
+        description:
+          type: string
           nullable: true
         extraCfgs:
           type: object
@@ -44448,7 +45815,11 @@ components:
           nullable: true
     dataChannelEndpointCreate:
       type: object
+      description: Use endpointType custom or kubeblocks with the corresponding inline connection configuration, or endpointType definition with definition.endpointID to reuse an existing data endpoint. Inline connection configuration is not used for endpointType definition.
       properties:
+        name:
+          type: string
+          nullable: true
         engineName:
           type: string
         definitionName:
@@ -44460,6 +45831,12 @@ components:
           nullable: true
         kubeblocks:
           $ref: '#/components/schemas/kubeblocksEndpoint'
+          nullable: true
+        definition:
+          $ref: '#/components/schemas/definitionEndpoint'
+          nullable: true
+        description:
+          type: string
           nullable: true
         extraCfgs:
           type: object
@@ -44565,6 +45942,242 @@ components:
           $ref: '#/components/schemas/dataReplicationCreate'
         isRestart:
           type: boolean
+          nullable: true
+    dataReplicationOpsType:
+      description: data replication ops type
+      enum:
+        - pause
+        - resume
+        - restart
+      type: string
+    eventItem:
+      type: object
+      properties:
+        eventID:
+          type: string
+        eventName:
+          type: string
+        eventTime:
+          type: string
+          format: date-time
+        eventMessage:
+          type: string
+        operator:
+          type: string
+        operatorID:
+          type: string
+          nullable: true
+    dataReplicationEventList:
+      type: array
+      items:
+        $ref: '#/components/schemas/eventItem'
+    replicationObjectQuery:
+      type: object
+      properties:
+        sourceEngineDefinition:
+          type: string
+        targetEngineDefinition:
+          type: string
+        endpoint:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+        nodeType:
+          type: string
+          nullable: true
+        nodeValue:
+          type: string
+          nullable: true
+        queryNodeType:
+          type: string
+          nullable: true
+    replicationObjectNode:
+      type: object
+      properties:
+        nodeName:
+          type: string
+        nodeValue:
+          type: string
+    replicationObjectTree:
+      type: object
+      properties:
+        nodeType:
+          type: string
+        nodeValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/replicationObjectNode'
+        childrenNodeTypes:
+          type: array
+          nullable: true
+          items:
+            type: string
+    preCheckCreate:
+      type: object
+      properties:
+        modules:
+          type: array
+          items:
+            type: string
+        environmentID:
+          type: string
+        source:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+        target:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+        replicationObjects:
+          $ref: '#/components/schemas/dataChannelObject'
+    preCheckTaskResponse:
+      type: object
+      properties:
+        taskId:
+          type: string
+    preCheckStatus:
+      enum:
+        - Pending
+        - Running
+        - Succeed
+        - Failed
+      type: string
+    preCheckTaskItem:
+      type: object
+      properties:
+        checkerName:
+          type: string
+        checkerDesc:
+          type: string
+        message:
+          type: string
+          nullable: true
+        status:
+          $ref: '#/components/schemas/preCheckStatus'
+    preCheckResult:
+      type: object
+      properties:
+        name:
+          type: string
+        checkerName:
+          type: string
+        message:
+          type: string
+          nullable: true
+        advice:
+          type: string
+          nullable: true
+    preCheckTaskDetail:
+      type: object
+      properties:
+        taskID:
+          type: string
+        taskStatus:
+          $ref: '#/components/schemas/preCheckStatus'
+        progress:
+          type: integer
+          format: int32
+          nullable: true
+        checkers:
+          type: array
+          items:
+            $ref: '#/components/schemas/preCheckTaskItem'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/preCheckResult'
+          nullable: true
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/preCheckResult'
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+    dataReplicationChannelContainer:
+      type: object
+      properties:
+        name:
+          type: string
+        isMainContainer:
+          type: boolean
+          default: false
+        isInitContainer:
+          type: boolean
+          default: false
+    dataReplicationParametersResponseDetail:
+      type: object
+      properties:
+        displayName:
+          type: string
+        desc:
+          $ref: '#/components/schemas/internationalDesc'
+        key:
+          type: string
+        defaultValue:
+          type: string
+        value:
+          type: string
+        valueType:
+          $ref: '#/components/schemas/parameterValueType'
+      required:
+        - key
+    dataReplicationParametersResponse:
+      type: object
+      description: the parameters of the data channel, the key is the module name, the value is the parameter template
+      additionalProperties:
+        type: array
+        items:
+          $ref: '#/components/schemas/dataReplicationParametersResponseDetail'
+    dataEndpointList:
+      type: array
+      items:
+        $ref: '#/components/schemas/dataChannelListEndpoint'
+    dataEndpointTypeCreation:
+      enum:
+        - custom
+        - kubeblocks
+      type: string
+    dataEndpointCreate:
+      type: object
+      description: Connection configuration for an independently managed data endpoint.
+      properties:
+        name:
+          type: string
+          nullable: true
+        engineName:
+          type: string
+        definitionName:
+          type: string
+        endpointType:
+          $ref: '#/components/schemas/dataEndpointTypeCreation'
+        custom:
+          $ref: '#/components/schemas/customEndpointCreate'
+          nullable: true
+        kubeblocks:
+          $ref: '#/components/schemas/kubeblocksEndpoint'
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        extraCfgs:
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+    dataEndpointResponse:
+      type: object
+      properties:
+        endpointID:
+          type: string
+        endpointName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
           nullable: true
     dataCheckType:
       type: string
@@ -44839,192 +46452,6 @@ components:
             $ref: '#/components/schemas/dataCheckDetailItem'
         pagination:
           $ref: '#/components/schemas/paginationResult'
-    dataReplicationOpsType:
-      description: data replication ops type
-      enum:
-        - pause
-        - resume
-        - restart
-      type: string
-    eventItem:
-      type: object
-      properties:
-        eventID:
-          type: string
-        eventName:
-          type: string
-        eventTime:
-          type: string
-          format: date-time
-        eventMessage:
-          type: string
-        operator:
-          type: string
-        operatorID:
-          type: string
-          nullable: true
-    dataReplicationEventList:
-      type: array
-      items:
-        $ref: '#/components/schemas/eventItem'
-    replicationObjectQuery:
-      type: object
-      properties:
-        sourceEngineDefinition:
-          type: string
-        targetEngineDefinition:
-          type: string
-        endpoint:
-          $ref: '#/components/schemas/dataChannelEndpointCreate'
-        nodeType:
-          type: string
-          nullable: true
-        nodeValue:
-          type: string
-          nullable: true
-        queryNodeType:
-          type: string
-          nullable: true
-    replicationObjectNode:
-      type: object
-      properties:
-        nodeName:
-          type: string
-        nodeValue:
-          type: string
-    replicationObjectTree:
-      type: object
-      properties:
-        nodeType:
-          type: string
-        nodeValues:
-          type: array
-          items:
-            $ref: '#/components/schemas/replicationObjectNode'
-        childrenNodeTypes:
-          type: array
-          nullable: true
-          items:
-            type: string
-    preCheckCreate:
-      type: object
-      properties:
-        modules:
-          type: array
-          items:
-            type: string
-        environmentID:
-          type: string
-        source:
-          $ref: '#/components/schemas/dataChannelEndpointCreate'
-        target:
-          $ref: '#/components/schemas/dataChannelEndpointCreate'
-        replicationObjects:
-          $ref: '#/components/schemas/dataChannelObject'
-    preCheckTaskResponse:
-      type: object
-      properties:
-        taskId:
-          type: string
-    preCheckStatus:
-      enum:
-        - Pending
-        - Running
-        - Succeed
-        - Failed
-      type: string
-    preCheckTaskItem:
-      type: object
-      properties:
-        checkerName:
-          type: string
-        checkerDesc:
-          type: string
-        message:
-          type: string
-          nullable: true
-        status:
-          $ref: '#/components/schemas/preCheckStatus'
-    preCheckResult:
-      type: object
-      properties:
-        name:
-          type: string
-        checkerName:
-          type: string
-        message:
-          type: string
-          nullable: true
-        advice:
-          type: string
-          nullable: true
-    preCheckTaskDetail:
-      type: object
-      properties:
-        taskID:
-          type: string
-        taskStatus:
-          $ref: '#/components/schemas/preCheckStatus'
-        progress:
-          type: integer
-          format: int32
-          nullable: true
-        checkers:
-          type: array
-          items:
-            $ref: '#/components/schemas/preCheckTaskItem'
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/preCheckResult'
-          nullable: true
-        warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/preCheckResult'
-          nullable: true
-        createdAt:
-          type: string
-          format: date-time
-        completedAt:
-          type: string
-          format: date-time
-          nullable: true
-    dataReplicationChannelContainer:
-      type: object
-      properties:
-        name:
-          type: string
-        isMainContainer:
-          type: boolean
-          default: false
-        isInitContainer:
-          type: boolean
-          default: false
-    dataReplicationParametersResponseDetail:
-      type: object
-      properties:
-        displayName:
-          type: string
-        desc:
-          $ref: '#/components/schemas/internationalDesc'
-        key:
-          type: string
-        defaultValue:
-          type: string
-        value:
-          type: string
-        valueType:
-          $ref: '#/components/schemas/parameterValueType'
-      required:
-        - key
-    dataReplicationParametersResponse:
-      type: object
-      description: the parameters of the data channel, the key is the module name, the value is the parameter template
-      additionalProperties:
-        type: array
-        items:
-          $ref: '#/components/schemas/dataReplicationParametersResponseDetail'
     ImportPreflightRequest:
       description: Data source preflight request
       type: object

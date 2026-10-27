@@ -245,6 +245,372 @@ func (a *DiagnosticsApi) ExplainDiagnosticsPostgresqlSQLFingerprint(ctx _context
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetDiagnosticsClickhouseClusterHealth Get ClickHouse replica and cluster health.
+// Analyze system.replicas and system.clusters. Returns replication delay, Keeper queue backlog, readonly/session-expired replicas and shard/replica topology with per-node connection errors. Replica rows are collected through clusterAllReplicas, while the topology is read from the connected node's system.clusters view.
+func (a *DiagnosticsApi) GetDiagnosticsClickhouseClusterHealth(ctx _context.Context, orgName string, clusterName string) (ClickhouseClusterHealth, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ClickhouseClusterHealth
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsClickhouseClusterHealth",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/clusterHealth",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsClickhouseClusterHealth")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/clusterHealth"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsClickhouseSQLAnalysisOptionalParameters holds optional parameters for GetDiagnosticsClickhouseSQLAnalysis.
+type GetDiagnosticsClickhouseSQLAnalysisOptionalParameters struct {
+	Range    *string
+	Limit    *int64
+	OrderBy  *string
+	Database *string
+	User     *string
+}
+
+// NewGetDiagnosticsClickhouseSQLAnalysisOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsClickhouseSQLAnalysisOptionalParameters() *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters {
+	this := GetDiagnosticsClickhouseSQLAnalysisOptionalParameters{}
+	return &this
+}
+
+// WithRange sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters) WithRange(rangeVar string) *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters {
+	r.Range = &rangeVar
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters) WithLimit(limit int64) *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// WithOrderBy sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters) WithOrderBy(orderBy string) *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters {
+	r.OrderBy = &orderBy
+	return r
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters) WithDatabase(database string) *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// WithUser sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters) WithUser(user string) *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters {
+	r.User = &user
+	return r
+}
+
+// GetDiagnosticsClickhouseSQLAnalysis Get ClickHouse SQL analysis.
+// Analyze system.query_log for the selected range. Returns the slowest queries by query_duration_ms, query patterns grouped by normalized_query_hash, and failed queries (ExceptionWhileProcessing) with exception_code. When log_queries is disabled or system.query_log is missing, the endpoint returns status=unavailable together with guidance instead of failing.
+func (a *DiagnosticsApi) GetDiagnosticsClickhouseSQLAnalysis(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsClickhouseSQLAnalysisOptionalParameters) (ClickhouseSQLAnalysis, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ClickhouseSQLAnalysis
+		optionalParams      GetDiagnosticsClickhouseSQLAnalysisOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsClickhouseSQLAnalysisOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsClickhouseSQLAnalysis",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/sqlAnalysis",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsClickhouseSQLAnalysis")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/sqlAnalysis"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Range != nil {
+		localVarQueryParams.Add("range", common.ParameterToString(*optionalParams.Range, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.OrderBy != nil {
+		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
+	}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	if optionalParams.User != nil {
+		localVarQueryParams.Add("user", common.ParameterToString(*optionalParams.User, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters holds optional parameters for GetDiagnosticsClickhouseSpaceAnalysis.
+type GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters struct {
+	Database       *string
+	TableLimit     *int64
+	PartitionLimit *int64
+	MergeLimit     *int64
+}
+
+// NewGetDiagnosticsClickhouseSpaceAnalysisOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsClickhouseSpaceAnalysisOptionalParameters() *GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters {
+	this := GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters) WithDatabase(database string) *GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// WithTableLimit sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters) WithTableLimit(tableLimit int64) *GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters {
+	r.TableLimit = &tableLimit
+	return r
+}
+
+// WithPartitionLimit sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters) WithPartitionLimit(partitionLimit int64) *GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters {
+	r.PartitionLimit = &partitionLimit
+	return r
+}
+
+// WithMergeLimit sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters) WithMergeLimit(mergeLimit int64) *GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters {
+	r.MergeLimit = &mergeLimit
+	return r
+}
+
+// GetDiagnosticsClickhouseSpaceAnalysis Get ClickHouse space analysis.
+// Analyze system.parts, system.merges and system.mutations across the cluster. Returns table and partition level disk usage, compression efficiency, per-disk and per-host distribution, part explosion risk (parts_to_delay_insert / parts_to_throw_insert), running merges and unfinished mutations.
+func (a *DiagnosticsApi) GetDiagnosticsClickhouseSpaceAnalysis(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters) (ClickhouseSpaceAnalysis, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ClickhouseSpaceAnalysis
+		optionalParams      GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsClickhouseSpaceAnalysis",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/spaceAnalysis",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsClickhouseSpaceAnalysis")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/spaceAnalysis"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	if optionalParams.TableLimit != nil {
+		localVarQueryParams.Add("tableLimit", common.ParameterToString(*optionalParams.TableLimit, ""))
+	}
+	if optionalParams.PartitionLimit != nil {
+		localVarQueryParams.Add("partitionLimit", common.ParameterToString(*optionalParams.PartitionLimit, ""))
+	}
+	if optionalParams.MergeLimit != nil {
+		localVarQueryParams.Add("mergeLimit", common.ParameterToString(*optionalParams.MergeLimit, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // GetDiagnosticsDamengSQLAnalysisOptionalParameters holds optional parameters for GetDiagnosticsDamengSQLAnalysis.
 type GetDiagnosticsDamengSQLAnalysisOptionalParameters struct {
 	Limit *int64
@@ -2509,6 +2875,205 @@ func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSpaceAnalysis(ctx _context.Cont
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.DatabaseName != nil {
 		localVarQueryParams.Add("databaseName", common.ParameterToString(*optionalParams.DatabaseName, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// KillDiagnosticsClickhouseQuery Kill a ClickHouse query.
+// Terminate a running query by query_id. In cluster mode KILL QUERY ON CLUSTER is used so the initial query and its remote sub-queries are terminated together; otherwise KILL QUERY runs on the connected node.
+func (a *DiagnosticsApi) KillDiagnosticsClickhouseQuery(ctx _context.Context, orgName string, clusterName string, queryId string) (*_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod = _nethttp.MethodDelete
+		localVarPostBody   interface{}
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "killDiagnosticsClickhouseQuery",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/sessions/{queryId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.KillDiagnosticsClickhouseQuery")
+	if err != nil {
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/sessions/{queryId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"queryId"+"}", _neturl.PathEscape(common.ParameterToString(queryId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "*/*"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+// ListDiagnosticsClickhouseSessionsOptionalParameters holds optional parameters for ListDiagnosticsClickhouseSessions.
+type ListDiagnosticsClickhouseSessionsOptionalParameters struct {
+	Limit    *int64
+	OrderBy  *string
+	Database *string
+}
+
+// NewListDiagnosticsClickhouseSessionsOptionalParameters creates an empty struct for parameters.
+func NewListDiagnosticsClickhouseSessionsOptionalParameters() *ListDiagnosticsClickhouseSessionsOptionalParameters {
+	this := ListDiagnosticsClickhouseSessionsOptionalParameters{}
+	return &this
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *ListDiagnosticsClickhouseSessionsOptionalParameters) WithLimit(limit int64) *ListDiagnosticsClickhouseSessionsOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// WithOrderBy sets the corresponding parameter name and returns the struct.
+func (r *ListDiagnosticsClickhouseSessionsOptionalParameters) WithOrderBy(orderBy string) *ListDiagnosticsClickhouseSessionsOptionalParameters {
+	r.OrderBy = &orderBy
+	return r
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *ListDiagnosticsClickhouseSessionsOptionalParameters) WithDatabase(database string) *ListDiagnosticsClickhouseSessionsOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// ListDiagnosticsClickhouseSessions List active ClickHouse queries.
+// List active queries from system.processes across every shard and replica via clusterAllReplicas. Returns elapsed time, current and peak memory usage, read/write progress and the server host for each query so long-running or memory-heavy queries can be located quickly. The diagnostics query itself is excluded from the result.
+func (a *DiagnosticsApi) ListDiagnosticsClickhouseSessions(ctx _context.Context, orgName string, clusterName string, o ...ListDiagnosticsClickhouseSessionsOptionalParameters) (ClickhouseSessionList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ClickhouseSessionList
+		optionalParams      ListDiagnosticsClickhouseSessionsOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListDiagnosticsClickhouseSessionsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "listDiagnosticsClickhouseSessions",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/sessions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.ListDiagnosticsClickhouseSessions")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/sessions"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.OrderBy != nil {
+		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
+	}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
