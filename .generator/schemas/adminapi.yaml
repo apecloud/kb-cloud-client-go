@@ -40898,6 +40898,47 @@ components:
           format: int64
           type: integer
       type: object
+    apelocalCapacityObservation:
+      description: A measurement over known nodes. Missing nodes are not treated as zero. Coverage counts nodes whose complete per-node inputs are known, not individual storage resources.
+      type: object
+      properties:
+        value:
+          type: number
+          format: double
+          x-nullable: true
+          description: Known-node sum in GiB or ratio in percent. Omitted when no inputs are known or a ratio denominator is zero. Ratios can exceed 100. Remaining quota is zero when there are selected nodes but none are ready.
+        observedNodeCount:
+          type: integer
+          x-omitempty: false
+          description: Number of nodes with all inputs for this measurement.
+        expectedNodeCount:
+          type: integer
+          x-omitempty: false
+          description: Number of selected nodes relevant to this measurement; only ready schedulable nodes for remaining quota.
+        missingNodes:
+          type: array
+          x-omitempty: false
+          items:
+            type: string
+          description: Sorted names of relevant nodes missing inputs for this measurement.
+    apelocalCapacityObservations:
+      description: Known-node aggregates after resource deduplication. Capacity values are in GiB and ratios are percentages using only nodes with both inputs. Independent measurements can cover different nodes. Quota, remaining quota and allocation percentage objects are omitted for unlimited or conflicting policies. Remaining quota covers only ready schedulable nodes. Existing summary totals remain omitted when incomplete.
+      type: object
+      properties:
+        physicalCapacity:
+          $ref: '#/components/schemas/apelocalCapacityObservation'
+        physicalUsage:
+          $ref: '#/components/schemas/apelocalCapacityObservation'
+        allocatedCapacity:
+          $ref: '#/components/schemas/apelocalCapacityObservation'
+        allocatableCapacity:
+          $ref: '#/components/schemas/apelocalCapacityObservation'
+        availableCapacity:
+          $ref: '#/components/schemas/apelocalCapacityObservation'
+        physicalUsagePercent:
+          $ref: '#/components/schemas/apelocalCapacityObservation'
+        allocationPercent:
+          $ref: '#/components/schemas/apelocalCapacityObservation'
     apelocalCapacitySummaryMode:
       type: string
       enum:
@@ -40909,6 +40950,8 @@ components:
       description: Deduplicated apelocal statistics. Does not include other storage drivers. Missing measurements are omitted, never treated as zero.
       type: object
       properties:
+        observed:
+          $ref: '#/components/schemas/apelocalCapacityObservations'
         capacityMode:
           $ref: '#/components/schemas/apelocalCapacitySummaryMode'
         complete:

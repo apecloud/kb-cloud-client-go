@@ -8,6 +8,8 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ApelocalCapacitySummary Deduplicated apelocal statistics. Does not include other storage drivers. Missing measurements are omitted, never treated as zero.
 type ApelocalCapacitySummary struct {
+	// Known-node aggregates after resource deduplication. Capacity values are in GiB and ratios are percentages using only nodes with both inputs. Independent measurements can cover different nodes. Quota, remaining quota and allocation percentage objects are omitted for unlimited or conflicting policies. Remaining quota covers only ready schedulable nodes. Existing summary totals remain omitted when incomplete.
+	Observed *ApelocalCapacityObservations `json:"observed,omitempty"`
 	// Conflicting shared quotas cannot form a single logical total.
 	CapacityMode *ApelocalCapacitySummaryMode `json:"capacityMode,omitempty"`
 	// Whether all required measurements for the selected capacity mode are present.
@@ -44,6 +46,34 @@ func NewApelocalCapacitySummary() *ApelocalCapacitySummary {
 func NewApelocalCapacitySummaryWithDefaults() *ApelocalCapacitySummary {
 	this := ApelocalCapacitySummary{}
 	return &this
+}
+
+// GetObserved returns the Observed field value if set, zero value otherwise.
+func (o *ApelocalCapacitySummary) GetObserved() ApelocalCapacityObservations {
+	if o == nil || o.Observed == nil {
+		var ret ApelocalCapacityObservations
+		return ret
+	}
+	return *o.Observed
+}
+
+// GetObservedOk returns a tuple with the Observed field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ApelocalCapacitySummary) GetObservedOk() (*ApelocalCapacityObservations, bool) {
+	if o == nil || o.Observed == nil {
+		return nil, false
+	}
+	return o.Observed, true
+}
+
+// HasObserved returns a boolean if a field has been set.
+func (o *ApelocalCapacitySummary) HasObserved() bool {
+	return o != nil && o.Observed != nil
+}
+
+// SetObserved gets a reference to the given ApelocalCapacityObservations and assigns it to the Observed field.
+func (o *ApelocalCapacitySummary) SetObserved(v ApelocalCapacityObservations) {
+	o.Observed = &v
 }
 
 // GetCapacityMode returns the CapacityMode field value if set, zero value otherwise.
@@ -304,6 +334,9 @@ func (o ApelocalCapacitySummary) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Observed != nil {
+		toSerialize["observed"] = o.Observed
+	}
 	if o.CapacityMode != nil {
 		toSerialize["capacityMode"] = o.CapacityMode
 	}
@@ -341,27 +374,32 @@ func (o ApelocalCapacitySummary) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ApelocalCapacitySummary) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CapacityMode         *ApelocalCapacitySummaryMode `json:"capacityMode,omitempty"`
-		Complete             *bool                        `json:"complete,omitempty"`
-		NodeCount            *int32                       `json:"nodeCount,omitempty"`
-		UnavailableNodeCount *int32                       `json:"unavailableNodeCount,omitempty"`
-		PhysicalCapacity     *float64                     `json:"physicalCapacity,omitempty"`
-		PhysicalUsage        *float64                     `json:"physicalUsage,omitempty"`
-		AllocatableCapacity  *float64                     `json:"allocatableCapacity,omitempty"`
-		AllocatedCapacity    *float64                     `json:"allocatedCapacity,omitempty"`
-		AvailableCapacity    *float64                     `json:"availableCapacity,omitempty"`
+		Observed             *ApelocalCapacityObservations `json:"observed,omitempty"`
+		CapacityMode         *ApelocalCapacitySummaryMode  `json:"capacityMode,omitempty"`
+		Complete             *bool                         `json:"complete,omitempty"`
+		NodeCount            *int32                        `json:"nodeCount,omitempty"`
+		UnavailableNodeCount *int32                        `json:"unavailableNodeCount,omitempty"`
+		PhysicalCapacity     *float64                      `json:"physicalCapacity,omitempty"`
+		PhysicalUsage        *float64                      `json:"physicalUsage,omitempty"`
+		AllocatableCapacity  *float64                      `json:"allocatableCapacity,omitempty"`
+		AllocatedCapacity    *float64                      `json:"allocatedCapacity,omitempty"`
+		AvailableCapacity    *float64                      `json:"availableCapacity,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"capacityMode", "complete", "nodeCount", "unavailableNodeCount", "physicalCapacity", "physicalUsage", "allocatableCapacity", "allocatedCapacity", "availableCapacity"})
+		common.DeleteKeys(additionalProperties, &[]string{"observed", "capacityMode", "complete", "nodeCount", "unavailableNodeCount", "physicalCapacity", "physicalUsage", "allocatableCapacity", "allocatedCapacity", "availableCapacity"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	if all.Observed != nil && all.Observed.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Observed = all.Observed
 	if all.CapacityMode != nil && !all.CapacityMode.IsValid() {
 		hasInvalidField = true
 	} else {
