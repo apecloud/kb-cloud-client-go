@@ -8,7 +8,7 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ApelocalCapacitySummary Deduplicated apelocal statistics. Does not include other storage drivers. Missing measurements are omitted, never treated as zero.
 type ApelocalCapacitySummary struct {
-	// Known-node aggregates after resource deduplication. Capacity values are in GiB and ratios are percentages using only nodes with both inputs. Independent measurements can cover different nodes. Quota, remaining quota and allocation percentage objects are omitted for unlimited or conflicting policies. Remaining quota covers only ready schedulable nodes. Existing summary totals remain omitted when incomplete.
+	// Known-node aggregates after resource deduplication. Capacity values are in GiB and ratios are percentages using only nodes with both inputs. Independent measurements can cover different nodes. Quota, remaining quota and allocation percentage objects are omitted for unlimited or conflicting policies. Remaining quota covers only ready schedulable nodes. Physical remaining is capacity minus usage from nodes with both measurements and usage not exceeding capacity; it is not a guaranteed writable or schedulable quota. Existing summary totals remain omitted when incomplete.
 	Observed *ApelocalCapacityObservations `json:"observed,omitempty"`
 	// Conflicting shared quotas cannot form a single logical total.
 	CapacityMode *ApelocalCapacitySummaryMode `json:"capacityMode,omitempty"`
