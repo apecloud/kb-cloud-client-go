@@ -1833,7 +1833,7 @@ func (r *GetEnvironmentResourceOptionalParameters) WithNamespace(namespace strin
 }
 
 // GetEnvironmentResource Get a live Kubernetes resource.
-// Returns one named Kubernetes object, excluding metadata.managedFields. The code allowlist currently permits only apiVersion v1 with kind PersistentVolumeClaim; other valid resource types return 403 before Kubernetes access. Requires Admin environment read permission. Does not support lists, subresources or writes.
+// Returns one named Kubernetes object, excluding metadata.managedFields. The code allowlist permits v1 PersistentVolumeClaim, storage.k8s.io/v1 StorageClass and apelocal.csi.apecloud.com/v1alpha1 HostPathDefinition; other valid resource types return 403 before Kubernetes access. Requires Admin environment read permission. Does not support lists, subresources or writes.
 func (a *EnvironmentApi) GetEnvironmentResource(ctx _context.Context, environmentName string, resourceName string, apiVersion string, kind string, o ...GetEnvironmentResourceOptionalParameters) (map[string]interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

@@ -12,6 +12,8 @@ import (
 
 // StorageClassNodeStats storageClassNodeStats is a storage class node stats.
 type StorageClassNodeStats struct {
+	// apelocal-specific capacity measurements for one node. Missing measurements are omitted.
+	Apelocal *ApelocalNodeStats `json:"apelocal,omitempty"`
 	// the name of the node
 	NodeName string `json:"nodeName"`
 	// the status of the node
@@ -50,6 +52,34 @@ func NewStorageClassNodeStats(nodeName string, nodeStatus string, requests float
 func NewStorageClassNodeStatsWithDefaults() *StorageClassNodeStats {
 	this := StorageClassNodeStats{}
 	return &this
+}
+
+// GetApelocal returns the Apelocal field value if set, zero value otherwise.
+func (o *StorageClassNodeStats) GetApelocal() ApelocalNodeStats {
+	if o == nil || o.Apelocal == nil {
+		var ret ApelocalNodeStats
+		return ret
+	}
+	return *o.Apelocal
+}
+
+// GetApelocalOk returns a tuple with the Apelocal field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageClassNodeStats) GetApelocalOk() (*ApelocalNodeStats, bool) {
+	if o == nil || o.Apelocal == nil {
+		return nil, false
+	}
+	return o.Apelocal, true
+}
+
+// HasApelocal returns a boolean if a field has been set.
+func (o *StorageClassNodeStats) HasApelocal() bool {
+	return o != nil && o.Apelocal != nil
+}
+
+// SetApelocal gets a reference to the given ApelocalNodeStats and assigns it to the Apelocal field.
+func (o *StorageClassNodeStats) SetApelocal(v ApelocalNodeStats) {
+	o.Apelocal = &v
 }
 
 // GetNodeName returns the NodeName field value.
@@ -196,6 +226,9 @@ func (o StorageClassNodeStats) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Apelocal != nil {
+		toSerialize["apelocal"] = o.Apelocal
+	}
 	toSerialize["nodeName"] = o.NodeName
 	toSerialize["nodeStatus"] = o.NodeStatus
 	toSerialize["requests"] = o.Requests
@@ -212,12 +245,13 @@ func (o StorageClassNodeStats) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageClassNodeStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		NodeName   *string  `json:"nodeName"`
-		NodeStatus *string  `json:"nodeStatus"`
-		Requests   *float64 `json:"requests"`
-		Usage      *float64 `json:"usage"`
-		Capacity   *float64 `json:"capacity"`
-		PvcCount   *int32   `json:"pvcCount"`
+		Apelocal   *ApelocalNodeStats `json:"apelocal,omitempty"`
+		NodeName   *string            `json:"nodeName"`
+		NodeStatus *string            `json:"nodeStatus"`
+		Requests   *float64           `json:"requests"`
+		Usage      *float64           `json:"usage"`
+		Capacity   *float64           `json:"capacity"`
+		PvcCount   *int32             `json:"pvcCount"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -242,10 +276,16 @@ func (o *StorageClassNodeStats) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"nodeName", "nodeStatus", "requests", "usage", "capacity", "pvcCount"})
+		common.DeleteKeys(additionalProperties, &[]string{"apelocal", "nodeName", "nodeStatus", "requests", "usage", "capacity", "pvcCount"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
+	if all.Apelocal != nil && all.Apelocal.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Apelocal = all.Apelocal
 	o.NodeName = *all.NodeName
 	o.NodeStatus = *all.NodeStatus
 	o.Requests = *all.Requests
@@ -255,6 +295,10 @@ func (o *StorageClassNodeStats) UnmarshalJSON(bytes []byte) (err error) {
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
