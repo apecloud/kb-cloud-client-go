@@ -116,6 +116,469 @@ tags:
   - name: blueGreenDeployment
     description: Blue Green Deployment APIs
 paths:
+  /api/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      summary: DolphinDB ListUsers
+      operationId: dolphinDBListUsers
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DolphinDBUser'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: DolphinDB CreateUser
+      operationId: dolphinDBCreateUser
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBUserCreate'
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    delete:
+      summary: DolphinDB DeleteUser
+      operationId: dolphinDBDeleteUser
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/password:
+    patch:
+      summary: DolphinDB ChangePassword
+      operationId: dolphinDBChangePassword
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBPasswordChange'
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/groups:
+    get:
+      summary: DolphinDB ListGroups
+      operationId: dolphinDBListGroups
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DolphinDBGroup'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: DolphinDB CreateGroup
+      operationId: dolphinDBCreateGroup
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBGroupCreate'
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/groups/{groupName}:
+    delete:
+      summary: DolphinDB DeleteGroup
+      operationId: dolphinDBDeleteGroup
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: groupName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/groups/{groupName}/members:
+    patch:
+      summary: DolphinDB ChangeGroupMembers
+      operationId: dolphinDBChangeGroupMembers
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: groupName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBMembershipChange'
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/privileges/capabilities:
+    get:
+      summary: DolphinDB GetCapabilities
+      operationId: dolphinDBGetCapabilities
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DolphinDBCapabilities'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/privileges/{subjectType}/{subjectName}:
+    get:
+      summary: DolphinDB GetPermissions
+      operationId: dolphinDBGetPermissions
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subjectType
+          in: path
+          required: true
+          schema:
+            type: string
+            description: user or group
+        - name: subjectName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DolphinDBPermissionSnapshot'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      summary: DolphinDB ChangePermissions
+      operationId: dolphinDBChangePermissions
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subjectType
+          in: path
+          required: true
+          schema:
+            type: string
+            description: user or group
+        - name: subjectName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBPermissionChange'
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/users/{database}/{username}/password:
     put:
       summary: ChangeRBACUserPassword
@@ -25048,14 +25511,25 @@ components:
         curl --digest -u "accessKey:secretKey" https://api.example.com/api/v1/user
         ```
   schemas:
-    MongoRBACPasswordChange:
+    DolphinDBUser:
       type: object
-      required:
-        - password
       properties:
-        password:
+        name:
           type: string
-          format: password
+        isAdmin:
+          type: boolean
+        groups:
+          type: array
+          items:
+            type: string
+        readOnly:
+          type: boolean
+          description: Built-in admin and management account are protected from mutation.
+      required:
+        - name
+        - isAdmin
+        - groups
+        - readOnly
     APIErrorResponse:
       description: API error response.
       properties:
@@ -25071,6 +25545,196 @@ components:
       required:
         - code
       type: object
+    DolphinDBUserCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+          description: Initial password. Never returned in responses.
+        isAdmin:
+          type: boolean
+          default: false
+        groups:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+        - password
+    DolphinDBPasswordChange:
+      type: object
+      properties:
+        password:
+          type: string
+          description: New password. Never returned in responses.
+      required:
+        - password
+    DolphinDBGroup:
+      type: object
+      properties:
+        name:
+          type: string
+        members:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+        - members
+    DolphinDBGroupCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        members:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+    DolphinDBMembershipChange:
+      type: object
+      properties:
+        action:
+          type: string
+          description: add or remove; incremental, preserves other memberships.
+        users:
+          type: array
+          items:
+            type: string
+      required:
+        - action
+        - users
+    DolphinDBPrivilegeCapability:
+      type: object
+      properties:
+        privilege:
+          type: string
+        scope:
+          type: string
+          description: global, object, optionalObject or quota
+        actions:
+          type: array
+          items:
+            type: string
+        subjects:
+          type: array
+          items:
+            type: string
+            description: user or group
+      required:
+        - privilege
+        - scope
+        - actions
+        - subjects
+    DolphinDBCapabilities:
+      type: object
+      properties:
+        engineVersion:
+          type: string
+        privileges:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBPrivilegeCapability'
+      required:
+        - engineVersion
+        - privileges
+    DolphinDBPermissionState:
+      type: object
+      properties:
+        privilege:
+          type: string
+          description: Native snapshot field. ACCESS_READ/INSERT/UPDATE/DELETE represent global table/database access.
+        globalEffect:
+          type: string
+          description: allow, deny or none; absent when not applicable.
+        allowedObjects:
+          type: array
+          items:
+            type: string
+        deniedObjects:
+          type: array
+          items:
+            type: string
+        value:
+          type: number
+          format: double
+          description: Native quota or account limit, including default sentinel values.
+      required:
+        - privilege
+    DolphinDBGroupPermissions:
+      type: object
+      properties:
+        group:
+          type: string
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBPermissionState'
+      required:
+        - group
+        - permissions
+    DolphinDBPermissionSnapshot:
+      type: object
+      properties:
+        subjectType:
+          type: string
+          description: user or group
+        name:
+          type: string
+        direct:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBPermissionState'
+        effective:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBPermissionState'
+        effectiveKnown:
+          type: boolean
+          description: 'True for users: effective is read from native getUserAccess(finalAccess=true). Groups expose direct settings only.'
+        inherited:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBGroupPermissions'
+      required:
+        - subjectType
+        - name
+        - direct
+        - effective
+        - effectiveKnown
+        - inherited
+    DolphinDBPermissionChange:
+      type: object
+      properties:
+        action:
+          type: string
+          description: grant, deny or revoke. Revoke clears the direct setting; it does not deny inherited access.
+        privilege:
+          type: string
+          description: Native privilege name from capabilities.
+        objects:
+          type: array
+          items:
+            type: string
+            description: Native object identifier; use * explicitly for wildcard scope.
+        value:
+          type: number
+          format: double
+          description: Numeric quota value; only for grant of quota privileges.
+      required:
+        - action
+        - privilege
+    MongoRBACPasswordChange:
+      type: object
+      required:
+        - password
+      properties:
+        password:
+          type: string
+          format: password
     MongoRBACRoleRef:
       type: object
       properties:
