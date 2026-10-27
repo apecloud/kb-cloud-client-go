@@ -14,7 +14,7 @@ type ApelocalCapacityObservation struct {
 	ObservedNodeCount *int32 `json:"observedNodeCount,omitempty"`
 	// Number of selected nodes relevant to this measurement; only ready schedulable nodes for remaining quota.
 	ExpectedNodeCount *int32 `json:"expectedNodeCount,omitempty"`
-	// Sorted names of relevant nodes missing inputs for this measurement.
+	// Sorted names of relevant nodes with missing or inconsistent inputs for this measurement.
 	MissingNodes []string `json:"missingNodes,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
