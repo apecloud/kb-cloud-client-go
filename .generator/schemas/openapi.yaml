@@ -39238,9 +39238,12 @@ components:
         totalNumKeys:
           type: integer
           format: int64
+          x-omitempty: false
           description: Sum of counts across all byteLevelStat buckets.
-        totlSizeKeys:
-          type: string
+        totalSizeKeys:
+          type: integer
+          format: int64
+          x-omitempty: false
           description: Sum of bytes across all byteLevelStat buckets.
         expireStat:
           type: object
