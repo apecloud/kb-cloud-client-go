@@ -38014,14 +38014,16 @@ components:
           x-omitempty: false
           items:
             type: string
-          description: Sorted names of relevant nodes missing inputs for this measurement.
+          description: Sorted names of relevant nodes with missing or inconsistent inputs for this measurement.
     apelocalCapacityObservations:
-      description: Known-node aggregates after resource deduplication. Capacity values are in GiB and ratios are percentages using only nodes with both inputs. Independent measurements can cover different nodes. Quota, remaining quota and allocation percentage objects are omitted for unlimited or conflicting policies. Remaining quota covers only ready schedulable nodes. Existing summary totals remain omitted when incomplete.
+      description: Known-node aggregates after resource deduplication. Capacity values are in GiB and ratios are percentages using only nodes with both inputs. Independent measurements can cover different nodes. Quota, remaining quota and allocation percentage objects are omitted for unlimited or conflicting policies. Remaining quota covers only ready schedulable nodes. Physical remaining is capacity minus usage from nodes with both measurements and usage not exceeding capacity; it is not a guaranteed writable or schedulable quota. Existing summary totals remain omitted when incomplete.
       type: object
       properties:
         physicalCapacity:
           $ref: '#/components/schemas/apelocalCapacityObservation'
         physicalUsage:
+          $ref: '#/components/schemas/apelocalCapacityObservation'
+        physicalRemaining:
           $ref: '#/components/schemas/apelocalCapacityObservation'
         allocatedCapacity:
           $ref: '#/components/schemas/apelocalCapacityObservation'

@@ -6,12 +6,14 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// ApelocalCapacityObservations Known-node aggregates after resource deduplication. Capacity values are in GiB and ratios are percentages using only nodes with both inputs. Independent measurements can cover different nodes. Quota, remaining quota and allocation percentage objects are omitted for unlimited or conflicting policies. Remaining quota covers only ready schedulable nodes. Existing summary totals remain omitted when incomplete.
+// ApelocalCapacityObservations Known-node aggregates after resource deduplication. Capacity values are in GiB and ratios are percentages using only nodes with both inputs. Independent measurements can cover different nodes. Quota, remaining quota and allocation percentage objects are omitted for unlimited or conflicting policies. Remaining quota covers only ready schedulable nodes. Physical remaining is capacity minus usage from nodes with both measurements and usage not exceeding capacity; it is not a guaranteed writable or schedulable quota. Existing summary totals remain omitted when incomplete.
 type ApelocalCapacityObservations struct {
 	// A measurement over known nodes. Missing nodes are not treated as zero. Coverage counts nodes whose complete per-node inputs are known, not individual storage resources.
 	PhysicalCapacity *ApelocalCapacityObservation `json:"physicalCapacity,omitempty"`
 	// A measurement over known nodes. Missing nodes are not treated as zero. Coverage counts nodes whose complete per-node inputs are known, not individual storage resources.
 	PhysicalUsage *ApelocalCapacityObservation `json:"physicalUsage,omitempty"`
+	// A measurement over known nodes. Missing nodes are not treated as zero. Coverage counts nodes whose complete per-node inputs are known, not individual storage resources.
+	PhysicalRemaining *ApelocalCapacityObservation `json:"physicalRemaining,omitempty"`
 	// A measurement over known nodes. Missing nodes are not treated as zero. Coverage counts nodes whose complete per-node inputs are known, not individual storage resources.
 	AllocatedCapacity *ApelocalCapacityObservation `json:"allocatedCapacity,omitempty"`
 	// A measurement over known nodes. Missing nodes are not treated as zero. Coverage counts nodes whose complete per-node inputs are known, not individual storage resources.
@@ -98,6 +100,34 @@ func (o *ApelocalCapacityObservations) HasPhysicalUsage() bool {
 // SetPhysicalUsage gets a reference to the given ApelocalCapacityObservation and assigns it to the PhysicalUsage field.
 func (o *ApelocalCapacityObservations) SetPhysicalUsage(v ApelocalCapacityObservation) {
 	o.PhysicalUsage = &v
+}
+
+// GetPhysicalRemaining returns the PhysicalRemaining field value if set, zero value otherwise.
+func (o *ApelocalCapacityObservations) GetPhysicalRemaining() ApelocalCapacityObservation {
+	if o == nil || o.PhysicalRemaining == nil {
+		var ret ApelocalCapacityObservation
+		return ret
+	}
+	return *o.PhysicalRemaining
+}
+
+// GetPhysicalRemainingOk returns a tuple with the PhysicalRemaining field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ApelocalCapacityObservations) GetPhysicalRemainingOk() (*ApelocalCapacityObservation, bool) {
+	if o == nil || o.PhysicalRemaining == nil {
+		return nil, false
+	}
+	return o.PhysicalRemaining, true
+}
+
+// HasPhysicalRemaining returns a boolean if a field has been set.
+func (o *ApelocalCapacityObservations) HasPhysicalRemaining() bool {
+	return o != nil && o.PhysicalRemaining != nil
+}
+
+// SetPhysicalRemaining gets a reference to the given ApelocalCapacityObservation and assigns it to the PhysicalRemaining field.
+func (o *ApelocalCapacityObservations) SetPhysicalRemaining(v ApelocalCapacityObservation) {
+	o.PhysicalRemaining = &v
 }
 
 // GetAllocatedCapacity returns the AllocatedCapacity field value if set, zero value otherwise.
@@ -252,6 +282,9 @@ func (o ApelocalCapacityObservations) MarshalJSON() ([]byte, error) {
 	if o.PhysicalUsage != nil {
 		toSerialize["physicalUsage"] = o.PhysicalUsage
 	}
+	if o.PhysicalRemaining != nil {
+		toSerialize["physicalRemaining"] = o.PhysicalRemaining
+	}
 	if o.AllocatedCapacity != nil {
 		toSerialize["allocatedCapacity"] = o.AllocatedCapacity
 	}
@@ -279,6 +312,7 @@ func (o *ApelocalCapacityObservations) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		PhysicalCapacity     *ApelocalCapacityObservation `json:"physicalCapacity,omitempty"`
 		PhysicalUsage        *ApelocalCapacityObservation `json:"physicalUsage,omitempty"`
+		PhysicalRemaining    *ApelocalCapacityObservation `json:"physicalRemaining,omitempty"`
 		AllocatedCapacity    *ApelocalCapacityObservation `json:"allocatedCapacity,omitempty"`
 		AllocatableCapacity  *ApelocalCapacityObservation `json:"allocatableCapacity,omitempty"`
 		AvailableCapacity    *ApelocalCapacityObservation `json:"availableCapacity,omitempty"`
@@ -290,7 +324,7 @@ func (o *ApelocalCapacityObservations) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"physicalCapacity", "physicalUsage", "allocatedCapacity", "allocatableCapacity", "availableCapacity", "physicalUsagePercent", "allocationPercent"})
+		common.DeleteKeys(additionalProperties, &[]string{"physicalCapacity", "physicalUsage", "physicalRemaining", "allocatedCapacity", "allocatableCapacity", "availableCapacity", "physicalUsagePercent", "allocationPercent"})
 	} else {
 		return err
 	}
@@ -304,6 +338,10 @@ func (o *ApelocalCapacityObservations) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.PhysicalUsage = all.PhysicalUsage
+	if all.PhysicalRemaining != nil && all.PhysicalRemaining.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.PhysicalRemaining = all.PhysicalRemaining
 	if all.AllocatedCapacity != nil && all.AllocatedCapacity.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
