@@ -12,26 +12,28 @@ import (
 
 // AlertObject Alert object information
 type AlertObject struct {
-	Id          *int32         `json:"id,omitempty"`
-	AlertName   *string        `json:"alertName,omitempty"`
-	GroupName   *string        `json:"groupName,omitempty"`
-	Expr        *string        `json:"expr,omitempty"`
-	ClusterName *string        `json:"clusterName,omitempty"`
-	ObjectName  *string        `json:"objectName,omitempty"`
-	Engine      *string        `json:"engine,omitempty"`
-	Namespace   *string        `json:"namespace,omitempty"`
-	Pod         *string        `json:"pod,omitempty"`
-	Severity    *AlertSeverity `json:"severity,omitempty"`
-	Description *string        `json:"description,omitempty"`
-	Fingerprint *string        `json:"fingerprint,omitempty"`
-	StartsAt    *time.Time     `json:"startsAt,omitempty"`
-	EndsAt      *time.Time     `json:"endsAt,omitempty"`
-	Status      *AlertStatus   `json:"status,omitempty"`
-	Count       *int32         `json:"count,omitempty"`
-	OrgName     *string        `json:"orgName,omitempty"`
-	Page        *int32         `json:"page,omitempty"`
-	PageSize    *int32         `json:"pageSize,omitempty"`
-	Env         *string        `json:"env,omitempty"`
+	Id          *int32                `json:"id,omitempty"`
+	AlertName   *string               `json:"alertName,omitempty"`
+	GroupName   *string               `json:"groupName,omitempty"`
+	Expr        *string               `json:"expr,omitempty"`
+	ClusterName *string               `json:"clusterName,omitempty"`
+	ObjectType  *ObjectTypeEnum       `json:"objectType,omitempty"`
+	ObjectId    common.NullableString `json:"objectID,omitempty"`
+	ObjectName  *string               `json:"objectName,omitempty"`
+	Engine      *string               `json:"engine,omitempty"`
+	Namespace   *string               `json:"namespace,omitempty"`
+	Pod         *string               `json:"pod,omitempty"`
+	Severity    *AlertSeverity        `json:"severity,omitempty"`
+	Description *string               `json:"description,omitempty"`
+	Fingerprint *string               `json:"fingerprint,omitempty"`
+	StartsAt    *time.Time            `json:"startsAt,omitempty"`
+	EndsAt      *time.Time            `json:"endsAt,omitempty"`
+	Status      *AlertStatus          `json:"status,omitempty"`
+	Count       *int32                `json:"count,omitempty"`
+	OrgName     *string               `json:"orgName,omitempty"`
+	Page        *int32                `json:"page,omitempty"`
+	PageSize    *int32                `json:"pageSize,omitempty"`
+	Env         *string               `json:"env,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -192,6 +194,73 @@ func (o *AlertObject) HasClusterName() bool {
 // SetClusterName gets a reference to the given string and assigns it to the ClusterName field.
 func (o *AlertObject) SetClusterName(v string) {
 	o.ClusterName = &v
+}
+
+// GetObjectType returns the ObjectType field value if set, zero value otherwise.
+func (o *AlertObject) GetObjectType() ObjectTypeEnum {
+	if o == nil || o.ObjectType == nil {
+		var ret ObjectTypeEnum
+		return ret
+	}
+	return *o.ObjectType
+}
+
+// GetObjectTypeOk returns a tuple with the ObjectType field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AlertObject) GetObjectTypeOk() (*ObjectTypeEnum, bool) {
+	if o == nil || o.ObjectType == nil {
+		return nil, false
+	}
+	return o.ObjectType, true
+}
+
+// HasObjectType returns a boolean if a field has been set.
+func (o *AlertObject) HasObjectType() bool {
+	return o != nil && o.ObjectType != nil
+}
+
+// SetObjectType gets a reference to the given ObjectTypeEnum and assigns it to the ObjectType field.
+func (o *AlertObject) SetObjectType(v ObjectTypeEnum) {
+	o.ObjectType = &v
+}
+
+// GetObjectId returns the ObjectId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *AlertObject) GetObjectId() string {
+	if o == nil || o.ObjectId.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.ObjectId.Get()
+}
+
+// GetObjectIdOk returns a tuple with the ObjectId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *AlertObject) GetObjectIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ObjectId.Get(), o.ObjectId.IsSet()
+}
+
+// HasObjectId returns a boolean if a field has been set.
+func (o *AlertObject) HasObjectId() bool {
+	return o != nil && o.ObjectId.IsSet()
+}
+
+// SetObjectId gets a reference to the given common.NullableString and assigns it to the ObjectId field.
+func (o *AlertObject) SetObjectId(v string) {
+	o.ObjectId.Set(&v)
+}
+
+// SetObjectIdNil sets the value for ObjectId to be an explicit nil.
+func (o *AlertObject) SetObjectIdNil() {
+	o.ObjectId.Set(nil)
+}
+
+// UnsetObjectId ensures that no value is present for ObjectId, not even an explicit nil.
+func (o *AlertObject) UnsetObjectId() {
+	o.ObjectId.Unset()
 }
 
 // GetObjectName returns the ObjectName field value if set, zero value otherwise.
@@ -635,6 +704,12 @@ func (o AlertObject) MarshalJSON() ([]byte, error) {
 	if o.ClusterName != nil {
 		toSerialize["clusterName"] = o.ClusterName
 	}
+	if o.ObjectType != nil {
+		toSerialize["objectType"] = o.ObjectType
+	}
+	if o.ObjectId.IsSet() {
+		toSerialize["objectID"] = o.ObjectId.Get()
+	}
 	if o.ObjectName != nil {
 		toSerialize["objectName"] = o.ObjectName
 	}
@@ -698,33 +773,35 @@ func (o AlertObject) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AlertObject) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id          *int32         `json:"id,omitempty"`
-		AlertName   *string        `json:"alertName,omitempty"`
-		GroupName   *string        `json:"groupName,omitempty"`
-		Expr        *string        `json:"expr,omitempty"`
-		ClusterName *string        `json:"clusterName,omitempty"`
-		ObjectName  *string        `json:"objectName,omitempty"`
-		Engine      *string        `json:"engine,omitempty"`
-		Namespace   *string        `json:"namespace,omitempty"`
-		Pod         *string        `json:"pod,omitempty"`
-		Severity    *AlertSeverity `json:"severity,omitempty"`
-		Description *string        `json:"description,omitempty"`
-		Fingerprint *string        `json:"fingerprint,omitempty"`
-		StartsAt    *time.Time     `json:"startsAt,omitempty"`
-		EndsAt      *time.Time     `json:"endsAt,omitempty"`
-		Status      *AlertStatus   `json:"status,omitempty"`
-		Count       *int32         `json:"count,omitempty"`
-		OrgName     *string        `json:"orgName,omitempty"`
-		Page        *int32         `json:"page,omitempty"`
-		PageSize    *int32         `json:"pageSize,omitempty"`
-		Env         *string        `json:"env,omitempty"`
+		Id          *int32                `json:"id,omitempty"`
+		AlertName   *string               `json:"alertName,omitempty"`
+		GroupName   *string               `json:"groupName,omitempty"`
+		Expr        *string               `json:"expr,omitempty"`
+		ClusterName *string               `json:"clusterName,omitempty"`
+		ObjectType  *ObjectTypeEnum       `json:"objectType,omitempty"`
+		ObjectId    common.NullableString `json:"objectID,omitempty"`
+		ObjectName  *string               `json:"objectName,omitempty"`
+		Engine      *string               `json:"engine,omitempty"`
+		Namespace   *string               `json:"namespace,omitempty"`
+		Pod         *string               `json:"pod,omitempty"`
+		Severity    *AlertSeverity        `json:"severity,omitempty"`
+		Description *string               `json:"description,omitempty"`
+		Fingerprint *string               `json:"fingerprint,omitempty"`
+		StartsAt    *time.Time            `json:"startsAt,omitempty"`
+		EndsAt      *time.Time            `json:"endsAt,omitempty"`
+		Status      *AlertStatus          `json:"status,omitempty"`
+		Count       *int32                `json:"count,omitempty"`
+		OrgName     *string               `json:"orgName,omitempty"`
+		Page        *int32                `json:"page,omitempty"`
+		PageSize    *int32                `json:"pageSize,omitempty"`
+		Env         *string               `json:"env,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "alertName", "groupName", "expr", "clusterName", "objectName", "engine", "namespace", "pod", "severity", "description", "fingerprint", "startsAt", "endsAt", "status", "count", "orgName", "page", "pageSize", "env"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "alertName", "groupName", "expr", "clusterName", "objectType", "objectID", "objectName", "engine", "namespace", "pod", "severity", "description", "fingerprint", "startsAt", "endsAt", "status", "count", "orgName", "page", "pageSize", "env"})
 	} else {
 		return err
 	}
@@ -735,6 +812,12 @@ func (o *AlertObject) UnmarshalJSON(bytes []byte) (err error) {
 	o.GroupName = all.GroupName
 	o.Expr = all.Expr
 	o.ClusterName = all.ClusterName
+	if all.ObjectType != nil && !all.ObjectType.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.ObjectType = all.ObjectType
+	}
+	o.ObjectId = all.ObjectId
 	o.ObjectName = all.ObjectName
 	o.Engine = all.Engine
 	o.Namespace = all.Namespace

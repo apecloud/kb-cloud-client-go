@@ -15,13 +15,15 @@ type InstanceTemplateOp string
 
 // List of InstanceTemplateOp.
 const (
-	InstanceTemplateOpHscale InstanceTemplateOp = "hscale"
-	InstanceTemplateOpVscale InstanceTemplateOp = "vscale"
+	InstanceTemplateOpHscale           InstanceTemplateOp = "hscale"
+	InstanceTemplateOpVscale           InstanceTemplateOp = "vscale"
+	InstanceTemplateOpStorageExpansion InstanceTemplateOp = "storageExpansion"
 )
 
 var allowedInstanceTemplateOpEnumValues = []InstanceTemplateOp{
 	InstanceTemplateOpHscale,
 	InstanceTemplateOpVscale,
+	InstanceTemplateOpStorageExpansion,
 }
 
 // GetAllowedValues returns the list of possible values.

@@ -75,7 +75,1103 @@ tags:
     description: Diagnostics APIs
   - name: disasterRecovery
     description: Cluster Disaster Recovery APIs
+  - name: redisKeyAnalysis
+    description: Redis Keys Analysis APIs
 paths:
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      summary: DolphinDB ListUsers
+      operationId: dolphinDBListUsers
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DolphinDBUser'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: DolphinDB CreateUser
+      operationId: dolphinDBCreateUser
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBUserCreate'
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    delete:
+      summary: DolphinDB DeleteUser
+      operationId: dolphinDBDeleteUser
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/password:
+    patch:
+      summary: DolphinDB ChangePassword
+      operationId: dolphinDBChangePassword
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBPasswordChange'
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/groups:
+    get:
+      summary: DolphinDB ListGroups
+      operationId: dolphinDBListGroups
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DolphinDBGroup'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: DolphinDB CreateGroup
+      operationId: dolphinDBCreateGroup
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBGroupCreate'
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/groups/{groupName}:
+    delete:
+      summary: DolphinDB DeleteGroup
+      operationId: dolphinDBDeleteGroup
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: groupName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/groups/{groupName}/members:
+    patch:
+      summary: DolphinDB ChangeGroupMembers
+      operationId: dolphinDBChangeGroupMembers
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: groupName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBMembershipChange'
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/privileges/capabilities:
+    get:
+      summary: DolphinDB GetCapabilities
+      operationId: dolphinDBGetCapabilities
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DolphinDBCapabilities'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/privileges/{subjectType}/{subjectName}:
+    get:
+      summary: DolphinDB GetPermissions
+      operationId: dolphinDBGetPermissions
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subjectType
+          in: path
+          required: true
+          schema:
+            type: string
+            description: user or group
+        - name: subjectName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DolphinDBPermissionSnapshot'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      summary: DolphinDB ChangePermissions
+      operationId: dolphinDBChangePermissions
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subjectType
+          in: path
+          required: true
+          schema:
+            type: string
+            description: user or group
+        - name: subjectName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBPermissionChange'
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/users/{database}/{username}/password:
+    put:
+      summary: ChangeRBACUserPassword
+      operationId: mongoChangeRBACUserPassword
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoRBACPasswordChange'
+  /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/users:
+    get:
+      summary: ListRBACUsers
+      operationId: mongoListRBACUsers
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          schema:
+            type: string
+            default: admin
+        - name: allDatabases
+          in: query
+          description: List accounts from all authentication databases. Overrides database; returns role memberships without effective privileges. Use the user detail endpoint for privileges. Requires viewUser and viewRole on the relevant databases.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MongoRBACUser'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: CreateRBACUser
+      operationId: mongoCreateRBACUser
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoRBACUserCreate'
+  /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/databases:
+    get:
+      summary: List MongoDB cluster databases
+      description: Lists existing database names using the cluster management connection. Does not require a personal Workbench datasource.
+      operationId: mongoListClusterDatabases
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Database names, sorted; an empty result is an empty array.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/databases/{database}/collections:
+    get:
+      summary: List MongoDB cluster database objects
+      description: Lists existing collections, views and time-series collections in a database using the cluster management connection. Returns metadata, not document contents.
+      operationId: mongoListClusterCollections
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Database objects; an empty database returns an empty array.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MongoCollectionInfo'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/capabilities:
+    get:
+      summary: GetRBACCapabilities
+      operationId: mongoGetRBACCapabilities
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoRBACCapabilities'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/roles:
+    get:
+      summary: ListRBACRoles
+      operationId: mongoListRBACRoles
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          schema:
+            type: string
+            default: admin
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MongoRBACRole'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: CreateRBACRole
+      operationId: mongoCreateRBACRole
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoRBACRoleWrite'
+  /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/roles/{database}/{roleName}:
+    get:
+      summary: GetRBACRole
+      operationId: mongoGetRBACRole
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoRBACRole'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      summary: UpdateRBACRole
+      operationId: mongoUpdateRBACRole
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoRBACRoleWrite'
+    delete:
+      summary: DeleteRBACRole
+      operationId: mongoDeleteRBACRole
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: expectedRevision
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/users/{database}/{username}:
+    get:
+      summary: GetRBACUser
+      operationId: mongoGetRBACUser
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoRBACUser'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: DeleteRBACUser
+      operationId: mongoDeleteRBACUser
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/users/{database}/{username}/roles:
+    patch:
+      summary: ChangeRBACUserRoles
+      operationId: mongoChangeRBACUserRoles
+      tags:
+        - mongodb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MongoRBACBindingChange'
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/jars/config:
     get:
       operationId: getClusterJarConfig
@@ -1032,6 +2128,107 @@ paths:
       tags:
         - organization
       x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/deletionPreview:
+    get:
+      summary: Preview organization deletion or purge
+      operationId: previewOrgDeletion
+      tags:
+        - organization
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgID
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: ^[1-9][0-9]*$
+        - name: action
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/orgDeletionAction'
+      responses:
+        '200':
+          description: Read-only preview; actual mutations revalidate all conditions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgDeletionPreview'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '409':
+          $ref: '#/components/responses/409'
+  /admin/v1/organizations/{orgName}/restoreOrganization:
+    post:
+      summary: Restore organization
+      operationId: restoreOrg
+      tags:
+        - organization
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgLifecycleRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '409':
+          $ref: '#/components/responses/409'
+  /admin/v1/organizations/{orgName}/purge:
+    post:
+      summary: Purge organization
+      operationId: purgeOrg
+      tags:
+        - organization
+        - shared
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgLifecycleRequest'
+      responses:
+        '202':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgPurgeResult'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '409':
+          $ref: '#/components/responses/409'
   /admin/v1/organizations/{orgName}:
     get:
       description: read the specified Org
@@ -1107,6 +2304,12 @@ paths:
           required: true
           schema:
             type: string
+        - in: query
+          name: orgID
+          required: true
+          schema:
+            type: string
+            pattern: ^[1-9][0-9]*$
       responses:
         '204':
           content: {}
@@ -1668,11 +2871,13 @@ paths:
             type: string
         - name: after
           in: query
+          description: Raw action cursor from the preceding response's nextCursor.
           required: false
           schema:
             type: string
         - name: limit
           in: query
+          description: Raw action page budget. The last turn is read in full before coalescing; use hasMore and nextCursor rather than the returned item count.
           required: false
           schema:
             type: integer
@@ -5307,91 +6512,10 @@ paths:
                 properties:
                   taskId:
                     type: string
-                    description: the task id
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/task:
-    get:
-      tags:
-        - dms
-        - shared
-      summary: Get the task progress
-      operationId: GetTaskProgress
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          description: name of the cluster
-          required: true
-          schema:
-            type: string
-        - name: id
-          in: path
-          description: id of the datasource
-          required: true
-          schema:
-            type: string
-        - name: taskId
-          in: query
-          description: the task id
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Get the task success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DmsTaskInfo'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/tasks:
-    get:
-      tags:
-        - dms
-        - shared
-      summary: Get the task list
-      operationId: GetTaskList
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          description: name of the cluster
-          required: true
-          schema:
-            type: string
-        - name: id
-          in: path
-          description: id of the datasource
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Get the task list success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DmsTaskList'
+                    description: Cloud TaskFlow task ID; query using the unified task API
+                  workflowEngine:
+                    type: string
+                    description: Always taskflow for new import tasks
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -7690,6 +8814,203 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/environments/{environmentName}/logs/retention:
+    get:
+      summary: Get environment log retention
+      operationId: getEnvironmentLogRetention
+      parameters:
+        - in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      tags:
+        - environment
+      responses:
+        '200':
+          description: Log retention settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/logRetention'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      summary: Set environment log retention
+      description: Replaces the current settings. Applies to the next cleanup.
+      operationId: putEnvironmentLogRetention
+      parameters:
+        - in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      tags:
+        - environment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/logRetention'
+      responses:
+        '200':
+          description: Log retention settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/logRetention'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: Reset environment log retention
+      description: Removes environment settings and returns the built-in defaults.
+      operationId: deleteEnvironmentLogRetention
+      parameters:
+        - in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      tags:
+        - environment
+      responses:
+        '200':
+          description: Default log retention settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/logRetention'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/retention:
+    get:
+      summary: Get cluster log retention
+      operationId: getClusterLogRetention
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - clusterLog
+      responses:
+        '200':
+          description: Log retention settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/logRetention'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      summary: Set cluster log retention
+      description: Replaces the current settings. Applies to the next cleanup.
+      operationId: putClusterLogRetention
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - clusterLog
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/logRetention'
+      responses:
+        '200':
+          description: Log retention settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/logRetention'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: Reset cluster log retention
+      description: Removes cluster overrides and returns the retention inherited from the environment.
+      operationId: deleteClusterLogRetention
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      tags:
+        - clusterLog
+      responses:
+        '200':
+          description: Effective log retention settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/logRetention'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/pod:
     get:
       description: Query pod logs of a cluster
@@ -8841,6 +10162,14 @@ paths:
           schema:
             type: string
         - in: query
+          name: query
+          schema:
+            type: string
+        - in: query
+          name: filename
+          schema:
+            type: string
+        - in: query
           name: sortType
           schema:
             $ref: '#/components/schemas/sortType'
@@ -9210,6 +10539,8 @@ paths:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/componentName'
         - $ref: '#/components/parameters/instanceName'
+        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/filename'
         - $ref: '#/components/parameters/sortType'
       responses:
         '200':
@@ -9793,7 +11124,7 @@ paths:
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/expose:
     post:
       operationId: exposeCluster
-      summary: Expose cluster loadbalancer endpoint
+      summary: Expose cluster endpoint
       parameters:
         - description: name of the Org
           in: path
@@ -10937,6 +12268,107 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/alert/settings:
+    get:
+      tags:
+        - nodeAlert
+      operationId: getNodeAlertSettings
+      summary: Get alert settings for a node in an environment
+      parameters:
+        - name: environmentName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: nodeName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertCluster'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - nodeAlert
+      operationId: patchNodeAlertSettings
+      summary: Update supplied node alert settings; omitted fields are preserved
+      parameters:
+        - name: environmentName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: nodeName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/alertCluster'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertCluster'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/alert/rules:
+    get:
+      tags:
+        - nodeAlert
+      operationId: listNodeAlertRules
+      summary: List node metric and NodeDown event alert rules
+      parameters:
+        - name: environmentName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: nodeName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertRuleList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/environments/{environmentName}/nodes/{nodeName}:
     get:
       description: Get specified node info for environment
@@ -13886,13 +15318,46 @@ paths:
         '401':
           $ref: '#/components/responses/401'
       x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/alerts/cluster/{clusterName}/rules:
+    get:
+      tags:
+        - clusterAlertSwitch
+        - shared
+      operationId: listClusterAlertRules
+      summary: List applicable alert rules for a cluster
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertRuleList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/organizations/{orgName}/alerts/cluster/{clusterName}:
     get:
       tags:
         - clusterAlertSwitch
         - shared
       operationId: getClusterAlertDisabled
-      summary: Check if cluster alert is disabled
+      summary: Get cluster alert settings
       parameters:
         - name: orgName
           in: path
@@ -13924,7 +15389,7 @@ paths:
         - clusterAlertSwitch
         - shared
       operationId: setClusterAlertDisabled
-      summary: Set cluster alert disabled or enabled
+      summary: Update cluster alert settings
       parameters:
         - name: orgName
           in: path
@@ -13935,6 +15400,124 @@ paths:
         - name: clusterName
           in: path
           description: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/alertCluster'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertCluster'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/alerts/resource/{resourceType}/{resourceID}/rules:
+    get:
+      tags:
+        - alertRule
+        - shared
+      operationId: listResourceAlertRules
+      summary: List applicable alert rules for a resource
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: resourceType
+          in: path
+          description: resourceType
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertResourceType'
+        - name: resourceID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertRuleList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/alerts/resource/{resourceType}/{resourceID}:
+    get:
+      tags:
+        - alertRule
+        - shared
+      operationId: getResourceAlertDisabled
+      summary: Get resource alert settings
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: resourceType
+          in: path
+          description: resourceType
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertResourceType'
+        - name: resourceID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertCluster'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - alertRule
+        - shared
+      operationId: setResourceAlertDisabled
+      summary: Update resource alert settings
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: resourceType
+          in: path
+          description: resourceType
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertResourceType'
+        - name: resourceID
+          in: path
           required: true
           schema:
             type: string
@@ -17826,6 +19409,34 @@ paths:
         '204':
           content: {}
           description: Task cancelled successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - task
+  /admin/v1/tasks/{taskId}/abort:
+    post:
+      summary: Force abort a task
+      description: Forcefully abort a running task. Pending steps or OpsRequests are cancelled, running ones are aborted.
+      operationId: abortTask
+      parameters:
+        - description: ID of the task
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Task aborted successfully
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -23752,6 +25363,595 @@ paths:
       tags:
         - account
         - shared
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges:
+    get:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: Inspect native object and column privileges
+      operationId: getAccountObjectPrivileges
+      description: Native object GRANT/REVOKE alongside presets. Consult capabilities for engine/version-specific object types and privileges. PostgreSQL RESTRICT is the default; MySQL static GRANT OPTION is scope-wide.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: objectType
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: databaseName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: schemaName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: objectName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: objectId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: subjectType
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/ObjectPrivilegeSubjectType'
+          description: Native subject kind; path account name identifies the subject.
+        - name: host
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Deprecated MySQL host alias. Prefer subjectQualifiers. Do not specify host in both.
+        - name: catalogName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: subjectQualifiers
+          in: query
+          required: false
+          schema:
+            type: string
+          description: JSON object of string identity qualifiers, e.g. {"host":"%"}. Allowed keys and defaults come from capabilities. Unknown keys or duplicate identity inputs are rejected.
+      responses:
+        '200':
+          description: Native privilege snapshot
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectPrivilegeSnapshot'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: Grant or revoke native object and column privileges
+      operationId: changeAccountObjectPrivileges
+      description: Native object GRANT/REVOKE alongside presets. Consult capabilities for engine/version-specific object types and privileges. PostgreSQL RESTRICT is the default; MySQL static GRANT OPTION is scope-wide.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subjectType
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/ObjectPrivilegeSubjectType'
+          description: Native subject kind; path account name identifies the subject.
+        - name: host
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Deprecated MySQL host alias. Prefer subjectQualifiers. Do not specify host in both.
+        - name: subjectQualifiers
+          in: query
+          required: false
+          schema:
+            type: string
+          description: JSON object of string identity qualifiers, e.g. {"host":"%"}. Allowed keys and defaults come from capabilities. Unknown keys or duplicate identity inputs are rejected.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectPrivilegeChange'
+      responses:
+        '204':
+          description: Native statement completed. Query privileges again to inspect remaining access.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      x-codegen-request-body-name: body
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/capabilities:
+    get:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: List native object privilege capabilities for the connected server
+      operationId: getAccountObjectPrivilegeCapabilities
+      description: Native object GRANT/REVOKE alongside presets. Consult capabilities for engine/version-specific object types and privileges. PostgreSQL RESTRICT is the default; MySQL static GRANT OPTION is scope-wide.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Native privilege snapshot
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectPrivilegeCapabilities'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/overview:
+    get:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: Read native account privilege summary or selected database evidence
+      operationId: getAccountPrivilegeOverview
+      description: Without databaseName, returns role attributes, memberships, database access summaries and shared ACLs without connecting to other databases. PostgreSQL databaseName reads schema, object, ownership and PUBLIC evidence from that database only. Failed reads return an error, never an empty grant list. SQL is read-only evidence, not an exhaustive effective-access decision.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subjectType
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/ObjectPrivilegeSubjectType'
+          description: Native subject kind; path account name identifies the subject.
+        - name: host
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Deprecated MySQL host alias. Prefer subjectQualifiers. Do not specify host in both.
+        - name: subjectQualifiers
+          in: query
+          schema:
+            type: string
+        - name: databaseName
+          in: query
+          description: PostgreSQL database to inspect on demand. Omit for the global summary.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Native evidence groups for the requested scope
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ObjectPrivilegeEvidence'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/reset:
+    get:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: Preview clearing explicit account privileges
+      operationId: previewAccountPrivilegeReset
+      description: MySQL clears direct privileges at every scope (including columns, routines, dynamic privileges and grant options), explicit role memberships and PROXY grants for one exact user/host. Rejects protected accounts and servers with mandatory roles before writing. Preview does not mutate. Execution re-reads current grants; concurrent new grants can be included. Statements are not atomic; on failure refresh and preview before retrying. Existing sessions follow MySQL privilege-cache semantics; this does not lock the account or terminate connections. PostgreSQL requires selected databaseNames or explicit allDatabases=true. Selected scope clears direct database/local/default ACLs only. It preserves global memberships, role attributes and privileges in other databases. Whole-account scope additionally clears memberships and elevated attributes. PUBLIC access remains. Object ownership prevents reset; RESTRICT protects dependent grants. Each database is transactional, but cross-database reset is not atomic. No objects are dropped or reassigned.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subjectType
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/ObjectPrivilegeSubjectType'
+          description: Native subject kind; path account name identifies the subject.
+        - name: host
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Deprecated MySQL host alias. Prefer subjectQualifiers. Do not specify host in both.
+        - name: subjectQualifiers
+          in: query
+          schema:
+            type: string
+          description: JSON identity qualifiers; MySQL host defaults to %.
+        - name: databaseNames
+          in: query
+          style: form
+          explode: true
+          description: PostgreSQL only; exact selected database names as repeated parameters. Mutually exclusive with allDatabases.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: allDatabases
+          in: query
+          description: PostgreSQL whole-account reset requires explicit true; otherwise databaseNames must be nonempty. Selected scope preserves global memberships/attributes and privileges outside those databases.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Server-generated steps with connection database, in execution order
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ObjectPrivilegeResetStep'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: Clear explicit account privileges
+      operationId: resetAccountPrivileges
+      description: MySQL clears direct privileges at every scope (including columns, routines, dynamic privileges and grant options), explicit role memberships and PROXY grants for one exact user/host. Rejects protected accounts and servers with mandatory roles before writing. Preview does not mutate. Execution re-reads current grants; concurrent new grants can be included. Statements are not atomic; on failure refresh and preview before retrying. Existing sessions follow MySQL privilege-cache semantics; this does not lock the account or terminate connections. PostgreSQL requires selected databaseNames or explicit allDatabases=true. Selected scope clears direct database/local/default ACLs only. It preserves global memberships, role attributes and privileges in other databases. Whole-account scope additionally clears memberships and elevated attributes. PUBLIC access remains. Object ownership prevents reset; RESTRICT protects dependent grants. Each database is transactional, but cross-database reset is not atomic. No objects are dropped or reassigned.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subjectType
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/ObjectPrivilegeSubjectType'
+          description: Native subject kind; path account name identifies the subject.
+        - name: host
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Deprecated MySQL host alias. Prefer subjectQualifiers. Do not specify host in both.
+        - name: subjectQualifiers
+          in: query
+          schema:
+            type: string
+          description: JSON identity qualifiers; MySQL host defaults to %.
+        - name: databaseNames
+          in: query
+          style: form
+          explode: true
+          description: PostgreSQL only; exact selected database names as repeated parameters. Mutually exclusive with allDatabases.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: allDatabases
+          in: query
+          description: PostgreSQL whole-account reset requires explicit true; otherwise databaseNames must be nonempty. Selected scope preserves global memberships/attributes and privileges outside those databases.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '204':
+          description: Privileges cleared; account and password preserved
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/columns:
+    get:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: List exact column names for account object privileges
+      operationId: listAccountObjectPrivilegeColumns
+      description: Read MySQL or PostgreSQL relation column names using the account management connection. No workbench datasource is required. Names are returned verbatim for column-level grants.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: objectType
+          in: query
+          required: true
+          description: Object type, table/view; PostgreSQL also supports materializedView/foreignTable
+          schema:
+            type: string
+        - name: databaseName
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: objectName
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: schemaName
+          in: query
+          description: Required for PostgreSQL; not accepted for MySQL
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Exact column names in catalog order; empty if no visible columns exist
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/object-privileges/objects:
+    get:
+      tags:
+        - account
+        - rdbms
+        - shared
+      summary: Discover existing native privilege objects with stable routine identities
+      operationId: listAccountObjectPrivilegeObjects
+      description: Lists existing objects of one supported kind. Pagination is not a fixed snapshot. PostgreSQL requires a connection database; schema-contained kinds require schemaName. MySQL global/database listing omits databaseName; other kinds require it.
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: objectType
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: databaseName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: schemaName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+            default: 0
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 200
+            default: 100
+        - name: catalogName
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Native privilege snapshot
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectPrivilegeObjectList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/privileges:
     patch:
       description: update account privileges for rdbms engine
@@ -27768,6 +29968,134 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/redis/keyAnalysis:
+    post:
+      tags:
+        - redisKeyAnalysis
+      operationId: adminCreateRedisKeyAnalysis
+      summary: Create a Redis keys analysis task
+      description: Admin variant of createRedisKeyAnalysis.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                parameters:
+                  type: object
+                  properties:
+                    topBigKey:
+                      type: integer
+                      format: int64
+                      minimum: 1
+                      maximum: 500
+                      default: 100
+                    numOfElemMin:
+                      type: integer
+                      format: int64
+                      minimum: 1
+                      default: 3000
+                    bigKeySizeMin:
+                      type: string
+                      default: 10kb
+                    topSlot:
+                      type: integer
+                      format: int64
+                      minimum: 1
+                      maximum: 500
+                      default: 100
+      responses:
+        '200':
+          description: Analysis task submitted.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - taskId
+                properties:
+                  taskId:
+                    type: string
+                  status:
+                    type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/redis/keyAnalysis/{taskId}:
+    get:
+      tags:
+        - redisKeyAnalysis
+      operationId: adminGetRedisKeyAnalysisReport
+      summary: Get a Redis keys analysis report
+      description: |
+        Returns one persisted row per shard plus one non-persisted aggregate row with
+        isSummary=true when more than one row is returned.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Report rows plus an optional aggregate row.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RedisKeyAnalysisReport'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - redisKeyAnalysis
+      operationId: adminDeleteRedisKeyAnalysisReport
+      summary: Delete a Redis keys analysis report
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Report deleted.
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/replication/channel:
     get:
       operationId: listAdminDataChannels
@@ -28212,6 +30540,174 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - dataReplication
+  /admin/v1/replication/endpoints:
+    get:
+      operationId: listAdminDataEndpoints
+      summary: List Data Endpoints
+      description: Retrieve a list of data endpoints.
+      parameters:
+        - description: The Name of the organization
+          in: query
+          name: orgName
+          required: false
+          schema:
+            type: string
+        - description: The name of the data endpoint
+          in: query
+          name: name
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataEndpointList'
+          description: A list of data endpoints.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /admin/v1/organizations/{orgName}/replication/endpoint:
+    post:
+      operationId: createAdminDataEndpoint
+      summary: Create a new data endpoint
+      description: Create a new data endpoint.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataEndpointCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataEndpointResponse'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+      x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/replication/endpoint/{endpointID}:
+    get:
+      operationId: getDataEndpoint
+      summary: Get Data Endpoint Details
+      description: Retrieve a data endpoint detail.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data endpoint
+          in: path
+          name: endpointID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataChannelListEndpoint'
+          description: A detail of data endpoint.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+    delete:
+      operationId: deleteDataEndpoint
+      summary: Delete a data endpoint
+      description: Delete a data endpoint.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data endpoint
+          in: path
+          name: endpointID
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when endpoint is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+    patch:
+      operationId: updateDataEndpoint
+      summary: Update a data endpoint
+      description: Update an existing data endpoint.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data endpoint
+          in: path
+          name: endpointID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataEndpointCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataEndpointResponse'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+      x-codegen-request-body-name: body
   /admin/v1/checks:
     get:
       operationId: listAdminDataChecks
@@ -28545,6 +31041,434 @@ components:
         curl --digest -u "accessKey:secretKey" https://api.example.com/admin/v1/user
         ```
   schemas:
+    DolphinDBUser:
+      type: object
+      properties:
+        name:
+          type: string
+        isAdmin:
+          type: boolean
+        groups:
+          type: array
+          items:
+            type: string
+        readOnly:
+          type: boolean
+          description: Built-in admin and management account are protected from mutation.
+      required:
+        - name
+        - isAdmin
+        - groups
+        - readOnly
+    APIErrorResponse:
+      description: API error response.
+      properties:
+        code:
+          description: The HTTP status code.
+          type: integer
+        reason:
+          description: The reason for the error.
+          type: string
+        message:
+          description: The message for the error.
+          type: string
+      required:
+        - code
+      type: object
+    DolphinDBUserCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+          description: Initial password. Never returned in responses.
+        isAdmin:
+          type: boolean
+          default: false
+        groups:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+        - password
+    DolphinDBPasswordChange:
+      type: object
+      properties:
+        password:
+          type: string
+          description: New password. Never returned in responses.
+      required:
+        - password
+    DolphinDBGroup:
+      type: object
+      properties:
+        name:
+          type: string
+        members:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+        - members
+    DolphinDBGroupCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        members:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+    DolphinDBMembershipChange:
+      type: object
+      properties:
+        action:
+          type: string
+          description: add or remove; incremental, preserves other memberships.
+        users:
+          type: array
+          items:
+            type: string
+      required:
+        - action
+        - users
+    DolphinDBPrivilegeCapability:
+      type: object
+      properties:
+        privilege:
+          type: string
+        scope:
+          type: string
+          description: global, object, optionalObject or quota
+        actions:
+          type: array
+          items:
+            type: string
+        subjects:
+          type: array
+          items:
+            type: string
+            description: user or group
+      required:
+        - privilege
+        - scope
+        - actions
+        - subjects
+    DolphinDBCapabilities:
+      type: object
+      properties:
+        engineVersion:
+          type: string
+        privileges:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBPrivilegeCapability'
+      required:
+        - engineVersion
+        - privileges
+    DolphinDBPermissionState:
+      type: object
+      properties:
+        privilege:
+          type: string
+          description: Native snapshot field. ACCESS_READ/INSERT/UPDATE/DELETE represent global table/database access.
+        globalEffect:
+          type: string
+          description: allow, deny or none; absent when not applicable.
+        allowedObjects:
+          type: array
+          items:
+            type: string
+        deniedObjects:
+          type: array
+          items:
+            type: string
+        value:
+          type: number
+          format: double
+          description: Native quota or account limit, including default sentinel values.
+      required:
+        - privilege
+    DolphinDBGroupPermissions:
+      type: object
+      properties:
+        group:
+          type: string
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBPermissionState'
+      required:
+        - group
+        - permissions
+    DolphinDBPermissionSnapshot:
+      type: object
+      properties:
+        subjectType:
+          type: string
+          description: user or group
+        name:
+          type: string
+        direct:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBPermissionState'
+        effective:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBPermissionState'
+        effectiveKnown:
+          type: boolean
+          description: 'True for users: effective is read from native getUserAccess(finalAccess=true). Groups expose direct settings only.'
+        inherited:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBGroupPermissions'
+      required:
+        - subjectType
+        - name
+        - direct
+        - effective
+        - effectiveKnown
+        - inherited
+    DolphinDBPermissionChange:
+      type: object
+      properties:
+        action:
+          type: string
+          description: grant, deny or revoke. Revoke clears the direct setting; it does not deny inherited access.
+        privilege:
+          type: string
+          description: Native privilege name from capabilities.
+        objects:
+          type: array
+          items:
+            type: string
+            description: Native object identifier; use * explicitly for wildcard scope.
+        value:
+          type: number
+          format: double
+          description: Numeric quota value; only for grant of quota privileges.
+      required:
+        - action
+        - privilege
+    MongoRBACPasswordChange:
+      type: object
+      required:
+        - password
+      properties:
+        password:
+          type: string
+          format: password
+    MongoRBACRoleRef:
+      type: object
+      properties:
+        role:
+          type: string
+        db:
+          type: string
+      required:
+        - role
+        - db
+    MongoRBACResource:
+      type: object
+      properties:
+        cluster:
+          type: boolean
+        db:
+          type: string
+          x-nullable: true
+          description: Preserve an explicit empty string for native wildcard scope; omit only for cluster resources.
+        collection:
+          type: string
+          x-nullable: true
+          description: Preserve an explicit empty string for native wildcard scope; omit only for cluster resources.
+        anyResource:
+          type: boolean
+          description: Read-only native evidence; write requests reject this internal resource.
+      description: Native MongoDB resource. cluster:true is system operations, not all database data. Empty db/collection are explicit wildcard scopes; system collections need explicit resources.
+    MongoRBACPrivilege:
+      type: object
+      properties:
+        resource:
+          $ref: '#/components/schemas/MongoRBACResource'
+        actions:
+          type: array
+          items:
+            type: string
+      required:
+        - resource
+        - actions
+    MongoRBACUser:
+      type: object
+      properties:
+        db:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACRoleRef'
+        inheritedRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACRoleRef'
+        inheritedPrivileges:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACPrivilege'
+        user:
+          type: string
+        readOnly:
+          type: boolean
+          description: Platform-protected account; mutations are rejected.
+    MongoRBACUserCreate:
+      type: object
+      required:
+        - user
+        - db
+        - password
+        - roles
+      properties:
+        user:
+          type: string
+        db:
+          type: string
+        password:
+          type: string
+          format: password
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACRoleRef'
+    MongoCollectionCapabilities:
+      type: object
+      properties:
+        canReadDocuments:
+          type: boolean
+          x-omitempty: false
+        canWriteDocuments:
+          type: boolean
+          x-omitempty: false
+        canManageIndexes:
+          type: boolean
+          x-omitempty: false
+        canSetValidation:
+          type: boolean
+          x-omitempty: false
+        canDrop:
+          type: boolean
+          x-omitempty: false
+    MongoCollectionInfo:
+      type: object
+      properties:
+        name:
+          type: string
+          description: collection or view name
+        type:
+          type: string
+          description: collection type (collection or view)
+        isSystem:
+          type: boolean
+          description: whether this is a MongoDB system collection
+          x-omitempty: false
+        capabilities:
+          $ref: '#/components/schemas/MongoCollectionCapabilities'
+        options:
+          type: object
+          description: collection options, including viewOn/pipeline when type is view
+    MongoRBACResourceCapability:
+      type: object
+      properties:
+        type:
+          type: string
+          description: cluster, database, collection, allDatabases, collectionAcrossDatabases
+        actions:
+          type: array
+          items:
+            type: string
+      required:
+        - type
+        - actions
+    MongoRBACCapabilities:
+      type: object
+      properties:
+        allDatabaseUsers:
+          type: boolean
+          description: Supports allDatabases on the account list endpoint.
+        engineVersion:
+          type: string
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACResourceCapability'
+    MongoRBACRole:
+      type: object
+      properties:
+        role:
+          type: string
+        db:
+          type: string
+        isBuiltin:
+          type: boolean
+        privileges:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACPrivilege'
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACRoleRef'
+        inheritedRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACRoleRef'
+        inheritedPrivileges:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACPrivilege'
+        revision:
+          type: string
+          description: Stale-form fingerprint. updateRole has no native CAS; external concurrent writes are not transactional.
+    MongoRBACRoleWrite:
+      type: object
+      properties:
+        role:
+          type: string
+        db:
+          type: string
+        privileges:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACPrivilege'
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACRoleRef'
+        expectedRevision:
+          type: string
+      required:
+        - role
+        - db
+        - privileges
+        - roles
+    MongoRBACBindingChange:
+      type: object
+      properties:
+        action:
+          type: string
+          description: grant or revoke. Incremental; all other native roles are retained.
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/MongoRBACRoleRef'
+      required:
+        - action
+        - roles
     clusterJarConfig:
       type: object
       properties:
@@ -28572,21 +31496,6 @@ components:
         - maxFileBytes
         - maxTotalBytes
         - usedBytes
-    APIErrorResponse:
-      description: API error response.
-      properties:
-        code:
-          description: The HTTP status code.
-          type: integer
-        reason:
-          description: The reason for the error.
-          type: string
-        message:
-          description: The message for the error.
-          type: string
-      required:
-        - code
-      type: object
     clusterJarKind:
       type: string
       enum:
@@ -28989,15 +31898,44 @@ components:
           description: The list of series items aggregated in the time range.
           items:
             $ref: '#/components/schemas/seriesItem'
+    orgStatus:
+      x-nullable: false
+      type: string
+      enum:
+        - Active
+        - DeletionLocked
+        - Purging
+        - PurgeFailed
+        - Deleted
     organizationItem:
       description: Organization items.
       type: object
       required:
+        - id
+        - status
+        - expiredAt
+        - allowedActions
         - name
         - displayName
         - clusterTotal
         - createdAt
       properties:
+        id:
+          x-nullable: false
+          type: string
+        status:
+          x-nullable: false
+          $ref: '#/components/schemas/orgStatus'
+        expiredAt:
+          type: string
+          format: date-time
+          nullable: true
+        purgeError:
+          type: string
+        allowedActions:
+          type: array
+          items:
+            type: string
         name:
           type: string
           description: The name of the organization.
@@ -29047,6 +31985,19 @@ components:
     org:
       description: Org info
       properties:
+        status:
+          x-nullable: false
+          $ref: '#/components/schemas/orgStatus'
+        expiredAt:
+          type: string
+          format: date-time
+          nullable: true
+        purgeError:
+          type: string
+        allowedActions:
+          type: array
+          items:
+            type: string
         createdAt:
           description: |-
             CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
@@ -29077,11 +32028,167 @@ components:
           description: return true if the organization is enabled
           type: boolean
       required:
+        - status
+        - expiredAt
+        - allowedActions
         - createdAt
         - name
         - updatedAt
         - enabled
       type: object
+    orgDeletionAction:
+      type: string
+      enum:
+        - delete
+        - purge
+    orgDeletionBlocker:
+      type: object
+      required:
+        - code
+        - resourceType
+        - count
+      properties:
+        code:
+          x-nullable: false
+          type: string
+        resourceType:
+          x-nullable: false
+          type: string
+        count:
+          x-nullable: false
+          type: integer
+          format: int64
+    orgConfigurationItem:
+      type: object
+      required:
+        - id
+        - displayName
+      properties:
+        id:
+          x-nullable: false
+          type: string
+        displayName:
+          x-nullable: false
+          type: string
+    orgConfigurationSummary:
+      type: object
+      required:
+        - type
+        - count
+        - items
+        - truncated
+        - actionEffect
+        - purgeEffect
+      properties:
+        type:
+          x-nullable: false
+          type: string
+        count:
+          x-nullable: false
+          type: integer
+          format: int64
+        items:
+          x-nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/orgConfigurationItem'
+        truncated:
+          x-nullable: false
+          type: boolean
+        actionEffect:
+          x-nullable: false
+          type: string
+        purgeEffect:
+          x-nullable: false
+          type: string
+    orgRetainedResource:
+      type: object
+      required:
+        - type
+        - count
+        - retentionPolicy
+      properties:
+        type:
+          x-nullable: false
+          type: string
+        count:
+          x-nullable: false
+          type: integer
+          format: int64
+        retentionPolicy:
+          x-nullable: false
+          type: string
+    orgDeletionPreview:
+      type: object
+      required:
+        - orgID
+        - name
+        - status
+        - expiredAt
+        - action
+        - canProceed
+        - blockers
+        - configurations
+        - retainedResources
+      properties:
+        orgID:
+          x-nullable: false
+          type: string
+        name:
+          x-nullable: false
+          type: string
+        status:
+          x-nullable: false
+          type: string
+        expiredAt:
+          type: string
+          format: date-time
+          nullable: true
+        purgeError:
+          type: string
+        action:
+          x-nullable: false
+          type: string
+        canProceed:
+          x-nullable: false
+          type: boolean
+        blockers:
+          x-nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/orgDeletionBlocker'
+        configurations:
+          x-nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/orgConfigurationSummary'
+        retainedResources:
+          x-nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/orgRetainedResource'
+    orgLifecycleRequest:
+      type: object
+      required:
+        - orgID
+        - expectedExpiredAt
+      properties:
+        orgID:
+          type: string
+          pattern: ^[1-9][0-9]*$
+        expectedExpiredAt:
+          type: string
+          format: date-time
+    orgPurgeResult:
+      type: object
+      properties:
+        orgID:
+          type: string
+        status:
+          type: string
+        expiredAt:
+          type: string
+          format: date-time
     orgUpdate:
       description: Organization update
       properties:
@@ -29562,6 +32669,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/aiAgentTurnAction'
+        nextCursor:
+          type: string
+          description: Raw action cursor for the next page; independent of coalesced item IDs and timestamps.
+        hasMore:
+          type: boolean
+          description: Whether more actions are available. Pages finish the last turn before coalescing, so item counts must not be used to detect the final page.
     aiAgentEvent:
       type: object
       required:
@@ -30113,12 +33226,14 @@ components:
     instanceTemplateCreate:
       type: object
       additionalProperties: false
-      description: |
-        Create assignment for one instance template. name and replicas are required. env, annotations, and labels are optional overlays onto the chart-rendered instance. The request must include every chart-rendered instance template exactly once.
+      description: Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, nodeGroup and storageClass are optional overlays. The request must include every chart-rendered instance template exactly once. Explicit placement requires availabilityZone and optionally accepts nodeGroup, without inheriting upper-level AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks default inheritance. Hostname, user scheduling rules and additional topology keys are preserved.
       required:
         - name
         - replicas
       properties:
+        nodeGroup:
+          type: string
+          description: Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
         name:
           type: string
           minLength: 1
@@ -30127,6 +33242,12 @@ components:
           type: integer
           minimum: 0
           description: Replica count for this instance template.
+        availabilityZone:
+          type: string
+          description: Single AZ for explicit template placement (topology.kubernetes.io/zone). Must be enabled in the environment and is required when nodeGroup is specified. An omitted nodeGroup does not inherit the component or cluster host group. Omitting both leaves SchedulingPolicy unset for KubeBlocks inheritance.
+        storageClass:
+          type: string
+          description: StorageClass name for all persistent volumes in this template. Copied from component volumeClaimTemplates, preserving volume sizes and other settings while overriding storageClassName. Chart instance volume templates are cleared; omitted or empty leaves instance volumeClaimTemplates unset.
         env:
           type: array
           description: Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
@@ -30151,7 +33272,7 @@ components:
           type: object
           additionalProperties:
             type: string
-          description: Label map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
+          description: Label map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted. The apps.kubeblocks.io/instance-template label is managed by the system and must equal the template name if supplied.
     ioQuantity:
       description: IO Quantity describes IOPS and BPS of a volume
       properties:
@@ -30224,6 +33345,17 @@ components:
       required:
         - component
       properties:
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+          description: User-provided component annotations, merged over chart defaults. Platform-managed keys cannot be overridden. Omitted or empty preserves defaults; empty string values are literal values, not deletions.
+        nodeGroup:
+          type: string
+          description: Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
+        availabilityZone:
+          type: string
+          description: Single AZ for explicit component placement. Must be enabled in the environment and is required when nodeGroup is specified. An omitted nodeGroup does not inherit the cluster host group. Omitting both retains cluster scheduling.
         component:
           type: string
           description: component type, refer to componentDef and support NamePrefix
@@ -30235,11 +33367,11 @@ components:
           title: Replicas
           type: integer
           x-nullable: true
-          description: Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas. If the rendered component has instance templates, this must equal the sum of all template replica counts in the complete instanceTemplates list.
+          description: Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas. When instanceTemplates is provided, this must equal the sum of all template replica counts.
         instanceTemplates:
           type: array
           minItems: 1
-          description: Per-template replicas and optional overlays (env, annotations, labels). Required when the chart renders instance templates. Names must exactly match all chart-rendered instances, without missing, extra, or duplicate names; order does not matter. Component replicas must equal the sum of all requested instance template replica counts.
+          description: Per-template replicas and optional overlays (env, annotations, labels, availability zone, storage class). Required when the current mode component declares instanceTemplate in engine_options; otherwise omit. Names must exactly match all chart-rendered instances, without missing, extra, or duplicate names; order does not matter. Component replicas must equal the sum of all requested instance template replica counts.
           items:
             $ref: '#/components/schemas/instanceTemplateCreate'
         skipResourceConstraints:
@@ -30563,6 +33695,23 @@ components:
       type: object
       description: ComponentItem is the information of a component
       properties:
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+          description: User-provided component annotations. Does not include chart defaults or system-generated values.
+        nodeGroup:
+          type: string
+          description: Optional host group in this environment. Explicit placement does not inherit an upper-level host group.
+        availabilityZone:
+          type: string
+          description: Explicit component AZ selection, if configured.
+        instanceTemplates:
+          type: array
+          x-omitempty: true
+          description: Instance template assignments with effective replicas, placement and storage class, and user-provided env, labels and annotations.
+          items:
+            $ref: '#/components/schemas/instanceTemplateCreate'
         name:
           type: string
           description: component name
@@ -30907,6 +34056,9 @@ components:
           type: string
         componentDef:
           description: ComponentDefinition name
+          type: string
+        instanceTemplate:
+          description: Instance template name within the actual component. Omitted when no template identity is available.
           type: string
         component:
           description: component type, refer to componentDef and support NamePrefix
@@ -31632,7 +34784,7 @@ components:
           minimum: 0
           description: Target replica count for this instance template.
     opsHScale:
-      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. Specify replicas or shards. instanceTemplates is an optional overlay and requires top-level replicas.
+      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. Specify replicas or shards. Replica scaling requires explicit template targets when the current mode component declares instanceTemplate.ops hscale.
       required:
         - component
       properties:
@@ -31651,7 +34803,7 @@ components:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Target replica count for named instance templates. Requires top-level replicas. Mapped onto the live Cluster spec to build scaleIn/scaleOut.instances. Required for replica scaling when the live component has instance templates. Names must exactly match all live instance templates, without missing, extra, or duplicate names; order does not matter. Top-level replicas must equal the sum of all requested template replica counts. Shard-count scaling does not check templates and cannot include this list.
+          description: Explicit template replica targets, required when the current mode component instanceTemplate.ops includes hscale. Otherwise omit for component-level scaling. Requires top-level replicas and every name from instanceTemplate.names, without missing, extra, or duplicate names. Template replica counts must sum to the component target; equal distribution is not required by the API. Component and template changes are sent together in one OpsRequest using current Cluster replicas to calculate scaleIn/scaleOut deltas. Shard-count scaling cannot include this list.
           items:
             $ref: '#/components/schemas/instanceTemplateReplicas'
         onlineInstancesToOffline:
@@ -32779,38 +35931,6 @@ components:
           type: string
           format: binary
           description: the data file, csv or other format
-    DmsTaskInfo:
-      type: object
-      properties:
-        id:
-          type: string
-          description: task id
-        datasource:
-          type: string
-          description: datasource id
-        message:
-          type: string
-          description: if task failed, this will show why
-          nullable: true
-        status:
-          type: string
-          description: task status
-        type:
-          type: string
-          description: task type
-        updatedAt:
-          type: string
-          format: date-time
-        createdAt:
-          type: string
-          format: date-time
-    DmsTaskList:
-      type: object
-      properties:
-        tasks:
-          type: array
-          items:
-            $ref: '#/components/schemas/DmsTaskInfo'
     DmsSchemaList:
       type: array
       items:
@@ -34354,42 +37474,6 @@ components:
         isSystem:
           type: boolean
           x-omitempty: false
-    MongoCollectionCapabilities:
-      type: object
-      properties:
-        canReadDocuments:
-          type: boolean
-          x-omitempty: false
-        canWriteDocuments:
-          type: boolean
-          x-omitempty: false
-        canManageIndexes:
-          type: boolean
-          x-omitempty: false
-        canSetValidation:
-          type: boolean
-          x-omitempty: false
-        canDrop:
-          type: boolean
-          x-omitempty: false
-    MongoCollectionInfo:
-      type: object
-      properties:
-        name:
-          type: string
-          description: collection or view name
-        type:
-          type: string
-          description: collection type (collection or view)
-        isSystem:
-          type: boolean
-          description: whether this is a MongoDB system collection
-          x-omitempty: false
-        capabilities:
-          $ref: '#/components/schemas/MongoCollectionCapabilities'
-        options:
-          type: object
-          description: collection options, including viewOn/pipeline when type is view
     MongoCollectionStats:
       type: object
       properties:
@@ -34881,6 +37965,36 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/DmsSession'
+    logRetention:
+      type: object
+      description: Log retention in days.
+      required:
+        - pod
+        - running
+        - error
+        - slow
+        - audit
+      properties:
+        pod:
+          type: integer
+          format: int64
+          minimum: 1
+        running:
+          type: integer
+          format: int64
+          minimum: 1
+        error:
+          type: integer
+          format: int64
+          minimum: 1
+        slow:
+          type: integer
+          format: int64
+          minimum: 1
+        audit:
+          type: integer
+          format: int64
+          minimum: 1
     sortType:
       description: Represents the type of sorting.
       enum:
@@ -35694,9 +38808,43 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/engineServiceVersionsItem'
-    opsVolumeExpand:
-      description: OpsVolumeExpand is the payload to expand volume for a KubeBlocks cluster
+    opsVolumeExpandVolumesItems0:
+      type: object
+      required:
+        - name
+        - storage
       properties:
+        name:
+          type: string
+          minLength: 1
+          description: Volume name.
+        storage:
+          type: string
+          description: Desired size with Gi suffix, for example 30Gi.
+    instanceTemplateVolumeExpand:
+      type: object
+      required:
+        - name
+        - volumes
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Template name from the current mode component instanceTemplate.names.
+        volumes:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/opsVolumeExpandVolumesItems0'
+    opsVolumeExpand:
+      description: Expand component volumes and explicit targets for components with template expansion enabled.
+      properties:
+        instanceTemplates:
+          type: array
+          minItems: 1
+          description: Required when the current mode component instanceTemplate.ops includes storageExpansion; otherwise omit for component-level expansion. Explicit targets require this capability. Every configured template must explicitly specify the same volume names and target capacities as component-level volumes. Names identify templates, not Pods. Targets are forwarded together in one OpsRequest without filling in, merging, or removing template targets. KubeBlocks may materialize template volumeClaimTemplates for explicitly targeted inherited volumes.
+          items:
+            $ref: '#/components/schemas/instanceTemplateVolumeExpand'
         component:
           type: string
           minLength: 1
@@ -35704,17 +38852,7 @@ components:
           type: array
           minItems: 1
           items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: volume name
-              storage:
-                type: string
-                description: Storage size, the unit is Gi.
-            required:
-              - name
-              - storage
+            $ref: '#/components/schemas/opsVolumeExpandVolumesItems0'
       required:
         - volumes
         - component
@@ -35775,10 +38913,11 @@ components:
       type: object
     opsExposeType:
       type: string
-      description: Specifies the type of exposure for the KubeBlocks cluster.
+      description: Specifies the type of exposure for the KubeBlocks cluster. Internal exposure creates an internal-ro ClusterIP service and requires readonly=true; it is independent of vpc and internet exposure.
       enum:
         - vpc
         - internet
+        - internal
     opsExposeVPCServiceType:
       description: Specifies the type of service for the KubeBlocks cluster.
       enum:
@@ -35795,10 +38934,12 @@ components:
         enable:
           type: boolean
         readonly:
+          description: Select the configured read-only role. Must be true for internal exposure.
           type: boolean
         type:
           $ref: '#/components/schemas/opsExposeType'
         vpcServiceType:
+          description: Service type for vpc exposure. Omit for internal exposure, which always uses ClusterIP.
           $ref: '#/components/schemas/opsExposeVPCServiceType'
         portsMapping:
           type: array
@@ -36334,6 +39475,24 @@ components:
             defaultBackupRepo:
               type: boolean
               description: judge whether to set the backup is default which will be init
+    victoriaLogsConfig:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/staticCluster'
+        - type: object
+          properties:
+            retentionPeriod:
+              type: string
+              x-nullable: false
+              default: 100y
+              description: Environment installation log retention, explicitly overriding the addon default. Defaults to 100y when omitted. Accepts a number with s (seconds), h (hours), d (days), w (weeks), M (months), or y (years); a bare number means months. Must be between 1d and 100y. Disk usage retention limits still apply.
+            retentionMaxDiskUsagePercent:
+              type: integer
+              nullable: true
+              default: 80
+              minimum: 1
+              maximum: 100
+              description: Maximum disk usage percentage before VictoriaLogs deletes older log partitions. Defaults to 80 when omitted. Applies independently of retentionPeriod.
     environmentModuleStatus:
       type: string
       description: Status of an environment module. Enabled is only used as the desired state when creating an environment. NotInstalled, Installing, and InstallationFailed describe quick installation; Upgradeable, Upgrading, and UpgradeFailed describe quick upgrade. Upgradeable means the component is running but an ApeCloud-bundled newer version is available. Unknown means the current state could not be determined.
@@ -36425,8 +39584,8 @@ components:
           description: Optional vm-storage spec (replicas, disk, classCode) when adding an environment. vm-insert and vm-select keep installer defaults.
           $ref: '#/components/schemas/staticCluster'
         victoriaLogs:
-          description: Optional vlstorage spec (replicas, disk, classCode) when adding an environment. vlinsert and vlselect keep installer defaults.
-          $ref: '#/components/schemas/staticCluster'
+          description: Optional vlstorage resources and log retention when adding an environment. vlinsert and vlselect keep installer defaults.
+          $ref: '#/components/schemas/victoriaLogsConfig'
         modules:
           type: array
           description: option modules of environment
@@ -37184,6 +40343,142 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/koordinatorReservationSummaryItem'
+    alertClusterSilenceMode:
+      type: string
+      enum:
+        - once
+        - weekly
+      description: Required when enabled. Once uses absolute timestamps; weekly uses weekdays and local times in timeZone.
+    alertClusterSilence:
+      type: object
+      required:
+        - enabled
+      description: Pause notifications while continuing to record alerts. Set enabled to false to cancel. Time windows include their start and exclude their end.
+      properties:
+        enabled:
+          type: boolean
+        rules:
+          type: array
+          maxItems: 1000
+          description: Alert names to silence. Empty or omitted means all alerts for the resource.
+          items:
+            type: string
+            minLength: 1
+            maxLength: 255
+        mode:
+          $ref: '#/components/schemas/alertClusterSilenceMode'
+        startsAt:
+          type: string
+          format: date-time
+          description: Required for once. Absolute start of the silence window.
+        endsAt:
+          type: string
+          format: date-time
+          description: Required for once. Must be later than startsAt.
+        weekdays:
+          type: array
+          maxItems: 7
+          description: Required for weekly. Sunday is 0. Overnight windows belong to the weekday on which they start.
+          items:
+            type: integer
+            minimum: 0
+            maximum: 6
+        startTime:
+          type: string
+          description: Required for weekly, in HH:mm format.
+        endTime:
+          type: string
+          description: Required for weekly, in HH:mm format. Earlier than startTime means the following day; equal times are invalid.
+        timeZone:
+          type: string
+          maxLength: 100
+          description: Required for weekly. IANA timezone, e.g. Asia/Shanghai or UTC.
+    alertCluster:
+      type: object
+      description: Resource-scoped alert settings, shared by cluster and node endpoints. PATCH updates only supplied fields. Cluster settings apply to both tenant and administrator notifications.
+      properties:
+        disabled:
+          type: boolean
+          x-nullable: true
+          description: Disable all alerts for the resource. Existing rule and silence settings are preserved.
+        disabledRules:
+          type: array
+          maxItems: 1000
+          x-omitempty: false
+          description: Alert names disabled only for this resource. An empty array clears all rule overrides; omission preserves them.
+          items:
+            type: string
+            minLength: 1
+            maxLength: 255
+        silence:
+          $ref: '#/components/schemas/alertClusterSilence'
+        silenceActive:
+          type: boolean
+          readOnly: true
+          description: Whether the configured silence window is active now, regardless of the alert master switch.
+    alertSeverity:
+      enum:
+        - critical
+        - warning
+        - info
+      type: string
+    alertRule:
+      required:
+        - alertName
+        - for
+        - groupName
+        - severity
+      type: object
+      properties:
+        description:
+          type: string
+        summary:
+          type: string
+        alertName:
+          type: string
+        expr:
+          type: string
+          description: Expression. Required if metric is not provided.
+        for:
+          type: string
+        groupName:
+          type: string
+        disabled:
+          type: boolean
+          default: false
+        severity:
+          $ref: '#/components/schemas/alertSeverity'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        orgName:
+          type: string
+      description: Alert rule information. Either provide 'expr' for custom expressions, or 'metric' for predefined metrics.
+    alertRuleGroup:
+      type: object
+      properties:
+        name:
+          type: string
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/alertRule'
+    alertRuleList:
+      required:
+        - items
+      type: object
+      properties:
+        items:
+          type: array
+          description: Items is the list of alert rule objects in the list
+          items:
+            $ref: '#/components/schemas/alertRuleGroup'
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      description: AlertRuleList is a list of alert rules
     listBody:
       description: Represents a list of JSON bodies.
       items:
@@ -37603,19 +40898,19 @@ components:
           format: int64
           type: integer
       type: object
-    storageCapacitySummaryMode:
+    apelocalCapacitySummaryMode:
       type: string
       enum:
         - finite
         - unlimited
         - conflict
       description: Conflicting shared quotas cannot form a single logical total.
-    localStorageStats:
+    apelocalCapacitySummary:
       description: Deduplicated apelocal statistics. Does not include other storage drivers. Missing measurements are omitted, never treated as zero.
       type: object
       properties:
         capacityMode:
-          $ref: '#/components/schemas/storageCapacitySummaryMode'
+          $ref: '#/components/schemas/apelocalCapacitySummaryMode'
         complete:
           type: boolean
           x-omitempty: false
@@ -37651,7 +40946,7 @@ components:
           format: double
           x-nullable: true
           description: Remaining logical capacity in GiB on ready schedulable nodes only.
-    storageCapacityMode:
+    apelocalCapacityMode:
       type: string
       enum:
         - asIs
@@ -37659,8 +40954,36 @@ components:
         - fixed
         - unlimited
       description: CSI capacity policy; unlimited does not represent physical capacity.
-    storageClassNodeStats:
-      description: storageClassNodeStats is a storage class node stats.
+    apelocalStorageClassStats:
+      description: apelocal-specific StorageClass capacity policy and measurements.
+      type: object
+      properties:
+        summary:
+          $ref: '#/components/schemas/apelocalCapacitySummary'
+        definitionName:
+          type: string
+          description: Resolved apelocal HostPathDefinition name.
+        backendType:
+          type: string
+          description: apelocal storage backend (HostDir, RawDisk or RawDiskGroup).
+        capacityMode:
+          $ref: '#/components/schemas/apelocalCapacityMode'
+        capacityMultiplier:
+          type: number
+          format: double
+          x-nullable: true
+          description: Capacity multiplier (1.2 means 120 percent).
+        fixedCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: Configured fixed capacity per node in GiB.
+        metricsAvailable:
+          type: boolean
+          description: Whether the metrics query succeeded; individual measurements can still be absent.
+    apelocalNodeStats:
+      description: apelocal-specific capacity measurements for one node. Missing measurements are omitted.
+      type: object
       properties:
         allocationResourceID:
           type: string
@@ -37698,6 +41021,11 @@ components:
           format: double
           x-nullable: true
           description: Largest volume CSI can allocate on this node in GiB.
+    storageClassNodeStats:
+      description: storageClassNodeStats is a storage class node stats.
+      properties:
+        apelocal:
+          $ref: '#/components/schemas/apelocalNodeStats'
         nodeName:
           description: the name of the node
           type: string
@@ -37730,29 +41058,8 @@ components:
     storageClassNodeStatsList:
       description: storageClassNodeStatsList is a list of storageClassNodeStats.
       properties:
-        summary:
-          $ref: '#/components/schemas/localStorageStats'
-        definitionName:
-          type: string
-          description: Resolved apelocal HostPathDefinition name.
-        backendType:
-          type: string
-          description: apelocal storage backend (HostDir, RawDisk or RawDiskGroup).
-        capacityMode:
-          $ref: '#/components/schemas/storageCapacityMode'
-        capacityMultiplier:
-          type: number
-          format: double
-          x-nullable: true
-          description: Capacity multiplier (1.2 means 120 percent).
-        fixedCapacity:
-          type: number
-          format: double
-          x-nullable: true
-          description: Configured fixed capacity per node in GiB.
-        metricsAvailable:
-          type: boolean
-          description: Whether the metrics query succeeded; individual measurements can still be absent.
+        apelocal:
+          $ref: '#/components/schemas/apelocalStorageClassStats'
         items:
           description: the list of storage class node stats
           type: array
@@ -38959,7 +42266,7 @@ components:
         cluster:
           $ref: '#/components/schemas/clusterCreate'
         restoreTimeStr:
-          description: restoreTime point to restore
+          description: Target time for point-in-time recovery, only supported with a Continuous backup ID. Use an RFC3339 timestamp at whole-second precision, for example 2026-10-22T08:30:00Z or 2026-10-22T16:30:00+08:00. Timezone offsets are converted to UTC without changing the instant. Non-zero fractional seconds and UTC years outside 0000-9999 are rejected. Omit or leave empty to retain the backup method's default restore behavior.
           type: string
         doReadyRestoreAfterClusterRunning:
           description: the recovery process in the PostReady phase will be performed after the cluster is running successfully.
@@ -39045,13 +42352,11 @@ components:
       required:
         - items
       type: object
-    alertCluster:
-      required:
-        - disabled
-      type: object
-      properties:
-        disabled:
-          type: boolean
+    alertResourceType:
+      type: string
+      enum:
+        - cluster
+        - channel
     URLCheck:
       type: object
       required:
@@ -39085,69 +42390,12 @@ components:
           type: integer
         info:
           type: integer
-    alertSeverity:
-      enum:
-        - critical
-        - warning
-        - info
+    objectTypeEnum:
       type: string
-    alertRule:
-      required:
-        - alertName
-        - for
-        - groupName
-        - severity
-      type: object
-      properties:
-        description:
-          type: string
-        summary:
-          type: string
-        alertName:
-          type: string
-        expr:
-          type: string
-          description: Expression. Required if metric is not provided.
-        for:
-          type: string
-        groupName:
-          type: string
-        disabled:
-          type: boolean
-          default: false
-        severity:
-          $ref: '#/components/schemas/alertSeverity'
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-        orgName:
-          type: string
-      description: Alert rule information. Either provide 'expr' for custom expressions, or 'metric' for predefined metrics.
-    alertRuleGroup:
-      type: object
-      properties:
-        name:
-          type: string
-        rules:
-          type: array
-          items:
-            $ref: '#/components/schemas/alertRule'
-    alertRuleList:
-      required:
-        - items
-      type: object
-      properties:
-        items:
-          type: array
-          description: Items is the list of alert rule objects in the list
-          items:
-            $ref: '#/components/schemas/alertRuleGroup'
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      description: AlertRuleList is a list of alert rules
+      enum:
+        - cluster
+        - channel
+        - unknown
     alertStatus:
       enum:
         - resolved
@@ -39166,6 +42414,12 @@ components:
           type: string
         clusterName:
           type: string
+        objectType:
+          $ref: '#/components/schemas/objectTypeEnum'
+          nullable: true
+        objectID:
+          type: string
+          nullable: true
         objectName:
           type: string
         engine:
@@ -39536,14 +42790,39 @@ components:
                           type: string
             architecture:
               $ref: '#/components/schemas/componentVersionArchitecture'
+            blockedUpgradeFrom:
+              type: array
+              description: Upgrades that must not be offered or accepted for this component, keyed by the service version the cluster currently runs. Use it when a target version is not a drop-in replacement for a source version, for example when the source image ships modules the target image no longer carries. Upgrades matching no rule stay untouched.
+              items:
+                type: object
+                description: One upgrade restriction while the cluster runs a service version matching from, upgrading to a service version matching to is not allowed.
+                required:
+                  - from
+                properties:
+                  from:
+                    type: string
+                    description: Pattern of the service version the cluster currently runs. Supports exact version "7.4.7", version prefix "7.4", and comparisons ">=7.4.5", ">7.4.4", "<=7.4.7", "<7.4.8".
+                  to:
+                    type: string
+                    description: Pattern of the service version the upgrade is blocked to, with the same syntax as from. Omit to block every upgrade target, which makes from the end of the line for the component.
         main:
           description: Main component flag
           type: boolean
+          x-nullable: false
+        customAnnotations:
+          type: boolean
+          description: Whether to show the component annotations editor during cluster creation. Omitted or false hides the editor. This is a UI visibility hint and does not restrict the cluster creation API. Applies to this component in every engine mode, including sharding templates, on KubeBlocks 0.9 and 1.0.
           x-nullable: false
         customSecret:
           type: boolean
           description: whether the component supports custom secret
           x-nullable: false
+    placementScope:
+      type: string
+      description: UI placement input scope for this mode. Omitted defaults to cluster. cluster displays AZ and NodeGroup selection for the cluster. component hides cluster placement and displays selection for each component, or for each instance template when the component declares templates. This does not restrict API placement overrides.
+      enum:
+        - cluster
+        - component
     modeCompatibleKubeblocksVersion:
       type: string
       description: |
@@ -39557,6 +42836,7 @@ components:
       enum:
         - hscale
         - vscale
+        - storageExpansion
     instanceTemplateAttribute:
       type: string
       description: Heterogeneous attribute the frontend may render on an instance template at create.
@@ -39564,6 +42844,7 @@ components:
         - env
         - annotations
         - labels
+        - storageClass
     instanceTemplateEnv:
       type: object
       description: One fillable env var on an instance template, for frontend rendering.
@@ -39608,19 +42889,10 @@ components:
         instanceTemplate:
           type: object
           description: |
-            Frontend catalog of instance templates for this mode component.
-            names, ops, attributes, and env are for UI rendering. Create
-            validates the request against chart-rendered Cluster instances,
-            not this catalog. HScale does not re-check this catalog; it
-            builds the OpsRequest from the request and the live Cluster.
-            HScale instanceTemplates still requires top-level replicas.
-            ops lists hscale and vscale for the UI (vscale is reserved;
-            class stays component-level). Only HScale processes instance templates.
-            VolumeExpansion, VScale, Upgrade, Restart, and other operations silently
-            ignore instance templates and keep their component-level behavior.
-            Template-level volumeexpansion is not implemented.
-            The platform does not even-split or fill in missing templates.
-            When absent, the frontend should use component-level operations.
+            Template fields and operations shared by the frontend and backend.
+            Requested components require creation template targets when instanceTemplate is declared.
+            Declaring hscale or storageExpansion in ops requires explicit targets
+            for every name. The hscale requirement applies to replica scaling only.
           required:
             - names
             - ops
@@ -39633,19 +42905,17 @@ components:
                 type: string
               description: |
                 Instance template names the frontend should render.
-                Create and hscale check names against the chart or live Cluster,
-                not this list.
+                Create checks names against the chart. Replica hscale and volume expansion
+                targets must include every name in this list.
             ops:
               type: array
               minItems: 1
               items:
                 $ref: '#/components/schemas/instanceTemplateOp'
               description: |
-                Operations the frontend should offer per template: hscale, vscale.
-                Not re-checked when creating a cluster or building an hscale OpsRequest.
-                Only hscale currently acts per template; vscale is reserved.
-                VolumeExpansion, VScale, Upgrade, and Restart ignore instance templates
-                and keep their component-level behavior.
+                Template operations: hscale, storageExpansion, and reserved vscale.
+                Template hscale replicas must sum to the component target.
+                Volume expansion targets must match component volume names and capacities.
             attributes:
               type: array
               uniqueItems: true
@@ -39949,6 +43219,8 @@ components:
         - description
         - components
       properties:
+        placementScope:
+          $ref: '#/components/schemas/placementScope'
         name:
           type: string
         title:
@@ -40082,7 +43354,7 @@ components:
           description: Whether the engine supports service account access-key management.
         protectedAccounts:
           type: array
-          description: Account names that are protected from update, delete, lock, and unlock actions.
+          description: Account names that cannot be deleted, locked, or unlocked. This does not hide accounts or restrict password or privilege actions.
           items:
             type: string
         displayRootAccount:
@@ -40319,6 +43591,14 @@ components:
         - defaultMethod
         - fullMethod
       properties:
+        modes:
+          type: array
+          x-omitempty: false
+          description: |
+            Engine modes that support backup and restore. Omitted or null means all modes
+            (legacy behavior); an empty array disables backup and restore for all modes.
+          items:
+            type: string
         defaultMethod:
           type: string
         defaultComponent:
@@ -40626,6 +43906,12 @@ components:
           type: string
         opsDefName:
           type: string
+        fileDigestParameter:
+          type: string
+          description: Optional custom Ops parameter receiving a JSON object of candidate file SHA256 digests.
+        restartAfterUpdate:
+          type: boolean
+          description: Create a standard restart dependent on successful license installation.
     engineOptionsMetricsQueryType:
       type: string
       description: |
@@ -41802,6 +45088,21 @@ components:
             fileName:
               type: string
               description: the license file name
+            allowedTypes:
+              type: array
+              description: Allowed engine license types. Omit to retain unrestricted license types.
+              items:
+                type: string
+            versions:
+              type: array
+              description: Engine versions that support license installation. Entries match an exact service version or its major version according to the main component version rule. Omit or leave empty for unrestricted versions.
+              items:
+                type: string
+            networkModes:
+              type: array
+              description: Effective cluster network modes that support license installation. Omit or leave empty for unrestricted network modes.
+              items:
+                $ref: '#/components/schemas/networkMode'
             files:
               type: array
               description: Explicit license file upload slots. Each item maps one UI upload field to the file name written into the license Secret.
@@ -43243,10 +46544,10 @@ components:
           type: integer
           format: int64
           x-nullable: true
-          description: Weighted health score from 0 to 100 over evaluable inspection items only. Unknown results and items with info importance are excluded from both the numerator and denominator. The field is omitted when no item is evaluable; a present value of 0 is a valid evaluated score.
+          description: Weighted health score from 0 to 100 over evaluable inspection items only. Unknown results and items with info importance are excluded from both the numerator and denominator. The field is omitted when no item is evaluable. Doris and SelectDB also omit it when risk-check evidence is unavailable, and score correlated findings once per failure family. A present value of 0 is a valid evaluated score.
         result:
           type: string
-          description: Task health conclusion derived from evaluable item states and criticality-aware score caps. Valid conclusions are red, yellow, green, and unknown. Unknown means no item is evaluable. Unknown items remain visible in the item list but do not override a red, yellow, or green conclusion derived from evaluable items.
+          description: Task health conclusion derived from evaluable item states and criticality-aware score caps. Valid conclusions are red, yellow, green, and unknown. Unknown means no item is evaluable, or a Doris/SelectDB inspection has unavailable risk-check evidence without an observed red or yellow finding. Unavailable evidence never hides an observed red or yellow finding.
         latestRunAt:
           format: date-time
           type: string
@@ -44011,6 +47312,7 @@ components:
         - Failed
         - Cancelling
         - Cancelled
+        - Aborted
       description: Current status of the task
     taskListItem:
       type: object
@@ -46319,6 +49621,405 @@ components:
           type: string
           format: date-time
           description: Optional service account expiration time. Use the Unix epoch to clear expiration.
+    ObjectPrivilegeSubjectType:
+      type: string
+      default: account
+      x-nullable: false
+      enum:
+        - account
+        - role
+      description: Native authorization subject kind. Does not create accounts or roles, or change memberships.
+    ObjectPrivilegeTarget:
+      type: object
+      required:
+        - objectType
+      properties:
+        objectType:
+          type: string
+          x-nullable: false
+          description: Native object kind returned by capabilities. Table includes views; view/foreignTable/materializedView also validate the concrete kind.
+        databaseName:
+          type: string
+          description: Database name used to locate the resource. PostgreSQL also uses this as the connection database, including cluster-wide objects.
+        schemaName:
+          type: string
+          description: Native schema containing the object, or the schema itself for schema objects.
+        objectName:
+          type: string
+          description: Exact object name, never a SQL fragment. Required except for global, database, schema, and largeObject.
+        objectId:
+          type: string
+          description: Opaque native identity returned by discovery. Interpretation and validation belong to the engine. PostgreSQL routines and large objects require a nonzero uint32 OID; routine names must also match.
+        catalogName:
+          type: string
+          description: Native catalog name when required by engine capabilities. Unsupported fields are rejected.
+    ObjectPrivilegeGrant:
+      type: object
+      required:
+        - name
+        - grantable
+      properties:
+        name:
+          type: string
+        column:
+          type: string
+          description: Empty means an object-level privilege.
+        grantable:
+          type: boolean
+        grantor:
+          type: string
+          description: PostgreSQL ACL grantor. Omitted for MySQL and effective privilege results.
+    ObjectPrivilegeSubject:
+      type: object
+      required:
+        - name
+        - type
+      properties:
+        name:
+          type: string
+          x-nullable: false
+          minLength: 1
+          description: Exact native database account or role name.
+        type:
+          $ref: '#/components/schemas/ObjectPrivilegeSubjectType'
+        qualifiers:
+          type: object
+          additionalProperties:
+            type: string
+          description: Engine-declared native identity qualifiers. MySQL host defaults to %. Unknown keys are rejected, including empty values.
+    ObjectPrivilegePrerequisiteStatus:
+      type: string
+      x-nullable: false
+      enum:
+        - granted
+        - denied
+        - unknown
+    ObjectPrivilegePrerequisiteCheck:
+      type: object
+      required:
+        - target
+        - privilege
+        - status
+      properties:
+        target:
+          $ref: '#/components/schemas/ObjectPrivilegeTarget'
+        privilege:
+          type: string
+          x-nullable: false
+        status:
+          $ref: '#/components/schemas/ObjectPrivilegePrerequisiteStatus'
+        reason:
+          type: string
+          description: Optional explanation. Checks are not a complete proof of executable access. Missing checks do not imply granted.
+    ObjectPrivilegeEvidence:
+      type: object
+      required:
+        - kind
+        - format
+        - items
+      properties:
+        databaseName:
+          type: string
+          description: Connection database for native privilege evidence.
+        kind:
+          type: string
+          x-nullable: false
+        format:
+          type: string
+          x-nullable: false
+        items:
+          type: array
+          items:
+            type: string
+          description: Read-only native evidence; never replay as a privilege mutation.
+    ObjectPrivilegeSnapshot:
+      type: object
+      required:
+        - target
+        - supportedPrivileges
+        - supportedColumnPrivileges
+        - directPrivileges
+        - effectivePrivilegesKnown
+        - subject
+      properties:
+        target:
+          $ref: '#/components/schemas/ObjectPrivilegeTarget'
+        supportedPrivileges:
+          type: array
+          items:
+            type: string
+        supportedColumnPrivileges:
+          type: array
+          items:
+            type: string
+        directPrivileges:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegeGrant'
+          description: Native grants to this account at this exact object scope. Does not include inherited grants or prove executable access.
+        effectivePrivilegesKnown:
+          type: boolean
+          description: Native PostgreSQL checks when available. False for PostgreSQL large objects before 18 and MySQL (active roles depend on the session). False or omitted effectivePrivileges never means no access.
+        effectivePrivileges:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegeGrant'
+          description: PostgreSQL native has_*_privilege checks, including PUBLIC and inherited permissions. Other prerequisites, RLS and session SET ROLE can affect actual execution.
+        warnings:
+          type: array
+          items:
+            type: string
+          description: Native behavior and scope overlap explanations, including preset overlap and partial revokes.
+        subject:
+          $ref: '#/components/schemas/ObjectPrivilegeSubject'
+        extensions:
+          type: object
+          additionalProperties:
+            x-go-type:
+              type: RawMessage
+              import:
+                package: encoding/json
+                alias: json
+              hints:
+                kind: interface
+                noValidation: true
+                nullable: false
+          description: Versioned namespaced JSON extensions. Response keys unknown to a client may be ignored. Change keys must be registered and strictly decoded by the current engine; PG/MySQL currently accept no change extensions.
+        prerequisiteChecks:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegePrerequisiteCheck'
+        evidence:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegeEvidence'
+    ObjectPrivilegeSpec:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Native keyword from the capability for the requested object type.
+        columns:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+          description: Exact columns, supported only on table/view objects. Empty means object-level privileges.
+    ObjectPrivilegeChange:
+      type: object
+      required:
+        - target
+        - action
+      properties:
+        target:
+          $ref: '#/components/schemas/ObjectPrivilegeTarget'
+        action:
+          type: string
+          description: Operation, either grant or revoke.
+        privileges:
+          type: array
+          maxItems: 128
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegeSpec'
+          description: Required except when revoking MySQL scope-wide GRANT OPTION. Dynamic global privileges require explicit names.
+        grantOption:
+          type: boolean
+          description: Grant delegation. MySQL static GRANT OPTION is scope-wide; dynamic global privileges each have their own grant option.
+        grantOptionOnly:
+          type: boolean
+          description: Revoke delegation only. PostgreSQL applies to listed privileges. MySQL requires an empty privileges list and revokes GRANT OPTION at the entire scope; global dynamic grant options can also be removed.
+        extensions:
+          type: object
+          additionalProperties:
+            x-go-type:
+              type: RawMessage
+              import:
+                package: encoding/json
+                alias: json
+              hints:
+                kind: interface
+                noValidation: true
+                nullable: false
+          description: Versioned namespaced JSON extensions. Response keys unknown to a client may be ignored. Change keys must be registered and strictly decoded by the current engine; PG/MySQL currently accept no change extensions.
+        grantPrerequisites:
+          type: boolean
+          description: Explicitly grant advertised access prerequisites. PG schema-contained grants add CONNECT and schema USAGE in the same transaction; never sequence privileges. Defaults false; later revoke does not undo prerequisites.
+        revokeBehavior:
+          type: string
+          description: Explicit native revoke behavior from capabilities; valid only for revoke. Omitted uses the advertised default.
+    ObjectPrivilegeGrantOptionScope:
+      type: string
+      x-nullable: false
+      enum:
+        - none
+        - privilege
+        - object
+    ObjectPrivilegeDefinition:
+      type: object
+      required:
+        - name
+        - grantOptionScope
+      properties:
+        name:
+          type: string
+          minLength: 1
+          x-nullable: false
+        supportsColumns:
+          type: boolean
+        grantOptionScope:
+          $ref: '#/components/schemas/ObjectPrivilegeGrantOptionScope'
+    ObjectPrivilegeCapability:
+      type: object
+      required:
+        - objectType
+        - privileges
+        - requiredTargetFields
+        - requiredDiscoveryFields
+        - revokeBehaviors
+        - defaultRevokeBehavior
+      properties:
+        objectType:
+          type: string
+          x-nullable: false
+        privileges:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegeDefinition'
+        requiredTargetFields:
+          type: array
+          items:
+            type: string
+        warnings:
+          type: array
+          items:
+            type: string
+        requiredDiscoveryFields:
+          type: array
+          items:
+            type: string
+          description: Fields required to enumerate objects of this kind; distinct from fields needed to identify an individual target.
+        revokeGrantOptionScope:
+          $ref: '#/components/schemas/ObjectPrivilegeGrantOptionScope'
+          description: Delegation-only revoke scope. object requires an empty privileges list; privilege requires explicit privilege names.
+        extensions:
+          type: object
+          additionalProperties:
+            x-go-type:
+              type: RawMessage
+              import:
+                package: encoding/json
+                alias: json
+              hints:
+                kind: interface
+                noValidation: true
+                nullable: false
+          description: Versioned namespaced JSON extensions. Response keys unknown to a client may be ignored. Change keys must be registered and strictly decoded by the current engine; PG/MySQL currently accept no change extensions.
+        supportsGrantPrerequisites:
+          type: boolean
+          description: Allows explicitly granting the documented access prerequisites together with an object grant.
+        grantPrerequisitesAtomic:
+          type: boolean
+          description: When prerequisite grants are supported, whether they and the requested grant are atomic.
+        revokeBehaviors:
+          type: array
+          items:
+            type: string
+          description: Explicit revoke behaviors supported by this object kind. Omitted change behavior uses defaultRevokeBehavior.
+        defaultRevokeBehavior:
+          type: string
+          description: Default native revoke behavior. PostgreSQL restrict; MySQL native.
+          x-nullable: false
+        changeExtensions:
+          type: array
+          items:
+            type: string
+          description: Versioned namespaces accepted for change extensions by this engine/version; empty means none.
+    ObjectPrivilegeQualifier:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          x-nullable: false
+        required:
+          type: boolean
+        defaultValue:
+          type: string
+          x-nullable: true
+        description:
+          type: string
+          description: ''
+    ObjectPrivilegeCapabilities:
+      type: object
+      required:
+        - engineVersion
+        - objects
+        - subjectTypes
+      properties:
+        engineVersion:
+          type: string
+          x-nullable: false
+        objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegeCapability'
+        subjectTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegeSubjectType'
+          description: Native subject kinds supported by this connected engine version.
+        subjectQualifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegeQualifier'
+    ObjectPrivilegeResetStep:
+      type: object
+      description: One ordered, engine-generated step of an account privilege reset.
+      required:
+        - sql
+      properties:
+        databaseName:
+          type: string
+          description: Connection database in which this statement must run. Omitted when no particular database is required, as with MySQL account-wide REVOKE. This is execution context, not the scope of objects affected by the SQL.
+        sql:
+          type: string
+          x-nullable: false
+          minLength: 1
+          description: Engine-generated statement for display (SQL, or a native MongoDB command encoded as JSON). Callers cannot submit or modify these steps for execution; reset rebuilds the plan from current grants.
+    ObjectPrivilegeObject:
+      type: object
+      required:
+        - target
+        - identity
+      properties:
+        target:
+          $ref: '#/components/schemas/ObjectPrivilegeTarget'
+        identity:
+          type: string
+          x-nullable: false
+          description: Display identity, including PostgreSQL routine input argument types. Use target for operations; identity is never accepted as SQL.
+    ObjectPrivilegeObjectList:
+      type: object
+      required:
+        - items
+        - hasMore
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectPrivilegeObject'
+        hasMore:
+          type: boolean
+          x-nullable: false
+        nextOffset:
+          type: integer
+          format: int64
+          description: Offset for the next page; omitted when exhausted.
     mysqlSpaceSummary:
       type: object
       required:
@@ -50126,6 +53827,148 @@ components:
             items:
               $ref: '#/components/schemas/networkMode'
             description: available network modes for this engine+mode
+    RedisKeyEntry:
+      type: object
+      properties:
+        Key:
+          type: string
+        Bytes:
+          type: integer
+          format: int64
+        Type:
+          type: string
+        NumOfElem:
+          type: integer
+          format: int64
+        LenOfLargestElem:
+          type: integer
+          format: int64
+        FieldOfLargestElem:
+          type: string
+        Db:
+          type: integer
+        Encoding:
+          type: string
+        Expiration:
+          type: integer
+          format: int64
+        LruIdle:
+          type: integer
+          format: int64
+        LfuFreq:
+          type: integer
+    RedisKeyAnalysisReport:
+      type: object
+      description: |
+        One Redis keys analysis report row. Rows are persisted per shard. The query
+        response appends one non-persisted aggregate row with isSummary=true.
+      properties:
+        taskId:
+          type: string
+        clusterId:
+          type: string
+        shardName:
+          type: string
+        isSummary:
+          type: boolean
+          description: True for the aggregate row that is not persisted.
+        createTime:
+          type: string
+          format: date-time
+        parameters:
+          type: object
+          description: |
+            Parameters for a Redis keys analysis task. topBigKey and topSlot are capped at 500.
+            numOfElemMin filters keys whose element count is below the threshold. bigKeySizeMin
+            filters keys whose memory usage is below the threshold (for example "10kb").
+          properties:
+            topBigKey:
+              type: integer
+              format: int64
+              minimum: 1
+              maximum: 500
+              default: 100
+            numOfElemMin:
+              type: integer
+              format: int64
+              minimum: 1
+              default: 3000
+            bigKeySizeMin:
+              type: string
+              default: 10kb
+            topSlot:
+              type: integer
+              format: int64
+              minimum: 1
+              maximum: 500
+              default: 100
+        typeStat:
+          type: object
+          description: 'Key statistics by Redis data type: {type: {count, bytes}}.'
+          additionalProperties:
+            type: object
+            properties:
+              count:
+                type: integer
+                format: int64
+              bytes:
+                type: string
+        byteLevelStat:
+          type: object
+          description: 'Key statistics by memory size bucket: {bucket: {count, bytes}}.'
+          additionalProperties:
+            type: object
+            properties:
+              count:
+                type: integer
+                format: int64
+              bytes:
+                type: string
+        totalNumKeys:
+          type: integer
+          format: int64
+          x-omitempty: false
+          description: Sum of counts across all byteLevelStat buckets.
+        totalSizeKeys:
+          type: integer
+          format: int64
+          x-omitempty: false
+          description: Sum of bytes across all byteLevelStat buckets.
+        expireStat:
+          type: object
+          description: 'Key statistics by remaining TTL bucket: {bucket: {count, bytes}}.'
+          additionalProperties:
+            type: object
+            properties:
+              count:
+                type: integer
+                format: int64
+              bytes:
+                type: string
+        topBigKeyByteStat:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedisKeyEntry'
+        topBigKeyElemStat:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedisKeyEntry'
+        topSlotKeyByteStat:
+          type: array
+          description: 'Top cluster slots by memory usage: [{slot: bytes}]. Only populated for Redis Cluster mode.'
+          items:
+            type: object
+            additionalProperties:
+              type: integer
+              format: int64
+        topSlotKeyCountStat:
+          type: array
+          description: 'Top cluster slots by key count: [{slot: count}]. Only populated for Redis Cluster mode.'
+          items:
+            type: object
+            additionalProperties:
+              type: integer
+              format: int64
     channelStatus:
       enum:
         - Pending
@@ -50141,6 +53984,7 @@ components:
       enum:
         - custom
         - kubeblocks
+        - definition
       type: string
     authType:
       enum:
@@ -50182,9 +54026,24 @@ components:
         displayName:
           type: string
           nullable: true
+    definitionEndpoint:
+      type: object
+      description: Reference to an existing data endpoint in the same organization.
+      required:
+        - endpointID
+      properties:
+        endpointID:
+          type: string
+          minLength: 1
     dataChannelListEndpoint:
       type: object
       properties:
+        id:
+          type: string
+          nullable: true
+        name:
+          type: string
+          nullable: true
         engineName:
           type: string
         endpointType:
@@ -50194,6 +54053,12 @@ components:
           nullable: true
         kubeblocks:
           $ref: '#/components/schemas/kubeblocksEndpoint'
+          nullable: true
+        definition:
+          $ref: '#/components/schemas/definitionEndpoint'
+          nullable: true
+        description:
+          type: string
           nullable: true
         extraCfgs:
           type: object
@@ -50258,7 +54123,11 @@ components:
           nullable: true
     dataChannelEndpointCreate:
       type: object
+      description: Use endpointType custom or kubeblocks with the corresponding inline connection configuration, or endpointType definition with definition.endpointID to reuse an existing data endpoint. Inline connection configuration is not used for endpointType definition.
       properties:
+        name:
+          type: string
+          nullable: true
         engineName:
           type: string
         definitionName:
@@ -50270,6 +54139,12 @@ components:
           nullable: true
         kubeblocks:
           $ref: '#/components/schemas/kubeblocksEndpoint'
+          nullable: true
+        definition:
+          $ref: '#/components/schemas/definitionEndpoint'
+          nullable: true
+        description:
+          type: string
           nullable: true
         extraCfgs:
           type: object
@@ -50444,6 +54319,56 @@ components:
         type: array
         items:
           $ref: '#/components/schemas/dataReplicationParametersResponseDetail'
+    dataEndpointList:
+      type: array
+      items:
+        $ref: '#/components/schemas/dataChannelListEndpoint'
+    dataEndpointTypeCreation:
+      enum:
+        - custom
+        - kubeblocks
+      type: string
+    dataEndpointCreate:
+      type: object
+      description: Connection configuration for an independently managed data endpoint.
+      properties:
+        name:
+          type: string
+          nullable: true
+        engineName:
+          type: string
+        definitionName:
+          type: string
+        endpointType:
+          $ref: '#/components/schemas/dataEndpointTypeCreation'
+        custom:
+          $ref: '#/components/schemas/customEndpointCreate'
+          nullable: true
+        kubeblocks:
+          $ref: '#/components/schemas/kubeblocksEndpoint'
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        extraCfgs:
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+    dataEndpointResponse:
+      type: object
+      properties:
+        endpointID:
+          type: string
+        endpointName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+          nullable: true
     dataCheckType:
       type: string
       description: Type of check to run. A standalone check runs exactly one type.

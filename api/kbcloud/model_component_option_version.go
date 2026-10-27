@@ -19,6 +19,8 @@ type ComponentOptionVersion struct {
 	// If not set, the component versions support all architectures.
 	//
 	Architecture NullableComponentVersionArchitecture `json:"architecture,omitempty"`
+	// Upgrades that must not be offered or accepted for this component, keyed by the service version the cluster currently runs. Use it when a target version is not a drop-in replacement for a source version, for example when the source image ships modules the target image no longer carries. Upgrades matching no rule stay untouched.
+	BlockedUpgradeFrom []ComponentOptionVersionBlockedUpgradeFromItem `json:"blockedUpgradeFrom,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -156,6 +158,34 @@ func (o *ComponentOptionVersion) UnsetArchitecture() {
 	o.Architecture.Unset()
 }
 
+// GetBlockedUpgradeFrom returns the BlockedUpgradeFrom field value if set, zero value otherwise.
+func (o *ComponentOptionVersion) GetBlockedUpgradeFrom() []ComponentOptionVersionBlockedUpgradeFromItem {
+	if o == nil || o.BlockedUpgradeFrom == nil {
+		var ret []ComponentOptionVersionBlockedUpgradeFromItem
+		return ret
+	}
+	return o.BlockedUpgradeFrom
+}
+
+// GetBlockedUpgradeFromOk returns a tuple with the BlockedUpgradeFrom field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentOptionVersion) GetBlockedUpgradeFromOk() (*[]ComponentOptionVersionBlockedUpgradeFromItem, bool) {
+	if o == nil || o.BlockedUpgradeFrom == nil {
+		return nil, false
+	}
+	return &o.BlockedUpgradeFrom, true
+}
+
+// HasBlockedUpgradeFrom returns a boolean if a field has been set.
+func (o *ComponentOptionVersion) HasBlockedUpgradeFrom() bool {
+	return o != nil && o.BlockedUpgradeFrom != nil
+}
+
+// SetBlockedUpgradeFrom gets a reference to the given []ComponentOptionVersionBlockedUpgradeFromItem and assigns it to the BlockedUpgradeFrom field.
+func (o *ComponentOptionVersion) SetBlockedUpgradeFrom(v []ComponentOptionVersionBlockedUpgradeFromItem) {
+	o.BlockedUpgradeFrom = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ComponentOptionVersion) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -170,6 +200,9 @@ func (o ComponentOptionVersion) MarshalJSON() ([]byte, error) {
 	if o.Architecture.IsSet() {
 		toSerialize["architecture"] = o.Architecture.Get()
 	}
+	if o.BlockedUpgradeFrom != nil {
+		toSerialize["blockedUpgradeFrom"] = o.BlockedUpgradeFrom
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -180,10 +213,11 @@ func (o ComponentOptionVersion) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentOptionVersion) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ComponentVersionName *string                              `json:"componentVersionName"`
-		MinorVersion         *ComponentOptionVersionMinorVersion  `json:"minorVersion,omitempty"`
-		MajorVersion         *ComponentOptionVersionMajorVersion  `json:"majorVersion"`
-		Architecture         NullableComponentVersionArchitecture `json:"architecture,omitempty"`
+		ComponentVersionName *string                                        `json:"componentVersionName"`
+		MinorVersion         *ComponentOptionVersionMinorVersion            `json:"minorVersion,omitempty"`
+		MajorVersion         *ComponentOptionVersionMajorVersion            `json:"majorVersion"`
+		Architecture         NullableComponentVersionArchitecture           `json:"architecture,omitempty"`
+		BlockedUpgradeFrom   []ComponentOptionVersionBlockedUpgradeFromItem `json:"blockedUpgradeFrom,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -196,7 +230,7 @@ func (o *ComponentOptionVersion) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"componentVersionName", "minorVersion", "majorVersion", "architecture"})
+		common.DeleteKeys(additionalProperties, &[]string{"componentVersionName", "minorVersion", "majorVersion", "architecture", "blockedUpgradeFrom"})
 	} else {
 		return err
 	}
@@ -212,6 +246,7 @@ func (o *ComponentOptionVersion) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.MajorVersion = *all.MajorVersion
 	o.Architecture = all.Architecture
+	o.BlockedUpgradeFrom = all.BlockedUpgradeFrom
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

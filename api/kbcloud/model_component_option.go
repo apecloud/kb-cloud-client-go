@@ -26,6 +26,8 @@ type ComponentOption struct {
 	Version                   ComponentOptionVersion `json:"version"`
 	// Main component flag
 	Main *bool `json:"main,omitempty"`
+	// Whether to show the component annotations editor during cluster creation. Omitted or false hides the editor. This is a UI visibility hint and does not restrict the cluster creation API. Applies to this component in every engine mode, including sharding templates, on KubeBlocks 0.9 and 1.0.
+	CustomAnnotations *bool `json:"customAnnotations,omitempty"`
 	// whether the component supports custom secret
 	CustomSecret *bool `json:"customSecret,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -286,6 +288,34 @@ func (o *ComponentOption) SetMain(v bool) {
 	o.Main = &v
 }
 
+// GetCustomAnnotations returns the CustomAnnotations field value if set, zero value otherwise.
+func (o *ComponentOption) GetCustomAnnotations() bool {
+	if o == nil || o.CustomAnnotations == nil {
+		var ret bool
+		return ret
+	}
+	return *o.CustomAnnotations
+}
+
+// GetCustomAnnotationsOk returns a tuple with the CustomAnnotations field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentOption) GetCustomAnnotationsOk() (*bool, bool) {
+	if o == nil || o.CustomAnnotations == nil {
+		return nil, false
+	}
+	return o.CustomAnnotations, true
+}
+
+// HasCustomAnnotations returns a boolean if a field has been set.
+func (o *ComponentOption) HasCustomAnnotations() bool {
+	return o != nil && o.CustomAnnotations != nil
+}
+
+// SetCustomAnnotations gets a reference to the given bool and assigns it to the CustomAnnotations field.
+func (o *ComponentOption) SetCustomAnnotations(v bool) {
+	o.CustomAnnotations = &v
+}
+
 // GetCustomSecret returns the CustomSecret field value if set, zero value otherwise.
 func (o *ComponentOption) GetCustomSecret() bool {
 	if o == nil || o.CustomSecret == nil {
@@ -339,6 +369,9 @@ func (o ComponentOption) MarshalJSON() ([]byte, error) {
 	if o.Main != nil {
 		toSerialize["main"] = o.Main
 	}
+	if o.CustomAnnotations != nil {
+		toSerialize["customAnnotations"] = o.CustomAnnotations
+	}
 	if o.CustomSecret != nil {
 		toSerialize["customSecret"] = o.CustomSecret
 	}
@@ -361,6 +394,7 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 		DisasterRecoveryRoleOrder []string                `json:"disasterRecoveryRoleOrder,omitempty"`
 		Version                   *ComponentOptionVersion `json:"version"`
 		Main                      *bool                   `json:"main,omitempty"`
+		CustomAnnotations         *bool                   `json:"customAnnotations,omitempty"`
 		CustomSecret              *bool                   `json:"customSecret,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -380,7 +414,7 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cloudShellType", "name", "matchRegex", "title", "order", "roleOrder", "disasterRecoveryRoleOrder", "version", "main", "customSecret"})
+		common.DeleteKeys(additionalProperties, &[]string{"cloudShellType", "name", "matchRegex", "title", "order", "roleOrder", "disasterRecoveryRoleOrder", "version", "main", "customAnnotations", "customSecret"})
 	} else {
 		return err
 	}
@@ -401,6 +435,7 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Version = *all.Version
 	o.Main = all.Main
+	o.CustomAnnotations = all.CustomAnnotations
 	o.CustomSecret = all.CustomSecret
 
 	if len(additionalProperties) > 0 {

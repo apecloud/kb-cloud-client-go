@@ -12,22 +12,8 @@ import (
 
 // StorageClassNodeStats storageClassNodeStats is a storage class node stats.
 type StorageClassNodeStats struct {
-	// Node-local backing allocation resource identity, used to deduplicate SC aliases.
-	AllocationResourceId *string `json:"allocationResourceID,omitempty"`
-	// Node-local observed filesystem identity, used to deduplicate shared physical capacity.
-	PhysicalResourceId *string `json:"physicalResourceID,omitempty"`
-	// Observed filesystem capacity in GiB; omitted when the backing filesystem cannot be identified completely.
-	PhysicalCapacity *float64 `json:"physicalCapacity,omitempty"`
-	// Observed filesystem used bytes in GiB, including other data on the same filesystem.
-	PhysicalUsage *float64 `json:"physicalUsage,omitempty"`
-	// CSI total allocatable capacity in GiB; omitted for unlimited capacity.
-	AllocatableCapacity *float64 `json:"allocatableCapacity,omitempty"`
-	// CSI remaining allocatable capacity in GiB; omitted for unlimited capacity.
-	AvailableCapacity *float64 `json:"availableCapacity,omitempty"`
-	// Capacity accounted for by CSI in GiB, including shared definitions; omitted when it cannot be determined exactly.
-	AllocatedCapacity *float64 `json:"allocatedCapacity,omitempty"`
-	// Largest volume CSI can allocate on this node in GiB.
-	MaximumVolumeSize *float64 `json:"maximumVolumeSize,omitempty"`
+	// apelocal-specific capacity measurements for one node. Missing measurements are omitted.
+	Apelocal *ApelocalNodeStats `json:"apelocal,omitempty"`
 	// the name of the node
 	NodeName string `json:"nodeName"`
 	// the status of the node
@@ -68,228 +54,32 @@ func NewStorageClassNodeStatsWithDefaults() *StorageClassNodeStats {
 	return &this
 }
 
-// GetAllocationResourceId returns the AllocationResourceId field value if set, zero value otherwise.
-func (o *StorageClassNodeStats) GetAllocationResourceId() string {
-	if o == nil || o.AllocationResourceId == nil {
-		var ret string
+// GetApelocal returns the Apelocal field value if set, zero value otherwise.
+func (o *StorageClassNodeStats) GetApelocal() ApelocalNodeStats {
+	if o == nil || o.Apelocal == nil {
+		var ret ApelocalNodeStats
 		return ret
 	}
-	return *o.AllocationResourceId
+	return *o.Apelocal
 }
 
-// GetAllocationResourceIdOk returns a tuple with the AllocationResourceId field value if set, nil otherwise
+// GetApelocalOk returns a tuple with the Apelocal field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *StorageClassNodeStats) GetAllocationResourceIdOk() (*string, bool) {
-	if o == nil || o.AllocationResourceId == nil {
+func (o *StorageClassNodeStats) GetApelocalOk() (*ApelocalNodeStats, bool) {
+	if o == nil || o.Apelocal == nil {
 		return nil, false
 	}
-	return o.AllocationResourceId, true
+	return o.Apelocal, true
 }
 
-// HasAllocationResourceId returns a boolean if a field has been set.
-func (o *StorageClassNodeStats) HasAllocationResourceId() bool {
-	return o != nil && o.AllocationResourceId != nil
+// HasApelocal returns a boolean if a field has been set.
+func (o *StorageClassNodeStats) HasApelocal() bool {
+	return o != nil && o.Apelocal != nil
 }
 
-// SetAllocationResourceId gets a reference to the given string and assigns it to the AllocationResourceId field.
-func (o *StorageClassNodeStats) SetAllocationResourceId(v string) {
-	o.AllocationResourceId = &v
-}
-
-// GetPhysicalResourceId returns the PhysicalResourceId field value if set, zero value otherwise.
-func (o *StorageClassNodeStats) GetPhysicalResourceId() string {
-	if o == nil || o.PhysicalResourceId == nil {
-		var ret string
-		return ret
-	}
-	return *o.PhysicalResourceId
-}
-
-// GetPhysicalResourceIdOk returns a tuple with the PhysicalResourceId field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *StorageClassNodeStats) GetPhysicalResourceIdOk() (*string, bool) {
-	if o == nil || o.PhysicalResourceId == nil {
-		return nil, false
-	}
-	return o.PhysicalResourceId, true
-}
-
-// HasPhysicalResourceId returns a boolean if a field has been set.
-func (o *StorageClassNodeStats) HasPhysicalResourceId() bool {
-	return o != nil && o.PhysicalResourceId != nil
-}
-
-// SetPhysicalResourceId gets a reference to the given string and assigns it to the PhysicalResourceId field.
-func (o *StorageClassNodeStats) SetPhysicalResourceId(v string) {
-	o.PhysicalResourceId = &v
-}
-
-// GetPhysicalCapacity returns the PhysicalCapacity field value if set, zero value otherwise.
-func (o *StorageClassNodeStats) GetPhysicalCapacity() float64 {
-	if o == nil || o.PhysicalCapacity == nil {
-		var ret float64
-		return ret
-	}
-	return *o.PhysicalCapacity
-}
-
-// GetPhysicalCapacityOk returns a tuple with the PhysicalCapacity field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *StorageClassNodeStats) GetPhysicalCapacityOk() (*float64, bool) {
-	if o == nil || o.PhysicalCapacity == nil {
-		return nil, false
-	}
-	return o.PhysicalCapacity, true
-}
-
-// HasPhysicalCapacity returns a boolean if a field has been set.
-func (o *StorageClassNodeStats) HasPhysicalCapacity() bool {
-	return o != nil && o.PhysicalCapacity != nil
-}
-
-// SetPhysicalCapacity gets a reference to the given float64 and assigns it to the PhysicalCapacity field.
-func (o *StorageClassNodeStats) SetPhysicalCapacity(v float64) {
-	o.PhysicalCapacity = &v
-}
-
-// GetPhysicalUsage returns the PhysicalUsage field value if set, zero value otherwise.
-func (o *StorageClassNodeStats) GetPhysicalUsage() float64 {
-	if o == nil || o.PhysicalUsage == nil {
-		var ret float64
-		return ret
-	}
-	return *o.PhysicalUsage
-}
-
-// GetPhysicalUsageOk returns a tuple with the PhysicalUsage field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *StorageClassNodeStats) GetPhysicalUsageOk() (*float64, bool) {
-	if o == nil || o.PhysicalUsage == nil {
-		return nil, false
-	}
-	return o.PhysicalUsage, true
-}
-
-// HasPhysicalUsage returns a boolean if a field has been set.
-func (o *StorageClassNodeStats) HasPhysicalUsage() bool {
-	return o != nil && o.PhysicalUsage != nil
-}
-
-// SetPhysicalUsage gets a reference to the given float64 and assigns it to the PhysicalUsage field.
-func (o *StorageClassNodeStats) SetPhysicalUsage(v float64) {
-	o.PhysicalUsage = &v
-}
-
-// GetAllocatableCapacity returns the AllocatableCapacity field value if set, zero value otherwise.
-func (o *StorageClassNodeStats) GetAllocatableCapacity() float64 {
-	if o == nil || o.AllocatableCapacity == nil {
-		var ret float64
-		return ret
-	}
-	return *o.AllocatableCapacity
-}
-
-// GetAllocatableCapacityOk returns a tuple with the AllocatableCapacity field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *StorageClassNodeStats) GetAllocatableCapacityOk() (*float64, bool) {
-	if o == nil || o.AllocatableCapacity == nil {
-		return nil, false
-	}
-	return o.AllocatableCapacity, true
-}
-
-// HasAllocatableCapacity returns a boolean if a field has been set.
-func (o *StorageClassNodeStats) HasAllocatableCapacity() bool {
-	return o != nil && o.AllocatableCapacity != nil
-}
-
-// SetAllocatableCapacity gets a reference to the given float64 and assigns it to the AllocatableCapacity field.
-func (o *StorageClassNodeStats) SetAllocatableCapacity(v float64) {
-	o.AllocatableCapacity = &v
-}
-
-// GetAvailableCapacity returns the AvailableCapacity field value if set, zero value otherwise.
-func (o *StorageClassNodeStats) GetAvailableCapacity() float64 {
-	if o == nil || o.AvailableCapacity == nil {
-		var ret float64
-		return ret
-	}
-	return *o.AvailableCapacity
-}
-
-// GetAvailableCapacityOk returns a tuple with the AvailableCapacity field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *StorageClassNodeStats) GetAvailableCapacityOk() (*float64, bool) {
-	if o == nil || o.AvailableCapacity == nil {
-		return nil, false
-	}
-	return o.AvailableCapacity, true
-}
-
-// HasAvailableCapacity returns a boolean if a field has been set.
-func (o *StorageClassNodeStats) HasAvailableCapacity() bool {
-	return o != nil && o.AvailableCapacity != nil
-}
-
-// SetAvailableCapacity gets a reference to the given float64 and assigns it to the AvailableCapacity field.
-func (o *StorageClassNodeStats) SetAvailableCapacity(v float64) {
-	o.AvailableCapacity = &v
-}
-
-// GetAllocatedCapacity returns the AllocatedCapacity field value if set, zero value otherwise.
-func (o *StorageClassNodeStats) GetAllocatedCapacity() float64 {
-	if o == nil || o.AllocatedCapacity == nil {
-		var ret float64
-		return ret
-	}
-	return *o.AllocatedCapacity
-}
-
-// GetAllocatedCapacityOk returns a tuple with the AllocatedCapacity field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *StorageClassNodeStats) GetAllocatedCapacityOk() (*float64, bool) {
-	if o == nil || o.AllocatedCapacity == nil {
-		return nil, false
-	}
-	return o.AllocatedCapacity, true
-}
-
-// HasAllocatedCapacity returns a boolean if a field has been set.
-func (o *StorageClassNodeStats) HasAllocatedCapacity() bool {
-	return o != nil && o.AllocatedCapacity != nil
-}
-
-// SetAllocatedCapacity gets a reference to the given float64 and assigns it to the AllocatedCapacity field.
-func (o *StorageClassNodeStats) SetAllocatedCapacity(v float64) {
-	o.AllocatedCapacity = &v
-}
-
-// GetMaximumVolumeSize returns the MaximumVolumeSize field value if set, zero value otherwise.
-func (o *StorageClassNodeStats) GetMaximumVolumeSize() float64 {
-	if o == nil || o.MaximumVolumeSize == nil {
-		var ret float64
-		return ret
-	}
-	return *o.MaximumVolumeSize
-}
-
-// GetMaximumVolumeSizeOk returns a tuple with the MaximumVolumeSize field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *StorageClassNodeStats) GetMaximumVolumeSizeOk() (*float64, bool) {
-	if o == nil || o.MaximumVolumeSize == nil {
-		return nil, false
-	}
-	return o.MaximumVolumeSize, true
-}
-
-// HasMaximumVolumeSize returns a boolean if a field has been set.
-func (o *StorageClassNodeStats) HasMaximumVolumeSize() bool {
-	return o != nil && o.MaximumVolumeSize != nil
-}
-
-// SetMaximumVolumeSize gets a reference to the given float64 and assigns it to the MaximumVolumeSize field.
-func (o *StorageClassNodeStats) SetMaximumVolumeSize(v float64) {
-	o.MaximumVolumeSize = &v
+// SetApelocal gets a reference to the given ApelocalNodeStats and assigns it to the Apelocal field.
+func (o *StorageClassNodeStats) SetApelocal(v ApelocalNodeStats) {
+	o.Apelocal = &v
 }
 
 // GetNodeName returns the NodeName field value.
@@ -436,29 +226,8 @@ func (o StorageClassNodeStats) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.AllocationResourceId != nil {
-		toSerialize["allocationResourceID"] = o.AllocationResourceId
-	}
-	if o.PhysicalResourceId != nil {
-		toSerialize["physicalResourceID"] = o.PhysicalResourceId
-	}
-	if o.PhysicalCapacity != nil {
-		toSerialize["physicalCapacity"] = o.PhysicalCapacity
-	}
-	if o.PhysicalUsage != nil {
-		toSerialize["physicalUsage"] = o.PhysicalUsage
-	}
-	if o.AllocatableCapacity != nil {
-		toSerialize["allocatableCapacity"] = o.AllocatableCapacity
-	}
-	if o.AvailableCapacity != nil {
-		toSerialize["availableCapacity"] = o.AvailableCapacity
-	}
-	if o.AllocatedCapacity != nil {
-		toSerialize["allocatedCapacity"] = o.AllocatedCapacity
-	}
-	if o.MaximumVolumeSize != nil {
-		toSerialize["maximumVolumeSize"] = o.MaximumVolumeSize
+	if o.Apelocal != nil {
+		toSerialize["apelocal"] = o.Apelocal
 	}
 	toSerialize["nodeName"] = o.NodeName
 	toSerialize["nodeStatus"] = o.NodeStatus
@@ -476,20 +245,13 @@ func (o StorageClassNodeStats) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageClassNodeStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		AllocationResourceId *string  `json:"allocationResourceID,omitempty"`
-		PhysicalResourceId   *string  `json:"physicalResourceID,omitempty"`
-		PhysicalCapacity     *float64 `json:"physicalCapacity,omitempty"`
-		PhysicalUsage        *float64 `json:"physicalUsage,omitempty"`
-		AllocatableCapacity  *float64 `json:"allocatableCapacity,omitempty"`
-		AvailableCapacity    *float64 `json:"availableCapacity,omitempty"`
-		AllocatedCapacity    *float64 `json:"allocatedCapacity,omitempty"`
-		MaximumVolumeSize    *float64 `json:"maximumVolumeSize,omitempty"`
-		NodeName             *string  `json:"nodeName"`
-		NodeStatus           *string  `json:"nodeStatus"`
-		Requests             *float64 `json:"requests"`
-		Usage                *float64 `json:"usage"`
-		Capacity             *float64 `json:"capacity"`
-		PvcCount             *int32   `json:"pvcCount"`
+		Apelocal   *ApelocalNodeStats `json:"apelocal,omitempty"`
+		NodeName   *string            `json:"nodeName"`
+		NodeStatus *string            `json:"nodeStatus"`
+		Requests   *float64           `json:"requests"`
+		Usage      *float64           `json:"usage"`
+		Capacity   *float64           `json:"capacity"`
+		PvcCount   *int32             `json:"pvcCount"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -514,18 +276,16 @@ func (o *StorageClassNodeStats) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"allocationResourceID", "physicalResourceID", "physicalCapacity", "physicalUsage", "allocatableCapacity", "availableCapacity", "allocatedCapacity", "maximumVolumeSize", "nodeName", "nodeStatus", "requests", "usage", "capacity", "pvcCount"})
+		common.DeleteKeys(additionalProperties, &[]string{"apelocal", "nodeName", "nodeStatus", "requests", "usage", "capacity", "pvcCount"})
 	} else {
 		return err
 	}
-	o.AllocationResourceId = all.AllocationResourceId
-	o.PhysicalResourceId = all.PhysicalResourceId
-	o.PhysicalCapacity = all.PhysicalCapacity
-	o.PhysicalUsage = all.PhysicalUsage
-	o.AllocatableCapacity = all.AllocatableCapacity
-	o.AvailableCapacity = all.AvailableCapacity
-	o.AllocatedCapacity = all.AllocatedCapacity
-	o.MaximumVolumeSize = all.MaximumVolumeSize
+
+	hasInvalidField := false
+	if all.Apelocal != nil && all.Apelocal.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Apelocal = all.Apelocal
 	o.NodeName = *all.NodeName
 	o.NodeStatus = *all.NodeStatus
 	o.Requests = *all.Requests
@@ -535,6 +295,10 @@ func (o *StorageClassNodeStats) UnmarshalJSON(bytes []byte) (err error) {
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

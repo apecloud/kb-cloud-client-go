@@ -13,6 +13,11 @@ import (
 
 // OrganizationItem Organization items.
 type OrganizationItem struct {
+	Id             string              `json:"id"`
+	Status         OrgStatus           `json:"status"`
+	ExpiredAt      common.NullableTime `json:"expiredAt"`
+	PurgeError     *string             `json:"purgeError,omitempty"`
+	AllowedActions []string            `json:"allowedActions"`
 	// The name of the organization.
 	Name string `json:"name"`
 	// The display name of the organization.
@@ -36,8 +41,12 @@ type OrganizationItem struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOrganizationItem(name string, displayName string, clusterTotal int32, createdAt time.Time) *OrganizationItem {
+func NewOrganizationItem(id string, status OrgStatus, expiredAt common.NullableTime, allowedActions []string, name string, displayName string, clusterTotal int32, createdAt time.Time) *OrganizationItem {
 	this := OrganizationItem{}
+	this.Id = id
+	this.Status = status
+	this.ExpiredAt = expiredAt
+	this.AllowedActions = allowedActions
 	this.Name = name
 	this.DisplayName = displayName
 	this.ClusterTotal = clusterTotal
@@ -51,6 +60,128 @@ func NewOrganizationItem(name string, displayName string, clusterTotal int32, cr
 func NewOrganizationItemWithDefaults() *OrganizationItem {
 	this := OrganizationItem{}
 	return &this
+}
+
+// GetId returns the Id field value.
+func (o *OrganizationItem) GetId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.Id
+}
+
+// GetIdOk returns a tuple with the Id field value
+// and a boolean to check if the value has been set.
+func (o *OrganizationItem) GetIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Id, true
+}
+
+// SetId sets field value.
+func (o *OrganizationItem) SetId(v string) {
+	o.Id = v
+}
+
+// GetStatus returns the Status field value.
+func (o *OrganizationItem) GetStatus() OrgStatus {
+	if o == nil {
+		var ret OrgStatus
+		return ret
+	}
+	return o.Status
+}
+
+// GetStatusOk returns a tuple with the Status field value
+// and a boolean to check if the value has been set.
+func (o *OrganizationItem) GetStatusOk() (*OrgStatus, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Status, true
+}
+
+// SetStatus sets field value.
+func (o *OrganizationItem) SetStatus(v OrgStatus) {
+	o.Status = v
+}
+
+// GetExpiredAt returns the ExpiredAt field value.
+// If the value is explicit nil, the zero value for time.Time will be returned.
+func (o *OrganizationItem) GetExpiredAt() time.Time {
+	if o == nil || o.ExpiredAt.Get() == nil {
+		var ret time.Time
+		return ret
+	}
+	return *o.ExpiredAt.Get()
+}
+
+// GetExpiredAtOk returns a tuple with the ExpiredAt field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *OrganizationItem) GetExpiredAtOk() (*time.Time, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ExpiredAt.Get(), o.ExpiredAt.IsSet()
+}
+
+// SetExpiredAt sets field value.
+func (o *OrganizationItem) SetExpiredAt(v time.Time) {
+	o.ExpiredAt.Set(&v)
+}
+
+// GetPurgeError returns the PurgeError field value if set, zero value otherwise.
+func (o *OrganizationItem) GetPurgeError() string {
+	if o == nil || o.PurgeError == nil {
+		var ret string
+		return ret
+	}
+	return *o.PurgeError
+}
+
+// GetPurgeErrorOk returns a tuple with the PurgeError field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OrganizationItem) GetPurgeErrorOk() (*string, bool) {
+	if o == nil || o.PurgeError == nil {
+		return nil, false
+	}
+	return o.PurgeError, true
+}
+
+// HasPurgeError returns a boolean if a field has been set.
+func (o *OrganizationItem) HasPurgeError() bool {
+	return o != nil && o.PurgeError != nil
+}
+
+// SetPurgeError gets a reference to the given string and assigns it to the PurgeError field.
+func (o *OrganizationItem) SetPurgeError(v string) {
+	o.PurgeError = &v
+}
+
+// GetAllowedActions returns the AllowedActions field value.
+func (o *OrganizationItem) GetAllowedActions() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+	return o.AllowedActions
+}
+
+// GetAllowedActionsOk returns a tuple with the AllowedActions field value
+// and a boolean to check if the value has been set.
+func (o *OrganizationItem) GetAllowedActionsOk() (*[]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.AllowedActions, true
+}
+
+// SetAllowedActions sets field value.
+func (o *OrganizationItem) SetAllowedActions(v []string) {
+	o.AllowedActions = v
 }
 
 // GetName returns the Name field value.
@@ -235,6 +366,13 @@ func (o OrganizationItem) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	toSerialize["id"] = o.Id
+	toSerialize["status"] = o.Status
+	toSerialize["expiredAt"] = o.ExpiredAt.Get()
+	if o.PurgeError != nil {
+		toSerialize["purgeError"] = o.PurgeError
+	}
+	toSerialize["allowedActions"] = o.AllowedActions
 	toSerialize["name"] = o.Name
 	toSerialize["displayName"] = o.DisplayName
 	if o.Creator != nil {
@@ -262,16 +400,33 @@ func (o OrganizationItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OrganizationItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name         *string    `json:"name"`
-		DisplayName  *string    `json:"displayName"`
-		Creator      *string    `json:"creator,omitempty"`
-		CreatorId    *string    `json:"creatorID,omitempty"`
-		ClusterTotal *int32     `json:"clusterTotal"`
-		CreatedAt    *time.Time `json:"createdAt"`
-		Description  *string    `json:"description,omitempty"`
+		Id             *string             `json:"id"`
+		Status         *OrgStatus          `json:"status"`
+		ExpiredAt      common.NullableTime `json:"expiredAt"`
+		PurgeError     *string             `json:"purgeError,omitempty"`
+		AllowedActions *[]string           `json:"allowedActions"`
+		Name           *string             `json:"name"`
+		DisplayName    *string             `json:"displayName"`
+		Creator        *string             `json:"creator,omitempty"`
+		CreatorId      *string             `json:"creatorID,omitempty"`
+		ClusterTotal   *int32              `json:"clusterTotal"`
+		CreatedAt      *time.Time          `json:"createdAt"`
+		Description    *string             `json:"description,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
+	}
+	if all.Id == nil {
+		return fmt.Errorf("required field id missing")
+	}
+	if all.Status == nil {
+		return fmt.Errorf("required field status missing")
+	}
+	if !all.ExpiredAt.IsSet() {
+		return fmt.Errorf("required field expiredAt missing")
+	}
+	if all.AllowedActions == nil {
+		return fmt.Errorf("required field allowedActions missing")
 	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
@@ -287,10 +442,21 @@ func (o *OrganizationItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "displayName", "creator", "creatorID", "clusterTotal", "createdAt", "description"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "status", "expiredAt", "purgeError", "allowedActions", "name", "displayName", "creator", "creatorID", "clusterTotal", "createdAt", "description"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
+	o.Id = *all.Id
+	if !all.Status.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Status = *all.Status
+	}
+	o.ExpiredAt = all.ExpiredAt
+	o.PurgeError = all.PurgeError
+	o.AllowedActions = *all.AllowedActions
 	o.Name = *all.Name
 	o.DisplayName = *all.DisplayName
 	o.Creator = all.Creator
@@ -301,6 +467,10 @@ func (o *OrganizationItem) UnmarshalJSON(bytes []byte) (err error) {
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
