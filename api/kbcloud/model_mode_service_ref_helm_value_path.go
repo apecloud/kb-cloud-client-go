@@ -28,13 +28,6 @@ type ModeServiceRefHelmValuePath struct {
 	CredentialName *string `json:"credentialName,omitempty"`
 	// the name of the referenced serviceDescriptor
 	ServiceDescriptor *string `json:"serviceDescriptor,omitempty"`
-	// Opt-in path for the deployment mode of an existing referenced Cluster.
-	// When configured, resolve only a Cluster whose engine matches engineName
-	// and whose nonempty mode is allowed by modes (empty modes allows all).
-	// Map its actual mode to this Helm value path, overriding client values.
-	// References without this field keep their existing behavior.
-	//
-	BackendMode *string `json:"backendMode,omitempty"`
 	// hints for addon to determine if we are using an integrated component or a serviceRef. Will be set to `serviceRef` or `component`.
 	// This field is required when a serviceRef can be replaced by a component.
 	//
@@ -282,34 +275,6 @@ func (o *ModeServiceRefHelmValuePath) SetServiceDescriptor(v string) {
 	o.ServiceDescriptor = &v
 }
 
-// GetBackendMode returns the BackendMode field value if set, zero value otherwise.
-func (o *ModeServiceRefHelmValuePath) GetBackendMode() string {
-	if o == nil || o.BackendMode == nil {
-		var ret string
-		return ret
-	}
-	return *o.BackendMode
-}
-
-// GetBackendModeOk returns a tuple with the BackendMode field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ModeServiceRefHelmValuePath) GetBackendModeOk() (*string, bool) {
-	if o == nil || o.BackendMode == nil {
-		return nil, false
-	}
-	return o.BackendMode, true
-}
-
-// HasBackendMode returns a boolean if a field has been set.
-func (o *ModeServiceRefHelmValuePath) HasBackendMode() bool {
-	return o != nil && o.BackendMode != nil
-}
-
-// SetBackendMode gets a reference to the given string and assigns it to the BackendMode field.
-func (o *ModeServiceRefHelmValuePath) SetBackendMode(v string) {
-	o.BackendMode = &v
-}
-
 // GetMode returns the Mode field value if set, zero value otherwise.
 func (o *ModeServiceRefHelmValuePath) GetMode() string {
 	if o == nil || o.Mode == nil {
@@ -392,9 +357,6 @@ func (o ModeServiceRefHelmValuePath) MarshalJSON() ([]byte, error) {
 	if o.ServiceDescriptor != nil {
 		toSerialize["serviceDescriptor"] = o.ServiceDescriptor
 	}
-	if o.BackendMode != nil {
-		toSerialize["backendMode"] = o.BackendMode
-	}
 	if o.Mode != nil {
 		toSerialize["mode"] = o.Mode
 	}
@@ -419,7 +381,6 @@ func (o *ModeServiceRefHelmValuePath) UnmarshalJSON(bytes []byte) (err error) {
 		CredentialComponent *string `json:"credentialComponent,omitempty"`
 		CredentialName      *string `json:"credentialName,omitempty"`
 		ServiceDescriptor   *string `json:"serviceDescriptor,omitempty"`
-		BackendMode         *string `json:"backendMode,omitempty"`
 		Mode                *string `json:"mode,omitempty"`
 		ExtraForManualInput *string `json:"extraForManualInput,omitempty"`
 	}{}
@@ -434,7 +395,7 @@ func (o *ModeServiceRefHelmValuePath) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"namespace", "cluster", "component", "service", "port", "credentialComponent", "credentialName", "serviceDescriptor", "backendMode", "mode", "extraForManualInput"})
+		common.DeleteKeys(additionalProperties, &[]string{"namespace", "cluster", "component", "service", "port", "credentialComponent", "credentialName", "serviceDescriptor", "mode", "extraForManualInput"})
 	} else {
 		return err
 	}
@@ -446,7 +407,6 @@ func (o *ModeServiceRefHelmValuePath) UnmarshalJSON(bytes []byte) (err error) {
 	o.CredentialComponent = all.CredentialComponent
 	o.CredentialName = all.CredentialName
 	o.ServiceDescriptor = all.ServiceDescriptor
-	o.BackendMode = all.BackendMode
 	o.Mode = all.Mode
 	o.ExtraForManualInput = all.ExtraForManualInput
 

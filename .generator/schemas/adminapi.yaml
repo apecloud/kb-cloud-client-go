@@ -75,7 +75,472 @@ tags:
     description: Diagnostics APIs
   - name: disasterRecovery
     description: Cluster Disaster Recovery APIs
+  - name: redisKeyAnalysis
+    description: Redis Keys Analysis APIs
 paths:
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      summary: DolphinDB ListUsers
+      operationId: dolphinDBListUsers
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DolphinDBUser'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: DolphinDB CreateUser
+      operationId: dolphinDBCreateUser
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBUserCreate'
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    delete:
+      summary: DolphinDB DeleteUser
+      operationId: dolphinDBDeleteUser
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/password:
+    patch:
+      summary: DolphinDB ChangePassword
+      operationId: dolphinDBChangePassword
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBPasswordChange'
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/groups:
+    get:
+      summary: DolphinDB ListGroups
+      operationId: dolphinDBListGroups
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DolphinDBGroup'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: DolphinDB CreateGroup
+      operationId: dolphinDBCreateGroup
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBGroupCreate'
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/groups/{groupName}:
+    delete:
+      summary: DolphinDB DeleteGroup
+      operationId: dolphinDBDeleteGroup
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: groupName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/groups/{groupName}/members:
+    patch:
+      summary: DolphinDB ChangeGroupMembers
+      operationId: dolphinDBChangeGroupMembers
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: groupName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBMembershipChange'
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/privileges/capabilities:
+    get:
+      summary: DolphinDB GetCapabilities
+      operationId: dolphinDBGetCapabilities
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DolphinDBCapabilities'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/privileges/{subjectType}/{subjectName}:
+    get:
+      summary: DolphinDB GetPermissions
+      operationId: dolphinDBGetPermissions
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subjectType
+          in: path
+          required: true
+          schema:
+            type: string
+            description: user or group
+        - name: subjectName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DolphinDBPermissionSnapshot'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      summary: DolphinDB ChangePermissions
+      operationId: dolphinDBChangePermissions
+      tags:
+        - dolphindb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: subjectType
+          in: path
+          required: true
+          schema:
+            type: string
+            description: user or group
+        - name: subjectName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBPermissionChange'
+      responses:
+        '204':
+          description: Operation completed
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/users/{database}/{username}/password:
     put:
       summary: ChangeRBACUserPassword
@@ -117,7 +582,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Conflict; refresh or remove role bindings first
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
       requestBody:
@@ -174,7 +639,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Conflict; refresh or remove role bindings first
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
     post:
@@ -207,7 +672,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Conflict; refresh or remove role bindings first
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
       requestBody:
@@ -334,7 +799,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Conflict; refresh or remove role bindings first
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
   /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/roles:
@@ -379,7 +844,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Conflict; refresh or remove role bindings first
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
     post:
@@ -412,7 +877,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Conflict; refresh or remove role bindings first
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
       requestBody:
@@ -466,7 +931,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Conflict; refresh or remove role bindings first
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
     put:
@@ -509,7 +974,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Conflict; refresh or remove role bindings first
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
       requestBody:
@@ -563,7 +1028,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Conflict; refresh or remove role bindings first
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
   /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/users/{database}/{username}:
@@ -611,7 +1076,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Conflict; refresh or remove role bindings first
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
     delete:
@@ -654,7 +1119,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Conflict; refresh or remove role bindings first
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
   /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/rbac/users/{database}/{username}/roles:
@@ -698,7 +1163,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '409':
-          description: Conflict; refresh or remove role bindings first
+          $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
       requestBody:
@@ -2406,11 +2871,13 @@ paths:
             type: string
         - name: after
           in: query
+          description: Raw action cursor from the preceding response's nextCursor.
           required: false
           schema:
             type: string
         - name: limit
           in: query
+          description: Raw action page budget. The last turn is read in full before coalescing; use hasMore and nextCursor rather than the returned item count.
           required: false
           schema:
             type: integer
@@ -29501,6 +29968,134 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/redis/keyAnalysis:
+    post:
+      tags:
+        - redisKeyAnalysis
+      operationId: adminCreateRedisKeyAnalysis
+      summary: Create a Redis keys analysis task
+      description: Admin variant of createRedisKeyAnalysis.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                parameters:
+                  type: object
+                  properties:
+                    topBigKey:
+                      type: integer
+                      format: int64
+                      minimum: 1
+                      maximum: 500
+                      default: 100
+                    numOfElemMin:
+                      type: integer
+                      format: int64
+                      minimum: 1
+                      default: 3000
+                    bigKeySizeMin:
+                      type: string
+                      default: 10kb
+                    topSlot:
+                      type: integer
+                      format: int64
+                      minimum: 1
+                      maximum: 500
+                      default: 100
+      responses:
+        '200':
+          description: Analysis task submitted.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - taskId
+                properties:
+                  taskId:
+                    type: string
+                  status:
+                    type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/redis/keyAnalysis/{taskId}:
+    get:
+      tags:
+        - redisKeyAnalysis
+      operationId: adminGetRedisKeyAnalysisReport
+      summary: Get a Redis keys analysis report
+      description: |
+        Returns one persisted row per shard plus one non-persisted aggregate row with
+        isSummary=true when more than one row is returned.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Report rows plus an optional aggregate row.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RedisKeyAnalysisReport'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - redisKeyAnalysis
+      operationId: adminDeleteRedisKeyAnalysisReport
+      summary: Delete a Redis keys analysis report
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Report deleted.
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/replication/channel:
     get:
       operationId: listAdminDataChannels
@@ -30278,14 +30873,25 @@ components:
         curl --digest -u "accessKey:secretKey" https://api.example.com/admin/v1/user
         ```
   schemas:
-    MongoRBACPasswordChange:
+    DolphinDBUser:
       type: object
-      required:
-        - password
       properties:
-        password:
+        name:
           type: string
-          format: password
+        isAdmin:
+          type: boolean
+        groups:
+          type: array
+          items:
+            type: string
+        readOnly:
+          type: boolean
+          description: Built-in admin and management account are protected from mutation.
+      required:
+        - name
+        - isAdmin
+        - groups
+        - readOnly
     APIErrorResponse:
       description: API error response.
       properties:
@@ -30301,6 +30907,196 @@ components:
       required:
         - code
       type: object
+    DolphinDBUserCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+          description: Initial password. Never returned in responses.
+        isAdmin:
+          type: boolean
+          default: false
+        groups:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+        - password
+    DolphinDBPasswordChange:
+      type: object
+      properties:
+        password:
+          type: string
+          description: New password. Never returned in responses.
+      required:
+        - password
+    DolphinDBGroup:
+      type: object
+      properties:
+        name:
+          type: string
+        members:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+        - members
+    DolphinDBGroupCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        members:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+    DolphinDBMembershipChange:
+      type: object
+      properties:
+        action:
+          type: string
+          description: add or remove; incremental, preserves other memberships.
+        users:
+          type: array
+          items:
+            type: string
+      required:
+        - action
+        - users
+    DolphinDBPrivilegeCapability:
+      type: object
+      properties:
+        privilege:
+          type: string
+        scope:
+          type: string
+          description: global, object, optionalObject or quota
+        actions:
+          type: array
+          items:
+            type: string
+        subjects:
+          type: array
+          items:
+            type: string
+            description: user or group
+      required:
+        - privilege
+        - scope
+        - actions
+        - subjects
+    DolphinDBCapabilities:
+      type: object
+      properties:
+        engineVersion:
+          type: string
+        privileges:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBPrivilegeCapability'
+      required:
+        - engineVersion
+        - privileges
+    DolphinDBPermissionState:
+      type: object
+      properties:
+        privilege:
+          type: string
+          description: Native snapshot field. ACCESS_READ/INSERT/UPDATE/DELETE represent global table/database access.
+        globalEffect:
+          type: string
+          description: allow, deny or none; absent when not applicable.
+        allowedObjects:
+          type: array
+          items:
+            type: string
+        deniedObjects:
+          type: array
+          items:
+            type: string
+        value:
+          type: number
+          format: double
+          description: Native quota or account limit, including default sentinel values.
+      required:
+        - privilege
+    DolphinDBGroupPermissions:
+      type: object
+      properties:
+        group:
+          type: string
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBPermissionState'
+      required:
+        - group
+        - permissions
+    DolphinDBPermissionSnapshot:
+      type: object
+      properties:
+        subjectType:
+          type: string
+          description: user or group
+        name:
+          type: string
+        direct:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBPermissionState'
+        effective:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBPermissionState'
+        effectiveKnown:
+          type: boolean
+          description: 'True for users: effective is read from native getUserAccess(finalAccess=true). Groups expose direct settings only.'
+        inherited:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBGroupPermissions'
+      required:
+        - subjectType
+        - name
+        - direct
+        - effective
+        - effectiveKnown
+        - inherited
+    DolphinDBPermissionChange:
+      type: object
+      properties:
+        action:
+          type: string
+          description: grant, deny or revoke. Revoke clears the direct setting; it does not deny inherited access.
+        privilege:
+          type: string
+          description: Native privilege name from capabilities.
+        objects:
+          type: array
+          items:
+            type: string
+            description: Native object identifier; use * explicitly for wildcard scope.
+        value:
+          type: number
+          format: double
+          description: Numeric quota value; only for grant of quota privileges.
+      required:
+        - action
+        - privilege
+    MongoRBACPasswordChange:
+      type: object
+      required:
+        - password
+      properties:
+        password:
+          type: string
+          format: password
     MongoRBACRoleRef:
       type: object
       properties:
@@ -31705,6 +32501,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/aiAgentTurnAction'
+        nextCursor:
+          type: string
+          description: Raw action cursor for the next page; independent of coalesced item IDs and timestamps.
+        hasMore:
+          type: boolean
+          description: Whether more actions are available. Pages finish the last turn before coalescing, so item counts must not be used to detect the final page.
     aiAgentEvent:
       type: object
       required:
@@ -41873,9 +42675,6 @@ components:
           type: string
         port:
           type: string
-        ensureReadonlyEndpoint:
-          type: boolean
-          description: Ensure the referenced component has an internal readonly endpoint before creating the consumer. Uses the existing asynchronous Expose operation on KubeBlocks 1.0; the endpoint belongs to the referenced cluster.
         credentialComponent:
           type: string
         credentialName:
@@ -41991,14 +42790,6 @@ components:
             serviceDescriptor:
               type: string
               description: the name of the referenced serviceDescriptor
-            backendMode:
-              type: string
-              description: |
-                Opt-in path for the deployment mode of an existing referenced Cluster.
-                When configured, resolve only a Cluster whose engine matches engineName
-                and whose nonempty mode is allowed by modes (empty modes allows all).
-                Map its actual mode to this Helm value path, overriding client values.
-                References without this field keep their existing behavior.
             mode:
               type: string
               description: |
@@ -42268,7 +43059,7 @@ components:
           description: Whether the engine supports service account access-key management.
         protectedAccounts:
           type: array
-          description: Account names that are protected from update, delete, lock, and unlock actions.
+          description: Account names that cannot be deleted, locked, or unlocked. This does not hide accounts or restrict password or privilege actions.
           items:
             type: string
         displayRootAccount:
@@ -45458,10 +46249,10 @@ components:
           type: integer
           format: int64
           x-nullable: true
-          description: Weighted health score from 0 to 100 over evaluable inspection items only. Unknown results and items with info importance are excluded from both the numerator and denominator. The field is omitted when no item is evaluable; a present value of 0 is a valid evaluated score.
+          description: Weighted health score from 0 to 100 over evaluable inspection items only. Unknown results and items with info importance are excluded from both the numerator and denominator. The field is omitted when no item is evaluable. Doris and SelectDB also omit it when risk-check evidence is unavailable, and score correlated findings once per failure family. A present value of 0 is a valid evaluated score.
         result:
           type: string
-          description: Task health conclusion derived from evaluable item states and criticality-aware score caps. Valid conclusions are red, yellow, green, and unknown. Unknown means no item is evaluable. Unknown items remain visible in the item list but do not override a red, yellow, or green conclusion derived from evaluable items.
+          description: Task health conclusion derived from evaluable item states and criticality-aware score caps. Valid conclusions are red, yellow, green, and unknown. Unknown means no item is evaluable, or a Doris/SelectDB inspection has unavailable risk-check evidence without an observed red or yellow finding. Unavailable evidence never hides an observed red or yellow finding.
         latestRunAt:
           format: date-time
           type: string
@@ -52741,6 +53532,145 @@ components:
             items:
               $ref: '#/components/schemas/networkMode'
             description: available network modes for this engine+mode
+    RedisKeyEntry:
+      type: object
+      properties:
+        Key:
+          type: string
+        Bytes:
+          type: integer
+          format: int64
+        Type:
+          type: string
+        NumOfElem:
+          type: integer
+          format: int64
+        LenOfLargestElem:
+          type: integer
+          format: int64
+        FieldOfLargestElem:
+          type: string
+        Db:
+          type: integer
+        Encoding:
+          type: string
+        Expiration:
+          type: integer
+          format: int64
+        LruIdle:
+          type: integer
+          format: int64
+        LfuFreq:
+          type: integer
+    RedisKeyAnalysisReport:
+      type: object
+      description: |
+        One Redis keys analysis report row. Rows are persisted per shard. The query
+        response appends one non-persisted aggregate row with isSummary=true.
+      properties:
+        taskId:
+          type: string
+        clusterId:
+          type: string
+        shardName:
+          type: string
+        isSummary:
+          type: boolean
+          description: True for the aggregate row that is not persisted.
+        createTime:
+          type: string
+          format: date-time
+        parameters:
+          type: object
+          description: |
+            Parameters for a Redis keys analysis task. topBigKey and topSlot are capped at 500.
+            numOfElemMin filters keys whose element count is below the threshold. bigKeySizeMin
+            filters keys whose memory usage is below the threshold (for example "10kb").
+          properties:
+            topBigKey:
+              type: integer
+              format: int64
+              minimum: 1
+              maximum: 500
+              default: 100
+            numOfElemMin:
+              type: integer
+              format: int64
+              minimum: 1
+              default: 3000
+            bigKeySizeMin:
+              type: string
+              default: 10kb
+            topSlot:
+              type: integer
+              format: int64
+              minimum: 1
+              maximum: 500
+              default: 100
+        typeStat:
+          type: object
+          description: 'Key statistics by Redis data type: {type: {count, bytes}}.'
+          additionalProperties:
+            type: object
+            properties:
+              count:
+                type: integer
+                format: int64
+              bytes:
+                type: string
+        byteLevelStat:
+          type: object
+          description: 'Key statistics by memory size bucket: {bucket: {count, bytes}}.'
+          additionalProperties:
+            type: object
+            properties:
+              count:
+                type: integer
+                format: int64
+              bytes:
+                type: string
+        totalNumKeys:
+          type: integer
+          format: int64
+          description: Sum of counts across all byteLevelStat buckets.
+        totlSizeKeys:
+          type: string
+          description: Sum of bytes across all byteLevelStat buckets.
+        expireStat:
+          type: object
+          description: 'Key statistics by remaining TTL bucket: {bucket: {count, bytes}}.'
+          additionalProperties:
+            type: object
+            properties:
+              count:
+                type: integer
+                format: int64
+              bytes:
+                type: string
+        topBigKeyByteStat:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedisKeyEntry'
+        topBigKeyElemStat:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedisKeyEntry'
+        topSlotKeyByteStat:
+          type: array
+          description: 'Top cluster slots by memory usage: [{slot: bytes}]. Only populated for Redis Cluster mode.'
+          items:
+            type: object
+            additionalProperties:
+              type: integer
+              format: int64
+        topSlotKeyCountStat:
+          type: array
+          description: 'Top cluster slots by key count: [{slot: count}]. Only populated for Redis Cluster mode.'
+          items:
+            type: object
+            additionalProperties:
+              type: integer
+              format: int64
     channelStatus:
       enum:
         - Pending
