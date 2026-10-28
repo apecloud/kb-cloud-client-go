@@ -35,23 +35,17 @@ type ClickhouseSession struct {
 	WrittenRows *int64 `json:"writtenRows,omitempty"`
 	// Bytes written so far.
 	WrittenBytes *int64 `json:"writtenBytes,omitempty"`
-	// Rows in the result so far.
-	ResultRows *int64 `json:"resultRows,omitempty"`
-	// Bytes in the result so far.
-	ResultBytes *int64 `json:"resultBytes,omitempty"`
 	// Current memory usage in bytes.
 	MemoryUsageBytes *int64 `json:"memoryUsageBytes,omitempty"`
-	// Effective max_memory_usage setting for the query. Zero means unlimited/unknown.
+	// max_memory_usage from the query Settings map (only explicitly modified settings). Zero means the query did not set a limit, so the server default applies.
 	MemoryLimitBytes *int64 `json:"memoryLimitBytes,omitempty"`
-	// memory_usage / max_memory_usage (0-1). Zero when the limit is unknown. Values close to 1 indicate the query is about to hit its memory limit.
+	// memory_usage / memoryLimitBytes (0-1). Zero when the query did not explicitly set max_memory_usage. Values close to 1 indicate the query is about to hit its memory limit.
 	MemoryUsageRatio *float64 `json:"memoryUsageRatio,omitempty"`
 	// Peak memory usage in bytes. Zero when the server version does not expose peak_memory_usage.
 	PeakMemoryUsageBytes *int64 `json:"peakMemoryUsageBytes,omitempty"`
-	// Query kind reported by ClickHouse (Select, Insert, InitialQuery, ...).
-	QueryKind *string `json:"queryKind,omitempty"`
 	// Whether this row is the initial query rather than a remote sub-query.
 	IsInitialQuery *bool `json:"isInitialQuery,omitempty"`
-	// Query start time in RFC3339 UTC.
+	// Estimated query start time in RFC3339 UTC, computed from elapsed because system.processes has no start timestamp.
 	QueryStartTime *string `json:"queryStartTime,omitempty"`
 	// Full query text, truncated by the client for display when necessary.
 	Query *string `json:"query,omitempty"`
@@ -411,62 +405,6 @@ func (o *ClickhouseSession) SetWrittenBytes(v int64) {
 	o.WrittenBytes = &v
 }
 
-// GetResultRows returns the ResultRows field value if set, zero value otherwise.
-func (o *ClickhouseSession) GetResultRows() int64 {
-	if o == nil || o.ResultRows == nil {
-		var ret int64
-		return ret
-	}
-	return *o.ResultRows
-}
-
-// GetResultRowsOk returns a tuple with the ResultRows field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ClickhouseSession) GetResultRowsOk() (*int64, bool) {
-	if o == nil || o.ResultRows == nil {
-		return nil, false
-	}
-	return o.ResultRows, true
-}
-
-// HasResultRows returns a boolean if a field has been set.
-func (o *ClickhouseSession) HasResultRows() bool {
-	return o != nil && o.ResultRows != nil
-}
-
-// SetResultRows gets a reference to the given int64 and assigns it to the ResultRows field.
-func (o *ClickhouseSession) SetResultRows(v int64) {
-	o.ResultRows = &v
-}
-
-// GetResultBytes returns the ResultBytes field value if set, zero value otherwise.
-func (o *ClickhouseSession) GetResultBytes() int64 {
-	if o == nil || o.ResultBytes == nil {
-		var ret int64
-		return ret
-	}
-	return *o.ResultBytes
-}
-
-// GetResultBytesOk returns a tuple with the ResultBytes field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ClickhouseSession) GetResultBytesOk() (*int64, bool) {
-	if o == nil || o.ResultBytes == nil {
-		return nil, false
-	}
-	return o.ResultBytes, true
-}
-
-// HasResultBytes returns a boolean if a field has been set.
-func (o *ClickhouseSession) HasResultBytes() bool {
-	return o != nil && o.ResultBytes != nil
-}
-
-// SetResultBytes gets a reference to the given int64 and assigns it to the ResultBytes field.
-func (o *ClickhouseSession) SetResultBytes(v int64) {
-	o.ResultBytes = &v
-}
-
 // GetMemoryUsageBytes returns the MemoryUsageBytes field value if set, zero value otherwise.
 func (o *ClickhouseSession) GetMemoryUsageBytes() int64 {
 	if o == nil || o.MemoryUsageBytes == nil {
@@ -577,34 +515,6 @@ func (o *ClickhouseSession) HasPeakMemoryUsageBytes() bool {
 // SetPeakMemoryUsageBytes gets a reference to the given int64 and assigns it to the PeakMemoryUsageBytes field.
 func (o *ClickhouseSession) SetPeakMemoryUsageBytes(v int64) {
 	o.PeakMemoryUsageBytes = &v
-}
-
-// GetQueryKind returns the QueryKind field value if set, zero value otherwise.
-func (o *ClickhouseSession) GetQueryKind() string {
-	if o == nil || o.QueryKind == nil {
-		var ret string
-		return ret
-	}
-	return *o.QueryKind
-}
-
-// GetQueryKindOk returns a tuple with the QueryKind field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ClickhouseSession) GetQueryKindOk() (*string, bool) {
-	if o == nil || o.QueryKind == nil {
-		return nil, false
-	}
-	return o.QueryKind, true
-}
-
-// HasQueryKind returns a boolean if a field has been set.
-func (o *ClickhouseSession) HasQueryKind() bool {
-	return o != nil && o.QueryKind != nil
-}
-
-// SetQueryKind gets a reference to the given string and assigns it to the QueryKind field.
-func (o *ClickhouseSession) SetQueryKind(v string) {
-	o.QueryKind = &v
 }
 
 // GetIsInitialQuery returns the IsInitialQuery field value if set, zero value otherwise.
@@ -759,12 +669,6 @@ func (o ClickhouseSession) MarshalJSON() ([]byte, error) {
 	if o.WrittenBytes != nil {
 		toSerialize["writtenBytes"] = o.WrittenBytes
 	}
-	if o.ResultRows != nil {
-		toSerialize["resultRows"] = o.ResultRows
-	}
-	if o.ResultBytes != nil {
-		toSerialize["resultBytes"] = o.ResultBytes
-	}
 	if o.MemoryUsageBytes != nil {
 		toSerialize["memoryUsageBytes"] = o.MemoryUsageBytes
 	}
@@ -776,9 +680,6 @@ func (o ClickhouseSession) MarshalJSON() ([]byte, error) {
 	}
 	if o.PeakMemoryUsageBytes != nil {
 		toSerialize["peakMemoryUsageBytes"] = o.PeakMemoryUsageBytes
-	}
-	if o.QueryKind != nil {
-		toSerialize["queryKind"] = o.QueryKind
 	}
 	if o.IsInitialQuery != nil {
 		toSerialize["isInitialQuery"] = o.IsInitialQuery
@@ -814,13 +715,10 @@ func (o *ClickhouseSession) UnmarshalJSON(bytes []byte) (err error) {
 		ReadBytes            *int64   `json:"readBytes,omitempty"`
 		WrittenRows          *int64   `json:"writtenRows,omitempty"`
 		WrittenBytes         *int64   `json:"writtenBytes,omitempty"`
-		ResultRows           *int64   `json:"resultRows,omitempty"`
-		ResultBytes          *int64   `json:"resultBytes,omitempty"`
 		MemoryUsageBytes     *int64   `json:"memoryUsageBytes,omitempty"`
 		MemoryLimitBytes     *int64   `json:"memoryLimitBytes,omitempty"`
 		MemoryUsageRatio     *float64 `json:"memoryUsageRatio,omitempty"`
 		PeakMemoryUsageBytes *int64   `json:"peakMemoryUsageBytes,omitempty"`
-		QueryKind            *string  `json:"queryKind,omitempty"`
 		IsInitialQuery       *bool    `json:"isInitialQuery,omitempty"`
 		QueryStartTime       *string  `json:"queryStartTime,omitempty"`
 		Query                *string  `json:"query,omitempty"`
@@ -834,7 +732,7 @@ func (o *ClickhouseSession) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"queryId", "initialQueryId", "user", "address", "port", "database", "hostName", "elapsedSeconds", "readRows", "readBytes", "writtenRows", "writtenBytes", "resultRows", "resultBytes", "memoryUsageBytes", "memoryLimitBytes", "memoryUsageRatio", "peakMemoryUsageBytes", "queryKind", "isInitialQuery", "queryStartTime", "query", "querySummary"})
+		common.DeleteKeys(additionalProperties, &[]string{"queryId", "initialQueryId", "user", "address", "port", "database", "hostName", "elapsedSeconds", "readRows", "readBytes", "writtenRows", "writtenBytes", "memoryUsageBytes", "memoryLimitBytes", "memoryUsageRatio", "peakMemoryUsageBytes", "isInitialQuery", "queryStartTime", "query", "querySummary"})
 	} else {
 		return err
 	}
@@ -850,13 +748,10 @@ func (o *ClickhouseSession) UnmarshalJSON(bytes []byte) (err error) {
 	o.ReadBytes = all.ReadBytes
 	o.WrittenRows = all.WrittenRows
 	o.WrittenBytes = all.WrittenBytes
-	o.ResultRows = all.ResultRows
-	o.ResultBytes = all.ResultBytes
 	o.MemoryUsageBytes = all.MemoryUsageBytes
 	o.MemoryLimitBytes = all.MemoryLimitBytes
 	o.MemoryUsageRatio = all.MemoryUsageRatio
 	o.PeakMemoryUsageBytes = all.PeakMemoryUsageBytes
-	o.QueryKind = all.QueryKind
 	o.IsInitialQuery = all.IsInitialQuery
 	o.QueryStartTime = all.QueryStartTime
 	o.Query = all.Query

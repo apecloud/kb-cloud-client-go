@@ -27,8 +27,6 @@ type ClickhouseClusterNode struct {
 	User *string `json:"user,omitempty"`
 	// Configured default database.
 	DefaultDatabase *string `json:"defaultDatabase,omitempty"`
-	// Whether the cluster uses internal replication.
-	InternalReplication *bool `json:"internalReplication,omitempty"`
 	// Connection errors observed for this node.
 	ErrorsCount *int64 `json:"errorsCount,omitempty"`
 	// Slowdown events observed for this node.
@@ -341,34 +339,6 @@ func (o *ClickhouseClusterNode) SetDefaultDatabase(v string) {
 	o.DefaultDatabase = &v
 }
 
-// GetInternalReplication returns the InternalReplication field value if set, zero value otherwise.
-func (o *ClickhouseClusterNode) GetInternalReplication() bool {
-	if o == nil || o.InternalReplication == nil {
-		var ret bool
-		return ret
-	}
-	return *o.InternalReplication
-}
-
-// GetInternalReplicationOk returns a tuple with the InternalReplication field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ClickhouseClusterNode) GetInternalReplicationOk() (*bool, bool) {
-	if o == nil || o.InternalReplication == nil {
-		return nil, false
-	}
-	return o.InternalReplication, true
-}
-
-// HasInternalReplication returns a boolean if a field has been set.
-func (o *ClickhouseClusterNode) HasInternalReplication() bool {
-	return o != nil && o.InternalReplication != nil
-}
-
-// SetInternalReplication gets a reference to the given bool and assigns it to the InternalReplication field.
-func (o *ClickhouseClusterNode) SetInternalReplication(v bool) {
-	o.InternalReplication = &v
-}
-
 // GetErrorsCount returns the ErrorsCount field value if set, zero value otherwise.
 func (o *ClickhouseClusterNode) GetErrorsCount() int64 {
 	if o == nil || o.ErrorsCount == nil {
@@ -545,9 +515,6 @@ func (o ClickhouseClusterNode) MarshalJSON() ([]byte, error) {
 	if o.DefaultDatabase != nil {
 		toSerialize["defaultDatabase"] = o.DefaultDatabase
 	}
-	if o.InternalReplication != nil {
-		toSerialize["internalReplication"] = o.InternalReplication
-	}
 	if o.ErrorsCount != nil {
 		toSerialize["errorsCount"] = o.ErrorsCount
 	}
@@ -583,7 +550,6 @@ func (o *ClickhouseClusterNode) UnmarshalJSON(bytes []byte) (err error) {
 		IsLocal               *bool    `json:"isLocal,omitempty"`
 		User                  *string  `json:"user,omitempty"`
 		DefaultDatabase       *string  `json:"defaultDatabase,omitempty"`
-		InternalReplication   *bool    `json:"internalReplication,omitempty"`
 		ErrorsCount           *int64   `json:"errorsCount,omitempty"`
 		SlowdownsCount        *int64   `json:"slowdownsCount,omitempty"`
 		EstimatedRecoveryTime *int64   `json:"estimatedRecoveryTime,omitempty"`
@@ -595,7 +561,7 @@ func (o *ClickhouseClusterNode) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cluster", "shardNum", "shardWeight", "replicaNum", "hostName", "hostAddress", "port", "isLocal", "user", "defaultDatabase", "internalReplication", "errorsCount", "slowdownsCount", "estimatedRecoveryTime", "risk", "issues"})
+		common.DeleteKeys(additionalProperties, &[]string{"cluster", "shardNum", "shardWeight", "replicaNum", "hostName", "hostAddress", "port", "isLocal", "user", "defaultDatabase", "errorsCount", "slowdownsCount", "estimatedRecoveryTime", "risk", "issues"})
 	} else {
 		return err
 	}
@@ -609,7 +575,6 @@ func (o *ClickhouseClusterNode) UnmarshalJSON(bytes []byte) (err error) {
 	o.IsLocal = all.IsLocal
 	o.User = all.User
 	o.DefaultDatabase = all.DefaultDatabase
-	o.InternalReplication = all.InternalReplication
 	o.ErrorsCount = all.ErrorsCount
 	o.SlowdownsCount = all.SlowdownsCount
 	o.EstimatedRecoveryTime = all.EstimatedRecoveryTime

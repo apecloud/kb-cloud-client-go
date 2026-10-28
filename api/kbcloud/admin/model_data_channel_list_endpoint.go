@@ -18,6 +18,7 @@ type DataChannelListEndpoint struct {
 	// Reference to an existing data endpoint in the same organization.
 	Definition  *DefinitionEndpoint   `json:"definition,omitempty"`
 	Description common.NullableString `json:"description,omitempty"`
+	Status      *EndpointStatusEnum   `json:"status,omitempty"`
 	ExtraCfgs   map[string]string     `json:"extraCfgs,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -298,6 +299,34 @@ func (o *DataChannelListEndpoint) UnsetDescription() {
 	o.Description.Unset()
 }
 
+// GetStatus returns the Status field value if set, zero value otherwise.
+func (o *DataChannelListEndpoint) GetStatus() EndpointStatusEnum {
+	if o == nil || o.Status == nil {
+		var ret EndpointStatusEnum
+		return ret
+	}
+	return *o.Status
+}
+
+// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DataChannelListEndpoint) GetStatusOk() (*EndpointStatusEnum, bool) {
+	if o == nil || o.Status == nil {
+		return nil, false
+	}
+	return o.Status, true
+}
+
+// HasStatus returns a boolean if a field has been set.
+func (o *DataChannelListEndpoint) HasStatus() bool {
+	return o != nil && o.Status != nil
+}
+
+// SetStatus gets a reference to the given EndpointStatusEnum and assigns it to the Status field.
+func (o *DataChannelListEndpoint) SetStatus(v EndpointStatusEnum) {
+	o.Status = &v
+}
+
 // GetExtraCfgs returns the ExtraCfgs field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DataChannelListEndpoint) GetExtraCfgs() map[string]string {
 	if o == nil {
@@ -357,6 +386,9 @@ func (o DataChannelListEndpoint) MarshalJSON() ([]byte, error) {
 	if o.Description.IsSet() {
 		toSerialize["description"] = o.Description.Get()
 	}
+	if o.Status != nil {
+		toSerialize["status"] = o.Status
+	}
 	if o.ExtraCfgs != nil {
 		toSerialize["extraCfgs"] = o.ExtraCfgs
 	}
@@ -378,6 +410,7 @@ func (o *DataChannelListEndpoint) UnmarshalJSON(bytes []byte) (err error) {
 		Kubeblocks   *KubeblocksEndpoint          `json:"kubeblocks,omitempty"`
 		Definition   *DefinitionEndpoint          `json:"definition,omitempty"`
 		Description  common.NullableString        `json:"description,omitempty"`
+		Status       *EndpointStatusEnum          `json:"status,omitempty"`
 		ExtraCfgs    map[string]string            `json:"extraCfgs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -385,7 +418,7 @@ func (o *DataChannelListEndpoint) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "engineName", "endpointType", "custom", "kubeblocks", "definition", "description", "extraCfgs"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "engineName", "endpointType", "custom", "kubeblocks", "definition", "description", "status", "extraCfgs"})
 	} else {
 		return err
 	}
@@ -412,6 +445,11 @@ func (o *DataChannelListEndpoint) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Definition = all.Definition
 	o.Description = all.Description
+	if all.Status != nil && !all.Status.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Status = all.Status
+	}
 	o.ExtraCfgs = all.ExtraCfgs
 
 	if len(additionalProperties) > 0 {

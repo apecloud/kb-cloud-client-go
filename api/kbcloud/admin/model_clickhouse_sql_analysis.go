@@ -21,7 +21,7 @@ type ClickhouseSQLAnalysis struct {
 	Message *string                     `json:"message,omitempty"`
 	Range   *ClickhouseSQLAnalysisRange `json:"range,omitempty"`
 	Summary *ClickhouseSQLSummary       `json:"summary,omitempty"`
-	// Top queries ordered by query_duration_ms descending.
+	// Top initial queries ordered by query_duration_ms descending. Distributed child queries are excluded via is_initial_query = 1.
 	SlowestQueries []ClickhouseSlowQuery `json:"slowestQueries"`
 	// Query patterns grouped by normalized_query_hash and ordered by the requested metric.
 	Patterns []ClickhouseQueryPattern `json:"patterns"`

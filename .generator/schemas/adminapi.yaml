@@ -11376,7 +11376,7 @@ paths:
     get:
       operationId: getEnvironmentResource
       summary: Get a live Kubernetes resource
-      description: Returns one named Kubernetes object, excluding metadata.managedFields. The code allowlist currently permits only apiVersion v1 with kind PersistentVolumeClaim; other valid resource types return 403 before Kubernetes access. Requires Admin environment read permission. Does not support lists, subresources or writes.
+      description: Returns one named Kubernetes object, excluding metadata.managedFields. The code allowlist permits v1 PersistentVolumeClaim, storage.k8s.io/v1 StorageClass and apelocal.csi.apecloud.com/v1alpha1 HostPathDefinition; other valid resource types return 403 before Kubernetes access. Requires Admin environment read permission. Does not support lists, subresources or writes.
       tags:
         - environment
       parameters:
@@ -11392,13 +11392,13 @@ paths:
             type: string
         - in: query
           name: apiVersion
-          description: Kubernetes API version. Currently only v1 with kind PersistentVolumeClaim is allowed.
+          description: Kubernetes API version. Must match an explicitly allowed storage resource kind.
           required: true
           schema:
             type: string
         - in: query
           name: kind
-          description: Kubernetes kind. Currently only PersistentVolumeClaim with apiVersion v1 is allowed.
+          description: Kubernetes kind. Allowed kinds are PersistentVolumeClaim, StorageClass and HostPathDefinition with their corresponding API versions.
           required: true
           schema:
             type: string
@@ -26919,6 +26919,53 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mongodb/performanceTrends:
+    get:
+      tags:
+        - diagnostics
+      summary: Get MongoDB performance trends
+      description: Get read-only MongoDB performance trends from backend-owned metrics. The response covers resource, connection, operation, capacity, and availability series and does not expose PromQL, internal endpoints, or credentials.
+      operationId: getDiagnosticsMongoDBPerformanceTrends
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: range
+          in: query
+          description: Controlled query range. Allowed values are 1h, 6h, 24h, and 7d. Defaults to 1h.
+          required: false
+          schema:
+            type: string
+        - name: step
+          in: query
+          description: Controlled query granularity. Allowed values are 1m, 5m, 15m, and 1h.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/performanceTrends'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/taskAnalysis:
     get:
       tags:
@@ -27745,7 +27792,7 @@ paths:
       tags:
         - diagnostics
       summary: Get ClickHouse SQL analysis
-      description: Analyze system.query_log for the selected range. Returns the slowest queries by query_duration_ms, query patterns grouped by normalized_query_hash, and failed queries (ExceptionWhileProcessing) with exception_code. When log_queries is disabled or system.query_log is missing, the endpoint returns status=unavailable together with guidance instead of failing.
+      description: Analyze system.query_log for the selected range. Only initial queries (is_initial_query = 1) are counted so distributed child queries are not double counted. Returns the slowest queries by query_duration_ms, query patterns grouped by normalized_query_hash, and failed queries (ExceptionWhileProcessing) with exception_code. When log_queries is disabled or system.query_log is missing, the endpoint returns status=unavailable together with guidance instead of failing.
       operationId: getDiagnosticsClickhouseSQLAnalysis
       parameters:
         - name: orgName
@@ -41162,9 +41209,179 @@ components:
           format: int64
           type: integer
       type: object
+    apelocalCapacityObservation:
+      description: A measurement over known nodes. Missing nodes are not treated as zero. Coverage counts nodes whose complete per-node inputs are known, not individual storage resources.
+      type: object
+      properties:
+        value:
+          type: number
+          format: double
+          x-nullable: true
+          description: Known-node sum in GiB or ratio in percent. Omitted when no inputs are known or a ratio denominator is zero. Ratios can exceed 100. Remaining quota is zero when there are selected nodes but none are ready.
+        observedNodeCount:
+          type: integer
+          x-omitempty: false
+          description: Number of nodes with all inputs for this measurement.
+        expectedNodeCount:
+          type: integer
+          x-omitempty: false
+          description: Number of selected nodes relevant to this measurement; only ready schedulable nodes for remaining quota.
+        missingNodes:
+          type: array
+          x-omitempty: false
+          items:
+            type: string
+          description: Sorted names of relevant nodes with missing or inconsistent inputs for this measurement.
+    apelocalCapacityObservations:
+      description: Known-node aggregates after resource deduplication. Capacity values are in GiB and ratios are percentages using only nodes with both inputs. Independent measurements can cover different nodes. Quota, remaining quota and allocation percentage objects are omitted for unlimited or conflicting policies. Remaining quota covers only ready schedulable nodes. Physical remaining is capacity minus usage from nodes with both measurements and usage not exceeding capacity; it is not a guaranteed writable or schedulable quota. Existing summary totals remain omitted when incomplete.
+      type: object
+      properties:
+        physicalCapacity:
+          $ref: '#/components/schemas/apelocalCapacityObservation'
+        physicalUsage:
+          $ref: '#/components/schemas/apelocalCapacityObservation'
+        physicalRemaining:
+          $ref: '#/components/schemas/apelocalCapacityObservation'
+        allocatedCapacity:
+          $ref: '#/components/schemas/apelocalCapacityObservation'
+        allocatableCapacity:
+          $ref: '#/components/schemas/apelocalCapacityObservation'
+        availableCapacity:
+          $ref: '#/components/schemas/apelocalCapacityObservation'
+        physicalUsagePercent:
+          $ref: '#/components/schemas/apelocalCapacityObservation'
+        allocationPercent:
+          $ref: '#/components/schemas/apelocalCapacityObservation'
+    apelocalCapacitySummaryMode:
+      type: string
+      enum:
+        - finite
+        - unlimited
+        - conflict
+      description: Conflicting shared quotas cannot form a single logical total.
+    apelocalCapacitySummary:
+      description: Deduplicated apelocal statistics. Does not include other storage drivers. Missing measurements are omitted, never treated as zero.
+      type: object
+      properties:
+        observed:
+          $ref: '#/components/schemas/apelocalCapacityObservations'
+        capacityMode:
+          $ref: '#/components/schemas/apelocalCapacitySummaryMode'
+        complete:
+          type: boolean
+          x-omitempty: false
+          description: Whether all required measurements for the selected capacity mode are present.
+        nodeCount:
+          type: integer
+          x-omitempty: false
+        unavailableNodeCount:
+          type: integer
+          x-omitempty: false
+        physicalCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: Physical capacity in GiB, deduplicated by backing filesystem.
+        physicalUsage:
+          type: number
+          format: double
+          x-nullable: true
+          description: Physical filesystem usage in GiB, including other files.
+        allocatableCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: Logical total in GiB; omitted for unlimited or conflicting quotas.
+        allocatedCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: CSI allocated capacity in GiB, deduplicated by backing allocation resource.
+        availableCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: Remaining logical capacity in GiB on ready schedulable nodes only.
+    apelocalCapacityMode:
+      type: string
+      enum:
+        - asIs
+        - multiplier
+        - fixed
+        - unlimited
+      description: CSI capacity policy; unlimited does not represent physical capacity.
+    apelocalStorageClassStats:
+      description: apelocal-specific StorageClass capacity policy and measurements.
+      type: object
+      properties:
+        summary:
+          $ref: '#/components/schemas/apelocalCapacitySummary'
+        definitionName:
+          type: string
+          description: Resolved apelocal HostPathDefinition name.
+        backendType:
+          type: string
+          description: apelocal storage backend (HostDir, RawDisk or RawDiskGroup).
+        capacityMode:
+          $ref: '#/components/schemas/apelocalCapacityMode'
+        capacityMultiplier:
+          type: number
+          format: double
+          x-nullable: true
+          description: Capacity multiplier (1.2 means 120 percent).
+        fixedCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: Configured fixed capacity per node in GiB.
+        metricsAvailable:
+          type: boolean
+          description: Whether the metrics query succeeded; individual measurements can still be absent.
+    apelocalNodeStats:
+      description: apelocal-specific capacity measurements for one node. Missing measurements are omitted.
+      type: object
+      properties:
+        allocationResourceID:
+          type: string
+          description: Node-local backing allocation resource identity, used to deduplicate SC aliases.
+        physicalResourceID:
+          type: string
+          description: Node-local observed filesystem identity, used to deduplicate shared physical capacity.
+        physicalCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: Observed filesystem capacity in GiB; omitted when the backing filesystem cannot be identified completely.
+        physicalUsage:
+          type: number
+          format: double
+          x-nullable: true
+          description: Observed filesystem used bytes in GiB, including other data on the same filesystem.
+        allocatableCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: CSI total allocatable capacity in GiB; omitted for unlimited capacity.
+        availableCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: CSI remaining allocatable capacity in GiB; omitted for unlimited capacity.
+        allocatedCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: Capacity accounted for by CSI in GiB, including shared definitions; omitted when it cannot be determined exactly.
+        maximumVolumeSize:
+          type: number
+          format: double
+          x-nullable: true
+          description: Largest volume CSI can allocate on this node in GiB.
     storageClassNodeStats:
       description: storageClassNodeStats is a storage class node stats.
       properties:
+        apelocal:
+          $ref: '#/components/schemas/apelocalNodeStats'
         nodeName:
           description: the name of the node
           type: string
@@ -41197,6 +41414,8 @@ components:
     storageClassNodeStatsList:
       description: storageClassNodeStatsList is a list of storageClassNodeStats.
       properties:
+        apelocal:
+          $ref: '#/components/schemas/apelocalStorageClassStats'
         items:
           description: the list of storage class node stats
           type: array
@@ -52675,14 +52894,6 @@ components:
           type: integer
           format: int64
           description: Bytes written so far.
-        resultRows:
-          type: integer
-          format: int64
-          description: Rows in the result so far.
-        resultBytes:
-          type: integer
-          format: int64
-          description: Bytes in the result so far.
         memoryUsageBytes:
           type: integer
           format: int64
@@ -52690,24 +52901,21 @@ components:
         memoryLimitBytes:
           type: integer
           format: int64
-          description: Effective max_memory_usage setting for the query. Zero means unlimited/unknown.
+          description: max_memory_usage from the query Settings map (only explicitly modified settings). Zero means the query did not set a limit, so the server default applies.
         memoryUsageRatio:
           type: number
           format: double
-          description: memory_usage / max_memory_usage (0-1). Zero when the limit is unknown. Values close to 1 indicate the query is about to hit its memory limit.
+          description: memory_usage / memoryLimitBytes (0-1). Zero when the query did not explicitly set max_memory_usage. Values close to 1 indicate the query is about to hit its memory limit.
         peakMemoryUsageBytes:
           type: integer
           format: int64
           description: Peak memory usage in bytes. Zero when the server version does not expose peak_memory_usage.
-        queryKind:
-          type: string
-          description: Query kind reported by ClickHouse (Select, Insert, InitialQuery, ...).
         isInitialQuery:
           type: boolean
           description: Whether this row is the initial query rather than a remote sub-query.
         queryStartTime:
           type: string
-          description: Query start time in RFC3339 UTC.
+          description: Estimated query start time in RFC3339 UTC, computed from elapsed because system.processes has no start timestamp.
         query:
           type: string
           description: Full query text, truncated by the client for display when necessary.
@@ -52971,7 +53179,7 @@ components:
           $ref: '#/components/schemas/clickhouseSQLSummary'
         slowestQueries:
           type: array
-          description: Top queries ordered by query_duration_ms descending.
+          description: Top initial queries ordered by query_duration_ms descending. Distributed child queries are excluded via is_initial_query = 1.
           items:
             $ref: '#/components/schemas/clickhouseSlowQuery'
         patterns:
@@ -53222,9 +53430,6 @@ components:
           type: integer
           format: int64
           description: Compressed size of the source parts.
-        diskName:
-          type: string
-          description: Disk used for the merge.
     clickhouseMutation:
       type: object
       properties:
@@ -53478,9 +53683,6 @@ components:
         defaultDatabase:
           type: string
           description: Configured default database.
-        internalReplication:
-          type: boolean
-          description: Whether the cluster uses internal replication.
         errorsCount:
           type: integer
           format: int64
@@ -55083,6 +55285,11 @@ components:
         endpointID:
           type: string
           minLength: 1
+    endpointStatusEnum:
+      enum:
+        - valid
+        - invalid
+      type: string
     dataChannelListEndpoint:
       type: object
       properties:
@@ -55108,6 +55315,8 @@ components:
         description:
           type: string
           nullable: true
+        status:
+          $ref: '#/components/schemas/endpointStatusEnum'
         extraCfgs:
           type: object
           additionalProperties:
@@ -55406,6 +55615,8 @@ components:
     dataEndpointResponse:
       type: object
       properties:
+        status:
+          $ref: '#/components/schemas/endpointStatusEnum'
         endpointID:
           type: string
         endpointName:

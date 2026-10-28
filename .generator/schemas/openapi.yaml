@@ -7502,6 +7502,53 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mongodb/performanceTrends:
+    get:
+      tags:
+        - diagnostics
+      summary: Get MongoDB performance trends
+      description: Get read-only MongoDB performance trends from backend-owned metrics. The response covers resource, connection, operation, capacity, and availability series and does not expose PromQL, internal endpoints, or credentials.
+      operationId: getDiagnosticsMongoDBPerformanceTrends
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: range
+          in: query
+          description: Controlled query range. Allowed values are 1h, 6h, 24h, and 7d. Defaults to 1h.
+          required: false
+          schema:
+            type: string
+        - name: step
+          in: query
+          description: Controlled query granularity. Allowed values are 1m, 5m, 15m, and 1h.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/performanceTrends'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/elasticsearch/taskAnalysis:
     get:
       tags:
@@ -8328,7 +8375,7 @@ paths:
       tags:
         - diagnostics
       summary: Get ClickHouse SQL analysis
-      description: Analyze system.query_log for the selected range. Returns the slowest queries by query_duration_ms, query patterns grouped by normalized_query_hash, and failed queries (ExceptionWhileProcessing) with exception_code. When log_queries is disabled or system.query_log is missing, the endpoint returns status=unavailable together with guidance instead of failing.
+      description: Analyze system.query_log for the selected range. Only initial queries (is_initial_query = 1) are counted so distributed child queries are not double counted. Returns the slowest queries by query_duration_ms, query patterns grouped by normalized_query_hash, and failed queries (ExceptionWhileProcessing) with exception_code. When log_queries is disabled or system.query_log is missing, the endpoint returns status=unavailable together with guidance instead of failing.
       operationId: getDiagnosticsClickhouseSQLAnalysis
       parameters:
         - name: orgName
@@ -34169,14 +34216,6 @@ components:
           type: integer
           format: int64
           description: Bytes written so far.
-        resultRows:
-          type: integer
-          format: int64
-          description: Rows in the result so far.
-        resultBytes:
-          type: integer
-          format: int64
-          description: Bytes in the result so far.
         memoryUsageBytes:
           type: integer
           format: int64
@@ -34184,24 +34223,21 @@ components:
         memoryLimitBytes:
           type: integer
           format: int64
-          description: Effective max_memory_usage setting for the query. Zero means unlimited/unknown.
+          description: max_memory_usage from the query Settings map (only explicitly modified settings). Zero means the query did not set a limit, so the server default applies.
         memoryUsageRatio:
           type: number
           format: double
-          description: memory_usage / max_memory_usage (0-1). Zero when the limit is unknown. Values close to 1 indicate the query is about to hit its memory limit.
+          description: memory_usage / memoryLimitBytes (0-1). Zero when the query did not explicitly set max_memory_usage. Values close to 1 indicate the query is about to hit its memory limit.
         peakMemoryUsageBytes:
           type: integer
           format: int64
           description: Peak memory usage in bytes. Zero when the server version does not expose peak_memory_usage.
-        queryKind:
-          type: string
-          description: Query kind reported by ClickHouse (Select, Insert, InitialQuery, ...).
         isInitialQuery:
           type: boolean
           description: Whether this row is the initial query rather than a remote sub-query.
         queryStartTime:
           type: string
-          description: Query start time in RFC3339 UTC.
+          description: Estimated query start time in RFC3339 UTC, computed from elapsed because system.processes has no start timestamp.
         query:
           type: string
           description: Full query text, truncated by the client for display when necessary.
@@ -34465,7 +34501,7 @@ components:
           $ref: '#/components/schemas/clickhouseSQLSummary'
         slowestQueries:
           type: array
-          description: Top queries ordered by query_duration_ms descending.
+          description: Top initial queries ordered by query_duration_ms descending. Distributed child queries are excluded via is_initial_query = 1.
           items:
             $ref: '#/components/schemas/clickhouseSlowQuery'
         patterns:
@@ -34716,9 +34752,6 @@ components:
           type: integer
           format: int64
           description: Compressed size of the source parts.
-        diskName:
-          type: string
-          description: Disk used for the merge.
     clickhouseMutation:
       type: object
       properties:
@@ -34972,9 +35005,6 @@ components:
         defaultDatabase:
           type: string
           description: Configured default database.
-        internalReplication:
-          type: boolean
-          description: Whether the cluster uses internal replication.
         errorsCount:
           type: integer
           format: int64
@@ -45715,6 +45745,11 @@ components:
         endpointID:
           type: string
           minLength: 1
+    endpointStatusEnum:
+      enum:
+        - valid
+        - invalid
+      type: string
     dataChannelListEndpoint:
       type: object
       properties:
@@ -45740,6 +45775,8 @@ components:
         description:
           type: string
           nullable: true
+        status:
+          $ref: '#/components/schemas/endpointStatusEnum'
         extraCfgs:
           type: object
           additionalProperties:
@@ -46168,6 +46205,8 @@ components:
     dataEndpointResponse:
       type: object
       properties:
+        status:
+          $ref: '#/components/schemas/endpointStatusEnum'
         endpointID:
           type: string
         endpointName:

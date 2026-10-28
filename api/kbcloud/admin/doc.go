@@ -323,6 +323,7 @@
 //   - [diagnosticsApi.getDiagnosticsMariaDBPerformanceTrends]
 //   - [diagnosticsApi.getDiagnosticsMariaDBSQLAnalysis]
 //   - [diagnosticsApi.getDiagnosticsMariaDBSpaceAnalysis]
+//   - [diagnosticsApi.getDiagnosticsMongoDBPerformanceTrends]
 //   - [diagnosticsApi.getDiagnosticsMssqlSession]
 //   - [diagnosticsApi.getDiagnosticsMssqlSessionCachedPlan]
 //   - [diagnosticsApi.getDiagnosticsMssqlSessionLockAnalysis]

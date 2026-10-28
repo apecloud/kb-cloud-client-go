@@ -33,8 +33,6 @@ type ClickhouseMerge struct {
 	RowsWritten *int64 `json:"rowsWritten,omitempty"`
 	// Compressed size of the source parts.
 	TotalSizeBytesCompressed *int64 `json:"totalSizeBytesCompressed,omitempty"`
-	// Disk used for the merge.
-	DiskName *string `json:"diskName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -421,34 +419,6 @@ func (o *ClickhouseMerge) SetTotalSizeBytesCompressed(v int64) {
 	o.TotalSizeBytesCompressed = &v
 }
 
-// GetDiskName returns the DiskName field value if set, zero value otherwise.
-func (o *ClickhouseMerge) GetDiskName() string {
-	if o == nil || o.DiskName == nil {
-		var ret string
-		return ret
-	}
-	return *o.DiskName
-}
-
-// GetDiskNameOk returns a tuple with the DiskName field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ClickhouseMerge) GetDiskNameOk() (*string, bool) {
-	if o == nil || o.DiskName == nil {
-		return nil, false
-	}
-	return o.DiskName, true
-}
-
-// HasDiskName returns a boolean if a field has been set.
-func (o *ClickhouseMerge) HasDiskName() bool {
-	return o != nil && o.DiskName != nil
-}
-
-// SetDiskName gets a reference to the given string and assigns it to the DiskName field.
-func (o *ClickhouseMerge) SetDiskName(v string) {
-	o.DiskName = &v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ClickhouseMerge) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -494,9 +464,6 @@ func (o ClickhouseMerge) MarshalJSON() ([]byte, error) {
 	if o.TotalSizeBytesCompressed != nil {
 		toSerialize["totalSizeBytesCompressed"] = o.TotalSizeBytesCompressed
 	}
-	if o.DiskName != nil {
-		toSerialize["diskName"] = o.DiskName
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -520,14 +487,13 @@ func (o *ClickhouseMerge) UnmarshalJSON(bytes []byte) (err error) {
 		RowsRead                 *int64   `json:"rowsRead,omitempty"`
 		RowsWritten              *int64   `json:"rowsWritten,omitempty"`
 		TotalSizeBytesCompressed *int64   `json:"totalSizeBytesCompressed,omitempty"`
-		DiskName                 *string  `json:"diskName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"database", "table", "hostName", "elapsedSeconds", "progress", "numParts", "resultPartName", "partitionId", "isMutation", "memoryUsageBytes", "rowsRead", "rowsWritten", "totalSizeBytesCompressed", "diskName"})
+		common.DeleteKeys(additionalProperties, &[]string{"database", "table", "hostName", "elapsedSeconds", "progress", "numParts", "resultPartName", "partitionId", "isMutation", "memoryUsageBytes", "rowsRead", "rowsWritten", "totalSizeBytesCompressed"})
 	} else {
 		return err
 	}
@@ -544,7 +510,6 @@ func (o *ClickhouseMerge) UnmarshalJSON(bytes []byte) (err error) {
 	o.RowsRead = all.RowsRead
 	o.RowsWritten = all.RowsWritten
 	o.TotalSizeBytesCompressed = all.TotalSizeBytesCompressed
-	o.DiskName = all.DiskName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
