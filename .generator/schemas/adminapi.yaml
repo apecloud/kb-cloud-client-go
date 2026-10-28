@@ -54128,6 +54128,11 @@ components:
         endpointID:
           type: string
           minLength: 1
+    endpointStatusEnum:
+      enum:
+        - valid
+        - invalid
+      type: string
     dataChannelListEndpoint:
       type: object
       properties:
@@ -54153,6 +54158,8 @@ components:
         description:
           type: string
           nullable: true
+        status:
+          $ref: '#/components/schemas/endpointStatusEnum'
         extraCfgs:
           type: object
           additionalProperties:
@@ -54451,6 +54458,8 @@ components:
     dataEndpointResponse:
       type: object
       properties:
+        status:
+          $ref: '#/components/schemas/endpointStatusEnum'
         endpointID:
           type: string
         endpointName:
