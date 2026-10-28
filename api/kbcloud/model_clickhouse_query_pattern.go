@@ -9,7 +9,7 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 type ClickhouseQueryPattern struct {
 	// normalized_query_hash as a string.
 	NormalizedQueryHash *string `json:"normalizedQueryHash,omitempty"`
-	// One representative query text for the pattern.
+	// One representative query text for the pattern, with string and numeric literals and comments masked as ?.
 	SampleQuery *string `json:"sampleQuery,omitempty"`
 	// Number of executions of the pattern.
 	Calls *int64 `json:"calls,omitempty"`

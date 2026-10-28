@@ -52918,10 +52918,10 @@ components:
           description: Estimated query start time in RFC3339 UTC, computed from elapsed because system.processes has no start timestamp.
         query:
           type: string
-          description: Full query text, truncated by the client for display when necessary.
+          description: Query text with string and numeric literals and comments masked as ? before returning.
         querySummary:
           type: string
-          description: Single-line query summary suitable for list rendering.
+          description: Single-line masked query summary suitable for list rendering.
     clickhouseSource:
       type: object
       properties:
@@ -53018,7 +53018,7 @@ components:
           description: Query kind reported by ClickHouse.
         query:
           type: string
-          description: Full query text.
+          description: Query text with string and numeric literals and comments masked as ?.
         normalizedQueryHash:
           type: string
           description: normalized_query_hash as a string to avoid precision loss in clients.
@@ -53073,7 +53073,7 @@ components:
           description: normalized_query_hash as a string.
         sampleQuery:
           type: string
-          description: One representative query text for the pattern.
+          description: One representative query text for the pattern, with string and numeric literals and comments masked as ?.
         calls:
           type: integer
           format: int64
@@ -53129,7 +53129,7 @@ components:
           description: Current database at execution time.
         query:
           type: string
-          description: Full query text.
+          description: Query text with string and numeric literals and comments masked as ?.
         exceptionCode:
           type: integer
           format: int64
@@ -53447,7 +53447,7 @@ components:
           description: Mutation identifier.
         command:
           type: string
-          description: Mutation command (ALTER/UPDATE/DELETE).
+          description: Mutation command (ALTER/UPDATE/DELETE) with string and numeric literals and comments masked as ?.
         createTime:
           type: string
           description: Mutation creation time in RFC3339 UTC.

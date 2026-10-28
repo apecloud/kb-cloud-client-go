@@ -15,7 +15,7 @@ type ClickhouseFailedQuery struct {
 	User *string `json:"user,omitempty"`
 	// Current database at execution time.
 	Database *string `json:"database,omitempty"`
-	// Full query text.
+	// Query text with string and numeric literals and comments masked as ?.
 	Query *string `json:"query,omitempty"`
 	// ClickHouse exception code.
 	ExceptionCode *int64 `json:"exceptionCode,omitempty"`

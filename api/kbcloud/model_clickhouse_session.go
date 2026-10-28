@@ -47,9 +47,9 @@ type ClickhouseSession struct {
 	IsInitialQuery *bool `json:"isInitialQuery,omitempty"`
 	// Estimated query start time in RFC3339 UTC, computed from elapsed because system.processes has no start timestamp.
 	QueryStartTime *string `json:"queryStartTime,omitempty"`
-	// Full query text, truncated by the client for display when necessary.
+	// Query text with string and numeric literals and comments masked as ? before returning.
 	Query *string `json:"query,omitempty"`
-	// Single-line query summary suitable for list rendering.
+	// Single-line masked query summary suitable for list rendering.
 	QuerySummary *string `json:"querySummary,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

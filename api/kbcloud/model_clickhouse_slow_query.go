@@ -19,7 +19,7 @@ type ClickhouseSlowQuery struct {
 	Database *string `json:"database,omitempty"`
 	// Query kind reported by ClickHouse.
 	QueryKind *string `json:"queryKind,omitempty"`
-	// Full query text.
+	// Query text with string and numeric literals and comments masked as ?.
 	Query *string `json:"query,omitempty"`
 	// normalized_query_hash as a string to avoid precision loss in clients.
 	NormalizedQueryHash *string `json:"normalizedQueryHash,omitempty"`

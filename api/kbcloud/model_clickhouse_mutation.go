@@ -15,7 +15,7 @@ type ClickhouseMutation struct {
 	HostName *string `json:"hostName,omitempty"`
 	// Mutation identifier.
 	MutationId *string `json:"mutationId,omitempty"`
-	// Mutation command (ALTER/UPDATE/DELETE).
+	// Mutation command (ALTER/UPDATE/DELETE) with string and numeric literals and comments masked as ?.
 	Command *string `json:"command,omitempty"`
 	// Mutation creation time in RFC3339 UTC.
 	CreateTime *string `json:"createTime,omitempty"`
