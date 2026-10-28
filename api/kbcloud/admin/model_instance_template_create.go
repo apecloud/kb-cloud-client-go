@@ -1,0 +1,328 @@
+// Unless explicitly stated otherwise all files in this repository are licensed under the Apache-2.0 License.
+// This product includes software developed at ApeCloud (https://www.apecloud.com/).
+// Copyright 2022-Present ApeCloud Co., Ltd
+
+package admin
+
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
+
+// InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, nodeGroup and storageClass are optional overlays. The request must include every chart-rendered instance template exactly once. Explicit placement requires availabilityZone and optionally accepts nodeGroup, without inheriting upper-level AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks default inheritance. Hostname, user scheduling rules and additional topology keys are preserved.
+type InstanceTemplateCreate struct {
+	// Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
+	NodeGroup *string `json:"nodeGroup,omitempty"`
+	// Instance template name; must match a chart-rendered instance.
+	Name string `json:"name"`
+	// Replica count for this instance template.
+	Replicas int32 `json:"replicas"`
+	// Single AZ for explicit template placement (topology.kubernetes.io/zone). Must be enabled in the environment and is required when nodeGroup is specified. An omitted nodeGroup does not inherit the component or cluster host group. Omitting both leaves SchedulingPolicy unset for KubeBlocks inheritance.
+	AvailabilityZone *string `json:"availabilityZone,omitempty"`
+	// StorageClass name for all persistent volumes in this template. Copied from component volumeClaimTemplates, preserving volume sizes and other settings while overriding storageClassName. Chart instance volume templates are cleared; omitted or empty leaves instance volumeClaimTemplates unset.
+	StorageClass *string `json:"storageClass,omitempty"`
+	// Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
+	Env []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
+	// Annotation map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
+	Annotations map[string]string `json:"annotations,omitempty"`
+	// Label map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted. The apps.kubeblocks.io/instance-template label is managed by the system and must equal the template name if supplied.
+	Labels map[string]string `json:"labels,omitempty"`
+	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
+	UnparsedObject map[string]interface{} `json:"-"`
+}
+
+// NewInstanceTemplateCreate instantiates a new InstanceTemplateCreate object.
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed.
+func NewInstanceTemplateCreate(name string, replicas int32) *InstanceTemplateCreate {
+	this := InstanceTemplateCreate{}
+	this.Name = name
+	this.Replicas = replicas
+	return &this
+}
+
+// NewInstanceTemplateCreateWithDefaults instantiates a new InstanceTemplateCreate object.
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set.
+func NewInstanceTemplateCreateWithDefaults() *InstanceTemplateCreate {
+	this := InstanceTemplateCreate{}
+	return &this
+}
+
+// GetNodeGroup returns the NodeGroup field value if set, zero value otherwise.
+func (o *InstanceTemplateCreate) GetNodeGroup() string {
+	if o == nil || o.NodeGroup == nil {
+		var ret string
+		return ret
+	}
+	return *o.NodeGroup
+}
+
+// GetNodeGroupOk returns a tuple with the NodeGroup field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InstanceTemplateCreate) GetNodeGroupOk() (*string, bool) {
+	if o == nil || o.NodeGroup == nil {
+		return nil, false
+	}
+	return o.NodeGroup, true
+}
+
+// HasNodeGroup returns a boolean if a field has been set.
+func (o *InstanceTemplateCreate) HasNodeGroup() bool {
+	return o != nil && o.NodeGroup != nil
+}
+
+// SetNodeGroup gets a reference to the given string and assigns it to the NodeGroup field.
+func (o *InstanceTemplateCreate) SetNodeGroup(v string) {
+	o.NodeGroup = &v
+}
+
+// GetName returns the Name field value.
+func (o *InstanceTemplateCreate) GetName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.Name
+}
+
+// GetNameOk returns a tuple with the Name field value
+// and a boolean to check if the value has been set.
+func (o *InstanceTemplateCreate) GetNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Name, true
+}
+
+// SetName sets field value.
+func (o *InstanceTemplateCreate) SetName(v string) {
+	o.Name = v
+}
+
+// GetReplicas returns the Replicas field value.
+func (o *InstanceTemplateCreate) GetReplicas() int32 {
+	if o == nil {
+		var ret int32
+		return ret
+	}
+	return o.Replicas
+}
+
+// GetReplicasOk returns a tuple with the Replicas field value
+// and a boolean to check if the value has been set.
+func (o *InstanceTemplateCreate) GetReplicasOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Replicas, true
+}
+
+// SetReplicas sets field value.
+func (o *InstanceTemplateCreate) SetReplicas(v int32) {
+	o.Replicas = v
+}
+
+// GetAvailabilityZone returns the AvailabilityZone field value if set, zero value otherwise.
+func (o *InstanceTemplateCreate) GetAvailabilityZone() string {
+	if o == nil || o.AvailabilityZone == nil {
+		var ret string
+		return ret
+	}
+	return *o.AvailabilityZone
+}
+
+// GetAvailabilityZoneOk returns a tuple with the AvailabilityZone field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InstanceTemplateCreate) GetAvailabilityZoneOk() (*string, bool) {
+	if o == nil || o.AvailabilityZone == nil {
+		return nil, false
+	}
+	return o.AvailabilityZone, true
+}
+
+// HasAvailabilityZone returns a boolean if a field has been set.
+func (o *InstanceTemplateCreate) HasAvailabilityZone() bool {
+	return o != nil && o.AvailabilityZone != nil
+}
+
+// SetAvailabilityZone gets a reference to the given string and assigns it to the AvailabilityZone field.
+func (o *InstanceTemplateCreate) SetAvailabilityZone(v string) {
+	o.AvailabilityZone = &v
+}
+
+// GetStorageClass returns the StorageClass field value if set, zero value otherwise.
+func (o *InstanceTemplateCreate) GetStorageClass() string {
+	if o == nil || o.StorageClass == nil {
+		var ret string
+		return ret
+	}
+	return *o.StorageClass
+}
+
+// GetStorageClassOk returns a tuple with the StorageClass field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InstanceTemplateCreate) GetStorageClassOk() (*string, bool) {
+	if o == nil || o.StorageClass == nil {
+		return nil, false
+	}
+	return o.StorageClass, true
+}
+
+// HasStorageClass returns a boolean if a field has been set.
+func (o *InstanceTemplateCreate) HasStorageClass() bool {
+	return o != nil && o.StorageClass != nil
+}
+
+// SetStorageClass gets a reference to the given string and assigns it to the StorageClass field.
+func (o *InstanceTemplateCreate) SetStorageClass(v string) {
+	o.StorageClass = &v
+}
+
+// GetEnv returns the Env field value if set, zero value otherwise.
+func (o *InstanceTemplateCreate) GetEnv() []InstanceTemplateCreateEnvItem {
+	if o == nil || o.Env == nil {
+		var ret []InstanceTemplateCreateEnvItem
+		return ret
+	}
+	return o.Env
+}
+
+// GetEnvOk returns a tuple with the Env field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InstanceTemplateCreate) GetEnvOk() (*[]InstanceTemplateCreateEnvItem, bool) {
+	if o == nil || o.Env == nil {
+		return nil, false
+	}
+	return &o.Env, true
+}
+
+// HasEnv returns a boolean if a field has been set.
+func (o *InstanceTemplateCreate) HasEnv() bool {
+	return o != nil && o.Env != nil
+}
+
+// SetEnv gets a reference to the given []InstanceTemplateCreateEnvItem and assigns it to the Env field.
+func (o *InstanceTemplateCreate) SetEnv(v []InstanceTemplateCreateEnvItem) {
+	o.Env = v
+}
+
+// GetAnnotations returns the Annotations field value if set, zero value otherwise.
+func (o *InstanceTemplateCreate) GetAnnotations() map[string]string {
+	if o == nil || o.Annotations == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.Annotations
+}
+
+// GetAnnotationsOk returns a tuple with the Annotations field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InstanceTemplateCreate) GetAnnotationsOk() (*map[string]string, bool) {
+	if o == nil || o.Annotations == nil {
+		return nil, false
+	}
+	return &o.Annotations, true
+}
+
+// HasAnnotations returns a boolean if a field has been set.
+func (o *InstanceTemplateCreate) HasAnnotations() bool {
+	return o != nil && o.Annotations != nil
+}
+
+// SetAnnotations gets a reference to the given map[string]string and assigns it to the Annotations field.
+func (o *InstanceTemplateCreate) SetAnnotations(v map[string]string) {
+	o.Annotations = v
+}
+
+// GetLabels returns the Labels field value if set, zero value otherwise.
+func (o *InstanceTemplateCreate) GetLabels() map[string]string {
+	if o == nil || o.Labels == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.Labels
+}
+
+// GetLabelsOk returns a tuple with the Labels field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InstanceTemplateCreate) GetLabelsOk() (*map[string]string, bool) {
+	if o == nil || o.Labels == nil {
+		return nil, false
+	}
+	return &o.Labels, true
+}
+
+// HasLabels returns a boolean if a field has been set.
+func (o *InstanceTemplateCreate) HasLabels() bool {
+	return o != nil && o.Labels != nil
+}
+
+// SetLabels gets a reference to the given map[string]string and assigns it to the Labels field.
+func (o *InstanceTemplateCreate) SetLabels(v map[string]string) {
+	o.Labels = v
+}
+
+// MarshalJSON serializes the struct using spec logic.
+func (o InstanceTemplateCreate) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.UnparsedObject != nil {
+		return common.Marshal(o.UnparsedObject)
+	}
+	if o.NodeGroup != nil {
+		toSerialize["nodeGroup"] = o.NodeGroup
+	}
+	toSerialize["name"] = o.Name
+	toSerialize["replicas"] = o.Replicas
+	if o.AvailabilityZone != nil {
+		toSerialize["availabilityZone"] = o.AvailabilityZone
+	}
+	if o.StorageClass != nil {
+		toSerialize["storageClass"] = o.StorageClass
+	}
+	if o.Env != nil {
+		toSerialize["env"] = o.Env
+	}
+	if o.Annotations != nil {
+		toSerialize["annotations"] = o.Annotations
+	}
+	if o.Labels != nil {
+		toSerialize["labels"] = o.Labels
+	}
+	return common.Marshal(toSerialize)
+}
+
+// UnmarshalJSON deserializes the given payload.
+func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
+	all := struct {
+		NodeGroup        *string                         `json:"nodeGroup,omitempty"`
+		Name             *string                         `json:"name"`
+		Replicas         *int32                          `json:"replicas"`
+		AvailabilityZone *string                         `json:"availabilityZone,omitempty"`
+		StorageClass     *string                         `json:"storageClass,omitempty"`
+		Env              []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
+		Annotations      map[string]string               `json:"annotations,omitempty"`
+		Labels           map[string]string               `json:"labels,omitempty"`
+	}{}
+	if err = common.Unmarshal(bytes, &all); err != nil {
+		return err
+	}
+	if all.Name == nil {
+		return fmt.Errorf("required field name missing")
+	}
+	if all.Replicas == nil {
+		return fmt.Errorf("required field replicas missing")
+	}
+	o.NodeGroup = all.NodeGroup
+	o.Name = *all.Name
+	o.Replicas = *all.Replicas
+	o.AvailabilityZone = all.AvailabilityZone
+	o.StorageClass = all.StorageClass
+	o.Env = all.Env
+	o.Annotations = all.Annotations
+	o.Labels = all.Labels
+
+	return nil
+}

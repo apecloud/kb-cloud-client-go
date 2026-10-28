@@ -12,12 +12,20 @@ import (
 
 // ComponentItemCreate ComponentItem is the information of a component
 type ComponentItemCreate struct {
+	// User-provided component annotations, merged over chart defaults. Platform-managed keys cannot be overridden. Omitted or empty preserves defaults; empty string values are literal values, not deletions.
+	Annotations map[string]string `json:"annotations,omitempty"`
+	// Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
+	NodeGroup *string `json:"nodeGroup,omitempty"`
+	// Single AZ for explicit component placement. Must be enabled in the environment and is required when nodeGroup is specified. An omitted nodeGroup does not inherit the cluster host group. Omitting both retains cluster scheduling.
+	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 	// component type, refer to componentDef and support NamePrefix
 	Component string `json:"component"`
 	// The number of components, if often used as shards number
 	CompNum *int32 `json:"compNum,omitempty"`
-	// Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas.
+	// Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas. When instanceTemplates is provided, this must equal the sum of all template replica counts.
 	Replicas *int32 `json:"replicas,omitempty"`
+	// Per-template replicas and optional overlays (env, annotations, labels, availability zone, storage class). Required when the current mode component declares instanceTemplate in engine_options; otherwise omit. Names must exactly match all chart-rendered instances, without missing, extra, or duplicate names; order does not matter. Component replicas must equal the sum of all requested instance template replica counts.
+	InstanceTemplates []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`
 	// Whether to skip resource constraint validation when creating cluster
 	SkipResourceConstraints *bool   `json:"skipResourceConstraints,omitempty"`
 	ClassCode               *string `json:"classCode,omitempty"`
@@ -57,6 +65,90 @@ func NewComponentItemCreateWithDefaults() *ComponentItemCreate {
 	var skipResourceConstraints bool = false
 	this.SkipResourceConstraints = &skipResourceConstraints
 	return &this
+}
+
+// GetAnnotations returns the Annotations field value if set, zero value otherwise.
+func (o *ComponentItemCreate) GetAnnotations() map[string]string {
+	if o == nil || o.Annotations == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.Annotations
+}
+
+// GetAnnotationsOk returns a tuple with the Annotations field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentItemCreate) GetAnnotationsOk() (*map[string]string, bool) {
+	if o == nil || o.Annotations == nil {
+		return nil, false
+	}
+	return &o.Annotations, true
+}
+
+// HasAnnotations returns a boolean if a field has been set.
+func (o *ComponentItemCreate) HasAnnotations() bool {
+	return o != nil && o.Annotations != nil
+}
+
+// SetAnnotations gets a reference to the given map[string]string and assigns it to the Annotations field.
+func (o *ComponentItemCreate) SetAnnotations(v map[string]string) {
+	o.Annotations = v
+}
+
+// GetNodeGroup returns the NodeGroup field value if set, zero value otherwise.
+func (o *ComponentItemCreate) GetNodeGroup() string {
+	if o == nil || o.NodeGroup == nil {
+		var ret string
+		return ret
+	}
+	return *o.NodeGroup
+}
+
+// GetNodeGroupOk returns a tuple with the NodeGroup field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentItemCreate) GetNodeGroupOk() (*string, bool) {
+	if o == nil || o.NodeGroup == nil {
+		return nil, false
+	}
+	return o.NodeGroup, true
+}
+
+// HasNodeGroup returns a boolean if a field has been set.
+func (o *ComponentItemCreate) HasNodeGroup() bool {
+	return o != nil && o.NodeGroup != nil
+}
+
+// SetNodeGroup gets a reference to the given string and assigns it to the NodeGroup field.
+func (o *ComponentItemCreate) SetNodeGroup(v string) {
+	o.NodeGroup = &v
+}
+
+// GetAvailabilityZone returns the AvailabilityZone field value if set, zero value otherwise.
+func (o *ComponentItemCreate) GetAvailabilityZone() string {
+	if o == nil || o.AvailabilityZone == nil {
+		var ret string
+		return ret
+	}
+	return *o.AvailabilityZone
+}
+
+// GetAvailabilityZoneOk returns a tuple with the AvailabilityZone field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentItemCreate) GetAvailabilityZoneOk() (*string, bool) {
+	if o == nil || o.AvailabilityZone == nil {
+		return nil, false
+	}
+	return o.AvailabilityZone, true
+}
+
+// HasAvailabilityZone returns a boolean if a field has been set.
+func (o *ComponentItemCreate) HasAvailabilityZone() bool {
+	return o != nil && o.AvailabilityZone != nil
+}
+
+// SetAvailabilityZone gets a reference to the given string and assigns it to the AvailabilityZone field.
+func (o *ComponentItemCreate) SetAvailabilityZone(v string) {
+	o.AvailabilityZone = &v
 }
 
 // GetComponent returns the Component field value.
@@ -136,6 +228,34 @@ func (o *ComponentItemCreate) HasReplicas() bool {
 // SetReplicas gets a reference to the given int32 and assigns it to the Replicas field.
 func (o *ComponentItemCreate) SetReplicas(v int32) {
 	o.Replicas = &v
+}
+
+// GetInstanceTemplates returns the InstanceTemplates field value if set, zero value otherwise.
+func (o *ComponentItemCreate) GetInstanceTemplates() []InstanceTemplateCreate {
+	if o == nil || o.InstanceTemplates == nil {
+		var ret []InstanceTemplateCreate
+		return ret
+	}
+	return o.InstanceTemplates
+}
+
+// GetInstanceTemplatesOk returns a tuple with the InstanceTemplates field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentItemCreate) GetInstanceTemplatesOk() (*[]InstanceTemplateCreate, bool) {
+	if o == nil || o.InstanceTemplates == nil {
+		return nil, false
+	}
+	return &o.InstanceTemplates, true
+}
+
+// HasInstanceTemplates returns a boolean if a field has been set.
+func (o *ComponentItemCreate) HasInstanceTemplates() bool {
+	return o != nil && o.InstanceTemplates != nil
+}
+
+// SetInstanceTemplates gets a reference to the given []InstanceTemplateCreate and assigns it to the InstanceTemplates field.
+func (o *ComponentItemCreate) SetInstanceTemplates(v []InstanceTemplateCreate) {
+	o.InstanceTemplates = v
 }
 
 // GetSkipResourceConstraints returns the SkipResourceConstraints field value if set, zero value otherwise.
@@ -368,12 +488,24 @@ func (o ComponentItemCreate) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Annotations != nil {
+		toSerialize["annotations"] = o.Annotations
+	}
+	if o.NodeGroup != nil {
+		toSerialize["nodeGroup"] = o.NodeGroup
+	}
+	if o.AvailabilityZone != nil {
+		toSerialize["availabilityZone"] = o.AvailabilityZone
+	}
 	toSerialize["component"] = o.Component
 	if o.CompNum != nil {
 		toSerialize["compNum"] = o.CompNum
 	}
 	if o.Replicas != nil {
 		toSerialize["replicas"] = o.Replicas
+	}
+	if o.InstanceTemplates != nil {
+		toSerialize["instanceTemplates"] = o.InstanceTemplates
 	}
 	if o.SkipResourceConstraints != nil {
 		toSerialize["skipResourceConstraints"] = o.SkipResourceConstraints
@@ -409,17 +541,21 @@ func (o ComponentItemCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component               *string               `json:"component"`
-		CompNum                 *int32                `json:"compNum,omitempty"`
-		Replicas                *int32                `json:"replicas,omitempty"`
-		SkipResourceConstraints *bool                 `json:"skipResourceConstraints,omitempty"`
-		ClassCode               *string               `json:"classCode,omitempty"`
-		Cpu                     *float64              `json:"cpu,omitempty"`
-		Memory                  *float64              `json:"memory,omitempty"`
-		StorageClass            *string               `json:"storageClass,omitempty"`
-		Volumes                 []ComponentVolumeItem `json:"volumes,omitempty"`
-		SystemAccountSecretName *string               `json:"systemAccountSecretName,omitempty"`
-		Network                 *ComponentNetwork     `json:"network,omitempty"`
+		Annotations             map[string]string        `json:"annotations,omitempty"`
+		NodeGroup               *string                  `json:"nodeGroup,omitempty"`
+		AvailabilityZone        *string                  `json:"availabilityZone,omitempty"`
+		Component               *string                  `json:"component"`
+		CompNum                 *int32                   `json:"compNum,omitempty"`
+		Replicas                *int32                   `json:"replicas,omitempty"`
+		InstanceTemplates       []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`
+		SkipResourceConstraints *bool                    `json:"skipResourceConstraints,omitempty"`
+		ClassCode               *string                  `json:"classCode,omitempty"`
+		Cpu                     *float64                 `json:"cpu,omitempty"`
+		Memory                  *float64                 `json:"memory,omitempty"`
+		StorageClass            *string                  `json:"storageClass,omitempty"`
+		Volumes                 []ComponentVolumeItem    `json:"volumes,omitempty"`
+		SystemAccountSecretName *string                  `json:"systemAccountSecretName,omitempty"`
+		Network                 *ComponentNetwork        `json:"network,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -429,15 +565,19 @@ func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "compNum", "replicas", "skipResourceConstraints", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName", "network"})
+		common.DeleteKeys(additionalProperties, &[]string{"annotations", "nodeGroup", "availabilityZone", "component", "compNum", "replicas", "instanceTemplates", "skipResourceConstraints", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName", "network"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.Annotations = all.Annotations
+	o.NodeGroup = all.NodeGroup
+	o.AvailabilityZone = all.AvailabilityZone
 	o.Component = *all.Component
 	o.CompNum = all.CompNum
 	o.Replicas = all.Replicas
+	o.InstanceTemplates = all.InstanceTemplates
 	o.SkipResourceConstraints = all.SkipResourceConstraints
 	o.ClassCode = all.ClassCode
 	o.Cpu = all.Cpu

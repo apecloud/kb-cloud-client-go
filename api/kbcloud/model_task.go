@@ -41,6 +41,8 @@ type Task struct {
 	Parallelism *int32 `json:"parallelism,omitempty"`
 	// Policy to handle failures
 	FailurePolicy *TaskFailurePolicy `json:"failurePolicy,omitempty"`
+	// Supported manual retry modes for this task. Runtime conflicts are checked when retrying.
+	RetryModes []TaskRetryMode `json:"retryModes,omitempty"`
 	// Maximum number of retries for the task
 	RetryLimit *int32 `json:"retryLimit,omitempty"`
 	// Timeout duration for the task in seconds
@@ -474,6 +476,34 @@ func (o *Task) SetFailurePolicy(v TaskFailurePolicy) {
 	o.FailurePolicy = &v
 }
 
+// GetRetryModes returns the RetryModes field value if set, zero value otherwise.
+func (o *Task) GetRetryModes() []TaskRetryMode {
+	if o == nil || o.RetryModes == nil {
+		var ret []TaskRetryMode
+		return ret
+	}
+	return o.RetryModes
+}
+
+// GetRetryModesOk returns a tuple with the RetryModes field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Task) GetRetryModesOk() (*[]TaskRetryMode, bool) {
+	if o == nil || o.RetryModes == nil {
+		return nil, false
+	}
+	return &o.RetryModes, true
+}
+
+// HasRetryModes returns a boolean if a field has been set.
+func (o *Task) HasRetryModes() bool {
+	return o != nil && o.RetryModes != nil
+}
+
+// SetRetryModes gets a reference to the given []TaskRetryMode and assigns it to the RetryModes field.
+func (o *Task) SetRetryModes(v []TaskRetryMode) {
+	o.RetryModes = v
+}
+
 // GetRetryLimit returns the RetryLimit field value if set, zero value otherwise.
 func (o *Task) GetRetryLimit() int32 {
 	if o == nil || o.RetryLimit == nil {
@@ -757,6 +787,9 @@ func (o Task) MarshalJSON() ([]byte, error) {
 	if o.FailurePolicy != nil {
 		toSerialize["failurePolicy"] = o.FailurePolicy
 	}
+	if o.RetryModes != nil {
+		toSerialize["retryModes"] = o.RetryModes
+	}
 	if o.RetryLimit != nil {
 		toSerialize["retryLimit"] = o.RetryLimit
 	}
@@ -806,6 +839,7 @@ func (o *Task) UnmarshalJSON(bytes []byte) (err error) {
 		Steps          []TaskStep         `json:"steps,omitempty"`
 		Parallelism    *int32             `json:"parallelism,omitempty"`
 		FailurePolicy  *TaskFailurePolicy `json:"failurePolicy,omitempty"`
+		RetryModes     []TaskRetryMode    `json:"retryModes,omitempty"`
 		RetryLimit     *int32             `json:"retryLimit,omitempty"`
 		TimeoutSecond  *int32             `json:"timeoutSecond,omitempty"`
 		Operator       *string            `json:"operator,omitempty"`
@@ -838,7 +872,7 @@ func (o *Task) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"taskId", "taskName", "taskType", "subTaskType", "status", "createdAt", "updatedAt", "deletedAt", "startedAt", "completionTime", "message", "progress", "steps", "parallelism", "failurePolicy", "retryLimit", "timeoutSecond", "operator", "resourceType", "resourceId", "resourceName", "orgName", "scheduled"})
+		common.DeleteKeys(additionalProperties, &[]string{"taskId", "taskName", "taskType", "subTaskType", "status", "createdAt", "updatedAt", "deletedAt", "startedAt", "completionTime", "message", "progress", "steps", "parallelism", "failurePolicy", "retryModes", "retryLimit", "timeoutSecond", "operator", "resourceType", "resourceId", "resourceName", "orgName", "scheduled"})
 	} else {
 		return err
 	}
@@ -867,6 +901,7 @@ func (o *Task) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.FailurePolicy = all.FailurePolicy
 	}
+	o.RetryModes = all.RetryModes
 	o.RetryLimit = all.RetryLimit
 	o.TimeoutSecond = all.TimeoutSecond
 	o.Operator = all.Operator

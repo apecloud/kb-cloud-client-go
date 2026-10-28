@@ -13,8 +13,12 @@ type ShowDataRequest struct {
 	Database *string `json:"database,omitempty"`
 	// the target table or view name
 	Table *string `json:"table,omitempty"`
-	// return limited number of data
+	// Rows per batch, from 1 to 2000; defaults to 200.
 	Limit common.NullableInt32 `json:"limit,omitempty"`
+	// Zero-based offset. Include 0 for the first paged request; omit for legacy data plus total-count behavior. Paged requests do not count the table.
+	Offset common.NullableInt64 `json:"offset,omitempty"`
+	// Only return pagination.totalRows, without loading data.
+	CountOnly *bool `json:"countOnly,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -136,6 +140,73 @@ func (o *ShowDataRequest) UnsetLimit() {
 	o.Limit.Unset()
 }
 
+// GetOffset returns the Offset field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ShowDataRequest) GetOffset() int64 {
+	if o == nil || o.Offset.Get() == nil {
+		var ret int64
+		return ret
+	}
+	return *o.Offset.Get()
+}
+
+// GetOffsetOk returns a tuple with the Offset field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ShowDataRequest) GetOffsetOk() (*int64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Offset.Get(), o.Offset.IsSet()
+}
+
+// HasOffset returns a boolean if a field has been set.
+func (o *ShowDataRequest) HasOffset() bool {
+	return o != nil && o.Offset.IsSet()
+}
+
+// SetOffset gets a reference to the given common.NullableInt64 and assigns it to the Offset field.
+func (o *ShowDataRequest) SetOffset(v int64) {
+	o.Offset.Set(&v)
+}
+
+// SetOffsetNil sets the value for Offset to be an explicit nil.
+func (o *ShowDataRequest) SetOffsetNil() {
+	o.Offset.Set(nil)
+}
+
+// UnsetOffset ensures that no value is present for Offset, not even an explicit nil.
+func (o *ShowDataRequest) UnsetOffset() {
+	o.Offset.Unset()
+}
+
+// GetCountOnly returns the CountOnly field value if set, zero value otherwise.
+func (o *ShowDataRequest) GetCountOnly() bool {
+	if o == nil || o.CountOnly == nil {
+		var ret bool
+		return ret
+	}
+	return *o.CountOnly
+}
+
+// GetCountOnlyOk returns a tuple with the CountOnly field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ShowDataRequest) GetCountOnlyOk() (*bool, bool) {
+	if o == nil || o.CountOnly == nil {
+		return nil, false
+	}
+	return o.CountOnly, true
+}
+
+// HasCountOnly returns a boolean if a field has been set.
+func (o *ShowDataRequest) HasCountOnly() bool {
+	return o != nil && o.CountOnly != nil
+}
+
+// SetCountOnly gets a reference to the given bool and assigns it to the CountOnly field.
+func (o *ShowDataRequest) SetCountOnly(v bool) {
+	o.CountOnly = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ShowDataRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -151,6 +222,12 @@ func (o ShowDataRequest) MarshalJSON() ([]byte, error) {
 	if o.Limit.IsSet() {
 		toSerialize["limit"] = o.Limit.Get()
 	}
+	if o.Offset.IsSet() {
+		toSerialize["offset"] = o.Offset.Get()
+	}
+	if o.CountOnly != nil {
+		toSerialize["countOnly"] = o.CountOnly
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -161,22 +238,26 @@ func (o ShowDataRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ShowDataRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Database *string              `json:"database,omitempty"`
-		Table    *string              `json:"table,omitempty"`
-		Limit    common.NullableInt32 `json:"limit,omitempty"`
+		Database  *string              `json:"database,omitempty"`
+		Table     *string              `json:"table,omitempty"`
+		Limit     common.NullableInt32 `json:"limit,omitempty"`
+		Offset    common.NullableInt64 `json:"offset,omitempty"`
+		CountOnly *bool                `json:"countOnly,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"database", "table", "limit"})
+		common.DeleteKeys(additionalProperties, &[]string{"database", "table", "limit", "offset", "countOnly"})
 	} else {
 		return err
 	}
 	o.Database = all.Database
 	o.Table = all.Table
 	o.Limit = all.Limit
+	o.Offset = all.Offset
+	o.CountOnly = all.CountOnly
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

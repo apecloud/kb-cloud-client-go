@@ -12,7 +12,11 @@ import (
 
 // BackupOption If present, it must be set defaultMethod and fullMethod
 type BackupOption struct {
-	DefaultMethod string `json:"defaultMethod"`
+	// Engine modes that support backup and restore. Omitted or null means all modes
+	// (legacy behavior); an empty array disables backup and restore for all modes.
+	//
+	Modes         []string `json:"modes,omitempty"`
+	DefaultMethod string   `json:"defaultMethod"`
 	// If set, the default backup method will be applied to the specified component.
 	// If not set, the default backup method will be applied to all components.
 	//
@@ -50,6 +54,34 @@ func NewBackupOption(defaultMethod string, fullMethod []BackupMethodOption) *Bac
 func NewBackupOptionWithDefaults() *BackupOption {
 	this := BackupOption{}
 	return &this
+}
+
+// GetModes returns the Modes field value if set, zero value otherwise.
+func (o *BackupOption) GetModes() []string {
+	if o == nil || o.Modes == nil {
+		var ret []string
+		return ret
+	}
+	return o.Modes
+}
+
+// GetModesOk returns a tuple with the Modes field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupOption) GetModesOk() (*[]string, bool) {
+	if o == nil || o.Modes == nil {
+		return nil, false
+	}
+	return &o.Modes, true
+}
+
+// HasModes returns a boolean if a field has been set.
+func (o *BackupOption) HasModes() bool {
+	return o != nil && o.Modes != nil
+}
+
+// SetModes gets a reference to the given []string and assigns it to the Modes field.
+func (o *BackupOption) SetModes(v []string) {
+	o.Modes = v
 }
 
 // GetDefaultMethod returns the DefaultMethod field value.
@@ -356,6 +388,9 @@ func (o BackupOption) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Modes != nil {
+		toSerialize["modes"] = o.Modes
+	}
 	toSerialize["defaultMethod"] = o.DefaultMethod
 	if o.DefaultComponent != nil {
 		toSerialize["defaultComponent"] = o.DefaultComponent
@@ -395,6 +430,7 @@ func (o BackupOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		Modes               []string                          `json:"modes,omitempty"`
 		DefaultMethod       *string                           `json:"defaultMethod"`
 		DefaultComponent    *string                           `json:"defaultComponent,omitempty"`
 		DefaultBptSelector  map[string]string                 `json:"defaultBPTSelector,omitempty"`
@@ -418,12 +454,13 @@ func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"defaultMethod", "defaultComponent", "defaultBPTSelector", "restoreOption", "offlineBackupOption", "backupParameters", "restoreParameters", "fullMethod", "incrementalMethod", "continuousMethod", "selectiveMethod"})
+		common.DeleteKeys(additionalProperties, &[]string{"modes", "defaultMethod", "defaultComponent", "defaultBPTSelector", "restoreOption", "offlineBackupOption", "backupParameters", "restoreParameters", "fullMethod", "incrementalMethod", "continuousMethod", "selectiveMethod"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.Modes = all.Modes
 	o.DefaultMethod = *all.DefaultMethod
 	o.DefaultComponent = all.DefaultComponent
 	o.DefaultBptSelector = all.DefaultBptSelector

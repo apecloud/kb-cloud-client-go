@@ -20,7 +20,6 @@ type ClusterJarPackage struct {
 	Size      int64               `json:"size"`
 	Uri       string              `json:"uri"`
 	Published bool                `json:"published"`
-	Archived  bool                `json:"archived"`
 	Status    string              `json:"status"`
 	Synced    int64               `json:"synced"`
 	Total     int64               `json:"total"`
@@ -36,7 +35,7 @@ type ClusterJarPackage struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewClusterJarPackage(id string, name string, kind ClusterJarKind, filename string, sha256 string, size int64, uri string, published bool, archived bool, status string, synced int64, total int64, createdBy string, createdAt time.Time, instances []ClusterJarReplica) *ClusterJarPackage {
+func NewClusterJarPackage(id string, name string, kind ClusterJarKind, filename string, sha256 string, size int64, uri string, published bool, status string, synced int64, total int64, createdBy string, createdAt time.Time, instances []ClusterJarReplica) *ClusterJarPackage {
 	this := ClusterJarPackage{}
 	this.Id = id
 	this.Name = name
@@ -46,7 +45,6 @@ func NewClusterJarPackage(id string, name string, kind ClusterJarKind, filename 
 	this.Size = size
 	this.Uri = uri
 	this.Published = published
-	this.Archived = archived
 	this.Status = status
 	this.Synced = synced
 	this.Total = total
@@ -248,29 +246,6 @@ func (o *ClusterJarPackage) SetPublished(v bool) {
 	o.Published = v
 }
 
-// GetArchived returns the Archived field value.
-func (o *ClusterJarPackage) GetArchived() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-	return o.Archived
-}
-
-// GetArchivedOk returns a tuple with the Archived field value
-// and a boolean to check if the value has been set.
-func (o *ClusterJarPackage) GetArchivedOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Archived, true
-}
-
-// SetArchived sets field value.
-func (o *ClusterJarPackage) SetArchived(v bool) {
-	o.Archived = v
-}
-
 // GetStatus returns the Status field value.
 func (o *ClusterJarPackage) GetStatus() string {
 	if o == nil {
@@ -423,7 +398,6 @@ func (o ClusterJarPackage) MarshalJSON() ([]byte, error) {
 	toSerialize["size"] = o.Size
 	toSerialize["uri"] = o.Uri
 	toSerialize["published"] = o.Published
-	toSerialize["archived"] = o.Archived
 	toSerialize["status"] = o.Status
 	toSerialize["synced"] = o.Synced
 	toSerialize["total"] = o.Total
@@ -452,7 +426,6 @@ func (o *ClusterJarPackage) UnmarshalJSON(bytes []byte) (err error) {
 		Size      *int64               `json:"size"`
 		Uri       *string              `json:"uri"`
 		Published *bool                `json:"published"`
-		Archived  *bool                `json:"archived"`
 		Status    *string              `json:"status"`
 		Synced    *int64               `json:"synced"`
 		Total     *int64               `json:"total"`
@@ -487,9 +460,6 @@ func (o *ClusterJarPackage) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Published == nil {
 		return fmt.Errorf("required field published missing")
 	}
-	if all.Archived == nil {
-		return fmt.Errorf("required field archived missing")
-	}
 	if all.Status == nil {
 		return fmt.Errorf("required field status missing")
 	}
@@ -510,7 +480,7 @@ func (o *ClusterJarPackage) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "kind", "filename", "sha256", "size", "uri", "published", "archived", "status", "synced", "total", "createdBy", "createdAt", "instances"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "kind", "filename", "sha256", "size", "uri", "published", "status", "synced", "total", "createdBy", "createdAt", "instances"})
 	} else {
 		return err
 	}
@@ -528,7 +498,6 @@ func (o *ClusterJarPackage) UnmarshalJSON(bytes []byte) (err error) {
 	o.Size = *all.Size
 	o.Uri = *all.Uri
 	o.Published = *all.Published
-	o.Archived = *all.Archived
 	o.Status = *all.Status
 	o.Synced = *all.Synced
 	o.Total = *all.Total
