@@ -12531,6 +12531,7 @@ paths:
     get:
       operationId: getEnvironmentStatus
       summary: Get environment status
+      description: Returns diagnostic conditions without changing the stored environment state. When target component checks are requested, invalid kubeconfig or unavailable Kubernetes management access is reported through conditions in an HTTP 200 response. KubeconfigValidity describes the selected configuration and client certificate; KubernetesAccess describes access to the kube-system Namespace. Successful access does not prove all management permissions or component health. Authentication, authorization, environment lookup and internal execution errors remain API errors. An opsInfo-only request does not access the target environment.
       parameters:
         - description: name of the environment
           in: path
@@ -12544,7 +12545,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/environmentStatus'
-          description: A successful response.
+          description: Diagnostic conditions, including target credential or access failures.
         '403':
           $ref: '#/components/responses/403'
         '404':

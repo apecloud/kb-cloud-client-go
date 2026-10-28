@@ -2083,6 +2083,7 @@ func (a *EnvironmentApi) GetEnvironmentResource(ctx _context.Context, environmen
 }
 
 // GetEnvironmentStatus Get environment status.
+// Returns diagnostic conditions without changing the stored environment state. When target component checks are requested, invalid kubeconfig or unavailable Kubernetes management access is reported through conditions in an HTTP 200 response. KubeconfigValidity describes the selected configuration and client certificate; KubernetesAccess describes access to the kube-system Namespace. Successful access does not prove all management permissions or component health. Authentication, authorization, environment lookup and internal execution errors remain API errors. An opsInfo-only request does not access the target environment.
 func (a *EnvironmentApi) GetEnvironmentStatus(ctx _context.Context, environmentName string) (EnvironmentStatus, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
