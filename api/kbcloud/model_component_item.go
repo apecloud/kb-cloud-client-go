@@ -12,6 +12,8 @@ import (
 type ComponentItem struct {
 	// User-provided component annotations. Does not include chart defaults or system-generated values.
 	Annotations map[string]string `json:"annotations,omitempty"`
+	// User-provided component labels. Does not include chart defaults or system-generated values.
+	Labels map[string]string `json:"labels,omitempty"`
 	// Optional host group in this environment. Explicit placement does not inherit an upper-level host group.
 	NodeGroup *string `json:"nodeGroup,omitempty"`
 	// Explicit component AZ selection, if configured.
@@ -88,6 +90,34 @@ func (o *ComponentItem) HasAnnotations() bool {
 // SetAnnotations gets a reference to the given map[string]string and assigns it to the Annotations field.
 func (o *ComponentItem) SetAnnotations(v map[string]string) {
 	o.Annotations = v
+}
+
+// GetLabels returns the Labels field value if set, zero value otherwise.
+func (o *ComponentItem) GetLabels() map[string]string {
+	if o == nil || o.Labels == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.Labels
+}
+
+// GetLabelsOk returns a tuple with the Labels field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentItem) GetLabelsOk() (*map[string]string, bool) {
+	if o == nil || o.Labels == nil {
+		return nil, false
+	}
+	return &o.Labels, true
+}
+
+// HasLabels returns a boolean if a field has been set.
+func (o *ComponentItem) HasLabels() bool {
+	return o != nil && o.Labels != nil
+}
+
+// SetLabels gets a reference to the given map[string]string and assigns it to the Labels field.
+func (o *ComponentItem) SetLabels(v map[string]string) {
+	o.Labels = v
 }
 
 // GetNodeGroup returns the NodeGroup field value if set, zero value otherwise.
@@ -519,6 +549,9 @@ func (o ComponentItem) MarshalJSON() ([]byte, error) {
 	if o.Annotations != nil {
 		toSerialize["annotations"] = o.Annotations
 	}
+	if o.Labels != nil {
+		toSerialize["labels"] = o.Labels
+	}
 	if o.NodeGroup != nil {
 		toSerialize["nodeGroup"] = o.NodeGroup
 	}
@@ -575,6 +608,7 @@ func (o ComponentItem) MarshalJSON() ([]byte, error) {
 func (o *ComponentItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Annotations             map[string]string        `json:"annotations,omitempty"`
+		Labels                  map[string]string        `json:"labels,omitempty"`
 		NodeGroup               *string                  `json:"nodeGroup,omitempty"`
 		AvailabilityZone        *string                  `json:"availabilityZone,omitempty"`
 		InstanceTemplates       []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`
@@ -596,13 +630,14 @@ func (o *ComponentItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"annotations", "nodeGroup", "availabilityZone", "instanceTemplates", "name", "component", "compNum", "replicas", "classCode", "cpu", "memory", "storageClass", "volumes", "codeShort", "systemAccountSecretName", "network"})
+		common.DeleteKeys(additionalProperties, &[]string{"annotations", "labels", "nodeGroup", "availabilityZone", "instanceTemplates", "name", "component", "compNum", "replicas", "classCode", "cpu", "memory", "storageClass", "volumes", "codeShort", "systemAccountSecretName", "network"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Annotations = all.Annotations
+	o.Labels = all.Labels
 	o.NodeGroup = all.NodeGroup
 	o.AvailabilityZone = all.AvailabilityZone
 	o.InstanceTemplates = all.InstanceTemplates
