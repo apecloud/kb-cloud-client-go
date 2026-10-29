@@ -19933,7 +19933,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -19974,7 +19974,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -20022,7 +20022,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -20068,7 +20068,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -20115,7 +20115,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -20168,7 +20168,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -20215,7 +20215,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -20262,7 +20262,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -20309,7 +20309,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -20356,7 +20356,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -20404,7 +20404,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -48335,6 +48335,10 @@ components:
           type: string
         componentName:
           type: string
+        computeGroupEnabled:
+          type: boolean
+          x-nullable: true
+          description: Whether the component is configured as a native compute group; task completion reports convergence.
         managed:
           type: boolean
         isDefault:
@@ -48407,6 +48411,14 @@ components:
     computeGroupScale:
       type: object
       properties:
+        name:
+          type: string
+          pattern: ^[A-Za-z][A-Za-z0-9_]{0,63}$
+          description: Optional target name when enabling the default compute component; defaults to default_compute_group. Cannot rename an enabled group.
+        computeGroupEnabled:
+          type: boolean
+          x-nullable: true
+          description: Set true to enable the default compute component as a compute group. Cannot be combined with replicas or classCode.
         replicas:
           x-nullable: true
           type: integer

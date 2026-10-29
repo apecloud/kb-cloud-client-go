@@ -7,8 +7,12 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type ComputeGroupScale struct {
-	Replicas  *int64  `json:"replicas,omitempty"`
-	ClassCode *string `json:"classCode,omitempty"`
+	// Optional target name when enabling the default compute component; defaults to default_compute_group. Cannot rename an enabled group.
+	Name *string `json:"name,omitempty"`
+	// Set true to enable the default compute component as a compute group. Cannot be combined with replicas or classCode.
+	ComputeGroupEnabled *bool   `json:"computeGroupEnabled,omitempty"`
+	Replicas            *int64  `json:"replicas,omitempty"`
+	ClassCode           *string `json:"classCode,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject map[string]interface{} `json:"-"`
 }
@@ -28,6 +32,62 @@ func NewComputeGroupScale() *ComputeGroupScale {
 func NewComputeGroupScaleWithDefaults() *ComputeGroupScale {
 	this := ComputeGroupScale{}
 	return &this
+}
+
+// GetName returns the Name field value if set, zero value otherwise.
+func (o *ComputeGroupScale) GetName() string {
+	if o == nil || o.Name == nil {
+		var ret string
+		return ret
+	}
+	return *o.Name
+}
+
+// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComputeGroupScale) GetNameOk() (*string, bool) {
+	if o == nil || o.Name == nil {
+		return nil, false
+	}
+	return o.Name, true
+}
+
+// HasName returns a boolean if a field has been set.
+func (o *ComputeGroupScale) HasName() bool {
+	return o != nil && o.Name != nil
+}
+
+// SetName gets a reference to the given string and assigns it to the Name field.
+func (o *ComputeGroupScale) SetName(v string) {
+	o.Name = &v
+}
+
+// GetComputeGroupEnabled returns the ComputeGroupEnabled field value if set, zero value otherwise.
+func (o *ComputeGroupScale) GetComputeGroupEnabled() bool {
+	if o == nil || o.ComputeGroupEnabled == nil {
+		var ret bool
+		return ret
+	}
+	return *o.ComputeGroupEnabled
+}
+
+// GetComputeGroupEnabledOk returns a tuple with the ComputeGroupEnabled field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComputeGroupScale) GetComputeGroupEnabledOk() (*bool, bool) {
+	if o == nil || o.ComputeGroupEnabled == nil {
+		return nil, false
+	}
+	return o.ComputeGroupEnabled, true
+}
+
+// HasComputeGroupEnabled returns a boolean if a field has been set.
+func (o *ComputeGroupScale) HasComputeGroupEnabled() bool {
+	return o != nil && o.ComputeGroupEnabled != nil
+}
+
+// SetComputeGroupEnabled gets a reference to the given bool and assigns it to the ComputeGroupEnabled field.
+func (o *ComputeGroupScale) SetComputeGroupEnabled(v bool) {
+	o.ComputeGroupEnabled = &v
 }
 
 // GetReplicas returns the Replicas field value if set, zero value otherwise.
@@ -92,6 +152,12 @@ func (o ComputeGroupScale) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Name != nil {
+		toSerialize["name"] = o.Name
+	}
+	if o.ComputeGroupEnabled != nil {
+		toSerialize["computeGroupEnabled"] = o.ComputeGroupEnabled
+	}
 	if o.Replicas != nil {
 		toSerialize["replicas"] = o.Replicas
 	}
@@ -104,12 +170,16 @@ func (o ComputeGroupScale) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComputeGroupScale) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Replicas  *int64  `json:"replicas,omitempty"`
-		ClassCode *string `json:"classCode,omitempty"`
+		Name                *string `json:"name,omitempty"`
+		ComputeGroupEnabled *bool   `json:"computeGroupEnabled,omitempty"`
+		Replicas            *int64  `json:"replicas,omitempty"`
+		ClassCode           *string `json:"classCode,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
+	o.Name = all.Name
+	o.ComputeGroupEnabled = all.ComputeGroupEnabled
 	o.Replicas = all.Replicas
 	o.ClassCode = all.ClassCode
 

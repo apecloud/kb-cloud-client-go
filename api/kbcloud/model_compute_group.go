@@ -9,8 +9,10 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 type ComputeGroup struct {
 	Name          *string `json:"name,omitempty"`
 	ComponentName *string `json:"componentName,omitempty"`
-	Managed       *bool   `json:"managed,omitempty"`
-	IsDefault     *bool   `json:"isDefault,omitempty"`
+	// Whether the component is configured as a native compute group; task completion reports convergence.
+	ComputeGroupEnabled *bool `json:"computeGroupEnabled,omitempty"`
+	Managed             *bool `json:"managed,omitempty"`
+	IsDefault           *bool `json:"isDefault,omitempty"`
 	// Kubernetes component phase, independent of engine membership.
 	Phase             *string               `json:"phase,omitempty"`
 	Stopped           *bool                 `json:"stopped,omitempty"`
@@ -99,6 +101,34 @@ func (o *ComputeGroup) HasComponentName() bool {
 // SetComponentName gets a reference to the given string and assigns it to the ComponentName field.
 func (o *ComputeGroup) SetComponentName(v string) {
 	o.ComponentName = &v
+}
+
+// GetComputeGroupEnabled returns the ComputeGroupEnabled field value if set, zero value otherwise.
+func (o *ComputeGroup) GetComputeGroupEnabled() bool {
+	if o == nil || o.ComputeGroupEnabled == nil {
+		var ret bool
+		return ret
+	}
+	return *o.ComputeGroupEnabled
+}
+
+// GetComputeGroupEnabledOk returns a tuple with the ComputeGroupEnabled field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComputeGroup) GetComputeGroupEnabledOk() (*bool, bool) {
+	if o == nil || o.ComputeGroupEnabled == nil {
+		return nil, false
+	}
+	return o.ComputeGroupEnabled, true
+}
+
+// HasComputeGroupEnabled returns a boolean if a field has been set.
+func (o *ComputeGroup) HasComputeGroupEnabled() bool {
+	return o != nil && o.ComputeGroupEnabled != nil
+}
+
+// SetComputeGroupEnabled gets a reference to the given bool and assigns it to the ComputeGroupEnabled field.
+func (o *ComputeGroup) SetComputeGroupEnabled(v bool) {
+	o.ComputeGroupEnabled = &v
 }
 
 // GetManaged returns the Managed field value if set, zero value otherwise.
@@ -477,6 +507,9 @@ func (o ComputeGroup) MarshalJSON() ([]byte, error) {
 	if o.ComponentName != nil {
 		toSerialize["componentName"] = o.ComponentName
 	}
+	if o.ComputeGroupEnabled != nil {
+		toSerialize["computeGroupEnabled"] = o.ComputeGroupEnabled
+	}
 	if o.Managed != nil {
 		toSerialize["managed"] = o.Managed
 	}
@@ -526,33 +559,35 @@ func (o ComputeGroup) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComputeGroup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name              *string               `json:"name,omitempty"`
-		ComponentName     *string               `json:"componentName,omitempty"`
-		Managed           *bool                 `json:"managed,omitempty"`
-		IsDefault         *bool                 `json:"isDefault,omitempty"`
-		Phase             *string               `json:"phase,omitempty"`
-		Stopped           *bool                 `json:"stopped,omitempty"`
-		Replicas          *int64                `json:"replicas,omitempty"`
-		ClassCode         *string               `json:"classCode,omitempty"`
-		Cpu               *float64              `json:"cpu,omitempty"`
-		Memory            *float64              `json:"memory,omitempty"`
-		BackendCount      *int64                `json:"backendCount,omitempty"`
-		AliveBackendCount *int64                `json:"aliveBackendCount,omitempty"`
-		DefaultUsers      []string              `json:"defaultUsers,omitempty"`
-		Backends          []ComputeGroupBackend `json:"backends,omitempty"`
-		AllowedActions    []string              `json:"allowedActions,omitempty"`
+		Name                *string               `json:"name,omitempty"`
+		ComponentName       *string               `json:"componentName,omitempty"`
+		ComputeGroupEnabled *bool                 `json:"computeGroupEnabled,omitempty"`
+		Managed             *bool                 `json:"managed,omitempty"`
+		IsDefault           *bool                 `json:"isDefault,omitempty"`
+		Phase               *string               `json:"phase,omitempty"`
+		Stopped             *bool                 `json:"stopped,omitempty"`
+		Replicas            *int64                `json:"replicas,omitempty"`
+		ClassCode           *string               `json:"classCode,omitempty"`
+		Cpu                 *float64              `json:"cpu,omitempty"`
+		Memory              *float64              `json:"memory,omitempty"`
+		BackendCount        *int64                `json:"backendCount,omitempty"`
+		AliveBackendCount   *int64                `json:"aliveBackendCount,omitempty"`
+		DefaultUsers        []string              `json:"defaultUsers,omitempty"`
+		Backends            []ComputeGroupBackend `json:"backends,omitempty"`
+		AllowedActions      []string              `json:"allowedActions,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "componentName", "managed", "isDefault", "phase", "stopped", "replicas", "classCode", "cpu", "memory", "backendCount", "aliveBackendCount", "defaultUsers", "backends", "allowedActions"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "componentName", "computeGroupEnabled", "managed", "isDefault", "phase", "stopped", "replicas", "classCode", "cpu", "memory", "backendCount", "aliveBackendCount", "defaultUsers", "backends", "allowedActions"})
 	} else {
 		return err
 	}
 	o.Name = all.Name
 	o.ComponentName = all.ComponentName
+	o.ComputeGroupEnabled = all.ComputeGroupEnabled
 	o.Managed = all.Managed
 	o.IsDefault = all.IsDefault
 	o.Phase = all.Phase
