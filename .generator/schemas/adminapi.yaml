@@ -39734,20 +39734,39 @@ components:
           description: the tags for the storage
           additionalProperties:
             type: string
-    staticCluster:
+    staticClusterComponent:
+      type: object
+      required:
+        - component
       properties:
+        component:
+          type: string
+          minLength: 1
+          description: Exact component name supported by the selected engine during environment installation. Each component may appear only once.
         replicas:
-          title: Replicas
           type: integer
-          description: the number of replicas
-        storage:
-          title: Storage(Gi)
+          format: int64
+          nullable: true
           minimum: 1
-          type: number
-          description: Storage size, the unit is Gi.
-          format: double
+          description: Number of replicas. Omit to keep the installer default.
         classCode:
           type: string
+          description: Resource class for this exact engine, mode and component. Omit to keep the installer default.
+        storage:
+          type: number
+          format: double
+          nullable: true
+          minimum: 1
+          description: Disk capacity in Gi. Only vm-storage, vlstorage and minio accept this field.
+    staticCluster:
+      type: object
+      properties:
+        components:
+          type: array
+          maxItems: 3
+          description: Optional component overrides. Unknown, duplicate or other-engine components are rejected.
+          items:
+            $ref: '#/components/schemas/staticClusterComponent'
     environmentStorage:
       type: object
       description: Storage config
@@ -39902,10 +39921,10 @@ components:
         storage:
           $ref: '#/components/schemas/storageConfig'
         victoriaMetrics:
-          description: Optional vm-storage spec (replicas, disk, classCode) when adding an environment. vm-insert and vm-select keep installer defaults.
+          description: Optional per-component resources for vm-storage, vm-select and vm-insert. Omitted components and fields keep installer defaults; only vm-storage accepts disk capacity.
           $ref: '#/components/schemas/staticCluster'
         victoriaLogs:
-          description: Optional vlstorage resources and log retention when adding an environment. vlinsert and vlselect keep installer defaults.
+          description: Optional per-component resources for vlstorage, vlselect and vlinsert, plus log retention. Omitted components and fields keep installer defaults; only vlstorage accepts disk capacity.
           $ref: '#/components/schemas/victoriaLogsConfig'
         modules:
           type: array
