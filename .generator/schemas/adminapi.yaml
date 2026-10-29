@@ -33665,7 +33665,7 @@ components:
           type: object
           additionalProperties:
             type: string
-          description: User-provided component labels, merged over chart defaults. Keys under kubeblocks.io (including subdomains) and app.kubernetes.io are reserved. Keys and values must satisfy Kubernetes label syntax. Omitted or empty preserves defaults; empty string values are literal values, not deletions.
+          description: User-provided component labels, merged over chart defaults. Key prefixes before / matching kubeblocks.io, kubernetes.io, k8s.io or any of their subdomains are reserved. Keys and values must satisfy Kubernetes label syntax. Omitted or empty preserves defaults; empty string values are literal values, not deletions.
         nodeGroup:
           type: string
           description: Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.

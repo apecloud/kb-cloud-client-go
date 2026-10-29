@@ -14,7 +14,7 @@ import (
 type ComponentItemCreate struct {
 	// User-provided component annotations, merged over chart defaults. Platform-managed keys cannot be overridden. Omitted or empty preserves defaults; empty string values are literal values, not deletions.
 	Annotations map[string]string `json:"annotations,omitempty"`
-	// User-provided component labels, merged over chart defaults. Keys under kubeblocks.io (including subdomains) and app.kubernetes.io are reserved. Keys and values must satisfy Kubernetes label syntax. Omitted or empty preserves defaults; empty string values are literal values, not deletions.
+	// User-provided component labels, merged over chart defaults. Key prefixes before / matching kubeblocks.io, kubernetes.io, k8s.io or any of their subdomains are reserved. Keys and values must satisfy Kubernetes label syntax. Omitted or empty preserves defaults; empty string values are literal values, not deletions.
 	Labels map[string]string `json:"labels,omitempty"`
 	// Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
 	NodeGroup *string `json:"nodeGroup,omitempty"`
