@@ -33661,6 +33661,11 @@ components:
           additionalProperties:
             type: string
           description: User-provided component annotations, merged over chart defaults. Platform-managed keys cannot be overridden. Omitted or empty preserves defaults; empty string values are literal values, not deletions.
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          description: User-provided component labels, merged over chart defaults. Key prefixes before / matching kubeblocks.io, kubernetes.io, k8s.io or any of their subdomains are reserved. Keys and values must satisfy Kubernetes label syntax. Omitted or empty preserves defaults; empty string values are literal values, not deletions.
         nodeGroup:
           type: string
           description: Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
@@ -34011,6 +34016,11 @@ components:
           additionalProperties:
             type: string
           description: User-provided component annotations. Does not include chart defaults or system-generated values.
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          description: User-provided component labels. Does not include chart defaults or system-generated values.
         nodeGroup:
           type: string
           description: Optional host group in this environment. Explicit placement does not inherit an upper-level host group.
@@ -43187,6 +43197,10 @@ components:
         customAnnotations:
           type: boolean
           description: Whether to show the component annotations editor during cluster creation. Omitted or false hides the editor. This is a UI visibility hint and does not restrict the cluster creation API. Applies to this component in every engine mode, including sharding templates, on KubeBlocks 0.9 and 1.0.
+          x-nullable: false
+        customLabels:
+          type: boolean
+          description: Whether to show the component labels editor during cluster creation. Omitted or false hides the editor. This is a UI visibility hint and does not restrict the cluster creation API. Applies to this component in every engine mode, including sharding templates, on KubeBlocks 0.9 and 1.0.
           x-nullable: false
         customSecret:
           type: boolean
