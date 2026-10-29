@@ -39724,24 +39724,15 @@ components:
           description: the tags for the storage
           additionalProperties:
             type: string
-    staticClusterComponentName:
-      type: string
-      description: Exact component name for the selected engine. Each component may appear only once.
-      enum:
-        - vm-storage
-        - vm-select
-        - vm-insert
-        - vlstorage
-        - vlselect
-        - vlinsert
-        - minio
     staticClusterComponent:
       type: object
       required:
         - component
       properties:
         component:
-          $ref: '#/components/schemas/staticClusterComponentName'
+          type: string
+          minLength: 1
+          description: Exact component name supported by the selected engine during environment installation. Each component may appear only once.
         replicas:
           type: integer
           format: int64

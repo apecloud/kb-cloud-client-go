@@ -11,8 +11,8 @@ import (
 )
 
 type StaticClusterComponent struct {
-	// Exact component name for the selected engine. Each component may appear only once.
-	Component StaticClusterComponentName `json:"component"`
+	// Exact component name supported by the selected engine during environment installation. Each component may appear only once.
+	Component string `json:"component"`
 	// Number of replicas. Omit to keep the installer default.
 	Replicas common.NullableInt64 `json:"replicas,omitempty"`
 	// Resource class for this exact engine, mode and component. Omit to keep the installer default.
@@ -28,7 +28,7 @@ type StaticClusterComponent struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewStaticClusterComponent(component StaticClusterComponentName) *StaticClusterComponent {
+func NewStaticClusterComponent(component string) *StaticClusterComponent {
 	this := StaticClusterComponent{}
 	this.Component = component
 	return &this
@@ -43,9 +43,9 @@ func NewStaticClusterComponentWithDefaults() *StaticClusterComponent {
 }
 
 // GetComponent returns the Component field value.
-func (o *StaticClusterComponent) GetComponent() StaticClusterComponentName {
+func (o *StaticClusterComponent) GetComponent() string {
 	if o == nil {
-		var ret StaticClusterComponentName
+		var ret string
 		return ret
 	}
 	return o.Component
@@ -53,7 +53,7 @@ func (o *StaticClusterComponent) GetComponent() StaticClusterComponentName {
 
 // GetComponentOk returns a tuple with the Component field value
 // and a boolean to check if the value has been set.
-func (o *StaticClusterComponent) GetComponentOk() (*StaticClusterComponentName, bool) {
+func (o *StaticClusterComponent) GetComponentOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -61,7 +61,7 @@ func (o *StaticClusterComponent) GetComponentOk() (*StaticClusterComponentName, 
 }
 
 // SetComponent sets field value.
-func (o *StaticClusterComponent) SetComponent(v StaticClusterComponentName) {
+func (o *StaticClusterComponent) SetComponent(v string) {
 	o.Component = v
 }
 
@@ -197,10 +197,10 @@ func (o StaticClusterComponent) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StaticClusterComponent) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component *StaticClusterComponentName `json:"component"`
-		Replicas  common.NullableInt64        `json:"replicas,omitempty"`
-		ClassCode *string                     `json:"classCode,omitempty"`
-		Storage   common.NullableFloat64      `json:"storage,omitempty"`
+		Component *string                `json:"component"`
+		Replicas  common.NullableInt64   `json:"replicas,omitempty"`
+		ClassCode *string                `json:"classCode,omitempty"`
+		Storage   common.NullableFloat64 `json:"storage,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -214,23 +214,13 @@ func (o *StaticClusterComponent) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
-	if !all.Component.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Component = *all.Component
-	}
+	o.Component = *all.Component
 	o.Replicas = all.Replicas
 	o.ClassCode = all.ClassCode
 	o.Storage = all.Storage
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
