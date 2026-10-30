@@ -9,12 +9,13 @@ import (
 )
 
 type ReplicationObjectQuery struct {
-	SourceEngineDefinition *string                    `json:"sourceEngineDefinition,omitempty"`
-	TargetEngineDefinition *string                    `json:"targetEngineDefinition,omitempty"`
-	Endpoint               *DataChannelEndpointCreate `json:"endpoint,omitempty"`
-	NodeType               common.NullableString      `json:"nodeType,omitempty"`
-	NodeValue              common.NullableString      `json:"nodeValue,omitempty"`
-	QueryNodeType          common.NullableString      `json:"queryNodeType,omitempty"`
+	SourceEngineDefinition *string `json:"sourceEngineDefinition,omitempty"`
+	TargetEngineDefinition *string `json:"targetEngineDefinition,omitempty"`
+	// Use endpointType custom or kubeblocks with the corresponding inline connection configuration, or endpointType definition with definition.endpointID to reuse an existing data endpoint. Inline connection configuration is not used for endpointType definition.
+	Endpoint      *DataChannelEndpointCreate `json:"endpoint,omitempty"`
+	NodeType      common.NullableString      `json:"nodeType,omitempty"`
+	NodeValue     common.NullableString      `json:"nodeValue,omitempty"`
+	QueryNodeType common.NullableString      `json:"queryNodeType,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
