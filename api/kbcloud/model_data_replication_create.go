@@ -9,12 +9,14 @@ import (
 )
 
 type DataReplicationCreate struct {
-	ChannelName        *string                                   `json:"channelName,omitempty"`
-	Modules            []string                                  `json:"modules,omitempty"`
-	EnvironmentId      *string                                   `json:"environmentID,omitempty"`
-	Project            *string                                   `json:"project,omitempty"`
-	StandardDefinition *string                                   `json:"standardDefinition,omitempty"`
-	Source             *DataChannelEndpointCreate                `json:"source,omitempty"`
+	ChannelName        *string  `json:"channelName,omitempty"`
+	Modules            []string `json:"modules,omitempty"`
+	EnvironmentId      *string  `json:"environmentID,omitempty"`
+	Project            *string  `json:"project,omitempty"`
+	StandardDefinition *string  `json:"standardDefinition,omitempty"`
+	// Use endpointType custom or kubeblocks with the corresponding inline connection configuration, or endpointType definition with definition.endpointID to reuse an existing data endpoint. Inline connection configuration is not used for endpointType definition.
+	Source *DataChannelEndpointCreate `json:"source,omitempty"`
+	// Use endpointType custom or kubeblocks with the corresponding inline connection configuration, or endpointType definition with definition.endpointID to reuse an existing data endpoint. Inline connection configuration is not used for endpointType definition.
 	Target             *DataChannelEndpointCreate                `json:"target,omitempty"`
 	ReplicationObjects *DataChannelObject                        `json:"replicationObjects,omitempty"`
 	Events             []EventObject                             `json:"events,omitempty"`

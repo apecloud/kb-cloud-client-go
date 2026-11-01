@@ -9,11 +9,8 @@ import (
 )
 
 type VictoriaLogsConfig struct {
-	// the number of replicas
-	Replicas *int32 `json:"replicas,omitempty"`
-	// Storage size, the unit is Gi.
-	Storage   *float64 `json:"storage,omitempty"`
-	ClassCode *string  `json:"classCode,omitempty"`
+	// Optional component overrides. Unknown, duplicate or other-engine components are rejected.
+	Components []StaticClusterComponent `json:"components,omitempty"`
 	// Environment installation log retention, explicitly overriding the addon default. Defaults to 100y when omitted. Accepts a number with s (seconds), h (hours), d (days), w (weeks), M (months), or y (years); a bare number means months. Must be between 1d and 100y. Disk usage retention limits still apply.
 	RetentionPeriod *string `json:"retentionPeriod,omitempty"`
 	// Maximum disk usage percentage before VictoriaLogs deletes older log partitions. Defaults to 80 when omitted. Applies independently of retentionPeriod.
@@ -36,88 +33,32 @@ func NewVictoriaLogsConfig() *VictoriaLogsConfig {
 	return &this
 }
 
-// GetReplicas returns the Replicas field value if set, zero value otherwise.
-func (o *VictoriaLogsConfig) GetReplicas() int32 {
-	if o == nil || o.Replicas == nil {
-		var ret int32
+// GetComponents returns the Components field value if set, zero value otherwise.
+func (o *VictoriaLogsConfig) GetComponents() []StaticClusterComponent {
+	if o == nil || o.Components == nil {
+		var ret []StaticClusterComponent
 		return ret
 	}
-	return *o.Replicas
+	return o.Components
 }
 
-// GetReplicasOk returns a tuple with the Replicas field value if set, nil otherwise
+// GetComponentsOk returns a tuple with the Components field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *VictoriaLogsConfig) GetReplicasOk() (*int32, bool) {
-	if o == nil || o.Replicas == nil {
+func (o *VictoriaLogsConfig) GetComponentsOk() (*[]StaticClusterComponent, bool) {
+	if o == nil || o.Components == nil {
 		return nil, false
 	}
-	return o.Replicas, true
+	return &o.Components, true
 }
 
-// HasReplicas returns a boolean if a field has been set.
-func (o *VictoriaLogsConfig) HasReplicas() bool {
-	return o != nil && o.Replicas != nil
+// HasComponents returns a boolean if a field has been set.
+func (o *VictoriaLogsConfig) HasComponents() bool {
+	return o != nil && o.Components != nil
 }
 
-// SetReplicas gets a reference to the given int32 and assigns it to the Replicas field.
-func (o *VictoriaLogsConfig) SetReplicas(v int32) {
-	o.Replicas = &v
-}
-
-// GetStorage returns the Storage field value if set, zero value otherwise.
-func (o *VictoriaLogsConfig) GetStorage() float64 {
-	if o == nil || o.Storage == nil {
-		var ret float64
-		return ret
-	}
-	return *o.Storage
-}
-
-// GetStorageOk returns a tuple with the Storage field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *VictoriaLogsConfig) GetStorageOk() (*float64, bool) {
-	if o == nil || o.Storage == nil {
-		return nil, false
-	}
-	return o.Storage, true
-}
-
-// HasStorage returns a boolean if a field has been set.
-func (o *VictoriaLogsConfig) HasStorage() bool {
-	return o != nil && o.Storage != nil
-}
-
-// SetStorage gets a reference to the given float64 and assigns it to the Storage field.
-func (o *VictoriaLogsConfig) SetStorage(v float64) {
-	o.Storage = &v
-}
-
-// GetClassCode returns the ClassCode field value if set, zero value otherwise.
-func (o *VictoriaLogsConfig) GetClassCode() string {
-	if o == nil || o.ClassCode == nil {
-		var ret string
-		return ret
-	}
-	return *o.ClassCode
-}
-
-// GetClassCodeOk returns a tuple with the ClassCode field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *VictoriaLogsConfig) GetClassCodeOk() (*string, bool) {
-	if o == nil || o.ClassCode == nil {
-		return nil, false
-	}
-	return o.ClassCode, true
-}
-
-// HasClassCode returns a boolean if a field has been set.
-func (o *VictoriaLogsConfig) HasClassCode() bool {
-	return o != nil && o.ClassCode != nil
-}
-
-// SetClassCode gets a reference to the given string and assigns it to the ClassCode field.
-func (o *VictoriaLogsConfig) SetClassCode(v string) {
-	o.ClassCode = &v
+// SetComponents gets a reference to the given []StaticClusterComponent and assigns it to the Components field.
+func (o *VictoriaLogsConfig) SetComponents(v []StaticClusterComponent) {
+	o.Components = v
 }
 
 // GetRetentionPeriod returns the RetentionPeriod field value if set, zero value otherwise.
@@ -192,14 +133,8 @@ func (o VictoriaLogsConfig) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Replicas != nil {
-		toSerialize["replicas"] = o.Replicas
-	}
-	if o.Storage != nil {
-		toSerialize["storage"] = o.Storage
-	}
-	if o.ClassCode != nil {
-		toSerialize["classCode"] = o.ClassCode
+	if o.Components != nil {
+		toSerialize["components"] = o.Components
 	}
 	if o.RetentionPeriod != nil {
 		toSerialize["retentionPeriod"] = o.RetentionPeriod
@@ -217,24 +152,20 @@ func (o VictoriaLogsConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *VictoriaLogsConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Replicas                     *int32               `json:"replicas,omitempty"`
-		Storage                      *float64             `json:"storage,omitempty"`
-		ClassCode                    *string              `json:"classCode,omitempty"`
-		RetentionPeriod              *string              `json:"retentionPeriod,omitempty"`
-		RetentionMaxDiskUsagePercent common.NullableInt32 `json:"retentionMaxDiskUsagePercent,omitempty"`
+		Components                   []StaticClusterComponent `json:"components,omitempty"`
+		RetentionPeriod              *string                  `json:"retentionPeriod,omitempty"`
+		RetentionMaxDiskUsagePercent common.NullableInt32     `json:"retentionMaxDiskUsagePercent,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"replicas", "storage", "classCode", "retentionPeriod", "retentionMaxDiskUsagePercent"})
+		common.DeleteKeys(additionalProperties, &[]string{"components", "retentionPeriod", "retentionMaxDiskUsagePercent"})
 	} else {
 		return err
 	}
-	o.Replicas = all.Replicas
-	o.Storage = all.Storage
-	o.ClassCode = all.ClassCode
+	o.Components = all.Components
 	o.RetentionPeriod = all.RetentionPeriod
 	o.RetentionMaxDiskUsagePercent = all.RetentionMaxDiskUsagePercent
 	if len(additionalProperties) > 0 {

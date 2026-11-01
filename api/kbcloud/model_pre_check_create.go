@@ -9,9 +9,11 @@ import (
 )
 
 type PreCheckCreate struct {
-	Modules            []string                   `json:"modules,omitempty"`
-	EnvironmentId      *string                    `json:"environmentID,omitempty"`
-	Source             *DataChannelEndpointCreate `json:"source,omitempty"`
+	Modules       []string `json:"modules,omitempty"`
+	EnvironmentId *string  `json:"environmentID,omitempty"`
+	// Use endpointType custom or kubeblocks with the corresponding inline connection configuration, or endpointType definition with definition.endpointID to reuse an existing data endpoint. Inline connection configuration is not used for endpointType definition.
+	Source *DataChannelEndpointCreate `json:"source,omitempty"`
+	// Use endpointType custom or kubeblocks with the corresponding inline connection configuration, or endpointType definition with definition.endpointID to reuse an existing data endpoint. Inline connection configuration is not used for endpointType definition.
 	Target             *DataChannelEndpointCreate `json:"target,omitempty"`
 	ReplicationObjects *DataChannelObject         `json:"replicationObjects,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
