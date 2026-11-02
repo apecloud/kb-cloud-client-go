@@ -12,6 +12,8 @@ import (
 
 // Instance Instance is the information of KubeBlocks cluster instances
 type Instance struct {
+	// Configured instance template service version read from cluster metadata, recorded at creation or after upgrade submission.
+	ServiceVersion *string `json:"serviceVersion,omitempty"`
 	// Access mode for instance
 	AccessMode string `json:"accessMode"`
 	// Org name
@@ -85,6 +87,34 @@ func NewInstance(accessMode string, cloud string, cluster string, component stri
 func NewInstanceWithDefaults() *Instance {
 	this := Instance{}
 	return &this
+}
+
+// GetServiceVersion returns the ServiceVersion field value if set, zero value otherwise.
+func (o *Instance) GetServiceVersion() string {
+	if o == nil || o.ServiceVersion == nil {
+		var ret string
+		return ret
+	}
+	return *o.ServiceVersion
+}
+
+// GetServiceVersionOk returns a tuple with the ServiceVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Instance) GetServiceVersionOk() (*string, bool) {
+	if o == nil || o.ServiceVersion == nil {
+		return nil, false
+	}
+	return o.ServiceVersion, true
+}
+
+// HasServiceVersion returns a boolean if a field has been set.
+func (o *Instance) HasServiceVersion() bool {
+	return o != nil && o.ServiceVersion != nil
+}
+
+// SetServiceVersion gets a reference to the given string and assigns it to the ServiceVersion field.
+func (o *Instance) SetServiceVersion(v string) {
+	o.ServiceVersion = &v
 }
 
 // GetAccessMode returns the AccessMode field value.
@@ -588,6 +618,9 @@ func (o Instance) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.ServiceVersion != nil {
+		toSerialize["serviceVersion"] = o.ServiceVersion
+	}
 	toSerialize["accessMode"] = o.AccessMode
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
@@ -632,6 +665,7 @@ func (o Instance) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		ServiceVersion   *string               `json:"serviceVersion,omitempty"`
 		AccessMode       *string               `json:"accessMode"`
 		OrgName          *string               `json:"orgName,omitempty"`
 		Cloud            *string               `json:"cloud"`
@@ -697,12 +731,13 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"accessMode", "orgName", "cloud", "cluster", "componentName", "componentDef", "instanceTemplate", "component", "cpu", "createdAt", "memory", "name", "node", "containers", "podIP", "region", "role", "status", "storage", "zone"})
+		common.DeleteKeys(additionalProperties, &[]string{"serviceVersion", "accessMode", "orgName", "cloud", "cluster", "componentName", "componentDef", "instanceTemplate", "component", "cpu", "createdAt", "memory", "name", "node", "containers", "podIP", "region", "role", "status", "storage", "zone"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.ServiceVersion = all.ServiceVersion
 	o.AccessMode = *all.AccessMode
 	o.OrgName = all.OrgName
 	o.Cloud = *all.Cloud

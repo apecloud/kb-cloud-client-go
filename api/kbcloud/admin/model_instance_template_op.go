@@ -18,12 +18,14 @@ const (
 	InstanceTemplateOpHscale           InstanceTemplateOp = "hscale"
 	InstanceTemplateOpVscale           InstanceTemplateOp = "vscale"
 	InstanceTemplateOpStorageExpansion InstanceTemplateOp = "storageExpansion"
+	InstanceTemplateOpUpgrade          InstanceTemplateOp = "upgrade"
 )
 
 var allowedInstanceTemplateOpEnumValues = []InstanceTemplateOp{
 	InstanceTemplateOpHscale,
 	InstanceTemplateOpVscale,
 	InstanceTemplateOpStorageExpansion,
+	InstanceTemplateOpUpgrade,
 }
 
 // GetAllowedValues returns the list of possible values.

@@ -29373,6 +29373,12 @@ components:
         availabilityZone:
           type: string
           description: Explicit component AZ selection, if configured.
+        instanceTemplateVersions:
+          type: object
+          readOnly: true
+          description: Template versions recorded at creation or after upgrade submission, keyed by template name.
+          additionalProperties:
+            type: string
         instanceTemplates:
           type: array
           x-omitempty: true
@@ -29706,6 +29712,9 @@ components:
     instance:
       description: Instance is the information of KubeBlocks cluster instances
       properties:
+        serviceVersion:
+          description: Configured instance template service version read from cluster metadata, recorded at creation or after upgrade submission.
+          type: string
         accessMode:
           description: Access mode for instance
           type: string
@@ -30924,12 +30933,30 @@ components:
       required:
         - items
       type: object
+    instanceTemplateUpgrade:
+      type: object
+      required:
+        - name
+        - serviceVersion
+      properties:
+        name:
+          type: string
+          minLength: 1
+        serviceVersion:
+          type: string
+          minLength: 1
+          maxLength: 32
     opsUpgrade:
-      description: OpsUpgrade is the payload to upgrade a KubeBlocks cluster
+      description: Upgrade component and/or selected instance templates. Omitted targets remain unchanged.
       properties:
         version:
           type: string
+          nullable: true
           minLength: 1
+        instanceTemplates:
+          type: array
+          items:
+            $ref: '#/components/schemas/instanceTemplateUpgrade'
         component:
           type: string
         schedule:
@@ -30937,9 +30964,19 @@ components:
           description: Scheduled execution configuration
           nullable: true
       required:
-        - version
         - component
       type: object
+    instanceTemplateServiceVersions:
+      type: object
+      properties:
+        name:
+          type: string
+        currentVersion:
+          type: string
+        upgradeableVersions:
+          type: array
+          items:
+            type: string
     componentVersionArchitecture:
       type: object
       description: |
@@ -30983,6 +31020,10 @@ components:
     engineServiceVersions:
       type: object
       properties:
+        instanceTemplates:
+          type: array
+          items:
+            $ref: '#/components/schemas/instanceTemplateServiceVersions'
         component:
           type: string
           description: component type, refer to componentDef and support NamePrefix
@@ -37268,6 +37309,7 @@ components:
         - hscale
         - vscale
         - storageExpansion
+        - upgrade
     instanceTemplateAttribute:
       type: string
       description: Heterogeneous attribute the frontend may render on an instance template at create.
