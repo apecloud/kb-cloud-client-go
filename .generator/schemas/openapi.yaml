@@ -116,42 +116,6 @@ tags:
   - name: blueGreenDeployment
     description: Blue Green Deployment APIs
 paths:
-  /api/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/health:
-    get:
-      summary: DolphinDB layered health checks
-      operationId: dolphinDBGetHealth
-      tags:
-        - dolphindb
-        - shared
-      description: Bounded read-only process, local TCP, native membership, initialization, lightweight query and leader checks. Does not validate application data. Older addons return unknown infrastructure observations.
-      parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Partial health observations; unknown results must not be treated as healthy.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DolphinDBHealth'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /api/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       summary: DolphinDB ListUsers
@@ -26073,120 +26037,6 @@ components:
         curl --digest -u "accessKey:secretKey" https://api.example.com/api/v1/user
         ```
   schemas:
-    DolphinDBHealthState:
-      type: string
-      enum:
-        - passed
-        - failed
-        - unknown
-        - notApplicable
-    DolphinDBHealthCheck:
-      type: object
-      required:
-        - state
-        - source
-      properties:
-        state:
-          $ref: '#/components/schemas/DolphinDBHealthState'
-        source:
-          type: string
-        reason:
-          type: string
-    DolphinDBNodeHealth:
-      type: object
-      properties:
-        name:
-          type: string
-        host:
-          type: string
-        port:
-          type: integer
-        mode:
-          type: integer
-          description: 0 data, 1 native Agent, 2 controller, 3 standalone, 4 compute
-        isLeader:
-          type: boolean
-        process:
-          $ref: '#/components/schemas/DolphinDBHealthCheck'
-        portReachable:
-          $ref: '#/components/schemas/DolphinDBHealthCheck'
-        registered:
-          $ref: '#/components/schemas/DolphinDBHealthCheck'
-        online:
-          $ref: '#/components/schemas/DolphinDBHealthCheck'
-        initialized:
-          $ref: '#/components/schemas/DolphinDBHealthCheck'
-        queryable:
-          $ref: '#/components/schemas/DolphinDBHealthCheck'
-    DolphinDBHealthSnapshot:
-      type: object
-      properties:
-        checkedAt:
-          type: string
-          format: date-time
-        version:
-          type: string
-        leader:
-          type: string
-        nodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/DolphinDBNodeHealth'
-        endpointPort:
-          $ref: '#/components/schemas/DolphinDBHealthCheck'
-        endpointQuery:
-          $ref: '#/components/schemas/DolphinDBHealthCheck'
-        inventory:
-          $ref: '#/components/schemas/DolphinDBHealthCheck'
-        controllerLeader:
-          $ref: '#/components/schemas/DolphinDBHealthCheck'
-    DolphinDBInstanceHealth:
-      type: object
-      properties:
-        pod:
-          type: string
-        container:
-          type: string
-        nodeName:
-          type: string
-        mode:
-          type: integer
-        process:
-          $ref: '#/components/schemas/DolphinDBHealthCheck'
-        portReachable:
-          $ref: '#/components/schemas/DolphinDBHealthCheck'
-        registered:
-          $ref: '#/components/schemas/DolphinDBHealthCheck'
-    DolphinDBHealth:
-      type: object
-      required:
-        - database
-        - infrastructure
-        - instances
-      properties:
-        database:
-          $ref: '#/components/schemas/DolphinDBHealthSnapshot'
-        infrastructure:
-          $ref: '#/components/schemas/DolphinDBHealthCheck'
-        instances:
-          type: array
-          items:
-            $ref: '#/components/schemas/DolphinDBInstanceHealth'
-    APIErrorResponse:
-      description: API error response.
-      properties:
-        code:
-          description: The HTTP status code.
-          type: integer
-        reason:
-          description: The reason for the error.
-          type: string
-        message:
-          description: The message for the error.
-          type: string
-      required:
-        - code
-      type: object
     DolphinDBUser:
       type: object
       properties:
@@ -26206,6 +26056,21 @@ components:
         - isAdmin
         - groups
         - readOnly
+    APIErrorResponse:
+      description: API error response.
+      properties:
+        code:
+          description: The HTTP status code.
+          type: integer
+        reason:
+          description: The reason for the error.
+          type: string
+        message:
+          description: The message for the error.
+          type: string
+      required:
+        - code
+      type: object
     DolphinDBUserCreate:
       type: object
       properties:
