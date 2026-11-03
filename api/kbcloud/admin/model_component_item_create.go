@@ -14,6 +14,8 @@ import (
 type ComponentItemCreate struct {
 	// User-provided component annotations, merged over chart defaults. Platform-managed keys cannot be overridden. Omitted or empty preserves defaults; empty string values are literal values, not deletions.
 	Annotations map[string]string `json:"annotations,omitempty"`
+	// User-provided component labels, merged over chart defaults. Key prefixes before / matching kubeblocks.io, kubernetes.io, k8s.io or any of their subdomains are reserved. Keys and values must satisfy Kubernetes label syntax. Omitted or empty preserves defaults; empty string values are literal values, not deletions.
+	Labels map[string]string `json:"labels,omitempty"`
 	// Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
 	NodeGroup *string `json:"nodeGroup,omitempty"`
 	// Single AZ for explicit component placement. Must be enabled in the environment and is required when nodeGroup is specified. An omitted nodeGroup does not inherit the cluster host group. Omitting both retains cluster scheduling.
@@ -93,6 +95,34 @@ func (o *ComponentItemCreate) HasAnnotations() bool {
 // SetAnnotations gets a reference to the given map[string]string and assigns it to the Annotations field.
 func (o *ComponentItemCreate) SetAnnotations(v map[string]string) {
 	o.Annotations = v
+}
+
+// GetLabels returns the Labels field value if set, zero value otherwise.
+func (o *ComponentItemCreate) GetLabels() map[string]string {
+	if o == nil || o.Labels == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.Labels
+}
+
+// GetLabelsOk returns a tuple with the Labels field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentItemCreate) GetLabelsOk() (*map[string]string, bool) {
+	if o == nil || o.Labels == nil {
+		return nil, false
+	}
+	return &o.Labels, true
+}
+
+// HasLabels returns a boolean if a field has been set.
+func (o *ComponentItemCreate) HasLabels() bool {
+	return o != nil && o.Labels != nil
+}
+
+// SetLabels gets a reference to the given map[string]string and assigns it to the Labels field.
+func (o *ComponentItemCreate) SetLabels(v map[string]string) {
+	o.Labels = v
 }
 
 // GetNodeGroup returns the NodeGroup field value if set, zero value otherwise.
@@ -491,6 +521,9 @@ func (o ComponentItemCreate) MarshalJSON() ([]byte, error) {
 	if o.Annotations != nil {
 		toSerialize["annotations"] = o.Annotations
 	}
+	if o.Labels != nil {
+		toSerialize["labels"] = o.Labels
+	}
 	if o.NodeGroup != nil {
 		toSerialize["nodeGroup"] = o.NodeGroup
 	}
@@ -542,6 +575,7 @@ func (o ComponentItemCreate) MarshalJSON() ([]byte, error) {
 func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Annotations             map[string]string        `json:"annotations,omitempty"`
+		Labels                  map[string]string        `json:"labels,omitempty"`
 		NodeGroup               *string                  `json:"nodeGroup,omitempty"`
 		AvailabilityZone        *string                  `json:"availabilityZone,omitempty"`
 		Component               *string                  `json:"component"`
@@ -565,13 +599,14 @@ func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"annotations", "nodeGroup", "availabilityZone", "component", "compNum", "replicas", "instanceTemplates", "skipResourceConstraints", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName", "network"})
+		common.DeleteKeys(additionalProperties, &[]string{"annotations", "labels", "nodeGroup", "availabilityZone", "component", "compNum", "replicas", "instanceTemplates", "skipResourceConstraints", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName", "network"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Annotations = all.Annotations
+	o.Labels = all.Labels
 	o.NodeGroup = all.NodeGroup
 	o.AvailabilityZone = all.AvailabilityZone
 	o.Component = *all.Component
