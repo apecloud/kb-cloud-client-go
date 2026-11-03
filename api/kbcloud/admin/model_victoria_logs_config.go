@@ -9,8 +9,12 @@ import (
 )
 
 type VictoriaLogsConfig struct {
-	// Optional component overrides. Unknown, duplicate or other-engine components are rejected.
+	// Optional component overrides. Unknown, duplicate or other-engine components are rejected. Must be omitted when reusedClusterName is set; adding an environment does not resize an existing cluster.
 	Components []StaticClusterComponent `json:"components,omitempty"`
+	// Kubernetes name of an existing cluster to attach. Set together with reusedClusterNamespace. The existing cluster's actual resources are used, and component overrides are rejected.
+	ReusedClusterName *string `json:"reusedClusterName,omitempty"`
+	// Namespace of the cluster named by reusedClusterName. Required when reusedClusterName is set.
+	ReusedClusterNamespace *string `json:"reusedClusterNamespace,omitempty"`
 	// Environment installation log retention, explicitly overriding the addon default. Defaults to 100y when omitted. Accepts a number with s (seconds), h (hours), d (days), w (weeks), M (months), or y (years); a bare number means months. Must be between 1d and 100y. Disk usage retention limits still apply.
 	RetentionPeriod *string `json:"retentionPeriod,omitempty"`
 	// Maximum disk usage percentage before VictoriaLogs deletes older log partitions. Defaults to 80 when omitted. Applies independently of retentionPeriod.
@@ -59,6 +63,62 @@ func (o *VictoriaLogsConfig) HasComponents() bool {
 // SetComponents gets a reference to the given []StaticClusterComponent and assigns it to the Components field.
 func (o *VictoriaLogsConfig) SetComponents(v []StaticClusterComponent) {
 	o.Components = v
+}
+
+// GetReusedClusterName returns the ReusedClusterName field value if set, zero value otherwise.
+func (o *VictoriaLogsConfig) GetReusedClusterName() string {
+	if o == nil || o.ReusedClusterName == nil {
+		var ret string
+		return ret
+	}
+	return *o.ReusedClusterName
+}
+
+// GetReusedClusterNameOk returns a tuple with the ReusedClusterName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *VictoriaLogsConfig) GetReusedClusterNameOk() (*string, bool) {
+	if o == nil || o.ReusedClusterName == nil {
+		return nil, false
+	}
+	return o.ReusedClusterName, true
+}
+
+// HasReusedClusterName returns a boolean if a field has been set.
+func (o *VictoriaLogsConfig) HasReusedClusterName() bool {
+	return o != nil && o.ReusedClusterName != nil
+}
+
+// SetReusedClusterName gets a reference to the given string and assigns it to the ReusedClusterName field.
+func (o *VictoriaLogsConfig) SetReusedClusterName(v string) {
+	o.ReusedClusterName = &v
+}
+
+// GetReusedClusterNamespace returns the ReusedClusterNamespace field value if set, zero value otherwise.
+func (o *VictoriaLogsConfig) GetReusedClusterNamespace() string {
+	if o == nil || o.ReusedClusterNamespace == nil {
+		var ret string
+		return ret
+	}
+	return *o.ReusedClusterNamespace
+}
+
+// GetReusedClusterNamespaceOk returns a tuple with the ReusedClusterNamespace field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *VictoriaLogsConfig) GetReusedClusterNamespaceOk() (*string, bool) {
+	if o == nil || o.ReusedClusterNamespace == nil {
+		return nil, false
+	}
+	return o.ReusedClusterNamespace, true
+}
+
+// HasReusedClusterNamespace returns a boolean if a field has been set.
+func (o *VictoriaLogsConfig) HasReusedClusterNamespace() bool {
+	return o != nil && o.ReusedClusterNamespace != nil
+}
+
+// SetReusedClusterNamespace gets a reference to the given string and assigns it to the ReusedClusterNamespace field.
+func (o *VictoriaLogsConfig) SetReusedClusterNamespace(v string) {
+	o.ReusedClusterNamespace = &v
 }
 
 // GetRetentionPeriod returns the RetentionPeriod field value if set, zero value otherwise.
@@ -136,6 +196,12 @@ func (o VictoriaLogsConfig) MarshalJSON() ([]byte, error) {
 	if o.Components != nil {
 		toSerialize["components"] = o.Components
 	}
+	if o.ReusedClusterName != nil {
+		toSerialize["reusedClusterName"] = o.ReusedClusterName
+	}
+	if o.ReusedClusterNamespace != nil {
+		toSerialize["reusedClusterNamespace"] = o.ReusedClusterNamespace
+	}
 	if o.RetentionPeriod != nil {
 		toSerialize["retentionPeriod"] = o.RetentionPeriod
 	}
@@ -153,6 +219,8 @@ func (o VictoriaLogsConfig) MarshalJSON() ([]byte, error) {
 func (o *VictoriaLogsConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Components                   []StaticClusterComponent `json:"components,omitempty"`
+		ReusedClusterName            *string                  `json:"reusedClusterName,omitempty"`
+		ReusedClusterNamespace       *string                  `json:"reusedClusterNamespace,omitempty"`
 		RetentionPeriod              *string                  `json:"retentionPeriod,omitempty"`
 		RetentionMaxDiskUsagePercent common.NullableInt32     `json:"retentionMaxDiskUsagePercent,omitempty"`
 	}{}
@@ -161,11 +229,13 @@ func (o *VictoriaLogsConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"components", "retentionPeriod", "retentionMaxDiskUsagePercent"})
+		common.DeleteKeys(additionalProperties, &[]string{"components", "reusedClusterName", "reusedClusterNamespace", "retentionPeriod", "retentionMaxDiskUsagePercent"})
 	} else {
 		return err
 	}
 	o.Components = all.Components
+	o.ReusedClusterName = all.ReusedClusterName
+	o.ReusedClusterNamespace = all.ReusedClusterNamespace
 	o.RetentionPeriod = all.RetentionPeriod
 	o.RetentionMaxDiskUsagePercent = all.RetentionMaxDiskUsagePercent
 	if len(additionalProperties) > 0 {
