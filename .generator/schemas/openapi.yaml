@@ -16087,7 +16087,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -16128,7 +16128,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -16166,6 +16166,54 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/computeGroupCreate'
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/enable:
+    post:
+      tags:
+        - computeGroup
+      operationId: enableComputeGroup
+      summary: Enable a compute group on an existing component
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Engine name.
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Accepted; poll taskId for convergence.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opsRequestName'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/computeGroupEnable'
   /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}:
     get:
       tags:
@@ -16176,7 +16224,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -16222,7 +16270,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -16269,7 +16317,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -16322,7 +16370,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -16369,7 +16417,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -16416,7 +16464,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -16463,7 +16511,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -16510,7 +16558,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -16558,7 +16606,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -42797,6 +42845,20 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/relatedClusterListItem'
+    computeGroupMember:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Engine-native member identifier.
+        host:
+          type: string
+        port:
+          type: integer
+          format: int64
+        alive:
+          type: boolean
+          x-omitempty: false
     computeGroupBackend:
       type: object
       properties:
@@ -42846,6 +42908,26 @@ components:
           type: number
         memory:
           type: number
+        memberCount:
+          type: integer
+          format: int64
+          x-nullable: true
+          description: Number of registered members.
+        aliveMemberCount:
+          type: integer
+          format: int64
+          x-nullable: true
+          description: Number of members reported online by the engine.
+        members:
+          type: array
+          x-omitempty: true
+          items:
+            $ref: '#/components/schemas/computeGroupMember'
+        computeGroupEnabled:
+          type: boolean
+          default: true
+          x-nullable: true
+          description: Whether the component is configured as a native compute group; task completion reports convergence.
         backendCount:
           type: integer
           format: int64
@@ -42896,6 +42978,21 @@ components:
           type: string
           minLength: 1
           maxLength: 128
+      additionalProperties: false
+    computeGroupEnable:
+      type: object
+      required:
+        - componentName
+        - name
+      properties:
+        componentName:
+          type: string
+          minLength: 1
+          description: Existing compute component to enable.
+        name:
+          type: string
+          pattern: ^[A-Za-z][A-Za-z0-9_]{0,63}$
+          description: Target compute group name. An enabled component cannot be renamed.
       additionalProperties: false
     computeGroupScale:
       type: object
