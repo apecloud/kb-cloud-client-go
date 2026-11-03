@@ -309,6 +309,89 @@ func (a *DolphindbApi) DolphinDBCreateGroup(ctx _context.Context, orgName string
 	return localVarHTTPResponse, nil
 }
 
+// DolphinDBCreateRebalance DolphinDB CreateRebalance.
+// Submit the built-in dolphindb-rebalance Custom Ops through the platform scheduler. Returns the unified taskId; use platform task APIs for history and status. A timeout or cancellation does not cancel native migrations. Do not automatically resubmit a timed-out request.
+func (a *DolphindbApi) DolphinDBCreateRebalance(ctx _context.Context, orgName string, clusterName string, body DolphinDBRebalanceRequest) (OpsRequestName, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue OpsRequestName
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dolphindb",
+		OperationID: "dolphinDBCreateRebalance",
+		Path:        "/api/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/rebalance/operations",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DolphindbApi.DolphinDBCreateRebalance")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/rebalance/operations"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "application/json"
+
+	// body params
+	localVarPostBody = &body
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 409 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // DolphinDBCreateUser DolphinDB CreateUser.
 func (a *DolphindbApi) DolphinDBCreateUser(ctx _context.Context, orgName string, clusterName string, body DolphinDBUserCreate) (*_nethttp.Response, error) {
 	var (
@@ -600,6 +683,86 @@ func (a *DolphindbApi) DolphinDBGetCapabilities(ctx _context.Context, orgName st
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// DolphinDBGetDistribution DolphinDB GetDistribution.
+// Filesystem bytes and physical chunk replica counts (including metadata/unready replicas). Not logical data size or healthy-copy counts.
+func (a *DolphindbApi) DolphinDBGetDistribution(ctx _context.Context, orgName string, clusterName string) (DolphinDBDistribution, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue DolphinDBDistribution
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dolphindb",
+		OperationID: "dolphinDBGetDistribution",
+		Path:        "/api/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/distribution",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DolphindbApi.DolphinDBGetDistribution")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/distribution"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 409 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // DolphinDBGetPermissions DolphinDB GetPermissions.
 func (a *DolphindbApi) DolphinDBGetPermissions(ctx _context.Context, orgName string, clusterName string, subjectType string, subjectName string) (DolphinDBPermissionSnapshot, *_nethttp.Response, error) {
 	var (
@@ -789,6 +952,134 @@ func (a *DolphindbApi) DolphinDBListUsers(ctx _context.Context, orgName string, 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 409 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// DolphinDBPreviewRebalanceOptionalParameters holds optional parameters for DolphinDBPreviewRebalance.
+type DolphinDBPreviewRebalanceOptionalParameters struct {
+	Offset            *int32
+	Limit             *int32
+	UpdatedBeforeDays *float64
+}
+
+// NewDolphinDBPreviewRebalanceOptionalParameters creates an empty struct for parameters.
+func NewDolphinDBPreviewRebalanceOptionalParameters() *DolphinDBPreviewRebalanceOptionalParameters {
+	this := DolphinDBPreviewRebalanceOptionalParameters{}
+	return &this
+}
+
+// WithOffset sets the corresponding parameter name and returns the struct.
+func (r *DolphinDBPreviewRebalanceOptionalParameters) WithOffset(offset int32) *DolphinDBPreviewRebalanceOptionalParameters {
+	r.Offset = &offset
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *DolphinDBPreviewRebalanceOptionalParameters) WithLimit(limit int32) *DolphinDBPreviewRebalanceOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// WithUpdatedBeforeDays sets the corresponding parameter name and returns the struct.
+func (r *DolphinDBPreviewRebalanceOptionalParameters) WithUpdatedBeforeDays(updatedBeforeDays float64) *DolphinDBPreviewRebalanceOptionalParameters {
+	r.UpdatedBeforeDays = &updatedBeforeDays
+	return r
+}
+
+// DolphinDBPreviewRebalance DolphinDB PreviewRebalance.
+// Read-only preview recalculated on every request. Execution recomputes the actual plan. This operation does not scale the cluster or drain a node.
+func (a *DolphindbApi) DolphinDBPreviewRebalance(ctx _context.Context, orgName string, clusterName string, o ...DolphinDBPreviewRebalanceOptionalParameters) (DolphinDBRebalancePreview, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue DolphinDBRebalancePreview
+		optionalParams      DolphinDBPreviewRebalanceOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type DolphinDBPreviewRebalanceOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dolphindb",
+		OperationID: "dolphinDBPreviewRebalance",
+		Path:        "/api/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/rebalance/preview",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DolphindbApi.DolphinDBPreviewRebalance")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/rebalance/preview"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Offset != nil {
+		localVarQueryParams.Add("offset", common.ParameterToString(*optionalParams.Offset, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.UpdatedBeforeDays != nil {
+		localVarQueryParams.Add("updatedBeforeDays", common.ParameterToString(*optionalParams.UpdatedBeforeDays, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
