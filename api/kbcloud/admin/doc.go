@@ -425,6 +425,7 @@
 //   - [dolphindbApi.dolphinDBDeleteGroup]
 //   - [dolphindbApi.dolphinDBDeleteUser]
 //   - [dolphindbApi.dolphinDBGetCapabilities]
+//   - [dolphindbApi.dolphinDBGetHealth]
 //   - [dolphindbApi.dolphinDBGetPermissions]
 //   - [dolphindbApi.dolphinDBListGroups]
 //   - [dolphindbApi.dolphinDBListUsers]
