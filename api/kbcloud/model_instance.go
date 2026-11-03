@@ -12,6 +12,10 @@ import (
 
 // Instance Instance is the information of KubeBlocks cluster instances
 type Instance struct {
+	// Configured instance template availability zone read from cluster metadata. Actual node placement is reported in zone.
+	AvailabilityZone *string `json:"availabilityZone,omitempty"`
+	// Configured instance template StorageClass read from cluster metadata, falling back to component and environment defaults.
+	StorageClass *string `json:"storageClass,omitempty"`
 	// Configured instance template service version read from cluster metadata, recorded at creation or after upgrade submission.
 	ServiceVersion *string `json:"serviceVersion,omitempty"`
 	// Access mode for instance
@@ -87,6 +91,62 @@ func NewInstance(accessMode string, cloud string, cluster string, component stri
 func NewInstanceWithDefaults() *Instance {
 	this := Instance{}
 	return &this
+}
+
+// GetAvailabilityZone returns the AvailabilityZone field value if set, zero value otherwise.
+func (o *Instance) GetAvailabilityZone() string {
+	if o == nil || o.AvailabilityZone == nil {
+		var ret string
+		return ret
+	}
+	return *o.AvailabilityZone
+}
+
+// GetAvailabilityZoneOk returns a tuple with the AvailabilityZone field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Instance) GetAvailabilityZoneOk() (*string, bool) {
+	if o == nil || o.AvailabilityZone == nil {
+		return nil, false
+	}
+	return o.AvailabilityZone, true
+}
+
+// HasAvailabilityZone returns a boolean if a field has been set.
+func (o *Instance) HasAvailabilityZone() bool {
+	return o != nil && o.AvailabilityZone != nil
+}
+
+// SetAvailabilityZone gets a reference to the given string and assigns it to the AvailabilityZone field.
+func (o *Instance) SetAvailabilityZone(v string) {
+	o.AvailabilityZone = &v
+}
+
+// GetStorageClass returns the StorageClass field value if set, zero value otherwise.
+func (o *Instance) GetStorageClass() string {
+	if o == nil || o.StorageClass == nil {
+		var ret string
+		return ret
+	}
+	return *o.StorageClass
+}
+
+// GetStorageClassOk returns a tuple with the StorageClass field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Instance) GetStorageClassOk() (*string, bool) {
+	if o == nil || o.StorageClass == nil {
+		return nil, false
+	}
+	return o.StorageClass, true
+}
+
+// HasStorageClass returns a boolean if a field has been set.
+func (o *Instance) HasStorageClass() bool {
+	return o != nil && o.StorageClass != nil
+}
+
+// SetStorageClass gets a reference to the given string and assigns it to the StorageClass field.
+func (o *Instance) SetStorageClass(v string) {
+	o.StorageClass = &v
 }
 
 // GetServiceVersion returns the ServiceVersion field value if set, zero value otherwise.
@@ -618,6 +678,12 @@ func (o Instance) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.AvailabilityZone != nil {
+		toSerialize["availabilityZone"] = o.AvailabilityZone
+	}
+	if o.StorageClass != nil {
+		toSerialize["storageClass"] = o.StorageClass
+	}
 	if o.ServiceVersion != nil {
 		toSerialize["serviceVersion"] = o.ServiceVersion
 	}
@@ -665,6 +731,8 @@ func (o Instance) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		AvailabilityZone *string               `json:"availabilityZone,omitempty"`
+		StorageClass     *string               `json:"storageClass,omitempty"`
 		ServiceVersion   *string               `json:"serviceVersion,omitempty"`
 		AccessMode       *string               `json:"accessMode"`
 		OrgName          *string               `json:"orgName,omitempty"`
@@ -731,12 +799,14 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"serviceVersion", "accessMode", "orgName", "cloud", "cluster", "componentName", "componentDef", "instanceTemplate", "component", "cpu", "createdAt", "memory", "name", "node", "containers", "podIP", "region", "role", "status", "storage", "zone"})
+		common.DeleteKeys(additionalProperties, &[]string{"availabilityZone", "storageClass", "serviceVersion", "accessMode", "orgName", "cloud", "cluster", "componentName", "componentDef", "instanceTemplate", "component", "cpu", "createdAt", "memory", "name", "node", "containers", "podIP", "region", "role", "status", "storage", "zone"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.AvailabilityZone = all.AvailabilityZone
+	o.StorageClass = all.StorageClass
 	o.ServiceVersion = all.ServiceVersion
 	o.AccessMode = *all.AccessMode
 	o.OrgName = all.OrgName
