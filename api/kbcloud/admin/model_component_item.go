@@ -18,6 +18,8 @@ type ComponentItem struct {
 	NodeGroup *string `json:"nodeGroup,omitempty"`
 	// Explicit component AZ selection, if configured.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
+	// Component service version recorded at creation or after upgrade submission. Empty when no version has been recorded.
+	ServiceVersion *string `json:"serviceVersion,omitempty"`
 	// Template versions recorded at creation or after upgrade submission, keyed by template name.
 	InstanceTemplateVersions map[string]string `json:"instanceTemplateVersions,omitempty"`
 	// Instance template assignments with effective replicas, placement and storage class, and user-provided env, labels and annotations.
@@ -176,6 +178,34 @@ func (o *ComponentItem) HasAvailabilityZone() bool {
 // SetAvailabilityZone gets a reference to the given string and assigns it to the AvailabilityZone field.
 func (o *ComponentItem) SetAvailabilityZone(v string) {
 	o.AvailabilityZone = &v
+}
+
+// GetServiceVersion returns the ServiceVersion field value if set, zero value otherwise.
+func (o *ComponentItem) GetServiceVersion() string {
+	if o == nil || o.ServiceVersion == nil {
+		var ret string
+		return ret
+	}
+	return *o.ServiceVersion
+}
+
+// GetServiceVersionOk returns a tuple with the ServiceVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentItem) GetServiceVersionOk() (*string, bool) {
+	if o == nil || o.ServiceVersion == nil {
+		return nil, false
+	}
+	return o.ServiceVersion, true
+}
+
+// HasServiceVersion returns a boolean if a field has been set.
+func (o *ComponentItem) HasServiceVersion() bool {
+	return o != nil && o.ServiceVersion != nil
+}
+
+// SetServiceVersion gets a reference to the given string and assigns it to the ServiceVersion field.
+func (o *ComponentItem) SetServiceVersion(v string) {
+	o.ServiceVersion = &v
 }
 
 // GetInstanceTemplateVersions returns the InstanceTemplateVersions field value if set, zero value otherwise.
@@ -588,6 +618,9 @@ func (o ComponentItem) MarshalJSON() ([]byte, error) {
 	if o.AvailabilityZone != nil {
 		toSerialize["availabilityZone"] = o.AvailabilityZone
 	}
+	if o.ServiceVersion != nil {
+		toSerialize["serviceVersion"] = o.ServiceVersion
+	}
 	if o.InstanceTemplateVersions != nil {
 		toSerialize["instanceTemplateVersions"] = o.InstanceTemplateVersions
 	}
@@ -644,6 +677,7 @@ func (o *ComponentItem) UnmarshalJSON(bytes []byte) (err error) {
 		Labels                   map[string]string        `json:"labels,omitempty"`
 		NodeGroup                *string                  `json:"nodeGroup,omitempty"`
 		AvailabilityZone         *string                  `json:"availabilityZone,omitempty"`
+		ServiceVersion           *string                  `json:"serviceVersion,omitempty"`
 		InstanceTemplateVersions map[string]string        `json:"instanceTemplateVersions,omitempty"`
 		InstanceTemplates        []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`
 		Name                     *string                  `json:"name,omitempty"`
@@ -664,7 +698,7 @@ func (o *ComponentItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"annotations", "labels", "nodeGroup", "availabilityZone", "instanceTemplateVersions", "instanceTemplates", "name", "component", "compNum", "replicas", "classCode", "cpu", "memory", "storageClass", "volumes", "codeShort", "systemAccountSecretName", "network"})
+		common.DeleteKeys(additionalProperties, &[]string{"annotations", "labels", "nodeGroup", "availabilityZone", "serviceVersion", "instanceTemplateVersions", "instanceTemplates", "name", "component", "compNum", "replicas", "classCode", "cpu", "memory", "storageClass", "volumes", "codeShort", "systemAccountSecretName", "network"})
 	} else {
 		return err
 	}
@@ -674,6 +708,7 @@ func (o *ComponentItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.Labels = all.Labels
 	o.NodeGroup = all.NodeGroup
 	o.AvailabilityZone = all.AvailabilityZone
+	o.ServiceVersion = all.ServiceVersion
 	o.InstanceTemplateVersions = all.InstanceTemplateVersions
 	o.InstanceTemplates = all.InstanceTemplates
 	o.Name = all.Name

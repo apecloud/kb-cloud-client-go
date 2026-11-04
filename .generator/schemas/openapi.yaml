@@ -29686,6 +29686,10 @@ components:
         availabilityZone:
           type: string
           description: Explicit component AZ selection, if configured.
+        serviceVersion:
+          type: string
+          readOnly: true
+          description: Component service version recorded at creation or after upgrade submission. Empty when no version has been recorded.
         instanceTemplateVersions:
           type: object
           readOnly: true
@@ -30026,13 +30030,13 @@ components:
       description: Instance is the information of KubeBlocks cluster instances
       properties:
         availabilityZone:
-          description: Configured instance template availability zone read from cluster metadata. Actual node placement is reported in zone.
+          description: Configured component or instance template availability zone read from cluster metadata. Actual node placement is reported in zone.
           type: string
         storageClass:
-          description: Configured instance template StorageClass read from cluster metadata, falling back to component and environment defaults.
+          description: Configured component or instance template StorageClass read from cluster metadata, falling back to component and environment defaults.
           type: string
         serviceVersion:
-          description: Configured instance template service version read from cluster metadata, recorded at creation or after upgrade submission.
+          description: Configured component or instance template service version read from cluster metadata, recorded at creation or after upgrade submission. Empty when no version has been recorded.
           type: string
         accessMode:
           description: Access mode for instance
@@ -31256,7 +31260,7 @@ components:
           minLength: 1
           maxLength: 32
     opsUpgrade:
-      description: Upgrade component and/or selected instance templates. Only explicitly specified target fields are updated. Templates without an explicit serviceVersion continue to inherit the component version and may change when the component is upgraded.
+      description: Upgrade component and/or selected instance templates. Only explicitly specified target fields are updated. An empty serviceVersion on a template in the Cluster CR inherits the component version and may change when that component is upgraded; this is distinct from omitting a template from this request.
       properties:
         version:
           type: string

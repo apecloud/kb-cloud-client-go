@@ -12,11 +12,11 @@ import (
 
 // Instance Instance is the information of KubeBlocks cluster instances
 type Instance struct {
-	// Configured instance template availability zone read from cluster metadata. Actual node placement is reported in zone.
+	// Configured component or instance template availability zone read from cluster metadata. Actual node placement is reported in zone.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
-	// Configured instance template StorageClass read from cluster metadata, falling back to component and environment defaults.
+	// Configured component or instance template StorageClass read from cluster metadata, falling back to component and environment defaults.
 	StorageClass *string `json:"storageClass,omitempty"`
-	// Configured instance template service version read from cluster metadata, recorded at creation or after upgrade submission.
+	// Configured component or instance template service version read from cluster metadata, recorded at creation or after upgrade submission. Empty when no version has been recorded.
 	ServiceVersion *string `json:"serviceVersion,omitempty"`
 	// Access mode for instance
 	AccessMode string `json:"accessMode"`

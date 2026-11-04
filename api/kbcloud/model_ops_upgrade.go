@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// OpsUpgrade Upgrade component and/or selected instance templates. Only explicitly specified target fields are updated. Templates without an explicit serviceVersion continue to inherit the component version and may change when the component is upgraded.
+// OpsUpgrade Upgrade component and/or selected instance templates. Only explicitly specified target fields are updated. An empty serviceVersion on a template in the Cluster CR inherits the component version and may change when that component is upgraded; this is distinct from omitting a template from this request.
 type OpsUpgrade struct {
 	Version           common.NullableString     `json:"version,omitempty"`
 	InstanceTemplates []InstanceTemplateUpgrade `json:"instanceTemplates,omitempty"`
