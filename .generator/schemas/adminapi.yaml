@@ -39599,7 +39599,7 @@ components:
         - licenseId
       properties:
         component:
-          description: component type
+          description: Retained for compatibility; update scope is determined by license configuration and actual cluster components.
           type: string
           minLength: 1
         licenseId:
@@ -44616,10 +44616,7 @@ components:
           description: Optional custom Ops parameter receiving a JSON object of candidate file SHA256 digests.
         restartAfterUpdate:
           type: boolean
-          description: Create a standard restart dependent on successful license installation.
-        clusterWide:
-          type: boolean
-          description: Install on all cluster components and restart all configured components after installation succeeds.
+          description: Create a standard restart after all configured components present in the cluster complete license installation successfully.
     engineOptionsMetricsQueryType:
       type: string
       description: |
