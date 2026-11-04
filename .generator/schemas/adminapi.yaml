@@ -39389,7 +39389,7 @@ components:
           minLength: 1
           maxLength: 32
     opsUpgrade:
-      description: Upgrade component and/or selected instance templates. Omitted targets remain unchanged.
+      description: Upgrade component and/or selected instance templates. Only explicitly specified target fields are updated. Templates without an explicit serviceVersion continue to inherit the component version and may change when the component is upgraded.
       properties:
         version:
           type: string
