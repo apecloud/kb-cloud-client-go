@@ -18,7 +18,7 @@ type ComponentItem struct {
 	NodeGroup *string `json:"nodeGroup,omitempty"`
 	// Explicit component AZ selection, if configured.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
-	// Template versions recorded at creation or after upgrade submission, keyed by template name.
+	// Desired template versions read from Cluster CR, keyed by template name. Empty template versions inherit the CR component version. This read-only field is not persisted.
 	InstanceTemplateVersions map[string]string `json:"instanceTemplateVersions,omitempty"`
 	// Instance template assignments with effective replicas, placement and storage class, and user-provided env, labels and annotations.
 	InstanceTemplates []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`

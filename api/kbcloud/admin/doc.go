@@ -431,6 +431,7 @@
 //   - [dolphindbApi.dolphinDBGetPermissions]
 //   - [dolphindbApi.dolphinDBListGroups]
 //   - [dolphindbApi.dolphinDBListUsers]
+//   - [dolphindbApi.dolphinDBPreviewDrain]
 //   - [dolphindbApi.dolphinDBPreviewRebalance]
 //   - [elasticsearchApi.changeElasticsearchSecurityUserPassword]
 //   - [elasticsearchApi.deleteElasticsearchSecurityRole]

@@ -12,7 +12,7 @@ import (
 
 // Instance Instance is the information of KubeBlocks cluster instances
 type Instance struct {
-	// Configured instance template service version read from cluster metadata, recorded at creation or after upgrade submission.
+	// Desired instance template service version read from Cluster CR. This is not a confirmation that the upgrade has completed.
 	ServiceVersion *string `json:"serviceVersion,omitempty"`
 	// Access mode for instance
 	AccessMode string `json:"accessMode"`
