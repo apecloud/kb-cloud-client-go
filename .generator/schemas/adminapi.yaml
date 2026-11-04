@@ -219,42 +219,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/DolphinDBRebalanceRequest'
-  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/licenses:
-    get:
-      summary: DolphinDB effective License observations
-      operationId: dolphinDBGetLicenses
-      tags:
-        - dolphindb
-        - shared
-      description: Reads effective in-memory License metadata on native processes including Agents. Unknown or offline nodes remain visible. Upload/install status is independent of effective values. Use existing cluster License update operation to install and restart, then read this API again.
-      parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Per-process License observations; consistency is unknown when any process is unreadable.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DolphinDBLicenseSnapshot'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       summary: DolphinDB ListUsers
@@ -14595,6 +14559,37 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - backup
+  /admin/v1/organizations/{orgName}/backups/batch-delete:
+    post:
+      operationId: batchDeleteBackups
+      summary: Batch delete backups
+      description: Delete multiple backups in a single request. Backups which cannot be deleted are reported in the error response and do not roll back the backups that were already deleted.
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backupBatchDelete'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Returned when the backups are deleted successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - backup
+      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/backups/{backupId}:
     delete:
       operationId: deleteBackup
@@ -31685,111 +31680,6 @@ components:
       required:
         - taskId
       type: object
-    DolphinDBHealthState:
-      type: string
-      enum:
-        - passed
-        - failed
-        - unknown
-        - notApplicable
-    DolphinDBHealthCheck:
-      type: object
-      required:
-        - state
-        - source
-      properties:
-        state:
-          $ref: '#/components/schemas/DolphinDBHealthState'
-        source:
-          type: string
-        reason:
-          type: string
-    DolphinDBLicenseInfo:
-      type: object
-      required:
-        - expiration
-        - maxMemoryPerNode
-        - maxCoresPerNode
-        - maxNodes
-        - clientName
-        - licenseType
-        - authorization
-        - version
-        - moduleNames
-        - modules
-        - productKey
-      properties:
-        expiration:
-          type: string
-          description: Native expiration calendar date in YYYY.MM.DD format.
-        maxMemoryPerNode:
-          type: number
-          format: double
-          description: Native memory quota in GB per node.
-        maxCoresPerNode:
-          type: integer
-          format: int64
-        maxNodes:
-          type: integer
-          format: int64
-          description: Native license node quota; not a Kubernetes Pod count.
-        clientName:
-          type: string
-        licenseType:
-          type: integer
-          description: Native license type, 0 ordinary file, 1 fingerprint, 2 online, 3 license server.
-        licenseSourceType:
-          type: integer
-          description: Optional native source type; absent on older versions.
-        authorization:
-          type: string
-        version:
-          type: string
-        moduleNames:
-          type: string
-        modules:
-          type: integer
-          format: int64
-        productKey:
-          type: string
-    DolphinDBNodeLicense:
-      type: object
-      required:
-        - name
-        - mode
-        - observation
-      properties:
-        name:
-          type: string
-        mode:
-          type: integer
-        observation:
-          $ref: '#/components/schemas/DolphinDBHealthCheck'
-        effective:
-          $ref: '#/components/schemas/DolphinDBLicenseInfo'
-        daysUntilExpiration:
-          type: integer
-          format: int64
-          description: UTC calendar date difference; negative means expired and zero means today.
-    DolphinDBLicenseSnapshot:
-      type: object
-      required:
-        - checkedAt
-        - inventory
-        - consistency
-        - nodes
-      properties:
-        checkedAt:
-          type: string
-          format: date-time
-        inventory:
-          $ref: '#/components/schemas/DolphinDBHealthCheck'
-        consistency:
-          $ref: '#/components/schemas/DolphinDBHealthCheck'
-        nodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/DolphinDBNodeLicense'
     DolphinDBUser:
       type: object
       properties:
@@ -42842,6 +42732,19 @@ components:
           type: string
           nullable: true
       type: object
+    backupBatchDelete:
+      description: BackupBatchDelete is the payload for deleting multiple backups
+      type: object
+      required:
+        - backupIds
+      properties:
+        backupIds:
+          description: IDs of the backups to delete
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            type: string
     backupLogByPod:
       description: info of backup workload log
       properties:
