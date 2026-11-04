@@ -427,6 +427,7 @@
 //   - [dolphindbApi.dolphinDBDeleteUser]
 //   - [dolphindbApi.dolphinDBGetCapabilities]
 //   - [dolphindbApi.dolphinDBGetDistribution]
+//   - [dolphindbApi.dolphinDBGetLicenses]
 //   - [dolphindbApi.dolphinDBGetPermissions]
 //   - [dolphindbApi.dolphinDBListGroups]
 //   - [dolphindbApi.dolphinDBListUsers]

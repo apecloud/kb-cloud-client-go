@@ -17,6 +17,8 @@ type LicenseOption struct {
 	FileDigestParameter *string `json:"fileDigestParameter,omitempty"`
 	// Create a standard restart dependent on successful license installation.
 	RestartAfterUpdate *bool `json:"restartAfterUpdate,omitempty"`
+	// Install on all cluster components and restart all configured components after installation succeeds.
+	ClusterWide *bool `json:"clusterWide,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -143,6 +145,34 @@ func (o *LicenseOption) SetRestartAfterUpdate(v bool) {
 	o.RestartAfterUpdate = &v
 }
 
+// GetClusterWide returns the ClusterWide field value if set, zero value otherwise.
+func (o *LicenseOption) GetClusterWide() bool {
+	if o == nil || o.ClusterWide == nil {
+		var ret bool
+		return ret
+	}
+	return *o.ClusterWide
+}
+
+// GetClusterWideOk returns a tuple with the ClusterWide field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *LicenseOption) GetClusterWideOk() (*bool, bool) {
+	if o == nil || o.ClusterWide == nil {
+		return nil, false
+	}
+	return o.ClusterWide, true
+}
+
+// HasClusterWide returns a boolean if a field has been set.
+func (o *LicenseOption) HasClusterWide() bool {
+	return o != nil && o.ClusterWide != nil
+}
+
+// SetClusterWide gets a reference to the given bool and assigns it to the ClusterWide field.
+func (o *LicenseOption) SetClusterWide(v bool) {
+	o.ClusterWide = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o LicenseOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -156,6 +186,9 @@ func (o LicenseOption) MarshalJSON() ([]byte, error) {
 	}
 	if o.RestartAfterUpdate != nil {
 		toSerialize["restartAfterUpdate"] = o.RestartAfterUpdate
+	}
+	if o.ClusterWide != nil {
+		toSerialize["clusterWide"] = o.ClusterWide
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -171,6 +204,7 @@ func (o *LicenseOption) UnmarshalJSON(bytes []byte) (err error) {
 		OpsDefName          *string `json:"opsDefName"`
 		FileDigestParameter *string `json:"fileDigestParameter,omitempty"`
 		RestartAfterUpdate  *bool   `json:"restartAfterUpdate,omitempty"`
+		ClusterWide         *bool   `json:"clusterWide,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -183,7 +217,7 @@ func (o *LicenseOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "opsDefName", "fileDigestParameter", "restartAfterUpdate"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "opsDefName", "fileDigestParameter", "restartAfterUpdate", "clusterWide"})
 	} else {
 		return err
 	}
@@ -191,6 +225,7 @@ func (o *LicenseOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.OpsDefName = *all.OpsDefName
 	o.FileDigestParameter = all.FileDigestParameter
 	o.RestartAfterUpdate = all.RestartAfterUpdate
+	o.ClusterWide = all.ClusterWide
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
