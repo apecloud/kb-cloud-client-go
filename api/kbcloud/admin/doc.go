@@ -133,6 +133,7 @@
 //   - [alertTemplateApi.listAlertTemplates]
 //   - [alertTemplateApi.patchAlertTemplate]
 //   - [autohealingApi.getAutohealing]
+//   - [backupApi.batchDeleteBackups]
 //   - [backupApi.buildBackupObj]
 //   - [backupApi.createBackupSchedule]
 //   - [backupApi.createClusterBackup]
