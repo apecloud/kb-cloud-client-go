@@ -140,6 +140,7 @@
 //   - [alertTemplateApi.getAlertTemplate]
 //   - [alertTemplateApi.listAlertTemplates]
 //   - [alertTemplateApi.patchAlertTemplate]
+//   - [backupApi.batchDeleteBackups]
 //   - [backupApi.buildBackupObj]
 //   - [backupApi.createBackupSchedule]
 //   - [backupApi.createClusterBackup]

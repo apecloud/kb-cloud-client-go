@@ -109,6 +109,7 @@
 //   - [alertStrategyApi.listAlertStrategies]
 //   - [alertStrategyApi.patchAlertStrategy]
 //   - [alertStrategyApi.updateAlertStrategy]
+//   - [backupApi.batchDeleteBackups]
 //   - [backupApi.buildBackupObj]
 //   - [backupApi.createBackupSchedule]
 //   - [backupApi.createClusterBackup]
