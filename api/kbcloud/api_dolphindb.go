@@ -1027,7 +1027,7 @@ func (r *DolphinDBPreviewDrainOptionalParameters) WithLimit(limit int32) *Dolphi
 }
 
 // DolphinDBPreviewDrain Preview DolphinDB data node evacuation.
-// Read-only shared addon plan. Requires the new preloaded kubeblocks planner. Does not evacuate data, reserve a plan, or remove a node. Existing HorizontalScaling/memberLeave replans and executes; capacity is not inferred from chunk size.
+// Read-only evacuation preview computed by an embedded DMS planner from native controller metadata. No addon planner or module upgrade is required. Does not evacuate data, reserve a plan, or remove a node. Existing HorizontalScaling/memberLeave independently checks current state and executes; capacity is not inferred from chunk size.
 func (a *DolphindbApi) DolphinDBPreviewDrain(ctx _context.Context, orgName string, clusterName string, body DolphinDBDrainRequest, o ...DolphinDBPreviewDrainOptionalParameters) (DolphinDBDrainPreview, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
