@@ -247,6 +247,7 @@
 //   - [clusterTagApi.updateTag]
 //   - [computeGroupApi.createComputeGroup]
 //   - [computeGroupApi.deleteComputeGroup]
+//   - [computeGroupApi.enableComputeGroup]
 //   - [computeGroupApi.getComputeGroup]
 //   - [computeGroupApi.grantComputeGroupAccount]
 //   - [computeGroupApi.listComputeGroupAccounts]
