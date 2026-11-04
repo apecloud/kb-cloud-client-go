@@ -1002,6 +1002,127 @@ func (a *DolphindbApi) DolphinDBListUsers(ctx _context.Context, orgName string, 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// DolphinDBPreviewDrainOptionalParameters holds optional parameters for DolphinDBPreviewDrain.
+type DolphinDBPreviewDrainOptionalParameters struct {
+	Offset *int32
+	Limit  *int32
+}
+
+// NewDolphinDBPreviewDrainOptionalParameters creates an empty struct for parameters.
+func NewDolphinDBPreviewDrainOptionalParameters() *DolphinDBPreviewDrainOptionalParameters {
+	this := DolphinDBPreviewDrainOptionalParameters{}
+	return &this
+}
+
+// WithOffset sets the corresponding parameter name and returns the struct.
+func (r *DolphinDBPreviewDrainOptionalParameters) WithOffset(offset int32) *DolphinDBPreviewDrainOptionalParameters {
+	r.Offset = &offset
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *DolphinDBPreviewDrainOptionalParameters) WithLimit(limit int32) *DolphinDBPreviewDrainOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// DolphinDBPreviewDrain Preview DolphinDB data node evacuation.
+// Read-only evacuation preview computed by an embedded DMS planner from native controller metadata. No addon planner or module upgrade is required. Does not evacuate data, reserve a plan, or remove a node. Existing HorizontalScaling/memberLeave independently checks current state and executes; capacity is not inferred from chunk size.
+func (a *DolphindbApi) DolphinDBPreviewDrain(ctx _context.Context, orgName string, clusterName string, body DolphinDBDrainRequest, o ...DolphinDBPreviewDrainOptionalParameters) (DolphinDBDrainPreview, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue DolphinDBDrainPreview
+		optionalParams      DolphinDBPreviewDrainOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type DolphinDBPreviewDrainOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dolphindb",
+		OperationID: "dolphinDBPreviewDrain",
+		Path:        "/api/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/rebalance/drain-preview",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DolphindbApi.DolphinDBPreviewDrain")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/rebalance/drain-preview"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Offset != nil {
+		localVarQueryParams.Add("offset", common.ParameterToString(*optionalParams.Offset, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "application/json"
+
+	// body params
+	localVarPostBody = &body
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // DolphinDBPreviewRebalanceOptionalParameters holds optional parameters for DolphinDBPreviewRebalance.
 type DolphinDBPreviewRebalanceOptionalParameters struct {
 	Offset            *int32

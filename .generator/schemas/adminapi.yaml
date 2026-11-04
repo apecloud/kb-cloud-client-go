@@ -78,6 +78,60 @@ tags:
   - name: redisKeyAnalysis
     description: Redis Keys Analysis APIs
 paths:
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/rebalance/drain-preview:
+    post:
+      summary: Preview DolphinDB data node evacuation
+      operationId: dolphinDBPreviewDrain
+      tags:
+        - dolphindb
+        - shared
+      description: Read-only evacuation preview computed by an embedded DMS planner from native controller metadata. No addon planner or module upgrade is required. Does not evacuate data, reserve a plan, or remove a node. Existing HorizontalScaling/memberLeave independently checks current state and executes; capacity is not inferred from chunk size.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 10000000
+            default: 0
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+            default: 100
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBDrainRequest'
+      responses:
+        '200':
+          description: Observed evacuation plan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DolphinDBDrainPreview'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/rebalance/preview:
     get:
       summary: DolphinDB PreviewRebalance
@@ -31572,6 +31626,87 @@ components:
         curl --digest -u "accessKey:secretKey" https://api.example.com/admin/v1/user
         ```
   schemas:
+    DolphinDBDrainRequest:
+      type: object
+      required:
+        - source
+        - remainingNodes
+      properties:
+        source:
+          type: string
+          pattern: ^[A-Za-z0-9_-]{1,253}$
+        remainingNodes:
+          type: array
+          minItems: 1
+          maxItems: 1000
+          uniqueItems: true
+          items:
+            type: string
+            pattern: ^[A-Za-z0-9_-]{1,253}$
+    DolphinDBDrainMigration:
+      type: object
+      required:
+        - chunkId
+        - srcNode
+        - destNode
+        - action
+      properties:
+        chunkId:
+          type: string
+        srcNode:
+          type: string
+        destNode:
+          type: string
+          description: Empty for a redundant replica deletion.
+        action:
+          type: string
+          description: moveReplica or dropRedundantReplica. Preview does not execute either action.
+    DolphinDBDrainPreview:
+      type: object
+      required:
+        - observedAt
+        - source
+        - remainingNodes
+        - total
+        - offset
+        - entries
+        - capacityCheck
+      properties:
+        observedAt:
+          type: string
+          format: date-time
+        source:
+          type: string
+        remainingNodes:
+          type: array
+          items:
+            type: string
+        total:
+          type: integer
+        offset:
+          type: integer
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBDrainMigration'
+        capacityCheck:
+          type: string
+          description: Always notValidated. This preview is not proof of sufficient physical capacity or permission to delete the node.
+    APIErrorResponse:
+      description: API error response.
+      properties:
+        code:
+          description: The HTTP status code.
+          type: integer
+        reason:
+          description: The reason for the error.
+          type: string
+        message:
+          description: The message for the error.
+          type: string
+      required:
+        - code
+      type: object
     DolphinDBMigration:
       type: object
       properties:
@@ -31605,21 +31740,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DolphinDBMigration'
-    APIErrorResponse:
-      description: API error response.
-      properties:
-        code:
-          description: The HTTP status code.
-          type: integer
-        reason:
-          description: The reason for the error.
-          type: string
-        message:
-          description: The message for the error.
-          type: string
-      required:
-        - code
-      type: object
     DolphinDBVolumeUsage:
       type: object
       properties:
