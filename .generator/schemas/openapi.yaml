@@ -29686,10 +29686,6 @@ components:
         availabilityZone:
           type: string
           description: Explicit component AZ selection, if configured.
-        serviceVersion:
-          type: string
-          readOnly: true
-          description: Component service version recorded at creation or after upgrade submission. Empty when no version has been recorded.
         instanceTemplateVersions:
           type: object
           readOnly: true
@@ -30029,14 +30025,8 @@ components:
     instance:
       description: Instance is the information of KubeBlocks cluster instances
       properties:
-        availabilityZone:
-          description: Configured component or instance template availability zone read from cluster metadata. Actual node placement is reported in zone.
-          type: string
-        storageClass:
-          description: Configured component or instance template StorageClass read from cluster metadata, falling back to component and environment defaults.
-          type: string
         serviceVersion:
-          description: Configured component or instance template service version read from cluster metadata, recorded at creation or after upgrade submission. Empty when no version has been recorded.
+          description: Configured instance template service version read from cluster metadata, recorded at creation or after upgrade submission.
           type: string
         accessMode:
           description: Access mode for instance
