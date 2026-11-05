@@ -78,6 +78,201 @@ tags:
   - name: redisKeyAnalysis
     description: Redis Keys Analysis APIs
 paths:
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/rebalance/drain-preview:
+    post:
+      summary: Preview DolphinDB data node evacuation
+      operationId: dolphinDBPreviewDrain
+      tags:
+        - dolphindb
+        - shared
+      description: Read-only evacuation preview computed by an embedded DMS planner from native controller metadata. No addon planner or module upgrade is required. Does not evacuate data, reserve a plan, or remove a node. Existing HorizontalScaling/memberLeave independently checks current state and executes; capacity is not inferred from chunk size.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 10000000
+            default: 0
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+            default: 100
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBDrainRequest'
+      responses:
+        '200':
+          description: Observed evacuation plan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DolphinDBDrainPreview'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/rebalance/preview:
+    get:
+      summary: DolphinDB PreviewRebalance
+      operationId: dolphinDBPreviewRebalance
+      tags:
+        - dolphindb
+        - shared
+      description: Read-only preview recalculated on every request. Execution recomputes the actual plan. This operation does not scale the cluster or drain a node.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 10000000
+            default: 0
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+            default: 100
+        - name: updatedBeforeDays
+          in: query
+          schema:
+            type: number
+            minimum: 0
+            maximum: 36500
+            default: 7
+      responses:
+        '200':
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DolphinDBRebalancePreview'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/distribution:
+    get:
+      summary: DolphinDB GetDistribution
+      operationId: dolphinDBGetDistribution
+      tags:
+        - dolphindb
+        - shared
+      description: Filesystem bytes and physical chunk replica counts (including metadata/unready replicas). Not logical data size or healthy-copy counts.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DolphinDBDistribution'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/rebalance/operations:
+    post:
+      summary: DolphinDB CreateRebalance
+      operationId: dolphinDBCreateRebalance
+      tags:
+        - dolphindb
+        - shared
+      description: Submit the built-in dolphindb-rebalance Custom Ops through the platform scheduler. Returns the unified taskId; use platform task APIs for history and status. A timeout or cancellation does not cancel native migrations. Do not automatically resubmit a timed-out request.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opsRequestName'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBRebalanceRequest'
   /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       summary: DolphinDB ListUsers
@@ -14418,6 +14613,37 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - backup
+  /admin/v1/organizations/{orgName}/backups/batch-delete:
+    post:
+      operationId: batchDeleteBackups
+      summary: Batch delete backups
+      description: Delete multiple backups in a single request. Backups which cannot be deleted are reported in the error response and do not roll back the backups that were already deleted.
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backupBatchDelete'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Returned when the backups are deleted successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - backup
+      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/backups/{backupId}:
     delete:
       operationId: deleteBackup
@@ -19582,6 +19808,8 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
   /admin/v1/scheduled-tasks/{scheduledTaskId}:
     get:
       tags:
@@ -31480,6 +31708,180 @@ components:
         curl --digest -u "accessKey:secretKey" https://api.example.com/admin/v1/user
         ```
   schemas:
+    DolphinDBDrainRequest:
+      type: object
+      required:
+        - source
+        - remainingNodes
+      properties:
+        source:
+          type: string
+          pattern: ^[A-Za-z0-9_-]{1,253}$
+        remainingNodes:
+          type: array
+          minItems: 1
+          maxItems: 1000
+          uniqueItems: true
+          items:
+            type: string
+            pattern: ^[A-Za-z0-9_-]{1,253}$
+    DolphinDBDrainMigration:
+      type: object
+      required:
+        - chunkId
+        - srcNode
+        - destNode
+        - action
+      properties:
+        chunkId:
+          type: string
+        srcNode:
+          type: string
+        destNode:
+          type: string
+          description: Empty for a redundant replica deletion.
+        action:
+          type: string
+          description: moveReplica or dropRedundantReplica. Preview does not execute either action.
+    DolphinDBDrainPreview:
+      type: object
+      required:
+        - observedAt
+        - source
+        - remainingNodes
+        - total
+        - offset
+        - entries
+        - capacityCheck
+      properties:
+        observedAt:
+          type: string
+          format: date-time
+        source:
+          type: string
+        remainingNodes:
+          type: array
+          items:
+            type: string
+        total:
+          type: integer
+        offset:
+          type: integer
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBDrainMigration'
+        capacityCheck:
+          type: string
+          description: Always notValidated. This preview is not proof of sufficient physical capacity or permission to delete the node.
+    APIErrorResponse:
+      description: API error response.
+      properties:
+        code:
+          description: The HTTP status code.
+          type: integer
+        reason:
+          description: The reason for the error.
+          type: string
+        message:
+          description: The message for the error.
+          type: string
+      required:
+        - code
+      type: object
+    DolphinDBMigration:
+      type: object
+      properties:
+        chunkId:
+          type: string
+        srcNode:
+          type: string
+        destNode:
+          type: string
+        destVolume:
+          type: string
+      required:
+        - chunkId
+        - srcNode
+        - destNode
+    DolphinDBRebalancePreview:
+      type: object
+      properties:
+        observedAt:
+          type: string
+          format: date-time
+        updatedBeforeDays:
+          type: number
+        total:
+          type: integer
+          format: int64
+        offset:
+          type: integer
+          format: int64
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBMigration'
+    DolphinDBVolumeUsage:
+      type: object
+      properties:
+        node:
+          type: string
+        volumePath:
+          type: string
+        usage:
+          type: integer
+          format: int64
+        capacity:
+          type: integer
+          format: int64
+    DolphinDBReplicaDistribution:
+      type: object
+      properties:
+        node:
+          type: string
+        replicaCount:
+          type: integer
+          format: int64
+    DolphinDBDistribution:
+      type: object
+      properties:
+        observedAt:
+          type: string
+          format: date-time
+        volumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBVolumeUsage'
+        replicas:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBReplicaDistribution'
+    DolphinDBRebalanceRequest:
+      type: object
+      properties:
+        updatedBeforeDays:
+          type: number
+          minimum: 0
+          maximum: 36500
+          default: 7
+        timeoutSeconds:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 86400
+          default: 3600
+          description: Addon wait timeout. Expiry does not cancel native migrations.
+    opsRequestName:
+      description: OpsRequestName is the name of a KubeBlocks OpsRequest response
+      properties:
+        opsRequestName:
+          type: string
+        taskId:
+          type: string
+      required:
+        - taskId
+      type: object
     DolphinDBUser:
       type: object
       properties:
@@ -31499,21 +31901,6 @@ components:
         - isAdmin
         - groups
         - readOnly
-    APIErrorResponse:
-      description: API error response.
-      properties:
-        code:
-          description: The HTTP status code.
-          type: integer
-        reason:
-          description: The reason for the error.
-          type: string
-        message:
-          description: The message for the error.
-          type: string
-      required:
-        - code
-      type: object
     DolphinDBUserCreate:
       type: object
       properties:
@@ -35299,16 +35686,6 @@ components:
         networkMode:
           description: Specify the network mode the cluster transitions to. Defaults to the network mode of the cluster when omitted.
           $ref: '#/components/schemas/networkMode'
-    opsRequestName:
-      description: OpsRequestName is the name of a KubeBlocks OpsRequest response
-      properties:
-        opsRequestName:
-          type: string
-        taskId:
-          type: string
-      required:
-        - taskId
-      type: object
     disasterRecoveryTask:
       description: Task information of disasterRecovery job
       properties:
@@ -42557,6 +42934,19 @@ components:
           type: string
           nullable: true
       type: object
+    backupBatchDelete:
+      description: BackupBatchDelete is the payload for deleting multiple backups
+      type: object
+      required:
+        - backupIds
+      properties:
+        backupIds:
+          description: IDs of the backups to delete
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            type: string
     backupLogByPod:
       description: info of backup workload log
       properties:
@@ -48093,6 +48483,28 @@ components:
         - error
         - unknown
       description: Current normalized status of the scheduled task
+    scheduledTaskProvider:
+      type: string
+      enum:
+        - taskflow
+      description: Scheduler provider
+    scheduledTaskLastExecutionStatus:
+      type: string
+      enum:
+        - success
+        - failed
+        - running
+        - pending
+        - cancelled
+        - unknown
+      description: Most recently observable execution status
+    scheduledTaskEnableStatus:
+      type: string
+      enum:
+        - immutable
+        - disabled
+        - enabled
+      description: Whether the schedule is immutable, disabled, or enabled
     scheduledTaskSummary:
       type: object
       required:
@@ -48109,21 +48521,15 @@ components:
           type: string
           description: Stable name of the scheduled task
         provider:
-          type: string
-          description: Scheduler provider, such as taskflow or cr4w
+          $ref: '#/components/schemas/scheduledTaskProvider'
         cronExpression:
           type: string
           description: Cron expression used to schedule the task
           x-nullable: true
-        timezone:
-          type: string
-          description: Timezone used to evaluate the schedule
         lastExecutionStatus:
-          type: string
-          description: Most recently observable execution status
+          $ref: '#/components/schemas/scheduledTaskLastExecutionStatus'
         enabled:
-          type: boolean
-          description: Whether the scheduled task is enabled and can continue to be scheduled
+          $ref: '#/components/schemas/scheduledTaskEnableStatus'
         scope:
           type: string
           description: Scope affected by the task, such as platform, organization, environment, or cluster
@@ -48131,13 +48537,13 @@ components:
           $ref: '#/components/schemas/scheduledTaskStatus'
         lastRunAt:
           type: string
-          format: date-time
-          description: Most recent execution start time
+          description: Most recent execution start time as a Unix timestamp in seconds
+          example: '1793763705'
           x-nullable: true
         nextRunAt:
           type: string
-          format: date-time
-          description: Next scheduled execution time
+          description: Next scheduled execution time as a Unix timestamp in seconds
+          example: '1793763705'
           x-nullable: true
         createdAt:
           type: string

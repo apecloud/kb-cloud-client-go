@@ -16,24 +16,22 @@ type ScheduledTaskSummary struct {
 	ScheduledTaskId string `json:"scheduledTaskId"`
 	// Stable name of the scheduled task
 	Name string `json:"name"`
-	// Scheduler provider, such as taskflow or cr4w
-	Provider *string `json:"provider,omitempty"`
+	// Scheduler provider
+	Provider *ScheduledTaskProvider `json:"provider,omitempty"`
 	// Cron expression used to schedule the task
 	CronExpression *string `json:"cronExpression,omitempty"`
-	// Timezone used to evaluate the schedule
-	Timezone *string `json:"timezone,omitempty"`
 	// Most recently observable execution status
-	LastExecutionStatus *string `json:"lastExecutionStatus,omitempty"`
-	// Whether the scheduled task is enabled and can continue to be scheduled
-	Enabled *bool `json:"enabled,omitempty"`
+	LastExecutionStatus *ScheduledTaskLastExecutionStatus `json:"lastExecutionStatus,omitempty"`
+	// Whether the schedule is immutable, disabled, or enabled
+	Enabled *ScheduledTaskEnableStatus `json:"enabled,omitempty"`
 	// Scope affected by the task, such as platform, organization, environment, or cluster
 	Scope *string `json:"scope,omitempty"`
 	// Current normalized status of the scheduled task
 	Status ScheduledTaskStatus `json:"status"`
-	// Most recent execution start time
-	LastRunAt *time.Time `json:"lastRunAt,omitempty"`
-	// Next scheduled execution time
-	NextRunAt *time.Time `json:"nextRunAt,omitempty"`
+	// Most recent execution start time as a Unix timestamp in seconds
+	LastRunAt *string `json:"lastRunAt,omitempty"`
+	// Next scheduled execution time as a Unix timestamp in seconds
+	NextRunAt *string `json:"nextRunAt,omitempty"`
 	// Creation time of the scheduled task record
 	CreatedAt time.Time `json:"createdAt"`
 	// Last update time of the scheduled task record
@@ -112,9 +110,9 @@ func (o *ScheduledTaskSummary) SetName(v string) {
 }
 
 // GetProvider returns the Provider field value if set, zero value otherwise.
-func (o *ScheduledTaskSummary) GetProvider() string {
+func (o *ScheduledTaskSummary) GetProvider() ScheduledTaskProvider {
 	if o == nil || o.Provider == nil {
-		var ret string
+		var ret ScheduledTaskProvider
 		return ret
 	}
 	return *o.Provider
@@ -122,7 +120,7 @@ func (o *ScheduledTaskSummary) GetProvider() string {
 
 // GetProviderOk returns a tuple with the Provider field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ScheduledTaskSummary) GetProviderOk() (*string, bool) {
+func (o *ScheduledTaskSummary) GetProviderOk() (*ScheduledTaskProvider, bool) {
 	if o == nil || o.Provider == nil {
 		return nil, false
 	}
@@ -134,8 +132,8 @@ func (o *ScheduledTaskSummary) HasProvider() bool {
 	return o != nil && o.Provider != nil
 }
 
-// SetProvider gets a reference to the given string and assigns it to the Provider field.
-func (o *ScheduledTaskSummary) SetProvider(v string) {
+// SetProvider gets a reference to the given ScheduledTaskProvider and assigns it to the Provider field.
+func (o *ScheduledTaskSummary) SetProvider(v ScheduledTaskProvider) {
 	o.Provider = &v
 }
 
@@ -167,38 +165,10 @@ func (o *ScheduledTaskSummary) SetCronExpression(v string) {
 	o.CronExpression = &v
 }
 
-// GetTimezone returns the Timezone field value if set, zero value otherwise.
-func (o *ScheduledTaskSummary) GetTimezone() string {
-	if o == nil || o.Timezone == nil {
-		var ret string
-		return ret
-	}
-	return *o.Timezone
-}
-
-// GetTimezoneOk returns a tuple with the Timezone field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ScheduledTaskSummary) GetTimezoneOk() (*string, bool) {
-	if o == nil || o.Timezone == nil {
-		return nil, false
-	}
-	return o.Timezone, true
-}
-
-// HasTimezone returns a boolean if a field has been set.
-func (o *ScheduledTaskSummary) HasTimezone() bool {
-	return o != nil && o.Timezone != nil
-}
-
-// SetTimezone gets a reference to the given string and assigns it to the Timezone field.
-func (o *ScheduledTaskSummary) SetTimezone(v string) {
-	o.Timezone = &v
-}
-
 // GetLastExecutionStatus returns the LastExecutionStatus field value if set, zero value otherwise.
-func (o *ScheduledTaskSummary) GetLastExecutionStatus() string {
+func (o *ScheduledTaskSummary) GetLastExecutionStatus() ScheduledTaskLastExecutionStatus {
 	if o == nil || o.LastExecutionStatus == nil {
-		var ret string
+		var ret ScheduledTaskLastExecutionStatus
 		return ret
 	}
 	return *o.LastExecutionStatus
@@ -206,7 +176,7 @@ func (o *ScheduledTaskSummary) GetLastExecutionStatus() string {
 
 // GetLastExecutionStatusOk returns a tuple with the LastExecutionStatus field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ScheduledTaskSummary) GetLastExecutionStatusOk() (*string, bool) {
+func (o *ScheduledTaskSummary) GetLastExecutionStatusOk() (*ScheduledTaskLastExecutionStatus, bool) {
 	if o == nil || o.LastExecutionStatus == nil {
 		return nil, false
 	}
@@ -218,15 +188,15 @@ func (o *ScheduledTaskSummary) HasLastExecutionStatus() bool {
 	return o != nil && o.LastExecutionStatus != nil
 }
 
-// SetLastExecutionStatus gets a reference to the given string and assigns it to the LastExecutionStatus field.
-func (o *ScheduledTaskSummary) SetLastExecutionStatus(v string) {
+// SetLastExecutionStatus gets a reference to the given ScheduledTaskLastExecutionStatus and assigns it to the LastExecutionStatus field.
+func (o *ScheduledTaskSummary) SetLastExecutionStatus(v ScheduledTaskLastExecutionStatus) {
 	o.LastExecutionStatus = &v
 }
 
 // GetEnabled returns the Enabled field value if set, zero value otherwise.
-func (o *ScheduledTaskSummary) GetEnabled() bool {
+func (o *ScheduledTaskSummary) GetEnabled() ScheduledTaskEnableStatus {
 	if o == nil || o.Enabled == nil {
-		var ret bool
+		var ret ScheduledTaskEnableStatus
 		return ret
 	}
 	return *o.Enabled
@@ -234,7 +204,7 @@ func (o *ScheduledTaskSummary) GetEnabled() bool {
 
 // GetEnabledOk returns a tuple with the Enabled field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ScheduledTaskSummary) GetEnabledOk() (*bool, bool) {
+func (o *ScheduledTaskSummary) GetEnabledOk() (*ScheduledTaskEnableStatus, bool) {
 	if o == nil || o.Enabled == nil {
 		return nil, false
 	}
@@ -246,8 +216,8 @@ func (o *ScheduledTaskSummary) HasEnabled() bool {
 	return o != nil && o.Enabled != nil
 }
 
-// SetEnabled gets a reference to the given bool and assigns it to the Enabled field.
-func (o *ScheduledTaskSummary) SetEnabled(v bool) {
+// SetEnabled gets a reference to the given ScheduledTaskEnableStatus and assigns it to the Enabled field.
+func (o *ScheduledTaskSummary) SetEnabled(v ScheduledTaskEnableStatus) {
 	o.Enabled = &v
 }
 
@@ -303,9 +273,9 @@ func (o *ScheduledTaskSummary) SetStatus(v ScheduledTaskStatus) {
 }
 
 // GetLastRunAt returns the LastRunAt field value if set, zero value otherwise.
-func (o *ScheduledTaskSummary) GetLastRunAt() time.Time {
+func (o *ScheduledTaskSummary) GetLastRunAt() string {
 	if o == nil || o.LastRunAt == nil {
-		var ret time.Time
+		var ret string
 		return ret
 	}
 	return *o.LastRunAt
@@ -313,7 +283,7 @@ func (o *ScheduledTaskSummary) GetLastRunAt() time.Time {
 
 // GetLastRunAtOk returns a tuple with the LastRunAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ScheduledTaskSummary) GetLastRunAtOk() (*time.Time, bool) {
+func (o *ScheduledTaskSummary) GetLastRunAtOk() (*string, bool) {
 	if o == nil || o.LastRunAt == nil {
 		return nil, false
 	}
@@ -325,15 +295,15 @@ func (o *ScheduledTaskSummary) HasLastRunAt() bool {
 	return o != nil && o.LastRunAt != nil
 }
 
-// SetLastRunAt gets a reference to the given time.Time and assigns it to the LastRunAt field.
-func (o *ScheduledTaskSummary) SetLastRunAt(v time.Time) {
+// SetLastRunAt gets a reference to the given string and assigns it to the LastRunAt field.
+func (o *ScheduledTaskSummary) SetLastRunAt(v string) {
 	o.LastRunAt = &v
 }
 
 // GetNextRunAt returns the NextRunAt field value if set, zero value otherwise.
-func (o *ScheduledTaskSummary) GetNextRunAt() time.Time {
+func (o *ScheduledTaskSummary) GetNextRunAt() string {
 	if o == nil || o.NextRunAt == nil {
-		var ret time.Time
+		var ret string
 		return ret
 	}
 	return *o.NextRunAt
@@ -341,7 +311,7 @@ func (o *ScheduledTaskSummary) GetNextRunAt() time.Time {
 
 // GetNextRunAtOk returns a tuple with the NextRunAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ScheduledTaskSummary) GetNextRunAtOk() (*time.Time, bool) {
+func (o *ScheduledTaskSummary) GetNextRunAtOk() (*string, bool) {
 	if o == nil || o.NextRunAt == nil {
 		return nil, false
 	}
@@ -353,8 +323,8 @@ func (o *ScheduledTaskSummary) HasNextRunAt() bool {
 	return o != nil && o.NextRunAt != nil
 }
 
-// SetNextRunAt gets a reference to the given time.Time and assigns it to the NextRunAt field.
-func (o *ScheduledTaskSummary) SetNextRunAt(v time.Time) {
+// SetNextRunAt gets a reference to the given string and assigns it to the NextRunAt field.
+func (o *ScheduledTaskSummary) SetNextRunAt(v string) {
 	o.NextRunAt = &v
 }
 
@@ -418,9 +388,6 @@ func (o ScheduledTaskSummary) MarshalJSON() ([]byte, error) {
 	if o.CronExpression != nil {
 		toSerialize["cronExpression"] = o.CronExpression
 	}
-	if o.Timezone != nil {
-		toSerialize["timezone"] = o.Timezone
-	}
 	if o.LastExecutionStatus != nil {
 		toSerialize["lastExecutionStatus"] = o.LastExecutionStatus
 	}
@@ -432,18 +399,10 @@ func (o ScheduledTaskSummary) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["status"] = o.Status
 	if o.LastRunAt != nil {
-		if o.LastRunAt.Nanosecond() == 0 {
-			toSerialize["lastRunAt"] = o.LastRunAt.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["lastRunAt"] = o.LastRunAt.Format("2006-01-02T15:04:05.000Z07:00")
-		}
+		toSerialize["lastRunAt"] = o.LastRunAt
 	}
 	if o.NextRunAt != nil {
-		if o.NextRunAt.Nanosecond() == 0 {
-			toSerialize["nextRunAt"] = o.NextRunAt.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["nextRunAt"] = o.NextRunAt.Format("2006-01-02T15:04:05.000Z07:00")
-		}
+		toSerialize["nextRunAt"] = o.NextRunAt
 	}
 	if o.CreatedAt.Nanosecond() == 0 {
 		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
@@ -465,19 +424,18 @@ func (o ScheduledTaskSummary) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ScheduledTaskSummary) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ScheduledTaskId     *string              `json:"scheduledTaskId"`
-		Name                *string              `json:"name"`
-		Provider            *string              `json:"provider,omitempty"`
-		CronExpression      *string              `json:"cronExpression,omitempty"`
-		Timezone            *string              `json:"timezone,omitempty"`
-		LastExecutionStatus *string              `json:"lastExecutionStatus,omitempty"`
-		Enabled             *bool                `json:"enabled,omitempty"`
-		Scope               *string              `json:"scope,omitempty"`
-		Status              *ScheduledTaskStatus `json:"status"`
-		LastRunAt           *time.Time           `json:"lastRunAt,omitempty"`
-		NextRunAt           *time.Time           `json:"nextRunAt,omitempty"`
-		CreatedAt           *time.Time           `json:"createdAt"`
-		UpdatedAt           *time.Time           `json:"updatedAt"`
+		ScheduledTaskId     *string                           `json:"scheduledTaskId"`
+		Name                *string                           `json:"name"`
+		Provider            *ScheduledTaskProvider            `json:"provider,omitempty"`
+		CronExpression      *string                           `json:"cronExpression,omitempty"`
+		LastExecutionStatus *ScheduledTaskLastExecutionStatus `json:"lastExecutionStatus,omitempty"`
+		Enabled             *ScheduledTaskEnableStatus        `json:"enabled,omitempty"`
+		Scope               *string                           `json:"scope,omitempty"`
+		Status              *ScheduledTaskStatus              `json:"status"`
+		LastRunAt           *string                           `json:"lastRunAt,omitempty"`
+		NextRunAt           *string                           `json:"nextRunAt,omitempty"`
+		CreatedAt           *time.Time                        `json:"createdAt"`
+		UpdatedAt           *time.Time                        `json:"updatedAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -499,7 +457,7 @@ func (o *ScheduledTaskSummary) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"scheduledTaskId", "name", "provider", "cronExpression", "timezone", "lastExecutionStatus", "enabled", "scope", "status", "lastRunAt", "nextRunAt", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"scheduledTaskId", "name", "provider", "cronExpression", "lastExecutionStatus", "enabled", "scope", "status", "lastRunAt", "nextRunAt", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}
@@ -507,11 +465,22 @@ func (o *ScheduledTaskSummary) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.ScheduledTaskId = *all.ScheduledTaskId
 	o.Name = *all.Name
-	o.Provider = all.Provider
+	if all.Provider != nil && !all.Provider.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Provider = all.Provider
+	}
 	o.CronExpression = all.CronExpression
-	o.Timezone = all.Timezone
-	o.LastExecutionStatus = all.LastExecutionStatus
-	o.Enabled = all.Enabled
+	if all.LastExecutionStatus != nil && !all.LastExecutionStatus.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.LastExecutionStatus = all.LastExecutionStatus
+	}
+	if all.Enabled != nil && !all.Enabled.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Enabled = all.Enabled
+	}
 	o.Scope = all.Scope
 	if !all.Status.IsValid() {
 		hasInvalidField = true
