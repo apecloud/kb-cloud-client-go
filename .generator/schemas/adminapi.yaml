@@ -33978,7 +33978,7 @@ components:
         serviceVersion:
           type: string
           readOnly: true
-          description: Configured template version stored in metadata. Set from the component version at creation when template upgrade is enabled, and updated after a successful upgrade OpsRequest submission. Response only; not accepted at creation.
+          description: Template version stored after a successful full-state upgrade OpsRequest submission. An absent value inherits the component version. Response only; not accepted at creation.
         nodeGroup:
           type: string
           description: Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
@@ -39498,11 +39498,10 @@ components:
           minLength: 1
           maxLength: 32
     opsUpgrade:
-      description: Upgrade the component and/or explicit instance template targets. Template targets require the engine mode to enable template upgrade. Only explicit targets are changed; compDef is preserved. Stored versions are updated after successful OpsRequest submission, including scheduled execution.
+      description: Upgrade a component. A mode component with template upgrade enabled requires all template target versions and a component version equal to their minimum. Unchanged entries are allowed; changed entries follow the existing component upgrade rules. Other components must not specify templates. compDef is preserved. All template versions are stored after successful OpsRequest submission; scheduled tasks follow existing component execution behavior.
       properties:
         version:
           type: string
-          nullable: true
           minLength: 1
         instanceTemplates:
           type: array
@@ -39516,6 +39515,7 @@ components:
           nullable: true
       required:
         - component
+        - version
       type: object
     instanceTemplateServiceVersions:
       type: object
