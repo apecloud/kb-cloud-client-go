@@ -18,8 +18,6 @@ type ComponentItem struct {
 	NodeGroup *string `json:"nodeGroup,omitempty"`
 	// Explicit component AZ selection, if configured.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
-	// Desired template versions read from Cluster CR, keyed by template name. Empty template versions inherit the CR component version. This read-only field is not persisted.
-	InstanceTemplateVersions map[string]string `json:"instanceTemplateVersions,omitempty"`
 	// Instance template assignments with effective replicas, placement and storage class, and user-provided env, labels and annotations.
 	InstanceTemplates []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`
 	// component name
@@ -176,34 +174,6 @@ func (o *ComponentItem) HasAvailabilityZone() bool {
 // SetAvailabilityZone gets a reference to the given string and assigns it to the AvailabilityZone field.
 func (o *ComponentItem) SetAvailabilityZone(v string) {
 	o.AvailabilityZone = &v
-}
-
-// GetInstanceTemplateVersions returns the InstanceTemplateVersions field value if set, zero value otherwise.
-func (o *ComponentItem) GetInstanceTemplateVersions() map[string]string {
-	if o == nil || o.InstanceTemplateVersions == nil {
-		var ret map[string]string
-		return ret
-	}
-	return o.InstanceTemplateVersions
-}
-
-// GetInstanceTemplateVersionsOk returns a tuple with the InstanceTemplateVersions field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ComponentItem) GetInstanceTemplateVersionsOk() (*map[string]string, bool) {
-	if o == nil || o.InstanceTemplateVersions == nil {
-		return nil, false
-	}
-	return &o.InstanceTemplateVersions, true
-}
-
-// HasInstanceTemplateVersions returns a boolean if a field has been set.
-func (o *ComponentItem) HasInstanceTemplateVersions() bool {
-	return o != nil && o.InstanceTemplateVersions != nil
-}
-
-// SetInstanceTemplateVersions gets a reference to the given map[string]string and assigns it to the InstanceTemplateVersions field.
-func (o *ComponentItem) SetInstanceTemplateVersions(v map[string]string) {
-	o.InstanceTemplateVersions = v
 }
 
 // GetInstanceTemplates returns the InstanceTemplates field value if set, zero value otherwise.
@@ -588,9 +558,6 @@ func (o ComponentItem) MarshalJSON() ([]byte, error) {
 	if o.AvailabilityZone != nil {
 		toSerialize["availabilityZone"] = o.AvailabilityZone
 	}
-	if o.InstanceTemplateVersions != nil {
-		toSerialize["instanceTemplateVersions"] = o.InstanceTemplateVersions
-	}
 	if o.InstanceTemplates != nil {
 		toSerialize["instanceTemplates"] = o.InstanceTemplates
 	}
@@ -640,31 +607,30 @@ func (o ComponentItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Annotations              map[string]string        `json:"annotations,omitempty"`
-		Labels                   map[string]string        `json:"labels,omitempty"`
-		NodeGroup                *string                  `json:"nodeGroup,omitempty"`
-		AvailabilityZone         *string                  `json:"availabilityZone,omitempty"`
-		InstanceTemplateVersions map[string]string        `json:"instanceTemplateVersions,omitempty"`
-		InstanceTemplates        []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`
-		Name                     *string                  `json:"name,omitempty"`
-		Component                *string                  `json:"component,omitempty"`
-		CompNum                  *int32                   `json:"compNum,omitempty"`
-		Replicas                 *int32                   `json:"replicas,omitempty"`
-		ClassCode                *string                  `json:"classCode,omitempty"`
-		Cpu                      *float64                 `json:"cpu,omitempty"`
-		Memory                   *float64                 `json:"memory,omitempty"`
-		StorageClass             *string                  `json:"storageClass,omitempty"`
-		Volumes                  []ComponentVolumeItem    `json:"volumes,omitempty"`
-		CodeShort                *string                  `json:"codeShort,omitempty"`
-		SystemAccountSecretName  *string                  `json:"systemAccountSecretName,omitempty"`
-		Network                  *ComponentNetwork        `json:"network,omitempty"`
+		Annotations             map[string]string        `json:"annotations,omitempty"`
+		Labels                  map[string]string        `json:"labels,omitempty"`
+		NodeGroup               *string                  `json:"nodeGroup,omitempty"`
+		AvailabilityZone        *string                  `json:"availabilityZone,omitempty"`
+		InstanceTemplates       []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`
+		Name                    *string                  `json:"name,omitempty"`
+		Component               *string                  `json:"component,omitempty"`
+		CompNum                 *int32                   `json:"compNum,omitempty"`
+		Replicas                *int32                   `json:"replicas,omitempty"`
+		ClassCode               *string                  `json:"classCode,omitempty"`
+		Cpu                     *float64                 `json:"cpu,omitempty"`
+		Memory                  *float64                 `json:"memory,omitempty"`
+		StorageClass            *string                  `json:"storageClass,omitempty"`
+		Volumes                 []ComponentVolumeItem    `json:"volumes,omitempty"`
+		CodeShort               *string                  `json:"codeShort,omitempty"`
+		SystemAccountSecretName *string                  `json:"systemAccountSecretName,omitempty"`
+		Network                 *ComponentNetwork        `json:"network,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"annotations", "labels", "nodeGroup", "availabilityZone", "instanceTemplateVersions", "instanceTemplates", "name", "component", "compNum", "replicas", "classCode", "cpu", "memory", "storageClass", "volumes", "codeShort", "systemAccountSecretName", "network"})
+		common.DeleteKeys(additionalProperties, &[]string{"annotations", "labels", "nodeGroup", "availabilityZone", "instanceTemplates", "name", "component", "compNum", "replicas", "classCode", "cpu", "memory", "storageClass", "volumes", "codeShort", "systemAccountSecretName", "network"})
 	} else {
 		return err
 	}
@@ -674,7 +640,6 @@ func (o *ComponentItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.Labels = all.Labels
 	o.NodeGroup = all.NodeGroup
 	o.AvailabilityZone = all.AvailabilityZone
-	o.InstanceTemplateVersions = all.InstanceTemplateVersions
 	o.InstanceTemplates = all.InstanceTemplates
 	o.Name = all.Name
 	o.Component = all.Component

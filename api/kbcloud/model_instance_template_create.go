@@ -12,6 +12,8 @@ import (
 
 // InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, nodeGroup and storageClass are optional overlays. The request must include every chart-rendered instance template exactly once. Explicit placement requires availabilityZone and optionally accepts nodeGroup, without inheriting upper-level AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks default inheritance. Hostname, user scheduling rules and additional topology keys are preserved.
 type InstanceTemplateCreate struct {
+	// Effective desired version read from Cluster CR. Empty template versions inherit the owning CR component version. Response only; never persisted or accepted at creation.
+	ServiceVersion *string `json:"serviceVersion,omitempty"`
 	// Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
 	NodeGroup *string `json:"nodeGroup,omitempty"`
 	// Instance template name; must match a chart-rendered instance.
@@ -49,6 +51,34 @@ func NewInstanceTemplateCreate(name string, replicas int32) *InstanceTemplateCre
 func NewInstanceTemplateCreateWithDefaults() *InstanceTemplateCreate {
 	this := InstanceTemplateCreate{}
 	return &this
+}
+
+// GetServiceVersion returns the ServiceVersion field value if set, zero value otherwise.
+func (o *InstanceTemplateCreate) GetServiceVersion() string {
+	if o == nil || o.ServiceVersion == nil {
+		var ret string
+		return ret
+	}
+	return *o.ServiceVersion
+}
+
+// GetServiceVersionOk returns a tuple with the ServiceVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InstanceTemplateCreate) GetServiceVersionOk() (*string, bool) {
+	if o == nil || o.ServiceVersion == nil {
+		return nil, false
+	}
+	return o.ServiceVersion, true
+}
+
+// HasServiceVersion returns a boolean if a field has been set.
+func (o *InstanceTemplateCreate) HasServiceVersion() bool {
+	return o != nil && o.ServiceVersion != nil
+}
+
+// SetServiceVersion gets a reference to the given string and assigns it to the ServiceVersion field.
+func (o *InstanceTemplateCreate) SetServiceVersion(v string) {
+	o.ServiceVersion = &v
 }
 
 // GetNodeGroup returns the NodeGroup field value if set, zero value otherwise.
@@ -271,6 +301,9 @@ func (o InstanceTemplateCreate) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.ServiceVersion != nil {
+		toSerialize["serviceVersion"] = o.ServiceVersion
+	}
 	if o.NodeGroup != nil {
 		toSerialize["nodeGroup"] = o.NodeGroup
 	}
@@ -297,6 +330,7 @@ func (o InstanceTemplateCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		ServiceVersion   *string                         `json:"serviceVersion,omitempty"`
 		NodeGroup        *string                         `json:"nodeGroup,omitempty"`
 		Name             *string                         `json:"name"`
 		Replicas         *int32                          `json:"replicas"`
@@ -315,6 +349,7 @@ func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Replicas == nil {
 		return fmt.Errorf("required field replicas missing")
 	}
+	o.ServiceVersion = all.ServiceVersion
 	o.NodeGroup = all.NodeGroup
 	o.Name = *all.Name
 	o.Replicas = *all.Replicas

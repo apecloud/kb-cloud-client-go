@@ -33975,6 +33975,10 @@ components:
         - name
         - replicas
       properties:
+        serviceVersion:
+          type: string
+          readOnly: true
+          description: Effective desired version read from Cluster CR. Empty template versions inherit the owning CR component version. Response only; never persisted or accepted at creation.
         nodeGroup:
           type: string
           description: Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
@@ -34460,12 +34464,6 @@ components:
         availabilityZone:
           type: string
           description: Explicit component AZ selection, if configured.
-        instanceTemplateVersions:
-          type: object
-          readOnly: true
-          description: Desired template versions read from Cluster CR, keyed by template name. Empty template versions inherit the CR component version. This read-only field is not persisted.
-          additionalProperties:
-            type: string
         instanceTemplates:
           type: array
           x-omitempty: true
