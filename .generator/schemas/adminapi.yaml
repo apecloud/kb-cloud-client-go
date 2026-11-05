@@ -40727,6 +40727,9 @@ components:
         victoriaMetrics:
           description: reserve vm cluster when delete environment
           $ref: '#/components/schemas/cloudResourceCleanPolicy'
+        victoriaLogs:
+          description: Retain or delete the VictoriaLogs cluster independently of MinIO. When omitted, follows the minio policy for compatibility with existing clients.
+          $ref: '#/components/schemas/cloudResourceCleanPolicy'
     environmentUpdate:
       type: object
       description: Environment info
