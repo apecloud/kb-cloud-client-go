@@ -48512,7 +48512,6 @@ components:
         - name
         - status
         - createdAt
-        - updatedAt
       properties:
         scheduledTaskId:
           type: string
@@ -48549,10 +48548,6 @@ components:
           type: string
           format: date-time
           description: Creation time of the scheduled task record
-        updatedAt:
-          type: string
-          format: date-time
-          description: Last update time of the scheduled task record
     scheduledTaskList:
       type: object
       required:

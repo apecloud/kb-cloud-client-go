@@ -34,8 +34,6 @@ type ScheduledTaskSummary struct {
 	NextRunAt *string `json:"nextRunAt,omitempty"`
 	// Creation time of the scheduled task record
 	CreatedAt time.Time `json:"createdAt"`
-	// Last update time of the scheduled task record
-	UpdatedAt time.Time `json:"updatedAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -45,13 +43,12 @@ type ScheduledTaskSummary struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewScheduledTaskSummary(scheduledTaskId string, name string, status ScheduledTaskStatus, createdAt time.Time, updatedAt time.Time) *ScheduledTaskSummary {
+func NewScheduledTaskSummary(scheduledTaskId string, name string, status ScheduledTaskStatus, createdAt time.Time) *ScheduledTaskSummary {
 	this := ScheduledTaskSummary{}
 	this.ScheduledTaskId = scheduledTaskId
 	this.Name = name
 	this.Status = status
 	this.CreatedAt = createdAt
-	this.UpdatedAt = updatedAt
 	return &this
 }
 
@@ -351,29 +348,6 @@ func (o *ScheduledTaskSummary) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
-// GetUpdatedAt returns the UpdatedAt field value.
-func (o *ScheduledTaskSummary) GetUpdatedAt() time.Time {
-	if o == nil {
-		var ret time.Time
-		return ret
-	}
-	return o.UpdatedAt
-}
-
-// GetUpdatedAtOk returns a tuple with the UpdatedAt field value
-// and a boolean to check if the value has been set.
-func (o *ScheduledTaskSummary) GetUpdatedAtOk() (*time.Time, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.UpdatedAt, true
-}
-
-// SetUpdatedAt sets field value.
-func (o *ScheduledTaskSummary) SetUpdatedAt(v time.Time) {
-	o.UpdatedAt = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ScheduledTaskSummary) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -409,11 +383,6 @@ func (o ScheduledTaskSummary) MarshalJSON() ([]byte, error) {
 	} else {
 		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 	}
-	if o.UpdatedAt.Nanosecond() == 0 {
-		toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05Z07:00")
-	} else {
-		toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05.000Z07:00")
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -435,7 +404,6 @@ func (o *ScheduledTaskSummary) UnmarshalJSON(bytes []byte) (err error) {
 		LastRunAt           *string                           `json:"lastRunAt,omitempty"`
 		NextRunAt           *string                           `json:"nextRunAt,omitempty"`
 		CreatedAt           *time.Time                        `json:"createdAt"`
-		UpdatedAt           *time.Time                        `json:"updatedAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -452,12 +420,9 @@ func (o *ScheduledTaskSummary) UnmarshalJSON(bytes []byte) (err error) {
 	if all.CreatedAt == nil {
 		return fmt.Errorf("required field createdAt missing")
 	}
-	if all.UpdatedAt == nil {
-		return fmt.Errorf("required field updatedAt missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"scheduledTaskId", "name", "provider", "cronExpression", "lastExecutionStatus", "enabled", "scope", "status", "lastRunAt", "nextRunAt", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"scheduledTaskId", "name", "provider", "cronExpression", "lastExecutionStatus", "enabled", "scope", "status", "lastRunAt", "nextRunAt", "createdAt"})
 	} else {
 		return err
 	}
@@ -490,7 +455,6 @@ func (o *ScheduledTaskSummary) UnmarshalJSON(bytes []byte) (err error) {
 	o.LastRunAt = all.LastRunAt
 	o.NextRunAt = all.NextRunAt
 	o.CreatedAt = *all.CreatedAt
-	o.UpdatedAt = *all.UpdatedAt
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

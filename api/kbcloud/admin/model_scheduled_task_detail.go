@@ -33,8 +33,6 @@ type ScheduledTaskDetail struct {
 	NextRunAt *string `json:"nextRunAt,omitempty"`
 	// Creation time of the scheduled task record
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	// Last update time of the scheduled task record
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 	// Current runtime task ID within the scheduler provider
 	ProviderTaskId *string `json:"providerTaskId,omitempty"`
 	// Current task status or error message
@@ -365,34 +363,6 @@ func (o *ScheduledTaskDetail) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
-// GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
-func (o *ScheduledTaskDetail) GetUpdatedAt() time.Time {
-	if o == nil || o.UpdatedAt == nil {
-		var ret time.Time
-		return ret
-	}
-	return *o.UpdatedAt
-}
-
-// GetUpdatedAtOk returns a tuple with the UpdatedAt field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ScheduledTaskDetail) GetUpdatedAtOk() (*time.Time, bool) {
-	if o == nil || o.UpdatedAt == nil {
-		return nil, false
-	}
-	return o.UpdatedAt, true
-}
-
-// HasUpdatedAt returns a boolean if a field has been set.
-func (o *ScheduledTaskDetail) HasUpdatedAt() bool {
-	return o != nil && o.UpdatedAt != nil
-}
-
-// SetUpdatedAt gets a reference to the given time.Time and assigns it to the UpdatedAt field.
-func (o *ScheduledTaskDetail) SetUpdatedAt(v time.Time) {
-	o.UpdatedAt = &v
-}
-
 // GetProviderTaskId returns the ProviderTaskId field value if set, zero value otherwise.
 func (o *ScheduledTaskDetail) GetProviderTaskId() string {
 	if o == nil || o.ProviderTaskId == nil {
@@ -548,13 +518,6 @@ func (o ScheduledTaskDetail) MarshalJSON() ([]byte, error) {
 			toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
-	if o.UpdatedAt != nil {
-		if o.UpdatedAt.Nanosecond() == 0 {
-			toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05.000Z07:00")
-		}
-	}
 	if o.ProviderTaskId != nil {
 		toSerialize["providerTaskId"] = o.ProviderTaskId
 	}
@@ -592,7 +555,6 @@ func (o *ScheduledTaskDetail) UnmarshalJSON(bytes []byte) (err error) {
 		LastRunAt           *string                           `json:"lastRunAt,omitempty"`
 		NextRunAt           *string                           `json:"nextRunAt,omitempty"`
 		CreatedAt           *time.Time                        `json:"createdAt,omitempty"`
-		UpdatedAt           *time.Time                        `json:"updatedAt,omitempty"`
 		ProviderTaskId      *string                           `json:"providerTaskId,omitempty"`
 		Message             *string                           `json:"message,omitempty"`
 		ProviderDetails     map[string]interface{}            `json:"providerDetails,omitempty"`
@@ -603,7 +565,7 @@ func (o *ScheduledTaskDetail) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"scheduledTaskId", "name", "provider", "cronExpression", "lastExecutionStatus", "enabled", "scope", "status", "lastRunAt", "nextRunAt", "createdAt", "updatedAt", "providerTaskId", "message", "providerDetails", "lastObservedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"scheduledTaskId", "name", "provider", "cronExpression", "lastExecutionStatus", "enabled", "scope", "status", "lastRunAt", "nextRunAt", "createdAt", "providerTaskId", "message", "providerDetails", "lastObservedAt"})
 	} else {
 		return err
 	}
@@ -635,7 +597,6 @@ func (o *ScheduledTaskDetail) UnmarshalJSON(bytes []byte) (err error) {
 	o.LastRunAt = all.LastRunAt
 	o.NextRunAt = all.NextRunAt
 	o.CreatedAt = all.CreatedAt
-	o.UpdatedAt = all.UpdatedAt
 	o.ProviderTaskId = all.ProviderTaskId
 	o.Message = all.Message
 	o.ProviderDetails = all.ProviderDetails
