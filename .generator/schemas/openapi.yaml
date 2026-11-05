@@ -31381,8 +31381,8 @@ components:
           description: Scheduled execution configuration
           nullable: true
       required:
-        - component
         - version
+        - component
       type: object
     instanceTemplateServiceVersions:
       type: object

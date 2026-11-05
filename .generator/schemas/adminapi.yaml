@@ -19759,6 +19759,88 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/scheduled-tasks:
+    get:
+      tags:
+        - task
+      summary: List scheduled tasks
+      description: List scheduled tasks
+      operationId: listScheduledTasks
+      parameters:
+        - name: provider
+          in: query
+          description: Filter by scheduler provider
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Filter by scheduled task status
+          schema:
+            $ref: '#/components/schemas/scheduledTaskStatus'
+        - name: pageNumber
+          in: query
+          description: Page number, starting from 1
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            default: 1
+        - name: pageSize
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            default: 10
+      responses:
+        '200':
+          description: Scheduled task list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/scheduledTaskList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+  /admin/v1/scheduled-tasks/{scheduledTaskId}:
+    get:
+      tags:
+        - task
+      summary: Get scheduled task
+      description: Get scheduled task details
+      operationId: getScheduledTask
+      parameters:
+        - name: scheduledTaskId
+          in: path
+          required: true
+          description: ID of the scheduled task
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Scheduled task details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/scheduledTaskDetail'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/cluster/{clusterName}/available-relations:
     get:
       tags:
@@ -39514,8 +39596,8 @@ components:
           description: Scheduled execution configuration
           nullable: true
       required:
-        - component
         - version
+        - component
       type: object
     instanceTemplateServiceVersions:
       type: object
@@ -48430,6 +48512,113 @@ components:
           $ref: '#/components/schemas/taskSchedule'
           description: Scheduled execution configuration
           x-nullable: true
+    scheduledTaskStatus:
+      type: string
+      enum:
+        - active
+        - disabled
+        - error
+        - unknown
+      description: Current normalized status of the scheduled task
+    scheduledTaskProvider:
+      type: string
+      enum:
+        - taskflow
+      description: Scheduler provider
+    scheduledTaskLastExecutionStatus:
+      type: string
+      enum:
+        - success
+        - failed
+        - running
+        - pending
+        - cancelled
+        - unknown
+      description: Most recently observable execution status
+    scheduledTaskEnableStatus:
+      type: string
+      enum:
+        - immutable
+        - disabled
+        - enabled
+      description: Whether the schedule is immutable, disabled, or enabled
+    scheduledTaskSummary:
+      type: object
+      required:
+        - scheduledTaskId
+        - name
+        - status
+        - createdAt
+      properties:
+        scheduledTaskId:
+          type: string
+          description: ID of the scheduled task
+        name:
+          type: string
+          description: Stable name of the scheduled task
+        provider:
+          $ref: '#/components/schemas/scheduledTaskProvider'
+        cronExpression:
+          type: string
+          description: Cron expression used to schedule the task
+          x-nullable: true
+        lastExecutionStatus:
+          $ref: '#/components/schemas/scheduledTaskLastExecutionStatus'
+        enabled:
+          $ref: '#/components/schemas/scheduledTaskEnableStatus'
+        scope:
+          type: string
+          description: Scope affected by the task, such as platform, organization, environment, or cluster
+        status:
+          $ref: '#/components/schemas/scheduledTaskStatus'
+        lastRunAt:
+          type: string
+          description: Most recent execution start time as a Unix timestamp in seconds
+          example: '1793763705'
+          x-nullable: true
+        nextRunAt:
+          type: string
+          description: Next scheduled execution time as a Unix timestamp in seconds
+          example: '1793763705'
+          x-nullable: true
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation time of the scheduled task record
+    scheduledTaskList:
+      type: object
+      required:
+        - items
+        - pagination
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/scheduledTaskSummary'
+        pagination:
+          $ref: '#/components/schemas/paginationResult'
+    scheduledTaskDetail:
+      allOf:
+        - $ref: '#/components/schemas/scheduledTaskSummary'
+        - type: object
+          properties:
+            providerTaskId:
+              type: string
+              description: Current runtime task ID within the scheduler provider
+              x-nullable: true
+            message:
+              type: string
+              description: Current task status or error message
+              x-nullable: true
+            providerDetails:
+              type: object
+              description: Provider-specific, non-sensitive task details
+              additionalProperties: true
+            lastObservedAt:
+              type: string
+              format: date-time
+              description: Last time the provider state was observed
+              x-nullable: true
     availableClusterList:
       type: array
       items:
