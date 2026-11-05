@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// OpsUpgrade Upgrade component and/or selected instance templates. Only explicitly specified target fields are updated. An empty serviceVersion on a template in the Cluster CR inherits the component version and may change when that component is upgraded; this is distinct from omitting a template from this request.
+// OpsUpgrade Upgrade the component and/or explicit instance template targets. Template targets require the engine mode to enable template upgrade. Only explicit targets are changed; compDef is preserved. Stored versions are updated after successful OpsRequest submission, including scheduled execution.
 type OpsUpgrade struct {
 	Version           common.NullableString     `json:"version,omitempty"`
 	InstanceTemplates []InstanceTemplateUpgrade `json:"instanceTemplates,omitempty"`

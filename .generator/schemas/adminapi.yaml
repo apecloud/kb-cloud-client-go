@@ -33978,7 +33978,7 @@ components:
         serviceVersion:
           type: string
           readOnly: true
-          description: Effective desired version read from Cluster CR. Empty template versions inherit the owning CR component version. Response only; never persisted or accepted at creation.
+          description: Configured template version stored in metadata. Set from the component version at creation when template upgrade is enabled, and updated after a successful upgrade OpsRequest submission. Response only; not accepted at creation.
         nodeGroup:
           type: string
           description: Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
@@ -34797,9 +34797,6 @@ components:
     instance:
       description: Instance is the information of KubeBlocks cluster instances
       properties:
-        serviceVersion:
-          description: Desired instance template service version read from Cluster CR. This is not a confirmation that the upgrade has completed.
-          type: string
         accessMode:
           description: Access mode for instance
           type: string
@@ -39501,7 +39498,7 @@ components:
           minLength: 1
           maxLength: 32
     opsUpgrade:
-      description: Upgrade component and/or selected instance templates. Only explicitly specified target fields are updated. An empty serviceVersion on a template in the Cluster CR inherits the component version and may change when that component is upgraded; this is distinct from omitting a template from this request.
+      description: Upgrade the component and/or explicit instance template targets. Template targets require the engine mode to enable template upgrade. Only explicit targets are changed; compDef is preserved. Stored versions are updated after successful OpsRequest submission, including scheduled execution.
       properties:
         version:
           type: string
