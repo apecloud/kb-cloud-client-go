@@ -7,7 +7,9 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type SelectedObjectOption struct {
-	Tree *SelectedObjectOptionTree `json:"tree,omitempty"`
+	// Strategy for converting the selected tree to parameters. levelMapping maps every configured level and applies skipWhenParentLevelsSelectedAll. wholeObject merges duplicate branches and maps only whole selected nodes (selectedAll or leaves), omitting covered descendants. Defaults to levelMapping when omitted.
+	ConversionStrategy *SelectedObjectConversionStrategy `json:"conversionStrategy,omitempty"`
+	Tree               *SelectedObjectOptionTree         `json:"tree,omitempty"`
 	// Parameters for specifying which objects to include in the selective backup
 	ConvertToParameters []SelectedObjectOptionConvertToParametersItem `json:"convertToParameters,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -21,6 +23,8 @@ type SelectedObjectOption struct {
 // will change when the set of required properties is changed.
 func NewSelectedObjectOption() *SelectedObjectOption {
 	this := SelectedObjectOption{}
+	var conversionStrategy SelectedObjectConversionStrategy = SelectedObjectConversionStrategyLevelMapping
+	this.ConversionStrategy = &conversionStrategy
 	return &this
 }
 
@@ -29,7 +33,37 @@ func NewSelectedObjectOption() *SelectedObjectOption {
 // but it doesn't guarantee that properties required by API are set.
 func NewSelectedObjectOptionWithDefaults() *SelectedObjectOption {
 	this := SelectedObjectOption{}
+	var conversionStrategy SelectedObjectConversionStrategy = SelectedObjectConversionStrategyLevelMapping
+	this.ConversionStrategy = &conversionStrategy
 	return &this
+}
+
+// GetConversionStrategy returns the ConversionStrategy field value if set, zero value otherwise.
+func (o *SelectedObjectOption) GetConversionStrategy() SelectedObjectConversionStrategy {
+	if o == nil || o.ConversionStrategy == nil {
+		var ret SelectedObjectConversionStrategy
+		return ret
+	}
+	return *o.ConversionStrategy
+}
+
+// GetConversionStrategyOk returns a tuple with the ConversionStrategy field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SelectedObjectOption) GetConversionStrategyOk() (*SelectedObjectConversionStrategy, bool) {
+	if o == nil || o.ConversionStrategy == nil {
+		return nil, false
+	}
+	return o.ConversionStrategy, true
+}
+
+// HasConversionStrategy returns a boolean if a field has been set.
+func (o *SelectedObjectOption) HasConversionStrategy() bool {
+	return o != nil && o.ConversionStrategy != nil
+}
+
+// SetConversionStrategy gets a reference to the given SelectedObjectConversionStrategy and assigns it to the ConversionStrategy field.
+func (o *SelectedObjectOption) SetConversionStrategy(v SelectedObjectConversionStrategy) {
+	o.ConversionStrategy = &v
 }
 
 // GetTree returns the Tree field value if set, zero value otherwise.
@@ -94,6 +128,9 @@ func (o SelectedObjectOption) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.ConversionStrategy != nil {
+		toSerialize["conversionStrategy"] = o.ConversionStrategy
+	}
 	if o.Tree != nil {
 		toSerialize["tree"] = o.Tree
 	}
@@ -110,6 +147,7 @@ func (o SelectedObjectOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *SelectedObjectOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		ConversionStrategy  *SelectedObjectConversionStrategy             `json:"conversionStrategy,omitempty"`
 		Tree                *SelectedObjectOptionTree                     `json:"tree,omitempty"`
 		ConvertToParameters []SelectedObjectOptionConvertToParametersItem `json:"convertToParameters,omitempty"`
 	}{}
@@ -118,12 +156,17 @@ func (o *SelectedObjectOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"tree", "convertToParameters"})
+		common.DeleteKeys(additionalProperties, &[]string{"conversionStrategy", "tree", "convertToParameters"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	if all.ConversionStrategy != nil && !all.ConversionStrategy.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.ConversionStrategy = all.ConversionStrategy
+	}
 	if all.Tree != nil && all.Tree.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
