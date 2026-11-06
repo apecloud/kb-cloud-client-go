@@ -13460,7 +13460,7 @@ paths:
             type: string
         - name: database
           in: query
-          description: database name
+          description: Database name for engines configured to switch the object tree by database.
           schema:
             type: string
       responses:
@@ -41846,9 +41846,18 @@ components:
             type: string
         description:
           $ref: '#/components/schemas/localizedDescription'
+    selectedObjectConversionStrategy:
+      type: string
+      enum:
+        - levelMapping
+        - wholeObject
+      default: levelMapping
+      description: Strategy for converting the selected tree to parameters. levelMapping maps every configured level and applies skipWhenParentLevelsSelectedAll. wholeObject merges duplicate branches and maps only whole selected nodes (selectedAll or leaves), omitting covered descendants. Defaults to levelMapping when omitted.
     selectedObjectOption:
       type: object
       properties:
+        conversionStrategy:
+          $ref: '#/components/schemas/selectedObjectConversionStrategy'
         tree:
           type: object
           required:
@@ -41860,7 +41869,7 @@ components:
               description: if set to true, the tree will switch when database is switched. This is used for database-level backup, and the root level of the tree is database. If not set or set to false, the tree will not switch when database is switched, and the root level of the tree is instance.
             sql:
               type: string
-              description: The SQL query to retrieve the object tree
+              description: The engine-native query returning the columns used to build the object tree.
             levelOrder:
               type: array
               description: The order of object types in the hierarchy
