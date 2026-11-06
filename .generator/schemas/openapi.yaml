@@ -8374,7 +8374,7 @@ paths:
             type: string
         - name: step
           in: query
-          description: Controlled query granularity. Allowed values are 1m, 5m, 15m, and 1h.
+          description: Controlled query granularity. Allowed values are 1m, 5m, 15m, and 1h. For range 7d, step must be at least 5m; the default is 1h.
           required: false
           schema:
             type: string
