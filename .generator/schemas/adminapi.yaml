@@ -78,6 +78,444 @@ tags:
   - name: redisKeyAnalysis
     description: Redis Keys Analysis APIs
 paths:
+  /admin/v1/data/influxdb/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      summary: InfluxDB ListUsers
+      operationId: influxDBListUsers
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InfluxDBUser'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: InfluxDB CreateUser
+      operationId: influxDBCreateUser
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InfluxDBUserCreate'
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfluxDBUser'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/influxdb/organizations/{orgName}/clusters/{clusterName}/accounts/{userID}:
+    delete:
+      summary: InfluxDB DeleteUser
+      operationId: influxDBDeleteUser
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/influxdb/organizations/{orgName}/clusters/{clusterName}/accounts/{userID}/password:
+    patch:
+      summary: InfluxDB ChangePassword
+      operationId: influxDBChangePassword
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userID
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InfluxDBPasswordChange'
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/influxdb/organizations/{orgName}/clusters/{clusterName}/organizations:
+    get:
+      summary: InfluxDB ListOrganizations
+      operationId: influxDBListOrganizations
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InfluxDBOrganization'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/influxdb/organizations/{orgName}/clusters/{clusterName}/buckets:
+    get:
+      summary: InfluxDB ListBuckets
+      operationId: influxDBListBuckets
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: influxOrgID
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InfluxDBBucket'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/influxdb/organizations/{orgName}/clusters/{clusterName}/accounts/{userID}/tokens:
+    get:
+      summary: InfluxDB ListTokens
+      operationId: influxDBListTokens
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InfluxDBToken'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: InfluxDB CreateToken
+      operationId: influxDBCreateToken
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userID
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InfluxDBTokenCreate'
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfluxDBTokenCreated'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/influxdb/organizations/{orgName}/clusters/{clusterName}/accounts/{userID}/tokens/{tokenID}:
+    patch:
+      summary: InfluxDB UpdateToken
+      operationId: influxDBUpdateToken
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userID
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: tokenID
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InfluxDBTokenUpdate'
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: InfluxDB DeleteToken
+      operationId: influxDBDeleteToken
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userID
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: tokenID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/rebalance/drain-preview:
     post:
       summary: Preview DolphinDB data node evacuation
@@ -31763,6 +32201,217 @@ components:
         curl --digest -u "accessKey:secretKey" https://api.example.com/admin/v1/user
         ```
   schemas:
+    InfluxDBUser:
+      type: object
+      required:
+        - id
+        - name
+        - status
+        - protected
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        protected:
+          type: boolean
+          description: Management or privileged users cannot be modified here.
+    APIErrorResponse:
+      description: API error response.
+      properties:
+        code:
+          description: The HTTP status code.
+          type: integer
+        reason:
+          description: The reason for the error.
+          type: string
+        message:
+          description: The message for the error.
+          type: string
+      required:
+        - code
+      type: object
+    InfluxDBUserCreate:
+      type: object
+      required:
+        - name
+        - password
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 64
+        password:
+          type: string
+          format: password
+          minLength: 8
+          maxLength: 1024
+    InfluxDBPasswordChange:
+      type: object
+      required:
+        - password
+      properties:
+        password:
+          type: string
+          format: password
+          minLength: 8
+          maxLength: 1024
+    InfluxDBOrganization:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    InfluxDBBucket:
+      type: object
+      required:
+        - id
+        - orgID
+        - name
+        - type
+      properties:
+        id:
+          type: string
+        orgID:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+    InfluxDBTokenStatus:
+      type: string
+      enum:
+        - active
+        - inactive
+    InfluxDBPermissionAction:
+      type: string
+      enum:
+        - read
+        - write
+    InfluxDBResource:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+        orgID:
+          type: string
+    InfluxDBPermission:
+      type: object
+      required:
+        - action
+        - resource
+      properties:
+        action:
+          $ref: '#/components/schemas/InfluxDBPermissionAction'
+        resource:
+          $ref: '#/components/schemas/InfluxDBResource'
+    InfluxDBToken:
+      type: object
+      required:
+        - id
+        - userID
+        - orgID
+        - description
+        - status
+        - permissions
+        - editable
+      properties:
+        id:
+          type: string
+        userID:
+          type: string
+        orgID:
+          type: string
+        description:
+          type: string
+        status:
+          $ref: '#/components/schemas/InfluxDBTokenStatus'
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/InfluxDBPermission'
+        editable:
+          type: boolean
+          description: Only explicit bucket-scoped tokens can be changed.
+    InfluxDBBucketPermission:
+      type: object
+      required:
+        - bucketID
+        - read
+        - write
+      properties:
+        bucketID:
+          type: string
+        read:
+          type: boolean
+        write:
+          type: boolean
+    InfluxDBTokenCreate:
+      type: object
+      required:
+        - orgID
+        - permissions
+      properties:
+        orgID:
+          type: string
+        description:
+          type: string
+          maxLength: 1024
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/InfluxDBBucketPermission'
+          minItems: 1
+          maxItems: 200
+    InfluxDBTokenCreated:
+      type: object
+      required:
+        - id
+        - userID
+        - orgID
+        - description
+        - status
+        - permissions
+        - editable
+        - value
+      properties:
+        id:
+          type: string
+        userID:
+          type: string
+        orgID:
+          type: string
+        description:
+          type: string
+        status:
+          $ref: '#/components/schemas/InfluxDBTokenStatus'
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/InfluxDBPermission'
+        editable:
+          type: boolean
+          description: Only explicit bucket-scoped tokens can be changed.
+        value:
+          type: string
+          description: New token secret, returned only at creation. Save it securely.
+    InfluxDBTokenUpdate:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          $ref: '#/components/schemas/InfluxDBTokenStatus'
     DolphinDBDrainRequest:
       type: object
       required:
@@ -31829,21 +32478,6 @@ components:
         capacityCheck:
           type: string
           description: Always notValidated. This preview is not proof of sufficient physical capacity or permission to delete the node.
-    APIErrorResponse:
-      description: API error response.
-      properties:
-        code:
-          description: The HTTP status code.
-          type: integer
-        reason:
-          description: The reason for the error.
-          type: string
-        message:
-          description: The message for the error.
-          type: string
-      required:
-        - code
-      type: object
     DolphinDBMigration:
       type: object
       properties:
