@@ -302,6 +302,7 @@
 //   - [diagnosticsApi.getDiagnosticsDamengSpaceAnalysis]
 //   - [diagnosticsApi.getDiagnosticsElasticsearchStorageAnalysis]
 //   - [diagnosticsApi.getDiagnosticsElasticsearchTaskAnalysis]
+//   - [diagnosticsApi.getDiagnosticsKingbasePerformanceTrends]
 //   - [diagnosticsApi.getDiagnosticsKingbaseSession]
 //   - [diagnosticsApi.getDiagnosticsKingbaseSessionLockAnalysis]
 //   - [diagnosticsApi.getDiagnosticsMariaDBPerformanceTrends]

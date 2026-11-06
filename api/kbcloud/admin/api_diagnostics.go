@@ -927,6 +927,127 @@ func (a *DiagnosticsApi) GetDiagnosticsElasticsearchTaskAnalysis(ctx _context.Co
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetDiagnosticsKingbasePerformanceTrendsOptionalParameters holds optional parameters for GetDiagnosticsKingbasePerformanceTrends.
+type GetDiagnosticsKingbasePerformanceTrendsOptionalParameters struct {
+	Range *string
+	Step  *string
+}
+
+// NewGetDiagnosticsKingbasePerformanceTrendsOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsKingbasePerformanceTrendsOptionalParameters() *GetDiagnosticsKingbasePerformanceTrendsOptionalParameters {
+	this := GetDiagnosticsKingbasePerformanceTrendsOptionalParameters{}
+	return &this
+}
+
+// WithRange sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsKingbasePerformanceTrendsOptionalParameters) WithRange(rangeVar string) *GetDiagnosticsKingbasePerformanceTrendsOptionalParameters {
+	r.Range = &rangeVar
+	return r
+}
+
+// WithStep sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsKingbasePerformanceTrendsOptionalParameters) WithStep(step string) *GetDiagnosticsKingbasePerformanceTrendsOptionalParameters {
+	r.Step = &step
+	return r
+}
+
+// GetDiagnosticsKingbasePerformanceTrends Get Kingbase performance trends.
+// Get read-only Kingbase performance trends from backend-owned metrics. The response covers resource, connection, workload, database, capacity, and availability series and does not expose PromQL, internal endpoints, or credentials.
+// V9 queries.perSecond requires track_sql=on and track_sql_item either empty (all items) or containing the complete sqltime item. Each QPS sample must have matching settings from the same scrape target and timestamp; disabled, missing, stale, or conflicting settings exclude that sample from both series and summaries. V8 QPS does not depend on these V9 settings. Unknown or unverified major versions (including V10) omit QPS without querying it.
+// An absent QPS series means collection availability cannot be confirmed; it does not mean zero load or prove that SQL tracking is disabled. Check the database version, SQL tracking settings, and collection of same-scrape settings metrics. Source success describes queries with displayable results, not the availability of every metric. Empty metrics do not produce query-failure warnings.
+// xid.age, database.sizeBytes, and locks.observedSessionCount cover user databases only, excluding esrep, kingbase, security, template0, template1, and empty or placeholder (-) database names. xid.age is not an instance-wide wraparound safety check: system database ages are not shown. Its 150M/180M warning/critical thresholds are static references, not the cluster's freeze settings or database limits.
+func (a *DiagnosticsApi) GetDiagnosticsKingbasePerformanceTrends(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsKingbasePerformanceTrendsOptionalParameters) (PerformanceTrends, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue PerformanceTrends
+		optionalParams      GetDiagnosticsKingbasePerformanceTrendsOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsKingbasePerformanceTrendsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsKingbasePerformanceTrends",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/kingbase/performanceTrends",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsKingbasePerformanceTrends")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/kingbase/performanceTrends"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Range != nil {
+		localVarQueryParams.Add("range", common.ParameterToString(*optionalParams.Range, ""))
+	}
+	if optionalParams.Step != nil {
+		localVarQueryParams.Add("step", common.ParameterToString(*optionalParams.Step, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 429 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // GetDiagnosticsKingbaseSession Get Kingbase session diagnostics.
 func (a *DiagnosticsApi) GetDiagnosticsKingbaseSession(ctx _context.Context, orgName string, clusterName string, pid int64) (KingbaseSessionDetail, *_nethttp.Response, error) {
 	var (
