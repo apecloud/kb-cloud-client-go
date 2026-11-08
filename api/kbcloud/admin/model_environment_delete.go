@@ -14,6 +14,8 @@ type EnvironmentDelete struct {
 	Minio *CloudResourceCleanPolicy `json:"minio,omitempty"`
 	// The policy to clean cloud resources, either `Delete` or `Retain`
 	VictoriaMetrics *CloudResourceCleanPolicy `json:"victoriaMetrics,omitempty"`
+	// The policy to clean cloud resources, either `Delete` or `Retain`
+	VictoriaLogs *CloudResourceCleanPolicy `json:"victoriaLogs,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -29,6 +31,8 @@ func NewEnvironmentDelete() *EnvironmentDelete {
 	this.Minio = &minio
 	var victoriaMetrics CloudResourceCleanPolicy = CloudResourceCleanPolicyRetain
 	this.VictoriaMetrics = &victoriaMetrics
+	var victoriaLogs CloudResourceCleanPolicy = CloudResourceCleanPolicyRetain
+	this.VictoriaLogs = &victoriaLogs
 	return &this
 }
 
@@ -41,6 +45,8 @@ func NewEnvironmentDeleteWithDefaults() *EnvironmentDelete {
 	this.Minio = &minio
 	var victoriaMetrics CloudResourceCleanPolicy = CloudResourceCleanPolicyRetain
 	this.VictoriaMetrics = &victoriaMetrics
+	var victoriaLogs CloudResourceCleanPolicy = CloudResourceCleanPolicyRetain
+	this.VictoriaLogs = &victoriaLogs
 	return &this
 }
 
@@ -128,6 +134,34 @@ func (o *EnvironmentDelete) SetVictoriaMetrics(v CloudResourceCleanPolicy) {
 	o.VictoriaMetrics = &v
 }
 
+// GetVictoriaLogs returns the VictoriaLogs field value if set, zero value otherwise.
+func (o *EnvironmentDelete) GetVictoriaLogs() CloudResourceCleanPolicy {
+	if o == nil || o.VictoriaLogs == nil {
+		var ret CloudResourceCleanPolicy
+		return ret
+	}
+	return *o.VictoriaLogs
+}
+
+// GetVictoriaLogsOk returns a tuple with the VictoriaLogs field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentDelete) GetVictoriaLogsOk() (*CloudResourceCleanPolicy, bool) {
+	if o == nil || o.VictoriaLogs == nil {
+		return nil, false
+	}
+	return o.VictoriaLogs, true
+}
+
+// HasVictoriaLogs returns a boolean if a field has been set.
+func (o *EnvironmentDelete) HasVictoriaLogs() bool {
+	return o != nil && o.VictoriaLogs != nil
+}
+
+// SetVictoriaLogs gets a reference to the given CloudResourceCleanPolicy and assigns it to the VictoriaLogs field.
+func (o *EnvironmentDelete) SetVictoriaLogs(v CloudResourceCleanPolicy) {
+	o.VictoriaLogs = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentDelete) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -143,6 +177,9 @@ func (o EnvironmentDelete) MarshalJSON() ([]byte, error) {
 	if o.VictoriaMetrics != nil {
 		toSerialize["victoriaMetrics"] = o.VictoriaMetrics
 	}
+	if o.VictoriaLogs != nil {
+		toSerialize["victoriaLogs"] = o.VictoriaLogs
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -156,13 +193,14 @@ func (o *EnvironmentDelete) UnmarshalJSON(bytes []byte) (err error) {
 		CleanCloudResources *bool                     `json:"cleanCloudResources,omitempty"`
 		Minio               *CloudResourceCleanPolicy `json:"minio,omitempty"`
 		VictoriaMetrics     *CloudResourceCleanPolicy `json:"victoriaMetrics,omitempty"`
+		VictoriaLogs        *CloudResourceCleanPolicy `json:"victoriaLogs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cleanCloudResources", "minio", "victoriaMetrics"})
+		common.DeleteKeys(additionalProperties, &[]string{"cleanCloudResources", "minio", "victoriaMetrics", "victoriaLogs"})
 	} else {
 		return err
 	}
@@ -178,6 +216,11 @@ func (o *EnvironmentDelete) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	} else {
 		o.VictoriaMetrics = all.VictoriaMetrics
+	}
+	if all.VictoriaLogs != nil && !all.VictoriaLogs.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.VictoriaLogs = all.VictoriaLogs
 	}
 
 	if len(additionalProperties) > 0 {
