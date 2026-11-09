@@ -12907,6 +12907,65 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - task
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/dms/audits:
+    get:
+      tags:
+        - dms
+        - shared
+      operationId: listDMSAudit
+      summary: List independent DMS audit records
+      description: Only organization administrators and authorized admin-portal users can read these records.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: userName
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/dmsAuditStatus'
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Audit records, ordered by newest first.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dmsAuditList'
+        '403':
+          $ref: '#/components/responses/403'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}:
     get:
       tags:
@@ -41350,6 +41409,74 @@ components:
           $ref: '#/components/schemas/taskSchedule'
           description: Scheduled execution configuration
           x-nullable: true
+    dmsAuditStatus:
+      type: string
+      enum:
+        - success
+        - failed
+        - unknown
+    dmsAudit:
+      type: object
+      required:
+        - id
+        - orgName
+        - clusterId
+        - clusterName
+        - userName
+        - engine
+        - database
+        - operation
+        - statement
+        - status
+        - createdAt
+      properties:
+        id:
+          type: string
+        orgName:
+          type: string
+        clusterId:
+          type: string
+        clusterName:
+          type: string
+        datasourceId:
+          type: string
+        userId:
+          type: string
+          description: Absent for migrated history with unknown actor.
+        userName:
+          type: string
+        engine:
+          type: string
+        database:
+          type: string
+        operation:
+          type: string
+        statement:
+          type: string
+        status:
+          $ref: '#/components/schemas/dmsAuditStatus'
+        createdAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        durationMs:
+          type: integer
+          format: int64
+    dmsAuditList:
+      type: object
+      required:
+        - items
+        - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/dmsAudit'
+        total:
+          type: integer
+          format: int64
     datasource:
       required:
         - type
