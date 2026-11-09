@@ -14,8 +14,10 @@ type DolphinDBUser struct {
 	Name    string   `json:"name"`
 	IsAdmin bool     `json:"isAdmin"`
 	Groups  []string `json:"groups"`
-	// Built-in admin and management account are protected from mutation.
+	// Built-in admin and management account are protected from deletion and permission changes.
 	ReadOnly bool `json:"readOnly"`
+	// Whether the platform supports password changes, independently of readOnly.
+	CanChangePassword *bool `json:"canChangePassword,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -134,6 +136,34 @@ func (o *DolphinDBUser) SetReadOnly(v bool) {
 	o.ReadOnly = v
 }
 
+// GetCanChangePassword returns the CanChangePassword field value if set, zero value otherwise.
+func (o *DolphinDBUser) GetCanChangePassword() bool {
+	if o == nil || o.CanChangePassword == nil {
+		var ret bool
+		return ret
+	}
+	return *o.CanChangePassword
+}
+
+// GetCanChangePasswordOk returns a tuple with the CanChangePassword field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DolphinDBUser) GetCanChangePasswordOk() (*bool, bool) {
+	if o == nil || o.CanChangePassword == nil {
+		return nil, false
+	}
+	return o.CanChangePassword, true
+}
+
+// HasCanChangePassword returns a boolean if a field has been set.
+func (o *DolphinDBUser) HasCanChangePassword() bool {
+	return o != nil && o.CanChangePassword != nil
+}
+
+// SetCanChangePassword gets a reference to the given bool and assigns it to the CanChangePassword field.
+func (o *DolphinDBUser) SetCanChangePassword(v bool) {
+	o.CanChangePassword = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o DolphinDBUser) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -144,6 +174,9 @@ func (o DolphinDBUser) MarshalJSON() ([]byte, error) {
 	toSerialize["isAdmin"] = o.IsAdmin
 	toSerialize["groups"] = o.Groups
 	toSerialize["readOnly"] = o.ReadOnly
+	if o.CanChangePassword != nil {
+		toSerialize["canChangePassword"] = o.CanChangePassword
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -154,10 +187,11 @@ func (o DolphinDBUser) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DolphinDBUser) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name     *string   `json:"name"`
-		IsAdmin  *bool     `json:"isAdmin"`
-		Groups   *[]string `json:"groups"`
-		ReadOnly *bool     `json:"readOnly"`
+		Name              *string   `json:"name"`
+		IsAdmin           *bool     `json:"isAdmin"`
+		Groups            *[]string `json:"groups"`
+		ReadOnly          *bool     `json:"readOnly"`
+		CanChangePassword *bool     `json:"canChangePassword,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -176,7 +210,7 @@ func (o *DolphinDBUser) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "isAdmin", "groups", "readOnly"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "isAdmin", "groups", "readOnly", "canChangePassword"})
 	} else {
 		return err
 	}
@@ -184,6 +218,7 @@ func (o *DolphinDBUser) UnmarshalJSON(bytes []byte) (err error) {
 	o.IsAdmin = *all.IsAdmin
 	o.Groups = *all.Groups
 	o.ReadOnly = *all.ReadOnly
+	o.CanChangePassword = all.CanChangePassword
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

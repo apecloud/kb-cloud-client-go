@@ -27391,7 +27391,10 @@ components:
             type: string
         readOnly:
           type: boolean
-          description: Built-in admin and management account are protected from mutation.
+          description: Built-in admin and management account are protected from deletion and permission changes.
+        canChangePassword:
+          type: boolean
+          description: Whether the platform supports password changes, independently of readOnly.
       required:
         - name
         - isAdmin

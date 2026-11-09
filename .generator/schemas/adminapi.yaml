@@ -32836,7 +32836,10 @@ components:
             type: string
         readOnly:
           type: boolean
-          description: Built-in admin and management account are protected from mutation.
+          description: Built-in admin and management account are protected from deletion and permission changes.
+        canChangePassword:
+          type: boolean
+          description: Whether the platform supports password changes, independently of readOnly.
       required:
         - name
         - isAdmin
@@ -48527,8 +48530,11 @@ components:
           type: object
           description: default value for the parameter
         description:
-          type: string
-          description: description of the parameter
+          $ref: '#/components/schemas/localizedDescription'
+          description: localized description of the parameter
+        title:
+          $ref: '#/components/schemas/localizedDescription'
+          description: localized display title of the parameter
         type:
           type: string
           description: type of the parameter
