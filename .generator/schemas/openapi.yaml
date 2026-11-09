@@ -368,6 +368,193 @@ paths:
           $ref: '#/components/responses/409'
         '500':
           $ref: '#/components/responses/500'
+    post:
+      summary: InfluxDB CreateBucket
+      operationId: influxDBCreateBucket
+      tags:
+        - influxdb
+        - database
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfluxDBBucket'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InfluxDBBucketCreate'
+  /api/v1/data/influxdb/organizations/{orgName}/clusters/{clusterName}/buckets/{bucketID}:
+    get:
+      summary: InfluxDB GetBucket
+      operationId: influxDBGetBucket
+      tags:
+        - influxdb
+        - database
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: bucketID
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: influxOrgID
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfluxDBBucket'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      summary: InfluxDB UpdateBucket
+      operationId: influxDBUpdateBucket
+      tags:
+        - influxdb
+        - database
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: bucketID
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: influxOrgID
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfluxDBBucket'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InfluxDBBucketUpdate'
+    delete:
+      summary: InfluxDB DeleteBucket
+      operationId: influxDBDeleteBucket
+      tags:
+        - influxdb
+        - database
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: bucketID
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: influxOrgID
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/data/influxdb/organizations/{orgName}/clusters/{clusterName}/accounts/{userID}/tokens:
     get:
       summary: InfluxDB ListTokens
@@ -26851,6 +27038,27 @@ components:
           type: string
         name:
           type: string
+    InfluxDBRetentionRuleType:
+      type: string
+      enum:
+        - expire
+    InfluxDBBucketRetentionRule:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/InfluxDBRetentionRuleType'
+        everySeconds:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 9223372036
+          description: 0 means forever. Positive retention must be at least 3600 seconds. Omit on PATCH to preserve retention.
+        shardGroupDurationSeconds:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 9223372036
+          description: 0 selects the native default. Omit on PATCH to preserve the existing duration.
     InfluxDBBucket:
       type: object
       required:
@@ -26858,6 +27066,8 @@ components:
         - orgID
         - name
         - type
+        - description
+        - retentionRules
       properties:
         id:
           type: string
@@ -26867,6 +27077,48 @@ components:
           type: string
         type:
           type: string
+        description:
+          type: string
+        retentionRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/InfluxDBBucketRetentionRule'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    InfluxDBBucketCreate:
+      type: object
+      required:
+        - orgID
+        - name
+      properties:
+        orgID:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        retentionRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/InfluxDBBucketRetentionRule'
+          maxItems: 1
+    InfluxDBBucketUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        retentionRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/InfluxDBBucketRetentionRule'
+          maxItems: 1
+      description: 'Partial update. Omitted fields are unchanged; empty description clears it. Absent or empty retentionRules does not change retention. To retain forever send everySeconds: 0. System buckets cannot be renamed.'
     InfluxDBTokenStatus:
       type: string
       enum:
