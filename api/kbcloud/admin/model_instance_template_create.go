@@ -12,7 +12,7 @@ import (
 
 // InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, nodeGroup and storageClass are optional overlays. The request must include every chart-rendered instance template exactly once. Explicit placement requires availabilityZone and optionally accepts nodeGroup, without inheriting upper-level AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks default inheritance. Hostname, user scheduling rules and additional topology keys are preserved.
 type InstanceTemplateCreate struct {
-	// Effective template service version. Templates without an explicit version inherit their component version. Read-only; not accepted at creation.
+	// Template service version. On creation, components with template upgrades enabled accept an explicit version and default omitted versions to the component version.
 	ServiceVersion *string `json:"serviceVersion,omitempty"`
 	// Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
 	NodeGroup *string `json:"nodeGroup,omitempty"`
