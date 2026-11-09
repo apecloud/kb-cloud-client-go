@@ -35000,7 +35000,7 @@ components:
       properties:
         serviceVersion:
           type: string
-          description: Template service version. On creation, components with template upgrades enabled accept an explicit version and default omitted versions to the component version.
+          description: Template service version. On creation, components with template upgrades enabled accept an explicit version and default omitted versions to the component version. The component version must equal the lowest template version.
         nodeGroup:
           type: string
           description: Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
