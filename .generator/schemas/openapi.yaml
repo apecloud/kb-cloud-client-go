@@ -12939,6 +12939,11 @@ paths:
             minimum: 1
             maximum: 100
             default: 20
+        - name: archived
+          in: query
+          schema:
+            type: boolean
+          description: Filter archived or active records; omit for both.
         - name: userName
           in: query
           schema:
@@ -39316,6 +39321,7 @@ components:
           type: string
         feature:
           type: object
+          description: Engine capabilities and audit policy. auditSensitiveColumns is an array of case-insensitive sensitive column names; auditHighRiskStatements is an array of SQL keyword prefixes such as DROP or ALTER USER. Built-in credential redaction always applies.
           additionalProperties: {}
         defaultAccount:
           type: string
@@ -41415,6 +41421,55 @@ components:
         - success
         - failed
         - unknown
+    dmsAuditRisk:
+      type: string
+      enum:
+        - unknown
+        - read_only
+        - ddl
+        - dml
+        - high
+    dmsAuditStatement:
+      type: object
+      required:
+        - sequence
+        - statement
+        - database
+        - tableNames
+        - risk
+        - status
+        - errorMessage
+      properties:
+        sequence:
+          type: integer
+        statement:
+          type: string
+        database:
+          type: string
+        tableNames:
+          type: array
+          items:
+            type: string
+        sessionId:
+          type: string
+        risk:
+          $ref: '#/components/schemas/dmsAuditRisk'
+        status:
+          $ref: '#/components/schemas/dmsAuditStatus'
+        errorMessage:
+          type: string
+        durationMs:
+          type: integer
+          format: int64
+        rowsAffected:
+          type: integer
+          format: int64
+        startedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
     dmsAudit:
       type: object
       required:
@@ -41453,6 +41508,29 @@ components:
           type: string
         statement:
           type: string
+        clientIp:
+          type: string
+        sessionId:
+          type: string
+          description: Native database session ID; see individual statements when a batch uses multiple connections.
+        risk:
+          $ref: '#/components/schemas/dmsAuditRisk'
+        tableNames:
+          type: array
+          items:
+            type: string
+        errorMessage:
+          type: string
+        rowsAffected:
+          type: integer
+          format: int64
+        archivedAt:
+          type: string
+          format: date-time
+        statements:
+          type: array
+          items:
+            $ref: '#/components/schemas/dmsAuditStatement'
         status:
           $ref: '#/components/schemas/dmsAuditStatus'
         createdAt:

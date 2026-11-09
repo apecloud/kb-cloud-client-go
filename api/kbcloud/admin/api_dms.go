@@ -2243,6 +2243,7 @@ func (a *DmsApi) GetSchemaList(ctx _context.Context, orgName string, clusterName
 type ListDMSAuditOptionalParameters struct {
 	Offset   *int32
 	Limit    *int32
+	Archived *bool
 	UserName *string
 	Status   *DmsAuditStatus
 	From     *time.Time
@@ -2264,6 +2265,12 @@ func (r *ListDMSAuditOptionalParameters) WithOffset(offset int32) *ListDMSAuditO
 // WithLimit sets the corresponding parameter name and returns the struct.
 func (r *ListDMSAuditOptionalParameters) WithLimit(limit int32) *ListDMSAuditOptionalParameters {
 	r.Limit = &limit
+	return r
+}
+
+// WithArchived sets the corresponding parameter name and returns the struct.
+func (r *ListDMSAuditOptionalParameters) WithArchived(archived bool) *ListDMSAuditOptionalParameters {
+	r.Archived = &archived
 	return r
 }
 
@@ -2334,6 +2341,9 @@ func (a *DmsApi) ListDMSAudit(ctx _context.Context, orgName string, clusterName 
 	}
 	if optionalParams.Limit != nil {
 		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.Archived != nil {
+		localVarQueryParams.Add("archived", common.ParameterToString(*optionalParams.Archived, ""))
 	}
 	if optionalParams.UserName != nil {
 		localVarQueryParams.Add("userName", common.ParameterToString(*optionalParams.UserName, ""))

@@ -18,16 +18,25 @@ type DmsAudit struct {
 	ClusterName  string  `json:"clusterName"`
 	DatasourceId *string `json:"datasourceId,omitempty"`
 	// Absent for migrated history with unknown actor.
-	UserId     *string        `json:"userId,omitempty"`
-	UserName   string         `json:"userName"`
-	Engine     string         `json:"engine"`
-	Database   string         `json:"database"`
-	Operation  string         `json:"operation"`
-	Statement  string         `json:"statement"`
-	Status     DmsAuditStatus `json:"status"`
-	CreatedAt  time.Time      `json:"createdAt"`
-	FinishedAt *time.Time     `json:"finishedAt,omitempty"`
-	DurationMs *int64         `json:"durationMs,omitempty"`
+	UserId    *string `json:"userId,omitempty"`
+	UserName  string  `json:"userName"`
+	Engine    string  `json:"engine"`
+	Database  string  `json:"database"`
+	Operation string  `json:"operation"`
+	Statement string  `json:"statement"`
+	ClientIp  *string `json:"clientIp,omitempty"`
+	// Native database session ID; see individual statements when a batch uses multiple connections.
+	SessionId    *string             `json:"sessionId,omitempty"`
+	Risk         *DmsAuditRisk       `json:"risk,omitempty"`
+	TableNames   []string            `json:"tableNames,omitempty"`
+	ErrorMessage *string             `json:"errorMessage,omitempty"`
+	RowsAffected *int64              `json:"rowsAffected,omitempty"`
+	ArchivedAt   *time.Time          `json:"archivedAt,omitempty"`
+	Statements   []DmsAuditStatement `json:"statements,omitempty"`
+	Status       DmsAuditStatus      `json:"status"`
+	CreatedAt    time.Time           `json:"createdAt"`
+	FinishedAt   *time.Time          `json:"finishedAt,omitempty"`
+	DurationMs   *int64              `json:"durationMs,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -324,6 +333,230 @@ func (o *DmsAudit) SetStatement(v string) {
 	o.Statement = v
 }
 
+// GetClientIp returns the ClientIp field value if set, zero value otherwise.
+func (o *DmsAudit) GetClientIp() string {
+	if o == nil || o.ClientIp == nil {
+		var ret string
+		return ret
+	}
+	return *o.ClientIp
+}
+
+// GetClientIpOk returns a tuple with the ClientIp field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DmsAudit) GetClientIpOk() (*string, bool) {
+	if o == nil || o.ClientIp == nil {
+		return nil, false
+	}
+	return o.ClientIp, true
+}
+
+// HasClientIp returns a boolean if a field has been set.
+func (o *DmsAudit) HasClientIp() bool {
+	return o != nil && o.ClientIp != nil
+}
+
+// SetClientIp gets a reference to the given string and assigns it to the ClientIp field.
+func (o *DmsAudit) SetClientIp(v string) {
+	o.ClientIp = &v
+}
+
+// GetSessionId returns the SessionId field value if set, zero value otherwise.
+func (o *DmsAudit) GetSessionId() string {
+	if o == nil || o.SessionId == nil {
+		var ret string
+		return ret
+	}
+	return *o.SessionId
+}
+
+// GetSessionIdOk returns a tuple with the SessionId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DmsAudit) GetSessionIdOk() (*string, bool) {
+	if o == nil || o.SessionId == nil {
+		return nil, false
+	}
+	return o.SessionId, true
+}
+
+// HasSessionId returns a boolean if a field has been set.
+func (o *DmsAudit) HasSessionId() bool {
+	return o != nil && o.SessionId != nil
+}
+
+// SetSessionId gets a reference to the given string and assigns it to the SessionId field.
+func (o *DmsAudit) SetSessionId(v string) {
+	o.SessionId = &v
+}
+
+// GetRisk returns the Risk field value if set, zero value otherwise.
+func (o *DmsAudit) GetRisk() DmsAuditRisk {
+	if o == nil || o.Risk == nil {
+		var ret DmsAuditRisk
+		return ret
+	}
+	return *o.Risk
+}
+
+// GetRiskOk returns a tuple with the Risk field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DmsAudit) GetRiskOk() (*DmsAuditRisk, bool) {
+	if o == nil || o.Risk == nil {
+		return nil, false
+	}
+	return o.Risk, true
+}
+
+// HasRisk returns a boolean if a field has been set.
+func (o *DmsAudit) HasRisk() bool {
+	return o != nil && o.Risk != nil
+}
+
+// SetRisk gets a reference to the given DmsAuditRisk and assigns it to the Risk field.
+func (o *DmsAudit) SetRisk(v DmsAuditRisk) {
+	o.Risk = &v
+}
+
+// GetTableNames returns the TableNames field value if set, zero value otherwise.
+func (o *DmsAudit) GetTableNames() []string {
+	if o == nil || o.TableNames == nil {
+		var ret []string
+		return ret
+	}
+	return o.TableNames
+}
+
+// GetTableNamesOk returns a tuple with the TableNames field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DmsAudit) GetTableNamesOk() (*[]string, bool) {
+	if o == nil || o.TableNames == nil {
+		return nil, false
+	}
+	return &o.TableNames, true
+}
+
+// HasTableNames returns a boolean if a field has been set.
+func (o *DmsAudit) HasTableNames() bool {
+	return o != nil && o.TableNames != nil
+}
+
+// SetTableNames gets a reference to the given []string and assigns it to the TableNames field.
+func (o *DmsAudit) SetTableNames(v []string) {
+	o.TableNames = v
+}
+
+// GetErrorMessage returns the ErrorMessage field value if set, zero value otherwise.
+func (o *DmsAudit) GetErrorMessage() string {
+	if o == nil || o.ErrorMessage == nil {
+		var ret string
+		return ret
+	}
+	return *o.ErrorMessage
+}
+
+// GetErrorMessageOk returns a tuple with the ErrorMessage field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DmsAudit) GetErrorMessageOk() (*string, bool) {
+	if o == nil || o.ErrorMessage == nil {
+		return nil, false
+	}
+	return o.ErrorMessage, true
+}
+
+// HasErrorMessage returns a boolean if a field has been set.
+func (o *DmsAudit) HasErrorMessage() bool {
+	return o != nil && o.ErrorMessage != nil
+}
+
+// SetErrorMessage gets a reference to the given string and assigns it to the ErrorMessage field.
+func (o *DmsAudit) SetErrorMessage(v string) {
+	o.ErrorMessage = &v
+}
+
+// GetRowsAffected returns the RowsAffected field value if set, zero value otherwise.
+func (o *DmsAudit) GetRowsAffected() int64 {
+	if o == nil || o.RowsAffected == nil {
+		var ret int64
+		return ret
+	}
+	return *o.RowsAffected
+}
+
+// GetRowsAffectedOk returns a tuple with the RowsAffected field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DmsAudit) GetRowsAffectedOk() (*int64, bool) {
+	if o == nil || o.RowsAffected == nil {
+		return nil, false
+	}
+	return o.RowsAffected, true
+}
+
+// HasRowsAffected returns a boolean if a field has been set.
+func (o *DmsAudit) HasRowsAffected() bool {
+	return o != nil && o.RowsAffected != nil
+}
+
+// SetRowsAffected gets a reference to the given int64 and assigns it to the RowsAffected field.
+func (o *DmsAudit) SetRowsAffected(v int64) {
+	o.RowsAffected = &v
+}
+
+// GetArchivedAt returns the ArchivedAt field value if set, zero value otherwise.
+func (o *DmsAudit) GetArchivedAt() time.Time {
+	if o == nil || o.ArchivedAt == nil {
+		var ret time.Time
+		return ret
+	}
+	return *o.ArchivedAt
+}
+
+// GetArchivedAtOk returns a tuple with the ArchivedAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DmsAudit) GetArchivedAtOk() (*time.Time, bool) {
+	if o == nil || o.ArchivedAt == nil {
+		return nil, false
+	}
+	return o.ArchivedAt, true
+}
+
+// HasArchivedAt returns a boolean if a field has been set.
+func (o *DmsAudit) HasArchivedAt() bool {
+	return o != nil && o.ArchivedAt != nil
+}
+
+// SetArchivedAt gets a reference to the given time.Time and assigns it to the ArchivedAt field.
+func (o *DmsAudit) SetArchivedAt(v time.Time) {
+	o.ArchivedAt = &v
+}
+
+// GetStatements returns the Statements field value if set, zero value otherwise.
+func (o *DmsAudit) GetStatements() []DmsAuditStatement {
+	if o == nil || o.Statements == nil {
+		var ret []DmsAuditStatement
+		return ret
+	}
+	return o.Statements
+}
+
+// GetStatementsOk returns a tuple with the Statements field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DmsAudit) GetStatementsOk() (*[]DmsAuditStatement, bool) {
+	if o == nil || o.Statements == nil {
+		return nil, false
+	}
+	return &o.Statements, true
+}
+
+// HasStatements returns a boolean if a field has been set.
+func (o *DmsAudit) HasStatements() bool {
+	return o != nil && o.Statements != nil
+}
+
+// SetStatements gets a reference to the given []DmsAuditStatement and assigns it to the Statements field.
+func (o *DmsAudit) SetStatements(v []DmsAuditStatement) {
+	o.Statements = v
+}
+
 // GetStatus returns the Status field value.
 func (o *DmsAudit) GetStatus() DmsAuditStatus {
 	if o == nil {
@@ -447,6 +680,34 @@ func (o DmsAudit) MarshalJSON() ([]byte, error) {
 	toSerialize["database"] = o.Database
 	toSerialize["operation"] = o.Operation
 	toSerialize["statement"] = o.Statement
+	if o.ClientIp != nil {
+		toSerialize["clientIp"] = o.ClientIp
+	}
+	if o.SessionId != nil {
+		toSerialize["sessionId"] = o.SessionId
+	}
+	if o.Risk != nil {
+		toSerialize["risk"] = o.Risk
+	}
+	if o.TableNames != nil {
+		toSerialize["tableNames"] = o.TableNames
+	}
+	if o.ErrorMessage != nil {
+		toSerialize["errorMessage"] = o.ErrorMessage
+	}
+	if o.RowsAffected != nil {
+		toSerialize["rowsAffected"] = o.RowsAffected
+	}
+	if o.ArchivedAt != nil {
+		if o.ArchivedAt.Nanosecond() == 0 {
+			toSerialize["archivedAt"] = o.ArchivedAt.Format("2006-01-02T15:04:05Z07:00")
+		} else {
+			toSerialize["archivedAt"] = o.ArchivedAt.Format("2006-01-02T15:04:05.000Z07:00")
+		}
+	}
+	if o.Statements != nil {
+		toSerialize["statements"] = o.Statements
+	}
 	toSerialize["status"] = o.Status
 	if o.CreatedAt.Nanosecond() == 0 {
 		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
@@ -473,21 +734,29 @@ func (o DmsAudit) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DmsAudit) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id           *string         `json:"id"`
-		OrgName      *string         `json:"orgName"`
-		ClusterId    *string         `json:"clusterId"`
-		ClusterName  *string         `json:"clusterName"`
-		DatasourceId *string         `json:"datasourceId,omitempty"`
-		UserId       *string         `json:"userId,omitempty"`
-		UserName     *string         `json:"userName"`
-		Engine       *string         `json:"engine"`
-		Database     *string         `json:"database"`
-		Operation    *string         `json:"operation"`
-		Statement    *string         `json:"statement"`
-		Status       *DmsAuditStatus `json:"status"`
-		CreatedAt    *time.Time      `json:"createdAt"`
-		FinishedAt   *time.Time      `json:"finishedAt,omitempty"`
-		DurationMs   *int64          `json:"durationMs,omitempty"`
+		Id           *string             `json:"id"`
+		OrgName      *string             `json:"orgName"`
+		ClusterId    *string             `json:"clusterId"`
+		ClusterName  *string             `json:"clusterName"`
+		DatasourceId *string             `json:"datasourceId,omitempty"`
+		UserId       *string             `json:"userId,omitempty"`
+		UserName     *string             `json:"userName"`
+		Engine       *string             `json:"engine"`
+		Database     *string             `json:"database"`
+		Operation    *string             `json:"operation"`
+		Statement    *string             `json:"statement"`
+		ClientIp     *string             `json:"clientIp,omitempty"`
+		SessionId    *string             `json:"sessionId,omitempty"`
+		Risk         *DmsAuditRisk       `json:"risk,omitempty"`
+		TableNames   []string            `json:"tableNames,omitempty"`
+		ErrorMessage *string             `json:"errorMessage,omitempty"`
+		RowsAffected *int64              `json:"rowsAffected,omitempty"`
+		ArchivedAt   *time.Time          `json:"archivedAt,omitempty"`
+		Statements   []DmsAuditStatement `json:"statements,omitempty"`
+		Status       *DmsAuditStatus     `json:"status"`
+		CreatedAt    *time.Time          `json:"createdAt"`
+		FinishedAt   *time.Time          `json:"finishedAt,omitempty"`
+		DurationMs   *int64              `json:"durationMs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -527,7 +796,7 @@ func (o *DmsAudit) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "clusterId", "clusterName", "datasourceId", "userId", "userName", "engine", "database", "operation", "statement", "status", "createdAt", "finishedAt", "durationMs"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "clusterId", "clusterName", "datasourceId", "userId", "userName", "engine", "database", "operation", "statement", "clientIp", "sessionId", "risk", "tableNames", "errorMessage", "rowsAffected", "archivedAt", "statements", "status", "createdAt", "finishedAt", "durationMs"})
 	} else {
 		return err
 	}
@@ -544,6 +813,18 @@ func (o *DmsAudit) UnmarshalJSON(bytes []byte) (err error) {
 	o.Database = *all.Database
 	o.Operation = *all.Operation
 	o.Statement = *all.Statement
+	o.ClientIp = all.ClientIp
+	o.SessionId = all.SessionId
+	if all.Risk != nil && !all.Risk.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Risk = all.Risk
+	}
+	o.TableNames = all.TableNames
+	o.ErrorMessage = all.ErrorMessage
+	o.RowsAffected = all.RowsAffected
+	o.ArchivedAt = all.ArchivedAt
+	o.Statements = all.Statements
 	if !all.Status.IsValid() {
 		hasInvalidField = true
 	} else {
