@@ -13,7 +13,7 @@ import (
 type DmsOption struct {
 	Enabled  bool    `json:"enabled"`
 	Protocol *string `json:"protocol,omitempty"`
-	// Engine capabilities and audit policy. auditSensitiveColumns is an array of case-insensitive sensitive column names; auditHighRiskStatements is an array of SQL keyword prefixes such as DROP or ALTER USER. Built-in credential redaction always applies.
+	// Engine capabilities and audit policy. auditSensitiveColumns is an array of case-insensitive sensitive column names; auditHighRiskStatements is an array of engine-specific rules: SQL keyword prefixes, Redis command/subcommand prefixes (FLUSHALL, CONFIG SET), or MongoDB command names (dropDatabase, delete, dropIndexes, $out). MongoDB shell helpers map to native command names; dynamic scripts may remain unclassified. Built-in credential redaction always applies.
 	Feature        map[string]interface{} `json:"feature,omitempty"`
 	DefaultAccount *string                `json:"defaultAccount,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
