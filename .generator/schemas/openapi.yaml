@@ -3619,6 +3619,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - vipPool
+  /api/v1/environments/{environmentName}/loadbalancer/vipPool/checkPorts:
     post:
       operationId: checkVIPPorts
       summary: Check whether ports are already used on a VIP

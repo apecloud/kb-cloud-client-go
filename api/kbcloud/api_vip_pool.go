@@ -29,7 +29,7 @@ func (a *VipPoolApi) CheckVIPPorts(ctx _context.Context, environmentName string,
 	apiInfo := common.APIInfo{
 		Tag:         "vipPool",
 		OperationID: "checkVIPPorts",
-		Path:        "/api/v1/environments/{environmentName}/loadbalancer/vipPool",
+		Path:        "/api/v1/environments/{environmentName}/loadbalancer/vipPool/checkPorts",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -39,7 +39,7 @@ func (a *VipPoolApi) CheckVIPPorts(ctx _context.Context, environmentName string,
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/environments/{environmentName}/loadbalancer/vipPool"
+	localVarPath := localBasePath + "/api/v1/environments/{environmentName}/loadbalancer/vipPool/checkPorts"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
