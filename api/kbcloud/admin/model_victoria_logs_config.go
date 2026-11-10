@@ -30,10 +30,6 @@ type VictoriaLogsConfig struct {
 // will change when the set of required properties is changed.
 func NewVictoriaLogsConfig() *VictoriaLogsConfig {
 	this := VictoriaLogsConfig{}
-	var retentionPeriod string = "100y"
-	this.RetentionPeriod = &retentionPeriod
-	var retentionMaxDiskUsagePercent int32 = 80
-	this.RetentionMaxDiskUsagePercent = *common.NewNullableInt32(&retentionMaxDiskUsagePercent)
 	return &this
 }
 
