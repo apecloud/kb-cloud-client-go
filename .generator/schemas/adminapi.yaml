@@ -40598,6 +40598,7 @@ components:
       type: object
       properties:
         instanceTemplates:
+          x-omitempty: true
           type: array
           items:
             $ref: '#/components/schemas/instanceTemplateServiceVersions'
