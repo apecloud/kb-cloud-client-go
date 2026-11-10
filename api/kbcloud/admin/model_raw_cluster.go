@@ -10,6 +10,8 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 type RawCluster struct {
 	// the cluster name in k8s
 	KubernetesName *string `json:"kubernetesName,omitempty"`
+	// Cluster definition of the discovered cluster, such as minio or victoria-metrics.
+	Engine *string `json:"engine,omitempty"`
 	// the namespace of cluster
 	Namespace *string `json:"namespace,omitempty"`
 	// the replicas of cluster
@@ -70,6 +72,34 @@ func (o *RawCluster) HasKubernetesName() bool {
 // SetKubernetesName gets a reference to the given string and assigns it to the KubernetesName field.
 func (o *RawCluster) SetKubernetesName(v string) {
 	o.KubernetesName = &v
+}
+
+// GetEngine returns the Engine field value if set, zero value otherwise.
+func (o *RawCluster) GetEngine() string {
+	if o == nil || o.Engine == nil {
+		var ret string
+		return ret
+	}
+	return *o.Engine
+}
+
+// GetEngineOk returns a tuple with the Engine field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RawCluster) GetEngineOk() (*string, bool) {
+	if o == nil || o.Engine == nil {
+		return nil, false
+	}
+	return o.Engine, true
+}
+
+// HasEngine returns a boolean if a field has been set.
+func (o *RawCluster) HasEngine() bool {
+	return o != nil && o.Engine != nil
+}
+
+// SetEngine gets a reference to the given string and assigns it to the Engine field.
+func (o *RawCluster) SetEngine(v string) {
+	o.Engine = &v
 }
 
 // GetNamespace returns the Namespace field value if set, zero value otherwise.
@@ -249,6 +279,9 @@ func (o RawCluster) MarshalJSON() ([]byte, error) {
 	if o.KubernetesName != nil {
 		toSerialize["kubernetesName"] = o.KubernetesName
 	}
+	if o.Engine != nil {
+		toSerialize["engine"] = o.Engine
+	}
 	if o.Namespace != nil {
 		toSerialize["namespace"] = o.Namespace
 	}
@@ -278,6 +311,7 @@ func (o RawCluster) MarshalJSON() ([]byte, error) {
 func (o *RawCluster) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		KubernetesName *string               `json:"kubernetesName,omitempty"`
+		Engine         *string               `json:"engine,omitempty"`
 		Namespace      *string               `json:"namespace,omitempty"`
 		Replicas       *int32                `json:"replicas,omitempty"`
 		Storage        *float64              `json:"storage,omitempty"`
@@ -290,11 +324,12 @@ func (o *RawCluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"kubernetesName", "namespace", "replicas", "storage", "cpu", "memory", "components"})
+		common.DeleteKeys(additionalProperties, &[]string{"kubernetesName", "engine", "namespace", "replicas", "storage", "cpu", "memory", "components"})
 	} else {
 		return err
 	}
 	o.KubernetesName = all.KubernetesName
+	o.Engine = all.Engine
 	o.Namespace = all.Namespace
 	o.Replicas = all.Replicas
 	o.Storage = all.Storage
