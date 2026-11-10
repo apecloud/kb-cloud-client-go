@@ -32450,6 +32450,9 @@ components:
         message:
           description: The message for the error.
           type: string
+        errorCode:
+          description: Stable business error code for programmatic handling.
+          type: string
       required:
         - code
       type: object
@@ -42543,25 +42546,16 @@ components:
           description: Checked VIP address
           type: string
         occupiedPorts:
-          description: Ports already used on the VIP
+          description: Ports already used on the VIP. Resource ownership details are intentionally omitted.
           items:
             description: A port already used on the VIP
             properties:
-              cluster:
-                description: Name of the cluster owning the service
-                type: string
-              namespace:
-                description: Namespace of the service
-                type: string
               port:
                 description: Port number
                 format: int32
                 type: integer
               protocol:
                 description: Port protocol
-                type: string
-              service:
-                description: Name of the service
                 type: string
             required:
               - port

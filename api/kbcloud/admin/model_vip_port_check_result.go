@@ -16,7 +16,7 @@ type VipPortCheckResult struct {
 	Conflicts []int32 `json:"conflicts,omitempty"`
 	// Checked VIP address
 	Ip string `json:"ip"`
-	// Ports already used on the VIP
+	// Ports already used on the VIP. Resource ownership details are intentionally omitted.
 	OccupiedPorts []VipPortCheckResultOccupiedPortsItem `json:"occupiedPorts"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
