@@ -32476,6 +32476,9 @@ components:
         message:
           description: The message for the error.
           type: string
+        errorCode:
+          description: Stable business error code for programmatic handling.
+          type: string
       required:
         - code
       type: object
