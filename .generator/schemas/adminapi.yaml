@@ -48527,8 +48527,7 @@ components:
       description: the schema properties for storage provider parameters
       properties:
         default:
-          type: object
-          description: default value for the parameter
+          description: default value for the parameter; its JSON type follows the parameter type
         description:
           $ref: '#/components/schemas/localizedDescription'
           description: localized description of the parameter
