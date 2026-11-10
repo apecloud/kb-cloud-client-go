@@ -17,7 +17,7 @@ type VipPortCheckResult struct {
 	// Checked VIP address
 	Ip string `json:"ip"`
 	// Ports already used on the VIP
-	OccupiedPorts []VipPortOccupancy `json:"occupiedPorts"`
+	OccupiedPorts []VipPortCheckResultOccupiedPortsItem `json:"occupiedPorts"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -27,7 +27,7 @@ type VipPortCheckResult struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewVipPortCheckResult(ip string, occupiedPorts []VipPortOccupancy) *VipPortCheckResult {
+func NewVipPortCheckResult(ip string, occupiedPorts []VipPortCheckResultOccupiedPortsItem) *VipPortCheckResult {
 	this := VipPortCheckResult{}
 	this.Ip = ip
 	this.OccupiedPorts = occupiedPorts
@@ -94,9 +94,9 @@ func (o *VipPortCheckResult) SetIp(v string) {
 }
 
 // GetOccupiedPorts returns the OccupiedPorts field value.
-func (o *VipPortCheckResult) GetOccupiedPorts() []VipPortOccupancy {
+func (o *VipPortCheckResult) GetOccupiedPorts() []VipPortCheckResultOccupiedPortsItem {
 	if o == nil {
-		var ret []VipPortOccupancy
+		var ret []VipPortCheckResultOccupiedPortsItem
 		return ret
 	}
 	return o.OccupiedPorts
@@ -104,7 +104,7 @@ func (o *VipPortCheckResult) GetOccupiedPorts() []VipPortOccupancy {
 
 // GetOccupiedPortsOk returns a tuple with the OccupiedPorts field value
 // and a boolean to check if the value has been set.
-func (o *VipPortCheckResult) GetOccupiedPortsOk() (*[]VipPortOccupancy, bool) {
+func (o *VipPortCheckResult) GetOccupiedPortsOk() (*[]VipPortCheckResultOccupiedPortsItem, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -112,7 +112,7 @@ func (o *VipPortCheckResult) GetOccupiedPortsOk() (*[]VipPortOccupancy, bool) {
 }
 
 // SetOccupiedPorts sets field value.
-func (o *VipPortCheckResult) SetOccupiedPorts(v []VipPortOccupancy) {
+func (o *VipPortCheckResult) SetOccupiedPorts(v []VipPortCheckResultOccupiedPortsItem) {
 	o.OccupiedPorts = v
 }
 
@@ -137,9 +137,9 @@ func (o VipPortCheckResult) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *VipPortCheckResult) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Conflicts     []int32             `json:"conflicts,omitempty"`
-		Ip            *string             `json:"ip"`
-		OccupiedPorts *[]VipPortOccupancy `json:"occupiedPorts"`
+		Conflicts     []int32                                `json:"conflicts,omitempty"`
+		Ip            *string                                `json:"ip"`
+		OccupiedPorts *[]VipPortCheckResultOccupiedPortsItem `json:"occupiedPorts"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

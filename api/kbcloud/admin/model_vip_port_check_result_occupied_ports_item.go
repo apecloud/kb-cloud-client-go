@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import (
 	"fmt"
@@ -10,8 +10,8 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// VipPortOccupancy A port already used on the VIP
-type VipPortOccupancy struct {
+// VipPortCheckResultOccupiedPortsItem A port already used on the VIP
+type VipPortCheckResultOccupiedPortsItem struct {
 	// Name of the cluster owning the service
 	Cluster *string `json:"cluster,omitempty"`
 	// Namespace of the service
@@ -27,27 +27,27 @@ type VipPortOccupancy struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewVipPortOccupancy instantiates a new VipPortOccupancy object.
+// NewVipPortCheckResultOccupiedPortsItem instantiates a new VipPortCheckResultOccupiedPortsItem object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewVipPortOccupancy(port int32, protocol string) *VipPortOccupancy {
-	this := VipPortOccupancy{}
+func NewVipPortCheckResultOccupiedPortsItem(port int32, protocol string) *VipPortCheckResultOccupiedPortsItem {
+	this := VipPortCheckResultOccupiedPortsItem{}
 	this.Port = port
 	this.Protocol = protocol
 	return &this
 }
 
-// NewVipPortOccupancyWithDefaults instantiates a new VipPortOccupancy object.
+// NewVipPortCheckResultOccupiedPortsItemWithDefaults instantiates a new VipPortCheckResultOccupiedPortsItem object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewVipPortOccupancyWithDefaults() *VipPortOccupancy {
-	this := VipPortOccupancy{}
+func NewVipPortCheckResultOccupiedPortsItemWithDefaults() *VipPortCheckResultOccupiedPortsItem {
+	this := VipPortCheckResultOccupiedPortsItem{}
 	return &this
 }
 
 // GetCluster returns the Cluster field value if set, zero value otherwise.
-func (o *VipPortOccupancy) GetCluster() string {
+func (o *VipPortCheckResultOccupiedPortsItem) GetCluster() string {
 	if o == nil || o.Cluster == nil {
 		var ret string
 		return ret
@@ -57,7 +57,7 @@ func (o *VipPortOccupancy) GetCluster() string {
 
 // GetClusterOk returns a tuple with the Cluster field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *VipPortOccupancy) GetClusterOk() (*string, bool) {
+func (o *VipPortCheckResultOccupiedPortsItem) GetClusterOk() (*string, bool) {
 	if o == nil || o.Cluster == nil {
 		return nil, false
 	}
@@ -65,17 +65,17 @@ func (o *VipPortOccupancy) GetClusterOk() (*string, bool) {
 }
 
 // HasCluster returns a boolean if a field has been set.
-func (o *VipPortOccupancy) HasCluster() bool {
+func (o *VipPortCheckResultOccupiedPortsItem) HasCluster() bool {
 	return o != nil && o.Cluster != nil
 }
 
 // SetCluster gets a reference to the given string and assigns it to the Cluster field.
-func (o *VipPortOccupancy) SetCluster(v string) {
+func (o *VipPortCheckResultOccupiedPortsItem) SetCluster(v string) {
 	o.Cluster = &v
 }
 
 // GetNamespace returns the Namespace field value if set, zero value otherwise.
-func (o *VipPortOccupancy) GetNamespace() string {
+func (o *VipPortCheckResultOccupiedPortsItem) GetNamespace() string {
 	if o == nil || o.Namespace == nil {
 		var ret string
 		return ret
@@ -85,7 +85,7 @@ func (o *VipPortOccupancy) GetNamespace() string {
 
 // GetNamespaceOk returns a tuple with the Namespace field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *VipPortOccupancy) GetNamespaceOk() (*string, bool) {
+func (o *VipPortCheckResultOccupiedPortsItem) GetNamespaceOk() (*string, bool) {
 	if o == nil || o.Namespace == nil {
 		return nil, false
 	}
@@ -93,17 +93,17 @@ func (o *VipPortOccupancy) GetNamespaceOk() (*string, bool) {
 }
 
 // HasNamespace returns a boolean if a field has been set.
-func (o *VipPortOccupancy) HasNamespace() bool {
+func (o *VipPortCheckResultOccupiedPortsItem) HasNamespace() bool {
 	return o != nil && o.Namespace != nil
 }
 
 // SetNamespace gets a reference to the given string and assigns it to the Namespace field.
-func (o *VipPortOccupancy) SetNamespace(v string) {
+func (o *VipPortCheckResultOccupiedPortsItem) SetNamespace(v string) {
 	o.Namespace = &v
 }
 
 // GetPort returns the Port field value.
-func (o *VipPortOccupancy) GetPort() int32 {
+func (o *VipPortCheckResultOccupiedPortsItem) GetPort() int32 {
 	if o == nil {
 		var ret int32
 		return ret
@@ -113,7 +113,7 @@ func (o *VipPortOccupancy) GetPort() int32 {
 
 // GetPortOk returns a tuple with the Port field value
 // and a boolean to check if the value has been set.
-func (o *VipPortOccupancy) GetPortOk() (*int32, bool) {
+func (o *VipPortCheckResultOccupiedPortsItem) GetPortOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -121,12 +121,12 @@ func (o *VipPortOccupancy) GetPortOk() (*int32, bool) {
 }
 
 // SetPort sets field value.
-func (o *VipPortOccupancy) SetPort(v int32) {
+func (o *VipPortCheckResultOccupiedPortsItem) SetPort(v int32) {
 	o.Port = v
 }
 
 // GetProtocol returns the Protocol field value.
-func (o *VipPortOccupancy) GetProtocol() string {
+func (o *VipPortCheckResultOccupiedPortsItem) GetProtocol() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -136,7 +136,7 @@ func (o *VipPortOccupancy) GetProtocol() string {
 
 // GetProtocolOk returns a tuple with the Protocol field value
 // and a boolean to check if the value has been set.
-func (o *VipPortOccupancy) GetProtocolOk() (*string, bool) {
+func (o *VipPortCheckResultOccupiedPortsItem) GetProtocolOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -144,12 +144,12 @@ func (o *VipPortOccupancy) GetProtocolOk() (*string, bool) {
 }
 
 // SetProtocol sets field value.
-func (o *VipPortOccupancy) SetProtocol(v string) {
+func (o *VipPortCheckResultOccupiedPortsItem) SetProtocol(v string) {
 	o.Protocol = v
 }
 
 // GetService returns the Service field value if set, zero value otherwise.
-func (o *VipPortOccupancy) GetService() string {
+func (o *VipPortCheckResultOccupiedPortsItem) GetService() string {
 	if o == nil || o.Service == nil {
 		var ret string
 		return ret
@@ -159,7 +159,7 @@ func (o *VipPortOccupancy) GetService() string {
 
 // GetServiceOk returns a tuple with the Service field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *VipPortOccupancy) GetServiceOk() (*string, bool) {
+func (o *VipPortCheckResultOccupiedPortsItem) GetServiceOk() (*string, bool) {
 	if o == nil || o.Service == nil {
 		return nil, false
 	}
@@ -167,17 +167,17 @@ func (o *VipPortOccupancy) GetServiceOk() (*string, bool) {
 }
 
 // HasService returns a boolean if a field has been set.
-func (o *VipPortOccupancy) HasService() bool {
+func (o *VipPortCheckResultOccupiedPortsItem) HasService() bool {
 	return o != nil && o.Service != nil
 }
 
 // SetService gets a reference to the given string and assigns it to the Service field.
-func (o *VipPortOccupancy) SetService(v string) {
+func (o *VipPortCheckResultOccupiedPortsItem) SetService(v string) {
 	o.Service = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o VipPortOccupancy) MarshalJSON() ([]byte, error) {
+func (o VipPortCheckResultOccupiedPortsItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -201,7 +201,7 @@ func (o VipPortOccupancy) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *VipPortOccupancy) UnmarshalJSON(bytes []byte) (err error) {
+func (o *VipPortCheckResultOccupiedPortsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Cluster   *string `json:"cluster,omitempty"`
 		Namespace *string `json:"namespace,omitempty"`
