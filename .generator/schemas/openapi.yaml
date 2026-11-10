@@ -12939,11 +12939,6 @@ paths:
             minimum: 1
             maximum: 100
             default: 20
-        - name: archived
-          in: query
-          schema:
-            type: boolean
-          description: Filter archived or active records; omit for both.
         - name: userName
           in: query
           schema:
@@ -41524,9 +41519,6 @@ components:
         rowsAffected:
           type: integer
           format: int64
-        archivedAt:
-          type: string
-          format: date-time
         statements:
           type: array
           items:

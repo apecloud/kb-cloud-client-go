@@ -31,7 +31,6 @@ type DmsAudit struct {
 	TableNames   []string            `json:"tableNames,omitempty"`
 	ErrorMessage *string             `json:"errorMessage,omitempty"`
 	RowsAffected *int64              `json:"rowsAffected,omitempty"`
-	ArchivedAt   *time.Time          `json:"archivedAt,omitempty"`
 	Statements   []DmsAuditStatement `json:"statements,omitempty"`
 	Status       DmsAuditStatus      `json:"status"`
 	CreatedAt    time.Time           `json:"createdAt"`
@@ -501,34 +500,6 @@ func (o *DmsAudit) SetRowsAffected(v int64) {
 	o.RowsAffected = &v
 }
 
-// GetArchivedAt returns the ArchivedAt field value if set, zero value otherwise.
-func (o *DmsAudit) GetArchivedAt() time.Time {
-	if o == nil || o.ArchivedAt == nil {
-		var ret time.Time
-		return ret
-	}
-	return *o.ArchivedAt
-}
-
-// GetArchivedAtOk returns a tuple with the ArchivedAt field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *DmsAudit) GetArchivedAtOk() (*time.Time, bool) {
-	if o == nil || o.ArchivedAt == nil {
-		return nil, false
-	}
-	return o.ArchivedAt, true
-}
-
-// HasArchivedAt returns a boolean if a field has been set.
-func (o *DmsAudit) HasArchivedAt() bool {
-	return o != nil && o.ArchivedAt != nil
-}
-
-// SetArchivedAt gets a reference to the given time.Time and assigns it to the ArchivedAt field.
-func (o *DmsAudit) SetArchivedAt(v time.Time) {
-	o.ArchivedAt = &v
-}
-
 // GetStatements returns the Statements field value if set, zero value otherwise.
 func (o *DmsAudit) GetStatements() []DmsAuditStatement {
 	if o == nil || o.Statements == nil {
@@ -698,13 +669,6 @@ func (o DmsAudit) MarshalJSON() ([]byte, error) {
 	if o.RowsAffected != nil {
 		toSerialize["rowsAffected"] = o.RowsAffected
 	}
-	if o.ArchivedAt != nil {
-		if o.ArchivedAt.Nanosecond() == 0 {
-			toSerialize["archivedAt"] = o.ArchivedAt.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["archivedAt"] = o.ArchivedAt.Format("2006-01-02T15:04:05.000Z07:00")
-		}
-	}
 	if o.Statements != nil {
 		toSerialize["statements"] = o.Statements
 	}
@@ -751,7 +715,6 @@ func (o *DmsAudit) UnmarshalJSON(bytes []byte) (err error) {
 		TableNames   []string            `json:"tableNames,omitempty"`
 		ErrorMessage *string             `json:"errorMessage,omitempty"`
 		RowsAffected *int64              `json:"rowsAffected,omitempty"`
-		ArchivedAt   *time.Time          `json:"archivedAt,omitempty"`
 		Statements   []DmsAuditStatement `json:"statements,omitempty"`
 		Status       *DmsAuditStatus     `json:"status"`
 		CreatedAt    *time.Time          `json:"createdAt"`
@@ -796,7 +759,7 @@ func (o *DmsAudit) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "clusterId", "clusterName", "datasourceId", "userId", "userName", "engine", "database", "operation", "statement", "clientIp", "sessionId", "risk", "tableNames", "errorMessage", "rowsAffected", "archivedAt", "statements", "status", "createdAt", "finishedAt", "durationMs"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "clusterId", "clusterName", "datasourceId", "userId", "userName", "engine", "database", "operation", "statement", "clientIp", "sessionId", "risk", "tableNames", "errorMessage", "rowsAffected", "statements", "status", "createdAt", "finishedAt", "durationMs"})
 	} else {
 		return err
 	}
@@ -823,7 +786,6 @@ func (o *DmsAudit) UnmarshalJSON(bytes []byte) (err error) {
 	o.TableNames = all.TableNames
 	o.ErrorMessage = all.ErrorMessage
 	o.RowsAffected = all.RowsAffected
-	o.ArchivedAt = all.ArchivedAt
 	o.Statements = all.Statements
 	if !all.Status.IsValid() {
 		hasInvalidField = true
