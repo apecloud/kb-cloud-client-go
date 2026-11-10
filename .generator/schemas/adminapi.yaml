@@ -32417,6 +32417,9 @@ components:
         message:
           description: The message for the error.
           type: string
+        errorCode:
+          description: Stable business error code for programmatic handling.
+          type: string
       required:
         - code
       type: object
@@ -48527,8 +48530,11 @@ components:
           type: object
           description: default value for the parameter
         description:
-          type: string
-          description: description of the parameter
+          $ref: '#/components/schemas/localizedDescription'
+          description: localized description of the parameter
+        title:
+          $ref: '#/components/schemas/localizedDescription'
+          description: localized display title of the parameter
         type:
           type: string
           description: type of the parameter
