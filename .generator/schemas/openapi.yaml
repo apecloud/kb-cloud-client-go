@@ -26108,6 +26108,8 @@ components:
         - Upgradeable
         - Upgrading
         - UpgradeFailed
+        - Uninstalling
+        - UninstallationFailed
         - Unknown
     clusterInfo:
       type: object
@@ -26161,6 +26163,12 @@ components:
         actionWarning:
           $ref: '#/components/schemas/localizedDescription'
           description: Localized business-impact warning for the component action represented by the current status.
+        uninstallSupported:
+          type: boolean
+          description: Whether the module supports the Uninstall action. A dry run checks whether it is currently safe to uninstall.
+        uninstallWarning:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Localized warning about resources and data removed by uninstallation.
       required:
         - name
         - status
