@@ -20733,7 +20733,7 @@ paths:
     patch:
       operationId: updateEnvironmentModule
       summary: Update an environment module
-      description: Performs the requested module action. Supported quick install and upgrade actions use dryRun=true for synchronous checks without changes; dryRun=false or omitted repeats the checks and submits an asynchronous task only when all checks pass. Other module actions keep their original behavior.
+      description: Performs the requested module action. Supported install, upgrade, and uninstall actions use dryRun=true for synchronous checks without changes; dryRun=false or omitted repeats the checks and submits an asynchronous task only when all checks pass. Failed uninstall tasks reuse their original resource snapshot on retry. Other module actions keep their original behavior.
       parameters:
         - name: environmentName
           in: path
@@ -41526,6 +41526,8 @@ components:
         - Upgradeable
         - Upgrading
         - UpgradeFailed
+        - Uninstalling
+        - UninstallationFailed
         - Unknown
     clusterInfo:
       type: object
@@ -41579,6 +41581,12 @@ components:
         actionWarning:
           $ref: '#/components/schemas/localizedDescription'
           description: Localized business-impact warning for the component action represented by the current status.
+        uninstallSupported:
+          type: boolean
+          description: Whether the module supports the Uninstall action. A dry run checks whether it is currently safe to uninstall.
+        uninstallWarning:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Localized warning about resources and data removed by uninstallation.
       required:
         - name
         - status
@@ -49907,10 +49915,12 @@ components:
         - Enable: Enable the module
         - Disable: Disable the module
         - Upgrade: Upgrade the module
+        - Uninstall: Remove the module and its dedicated resources. Read uninstallWarning and run a dry run before confirmation.
       enum:
         - Enable
         - Disable
         - Upgrade
+        - Uninstall
     environmentModuleUpdate:
       type: object
       description: Update information for an environment module
@@ -49923,7 +49933,7 @@ components:
         dryRun:
           type: boolean
           default: false
-          description: For a supported quick install or upgrade action, only run synchronous checks when true. When false or omitted, repeat the checks and submit the asynchronous task if all checks pass.
+          description: For a supported install, upgrade, or uninstall action, only run synchronous checks when true. When false or omitted, repeat the checks and submit the asynchronous task if all checks pass.
       required:
         - name
         - action

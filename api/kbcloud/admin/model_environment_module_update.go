@@ -18,9 +18,10 @@ type EnvironmentModuleUpdate struct {
 	// - Enable: Enable the module
 	// - Disable: Disable the module
 	// - Upgrade: Upgrade the module
+	// - Uninstall: Remove the module and its dedicated resources. Read uninstallWarning and run a dry run before confirmation.
 	//
 	Action EnvironmentModuleAction `json:"action"`
-	// For a supported quick install or upgrade action, only run synchronous checks when true. When false or omitted, repeat the checks and submit the asynchronous task if all checks pass.
+	// For a supported install, upgrade, or uninstall action, only run synchronous checks when true. When false or omitted, repeat the checks and submit the asynchronous task if all checks pass.
 	DryRun *bool `json:"dryRun,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

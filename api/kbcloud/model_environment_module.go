@@ -33,6 +33,9 @@ type EnvironmentModule struct {
 	// indicate whether module is enabled by default when creating environment. Only effective when optional is true
 	DefaultEnabled *bool                 `json:"defaultEnabled,omitempty"`
 	ActionWarning  *LocalizedDescription `json:"actionWarning,omitempty"`
+	// Whether the module supports the Uninstall action. A dry run checks whether it is currently safe to uninstall.
+	UninstallSupported *bool                 `json:"uninstallSupported,omitempty"`
+	UninstallWarning   *LocalizedDescription `json:"uninstallWarning,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -383,6 +386,62 @@ func (o *EnvironmentModule) SetActionWarning(v LocalizedDescription) {
 	o.ActionWarning = &v
 }
 
+// GetUninstallSupported returns the UninstallSupported field value if set, zero value otherwise.
+func (o *EnvironmentModule) GetUninstallSupported() bool {
+	if o == nil || o.UninstallSupported == nil {
+		var ret bool
+		return ret
+	}
+	return *o.UninstallSupported
+}
+
+// GetUninstallSupportedOk returns a tuple with the UninstallSupported field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentModule) GetUninstallSupportedOk() (*bool, bool) {
+	if o == nil || o.UninstallSupported == nil {
+		return nil, false
+	}
+	return o.UninstallSupported, true
+}
+
+// HasUninstallSupported returns a boolean if a field has been set.
+func (o *EnvironmentModule) HasUninstallSupported() bool {
+	return o != nil && o.UninstallSupported != nil
+}
+
+// SetUninstallSupported gets a reference to the given bool and assigns it to the UninstallSupported field.
+func (o *EnvironmentModule) SetUninstallSupported(v bool) {
+	o.UninstallSupported = &v
+}
+
+// GetUninstallWarning returns the UninstallWarning field value if set, zero value otherwise.
+func (o *EnvironmentModule) GetUninstallWarning() LocalizedDescription {
+	if o == nil || o.UninstallWarning == nil {
+		var ret LocalizedDescription
+		return ret
+	}
+	return *o.UninstallWarning
+}
+
+// GetUninstallWarningOk returns a tuple with the UninstallWarning field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentModule) GetUninstallWarningOk() (*LocalizedDescription, bool) {
+	if o == nil || o.UninstallWarning == nil {
+		return nil, false
+	}
+	return o.UninstallWarning, true
+}
+
+// HasUninstallWarning returns a boolean if a field has been set.
+func (o *EnvironmentModule) HasUninstallWarning() bool {
+	return o != nil && o.UninstallWarning != nil
+}
+
+// SetUninstallWarning gets a reference to the given LocalizedDescription and assigns it to the UninstallWarning field.
+func (o *EnvironmentModule) SetUninstallWarning(v LocalizedDescription) {
+	o.UninstallWarning = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -421,6 +480,12 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	if o.ActionWarning != nil {
 		toSerialize["actionWarning"] = o.ActionWarning
 	}
+	if o.UninstallSupported != nil {
+		toSerialize["uninstallSupported"] = o.UninstallSupported
+	}
+	if o.UninstallWarning != nil {
+		toSerialize["uninstallWarning"] = o.UninstallWarning
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -431,18 +496,20 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name            *string                  `json:"name"`
-		Version         *string                  `json:"version,omitempty"`
-		Status          *EnvironmentModuleStatus `json:"status"`
-		Replicas        *int32                   `json:"replicas,omitempty"`
-		Location        *string                  `json:"location,omitempty"`
-		OperationTaskId *string                  `json:"operationTaskId,omitempty"`
-		ClusterInfo     *ClusterInfo             `json:"clusterInfo,omitempty"`
-		Description     *LocalizedDescription    `json:"description,omitempty"`
-		DisplayName     *LocalizedDescription    `json:"displayName,omitempty"`
-		Optional        *bool                    `json:"optional,omitempty"`
-		DefaultEnabled  *bool                    `json:"defaultEnabled,omitempty"`
-		ActionWarning   *LocalizedDescription    `json:"actionWarning,omitempty"`
+		Name               *string                  `json:"name"`
+		Version            *string                  `json:"version,omitempty"`
+		Status             *EnvironmentModuleStatus `json:"status"`
+		Replicas           *int32                   `json:"replicas,omitempty"`
+		Location           *string                  `json:"location,omitempty"`
+		OperationTaskId    *string                  `json:"operationTaskId,omitempty"`
+		ClusterInfo        *ClusterInfo             `json:"clusterInfo,omitempty"`
+		Description        *LocalizedDescription    `json:"description,omitempty"`
+		DisplayName        *LocalizedDescription    `json:"displayName,omitempty"`
+		Optional           *bool                    `json:"optional,omitempty"`
+		DefaultEnabled     *bool                    `json:"defaultEnabled,omitempty"`
+		ActionWarning      *LocalizedDescription    `json:"actionWarning,omitempty"`
+		UninstallSupported *bool                    `json:"uninstallSupported,omitempty"`
+		UninstallWarning   *LocalizedDescription    `json:"uninstallWarning,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -455,7 +522,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "replicas", "location", "operationTaskId", "clusterInfo", "description", "displayName", "optional", "defaultEnabled", "actionWarning"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "replicas", "location", "operationTaskId", "clusterInfo", "description", "displayName", "optional", "defaultEnabled", "actionWarning", "uninstallSupported", "uninstallWarning"})
 	} else {
 		return err
 	}
@@ -489,6 +556,11 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.ActionWarning = all.ActionWarning
+	o.UninstallSupported = all.UninstallSupported
+	if all.UninstallWarning != nil && all.UninstallWarning.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.UninstallWarning = all.UninstallWarning
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
