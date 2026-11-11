@@ -765,6 +765,7 @@
 //   - [userApi.readUserApikeys]
 //   - [userApi.updateAuthenticatedUserPassword]
 //   - [userApi.updateUserPassword]
+//   - [vipPoolApi.checkVIPPorts]
 //   - [vipPoolApi.createVIPPool]
 //   - [vipPoolApi.deleteVIPPool]
 //   - [vipPoolApi.listVIPPool]

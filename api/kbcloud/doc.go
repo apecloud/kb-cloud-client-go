@@ -581,5 +581,6 @@
 //   - [userApi.phoneVerification]
 //   - [userApi.readUserApikeys]
 //   - [userApi.updateAuthenticatedUserPassword]
+//   - [vipPoolApi.checkVIPPorts]
 //   - [vipPoolApi.listVIPPool]
 package kbcloud

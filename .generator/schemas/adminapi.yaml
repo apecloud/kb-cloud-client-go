@@ -12087,6 +12087,39 @@ paths:
       tags:
         - vipPool
       x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/loadbalancer/vipPool/checkPorts:
+    post:
+      operationId: checkVIPPorts
+      summary: Check whether ports are already used on a VIP
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/vipPortCheckRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/vipPortCheckResult'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - vipPool
+      x-codegen-request-body-name: body
   /admin/v1/environments/{environmentName}/loadbalancer/vipPool/{poolID}:
     delete:
       operationId: deleteVIPPool
@@ -38895,6 +38928,54 @@ components:
       required:
         - addresses
         - poolName
+      type: object
+    vipPortCheckRequest:
+      description: VIP port check request
+      properties:
+        ip:
+          description: VIP address to check
+          type: string
+        ports:
+          description: TCP ports to check. When empty, only the occupied ports are returned.
+          items:
+            format: int32
+            type: integer
+          type: array
+      required:
+        - ip
+      type: object
+    vipPortCheckResult:
+      description: VIP port check result
+      properties:
+        conflicts:
+          description: Requested ports that are already in use
+          items:
+            format: int32
+            type: integer
+          type: array
+        ip:
+          description: Checked VIP address
+          type: string
+        occupiedPorts:
+          description: Ports already used on the VIP. Resource ownership details are intentionally omitted.
+          items:
+            description: A port already used on the VIP
+            properties:
+              port:
+                description: Port number
+                format: int32
+                type: integer
+              protocol:
+                description: Port protocol
+                type: string
+            required:
+              - port
+              - protocol
+            type: object
+          type: array
+      required:
+        - ip
+        - occupiedPorts
       type: object
     vipPoolUpdate:
       description: VIP Pool update
