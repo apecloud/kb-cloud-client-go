@@ -7014,6 +7014,65 @@ paths:
       tags:
         - databaseParameters
       x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/dms/audits:
+    get:
+      tags:
+        - dms
+        - shared
+      operationId: listDMSAudit
+      summary: List independent DMS audit records
+      description: Only organization administrators and authorized admin-portal users can read these records.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: userName
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/dmsAuditStatus'
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Audit records, ordered by newest first.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dmsAuditList'
+        '403':
+          $ref: '#/components/responses/403'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}:
     get:
       tags:
@@ -37527,6 +37586,143 @@ components:
         deprecated:
           description: which version the parameter is deprecated
           type: string
+    dmsAuditStatus:
+      type: string
+      enum:
+        - success
+        - failed
+        - unknown
+    dmsAuditRisk:
+      type: string
+      enum:
+        - unknown
+        - read_only
+        - ddl
+        - dml
+        - high
+    dmsAuditStatement:
+      type: object
+      required:
+        - sequence
+        - statement
+        - database
+        - tableNames
+        - risk
+        - status
+        - errorMessage
+      properties:
+        sequence:
+          type: integer
+        statement:
+          type: string
+        database:
+          type: string
+        tableNames:
+          type: array
+          items:
+            type: string
+        sessionId:
+          type: string
+        risk:
+          $ref: '#/components/schemas/dmsAuditRisk'
+        status:
+          $ref: '#/components/schemas/dmsAuditStatus'
+        errorMessage:
+          type: string
+        durationMs:
+          type: integer
+          format: int64
+        rowsAffected:
+          type: integer
+          format: int64
+        startedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+    dmsAudit:
+      type: object
+      required:
+        - id
+        - orgName
+        - clusterId
+        - clusterName
+        - userName
+        - engine
+        - database
+        - operation
+        - statement
+        - status
+        - createdAt
+      properties:
+        id:
+          type: string
+        orgName:
+          type: string
+        clusterId:
+          type: string
+        clusterName:
+          type: string
+        datasourceId:
+          type: string
+        userId:
+          type: string
+          description: Absent for migrated history with unknown actor.
+        userName:
+          type: string
+        engine:
+          type: string
+        database:
+          type: string
+        operation:
+          type: string
+        statement:
+          type: string
+        clientIp:
+          type: string
+        sessionId:
+          type: string
+          description: Native database session ID; see individual statements when a batch uses multiple connections.
+        risk:
+          $ref: '#/components/schemas/dmsAuditRisk'
+        tableNames:
+          type: array
+          items:
+            type: string
+        errorMessage:
+          type: string
+        rowsAffected:
+          type: integer
+          format: int64
+        statements:
+          type: array
+          items:
+            $ref: '#/components/schemas/dmsAuditStatement'
+        status:
+          $ref: '#/components/schemas/dmsAuditStatus'
+        createdAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        durationMs:
+          type: integer
+          format: int64
+    dmsAuditList:
+      type: object
+      required:
+        - items
+        - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/dmsAudit'
+        total:
+          type: integer
+          format: int64
     datasource:
       required:
         - type
@@ -45384,6 +45580,7 @@ components:
           type: string
         feature:
           type: object
+          description: 'Engine capabilities and audit policy. auditSensitiveColumns is an array of case-insensitive sensitive column names; auditHighRiskStatements is an array of engine-specific rules: SQL keyword prefixes, Redis command/subcommand prefixes (FLUSHALL, CONFIG SET), or MongoDB command names (dropDatabase, delete, dropIndexes, $out). MongoDB shell helpers map to native command names; dynamic scripts may remain unclassified. Built-in credential redaction always applies.'
           additionalProperties: {}
         defaultAccount:
           type: string

@@ -377,6 +377,7 @@
 //   - [dmsApi.getRedisInfo]
 //   - [dmsApi.getRedisKeyDetail]
 //   - [dmsApi.getSchemaList]
+//   - [dmsApi.listDMSAudit]
 //   - [dmsApi.listDataSourceV2]
 //   - [dmsApi.listDmsDatabases]
 //   - [dmsApi.listMongoCollections]
