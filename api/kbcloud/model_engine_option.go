@@ -29,28 +29,32 @@ type EngineOption struct {
 	Database    *DatabaseOption       `json:"database,omitempty"`
 	Dms         DmsOption             `json:"dms"`
 	// If present, it must be set defaultMethod and fullMethod
-	Backup           *BackupOption           `json:"backup,omitempty"`
-	Bench            *BenchOption            `json:"bench,omitempty"`
-	Endpoints        []EndpointOption        `json:"endpoints"`
-	NetworkModes     []NetworkModeOptionItem `json:"networkModes,omitempty"`
-	Promote          []ComponentOpsOption    `json:"promote"`
-	Stop             []ComponentOpsOption    `json:"stop"`
-	Start            []ComponentOpsOption    `json:"start"`
-	Restart          []ComponentOpsOption    `json:"restart"`
-	Hscale           []ComponentOpsOption    `json:"hscale"`
-	Vscale           []ComponentOpsOption    `json:"vscale"`
-	License          *EngineOptionLicense    `json:"license,omitempty"`
-	StorageExpansion []ComponentOpsOption    `json:"storageExpansion,omitempty"`
-	RebuildInstance  []ComponentOpsOption    `json:"rebuildInstance,omitempty"`
-	Upgrade          []ComponentOpsOption    `json:"upgrade,omitempty"`
-	Metrics          *MetricsOption          `json:"metrics,omitempty"`
-	Dashboards       []DashboardOption       `json:"dashboards"`
-	Logs             []LogOption             `json:"logs"`
-	Parameters       []ParameterOption       `json:"parameters"`
-	DisasterRecovery *DisasterRecoveryOption `json:"disasterRecovery,omitempty"`
-	Cdc              []CdcOption             `json:"cdc,omitempty"`
-	DataReplication  *DataReplicationOption  `json:"dataReplication,omitempty"`
-	Import           *ImportOption           `json:"import,omitempty"`
+	Backup       *BackupOption           `json:"backup,omitempty"`
+	Bench        *BenchOption            `json:"bench,omitempty"`
+	Endpoints    []EndpointOption        `json:"endpoints"`
+	NetworkModes []NetworkModeOptionItem `json:"networkModes,omitempty"`
+	Promote      []ComponentOpsOption    `json:"promote"`
+	Stop         []ComponentOpsOption    `json:"stop"`
+	Start        []ComponentOpsOption    `json:"start"`
+	Restart      []ComponentOpsOption    `json:"restart"`
+	Hscale       []ComponentOpsOption    `json:"hscale"`
+	Vscale       []ComponentOpsOption    `json:"vscale"`
+	// Dot-separated Helm values path receiving the shared platform license Secret name. Configure together with platformLicenseSecretKeyPath to enable the reference.
+	PlatformLicenseSecretNamePath *string `json:"platformLicenseSecretNamePath,omitempty"`
+	// Dot-separated Helm values path receiving the license data key in the shared Secret. Configure together with platformLicenseSecretNamePath.
+	PlatformLicenseSecretKeyPath *string                 `json:"platformLicenseSecretKeyPath,omitempty"`
+	License                      *EngineOptionLicense    `json:"license,omitempty"`
+	StorageExpansion             []ComponentOpsOption    `json:"storageExpansion,omitempty"`
+	RebuildInstance              []ComponentOpsOption    `json:"rebuildInstance,omitempty"`
+	Upgrade                      []ComponentOpsOption    `json:"upgrade,omitempty"`
+	Metrics                      *MetricsOption          `json:"metrics,omitempty"`
+	Dashboards                   []DashboardOption       `json:"dashboards"`
+	Logs                         []LogOption             `json:"logs"`
+	Parameters                   []ParameterOption       `json:"parameters"`
+	DisasterRecovery             *DisasterRecoveryOption `json:"disasterRecovery,omitempty"`
+	Cdc                          []CdcOption             `json:"cdc,omitempty"`
+	DataReplication              *DataReplicationOption  `json:"dataReplication,omitempty"`
+	Import                       *ImportOption           `json:"import,omitempty"`
 	// List of CPU architectures supported by this engine. If not set, all architectures are supported.
 	//
 	Architectures common.NullableList[string] `json:"architectures,omitempty"`
@@ -662,6 +666,62 @@ func (o *EngineOption) SetVscale(v []ComponentOpsOption) {
 	o.Vscale = v
 }
 
+// GetPlatformLicenseSecretNamePath returns the PlatformLicenseSecretNamePath field value if set, zero value otherwise.
+func (o *EngineOption) GetPlatformLicenseSecretNamePath() string {
+	if o == nil || o.PlatformLicenseSecretNamePath == nil {
+		var ret string
+		return ret
+	}
+	return *o.PlatformLicenseSecretNamePath
+}
+
+// GetPlatformLicenseSecretNamePathOk returns a tuple with the PlatformLicenseSecretNamePath field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOption) GetPlatformLicenseSecretNamePathOk() (*string, bool) {
+	if o == nil || o.PlatformLicenseSecretNamePath == nil {
+		return nil, false
+	}
+	return o.PlatformLicenseSecretNamePath, true
+}
+
+// HasPlatformLicenseSecretNamePath returns a boolean if a field has been set.
+func (o *EngineOption) HasPlatformLicenseSecretNamePath() bool {
+	return o != nil && o.PlatformLicenseSecretNamePath != nil
+}
+
+// SetPlatformLicenseSecretNamePath gets a reference to the given string and assigns it to the PlatformLicenseSecretNamePath field.
+func (o *EngineOption) SetPlatformLicenseSecretNamePath(v string) {
+	o.PlatformLicenseSecretNamePath = &v
+}
+
+// GetPlatformLicenseSecretKeyPath returns the PlatformLicenseSecretKeyPath field value if set, zero value otherwise.
+func (o *EngineOption) GetPlatformLicenseSecretKeyPath() string {
+	if o == nil || o.PlatformLicenseSecretKeyPath == nil {
+		var ret string
+		return ret
+	}
+	return *o.PlatformLicenseSecretKeyPath
+}
+
+// GetPlatformLicenseSecretKeyPathOk returns a tuple with the PlatformLicenseSecretKeyPath field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOption) GetPlatformLicenseSecretKeyPathOk() (*string, bool) {
+	if o == nil || o.PlatformLicenseSecretKeyPath == nil {
+		return nil, false
+	}
+	return o.PlatformLicenseSecretKeyPath, true
+}
+
+// HasPlatformLicenseSecretKeyPath returns a boolean if a field has been set.
+func (o *EngineOption) HasPlatformLicenseSecretKeyPath() bool {
+	return o != nil && o.PlatformLicenseSecretKeyPath != nil
+}
+
+// SetPlatformLicenseSecretKeyPath gets a reference to the given string and assigns it to the PlatformLicenseSecretKeyPath field.
+func (o *EngineOption) SetPlatformLicenseSecretKeyPath(v string) {
+	o.PlatformLicenseSecretKeyPath = &v
+}
+
 // GetLicense returns the License field value if set, zero value otherwise.
 func (o *EngineOption) GetLicense() EngineOptionLicense {
 	if o == nil || o.License == nil {
@@ -1152,6 +1212,12 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 	toSerialize["restart"] = o.Restart
 	toSerialize["hscale"] = o.Hscale
 	toSerialize["vscale"] = o.Vscale
+	if o.PlatformLicenseSecretNamePath != nil {
+		toSerialize["platformLicenseSecretNamePath"] = o.PlatformLicenseSecretNamePath
+	}
+	if o.PlatformLicenseSecretKeyPath != nil {
+		toSerialize["platformLicenseSecretKeyPath"] = o.PlatformLicenseSecretKeyPath
+	}
 	if o.License != nil {
 		toSerialize["license"] = o.License
 	}
@@ -1200,44 +1266,46 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EngineName          *string                          `json:"engineName"`
-		MaturityLevel       *string                          `json:"maturityLevel,omitempty"`
-		Title               *string                          `json:"title"`
-		Status              *EngineOptionStatus              `json:"status,omitempty"`
-		Description         *LocalizedDescription            `json:"description"`
-		Versions            []string                         `json:"versions,omitempty"`
-		Components          *[]ComponentOption               `json:"components"`
-		Modes               *[]ModeOption                    `json:"modes"`
-		DefaultMode         common.NullableString            `json:"defaultMode,omitempty"`
-		Account             *AccountOption                   `json:"account,omitempty"`
-		Database            *DatabaseOption                  `json:"database,omitempty"`
-		Dms                 *DmsOption                       `json:"dms"`
-		Backup              *BackupOption                    `json:"backup,omitempty"`
-		Bench               *BenchOption                     `json:"bench,omitempty"`
-		Endpoints           *[]EndpointOption                `json:"endpoints"`
-		NetworkModes        []NetworkModeOptionItem          `json:"networkModes,omitempty"`
-		Promote             *[]ComponentOpsOption            `json:"promote"`
-		Stop                *[]ComponentOpsOption            `json:"stop"`
-		Start               *[]ComponentOpsOption            `json:"start"`
-		Restart             *[]ComponentOpsOption            `json:"restart"`
-		Hscale              *[]ComponentOpsOption            `json:"hscale"`
-		Vscale              *[]ComponentOpsOption            `json:"vscale"`
-		License             *EngineOptionLicense             `json:"license,omitempty"`
-		StorageExpansion    []ComponentOpsOption             `json:"storageExpansion,omitempty"`
-		RebuildInstance     []ComponentOpsOption             `json:"rebuildInstance,omitempty"`
-		Upgrade             []ComponentOpsOption             `json:"upgrade,omitempty"`
-		Metrics             *MetricsOption                   `json:"metrics,omitempty"`
-		Dashboards          *[]DashboardOption               `json:"dashboards"`
-		Logs                *[]LogOption                     `json:"logs"`
-		Parameters          *[]ParameterOption               `json:"parameters"`
-		DisasterRecovery    *DisasterRecoveryOption          `json:"disasterRecovery,omitempty"`
-		Cdc                 []CdcOption                      `json:"cdc,omitempty"`
-		DataReplication     *DataReplicationOption           `json:"dataReplication,omitempty"`
-		Import              *ImportOption                    `json:"import,omitempty"`
-		Architectures       common.NullableList[string]      `json:"architectures,omitempty"`
-		BlueGreenDeployment *BlueGreenDeploymentEngineOption `json:"blueGreenDeployment,omitempty"`
-		Tls                 *EngineTlsOption                 `json:"tls,omitempty"`
-		Tde                 []TdeOption                      `json:"tde,omitempty"`
+		EngineName                    *string                          `json:"engineName"`
+		MaturityLevel                 *string                          `json:"maturityLevel,omitempty"`
+		Title                         *string                          `json:"title"`
+		Status                        *EngineOptionStatus              `json:"status,omitempty"`
+		Description                   *LocalizedDescription            `json:"description"`
+		Versions                      []string                         `json:"versions,omitempty"`
+		Components                    *[]ComponentOption               `json:"components"`
+		Modes                         *[]ModeOption                    `json:"modes"`
+		DefaultMode                   common.NullableString            `json:"defaultMode,omitempty"`
+		Account                       *AccountOption                   `json:"account,omitempty"`
+		Database                      *DatabaseOption                  `json:"database,omitempty"`
+		Dms                           *DmsOption                       `json:"dms"`
+		Backup                        *BackupOption                    `json:"backup,omitempty"`
+		Bench                         *BenchOption                     `json:"bench,omitempty"`
+		Endpoints                     *[]EndpointOption                `json:"endpoints"`
+		NetworkModes                  []NetworkModeOptionItem          `json:"networkModes,omitempty"`
+		Promote                       *[]ComponentOpsOption            `json:"promote"`
+		Stop                          *[]ComponentOpsOption            `json:"stop"`
+		Start                         *[]ComponentOpsOption            `json:"start"`
+		Restart                       *[]ComponentOpsOption            `json:"restart"`
+		Hscale                        *[]ComponentOpsOption            `json:"hscale"`
+		Vscale                        *[]ComponentOpsOption            `json:"vscale"`
+		PlatformLicenseSecretNamePath *string                          `json:"platformLicenseSecretNamePath,omitempty"`
+		PlatformLicenseSecretKeyPath  *string                          `json:"platformLicenseSecretKeyPath,omitempty"`
+		License                       *EngineOptionLicense             `json:"license,omitempty"`
+		StorageExpansion              []ComponentOpsOption             `json:"storageExpansion,omitempty"`
+		RebuildInstance               []ComponentOpsOption             `json:"rebuildInstance,omitempty"`
+		Upgrade                       []ComponentOpsOption             `json:"upgrade,omitempty"`
+		Metrics                       *MetricsOption                   `json:"metrics,omitempty"`
+		Dashboards                    *[]DashboardOption               `json:"dashboards"`
+		Logs                          *[]LogOption                     `json:"logs"`
+		Parameters                    *[]ParameterOption               `json:"parameters"`
+		DisasterRecovery              *DisasterRecoveryOption          `json:"disasterRecovery,omitempty"`
+		Cdc                           []CdcOption                      `json:"cdc,omitempty"`
+		DataReplication               *DataReplicationOption           `json:"dataReplication,omitempty"`
+		Import                        *ImportOption                    `json:"import,omitempty"`
+		Architectures                 common.NullableList[string]      `json:"architectures,omitempty"`
+		BlueGreenDeployment           *BlueGreenDeploymentEngineOption `json:"blueGreenDeployment,omitempty"`
+		Tls                           *EngineTlsOption                 `json:"tls,omitempty"`
+		Tde                           []TdeOption                      `json:"tde,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1336,6 +1404,8 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Restart = *all.Restart
 	o.Hscale = *all.Hscale
 	o.Vscale = *all.Vscale
+	o.PlatformLicenseSecretNamePath = all.PlatformLicenseSecretNamePath
+	o.PlatformLicenseSecretKeyPath = all.PlatformLicenseSecretKeyPath
 	if all.License != nil && all.License.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

@@ -47222,6 +47222,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/componentOpsOption'
+        platformLicenseSecretNamePath:
+          type: string
+          description: Dot-separated Helm values path receiving the shared platform license Secret name. Configure together with platformLicenseSecretKeyPath to enable the reference.
+        platformLicenseSecretKeyPath:
+          type: string
+          description: Dot-separated Helm values path receiving the license data key in the shared Secret. Configure together with platformLicenseSecretNamePath.
         license:
           type: object
           required:
