@@ -41041,12 +41041,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/componentOpsOption'
-        platformLicenseSecretNamePath:
-          type: string
-          description: Dot-separated Helm values path receiving the shared platform license Secret name. Configure together with platformLicenseSecretKeyPath to enable the reference.
-        platformLicenseSecretKeyPath:
-          type: string
-          description: Dot-separated Helm values path receiving the license data key in the shared Secret. Configure together with platformLicenseSecretNamePath.
+        needAddonlicense:
+          type: boolean
+          description: Whether the cluster chart consumes the platform license through the standard addon-license.existingSecret name/key values.
         license:
           type: object
           required:
