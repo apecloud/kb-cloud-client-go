@@ -20486,9 +20486,9 @@ paths:
       parameters:
         - name: provider
           in: query
-          description: Filter by scheduler provider
+          description: Filter by scheduler provider. Omit to include all providers
           schema:
-            type: string
+            $ref: '#/components/schemas/scheduledTaskProvider'
         - name: status
           in: query
           description: Filter by scheduled task status
@@ -20538,7 +20538,7 @@ paths:
         - name: scheduledTaskId
           in: path
           required: true
-          description: ID of the scheduled task
+          description: Numeric TaskFlow ID or provider-qualified ID such as cr4w:123
           schema:
             type: string
       responses:
@@ -49719,6 +49719,12 @@ components:
           $ref: '#/components/schemas/taskSchedule'
           description: Scheduled execution configuration
           x-nullable: true
+    scheduledTaskProvider:
+      type: string
+      enum:
+        - taskflow
+        - cr4w
+      description: Scheduler provider
     scheduledTaskStatus:
       type: string
       enum:
@@ -49727,11 +49733,6 @@ components:
         - error
         - unknown
       description: Current normalized status of the scheduled task
-    scheduledTaskProvider:
-      type: string
-      enum:
-        - taskflow
-      description: Scheduler provider
     scheduledTaskLastExecutionStatus:
       type: string
       enum:
@@ -49759,7 +49760,7 @@ components:
       properties:
         scheduledTaskId:
           type: string
-          description: ID of the scheduled task
+          description: ID of the scheduled task. TaskFlow IDs may be numeric for backward compatibility; other providers use provider-qualified IDs such as cr4w:123
         name:
           type: string
           description: Stable name of the scheduled task
@@ -49768,6 +49769,10 @@ components:
         cronExpression:
           type: string
           description: Cron expression used to schedule the task
+          x-nullable: true
+        timezone:
+          type: string
+          description: Timezone used to evaluate the cron expression
           x-nullable: true
         lastExecutionStatus:
           $ref: '#/components/schemas/scheduledTaskLastExecutionStatus'
@@ -49809,10 +49814,9 @@ components:
         - $ref: '#/components/schemas/scheduledTaskSummary'
         - type: object
           properties:
-            providerTaskId:
+            providerTaskKey:
               type: string
-              description: Current runtime task ID within the scheduler provider
-              x-nullable: true
+              description: Stable task identity within the scheduler provider
             message:
               type: string
               description: Current task status or error message

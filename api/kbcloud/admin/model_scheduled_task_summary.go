@@ -12,7 +12,7 @@ import (
 )
 
 type ScheduledTaskSummary struct {
-	// ID of the scheduled task
+	// ID of the scheduled task. TaskFlow IDs may be numeric for backward compatibility; other providers use provider-qualified IDs such as cr4w:123
 	ScheduledTaskId string `json:"scheduledTaskId"`
 	// Stable name of the scheduled task
 	Name string `json:"name"`
@@ -20,6 +20,8 @@ type ScheduledTaskSummary struct {
 	Provider *ScheduledTaskProvider `json:"provider,omitempty"`
 	// Cron expression used to schedule the task
 	CronExpression *string `json:"cronExpression,omitempty"`
+	// Timezone used to evaluate the cron expression
+	Timezone *string `json:"timezone,omitempty"`
 	// Most recently observable execution status
 	LastExecutionStatus *ScheduledTaskLastExecutionStatus `json:"lastExecutionStatus,omitempty"`
 	// Whether the schedule is immutable, disabled, or enabled
@@ -160,6 +162,34 @@ func (o *ScheduledTaskSummary) HasCronExpression() bool {
 // SetCronExpression gets a reference to the given string and assigns it to the CronExpression field.
 func (o *ScheduledTaskSummary) SetCronExpression(v string) {
 	o.CronExpression = &v
+}
+
+// GetTimezone returns the Timezone field value if set, zero value otherwise.
+func (o *ScheduledTaskSummary) GetTimezone() string {
+	if o == nil || o.Timezone == nil {
+		var ret string
+		return ret
+	}
+	return *o.Timezone
+}
+
+// GetTimezoneOk returns a tuple with the Timezone field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ScheduledTaskSummary) GetTimezoneOk() (*string, bool) {
+	if o == nil || o.Timezone == nil {
+		return nil, false
+	}
+	return o.Timezone, true
+}
+
+// HasTimezone returns a boolean if a field has been set.
+func (o *ScheduledTaskSummary) HasTimezone() bool {
+	return o != nil && o.Timezone != nil
+}
+
+// SetTimezone gets a reference to the given string and assigns it to the Timezone field.
+func (o *ScheduledTaskSummary) SetTimezone(v string) {
+	o.Timezone = &v
 }
 
 // GetLastExecutionStatus returns the LastExecutionStatus field value if set, zero value otherwise.
@@ -362,6 +392,9 @@ func (o ScheduledTaskSummary) MarshalJSON() ([]byte, error) {
 	if o.CronExpression != nil {
 		toSerialize["cronExpression"] = o.CronExpression
 	}
+	if o.Timezone != nil {
+		toSerialize["timezone"] = o.Timezone
+	}
 	if o.LastExecutionStatus != nil {
 		toSerialize["lastExecutionStatus"] = o.LastExecutionStatus
 	}
@@ -397,6 +430,7 @@ func (o *ScheduledTaskSummary) UnmarshalJSON(bytes []byte) (err error) {
 		Name                *string                           `json:"name"`
 		Provider            *ScheduledTaskProvider            `json:"provider,omitempty"`
 		CronExpression      *string                           `json:"cronExpression,omitempty"`
+		Timezone            *string                           `json:"timezone,omitempty"`
 		LastExecutionStatus *ScheduledTaskLastExecutionStatus `json:"lastExecutionStatus,omitempty"`
 		Enabled             *ScheduledTaskEnableStatus        `json:"enabled,omitempty"`
 		Scope               *string                           `json:"scope,omitempty"`
@@ -422,7 +456,7 @@ func (o *ScheduledTaskSummary) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"scheduledTaskId", "name", "provider", "cronExpression", "lastExecutionStatus", "enabled", "scope", "status", "lastRunAt", "nextRunAt", "createdAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"scheduledTaskId", "name", "provider", "cronExpression", "timezone", "lastExecutionStatus", "enabled", "scope", "status", "lastRunAt", "nextRunAt", "createdAt"})
 	} else {
 		return err
 	}
@@ -436,6 +470,7 @@ func (o *ScheduledTaskSummary) UnmarshalJSON(bytes []byte) (err error) {
 		o.Provider = all.Provider
 	}
 	o.CronExpression = all.CronExpression
+	o.Timezone = all.Timezone
 	if all.LastExecutionStatus != nil && !all.LastExecutionStatus.IsValid() {
 		hasInvalidField = true
 	} else {

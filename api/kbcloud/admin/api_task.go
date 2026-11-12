@@ -481,7 +481,7 @@ func (a *TaskApi) GetTaskStepLog(ctx _context.Context, taskId string, stepId str
 
 // ListScheduledTasksOptionalParameters holds optional parameters for ListScheduledTasks.
 type ListScheduledTasksOptionalParameters struct {
-	Provider   *string
+	Provider   *ScheduledTaskProvider
 	Status     *ScheduledTaskStatus
 	PageNumber *int64
 	PageSize   *int64
@@ -494,7 +494,7 @@ func NewListScheduledTasksOptionalParameters() *ListScheduledTasksOptionalParame
 }
 
 // WithProvider sets the corresponding parameter name and returns the struct.
-func (r *ListScheduledTasksOptionalParameters) WithProvider(provider string) *ListScheduledTasksOptionalParameters {
+func (r *ListScheduledTasksOptionalParameters) WithProvider(provider ScheduledTaskProvider) *ListScheduledTasksOptionalParameters {
 	r.Provider = &provider
 	return r
 }

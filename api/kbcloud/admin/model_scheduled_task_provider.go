@@ -16,10 +16,12 @@ type ScheduledTaskProvider string
 // List of ScheduledTaskProvider.
 const (
 	ScheduledTaskProviderTaskflow ScheduledTaskProvider = "taskflow"
+	ScheduledTaskProviderCr4w     ScheduledTaskProvider = "cr4w"
 )
 
 var allowedScheduledTaskProviderEnumValues = []ScheduledTaskProvider{
 	ScheduledTaskProviderTaskflow,
+	ScheduledTaskProviderCr4w,
 }
 
 // GetAllowedValues returns the list of possible values.
