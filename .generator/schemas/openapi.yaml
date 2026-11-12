@@ -30565,8 +30565,7 @@ components:
         replicas:
           title: Replicas
           type: integer
-          x-nullable: true
-          description: Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas. When instanceTemplates is provided, this must equal the sum of all template replica counts.
+          description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3. When instanceTemplates is provided, this must equal the sum of all template replica counts.
         instanceTemplates:
           type: array
           minItems: 1
