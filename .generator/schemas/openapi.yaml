@@ -41041,6 +41041,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/componentOpsOption'
+        needAddonlicense:
+          type: boolean
+          description: Whether the cluster chart consumes the platform license through the standard addon-license.existingSecret name/key values.
         license:
           type: object
           required:

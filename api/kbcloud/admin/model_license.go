@@ -13,6 +13,8 @@ import (
 
 // License License info
 type License struct {
+	// Asynchronous addon license synchronization task created after the platform license is saved. Only returned by the update operation.
+	TaskId *string `json:"taskId,omitempty"`
 	// The kubernetes cluster ID
 	ClusterId string `json:"clusterID"`
 	// The licensed user email
@@ -67,6 +69,34 @@ func NewLicense(clusterId string, email string, userName string, unit string, qu
 func NewLicenseWithDefaults() *License {
 	this := License{}
 	return &this
+}
+
+// GetTaskId returns the TaskId field value if set, zero value otherwise.
+func (o *License) GetTaskId() string {
+	if o == nil || o.TaskId == nil {
+		var ret string
+		return ret
+	}
+	return *o.TaskId
+}
+
+// GetTaskIdOk returns a tuple with the TaskId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *License) GetTaskIdOk() (*string, bool) {
+	if o == nil || o.TaskId == nil {
+		return nil, false
+	}
+	return o.TaskId, true
+}
+
+// HasTaskId returns a boolean if a field has been set.
+func (o *License) HasTaskId() bool {
+	return o != nil && o.TaskId != nil
+}
+
+// SetTaskId gets a reference to the given string and assigns it to the TaskId field.
+func (o *License) SetTaskId(v string) {
+	o.TaskId = &v
 }
 
 // GetClusterId returns the ClusterId field value.
@@ -361,6 +391,9 @@ func (o License) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.TaskId != nil {
+		toSerialize["taskId"] = o.TaskId
+	}
 	toSerialize["clusterID"] = o.ClusterId
 	toSerialize["email"] = o.Email
 	toSerialize["userName"] = o.UserName
@@ -395,6 +428,7 @@ func (o License) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *License) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		TaskId    *string        `json:"taskId,omitempty"`
 		ClusterId *string        `json:"clusterID"`
 		Email     *string        `json:"email"`
 		UserName  *string        `json:"userName"`
@@ -443,10 +477,11 @@ func (o *License) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"clusterID", "email", "userName", "unit", "quantity", "engines", "features", "notAfter", "notBefore", "used", "license", "mode"})
+		common.DeleteKeys(additionalProperties, &[]string{"taskId", "clusterID", "email", "userName", "unit", "quantity", "engines", "features", "notAfter", "notBefore", "used", "license", "mode"})
 	} else {
 		return err
 	}
+	o.TaskId = all.TaskId
 	o.ClusterId = *all.ClusterId
 	o.Email = *all.Email
 	o.UserName = *all.UserName
