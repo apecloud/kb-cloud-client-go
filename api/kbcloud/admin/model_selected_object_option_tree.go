@@ -13,7 +13,7 @@ import (
 type SelectedObjectOptionTree struct {
 	// if set to true, the tree will switch when database is switched. This is used for database-level backup, and the root level of the tree is database. If not set or set to false, the tree will not switch when database is switched, and the root level of the tree is instance.
 	SwitchWithDatabase *bool `json:"switchWithDatabase,omitempty"`
-	// The SQL query to retrieve the object tree
+	// The engine-native query returning the columns used to build the object tree.
 	Sql string `json:"sql"`
 	// The order of object types in the hierarchy
 	LevelOrder []SelectedObjectOptionTreeLevelOrderItem `json:"levelOrder"`
