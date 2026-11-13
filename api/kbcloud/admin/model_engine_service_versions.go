@@ -9,6 +9,7 @@ import (
 )
 
 type EngineServiceVersions struct {
+	InstanceTemplates []InstanceTemplateServiceVersions `json:"instanceTemplates,omitempty"`
 	// component type, refer to componentDef and support NamePrefix
 	Component           *string                     `json:"component,omitempty"`
 	UpgradeableVersions []string                    `json:"upgradeableVersions,omitempty"`
@@ -34,6 +35,34 @@ func NewEngineServiceVersions() *EngineServiceVersions {
 func NewEngineServiceVersionsWithDefaults() *EngineServiceVersions {
 	this := EngineServiceVersions{}
 	return &this
+}
+
+// GetInstanceTemplates returns the InstanceTemplates field value if set, zero value otherwise.
+func (o *EngineServiceVersions) GetInstanceTemplates() []InstanceTemplateServiceVersions {
+	if o == nil || o.InstanceTemplates == nil {
+		var ret []InstanceTemplateServiceVersions
+		return ret
+	}
+	return o.InstanceTemplates
+}
+
+// GetInstanceTemplatesOk returns a tuple with the InstanceTemplates field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineServiceVersions) GetInstanceTemplatesOk() (*[]InstanceTemplateServiceVersions, bool) {
+	if o == nil || o.InstanceTemplates == nil {
+		return nil, false
+	}
+	return &o.InstanceTemplates, true
+}
+
+// HasInstanceTemplates returns a boolean if a field has been set.
+func (o *EngineServiceVersions) HasInstanceTemplates() bool {
+	return o != nil && o.InstanceTemplates != nil
+}
+
+// SetInstanceTemplates gets a reference to the given []InstanceTemplateServiceVersions and assigns it to the InstanceTemplates field.
+func (o *EngineServiceVersions) SetInstanceTemplates(v []InstanceTemplateServiceVersions) {
+	o.InstanceTemplates = v
 }
 
 // GetComponent returns the Component field value if set, zero value otherwise.
@@ -154,6 +183,9 @@ func (o EngineServiceVersions) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.InstanceTemplates != nil {
+		toSerialize["instanceTemplates"] = o.InstanceTemplates
+	}
 	if o.Component != nil {
 		toSerialize["component"] = o.Component
 	}
@@ -176,20 +208,22 @@ func (o EngineServiceVersions) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineServiceVersions) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component           *string                     `json:"component,omitempty"`
-		UpgradeableVersions []string                    `json:"upgradeableVersions,omitempty"`
-		CurrentVersion      *string                     `json:"currentVersion,omitempty"`
-		Versions            []EngineServiceVersionsItem `json:"versions,omitempty"`
+		InstanceTemplates   []InstanceTemplateServiceVersions `json:"instanceTemplates,omitempty"`
+		Component           *string                           `json:"component,omitempty"`
+		UpgradeableVersions []string                          `json:"upgradeableVersions,omitempty"`
+		CurrentVersion      *string                           `json:"currentVersion,omitempty"`
+		Versions            []EngineServiceVersionsItem       `json:"versions,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "upgradeableVersions", "currentVersion", "versions"})
+		common.DeleteKeys(additionalProperties, &[]string{"instanceTemplates", "component", "upgradeableVersions", "currentVersion", "versions"})
 	} else {
 		return err
 	}
+	o.InstanceTemplates = all.InstanceTemplates
 	o.Component = all.Component
 	o.UpgradeableVersions = all.UpgradeableVersions
 	o.CurrentVersion = all.CurrentVersion
