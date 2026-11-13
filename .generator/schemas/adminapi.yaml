@@ -14543,6 +14543,12 @@ paths:
           required: true
           schema:
             type: string
+        - description: Use the environment installation repository selection and retry handling. Omitted or false performs ordinary repository creation.
+          in: query
+          name: envInstall
+          schema:
+            type: boolean
+            default: false
       requestBody:
         content:
           application/json:
@@ -14562,6 +14568,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/backupRepo'
           description: Returned when edge is created successfully.
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':

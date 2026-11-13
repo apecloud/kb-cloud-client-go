@@ -124,13 +124,38 @@ func (a *BackupRepoApi) CheckBackupRepo(ctx _context.Context, environmentName st
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// CreateBackupRepoOptionalParameters holds optional parameters for CreateBackupRepo.
+type CreateBackupRepoOptionalParameters struct {
+	EnvInstall *bool
+}
+
+// NewCreateBackupRepoOptionalParameters creates an empty struct for parameters.
+func NewCreateBackupRepoOptionalParameters() *CreateBackupRepoOptionalParameters {
+	this := CreateBackupRepoOptionalParameters{}
+	return &this
+}
+
+// WithEnvInstall sets the corresponding parameter name and returns the struct.
+func (r *CreateBackupRepoOptionalParameters) WithEnvInstall(envInstall bool) *CreateBackupRepoOptionalParameters {
+	r.EnvInstall = &envInstall
+	return r
+}
+
 // CreateBackupRepo Create backup repo.
-func (a *BackupRepoApi) CreateBackupRepo(ctx _context.Context, environmentName string, body BackupRepoCreate) (BackupRepo, *_nethttp.Response, error) {
+func (a *BackupRepoApi) CreateBackupRepo(ctx _context.Context, environmentName string, body BackupRepoCreate, o ...CreateBackupRepoOptionalParameters) (BackupRepo, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue BackupRepo
+		optionalParams      CreateBackupRepoOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateBackupRepoOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -152,6 +177,9 @@ func (a *BackupRepoApi) CreateBackupRepo(ctx _context.Context, environmentName s
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.EnvInstall != nil {
+		localVarQueryParams.Add("envInstall", common.ParameterToString(*optionalParams.EnvInstall, ""))
+	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -182,7 +210,7 @@ func (a *BackupRepoApi) CreateBackupRepo(ctx _context.Context, environmentName s
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
