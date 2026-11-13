@@ -14,19 +14,22 @@ import (
 // - Enable: Enable the module
 // - Disable: Disable the module
 // - Upgrade: Upgrade the module
+// - Uninstall: Remove the module and its dedicated resources. Read uninstallWarning and run a dry run before confirmation.
 type EnvironmentModuleAction string
 
 // List of EnvironmentModuleAction.
 const (
-	EnvironmentModuleActionEnable  EnvironmentModuleAction = "Enable"
-	EnvironmentModuleActionDisable EnvironmentModuleAction = "Disable"
-	EnvironmentModuleActionUpgrade EnvironmentModuleAction = "Upgrade"
+	EnvironmentModuleActionEnable    EnvironmentModuleAction = "Enable"
+	EnvironmentModuleActionDisable   EnvironmentModuleAction = "Disable"
+	EnvironmentModuleActionUpgrade   EnvironmentModuleAction = "Upgrade"
+	EnvironmentModuleActionUninstall EnvironmentModuleAction = "Uninstall"
 )
 
 var allowedEnvironmentModuleActionEnumValues = []EnvironmentModuleAction{
 	EnvironmentModuleActionEnable,
 	EnvironmentModuleActionDisable,
 	EnvironmentModuleActionUpgrade,
+	EnvironmentModuleActionUninstall,
 }
 
 // GetAllowedValues returns the list of possible values.
