@@ -35114,10 +35114,6 @@ components:
         - name
         - replicas
       properties:
-        serviceVersion:
-          type: string
-          readOnly: true
-          description: Current template service version. Components with template upgrades enabled initialize it from the component version at creation.
         nodeGroup:
           type: string
           description: Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
