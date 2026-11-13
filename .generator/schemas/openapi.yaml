@@ -3619,6 +3619,38 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - vipPool
+  /api/v1/environments/{environmentName}/loadbalancer/vipPool/checkPorts:
+    post:
+      operationId: checkVIPPorts
+      summary: Check whether ports are already used on a VIP
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/vipPortCheckRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/vipPortCheckResult'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - vipPool
   /api/v1/environments/{environmentName}/nodeGroups:
     get:
       operationId: listNodeGroup
@@ -12907,6 +12939,86 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - task
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/dms/audits:
+    get:
+      tags:
+        - dms
+        - shared
+      operationId: listDMSAudit
+      summary: List independent DMS audit records
+      description: Only organization administrators and authorized admin-portal users can read these records.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: userName
+          in: query
+          schema:
+            type: string
+        - name: databaseUser
+          in: query
+          schema:
+            type: string
+        - name: database
+          in: query
+          schema:
+            type: string
+        - name: operation
+          in: query
+          schema:
+            type: string
+        - name: statement
+          in: query
+          description: Literal substring of recorded content.
+          schema:
+            type: string
+        - name: risk
+          in: query
+          schema:
+            $ref: '#/components/schemas/dmsAuditRisk'
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/dmsAuditStatus'
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Audit records, ordered by newest first.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dmsAuditList'
+        '403':
+          $ref: '#/components/responses/403'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}:
     get:
       tags:
@@ -29264,6 +29376,54 @@ components:
       required:
         - items
       type: object
+    vipPortCheckRequest:
+      description: VIP port check request
+      properties:
+        ip:
+          description: VIP address to check
+          type: string
+        ports:
+          description: TCP ports to check. When empty, only the occupied ports are returned.
+          items:
+            format: int32
+            type: integer
+          type: array
+      required:
+        - ip
+      type: object
+    vipPortCheckResult:
+      description: VIP port check result
+      properties:
+        conflicts:
+          description: Requested ports that are already in use
+          items:
+            format: int32
+            type: integer
+          type: array
+        ip:
+          description: Checked VIP address
+          type: string
+        occupiedPorts:
+          description: Ports already used on the VIP. Resource ownership details are intentionally omitted.
+          items:
+            description: A port already used on the VIP
+            properties:
+              port:
+                description: Port number
+                format: int32
+                type: integer
+              protocol:
+                description: Port protocol
+                type: string
+            required:
+              - port
+              - protocol
+            type: object
+          type: array
+      required:
+        - ip
+        - occupiedPorts
+      type: object
     nodeGroup:
       required:
         - name
@@ -29365,6 +29525,8 @@ components:
         - Upgradeable
         - Upgrading
         - UpgradeFailed
+        - Uninstalling
+        - UninstallationFailed
         - Unknown
     clusterInfo:
       type: object
@@ -29418,6 +29580,12 @@ components:
         actionWarning:
           $ref: '#/components/schemas/localizedDescription'
           description: Localized business-impact warning for the component action represented by the current status.
+        uninstallSupported:
+          type: boolean
+          description: Whether the module supports the Uninstall action. A dry run checks whether it is currently safe to uninstall.
+        uninstallWarning:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Localized warning about resources and data removed by uninstallation.
       required:
         - name
         - status
@@ -30422,8 +30590,7 @@ components:
         replicas:
           title: Replicas
           type: integer
-          x-nullable: true
-          description: Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas. When instanceTemplates is provided, this must equal the sum of all template replica counts.
+          description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3. When instanceTemplates is provided, this must equal the sum of all template replica counts.
         instanceTemplates:
           type: array
           minItems: 1
@@ -39298,6 +39465,7 @@ components:
           type: string
         feature:
           type: object
+          description: 'Engine capabilities and audit policy. auditSensitiveColumns is an array of case-insensitive sensitive column names; auditHighRiskStatements is an array of engine-specific rules: SQL keyword prefixes, Redis command/subcommand prefixes (FLUSHALL, CONFIG SET), or MongoDB command names (dropDatabase, delete, dropIndexes, $out). MongoDB shell helpers map to native command names; dynamic scripts may remain unclassified. Built-in credential redaction always applies.'
           additionalProperties: {}
         defaultAccount:
           type: string
@@ -40932,6 +41100,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/componentOpsOption'
+        needAddonlicense:
+          type: boolean
+          description: Whether the cluster chart consumes the platform license through the standard addon-license.existingSecret name/key values.
         license:
           type: object
           required:
@@ -41391,6 +41562,146 @@ components:
           $ref: '#/components/schemas/taskSchedule'
           description: Scheduled execution configuration
           x-nullable: true
+    dmsAuditRisk:
+      type: string
+      enum:
+        - unknown
+        - read_only
+        - ddl
+        - dml
+        - high
+    dmsAuditStatus:
+      type: string
+      enum:
+        - success
+        - failed
+        - unknown
+    dmsAuditStatement:
+      type: object
+      required:
+        - sequence
+        - statement
+        - database
+        - tableNames
+        - risk
+        - status
+        - errorMessage
+      properties:
+        sequence:
+          type: integer
+        statement:
+          type: string
+        database:
+          type: string
+        tableNames:
+          type: array
+          items:
+            type: string
+        sessionId:
+          type: string
+        risk:
+          $ref: '#/components/schemas/dmsAuditRisk'
+        status:
+          $ref: '#/components/schemas/dmsAuditStatus'
+        errorMessage:
+          type: string
+        durationMs:
+          type: integer
+          format: int64
+        rowsAffected:
+          type: integer
+          format: int64
+        startedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+    dmsAudit:
+      type: object
+      required:
+        - id
+        - orgName
+        - clusterId
+        - clusterName
+        - userName
+        - engine
+        - database
+        - operation
+        - statement
+        - status
+        - createdAt
+      properties:
+        id:
+          type: string
+        orgName:
+          type: string
+        clusterId:
+          type: string
+        clusterName:
+          type: string
+        datasourceId:
+          type: string
+        userId:
+          type: string
+          description: Absent for migrated history with unknown actor.
+        userName:
+          type: string
+        databaseUser:
+          type: string
+          description: Database connection account captured at operation time. Empty for historical records or connections without a named account.
+        engine:
+          type: string
+        database:
+          type: string
+        operation:
+          type: string
+        statement:
+          type: string
+        clientIp:
+          type: string
+        sessionId:
+          type: string
+          description: Native database session ID; see individual statements when a batch uses multiple connections.
+        risk:
+          $ref: '#/components/schemas/dmsAuditRisk'
+        tableNames:
+          type: array
+          items:
+            type: string
+        errorMessage:
+          type: string
+        rowsAffected:
+          type: integer
+          format: int64
+        statements:
+          type: array
+          items:
+            $ref: '#/components/schemas/dmsAuditStatement'
+        status:
+          $ref: '#/components/schemas/dmsAuditStatus'
+        createdAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        durationMs:
+          type: integer
+          format: int64
+    dmsAuditList:
+      type: object
+      required:
+        - items
+        - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/dmsAudit'
+        total:
+          type: integer
+          format: int64
     datasource:
       required:
         - type

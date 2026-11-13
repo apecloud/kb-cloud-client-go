@@ -11,6 +11,7 @@ import (
 	_nethttp "net/http"
 	_neturl "net/url"
 	"strings"
+	"time"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -2224,6 +2225,214 @@ func (a *DmsApi) GetSchemaList(ctx _context.Context, orgName string, clusterName
 	localVarBody, err := common.ReadBody(localVarHTTPResponse)
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// ListDMSAuditOptionalParameters holds optional parameters for ListDMSAudit.
+type ListDMSAuditOptionalParameters struct {
+	Offset       *int32
+	Limit        *int32
+	UserName     *string
+	DatabaseUser *string
+	Database     *string
+	Operation    *string
+	Statement    *string
+	Risk         *DmsAuditRisk
+	Status       *DmsAuditStatus
+	From         *time.Time
+	To           *time.Time
+}
+
+// NewListDMSAuditOptionalParameters creates an empty struct for parameters.
+func NewListDMSAuditOptionalParameters() *ListDMSAuditOptionalParameters {
+	this := ListDMSAuditOptionalParameters{}
+	return &this
+}
+
+// WithOffset sets the corresponding parameter name and returns the struct.
+func (r *ListDMSAuditOptionalParameters) WithOffset(offset int32) *ListDMSAuditOptionalParameters {
+	r.Offset = &offset
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *ListDMSAuditOptionalParameters) WithLimit(limit int32) *ListDMSAuditOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// WithUserName sets the corresponding parameter name and returns the struct.
+func (r *ListDMSAuditOptionalParameters) WithUserName(userName string) *ListDMSAuditOptionalParameters {
+	r.UserName = &userName
+	return r
+}
+
+// WithDatabaseUser sets the corresponding parameter name and returns the struct.
+func (r *ListDMSAuditOptionalParameters) WithDatabaseUser(databaseUser string) *ListDMSAuditOptionalParameters {
+	r.DatabaseUser = &databaseUser
+	return r
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *ListDMSAuditOptionalParameters) WithDatabase(database string) *ListDMSAuditOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// WithOperation sets the corresponding parameter name and returns the struct.
+func (r *ListDMSAuditOptionalParameters) WithOperation(operation string) *ListDMSAuditOptionalParameters {
+	r.Operation = &operation
+	return r
+}
+
+// WithStatement sets the corresponding parameter name and returns the struct.
+func (r *ListDMSAuditOptionalParameters) WithStatement(statement string) *ListDMSAuditOptionalParameters {
+	r.Statement = &statement
+	return r
+}
+
+// WithRisk sets the corresponding parameter name and returns the struct.
+func (r *ListDMSAuditOptionalParameters) WithRisk(risk DmsAuditRisk) *ListDMSAuditOptionalParameters {
+	r.Risk = &risk
+	return r
+}
+
+// WithStatus sets the corresponding parameter name and returns the struct.
+func (r *ListDMSAuditOptionalParameters) WithStatus(status DmsAuditStatus) *ListDMSAuditOptionalParameters {
+	r.Status = &status
+	return r
+}
+
+// WithFrom sets the corresponding parameter name and returns the struct.
+func (r *ListDMSAuditOptionalParameters) WithFrom(from time.Time) *ListDMSAuditOptionalParameters {
+	r.From = &from
+	return r
+}
+
+// WithTo sets the corresponding parameter name and returns the struct.
+func (r *ListDMSAuditOptionalParameters) WithTo(to time.Time) *ListDMSAuditOptionalParameters {
+	r.To = &to
+	return r
+}
+
+// ListDMSAudit List independent DMS audit records.
+// Only organization administrators and authorized admin-portal users can read these records.
+func (a *DmsApi) ListDMSAudit(ctx _context.Context, orgName string, clusterName string, o ...ListDMSAuditOptionalParameters) (DmsAuditList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue DmsAuditList
+		optionalParams      ListDMSAuditOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListDMSAuditOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "listDMSAudit",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/dms/audits",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListDMSAudit")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/dms/audits"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Offset != nil {
+		localVarQueryParams.Add("offset", common.ParameterToString(*optionalParams.Offset, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.UserName != nil {
+		localVarQueryParams.Add("userName", common.ParameterToString(*optionalParams.UserName, ""))
+	}
+	if optionalParams.DatabaseUser != nil {
+		localVarQueryParams.Add("databaseUser", common.ParameterToString(*optionalParams.DatabaseUser, ""))
+	}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	if optionalParams.Operation != nil {
+		localVarQueryParams.Add("operation", common.ParameterToString(*optionalParams.Operation, ""))
+	}
+	if optionalParams.Statement != nil {
+		localVarQueryParams.Add("statement", common.ParameterToString(*optionalParams.Statement, ""))
+	}
+	if optionalParams.Risk != nil {
+		localVarQueryParams.Add("risk", common.ParameterToString(*optionalParams.Risk, ""))
+	}
+	if optionalParams.Status != nil {
+		localVarQueryParams.Add("status", common.ParameterToString(*optionalParams.Status, ""))
+	}
+	if optionalParams.From != nil {
+		localVarQueryParams.Add("from", common.ParameterToString(*optionalParams.From, ""))
+	}
+	if optionalParams.To != nil {
+		localVarQueryParams.Add("to", common.ParameterToString(*optionalParams.To, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))

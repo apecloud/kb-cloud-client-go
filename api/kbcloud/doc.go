@@ -344,6 +344,7 @@
 //   - [dmsApi.getRedisInfo]
 //   - [dmsApi.getRedisKeyDetail]
 //   - [dmsApi.getSchemaList]
+//   - [dmsApi.listDMSAudit]
 //   - [dmsApi.listDataSourceV2]
 //   - [dmsApi.listDmsDatabases]
 //   - [dmsApi.listMongoCollections]
@@ -637,5 +638,6 @@
 //   - [userApi.phoneVerification]
 //   - [userApi.readUserApikeys]
 //   - [userApi.updateAuthenticatedUserPassword]
+//   - [vipPoolApi.checkVIPPorts]
 //   - [vipPoolApi.listVIPPool]
 package kbcloud
