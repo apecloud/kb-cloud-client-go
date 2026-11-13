@@ -13,8 +13,8 @@ import (
 type EnvironmentStaticClusterList struct {
 	// The base64 encoded kubeconfig file contents to connect to this Kubernetes cluster.
 	Kubeconfig string `json:"kubeconfig"`
-	// Engine whose retained clusters should be listed. Candidates are discovered from the kubeconfig and existing cluster records. The caller must select one; the server does not choose a default.
-	Engine StaticServiceClusterEngine `json:"engine"`
+	// Optional engine filter for retained service clusters. Omitted or empty returns all supported MinIO, VictoriaMetrics, and VictoriaLogs candidates discovered from the kubeconfig and existing cluster records. The caller must explicitly select a cluster to reuse.
+	Engine *StaticServiceClusterEngine `json:"engine,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -24,10 +24,9 @@ type EnvironmentStaticClusterList struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentStaticClusterList(kubeconfig string, engine StaticServiceClusterEngine) *EnvironmentStaticClusterList {
+func NewEnvironmentStaticClusterList(kubeconfig string) *EnvironmentStaticClusterList {
 	this := EnvironmentStaticClusterList{}
 	this.Kubeconfig = kubeconfig
-	this.Engine = engine
 	return &this
 }
 
@@ -62,27 +61,32 @@ func (o *EnvironmentStaticClusterList) SetKubeconfig(v string) {
 	o.Kubeconfig = v
 }
 
-// GetEngine returns the Engine field value.
+// GetEngine returns the Engine field value if set, zero value otherwise.
 func (o *EnvironmentStaticClusterList) GetEngine() StaticServiceClusterEngine {
-	if o == nil {
+	if o == nil || o.Engine == nil {
 		var ret StaticServiceClusterEngine
 		return ret
 	}
-	return o.Engine
+	return *o.Engine
 }
 
-// GetEngineOk returns a tuple with the Engine field value
+// GetEngineOk returns a tuple with the Engine field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EnvironmentStaticClusterList) GetEngineOk() (*StaticServiceClusterEngine, bool) {
-	if o == nil {
+	if o == nil || o.Engine == nil {
 		return nil, false
 	}
-	return &o.Engine, true
+	return o.Engine, true
 }
 
-// SetEngine sets field value.
+// HasEngine returns a boolean if a field has been set.
+func (o *EnvironmentStaticClusterList) HasEngine() bool {
+	return o != nil && o.Engine != nil
+}
+
+// SetEngine gets a reference to the given StaticServiceClusterEngine and assigns it to the Engine field.
 func (o *EnvironmentStaticClusterList) SetEngine(v StaticServiceClusterEngine) {
-	o.Engine = v
+	o.Engine = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -92,7 +96,9 @@ func (o EnvironmentStaticClusterList) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["kubeconfig"] = o.Kubeconfig
-	toSerialize["engine"] = o.Engine
+	if o.Engine != nil {
+		toSerialize["engine"] = o.Engine
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -104,16 +110,13 @@ func (o EnvironmentStaticClusterList) MarshalJSON() ([]byte, error) {
 func (o *EnvironmentStaticClusterList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Kubeconfig *string                     `json:"kubeconfig"`
-		Engine     *StaticServiceClusterEngine `json:"engine"`
+		Engine     *StaticServiceClusterEngine `json:"engine,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	if all.Kubeconfig == nil {
 		return fmt.Errorf("required field kubeconfig missing")
-	}
-	if all.Engine == nil {
-		return fmt.Errorf("required field engine missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -124,10 +127,10 @@ func (o *EnvironmentStaticClusterList) UnmarshalJSON(bytes []byte) (err error) {
 
 	hasInvalidField := false
 	o.Kubeconfig = *all.Kubeconfig
-	if !all.Engine.IsValid() {
+	if all.Engine != nil && !all.Engine.IsValid() {
 		hasInvalidField = true
 	} else {
-		o.Engine = *all.Engine
+		o.Engine = all.Engine
 	}
 
 	if len(additionalProperties) > 0 {

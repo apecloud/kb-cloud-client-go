@@ -3112,7 +3112,7 @@ func (a *EnvironmentApi) ListEnvironmentObjectStorage(ctx _context.Context, o ..
 }
 
 // ListEnvironmentStaticClusters List reusable environment service clusters.
-// List retained MinIO, VictoriaMetrics, or VictoriaLogs clusters that can be explicitly attached when adding an environment. Does not select a cluster.
+// List retained MinIO, VictoriaMetrics, and VictoriaLogs clusters that can be explicitly attached when adding an environment. The optional engine filter restricts the results to one engine; omitted or empty returns all supported engines. Does not select a cluster.
 func (a *EnvironmentApi) ListEnvironmentStaticClusters(ctx _context.Context, body EnvironmentStaticClusterList) (EnvironmentObjectStorage, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost

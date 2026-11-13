@@ -7050,6 +7050,27 @@ paths:
           in: query
           schema:
             type: string
+        - name: databaseUser
+          in: query
+          schema:
+            type: string
+        - name: database
+          in: query
+          schema:
+            type: string
+        - name: operation
+          in: query
+          schema:
+            type: string
+        - name: statement
+          in: query
+          description: Literal substring of recorded content.
+          schema:
+            type: string
+        - name: risk
+          in: query
+          schema:
+            $ref: '#/components/schemas/dmsAuditRisk'
         - name: status
           in: query
           schema:
@@ -14289,7 +14310,7 @@ paths:
   /admin/v1/environmentStaticClusters:
     post:
       operationId: listEnvironmentStaticClusters
-      description: List retained MinIO, VictoriaMetrics, or VictoriaLogs clusters that can be explicitly attached when adding an environment. Does not select a cluster.
+      description: List retained MinIO, VictoriaMetrics, and VictoriaLogs clusters that can be explicitly attached when adding an environment. The optional engine filter restricts the results to one engine; omitted or empty returns all supported engines. Does not select a cluster.
       summary: List reusable environment service clusters
       requestBody:
         content:
@@ -37610,12 +37631,6 @@ components:
         deprecated:
           description: which version the parameter is deprecated
           type: string
-    dmsAuditStatus:
-      type: string
-      enum:
-        - success
-        - failed
-        - unknown
     dmsAuditRisk:
       type: string
       enum:
@@ -37624,6 +37639,12 @@ components:
         - ddl
         - dml
         - high
+    dmsAuditStatus:
+      type: string
+      enum:
+        - success
+        - failed
+        - unknown
     dmsAuditStatement:
       type: object
       required:
@@ -37695,6 +37716,9 @@ components:
           description: Absent for migrated history with unknown actor.
         userName:
           type: string
+        databaseUser:
+          type: string
+          description: Database connection account captured at operation time. Empty for historical records or connections without a named account.
         engine:
           type: string
         database:
@@ -43425,9 +43449,10 @@ components:
           items:
             $ref: '#/components/schemas/rawCluster'
     staticServiceClusterEngine:
-      description: Engine whose retained clusters should be listed. Candidates are discovered from the kubeconfig and existing cluster records. The caller must select one; the server does not choose a default.
+      description: Optional engine filter for retained service clusters. Omitted or empty returns all supported MinIO, VictoriaMetrics, and VictoriaLogs candidates discovered from the kubeconfig and existing cluster records. The caller must explicitly select a cluster to reuse.
       type: string
       enum:
+        - ''
         - minio
         - victoria-metrics
         - victoria-logs
@@ -43435,7 +43460,6 @@ components:
       type: object
       required:
         - kubeconfig
-        - engine
       properties:
         kubeconfig:
           description: The base64 encoded kubeconfig file contents to connect to this Kubernetes cluster.

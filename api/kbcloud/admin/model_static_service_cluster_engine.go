@@ -10,17 +10,19 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// StaticServiceClusterEngine Engine whose retained clusters should be listed. Candidates are discovered from the kubeconfig and existing cluster records. The caller must select one; the server does not choose a default.
+// StaticServiceClusterEngine Optional engine filter for retained service clusters. Omitted or empty returns all supported MinIO, VictoriaMetrics, and VictoriaLogs candidates discovered from the kubeconfig and existing cluster records. The caller must explicitly select a cluster to reuse.
 type StaticServiceClusterEngine string
 
 // List of StaticServiceClusterEngine.
 const (
+	StaticServiceClusterEngineEmpty           StaticServiceClusterEngine = ""
 	StaticServiceClusterEngineMinio           StaticServiceClusterEngine = "minio"
 	StaticServiceClusterEngineVictoriaMetrics StaticServiceClusterEngine = "victoria-metrics"
 	StaticServiceClusterEngineVictoriaLogs    StaticServiceClusterEngine = "victoria-logs"
 )
 
 var allowedStaticServiceClusterEngineEnumValues = []StaticServiceClusterEngine{
+	StaticServiceClusterEngineEmpty,
 	StaticServiceClusterEngineMinio,
 	StaticServiceClusterEngineVictoriaMetrics,
 	StaticServiceClusterEngineVictoriaLogs,
