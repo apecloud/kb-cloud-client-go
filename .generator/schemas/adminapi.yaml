@@ -40758,12 +40758,29 @@ components:
       required:
         - items
       type: object
+    instanceTemplateUpgrade:
+      type: object
+      required:
+        - name
+        - serviceVersion
+      properties:
+        name:
+          type: string
+          minLength: 1
+        serviceVersion:
+          type: string
+          minLength: 1
+          maxLength: 32
     opsUpgrade:
-      description: OpsUpgrade is the payload to upgrade a KubeBlocks cluster
+      description: Upgrade a component. A mode component with template upgrade enabled requires all template target versions and a component version equal to their minimum. Unchanged entries are allowed; changed entries follow the existing component upgrade rules. Other components must not specify templates.
       properties:
         version:
           type: string
           minLength: 1
+        instanceTemplates:
+          type: array
+          items:
+            $ref: '#/components/schemas/instanceTemplateUpgrade'
         component:
           type: string
         schedule:
@@ -40774,6 +40791,17 @@ components:
         - version
         - component
       type: object
+    instanceTemplateServiceVersions:
+      type: object
+      properties:
+        name:
+          type: string
+        currentVersion:
+          type: string
+        upgradeableVersions:
+          type: array
+          items:
+            type: string
     componentVersionArchitecture:
       type: object
       description: |
@@ -40817,6 +40845,11 @@ components:
     engineServiceVersions:
       type: object
       properties:
+        instanceTemplates:
+          x-omitempty: true
+          type: array
+          items:
+            $ref: '#/components/schemas/instanceTemplateServiceVersions'
         component:
           type: string
           description: component type, refer to componentDef and support NamePrefix
@@ -44999,6 +45032,7 @@ components:
         - hscale
         - vscale
         - storageExpansion
+        - upgrade
     instanceTemplateAttribute:
       type: string
       description: Heterogeneous attribute the frontend may render on an instance template at create.
