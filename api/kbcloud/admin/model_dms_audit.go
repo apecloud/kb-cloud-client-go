@@ -18,13 +18,15 @@ type DmsAudit struct {
 	ClusterName  string  `json:"clusterName"`
 	DatasourceId *string `json:"datasourceId,omitempty"`
 	// Absent for migrated history with unknown actor.
-	UserId    *string `json:"userId,omitempty"`
-	UserName  string  `json:"userName"`
-	Engine    string  `json:"engine"`
-	Database  string  `json:"database"`
-	Operation string  `json:"operation"`
-	Statement string  `json:"statement"`
-	ClientIp  *string `json:"clientIp,omitempty"`
+	UserId   *string `json:"userId,omitempty"`
+	UserName string  `json:"userName"`
+	// Database connection account captured at operation time. Empty for historical records or connections without a named account.
+	DatabaseUser *string `json:"databaseUser,omitempty"`
+	Engine       string  `json:"engine"`
+	Database     string  `json:"database"`
+	Operation    string  `json:"operation"`
+	Statement    string  `json:"statement"`
+	ClientIp     *string `json:"clientIp,omitempty"`
 	// Native database session ID; see individual statements when a batch uses multiple connections.
 	SessionId    *string             `json:"sessionId,omitempty"`
 	Risk         *DmsAuditRisk       `json:"risk,omitempty"`
@@ -238,6 +240,34 @@ func (o *DmsAudit) GetUserNameOk() (*string, bool) {
 // SetUserName sets field value.
 func (o *DmsAudit) SetUserName(v string) {
 	o.UserName = v
+}
+
+// GetDatabaseUser returns the DatabaseUser field value if set, zero value otherwise.
+func (o *DmsAudit) GetDatabaseUser() string {
+	if o == nil || o.DatabaseUser == nil {
+		var ret string
+		return ret
+	}
+	return *o.DatabaseUser
+}
+
+// GetDatabaseUserOk returns a tuple with the DatabaseUser field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DmsAudit) GetDatabaseUserOk() (*string, bool) {
+	if o == nil || o.DatabaseUser == nil {
+		return nil, false
+	}
+	return o.DatabaseUser, true
+}
+
+// HasDatabaseUser returns a boolean if a field has been set.
+func (o *DmsAudit) HasDatabaseUser() bool {
+	return o != nil && o.DatabaseUser != nil
+}
+
+// SetDatabaseUser gets a reference to the given string and assigns it to the DatabaseUser field.
+func (o *DmsAudit) SetDatabaseUser(v string) {
+	o.DatabaseUser = &v
 }
 
 // GetEngine returns the Engine field value.
@@ -647,6 +677,9 @@ func (o DmsAudit) MarshalJSON() ([]byte, error) {
 		toSerialize["userId"] = o.UserId
 	}
 	toSerialize["userName"] = o.UserName
+	if o.DatabaseUser != nil {
+		toSerialize["databaseUser"] = o.DatabaseUser
+	}
 	toSerialize["engine"] = o.Engine
 	toSerialize["database"] = o.Database
 	toSerialize["operation"] = o.Operation
@@ -705,6 +738,7 @@ func (o *DmsAudit) UnmarshalJSON(bytes []byte) (err error) {
 		DatasourceId *string             `json:"datasourceId,omitempty"`
 		UserId       *string             `json:"userId,omitempty"`
 		UserName     *string             `json:"userName"`
+		DatabaseUser *string             `json:"databaseUser,omitempty"`
 		Engine       *string             `json:"engine"`
 		Database     *string             `json:"database"`
 		Operation    *string             `json:"operation"`
@@ -759,7 +793,7 @@ func (o *DmsAudit) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "clusterId", "clusterName", "datasourceId", "userId", "userName", "engine", "database", "operation", "statement", "clientIp", "sessionId", "risk", "tableNames", "errorMessage", "rowsAffected", "statements", "status", "createdAt", "finishedAt", "durationMs"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "clusterId", "clusterName", "datasourceId", "userId", "userName", "databaseUser", "engine", "database", "operation", "statement", "clientIp", "sessionId", "risk", "tableNames", "errorMessage", "rowsAffected", "statements", "status", "createdAt", "finishedAt", "durationMs"})
 	} else {
 		return err
 	}
@@ -772,6 +806,7 @@ func (o *DmsAudit) UnmarshalJSON(bytes []byte) (err error) {
 	o.DatasourceId = all.DatasourceId
 	o.UserId = all.UserId
 	o.UserName = *all.UserName
+	o.DatabaseUser = all.DatabaseUser
 	o.Engine = *all.Engine
 	o.Database = *all.Database
 	o.Operation = *all.Operation

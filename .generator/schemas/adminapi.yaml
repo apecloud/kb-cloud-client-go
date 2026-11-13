@@ -7050,6 +7050,27 @@ paths:
           in: query
           schema:
             type: string
+        - name: databaseUser
+          in: query
+          schema:
+            type: string
+        - name: database
+          in: query
+          schema:
+            type: string
+        - name: operation
+          in: query
+          schema:
+            type: string
+        - name: statement
+          in: query
+          description: Literal substring of recorded content.
+          schema:
+            type: string
+        - name: risk
+          in: query
+          schema:
+            $ref: '#/components/schemas/dmsAuditRisk'
         - name: status
           in: query
           schema:
@@ -37585,12 +37606,6 @@ components:
         deprecated:
           description: which version the parameter is deprecated
           type: string
-    dmsAuditStatus:
-      type: string
-      enum:
-        - success
-        - failed
-        - unknown
     dmsAuditRisk:
       type: string
       enum:
@@ -37599,6 +37614,12 @@ components:
         - ddl
         - dml
         - high
+    dmsAuditStatus:
+      type: string
+      enum:
+        - success
+        - failed
+        - unknown
     dmsAuditStatement:
       type: object
       required:
@@ -37670,6 +37691,9 @@ components:
           description: Absent for migrated history with unknown actor.
         userName:
           type: string
+        databaseUser:
+          type: string
+          description: Database connection account captured at operation time. Empty for historical records or connections without a named account.
         engine:
           type: string
         database:
