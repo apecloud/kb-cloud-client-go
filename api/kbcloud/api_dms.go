@@ -2241,12 +2241,17 @@ func (a *DmsApi) GetSchemaList(ctx _context.Context, orgName string, clusterName
 
 // ListDMSAuditOptionalParameters holds optional parameters for ListDMSAudit.
 type ListDMSAuditOptionalParameters struct {
-	Offset   *int32
-	Limit    *int32
-	UserName *string
-	Status   *DmsAuditStatus
-	From     *time.Time
-	To       *time.Time
+	Offset       *int32
+	Limit        *int32
+	UserName     *string
+	DatabaseUser *string
+	Database     *string
+	Operation    *string
+	Statement    *string
+	Risk         *DmsAuditRisk
+	Status       *DmsAuditStatus
+	From         *time.Time
+	To           *time.Time
 }
 
 // NewListDMSAuditOptionalParameters creates an empty struct for parameters.
@@ -2270,6 +2275,36 @@ func (r *ListDMSAuditOptionalParameters) WithLimit(limit int32) *ListDMSAuditOpt
 // WithUserName sets the corresponding parameter name and returns the struct.
 func (r *ListDMSAuditOptionalParameters) WithUserName(userName string) *ListDMSAuditOptionalParameters {
 	r.UserName = &userName
+	return r
+}
+
+// WithDatabaseUser sets the corresponding parameter name and returns the struct.
+func (r *ListDMSAuditOptionalParameters) WithDatabaseUser(databaseUser string) *ListDMSAuditOptionalParameters {
+	r.DatabaseUser = &databaseUser
+	return r
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *ListDMSAuditOptionalParameters) WithDatabase(database string) *ListDMSAuditOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// WithOperation sets the corresponding parameter name and returns the struct.
+func (r *ListDMSAuditOptionalParameters) WithOperation(operation string) *ListDMSAuditOptionalParameters {
+	r.Operation = &operation
+	return r
+}
+
+// WithStatement sets the corresponding parameter name and returns the struct.
+func (r *ListDMSAuditOptionalParameters) WithStatement(statement string) *ListDMSAuditOptionalParameters {
+	r.Statement = &statement
+	return r
+}
+
+// WithRisk sets the corresponding parameter name and returns the struct.
+func (r *ListDMSAuditOptionalParameters) WithRisk(risk DmsAuditRisk) *ListDMSAuditOptionalParameters {
+	r.Risk = &risk
 	return r
 }
 
@@ -2337,6 +2372,21 @@ func (a *DmsApi) ListDMSAudit(ctx _context.Context, orgName string, clusterName 
 	}
 	if optionalParams.UserName != nil {
 		localVarQueryParams.Add("userName", common.ParameterToString(*optionalParams.UserName, ""))
+	}
+	if optionalParams.DatabaseUser != nil {
+		localVarQueryParams.Add("databaseUser", common.ParameterToString(*optionalParams.DatabaseUser, ""))
+	}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	if optionalParams.Operation != nil {
+		localVarQueryParams.Add("operation", common.ParameterToString(*optionalParams.Operation, ""))
+	}
+	if optionalParams.Statement != nil {
+		localVarQueryParams.Add("statement", common.ParameterToString(*optionalParams.Statement, ""))
+	}
+	if optionalParams.Risk != nil {
+		localVarQueryParams.Add("risk", common.ParameterToString(*optionalParams.Risk, ""))
 	}
 	if optionalParams.Status != nil {
 		localVarQueryParams.Add("status", common.ParameterToString(*optionalParams.Status, ""))

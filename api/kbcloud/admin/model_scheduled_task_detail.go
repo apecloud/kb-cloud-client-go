@@ -23,8 +23,10 @@ type ScheduledTaskDetail struct {
 	Timezone *string `json:"timezone,omitempty"`
 	// Most recently observable execution status
 	LastExecutionStatus *ScheduledTaskLastExecutionStatus `json:"lastExecutionStatus,omitempty"`
-	// Whether the schedule is immutable, disabled, or enabled
-	Enabled *ScheduledTaskEnableStatus `json:"enabled,omitempty"`
+	// Whether the scheduled task is enabled
+	Enabled *bool `json:"enabled,omitempty"`
+	// Whether users are prohibited from changing the scheduled task
+	IsImmutable *bool `json:"isImmutable,omitempty"`
 	// Scope affected by the task, such as platform, organization, environment, or cluster
 	Scope *string `json:"scope,omitempty"`
 	// Current normalized status of the scheduled task
@@ -39,10 +41,6 @@ type ScheduledTaskDetail struct {
 	ProviderTaskKey *string `json:"providerTaskKey,omitempty"`
 	// Current task status or error message
 	Message *string `json:"message,omitempty"`
-	// Provider-specific, non-sensitive task details
-	ProviderDetails map[string]interface{} `json:"providerDetails,omitempty"`
-	// Last time the provider state was observed
-	LastObservedAt *time.Time `json:"lastObservedAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -226,9 +224,9 @@ func (o *ScheduledTaskDetail) SetLastExecutionStatus(v ScheduledTaskLastExecutio
 }
 
 // GetEnabled returns the Enabled field value if set, zero value otherwise.
-func (o *ScheduledTaskDetail) GetEnabled() ScheduledTaskEnableStatus {
+func (o *ScheduledTaskDetail) GetEnabled() bool {
 	if o == nil || o.Enabled == nil {
-		var ret ScheduledTaskEnableStatus
+		var ret bool
 		return ret
 	}
 	return *o.Enabled
@@ -236,7 +234,7 @@ func (o *ScheduledTaskDetail) GetEnabled() ScheduledTaskEnableStatus {
 
 // GetEnabledOk returns a tuple with the Enabled field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ScheduledTaskDetail) GetEnabledOk() (*ScheduledTaskEnableStatus, bool) {
+func (o *ScheduledTaskDetail) GetEnabledOk() (*bool, bool) {
 	if o == nil || o.Enabled == nil {
 		return nil, false
 	}
@@ -248,9 +246,37 @@ func (o *ScheduledTaskDetail) HasEnabled() bool {
 	return o != nil && o.Enabled != nil
 }
 
-// SetEnabled gets a reference to the given ScheduledTaskEnableStatus and assigns it to the Enabled field.
-func (o *ScheduledTaskDetail) SetEnabled(v ScheduledTaskEnableStatus) {
+// SetEnabled gets a reference to the given bool and assigns it to the Enabled field.
+func (o *ScheduledTaskDetail) SetEnabled(v bool) {
 	o.Enabled = &v
+}
+
+// GetIsImmutable returns the IsImmutable field value if set, zero value otherwise.
+func (o *ScheduledTaskDetail) GetIsImmutable() bool {
+	if o == nil || o.IsImmutable == nil {
+		var ret bool
+		return ret
+	}
+	return *o.IsImmutable
+}
+
+// GetIsImmutableOk returns a tuple with the IsImmutable field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ScheduledTaskDetail) GetIsImmutableOk() (*bool, bool) {
+	if o == nil || o.IsImmutable == nil {
+		return nil, false
+	}
+	return o.IsImmutable, true
+}
+
+// HasIsImmutable returns a boolean if a field has been set.
+func (o *ScheduledTaskDetail) HasIsImmutable() bool {
+	return o != nil && o.IsImmutable != nil
+}
+
+// SetIsImmutable gets a reference to the given bool and assigns it to the IsImmutable field.
+func (o *ScheduledTaskDetail) SetIsImmutable(v bool) {
+	o.IsImmutable = &v
 }
 
 // GetScope returns the Scope field value if set, zero value otherwise.
@@ -449,62 +475,6 @@ func (o *ScheduledTaskDetail) SetMessage(v string) {
 	o.Message = &v
 }
 
-// GetProviderDetails returns the ProviderDetails field value if set, zero value otherwise.
-func (o *ScheduledTaskDetail) GetProviderDetails() map[string]interface{} {
-	if o == nil || o.ProviderDetails == nil {
-		var ret map[string]interface{}
-		return ret
-	}
-	return o.ProviderDetails
-}
-
-// GetProviderDetailsOk returns a tuple with the ProviderDetails field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ScheduledTaskDetail) GetProviderDetailsOk() (*map[string]interface{}, bool) {
-	if o == nil || o.ProviderDetails == nil {
-		return nil, false
-	}
-	return &o.ProviderDetails, true
-}
-
-// HasProviderDetails returns a boolean if a field has been set.
-func (o *ScheduledTaskDetail) HasProviderDetails() bool {
-	return o != nil && o.ProviderDetails != nil
-}
-
-// SetProviderDetails gets a reference to the given map[string]interface{} and assigns it to the ProviderDetails field.
-func (o *ScheduledTaskDetail) SetProviderDetails(v map[string]interface{}) {
-	o.ProviderDetails = v
-}
-
-// GetLastObservedAt returns the LastObservedAt field value if set, zero value otherwise.
-func (o *ScheduledTaskDetail) GetLastObservedAt() time.Time {
-	if o == nil || o.LastObservedAt == nil {
-		var ret time.Time
-		return ret
-	}
-	return *o.LastObservedAt
-}
-
-// GetLastObservedAtOk returns a tuple with the LastObservedAt field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ScheduledTaskDetail) GetLastObservedAtOk() (*time.Time, bool) {
-	if o == nil || o.LastObservedAt == nil {
-		return nil, false
-	}
-	return o.LastObservedAt, true
-}
-
-// HasLastObservedAt returns a boolean if a field has been set.
-func (o *ScheduledTaskDetail) HasLastObservedAt() bool {
-	return o != nil && o.LastObservedAt != nil
-}
-
-// SetLastObservedAt gets a reference to the given time.Time and assigns it to the LastObservedAt field.
-func (o *ScheduledTaskDetail) SetLastObservedAt(v time.Time) {
-	o.LastObservedAt = &v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ScheduledTaskDetail) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -532,6 +502,9 @@ func (o ScheduledTaskDetail) MarshalJSON() ([]byte, error) {
 	if o.Enabled != nil {
 		toSerialize["enabled"] = o.Enabled
 	}
+	if o.IsImmutable != nil {
+		toSerialize["isImmutable"] = o.IsImmutable
+	}
 	if o.Scope != nil {
 		toSerialize["scope"] = o.Scope
 	}
@@ -557,16 +530,6 @@ func (o ScheduledTaskDetail) MarshalJSON() ([]byte, error) {
 	if o.Message != nil {
 		toSerialize["message"] = o.Message
 	}
-	if o.ProviderDetails != nil {
-		toSerialize["providerDetails"] = o.ProviderDetails
-	}
-	if o.LastObservedAt != nil {
-		if o.LastObservedAt.Nanosecond() == 0 {
-			toSerialize["lastObservedAt"] = o.LastObservedAt.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["lastObservedAt"] = o.LastObservedAt.Format("2006-01-02T15:04:05.000Z07:00")
-		}
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -583,7 +546,8 @@ func (o *ScheduledTaskDetail) UnmarshalJSON(bytes []byte) (err error) {
 		CronExpression      *string                           `json:"cronExpression,omitempty"`
 		Timezone            *string                           `json:"timezone,omitempty"`
 		LastExecutionStatus *ScheduledTaskLastExecutionStatus `json:"lastExecutionStatus,omitempty"`
-		Enabled             *ScheduledTaskEnableStatus        `json:"enabled,omitempty"`
+		Enabled             *bool                             `json:"enabled,omitempty"`
+		IsImmutable         *bool                             `json:"isImmutable,omitempty"`
 		Scope               *string                           `json:"scope,omitempty"`
 		Status              *ScheduledTaskStatus              `json:"status,omitempty"`
 		LastRunAt           *string                           `json:"lastRunAt,omitempty"`
@@ -591,15 +555,13 @@ func (o *ScheduledTaskDetail) UnmarshalJSON(bytes []byte) (err error) {
 		CreatedAt           *time.Time                        `json:"createdAt,omitempty"`
 		ProviderTaskKey     *string                           `json:"providerTaskKey,omitempty"`
 		Message             *string                           `json:"message,omitempty"`
-		ProviderDetails     map[string]interface{}            `json:"providerDetails,omitempty"`
-		LastObservedAt      *time.Time                        `json:"lastObservedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"scheduledTaskId", "name", "provider", "cronExpression", "timezone", "lastExecutionStatus", "enabled", "scope", "status", "lastRunAt", "nextRunAt", "createdAt", "providerTaskKey", "message", "providerDetails", "lastObservedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"scheduledTaskId", "name", "provider", "cronExpression", "timezone", "lastExecutionStatus", "enabled", "isImmutable", "scope", "status", "lastRunAt", "nextRunAt", "createdAt", "providerTaskKey", "message"})
 	} else {
 		return err
 	}
@@ -618,11 +580,8 @@ func (o *ScheduledTaskDetail) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.LastExecutionStatus = all.LastExecutionStatus
 	}
-	if all.Enabled != nil && !all.Enabled.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Enabled = all.Enabled
-	}
+	o.Enabled = all.Enabled
+	o.IsImmutable = all.IsImmutable
 	o.Scope = all.Scope
 	if all.Status != nil && !all.Status.IsValid() {
 		hasInvalidField = true
@@ -634,8 +593,6 @@ func (o *ScheduledTaskDetail) UnmarshalJSON(bytes []byte) (err error) {
 	o.CreatedAt = all.CreatedAt
 	o.ProviderTaskKey = all.ProviderTaskKey
 	o.Message = all.Message
-	o.ProviderDetails = all.ProviderDetails
-	o.LastObservedAt = all.LastObservedAt
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
 	}

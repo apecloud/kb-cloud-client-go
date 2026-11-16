@@ -12975,6 +12975,27 @@ paths:
           in: query
           schema:
             type: string
+        - name: databaseUser
+          in: query
+          schema:
+            type: string
+        - name: database
+          in: query
+          schema:
+            type: string
+        - name: operation
+          in: query
+          schema:
+            type: string
+        - name: statement
+          in: query
+          description: Literal substring of recorded content.
+          schema:
+            type: string
+        - name: risk
+          in: query
+          schema:
+            $ref: '#/components/schemas/dmsAuditRisk'
         - name: status
           in: query
           schema:
@@ -32437,12 +32458,29 @@ components:
       required:
         - items
       type: object
+    instanceTemplateUpgrade:
+      type: object
+      required:
+        - name
+        - serviceVersion
+      properties:
+        name:
+          type: string
+          minLength: 1
+        serviceVersion:
+          type: string
+          minLength: 1
+          maxLength: 32
     opsUpgrade:
-      description: OpsUpgrade is the payload to upgrade a KubeBlocks cluster
+      description: Upgrade a component. A mode component with template upgrade enabled requires all template target versions and a component version equal to their minimum. Unchanged entries are allowed; changed entries follow the existing component upgrade rules. Other components must not specify templates.
       properties:
         version:
           type: string
           minLength: 1
+        instanceTemplates:
+          type: array
+          items:
+            $ref: '#/components/schemas/instanceTemplateUpgrade'
         component:
           type: string
         schedule:
@@ -32453,6 +32491,17 @@ components:
         - version
         - component
       type: object
+    instanceTemplateServiceVersions:
+      type: object
+      properties:
+        name:
+          type: string
+        currentVersion:
+          type: string
+        upgradeableVersions:
+          type: array
+          items:
+            type: string
     componentVersionArchitecture:
       type: object
       description: |
@@ -32496,6 +32545,11 @@ components:
     engineServiceVersions:
       type: object
       properties:
+        instanceTemplates:
+          x-omitempty: true
+          type: array
+          items:
+            $ref: '#/components/schemas/instanceTemplateServiceVersions'
         component:
           type: string
           description: component type, refer to componentDef and support NamePrefix
@@ -37581,6 +37635,26 @@ components:
         - Mount
         - Tool
       type: string
+    backupRepoCheckStatus:
+      type: string
+      enum:
+        - Passed
+        - Failed
+        - NotChecked
+    backupRepoCheckResult:
+      type: object
+      description: Result of the platform storage access check, independent of the BackupRepo CR phase.
+      required:
+        - status
+      properties:
+        status:
+          $ref: '#/components/schemas/backupRepoCheckStatus'
+        message:
+          type: string
+        checkedAt:
+          type: string
+          format: date-time
+          x-nullable: true
     backupRepo:
       description: backupRepo is the payload for KubeBlocks cluster backup repo
       properties:
@@ -37629,6 +37703,8 @@ components:
         totalSize:
           description: totalSize specifies the total size of backups in the backupRepo
           type: string
+        check:
+          $ref: '#/components/schemas/backupRepoCheckResult'
         failedReason:
           type: string
           description: failedReason specifies the reason of the backupRepo failure
@@ -38794,6 +38870,7 @@ components:
         - hscale
         - vscale
         - storageExpansion
+        - upgrade
     instanceTemplateAttribute:
       type: string
       description: Heterogeneous attribute the frontend may render on an instance template at create.
@@ -41041,6 +41118,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/componentOpsOption'
+        needAddonlicense:
+          type: boolean
+          description: Whether the cluster chart consumes the platform license through the standard addon-license.existingSecret name/key values.
         license:
           type: object
           required:
@@ -41500,12 +41580,6 @@ components:
           $ref: '#/components/schemas/taskSchedule'
           description: Scheduled execution configuration
           x-nullable: true
-    dmsAuditStatus:
-      type: string
-      enum:
-        - success
-        - failed
-        - unknown
     dmsAuditRisk:
       type: string
       enum:
@@ -41514,6 +41588,12 @@ components:
         - ddl
         - dml
         - high
+    dmsAuditStatus:
+      type: string
+      enum:
+        - success
+        - failed
+        - unknown
     dmsAuditStatement:
       type: object
       required:
@@ -41585,6 +41665,9 @@ components:
           description: Absent for migrated history with unknown actor.
         userName:
           type: string
+        databaseUser:
+          type: string
+          description: Database connection account captured at operation time. Empty for historical records or connections without a named account.
         engine:
           type: string
         database:

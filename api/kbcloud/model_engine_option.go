@@ -29,16 +29,18 @@ type EngineOption struct {
 	Database    *DatabaseOption       `json:"database,omitempty"`
 	Dms         DmsOption             `json:"dms"`
 	// If present, it must be set defaultMethod and fullMethod
-	Backup           *BackupOption           `json:"backup,omitempty"`
-	Bench            *BenchOption            `json:"bench,omitempty"`
-	Endpoints        []EndpointOption        `json:"endpoints"`
-	NetworkModes     []NetworkModeOptionItem `json:"networkModes,omitempty"`
-	Promote          []ComponentOpsOption    `json:"promote"`
-	Stop             []ComponentOpsOption    `json:"stop"`
-	Start            []ComponentOpsOption    `json:"start"`
-	Restart          []ComponentOpsOption    `json:"restart"`
-	Hscale           []ComponentOpsOption    `json:"hscale"`
-	Vscale           []ComponentOpsOption    `json:"vscale"`
+	Backup       *BackupOption           `json:"backup,omitempty"`
+	Bench        *BenchOption            `json:"bench,omitempty"`
+	Endpoints    []EndpointOption        `json:"endpoints"`
+	NetworkModes []NetworkModeOptionItem `json:"networkModes,omitempty"`
+	Promote      []ComponentOpsOption    `json:"promote"`
+	Stop         []ComponentOpsOption    `json:"stop"`
+	Start        []ComponentOpsOption    `json:"start"`
+	Restart      []ComponentOpsOption    `json:"restart"`
+	Hscale       []ComponentOpsOption    `json:"hscale"`
+	Vscale       []ComponentOpsOption    `json:"vscale"`
+	// Whether the cluster chart consumes the platform license through the standard addon-license.existingSecret name/key values.
+	NeedAddonlicense *bool                   `json:"needAddonlicense,omitempty"`
 	License          *EngineOptionLicense    `json:"license,omitempty"`
 	StorageExpansion []ComponentOpsOption    `json:"storageExpansion,omitempty"`
 	RebuildInstance  []ComponentOpsOption    `json:"rebuildInstance,omitempty"`
@@ -662,6 +664,34 @@ func (o *EngineOption) SetVscale(v []ComponentOpsOption) {
 	o.Vscale = v
 }
 
+// GetNeedAddonlicense returns the NeedAddonlicense field value if set, zero value otherwise.
+func (o *EngineOption) GetNeedAddonlicense() bool {
+	if o == nil || o.NeedAddonlicense == nil {
+		var ret bool
+		return ret
+	}
+	return *o.NeedAddonlicense
+}
+
+// GetNeedAddonlicenseOk returns a tuple with the NeedAddonlicense field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOption) GetNeedAddonlicenseOk() (*bool, bool) {
+	if o == nil || o.NeedAddonlicense == nil {
+		return nil, false
+	}
+	return o.NeedAddonlicense, true
+}
+
+// HasNeedAddonlicense returns a boolean if a field has been set.
+func (o *EngineOption) HasNeedAddonlicense() bool {
+	return o != nil && o.NeedAddonlicense != nil
+}
+
+// SetNeedAddonlicense gets a reference to the given bool and assigns it to the NeedAddonlicense field.
+func (o *EngineOption) SetNeedAddonlicense(v bool) {
+	o.NeedAddonlicense = &v
+}
+
 // GetLicense returns the License field value if set, zero value otherwise.
 func (o *EngineOption) GetLicense() EngineOptionLicense {
 	if o == nil || o.License == nil {
@@ -1152,6 +1182,9 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 	toSerialize["restart"] = o.Restart
 	toSerialize["hscale"] = o.Hscale
 	toSerialize["vscale"] = o.Vscale
+	if o.NeedAddonlicense != nil {
+		toSerialize["needAddonlicense"] = o.NeedAddonlicense
+	}
 	if o.License != nil {
 		toSerialize["license"] = o.License
 	}
@@ -1222,6 +1255,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		Restart             *[]ComponentOpsOption            `json:"restart"`
 		Hscale              *[]ComponentOpsOption            `json:"hscale"`
 		Vscale              *[]ComponentOpsOption            `json:"vscale"`
+		NeedAddonlicense    *bool                            `json:"needAddonlicense,omitempty"`
 		License             *EngineOptionLicense             `json:"license,omitempty"`
 		StorageExpansion    []ComponentOpsOption             `json:"storageExpansion,omitempty"`
 		RebuildInstance     []ComponentOpsOption             `json:"rebuildInstance,omitempty"`
@@ -1336,6 +1370,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Restart = *all.Restart
 	o.Hscale = *all.Hscale
 	o.Vscale = *all.Vscale
+	o.NeedAddonlicense = all.NeedAddonlicense
 	if all.License != nil && all.License.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
