@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// OpsUpgrade Upgrade a component. A mode component with template upgrade enabled requires all template target versions and a component version equal to their minimum. Unchanged entries are allowed; changed entries follow the existing component upgrade rules. Other components must not specify templates.
+// OpsUpgrade Upgrade a component. For template upgrades, supply only the selected templates. Omitted templates retain their current versions. The server derives the component version as the minimum of current template versions with the supplied targets applied, both at admission and submission. The version field is retained for compatibility and is ignored for template upgrades. Changed targets and the derived component version must satisfy upgrade rules at admission. Other components must not specify templates.
 type OpsUpgrade struct {
 	Version           string                    `json:"version"`
 	InstanceTemplates []InstanceTemplateUpgrade `json:"instanceTemplates,omitempty"`
