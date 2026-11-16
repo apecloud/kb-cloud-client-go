@@ -12,7 +12,7 @@ import (
 
 // OpsUpgrade Upgrade a component or selected instance templates. For template upgrades, the server derives the component version from the resulting template versions.
 type OpsUpgrade struct {
-	// Required for component upgrades. For template upgrades, the server computes this value and ignores any supplied value.
+	// Required for component upgrades. Optional for template upgrades; any supplied nonempty value is overwritten by the server-computed component version.
 	Version           *string                   `json:"version,omitempty"`
 	InstanceTemplates []InstanceTemplateUpgrade `json:"instanceTemplates,omitempty"`
 	Component         string                    `json:"component"`
