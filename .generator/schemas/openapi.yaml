@@ -32472,12 +32472,10 @@ components:
           minLength: 1
           maxLength: 32
     opsUpgrade:
-      description: Upgrade a component or selected instance templates. For template upgrades, the server derives the component version from the resulting template versions.
+      description: Upgrade a component or selected instance templates. For template upgrades, the server overrides version with the minimum resulting template version.
       properties:
         version:
-          description: Required for component upgrades. Optional for template upgrades; any supplied nonempty value is overwritten by the server-computed component version.
           type: string
-          x-nullable: true
           minLength: 1
         instanceTemplates:
           type: array
@@ -32490,6 +32488,7 @@ components:
           description: Scheduled execution configuration
           nullable: true
       required:
+        - version
         - component
       type: object
     instanceTemplateServiceVersions:
