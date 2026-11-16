@@ -10,11 +10,12 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// OpsUpgrade OpsUpgrade is the payload to upgrade a KubeBlocks cluster
+// OpsUpgrade Upgrade a component. A mode component with template upgrade enabled requires all template target versions and a component version equal to their minimum. Unchanged entries are allowed; changed entries follow the existing component upgrade rules. Other components must not specify templates.
 type OpsUpgrade struct {
-	Version   string        `json:"version"`
-	Component string        `json:"component"`
-	Schedule  *TaskSchedule `json:"schedule,omitempty"`
+	Version           string                    `json:"version"`
+	InstanceTemplates []InstanceTemplateUpgrade `json:"instanceTemplates,omitempty"`
+	Component         string                    `json:"component"`
+	Schedule          *TaskSchedule             `json:"schedule,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -60,6 +61,34 @@ func (o *OpsUpgrade) GetVersionOk() (*string, bool) {
 // SetVersion sets field value.
 func (o *OpsUpgrade) SetVersion(v string) {
 	o.Version = v
+}
+
+// GetInstanceTemplates returns the InstanceTemplates field value if set, zero value otherwise.
+func (o *OpsUpgrade) GetInstanceTemplates() []InstanceTemplateUpgrade {
+	if o == nil || o.InstanceTemplates == nil {
+		var ret []InstanceTemplateUpgrade
+		return ret
+	}
+	return o.InstanceTemplates
+}
+
+// GetInstanceTemplatesOk returns a tuple with the InstanceTemplates field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OpsUpgrade) GetInstanceTemplatesOk() (*[]InstanceTemplateUpgrade, bool) {
+	if o == nil || o.InstanceTemplates == nil {
+		return nil, false
+	}
+	return &o.InstanceTemplates, true
+}
+
+// HasInstanceTemplates returns a boolean if a field has been set.
+func (o *OpsUpgrade) HasInstanceTemplates() bool {
+	return o != nil && o.InstanceTemplates != nil
+}
+
+// SetInstanceTemplates gets a reference to the given []InstanceTemplateUpgrade and assigns it to the InstanceTemplates field.
+func (o *OpsUpgrade) SetInstanceTemplates(v []InstanceTemplateUpgrade) {
+	o.InstanceTemplates = v
 }
 
 // GetComponent returns the Component field value.
@@ -120,6 +149,9 @@ func (o OpsUpgrade) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["version"] = o.Version
+	if o.InstanceTemplates != nil {
+		toSerialize["instanceTemplates"] = o.InstanceTemplates
+	}
 	toSerialize["component"] = o.Component
 	if o.Schedule != nil {
 		toSerialize["schedule"] = o.Schedule
@@ -134,9 +166,10 @@ func (o OpsUpgrade) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsUpgrade) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Version   *string       `json:"version"`
-		Component *string       `json:"component"`
-		Schedule  *TaskSchedule `json:"schedule,omitempty"`
+		Version           *string                   `json:"version"`
+		InstanceTemplates []InstanceTemplateUpgrade `json:"instanceTemplates,omitempty"`
+		Component         *string                   `json:"component"`
+		Schedule          *TaskSchedule             `json:"schedule,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -149,13 +182,14 @@ func (o *OpsUpgrade) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"version", "component", "schedule"})
+		common.DeleteKeys(additionalProperties, &[]string{"version", "instanceTemplates", "component", "schedule"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Version = *all.Version
+	o.InstanceTemplates = all.InstanceTemplates
 	o.Component = *all.Component
 	if all.Schedule != nil && all.Schedule.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true

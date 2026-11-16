@@ -78,6 +78,826 @@ tags:
   - name: redisKeyAnalysis
     description: Redis Keys Analysis APIs
 paths:
+  /admin/v1/data/influxdb/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      summary: InfluxDB ListUsers
+      operationId: influxDBListUsers
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InfluxDBUser'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: InfluxDB CreateUser
+      operationId: influxDBCreateUser
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InfluxDBUserCreate'
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfluxDBUser'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/influxdb/organizations/{orgName}/clusters/{clusterName}/accounts/{userID}:
+    delete:
+      summary: InfluxDB DeleteUser
+      operationId: influxDBDeleteUser
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/influxdb/organizations/{orgName}/clusters/{clusterName}/accounts/{userID}/password:
+    patch:
+      summary: InfluxDB ChangePassword
+      operationId: influxDBChangePassword
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userID
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InfluxDBPasswordChange'
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/influxdb/organizations/{orgName}/clusters/{clusterName}/organizations:
+    get:
+      summary: InfluxDB ListOrganizations
+      operationId: influxDBListOrganizations
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InfluxDBOrganization'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/influxdb/organizations/{orgName}/clusters/{clusterName}/buckets:
+    get:
+      summary: InfluxDB ListBuckets
+      operationId: influxDBListBuckets
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: influxOrgID
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InfluxDBBucket'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: InfluxDB CreateBucket
+      operationId: influxDBCreateBucket
+      tags:
+        - influxdb
+        - database
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfluxDBBucket'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InfluxDBBucketCreate'
+  /admin/v1/data/influxdb/organizations/{orgName}/clusters/{clusterName}/buckets/{bucketID}:
+    get:
+      summary: InfluxDB GetBucket
+      operationId: influxDBGetBucket
+      tags:
+        - influxdb
+        - database
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: bucketID
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: influxOrgID
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfluxDBBucket'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      summary: InfluxDB UpdateBucket
+      operationId: influxDBUpdateBucket
+      tags:
+        - influxdb
+        - database
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: bucketID
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: influxOrgID
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfluxDBBucket'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InfluxDBBucketUpdate'
+    delete:
+      summary: InfluxDB DeleteBucket
+      operationId: influxDBDeleteBucket
+      tags:
+        - influxdb
+        - database
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: bucketID
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: influxOrgID
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/influxdb/organizations/{orgName}/clusters/{clusterName}/accounts/{userID}/tokens:
+    get:
+      summary: InfluxDB ListTokens
+      operationId: influxDBListTokens
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InfluxDBToken'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: InfluxDB CreateToken
+      operationId: influxDBCreateToken
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userID
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InfluxDBTokenCreate'
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfluxDBTokenCreated'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/influxdb/organizations/{orgName}/clusters/{clusterName}/accounts/{userID}/tokens/{tokenID}:
+    patch:
+      summary: InfluxDB UpdateToken
+      operationId: influxDBUpdateToken
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userID
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: tokenID
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InfluxDBTokenUpdate'
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: InfluxDB DeleteToken
+      operationId: influxDBDeleteToken
+      tags:
+        - influxdb
+        - account
+        - shared
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userID
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: tokenID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/rebalance/drain-preview:
+    post:
+      summary: Preview DolphinDB data node evacuation
+      operationId: dolphinDBPreviewDrain
+      tags:
+        - dolphindb
+        - shared
+      description: Read-only evacuation preview computed by an embedded DMS planner from native controller metadata. No addon planner or module upgrade is required. Does not evacuate data, reserve a plan, or remove a node. Existing HorizontalScaling/memberLeave independently checks current state and executes; capacity is not inferred from chunk size.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 10000000
+            default: 0
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+            default: 100
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBDrainRequest'
+      responses:
+        '200':
+          description: Observed evacuation plan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DolphinDBDrainPreview'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/rebalance/preview:
+    get:
+      summary: DolphinDB PreviewRebalance
+      operationId: dolphinDBPreviewRebalance
+      tags:
+        - dolphindb
+        - shared
+      description: Read-only preview recalculated on every request. Execution recomputes the actual plan. This operation does not scale the cluster or drain a node.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 10000000
+            default: 0
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+            default: 100
+        - name: updatedBeforeDays
+          in: query
+          schema:
+            type: number
+            minimum: 0
+            maximum: 36500
+            default: 7
+      responses:
+        '200':
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DolphinDBRebalancePreview'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/distribution:
+    get:
+      summary: DolphinDB GetDistribution
+      operationId: dolphinDBGetDistribution
+      tags:
+        - dolphindb
+        - shared
+      description: Filesystem bytes and physical chunk replica counts (including metadata/unready replicas). Not logical data size or healthy-copy counts.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DolphinDBDistribution'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/rebalance/operations:
+    post:
+      summary: DolphinDB CreateRebalance
+      operationId: dolphinDBCreateRebalance
+      tags:
+        - dolphindb
+        - shared
+      description: Submit the built-in dolphindb-rebalance Custom Ops through the platform scheduler. Returns the unified taskId; use platform task APIs for history and status. A timeout or cancellation does not cancel native migrations. Do not automatically resubmit a timed-out request.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opsRequestName'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DolphinDBRebalanceRequest'
   /admin/v1/data/dolphindb/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       summary: DolphinDB ListUsers
@@ -6194,6 +7014,86 @@ paths:
       tags:
         - databaseParameters
       x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/dms/audits:
+    get:
+      tags:
+        - dms
+        - shared
+      operationId: listDMSAudit
+      summary: List independent DMS audit records
+      description: Only organization administrators and authorized admin-portal users can read these records.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: userName
+          in: query
+          schema:
+            type: string
+        - name: databaseUser
+          in: query
+          schema:
+            type: string
+        - name: database
+          in: query
+          schema:
+            type: string
+        - name: operation
+          in: query
+          schema:
+            type: string
+        - name: statement
+          in: query
+          description: Literal substring of recorded content.
+          schema:
+            type: string
+        - name: risk
+          in: query
+          schema:
+            $ref: '#/components/schemas/dmsAuditRisk'
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/dmsAuditStatus'
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Audit records, ordered by newest first.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dmsAuditList'
+        '403':
+          $ref: '#/components/responses/403'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}:
     get:
       tags:
@@ -12768,6 +13668,39 @@ paths:
       tags:
         - vipPool
       x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/loadbalancer/vipPool/checkPorts:
+    post:
+      operationId: checkVIPPorts
+      summary: Check whether ports are already used on a VIP
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/vipPortCheckRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/vipPortCheckResult'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - vipPool
+      x-codegen-request-body-name: body
   /admin/v1/environments/{environmentName}/loadbalancer/vipPool/{poolID}:
     delete:
       operationId: deleteVIPPool
@@ -13374,6 +14307,31 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - environment
+  /admin/v1/environmentStaticClusters:
+    post:
+      operationId: listEnvironmentStaticClusters
+      description: List retained MinIO, VictoriaMetrics, and VictoriaLogs clusters that can be explicitly attached when adding an environment. The optional engine filter restricts the results to one engine; omitted or empty returns all supported engines. Does not select a cluster.
+      summary: List reusable environment service clusters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/environmentStaticClusterList'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentObjectStorage'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - environment
+      x-codegen-request-body-name: body
   /admin/v1/environmentBackupRepo:
     post:
       operationId: getEnvironmentBackupRepo
@@ -13585,6 +14543,12 @@ paths:
           required: true
           schema:
             type: string
+        - description: Use the environment installation repository selection and retry handling. Omitted or false performs ordinary repository creation.
+          in: query
+          name: envInstall
+          schema:
+            type: boolean
+            default: false
       requestBody:
         content:
           application/json:
@@ -13604,6 +14568,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/backupRepo'
           description: Returned when edge is created successfully.
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -14141,7 +15107,7 @@ paths:
             type: string
         - name: database
           in: query
-          description: database name
+          description: Database name for engines configured to switch the object tree by database.
           schema:
             type: string
       responses:
@@ -14418,6 +15384,37 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - backup
+  /admin/v1/organizations/{orgName}/backups/batch-delete:
+    post:
+      operationId: batchDeleteBackups
+      summary: Batch delete backups
+      description: Delete multiple backups in a single request. Backups which cannot be deleted are reported in the error response and do not roll back the backups that were already deleted.
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backupBatchDelete'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Returned when the backups are deleted successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - backup
+      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/backups/{backupId}:
     delete:
       operationId: deleteBackup
@@ -19533,6 +20530,88 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/scheduled-tasks:
+    get:
+      tags:
+        - task
+      summary: List scheduled tasks
+      description: List scheduled tasks
+      operationId: listScheduledTasks
+      parameters:
+        - name: provider
+          in: query
+          description: Filter by scheduler provider
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Filter by scheduled task status
+          schema:
+            $ref: '#/components/schemas/scheduledTaskStatus'
+        - name: pageNumber
+          in: query
+          description: Page number, starting from 1
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            default: 1
+        - name: pageSize
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            default: 10
+      responses:
+        '200':
+          description: Scheduled task list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/scheduledTaskList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+  /admin/v1/scheduled-tasks/{scheduledTaskId}:
+    get:
+      tags:
+        - task
+      summary: Get scheduled task
+      description: Get scheduled task details
+      operationId: getScheduledTask
+      parameters:
+        - name: scheduledTaskId
+          in: path
+          required: true
+          description: ID of the scheduled task
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Scheduled task details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/scheduledTaskDetail'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/cluster/{clusterName}/available-relations:
     get:
       tags:
@@ -19708,7 +20787,7 @@ paths:
     patch:
       operationId: updateEnvironmentModule
       summary: Update an environment module
-      description: Performs the requested module action. Supported quick install and upgrade actions use dryRun=true for synchronous checks without changes; dryRun=false or omitted repeats the checks and submits an asynchronous task only when all checks pass. Other module actions keep their original behavior.
+      description: Performs the requested module action. Supported install, upgrade, and uninstall actions use dryRun=true for synchronous checks without changes; dryRun=false or omitted repeats the checks and submits an asynchronous task only when all checks pass. Failed uninstall tasks reuse their original resource snapshot on retry. Other module actions keep their original behavior.
       parameters:
         - name: environmentName
           in: path
@@ -19933,7 +21012,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -19974,7 +21053,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -20012,6 +21091,54 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/computeGroupCreate'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/enable:
+    post:
+      tags:
+        - computeGroup
+      operationId: enableComputeGroup
+      summary: Enable a compute group on an existing component
+      parameters:
+        - name: engineName
+          in: path
+          required: true
+          description: Engine name.
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Accepted; poll taskId for convergence.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opsRequestName'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/computeGroupEnable'
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/computeGroups/{groupName}:
     get:
       tags:
@@ -20022,7 +21149,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -20068,7 +21195,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -20115,7 +21242,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -20168,7 +21295,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -20215,7 +21342,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -20262,7 +21389,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -20309,7 +21436,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -20356,7 +21483,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -20404,7 +21531,7 @@ paths:
         - name: engineName
           in: path
           required: true
-          description: Supported engine name (doris or selectdb).
+          description: Engine name.
           schema:
             type: string
         - name: orgName
@@ -27568,6 +28695,61 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/kingbase/performanceTrends:
+    get:
+      tags:
+        - diagnostics
+      summary: Get Kingbase performance trends
+      description: |
+        Get read-only Kingbase performance trends from backend-owned metrics. The response covers resource, connection, workload, database, capacity, and availability series and does not expose PromQL, internal endpoints, or credentials.
+        V9 queries.perSecond requires track_sql=on and track_sql_item either empty (all items) or containing the complete sqltime item. Each QPS sample must have matching settings from the same scrape target and timestamp; disabled, missing, stale, or conflicting settings exclude that sample from both series and summaries. V8 QPS does not depend on these V9 settings. Unknown or unverified major versions (including V10) omit QPS without querying it.
+        An absent QPS series means collection availability cannot be confirmed; it does not mean zero load or prove that SQL tracking is disabled. Check the database version, SQL tracking settings, and collection of same-scrape settings metrics. Source success describes queries with displayable results, not the availability of every metric. Empty metrics do not produce query-failure warnings.
+        xid.age, database.sizeBytes, and locks.observedSessionCount cover user databases only, excluding esrep, kingbase, security, template0, template1, and empty or placeholder (-) database names. xid.age is not an instance-wide wraparound safety check: system database ages are not shown. Its 150M/180M warning/critical thresholds are static references, not the cluster's freeze settings or database limits.
+      operationId: getDiagnosticsKingbasePerformanceTrends
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: range
+          in: query
+          description: Controlled query range. Allowed values are 1h, 6h, 24h, and 7d. Defaults to 1h.
+          required: false
+          schema:
+            type: string
+        - name: step
+          in: query
+          description: Controlled query granularity. Allowed values are 1m, 5m, 15m, and 1h. For range 7d, step must be at least 5m; the default is 1h.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/performanceTrends'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/kingbase/sessions:
     get:
       tags:
@@ -31352,6 +32534,444 @@ components:
         curl --digest -u "accessKey:secretKey" https://api.example.com/admin/v1/user
         ```
   schemas:
+    InfluxDBUser:
+      type: object
+      required:
+        - id
+        - name
+        - status
+        - protected
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        protected:
+          type: boolean
+          description: Management or privileged users cannot be modified here.
+    APIErrorResponse:
+      description: API error response.
+      properties:
+        code:
+          description: The HTTP status code.
+          type: integer
+        reason:
+          description: The reason for the error.
+          type: string
+        message:
+          description: The message for the error.
+          type: string
+        errorCode:
+          description: Stable business error code for programmatic handling.
+          type: string
+      required:
+        - code
+      type: object
+    InfluxDBUserCreate:
+      type: object
+      required:
+        - name
+        - password
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 64
+        password:
+          type: string
+          format: password
+          minLength: 8
+          maxLength: 1024
+    InfluxDBPasswordChange:
+      type: object
+      required:
+        - password
+      properties:
+        password:
+          type: string
+          format: password
+          minLength: 8
+          maxLength: 1024
+    InfluxDBOrganization:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    InfluxDBRetentionRuleType:
+      type: string
+      enum:
+        - expire
+    InfluxDBBucketRetentionRule:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/InfluxDBRetentionRuleType'
+        everySeconds:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 9223372036
+          description: 0 means forever. Positive retention must be at least 3600 seconds. Omit on PATCH to preserve retention.
+        shardGroupDurationSeconds:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 9223372036
+          description: 0 selects the native default. Omit on PATCH to preserve the existing duration.
+    InfluxDBBucket:
+      type: object
+      required:
+        - id
+        - orgID
+        - name
+        - type
+        - description
+        - retentionRules
+      properties:
+        id:
+          type: string
+        orgID:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        retentionRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/InfluxDBBucketRetentionRule'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    InfluxDBBucketCreate:
+      type: object
+      required:
+        - orgID
+        - name
+      properties:
+        orgID:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        retentionRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/InfluxDBBucketRetentionRule'
+          maxItems: 1
+    InfluxDBBucketUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        retentionRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/InfluxDBBucketRetentionRule'
+          maxItems: 1
+      description: 'Partial update. Omitted fields are unchanged; empty description clears it. Absent or empty retentionRules does not change retention. To retain forever send everySeconds: 0. System buckets cannot be renamed.'
+    InfluxDBTokenStatus:
+      type: string
+      enum:
+        - active
+        - inactive
+    InfluxDBPermissionAction:
+      type: string
+      enum:
+        - read
+        - write
+    InfluxDBResource:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+        orgID:
+          type: string
+    InfluxDBPermission:
+      type: object
+      required:
+        - action
+        - resource
+      properties:
+        action:
+          $ref: '#/components/schemas/InfluxDBPermissionAction'
+        resource:
+          $ref: '#/components/schemas/InfluxDBResource'
+    InfluxDBToken:
+      type: object
+      required:
+        - id
+        - userID
+        - orgID
+        - description
+        - status
+        - permissions
+        - editable
+      properties:
+        id:
+          type: string
+        userID:
+          type: string
+        orgID:
+          type: string
+        description:
+          type: string
+        status:
+          $ref: '#/components/schemas/InfluxDBTokenStatus'
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/InfluxDBPermission'
+        editable:
+          type: boolean
+          description: Only explicit bucket-scoped tokens can be changed.
+    InfluxDBBucketPermission:
+      type: object
+      required:
+        - bucketID
+        - read
+        - write
+      properties:
+        bucketID:
+          type: string
+        read:
+          type: boolean
+        write:
+          type: boolean
+    InfluxDBTokenCreate:
+      type: object
+      required:
+        - orgID
+        - permissions
+      properties:
+        orgID:
+          type: string
+        description:
+          type: string
+          maxLength: 1024
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/InfluxDBBucketPermission'
+          minItems: 1
+          maxItems: 200
+    InfluxDBTokenCreated:
+      type: object
+      required:
+        - id
+        - userID
+        - orgID
+        - description
+        - status
+        - permissions
+        - editable
+        - value
+      properties:
+        id:
+          type: string
+        userID:
+          type: string
+        orgID:
+          type: string
+        description:
+          type: string
+        status:
+          $ref: '#/components/schemas/InfluxDBTokenStatus'
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/InfluxDBPermission'
+        editable:
+          type: boolean
+          description: Only explicit bucket-scoped tokens can be changed.
+        value:
+          type: string
+          description: New token secret, returned only at creation. Save it securely.
+    InfluxDBTokenUpdate:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          $ref: '#/components/schemas/InfluxDBTokenStatus'
+    DolphinDBDrainRequest:
+      type: object
+      required:
+        - source
+        - remainingNodes
+      properties:
+        source:
+          type: string
+          pattern: ^[A-Za-z0-9_-]{1,253}$
+        remainingNodes:
+          type: array
+          minItems: 1
+          maxItems: 1000
+          uniqueItems: true
+          items:
+            type: string
+            pattern: ^[A-Za-z0-9_-]{1,253}$
+    DolphinDBDrainMigration:
+      type: object
+      required:
+        - chunkId
+        - srcNode
+        - destNode
+        - action
+      properties:
+        chunkId:
+          type: string
+        srcNode:
+          type: string
+        destNode:
+          type: string
+          description: Empty for a redundant replica deletion.
+        action:
+          type: string
+          description: moveReplica or dropRedundantReplica. Preview does not execute either action.
+    DolphinDBDrainPreview:
+      type: object
+      required:
+        - observedAt
+        - source
+        - remainingNodes
+        - total
+        - offset
+        - entries
+        - capacityCheck
+      properties:
+        observedAt:
+          type: string
+          format: date-time
+        source:
+          type: string
+        remainingNodes:
+          type: array
+          items:
+            type: string
+        total:
+          type: integer
+        offset:
+          type: integer
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBDrainMigration'
+        capacityCheck:
+          type: string
+          description: Always notValidated. This preview is not proof of sufficient physical capacity or permission to delete the node.
+    DolphinDBMigration:
+      type: object
+      properties:
+        chunkId:
+          type: string
+        srcNode:
+          type: string
+        destNode:
+          type: string
+        destVolume:
+          type: string
+      required:
+        - chunkId
+        - srcNode
+        - destNode
+    DolphinDBRebalancePreview:
+      type: object
+      properties:
+        observedAt:
+          type: string
+          format: date-time
+        updatedBeforeDays:
+          type: number
+        total:
+          type: integer
+          format: int64
+        offset:
+          type: integer
+          format: int64
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBMigration'
+    DolphinDBVolumeUsage:
+      type: object
+      properties:
+        node:
+          type: string
+        volumePath:
+          type: string
+        usage:
+          type: integer
+          format: int64
+        capacity:
+          type: integer
+          format: int64
+    DolphinDBReplicaDistribution:
+      type: object
+      properties:
+        node:
+          type: string
+        replicaCount:
+          type: integer
+          format: int64
+    DolphinDBDistribution:
+      type: object
+      properties:
+        observedAt:
+          type: string
+          format: date-time
+        volumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBVolumeUsage'
+        replicas:
+          type: array
+          items:
+            $ref: '#/components/schemas/DolphinDBReplicaDistribution'
+    DolphinDBRebalanceRequest:
+      type: object
+      properties:
+        updatedBeforeDays:
+          type: number
+          minimum: 0
+          maximum: 36500
+          default: 7
+        timeoutSeconds:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 86400
+          default: 3600
+          description: Addon wait timeout. Expiry does not cancel native migrations.
+    opsRequestName:
+      description: OpsRequestName is the name of a KubeBlocks OpsRequest response
+      properties:
+        opsRequestName:
+          type: string
+        taskId:
+          type: string
+      required:
+        - taskId
+      type: object
     DolphinDBUser:
       type: object
       properties:
@@ -31371,21 +32991,6 @@ components:
         - isAdmin
         - groups
         - readOnly
-    APIErrorResponse:
-      description: API error response.
-      properties:
-        code:
-          description: The HTTP status code.
-          type: integer
-        reason:
-          description: The reason for the error.
-          type: string
-        message:
-          description: The message for the error.
-          type: string
-      required:
-        - code
-      type: object
     DolphinDBUserCreate:
       type: object
       properties:
@@ -33682,8 +35287,7 @@ components:
         replicas:
           title: Replicas
           type: integer
-          x-nullable: true
-          description: Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas. When instanceTemplates is provided, this must equal the sum of all template replica counts.
+          description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3. When instanceTemplates is provided, this must equal the sum of all template replica counts.
         instanceTemplates:
           type: array
           minItems: 1
@@ -35171,16 +36775,6 @@ components:
         networkMode:
           description: Specify the network mode the cluster transitions to. Defaults to the network mode of the cluster when omitted.
           $ref: '#/components/schemas/networkMode'
-    opsRequestName:
-      description: OpsRequestName is the name of a KubeBlocks OpsRequest response
-      properties:
-        opsRequestName:
-          type: string
-        taskId:
-          type: string
-      required:
-        - taskId
-      type: object
     disasterRecoveryTask:
       description: Task information of disasterRecovery job
       properties:
@@ -36045,6 +37639,146 @@ components:
         deprecated:
           description: which version the parameter is deprecated
           type: string
+    dmsAuditRisk:
+      type: string
+      enum:
+        - unknown
+        - read_only
+        - ddl
+        - dml
+        - high
+    dmsAuditStatus:
+      type: string
+      enum:
+        - success
+        - failed
+        - unknown
+    dmsAuditStatement:
+      type: object
+      required:
+        - sequence
+        - statement
+        - database
+        - tableNames
+        - risk
+        - status
+        - errorMessage
+      properties:
+        sequence:
+          type: integer
+        statement:
+          type: string
+        database:
+          type: string
+        tableNames:
+          type: array
+          items:
+            type: string
+        sessionId:
+          type: string
+        risk:
+          $ref: '#/components/schemas/dmsAuditRisk'
+        status:
+          $ref: '#/components/schemas/dmsAuditStatus'
+        errorMessage:
+          type: string
+        durationMs:
+          type: integer
+          format: int64
+        rowsAffected:
+          type: integer
+          format: int64
+        startedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+    dmsAudit:
+      type: object
+      required:
+        - id
+        - orgName
+        - clusterId
+        - clusterName
+        - userName
+        - engine
+        - database
+        - operation
+        - statement
+        - status
+        - createdAt
+      properties:
+        id:
+          type: string
+        orgName:
+          type: string
+        clusterId:
+          type: string
+        clusterName:
+          type: string
+        datasourceId:
+          type: string
+        userId:
+          type: string
+          description: Absent for migrated history with unknown actor.
+        userName:
+          type: string
+        databaseUser:
+          type: string
+          description: Database connection account captured at operation time. Empty for historical records or connections without a named account.
+        engine:
+          type: string
+        database:
+          type: string
+        operation:
+          type: string
+        statement:
+          type: string
+        clientIp:
+          type: string
+        sessionId:
+          type: string
+          description: Native database session ID; see individual statements when a batch uses multiple connections.
+        risk:
+          $ref: '#/components/schemas/dmsAuditRisk'
+        tableNames:
+          type: array
+          items:
+            type: string
+        errorMessage:
+          type: string
+        rowsAffected:
+          type: integer
+          format: int64
+        statements:
+          type: array
+          items:
+            $ref: '#/components/schemas/dmsAuditStatement'
+        status:
+          $ref: '#/components/schemas/dmsAuditStatus'
+        createdAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        durationMs:
+          type: integer
+          format: int64
+    dmsAuditList:
+      type: object
+      required:
+        - items
+        - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/dmsAudit'
+        total:
+          type: integer
+          format: int64
     datasource:
       required:
         - type
@@ -39057,12 +40791,29 @@ components:
       required:
         - items
       type: object
+    instanceTemplateUpgrade:
+      type: object
+      required:
+        - name
+        - serviceVersion
+      properties:
+        name:
+          type: string
+          minLength: 1
+        serviceVersion:
+          type: string
+          minLength: 1
+          maxLength: 32
     opsUpgrade:
-      description: OpsUpgrade is the payload to upgrade a KubeBlocks cluster
+      description: Upgrade a component. A mode component with template upgrade enabled requires all template target versions and a component version equal to their minimum. Unchanged entries are allowed; changed entries follow the existing component upgrade rules. Other components must not specify templates.
       properties:
         version:
           type: string
           minLength: 1
+        instanceTemplates:
+          type: array
+          items:
+            $ref: '#/components/schemas/instanceTemplateUpgrade'
         component:
           type: string
         schedule:
@@ -39073,6 +40824,17 @@ components:
         - version
         - component
       type: object
+    instanceTemplateServiceVersions:
+      type: object
+      properties:
+        name:
+          type: string
+        currentVersion:
+          type: string
+        upgradeableVersions:
+          type: array
+          items:
+            type: string
     componentVersionArchitecture:
       type: object
       description: |
@@ -39116,6 +40878,11 @@ components:
     engineServiceVersions:
       type: object
       properties:
+        instanceTemplates:
+          x-omitempty: true
+          type: array
+          items:
+            $ref: '#/components/schemas/instanceTemplateServiceVersions'
         component:
           type: string
           description: component type, refer to componentDef and support NamePrefix
@@ -39764,9 +41531,15 @@ components:
         components:
           type: array
           maxItems: 3
-          description: Optional component overrides. Unknown, duplicate or other-engine components are rejected.
+          description: Optional component overrides. Unknown, duplicate or other-engine components are rejected. Must be omitted when reusedClusterName is set; adding an environment does not resize an existing cluster.
           items:
             $ref: '#/components/schemas/staticClusterComponent'
+        reusedClusterName:
+          type: string
+          description: Kubernetes name of an existing cluster to attach. Set together with reusedClusterNamespace. The existing cluster's actual resources are used, and component overrides are rejected.
+        reusedClusterNamespace:
+          type: string
+          description: Namespace of the cluster named by reusedClusterName. Required when reusedClusterName is set.
     environmentStorage:
       type: object
       description: Storage config
@@ -39790,7 +41563,6 @@ components:
       type: object
       description: Storage config for environment
       required:
-        - backup
         - storages
       properties:
         storages:
@@ -39801,18 +41573,23 @@ components:
         backup:
           type: object
           description: the storage config for backup
-          required:
-            - storageName
-            - backupRepoName
-            - defaultBackupRepo
           properties:
+            storageIndex:
+              type: integer
+              format: int64
+              nullable: true
+              minimum: 0
+              description: Zero-based index of the default backup storage. Required for multiple storages when storageName is omitted.
             storageName:
+              nullable: true
               type: string
               description: the name of storage
             backupRepoName:
+              nullable: true
               type: string
               description: the backup repo name which will be init
             defaultBackupRepo:
+              nullable: true
               type: boolean
               description: judge whether to set the backup is default which will be init
     victoriaLogsConfig:
@@ -39824,12 +41601,10 @@ components:
             retentionPeriod:
               type: string
               x-nullable: false
-              default: 100y
               description: Environment installation log retention, explicitly overriding the addon default. Defaults to 100y when omitted. Accepts a number with s (seconds), h (hours), d (days), w (weeks), M (months), or y (years); a bare number means months. Must be between 1d and 100y. Disk usage retention limits still apply.
             retentionMaxDiskUsagePercent:
               type: integer
               nullable: true
-              default: 80
               minimum: 1
               maximum: 100
               description: Maximum disk usage percentage before VictoriaLogs deletes older log partitions. Defaults to 80 when omitted. Applies independently of retentionPeriod.
@@ -39848,6 +41623,8 @@ components:
         - Upgradeable
         - Upgrading
         - UpgradeFailed
+        - Uninstalling
+        - UninstallationFailed
         - Unknown
     clusterInfo:
       type: object
@@ -39901,6 +41678,12 @@ components:
         actionWarning:
           $ref: '#/components/schemas/localizedDescription'
           description: Localized business-impact warning for the component action represented by the current status.
+        uninstallSupported:
+          type: boolean
+          description: Whether the module supports the Uninstall action. A dry run checks whether it is currently safe to uninstall.
+        uninstallWarning:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Localized warning about resources and data removed by uninstallation.
       required:
         - name
         - status
@@ -39921,10 +41704,10 @@ components:
         storage:
           $ref: '#/components/schemas/storageConfig'
         victoriaMetrics:
-          description: Optional per-component resources for vm-storage, vm-select and vm-insert. Omitted components and fields keep installer defaults; only vm-storage accepts disk capacity.
+          description: Create VictoriaMetrics with optional per-component resources, or attach an existing cluster by reusedClusterName and reusedClusterNamespace. Omitted components keep installer defaults on create. Reuse uses the existing cluster's actual resources and does not resize it.
           $ref: '#/components/schemas/staticCluster'
         victoriaLogs:
-          description: Optional per-component resources for vlstorage, vlselect and vlinsert, plus log retention. Omitted components and fields keep installer defaults; only vlstorage accepts disk capacity.
+          description: Create VictoriaLogs with optional per-component resources and retention, or attach an existing cluster by reusedClusterName and reusedClusterNamespace. Omitted components keep installer defaults on create. Reuse uses the existing cluster's actual resources and retention, and does not resize or reconfigure it.
           $ref: '#/components/schemas/victoriaLogsConfig'
         modules:
           type: array
@@ -40224,6 +42007,9 @@ components:
           $ref: '#/components/schemas/cloudResourceCleanPolicy'
         victoriaMetrics:
           description: reserve vm cluster when delete environment
+          $ref: '#/components/schemas/cloudResourceCleanPolicy'
+        victoriaLogs:
+          description: Cleanup policy for the VictoriaLogs cluster when deleting the environment. If omitted, uses the minio policy.
           $ref: '#/components/schemas/cloudResourceCleanPolicy'
     environmentUpdate:
       type: object
@@ -41036,6 +42822,54 @@ components:
         - addresses
         - poolName
       type: object
+    vipPortCheckRequest:
+      description: VIP port check request
+      properties:
+        ip:
+          description: VIP address to check
+          type: string
+        ports:
+          description: TCP ports to check. When empty, only the occupied ports are returned.
+          items:
+            format: int32
+            type: integer
+          type: array
+      required:
+        - ip
+      type: object
+    vipPortCheckResult:
+      description: VIP port check result
+      properties:
+        conflicts:
+          description: Requested ports that are already in use
+          items:
+            format: int32
+            type: integer
+          type: array
+        ip:
+          description: Checked VIP address
+          type: string
+        occupiedPorts:
+          description: Ports already used on the VIP. Resource ownership details are intentionally omitted.
+          items:
+            description: A port already used on the VIP
+            properties:
+              port:
+                description: Port number
+                format: int32
+                type: integer
+              protocol:
+                description: Port protocol
+                type: string
+            required:
+              - port
+              - protocol
+            type: object
+          type: array
+      required:
+        - ip
+        - occupiedPorts
+      type: object
     vipPoolUpdate:
       description: VIP Pool update
       properties:
@@ -41589,6 +43423,33 @@ components:
             $ref: '#/components/schemas/ipPoolProviderList'
       required:
         - providers
+    rawClusterComponent:
+      type: object
+      description: Actual resources of one component in a discovered cluster.
+      properties:
+        component:
+          type: string
+          description: Component name, such as vm-storage or vlselect.
+        replicas:
+          type: integer
+          description: the replicas of this component
+        storage:
+          type: number
+          description: Storage size, the unit is Gi
+          format: double
+        cpu:
+          title: CPU
+          type: number
+          description: CPU cores.
+          format: double
+        memory:
+          title: Memory(Gi)
+          type: number
+          description: Memory, the unit is Gi.
+          format: double
+        classCode:
+          type: string
+          description: Class code recorded for this component.
     rawCluster:
       type: object
       description: cluster info
@@ -41596,6 +43457,9 @@ components:
         kubernetesName:
           description: the cluster name in k8s
           type: string
+        engine:
+          type: string
+          description: Cluster definition of the discovered cluster, such as minio or victoria-metrics.
         namespace:
           type: string
           description: the namespace of cluster
@@ -41616,6 +43480,11 @@ components:
           type: number
           description: Memory, the unit is Gi.
           format: double
+        components:
+          type: array
+          description: Actual resources of each component. A multi-component cluster returns every component instead of a single summary.
+          items:
+            $ref: '#/components/schemas/rawClusterComponent'
     environmentObjectStorage:
       type: object
       properties:
@@ -41623,6 +43492,25 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/rawCluster'
+    staticServiceClusterEngine:
+      description: Optional engine filter for retained service clusters. Omitted or empty returns all supported MinIO, VictoriaMetrics, and VictoriaLogs candidates discovered from the kubeconfig and existing cluster records. The caller must explicitly select a cluster to reuse.
+      type: string
+      enum:
+        - ''
+        - minio
+        - victoria-metrics
+        - victoria-logs
+    environmentStaticClusterList:
+      type: object
+      required:
+        - kubeconfig
+      properties:
+        kubeconfig:
+          description: The base64 encoded kubeconfig file contents to connect to this Kubernetes cluster.
+          format: byte
+          type: string
+        engine:
+          $ref: '#/components/schemas/staticServiceClusterEngine'
     rawBackupRepo:
       type: object
       description: backup repo info
@@ -41724,6 +43612,26 @@ components:
         - Mount
         - Tool
       type: string
+    backupRepoCheckStatus:
+      type: string
+      enum:
+        - Passed
+        - Failed
+        - NotChecked
+    backupRepoCheckResult:
+      type: object
+      description: Result of the platform storage access check, independent of the BackupRepo CR phase.
+      required:
+        - status
+      properties:
+        status:
+          $ref: '#/components/schemas/backupRepoCheckStatus'
+        message:
+          type: string
+        checkedAt:
+          type: string
+          format: date-time
+          x-nullable: true
     backupRepo:
       description: backupRepo is the payload for KubeBlocks cluster backup repo
       properties:
@@ -41772,6 +43680,8 @@ components:
         totalSize:
           description: totalSize specifies the total size of backups in the backupRepo
           type: string
+        check:
+          $ref: '#/components/schemas/backupRepoCheckResult'
         failedReason:
           type: string
           description: failedReason specifies the reason of the backupRepo failure
@@ -42432,6 +44342,19 @@ components:
           type: string
           nullable: true
       type: object
+    backupBatchDelete:
+      description: BackupBatchDelete is the payload for deleting multiple backups
+      type: object
+      required:
+        - backupIds
+      properties:
+        backupIds:
+          description: IDs of the backups to delete
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            type: string
     backupLogByPod:
       description: info of backup workload log
       properties:
@@ -43229,6 +45152,7 @@ components:
         - hscale
         - vscale
         - storageExpansion
+        - upgrade
     instanceTemplateAttribute:
       type: string
       description: Heterogeneous attribute the frontend may render on an instance template at create.
@@ -43841,6 +45765,7 @@ components:
           type: string
         feature:
           type: object
+          description: 'Engine capabilities and audit policy. auditSensitiveColumns is an array of case-insensitive sensitive column names; auditHighRiskStatements is an array of engine-specific rules: SQL keyword prefixes, Redis command/subcommand prefixes (FLUSHALL, CONFIG SET), or MongoDB command names (dropDatabase, delete, dropIndexes, $out). MongoDB shell helpers map to native command names; dynamic scripts may remain unclassified. Built-in credential redaction always applies.'
           additionalProperties: {}
         defaultAccount:
           type: string
@@ -43912,9 +45837,18 @@ components:
             type: string
         description:
           $ref: '#/components/schemas/localizedDescription'
+    selectedObjectConversionStrategy:
+      type: string
+      enum:
+        - levelMapping
+        - wholeObject
+      default: levelMapping
+      description: Strategy for converting the selected tree to parameters. levelMapping maps every configured level and applies skipWhenParentLevelsSelectedAll. wholeObject merges duplicate branches and maps only whole selected nodes (selectedAll or leaves), omitting covered descendants. Defaults to levelMapping when omitted.
     selectedObjectOption:
       type: object
       properties:
+        conversionStrategy:
+          $ref: '#/components/schemas/selectedObjectConversionStrategy'
         tree:
           type: object
           required:
@@ -43926,7 +45860,7 @@ components:
               description: if set to true, the tree will switch when database is switched. This is used for database-level backup, and the root level of the tree is database. If not set or set to false, the tree will not switch when database is switched, and the root level of the tree is instance.
             sql:
               type: string
-              description: The SQL query to retrieve the object tree
+              description: The engine-native query returning the columns used to build the object tree.
             levelOrder:
               type: array
               description: The order of object types in the hierarchy
@@ -45466,6 +47400,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/componentOpsOption'
+        needAddonlicense:
+          type: boolean
+          description: Whether the cluster chart consumes the platform license through the standard addon-license.existingSecret name/key values.
         license:
           type: object
           required:
@@ -45988,6 +47925,9 @@ components:
         - license
         - used
       properties:
+        taskId:
+          type: string
+          description: Asynchronous addon license synchronization task created after the platform license is saved. Only returned by the update operation.
         clusterID:
           type: string
           description: The kubernetes cluster ID
@@ -47059,8 +48999,11 @@ components:
           type: object
           description: default value for the parameter
         description:
-          type: string
-          description: description of the parameter
+          $ref: '#/components/schemas/localizedDescription'
+          description: localized description of the parameter
+        title:
+          $ref: '#/components/schemas/localizedDescription'
+          description: localized display title of the parameter
         type:
           type: string
           description: type of the parameter
@@ -47960,6 +49903,113 @@ components:
           $ref: '#/components/schemas/taskSchedule'
           description: Scheduled execution configuration
           x-nullable: true
+    scheduledTaskStatus:
+      type: string
+      enum:
+        - active
+        - disabled
+        - error
+        - unknown
+      description: Current normalized status of the scheduled task
+    scheduledTaskProvider:
+      type: string
+      enum:
+        - taskflow
+      description: Scheduler provider
+    scheduledTaskLastExecutionStatus:
+      type: string
+      enum:
+        - success
+        - failed
+        - running
+        - pending
+        - cancelled
+        - unknown
+      description: Most recently observable execution status
+    scheduledTaskEnableStatus:
+      type: string
+      enum:
+        - immutable
+        - disabled
+        - enabled
+      description: Whether the schedule is immutable, disabled, or enabled
+    scheduledTaskSummary:
+      type: object
+      required:
+        - scheduledTaskId
+        - name
+        - status
+        - createdAt
+      properties:
+        scheduledTaskId:
+          type: string
+          description: ID of the scheduled task
+        name:
+          type: string
+          description: Stable name of the scheduled task
+        provider:
+          $ref: '#/components/schemas/scheduledTaskProvider'
+        cronExpression:
+          type: string
+          description: Cron expression used to schedule the task
+          x-nullable: true
+        lastExecutionStatus:
+          $ref: '#/components/schemas/scheduledTaskLastExecutionStatus'
+        enabled:
+          $ref: '#/components/schemas/scheduledTaskEnableStatus'
+        scope:
+          type: string
+          description: Scope affected by the task, such as platform, organization, environment, or cluster
+        status:
+          $ref: '#/components/schemas/scheduledTaskStatus'
+        lastRunAt:
+          type: string
+          description: Most recent execution start time as a Unix timestamp in seconds
+          example: '1793763705'
+          x-nullable: true
+        nextRunAt:
+          type: string
+          description: Next scheduled execution time as a Unix timestamp in seconds
+          example: '1793763705'
+          x-nullable: true
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation time of the scheduled task record
+    scheduledTaskList:
+      type: object
+      required:
+        - items
+        - pagination
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/scheduledTaskSummary'
+        pagination:
+          $ref: '#/components/schemas/paginationResult'
+    scheduledTaskDetail:
+      allOf:
+        - $ref: '#/components/schemas/scheduledTaskSummary'
+        - type: object
+          properties:
+            providerTaskId:
+              type: string
+              description: Current runtime task ID within the scheduler provider
+              x-nullable: true
+            message:
+              type: string
+              description: Current task status or error message
+              x-nullable: true
+            providerDetails:
+              type: object
+              description: Provider-specific, non-sensitive task details
+              additionalProperties: true
+            lastObservedAt:
+              type: string
+              format: date-time
+              description: Last time the provider state was observed
+              x-nullable: true
     availableClusterList:
       type: array
       items:
@@ -48048,10 +50098,12 @@ components:
         - Enable: Enable the module
         - Disable: Disable the module
         - Upgrade: Upgrade the module
+        - Uninstall: Remove the module and its dedicated resources. Read uninstallWarning and run a dry run before confirmation.
       enum:
         - Enable
         - Disable
         - Upgrade
+        - Uninstall
     environmentModuleUpdate:
       type: object
       description: Update information for an environment module
@@ -48064,7 +50116,7 @@ components:
         dryRun:
           type: boolean
           default: false
-          description: For a supported quick install or upgrade action, only run synchronous checks when true. When false or omitted, repeat the checks and submit the asynchronous task if all checks pass.
+          description: For a supported install, upgrade, or uninstall action, only run synchronous checks when true. When false or omitted, repeat the checks and submit the asynchronous task if all checks pass.
       required:
         - name
         - action
@@ -48340,6 +50392,20 @@ components:
       required:
         - name
         - status
+    computeGroupMember:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Engine-native member identifier.
+        host:
+          type: string
+        port:
+          type: integer
+          format: int64
+        alive:
+          type: boolean
+          x-omitempty: false
     computeGroupBackend:
       type: object
       properties:
@@ -48389,6 +50455,26 @@ components:
           type: number
         memory:
           type: number
+        memberCount:
+          type: integer
+          format: int64
+          x-nullable: true
+          description: Number of registered members.
+        aliveMemberCount:
+          type: integer
+          format: int64
+          x-nullable: true
+          description: Number of members reported online by the engine.
+        members:
+          type: array
+          x-omitempty: true
+          items:
+            $ref: '#/components/schemas/computeGroupMember'
+        computeGroupEnabled:
+          type: boolean
+          default: true
+          x-nullable: true
+          description: Whether the component is configured as a native compute group; task completion reports convergence.
         backendCount:
           type: integer
           format: int64
@@ -48439,6 +50525,21 @@ components:
           type: string
           minLength: 1
           maxLength: 128
+      additionalProperties: false
+    computeGroupEnable:
+      type: object
+      required:
+        - componentName
+        - name
+      properties:
+        componentName:
+          type: string
+          minLength: 1
+          description: Existing compute component to enable.
+        name:
+          type: string
+          pattern: ^[A-Za-z][A-Za-z0-9_]{0,63}$
+          description: Target compute group name. An enabled component cannot be renamed.
       additionalProperties: false
     computeGroupScale:
       type: object

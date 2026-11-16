@@ -9,9 +9,9 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 // StorageProviderSchemaProps the schema properties for storage provider parameters
 type StorageProviderSchemaProps struct {
 	// default value for the parameter
-	Default interface{} `json:"default,omitempty"`
-	// description of the parameter
-	Description *string `json:"description,omitempty"`
+	Default     interface{}           `json:"default,omitempty"`
+	Description *LocalizedDescription `json:"description,omitempty"`
+	Title       *LocalizedDescription `json:"title,omitempty"`
 	// type of the parameter
 	Type *string `json:"type,omitempty"`
 	// whether to hide this parameter from frontend display
@@ -71,9 +71,9 @@ func (o *StorageProviderSchemaProps) SetDefault(v interface{}) {
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
-func (o *StorageProviderSchemaProps) GetDescription() string {
+func (o *StorageProviderSchemaProps) GetDescription() LocalizedDescription {
 	if o == nil || o.Description == nil {
-		var ret string
+		var ret LocalizedDescription
 		return ret
 	}
 	return *o.Description
@@ -81,7 +81,7 @@ func (o *StorageProviderSchemaProps) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *StorageProviderSchemaProps) GetDescriptionOk() (*string, bool) {
+func (o *StorageProviderSchemaProps) GetDescriptionOk() (*LocalizedDescription, bool) {
 	if o == nil || o.Description == nil {
 		return nil, false
 	}
@@ -93,9 +93,37 @@ func (o *StorageProviderSchemaProps) HasDescription() bool {
 	return o != nil && o.Description != nil
 }
 
-// SetDescription gets a reference to the given string and assigns it to the Description field.
-func (o *StorageProviderSchemaProps) SetDescription(v string) {
+// SetDescription gets a reference to the given LocalizedDescription and assigns it to the Description field.
+func (o *StorageProviderSchemaProps) SetDescription(v LocalizedDescription) {
 	o.Description = &v
+}
+
+// GetTitle returns the Title field value if set, zero value otherwise.
+func (o *StorageProviderSchemaProps) GetTitle() LocalizedDescription {
+	if o == nil || o.Title == nil {
+		var ret LocalizedDescription
+		return ret
+	}
+	return *o.Title
+}
+
+// GetTitleOk returns a tuple with the Title field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageProviderSchemaProps) GetTitleOk() (*LocalizedDescription, bool) {
+	if o == nil || o.Title == nil {
+		return nil, false
+	}
+	return o.Title, true
+}
+
+// HasTitle returns a boolean if a field has been set.
+func (o *StorageProviderSchemaProps) HasTitle() bool {
+	return o != nil && o.Title != nil
+}
+
+// SetTitle gets a reference to the given LocalizedDescription and assigns it to the Title field.
+func (o *StorageProviderSchemaProps) SetTitle(v LocalizedDescription) {
+	o.Title = &v
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
@@ -166,6 +194,9 @@ func (o StorageProviderSchemaProps) MarshalJSON() ([]byte, error) {
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
+	if o.Title != nil {
+		toSerialize["title"] = o.Title
+	}
 	if o.Type != nil {
 		toSerialize["type"] = o.Type
 	}
@@ -182,27 +213,41 @@ func (o StorageProviderSchemaProps) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageProviderSchemaProps) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Default     interface{} `json:"default,omitempty"`
-		Description *string     `json:"description,omitempty"`
-		Type        *string     `json:"type,omitempty"`
-		Hidden      *bool       `json:"hidden,omitempty"`
+		Default     interface{}           `json:"default,omitempty"`
+		Description *LocalizedDescription `json:"description,omitempty"`
+		Title       *LocalizedDescription `json:"title,omitempty"`
+		Type        *string               `json:"type,omitempty"`
+		Hidden      *bool                 `json:"hidden,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"default", "description", "type", "hidden"})
+		common.DeleteKeys(additionalProperties, &[]string{"default", "description", "title", "type", "hidden"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Default = all.Default
+	if all.Description != nil && all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
 	o.Description = all.Description
+	if all.Title != nil && all.Title.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Title = all.Title
 	o.Type = all.Type
 	o.Hidden = all.Hidden
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

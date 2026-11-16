@@ -42,6 +42,8 @@ type BackupRepo struct {
 	StorageProvider string `json:"storageProvider"`
 	// totalSize specifies the total size of backups in the backupRepo
 	TotalSize *string `json:"totalSize,omitempty"`
+	// Result of the platform storage access check, independent of the BackupRepo CR phase.
+	Check *BackupRepoCheckResult `json:"check,omitempty"`
 	// failedReason specifies the reason of the backupRepo failure
 	FailedReason *string `json:"failedReason,omitempty"`
 	// failedMessage specifies the message of the backupRepo failure
@@ -436,6 +438,34 @@ func (o *BackupRepo) SetTotalSize(v string) {
 	o.TotalSize = &v
 }
 
+// GetCheck returns the Check field value if set, zero value otherwise.
+func (o *BackupRepo) GetCheck() BackupRepoCheckResult {
+	if o == nil || o.Check == nil {
+		var ret BackupRepoCheckResult
+		return ret
+	}
+	return *o.Check
+}
+
+// GetCheckOk returns a tuple with the Check field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupRepo) GetCheckOk() (*BackupRepoCheckResult, bool) {
+	if o == nil || o.Check == nil {
+		return nil, false
+	}
+	return o.Check, true
+}
+
+// HasCheck returns a boolean if a field has been set.
+func (o *BackupRepo) HasCheck() bool {
+	return o != nil && o.Check != nil
+}
+
+// SetCheck gets a reference to the given BackupRepoCheckResult and assigns it to the Check field.
+func (o *BackupRepo) SetCheck(v BackupRepoCheckResult) {
+	o.Check = &v
+}
+
 // GetFailedReason returns the FailedReason field value if set, zero value otherwise.
 func (o *BackupRepo) GetFailedReason() string {
 	if o == nil || o.FailedReason == nil {
@@ -530,6 +560,9 @@ func (o BackupRepo) MarshalJSON() ([]byte, error) {
 	if o.TotalSize != nil {
 		toSerialize["totalSize"] = o.TotalSize
 	}
+	if o.Check != nil {
+		toSerialize["check"] = o.Check
+	}
 	if o.FailedReason != nil {
 		toSerialize["failedReason"] = o.FailedReason
 	}
@@ -560,6 +593,7 @@ func (o *BackupRepo) UnmarshalJSON(bytes []byte) (err error) {
 		StorageId       *string                 `json:"storageID,omitempty"`
 		StorageProvider *string                 `json:"storageProvider"`
 		TotalSize       *string                 `json:"totalSize,omitempty"`
+		Check           *BackupRepoCheckResult  `json:"check,omitempty"`
 		FailedReason    *string                 `json:"failedReason,omitempty"`
 		FailedMessage   *string                 `json:"failedMessage,omitempty"`
 	}{}
@@ -589,7 +623,7 @@ func (o *BackupRepo) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"accessMethod", "id", "backupNums", "config", "createdAt", "default", "environmentId", "environmentName", "name", "status", "storageName", "storageID", "storageProvider", "totalSize", "failedReason", "failedMessage"})
+		common.DeleteKeys(additionalProperties, &[]string{"accessMethod", "id", "backupNums", "config", "createdAt", "default", "environmentId", "environmentName", "name", "status", "storageName", "storageID", "storageProvider", "totalSize", "check", "failedReason", "failedMessage"})
 	} else {
 		return err
 	}
@@ -613,6 +647,10 @@ func (o *BackupRepo) UnmarshalJSON(bytes []byte) (err error) {
 	o.StorageId = all.StorageId
 	o.StorageProvider = *all.StorageProvider
 	o.TotalSize = all.TotalSize
+	if all.Check != nil && all.Check.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Check = all.Check
 	o.FailedReason = all.FailedReason
 	o.FailedMessage = all.FailedMessage
 

@@ -24,7 +24,7 @@ type ComponentItemCreate struct {
 	Component string `json:"component"`
 	// The number of components, if often used as shards number
 	CompNum *int32 `json:"compNum,omitempty"`
-	// Omit to use the cluster chart default. Set zero to disable the component when its resource constraints allow zero replicas. When instanceTemplates is provided, this must equal the sum of all template replica counts.
+	// The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3. When instanceTemplates is provided, this must equal the sum of all template replica counts.
 	Replicas *int32 `json:"replicas,omitempty"`
 	// Per-template replicas and optional overlays (env, annotations, labels, availability zone, storage class). Required when the current mode component declares instanceTemplate in engine_options; otherwise omit. Names must exactly match all chart-rendered instances, without missing, extra, or duplicate names; order does not matter. Component replicas must equal the sum of all requested instance template replica counts.
 	InstanceTemplates []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`

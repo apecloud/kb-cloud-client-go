@@ -12,17 +12,24 @@ type ComputeGroup struct {
 	Managed       *bool   `json:"managed,omitempty"`
 	IsDefault     *bool   `json:"isDefault,omitempty"`
 	// Kubernetes component phase, independent of engine membership.
-	Phase             *string               `json:"phase,omitempty"`
-	Stopped           *bool                 `json:"stopped,omitempty"`
-	Replicas          *int64                `json:"replicas,omitempty"`
-	ClassCode         *string               `json:"classCode,omitempty"`
-	Cpu               *float64              `json:"cpu,omitempty"`
-	Memory            *float64              `json:"memory,omitempty"`
-	BackendCount      *int64                `json:"backendCount,omitempty"`
-	AliveBackendCount *int64                `json:"aliveBackendCount,omitempty"`
-	DefaultUsers      []string              `json:"defaultUsers,omitempty"`
-	Backends          []ComputeGroupBackend `json:"backends,omitempty"`
-	AllowedActions    []string              `json:"allowedActions,omitempty"`
+	Phase     *string  `json:"phase,omitempty"`
+	Stopped   *bool    `json:"stopped,omitempty"`
+	Replicas  *int64   `json:"replicas,omitempty"`
+	ClassCode *string  `json:"classCode,omitempty"`
+	Cpu       *float64 `json:"cpu,omitempty"`
+	Memory    *float64 `json:"memory,omitempty"`
+	// Number of registered members.
+	MemberCount *int64 `json:"memberCount,omitempty"`
+	// Number of members reported online by the engine.
+	AliveMemberCount *int64               `json:"aliveMemberCount,omitempty"`
+	Members          []ComputeGroupMember `json:"members,omitempty"`
+	// Whether the component is configured as a native compute group; task completion reports convergence.
+	ComputeGroupEnabled *bool                 `json:"computeGroupEnabled,omitempty"`
+	BackendCount        *int64                `json:"backendCount,omitempty"`
+	AliveBackendCount   *int64                `json:"aliveBackendCount,omitempty"`
+	DefaultUsers        []string              `json:"defaultUsers,omitempty"`
+	Backends            []ComputeGroupBackend `json:"backends,omitempty"`
+	AllowedActions      []string              `json:"allowedActions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -34,6 +41,8 @@ type ComputeGroup struct {
 // will change when the set of required properties is changed.
 func NewComputeGroup() *ComputeGroup {
 	this := ComputeGroup{}
+	var computeGroupEnabled bool = true
+	this.ComputeGroupEnabled = &computeGroupEnabled
 	return &this
 }
 
@@ -42,6 +51,8 @@ func NewComputeGroup() *ComputeGroup {
 // but it doesn't guarantee that properties required by API are set.
 func NewComputeGroupWithDefaults() *ComputeGroup {
 	this := ComputeGroup{}
+	var computeGroupEnabled bool = true
+	this.ComputeGroupEnabled = &computeGroupEnabled
 	return &this
 }
 
@@ -325,6 +336,118 @@ func (o *ComputeGroup) SetMemory(v float64) {
 	o.Memory = &v
 }
 
+// GetMemberCount returns the MemberCount field value if set, zero value otherwise.
+func (o *ComputeGroup) GetMemberCount() int64 {
+	if o == nil || o.MemberCount == nil {
+		var ret int64
+		return ret
+	}
+	return *o.MemberCount
+}
+
+// GetMemberCountOk returns a tuple with the MemberCount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComputeGroup) GetMemberCountOk() (*int64, bool) {
+	if o == nil || o.MemberCount == nil {
+		return nil, false
+	}
+	return o.MemberCount, true
+}
+
+// HasMemberCount returns a boolean if a field has been set.
+func (o *ComputeGroup) HasMemberCount() bool {
+	return o != nil && o.MemberCount != nil
+}
+
+// SetMemberCount gets a reference to the given int64 and assigns it to the MemberCount field.
+func (o *ComputeGroup) SetMemberCount(v int64) {
+	o.MemberCount = &v
+}
+
+// GetAliveMemberCount returns the AliveMemberCount field value if set, zero value otherwise.
+func (o *ComputeGroup) GetAliveMemberCount() int64 {
+	if o == nil || o.AliveMemberCount == nil {
+		var ret int64
+		return ret
+	}
+	return *o.AliveMemberCount
+}
+
+// GetAliveMemberCountOk returns a tuple with the AliveMemberCount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComputeGroup) GetAliveMemberCountOk() (*int64, bool) {
+	if o == nil || o.AliveMemberCount == nil {
+		return nil, false
+	}
+	return o.AliveMemberCount, true
+}
+
+// HasAliveMemberCount returns a boolean if a field has been set.
+func (o *ComputeGroup) HasAliveMemberCount() bool {
+	return o != nil && o.AliveMemberCount != nil
+}
+
+// SetAliveMemberCount gets a reference to the given int64 and assigns it to the AliveMemberCount field.
+func (o *ComputeGroup) SetAliveMemberCount(v int64) {
+	o.AliveMemberCount = &v
+}
+
+// GetMembers returns the Members field value if set, zero value otherwise.
+func (o *ComputeGroup) GetMembers() []ComputeGroupMember {
+	if o == nil || o.Members == nil {
+		var ret []ComputeGroupMember
+		return ret
+	}
+	return o.Members
+}
+
+// GetMembersOk returns a tuple with the Members field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComputeGroup) GetMembersOk() (*[]ComputeGroupMember, bool) {
+	if o == nil || o.Members == nil {
+		return nil, false
+	}
+	return &o.Members, true
+}
+
+// HasMembers returns a boolean if a field has been set.
+func (o *ComputeGroup) HasMembers() bool {
+	return o != nil && o.Members != nil
+}
+
+// SetMembers gets a reference to the given []ComputeGroupMember and assigns it to the Members field.
+func (o *ComputeGroup) SetMembers(v []ComputeGroupMember) {
+	o.Members = v
+}
+
+// GetComputeGroupEnabled returns the ComputeGroupEnabled field value if set, zero value otherwise.
+func (o *ComputeGroup) GetComputeGroupEnabled() bool {
+	if o == nil || o.ComputeGroupEnabled == nil {
+		var ret bool
+		return ret
+	}
+	return *o.ComputeGroupEnabled
+}
+
+// GetComputeGroupEnabledOk returns a tuple with the ComputeGroupEnabled field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComputeGroup) GetComputeGroupEnabledOk() (*bool, bool) {
+	if o == nil || o.ComputeGroupEnabled == nil {
+		return nil, false
+	}
+	return o.ComputeGroupEnabled, true
+}
+
+// HasComputeGroupEnabled returns a boolean if a field has been set.
+func (o *ComputeGroup) HasComputeGroupEnabled() bool {
+	return o != nil && o.ComputeGroupEnabled != nil
+}
+
+// SetComputeGroupEnabled gets a reference to the given bool and assigns it to the ComputeGroupEnabled field.
+func (o *ComputeGroup) SetComputeGroupEnabled(v bool) {
+	o.ComputeGroupEnabled = &v
+}
+
 // GetBackendCount returns the BackendCount field value if set, zero value otherwise.
 func (o *ComputeGroup) GetBackendCount() int64 {
 	if o == nil || o.BackendCount == nil {
@@ -501,6 +624,18 @@ func (o ComputeGroup) MarshalJSON() ([]byte, error) {
 	if o.Memory != nil {
 		toSerialize["memory"] = o.Memory
 	}
+	if o.MemberCount != nil {
+		toSerialize["memberCount"] = o.MemberCount
+	}
+	if o.AliveMemberCount != nil {
+		toSerialize["aliveMemberCount"] = o.AliveMemberCount
+	}
+	if o.Members != nil {
+		toSerialize["members"] = o.Members
+	}
+	if o.ComputeGroupEnabled != nil {
+		toSerialize["computeGroupEnabled"] = o.ComputeGroupEnabled
+	}
 	if o.BackendCount != nil {
 		toSerialize["backendCount"] = o.BackendCount
 	}
@@ -526,28 +661,32 @@ func (o ComputeGroup) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComputeGroup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name              *string               `json:"name,omitempty"`
-		ComponentName     *string               `json:"componentName,omitempty"`
-		Managed           *bool                 `json:"managed,omitempty"`
-		IsDefault         *bool                 `json:"isDefault,omitempty"`
-		Phase             *string               `json:"phase,omitempty"`
-		Stopped           *bool                 `json:"stopped,omitempty"`
-		Replicas          *int64                `json:"replicas,omitempty"`
-		ClassCode         *string               `json:"classCode,omitempty"`
-		Cpu               *float64              `json:"cpu,omitempty"`
-		Memory            *float64              `json:"memory,omitempty"`
-		BackendCount      *int64                `json:"backendCount,omitempty"`
-		AliveBackendCount *int64                `json:"aliveBackendCount,omitempty"`
-		DefaultUsers      []string              `json:"defaultUsers,omitempty"`
-		Backends          []ComputeGroupBackend `json:"backends,omitempty"`
-		AllowedActions    []string              `json:"allowedActions,omitempty"`
+		Name                *string               `json:"name,omitempty"`
+		ComponentName       *string               `json:"componentName,omitempty"`
+		Managed             *bool                 `json:"managed,omitempty"`
+		IsDefault           *bool                 `json:"isDefault,omitempty"`
+		Phase               *string               `json:"phase,omitempty"`
+		Stopped             *bool                 `json:"stopped,omitempty"`
+		Replicas            *int64                `json:"replicas,omitempty"`
+		ClassCode           *string               `json:"classCode,omitempty"`
+		Cpu                 *float64              `json:"cpu,omitempty"`
+		Memory              *float64              `json:"memory,omitempty"`
+		MemberCount         *int64                `json:"memberCount,omitempty"`
+		AliveMemberCount    *int64                `json:"aliveMemberCount,omitempty"`
+		Members             []ComputeGroupMember  `json:"members,omitempty"`
+		ComputeGroupEnabled *bool                 `json:"computeGroupEnabled,omitempty"`
+		BackendCount        *int64                `json:"backendCount,omitempty"`
+		AliveBackendCount   *int64                `json:"aliveBackendCount,omitempty"`
+		DefaultUsers        []string              `json:"defaultUsers,omitempty"`
+		Backends            []ComputeGroupBackend `json:"backends,omitempty"`
+		AllowedActions      []string              `json:"allowedActions,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "componentName", "managed", "isDefault", "phase", "stopped", "replicas", "classCode", "cpu", "memory", "backendCount", "aliveBackendCount", "defaultUsers", "backends", "allowedActions"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "componentName", "managed", "isDefault", "phase", "stopped", "replicas", "classCode", "cpu", "memory", "memberCount", "aliveMemberCount", "members", "computeGroupEnabled", "backendCount", "aliveBackendCount", "defaultUsers", "backends", "allowedActions"})
 	} else {
 		return err
 	}
@@ -561,6 +700,10 @@ func (o *ComputeGroup) UnmarshalJSON(bytes []byte) (err error) {
 	o.ClassCode = all.ClassCode
 	o.Cpu = all.Cpu
 	o.Memory = all.Memory
+	o.MemberCount = all.MemberCount
+	o.AliveMemberCount = all.AliveMemberCount
+	o.Members = all.Members
+	o.ComputeGroupEnabled = all.ComputeGroupEnabled
 	o.BackendCount = all.BackendCount
 	o.AliveBackendCount = all.AliveBackendCount
 	o.DefaultUsers = all.DefaultUsers

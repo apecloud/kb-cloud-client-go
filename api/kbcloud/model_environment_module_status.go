@@ -15,18 +15,20 @@ type EnvironmentModuleStatus string
 
 // List of EnvironmentModuleStatus.
 const (
-	EnvironmentModuleStatusRunning            EnvironmentModuleStatus = "Running"
-	EnvironmentModuleStatusUpdating           EnvironmentModuleStatus = "Updating"
-	EnvironmentModuleStatusError              EnvironmentModuleStatus = "Error"
-	EnvironmentModuleStatusDisabled           EnvironmentModuleStatus = "Disabled"
-	EnvironmentModuleStatusEnabled            EnvironmentModuleStatus = "Enabled"
-	EnvironmentModuleStatusNotInstalled       EnvironmentModuleStatus = "NotInstalled"
-	EnvironmentModuleStatusInstalling         EnvironmentModuleStatus = "Installing"
-	EnvironmentModuleStatusInstallationFailed EnvironmentModuleStatus = "InstallationFailed"
-	EnvironmentModuleStatusUpgradeable        EnvironmentModuleStatus = "Upgradeable"
-	EnvironmentModuleStatusUpgrading          EnvironmentModuleStatus = "Upgrading"
-	EnvironmentModuleStatusUpgradeFailed      EnvironmentModuleStatus = "UpgradeFailed"
-	EnvironmentModuleStatusUnknown            EnvironmentModuleStatus = "Unknown"
+	EnvironmentModuleStatusRunning              EnvironmentModuleStatus = "Running"
+	EnvironmentModuleStatusUpdating             EnvironmentModuleStatus = "Updating"
+	EnvironmentModuleStatusError                EnvironmentModuleStatus = "Error"
+	EnvironmentModuleStatusDisabled             EnvironmentModuleStatus = "Disabled"
+	EnvironmentModuleStatusEnabled              EnvironmentModuleStatus = "Enabled"
+	EnvironmentModuleStatusNotInstalled         EnvironmentModuleStatus = "NotInstalled"
+	EnvironmentModuleStatusInstalling           EnvironmentModuleStatus = "Installing"
+	EnvironmentModuleStatusInstallationFailed   EnvironmentModuleStatus = "InstallationFailed"
+	EnvironmentModuleStatusUpgradeable          EnvironmentModuleStatus = "Upgradeable"
+	EnvironmentModuleStatusUpgrading            EnvironmentModuleStatus = "Upgrading"
+	EnvironmentModuleStatusUpgradeFailed        EnvironmentModuleStatus = "UpgradeFailed"
+	EnvironmentModuleStatusUninstalling         EnvironmentModuleStatus = "Uninstalling"
+	EnvironmentModuleStatusUninstallationFailed EnvironmentModuleStatus = "UninstallationFailed"
+	EnvironmentModuleStatusUnknown              EnvironmentModuleStatus = "Unknown"
 )
 
 var allowedEnvironmentModuleStatusEnumValues = []EnvironmentModuleStatus{
@@ -41,6 +43,8 @@ var allowedEnvironmentModuleStatusEnumValues = []EnvironmentModuleStatus{
 	EnvironmentModuleStatusUpgradeable,
 	EnvironmentModuleStatusUpgrading,
 	EnvironmentModuleStatusUpgradeFailed,
+	EnvironmentModuleStatusUninstalling,
+	EnvironmentModuleStatusUninstallationFailed,
 	EnvironmentModuleStatusUnknown,
 }
 
