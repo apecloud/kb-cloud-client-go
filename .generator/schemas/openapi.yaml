@@ -32475,7 +32475,9 @@ components:
       description: Upgrade a component or selected instance templates. For template upgrades, the server derives the component version from the resulting template versions.
       properties:
         version:
+          description: Required for component upgrades. For template upgrades, the server computes this value and ignores any supplied value.
           type: string
+          x-nullable: true
           minLength: 1
         instanceTemplates:
           type: array
@@ -32488,7 +32490,6 @@ components:
           description: Scheduled execution configuration
           nullable: true
       required:
-        - version
         - component
       type: object
     instanceTemplateServiceVersions:
