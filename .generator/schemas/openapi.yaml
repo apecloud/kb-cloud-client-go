@@ -33412,6 +33412,26 @@ components:
         - Mount
         - Tool
       type: string
+    backupRepoCheckStatus:
+      type: string
+      enum:
+        - Passed
+        - Failed
+        - NotChecked
+    backupRepoCheckResult:
+      type: object
+      description: Result of the platform storage access check, independent of the BackupRepo CR phase.
+      required:
+        - status
+      properties:
+        status:
+          $ref: '#/components/schemas/backupRepoCheckStatus'
+        message:
+          type: string
+        checkedAt:
+          type: string
+          format: date-time
+          x-nullable: true
     backupRepo:
       description: backupRepo is the payload for KubeBlocks cluster backup repo
       properties:
@@ -33460,6 +33480,8 @@ components:
         totalSize:
           description: totalSize specifies the total size of backups in the backupRepo
           type: string
+        check:
+          $ref: '#/components/schemas/backupRepoCheckResult'
         failedReason:
           type: string
           description: failedReason specifies the reason of the backupRepo failure
