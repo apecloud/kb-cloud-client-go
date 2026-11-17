@@ -39388,9 +39388,14 @@ components:
           description: Whether the engine supports service account access-key management.
         protectedAccounts:
           type: array
-          description: Account names that cannot be deleted, locked, or unlocked. This does not hide accounts or restrict password or privilege actions.
+          description: Account names that cannot be deleted, locked, unlocked, or have their privileges modified. This does not hide accounts or restrict password changes.
           items:
             type: string
+        displayAccounts:
+          type: object
+          description: Account visibility overrides for the generic account list. Names are case-insensitive; false hides the account and omitted names are visible. This does not grant access or bypass displayRootAccount.
+          additionalProperties:
+            type: boolean
         displayRootAccount:
           type: boolean
           x-omitempty: false

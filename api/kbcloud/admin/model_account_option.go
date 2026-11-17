@@ -34,12 +34,14 @@ type AccountOption struct {
 	SupportLock *bool `json:"supportLock,omitempty"`
 	// Whether the engine supports service account access-key management.
 	SupportServiceAccount *bool `json:"supportServiceAccount,omitempty"`
-	// Account names that cannot be deleted, locked, or unlocked. This does not hide accounts or restrict password or privilege actions.
-	ProtectedAccounts        []string `json:"protectedAccounts,omitempty"`
-	DisplayRootAccount       *bool    `json:"displayRootAccount,omitempty"`
-	ResetRootPassword        *bool    `json:"resetRootPassword,omitempty"`
-	SupportMultipleComponent *bool    `json:"supportMultipleComponent,omitempty"`
-	ExcludeRootAccounts      []string `json:"excludeRootAccounts,omitempty"`
+	// Account names that cannot be deleted, locked, unlocked, or have their privileges modified. This does not hide accounts or restrict password changes.
+	ProtectedAccounts []string `json:"protectedAccounts,omitempty"`
+	// Account visibility overrides for the generic account list. Names are case-insensitive; false hides the account and omitted names are visible. This does not grant access or bypass displayRootAccount.
+	DisplayAccounts          map[string]bool `json:"displayAccounts,omitempty"`
+	DisplayRootAccount       *bool           `json:"displayRootAccount,omitempty"`
+	ResetRootPassword        *bool           `json:"resetRootPassword,omitempty"`
+	SupportMultipleComponent *bool           `json:"supportMultipleComponent,omitempty"`
+	ExcludeRootAccounts      []string        `json:"excludeRootAccounts,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -405,6 +407,34 @@ func (o *AccountOption) SetProtectedAccounts(v []string) {
 	o.ProtectedAccounts = v
 }
 
+// GetDisplayAccounts returns the DisplayAccounts field value if set, zero value otherwise.
+func (o *AccountOption) GetDisplayAccounts() map[string]bool {
+	if o == nil || o.DisplayAccounts == nil {
+		var ret map[string]bool
+		return ret
+	}
+	return o.DisplayAccounts
+}
+
+// GetDisplayAccountsOk returns a tuple with the DisplayAccounts field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AccountOption) GetDisplayAccountsOk() (*map[string]bool, bool) {
+	if o == nil || o.DisplayAccounts == nil {
+		return nil, false
+	}
+	return &o.DisplayAccounts, true
+}
+
+// HasDisplayAccounts returns a boolean if a field has been set.
+func (o *AccountOption) HasDisplayAccounts() bool {
+	return o != nil && o.DisplayAccounts != nil
+}
+
+// SetDisplayAccounts gets a reference to the given map[string]bool and assigns it to the DisplayAccounts field.
+func (o *AccountOption) SetDisplayAccounts(v map[string]bool) {
+	o.DisplayAccounts = v
+}
+
 // GetDisplayRootAccount returns the DisplayRootAccount field value if set, zero value otherwise.
 func (o *AccountOption) GetDisplayRootAccount() bool {
 	if o == nil || o.DisplayRootAccount == nil {
@@ -549,6 +579,9 @@ func (o AccountOption) MarshalJSON() ([]byte, error) {
 	if o.ProtectedAccounts != nil {
 		toSerialize["protectedAccounts"] = o.ProtectedAccounts
 	}
+	if o.DisplayAccounts != nil {
+		toSerialize["displayAccounts"] = o.DisplayAccounts
+	}
 	if o.DisplayRootAccount != nil {
 		toSerialize["displayRootAccount"] = o.DisplayRootAccount
 	}
@@ -583,6 +616,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 		SupportLock              *bool                `json:"supportLock,omitempty"`
 		SupportServiceAccount    *bool                `json:"supportServiceAccount,omitempty"`
 		ProtectedAccounts        []string             `json:"protectedAccounts,omitempty"`
+		DisplayAccounts          map[string]bool      `json:"displayAccounts,omitempty"`
 		DisplayRootAccount       *bool                `json:"displayRootAccount,omitempty"`
 		ResetRootPassword        *bool                `json:"resetRootPassword,omitempty"`
 		SupportMultipleComponent *bool                `json:"supportMultipleComponent,omitempty"`
@@ -608,7 +642,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"maxSuperUserAccount", "enabled", "privileges", "maxLen", "minLen", "accountNamePattern", "create", "resetPassword", "delete", "supportLock", "supportServiceAccount", "protectedAccounts", "displayRootAccount", "resetRootPassword", "supportMultipleComponent", "excludeRootAccounts"})
+		common.DeleteKeys(additionalProperties, &[]string{"maxSuperUserAccount", "enabled", "privileges", "maxLen", "minLen", "accountNamePattern", "create", "resetPassword", "delete", "supportLock", "supportServiceAccount", "protectedAccounts", "displayAccounts", "displayRootAccount", "resetRootPassword", "supportMultipleComponent", "excludeRootAccounts"})
 	} else {
 		return err
 	}
@@ -624,6 +658,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.SupportLock = all.SupportLock
 	o.SupportServiceAccount = all.SupportServiceAccount
 	o.ProtectedAccounts = all.ProtectedAccounts
+	o.DisplayAccounts = all.DisplayAccounts
 	o.DisplayRootAccount = all.DisplayRootAccount
 	o.ResetRootPassword = all.ResetRootPassword
 	o.SupportMultipleComponent = all.SupportMultipleComponent
