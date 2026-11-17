@@ -57491,6 +57491,10 @@ components:
         definition:
           $ref: '#/components/schemas/definitionEndpoint'
           nullable: true
+        channelNum:
+          type: integer
+          description: the number of channels associated with this endpoint
+          nullable: true
         description:
           type: string
           nullable: true

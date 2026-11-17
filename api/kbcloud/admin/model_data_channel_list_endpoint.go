@@ -16,7 +16,9 @@ type DataChannelListEndpoint struct {
 	Custom       *CustomEndpoint              `json:"custom,omitempty"`
 	Kubeblocks   *KubeblocksEndpoint          `json:"kubeblocks,omitempty"`
 	// Reference to an existing data endpoint in the same organization.
-	Definition  *DefinitionEndpoint   `json:"definition,omitempty"`
+	Definition *DefinitionEndpoint `json:"definition,omitempty"`
+	// the number of channels associated with this endpoint
+	ChannelNum  common.NullableInt32  `json:"channelNum,omitempty"`
 	Description common.NullableString `json:"description,omitempty"`
 	Status      *EndpointStatusEnum   `json:"status,omitempty"`
 	ExtraCfgs   map[string]string     `json:"extraCfgs,omitempty"`
@@ -260,6 +262,45 @@ func (o *DataChannelListEndpoint) SetDefinition(v DefinitionEndpoint) {
 	o.Definition = &v
 }
 
+// GetChannelNum returns the ChannelNum field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DataChannelListEndpoint) GetChannelNum() int32 {
+	if o == nil || o.ChannelNum.Get() == nil {
+		var ret int32
+		return ret
+	}
+	return *o.ChannelNum.Get()
+}
+
+// GetChannelNumOk returns a tuple with the ChannelNum field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *DataChannelListEndpoint) GetChannelNumOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ChannelNum.Get(), o.ChannelNum.IsSet()
+}
+
+// HasChannelNum returns a boolean if a field has been set.
+func (o *DataChannelListEndpoint) HasChannelNum() bool {
+	return o != nil && o.ChannelNum.IsSet()
+}
+
+// SetChannelNum gets a reference to the given common.NullableInt32 and assigns it to the ChannelNum field.
+func (o *DataChannelListEndpoint) SetChannelNum(v int32) {
+	o.ChannelNum.Set(&v)
+}
+
+// SetChannelNumNil sets the value for ChannelNum to be an explicit nil.
+func (o *DataChannelListEndpoint) SetChannelNumNil() {
+	o.ChannelNum.Set(nil)
+}
+
+// UnsetChannelNum ensures that no value is present for ChannelNum, not even an explicit nil.
+func (o *DataChannelListEndpoint) UnsetChannelNum() {
+	o.ChannelNum.Unset()
+}
+
 // GetDescription returns the Description field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DataChannelListEndpoint) GetDescription() string {
 	if o == nil || o.Description.Get() == nil {
@@ -383,6 +424,9 @@ func (o DataChannelListEndpoint) MarshalJSON() ([]byte, error) {
 	if o.Definition != nil {
 		toSerialize["definition"] = o.Definition
 	}
+	if o.ChannelNum.IsSet() {
+		toSerialize["channelNum"] = o.ChannelNum.Get()
+	}
 	if o.Description.IsSet() {
 		toSerialize["description"] = o.Description.Get()
 	}
@@ -409,6 +453,7 @@ func (o *DataChannelListEndpoint) UnmarshalJSON(bytes []byte) (err error) {
 		Custom       *CustomEndpoint              `json:"custom,omitempty"`
 		Kubeblocks   *KubeblocksEndpoint          `json:"kubeblocks,omitempty"`
 		Definition   *DefinitionEndpoint          `json:"definition,omitempty"`
+		ChannelNum   common.NullableInt32         `json:"channelNum,omitempty"`
 		Description  common.NullableString        `json:"description,omitempty"`
 		Status       *EndpointStatusEnum          `json:"status,omitempty"`
 		ExtraCfgs    map[string]string            `json:"extraCfgs,omitempty"`
@@ -418,7 +463,7 @@ func (o *DataChannelListEndpoint) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "engineName", "endpointType", "custom", "kubeblocks", "definition", "description", "status", "extraCfgs"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "engineName", "endpointType", "custom", "kubeblocks", "definition", "channelNum", "description", "status", "extraCfgs"})
 	} else {
 		return err
 	}
@@ -444,6 +489,7 @@ func (o *DataChannelListEndpoint) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Definition = all.Definition
+	o.ChannelNum = all.ChannelNum
 	o.Description = all.Description
 	if all.Status != nil && !all.Status.IsValid() {
 		hasInvalidField = true
