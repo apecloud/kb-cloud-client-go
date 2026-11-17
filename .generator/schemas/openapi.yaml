@@ -32472,7 +32472,7 @@ components:
           minLength: 1
           maxLength: 32
     opsUpgrade:
-      description: Upgrade a component. A mode component with template upgrade enabled requires all template target versions and a component version equal to their minimum. Unchanged entries are allowed; changed entries follow the existing component upgrade rules. Other components must not specify templates.
+      description: Upgrade a component or selected instance templates. For template upgrades, the server overrides version with the minimum resulting template version.
       properties:
         version:
           type: string
@@ -39392,10 +39392,10 @@ components:
           items:
             type: string
         displayAccounts:
-          type: object
-          description: Account visibility overrides for the generic account list. Names are case-insensitive; false hides the account and omitted names are visible. This does not grant access or bypass displayRootAccount.
-          additionalProperties:
-            type: boolean
+          type: array
+          description: Account names hidden from the generic account list. Matching is case-sensitive, without whitespace normalization or patterns. Other accounts remain visible subject to existing displayRootAccount rules.
+          items:
+            type: string
         displayRootAccount:
           type: boolean
           x-omitempty: false
@@ -39521,6 +39521,10 @@ components:
               enum:
                 - enum
                 - number
+                - date
+            dateFormat:
+              type: string
+              description: The date format used when type is date, e.g. YYYY-MM-DD hh:mm:ss.
             min:
               type: number
             max:
