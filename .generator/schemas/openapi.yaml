@@ -39516,6 +39516,10 @@ components:
               enum:
                 - enum
                 - number
+                - date
+            dateFormat:
+              type: string
+              description: The date format used when type is date, e.g. YYYY-MM-DD hh:mm:ss.
             min:
               type: number
             max:
