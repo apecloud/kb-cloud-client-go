@@ -23726,8 +23726,8 @@ paths:
         '500':
           $ref: '#/components/responses/500'
     post:
-      summary: create PostgreSQL extension
-      description: create PostgreSQL extension
+      summary: Enable PostgreSQL extensions in selected databases
+      description: Enable one or more PostgreSQL extensions across selected databases, returning a result for each database-extension pair.
       operationId: createPGExtension
       tags:
         - postgresql
@@ -46645,30 +46645,66 @@ components:
     PgCreateExtensionOpt:
       type: object
       required:
-        - name
-        - database
+        - databases
+        - names
       properties:
-        name:
-          type: string
-          description: The name of the PostgreSQL extension.
-        database:
-          type: string
-          description: The database where the extension is installed.
+        databases:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            type: string
+            minLength: 1
+          description: Target databases. At most 100 database-extension pairs per request.
+        names:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            type: string
+            minLength: 1
+          description: Extensions to enable using their default versions and schemas.
         version:
           type: string
           description: The version of the extension to install.
         schema:
           type: string
           description: The schema where the extension is installed.
+    PgCreateExtensionStatus:
+      type: string
+      enum:
+        - installed
+        - already_installed
+        - scheduled
+        - failed
+    PgCreateExtensionResult:
+      type: object
+      required:
+        - database
+        - name
+        - status
+      properties:
+        database:
+          type: string
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/PgCreateExtensionStatus'
+          description: Scheduled means accepted for installation after the reconfiguration task, not installed yet.
+        error:
+          type: string
+          description: The error for an extension that failed to install or schedule.
     createPgExtensionResp:
       type: object
+      required:
+        - items
       properties:
         opsRequestResult:
-          type: object
           $ref: '#/components/schemas/opsRequestName'
-        PgExtension:
-          type: object
-          $ref: '#/components/schemas/PgExtension'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PgCreateExtensionResult'
     RbmqUser:
       type: object
       properties:
@@ -47599,6 +47635,10 @@ components:
           nullable: true
         definition:
           $ref: '#/components/schemas/definitionEndpoint'
+          nullable: true
+        channelNum:
+          type: integer
+          description: the number of channels associated with this endpoint
           nullable: true
         description:
           type: string
