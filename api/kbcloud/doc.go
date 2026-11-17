@@ -577,6 +577,7 @@
 //   - [parameterTemplateApi.updateClusterParameterTemplate]
 //   - [platformParameterApi.getPlatformParameter]
 //   - [platformParameterApi.listPlatformParameters]
+//   - [postgresqlApi.batchCreatePGExtensions]
 //   - [postgresqlApi.createPGExtension]
 //   - [postgresqlApi.dropPGExtension]
 //   - [postgresqlApi.listPGExtensions]

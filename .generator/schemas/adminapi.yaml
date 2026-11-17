@@ -29777,6 +29777,47 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/data/postgresql/organizations/{orgName}/clusters/{clusterName}/extensions/batch:
+    post:
+      summary: Enable PostgreSQL extensions in selected databases
+      description: Enable PostgreSQL extensions in selected databases
+      operationId: batchCreatePGExtensions
+      tags:
+        - postgresql
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PgBatchCreateExtensionOpt'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PgBatchCreateExtensionResp'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/postgresql/organizations/{orgName}/clusters/{clusterName}/extensions/{extensionName}:
     delete:
       summary: drop PostgreSQL extension
@@ -56067,6 +56108,63 @@ components:
         PgExtension:
           type: object
           $ref: '#/components/schemas/PgExtension'
+    PgBatchCreateExtensionOpt:
+      type: object
+      required:
+        - databases
+        - names
+      properties:
+        databases:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            type: string
+            minLength: 1
+          description: Target databases. At most 100 database-extension pairs per request.
+        names:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            type: string
+            minLength: 1
+          description: Extensions to enable using their default versions and schemas.
+    PgBatchCreateExtensionStatus:
+      type: string
+      enum:
+        - installed
+        - already_installed
+        - scheduled
+        - failed
+    PgBatchCreateExtensionResult:
+      type: object
+      required:
+        - database
+        - name
+        - status
+      properties:
+        database:
+          type: string
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/PgBatchCreateExtensionStatus'
+          description: Scheduled means accepted for installation after the reconfiguration task, not installed yet.
+        error:
+          type: string
+          description: The error for an extension that failed to install or schedule.
+    PgBatchCreateExtensionResp:
+      type: object
+      required:
+        - items
+      properties:
+        opsRequestResult:
+          $ref: '#/components/schemas/opsRequestName'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PgBatchCreateExtensionResult'
     encryptionAlgorithm:
       description: the encryption algorithm
       type: string
