@@ -40,6 +40,8 @@ type BackupRepo struct {
 	StorageId *string `json:"storageID,omitempty"`
 	// storageProvider specifies the storage provider of the backupRepo
 	StorageProvider string `json:"storageProvider"`
+	// the storage displayName
+	StorageProviderDisplayName *StorageDisplayName `json:"storageProviderDisplayName,omitempty"`
 	// totalSize specifies the total size of backups in the backupRepo
 	TotalSize *string `json:"totalSize,omitempty"`
 	// Result of the platform storage access check, independent of the BackupRepo CR phase.
@@ -410,6 +412,34 @@ func (o *BackupRepo) SetStorageProvider(v string) {
 	o.StorageProvider = v
 }
 
+// GetStorageProviderDisplayName returns the StorageProviderDisplayName field value if set, zero value otherwise.
+func (o *BackupRepo) GetStorageProviderDisplayName() StorageDisplayName {
+	if o == nil || o.StorageProviderDisplayName == nil {
+		var ret StorageDisplayName
+		return ret
+	}
+	return *o.StorageProviderDisplayName
+}
+
+// GetStorageProviderDisplayNameOk returns a tuple with the StorageProviderDisplayName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupRepo) GetStorageProviderDisplayNameOk() (*StorageDisplayName, bool) {
+	if o == nil || o.StorageProviderDisplayName == nil {
+		return nil, false
+	}
+	return o.StorageProviderDisplayName, true
+}
+
+// HasStorageProviderDisplayName returns a boolean if a field has been set.
+func (o *BackupRepo) HasStorageProviderDisplayName() bool {
+	return o != nil && o.StorageProviderDisplayName != nil
+}
+
+// SetStorageProviderDisplayName gets a reference to the given StorageDisplayName and assigns it to the StorageProviderDisplayName field.
+func (o *BackupRepo) SetStorageProviderDisplayName(v StorageDisplayName) {
+	o.StorageProviderDisplayName = &v
+}
+
 // GetTotalSize returns the TotalSize field value if set, zero value otherwise.
 func (o *BackupRepo) GetTotalSize() string {
 	if o == nil || o.TotalSize == nil {
@@ -557,6 +587,9 @@ func (o BackupRepo) MarshalJSON() ([]byte, error) {
 		toSerialize["storageID"] = o.StorageId
 	}
 	toSerialize["storageProvider"] = o.StorageProvider
+	if o.StorageProviderDisplayName != nil {
+		toSerialize["storageProviderDisplayName"] = o.StorageProviderDisplayName
+	}
 	if o.TotalSize != nil {
 		toSerialize["totalSize"] = o.TotalSize
 	}
@@ -579,23 +612,24 @@ func (o BackupRepo) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupRepo) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		AccessMethod    *BackupRepoAccessMethod `json:"accessMethod,omitempty"`
-		Id              *string                 `json:"id,omitempty"`
-		BackupNums      *int32                  `json:"backupNums,omitempty"`
-		Config          *map[string]string      `json:"config"`
-		CreatedAt       *time.Time              `json:"createdAt"`
-		Default         *bool                   `json:"default"`
-		EnvironmentId   *uuid.UUID              `json:"environmentId"`
-		EnvironmentName *string                 `json:"environmentName"`
-		Name            *string                 `json:"name"`
-		Status          *string                 `json:"status,omitempty"`
-		StorageName     *string                 `json:"storageName,omitempty"`
-		StorageId       *string                 `json:"storageID,omitempty"`
-		StorageProvider *string                 `json:"storageProvider"`
-		TotalSize       *string                 `json:"totalSize,omitempty"`
-		Check           *BackupRepoCheckResult  `json:"check,omitempty"`
-		FailedReason    *string                 `json:"failedReason,omitempty"`
-		FailedMessage   *string                 `json:"failedMessage,omitempty"`
+		AccessMethod               *BackupRepoAccessMethod `json:"accessMethod,omitempty"`
+		Id                         *string                 `json:"id,omitempty"`
+		BackupNums                 *int32                  `json:"backupNums,omitempty"`
+		Config                     *map[string]string      `json:"config"`
+		CreatedAt                  *time.Time              `json:"createdAt"`
+		Default                    *bool                   `json:"default"`
+		EnvironmentId              *uuid.UUID              `json:"environmentId"`
+		EnvironmentName            *string                 `json:"environmentName"`
+		Name                       *string                 `json:"name"`
+		Status                     *string                 `json:"status,omitempty"`
+		StorageName                *string                 `json:"storageName,omitempty"`
+		StorageId                  *string                 `json:"storageID,omitempty"`
+		StorageProvider            *string                 `json:"storageProvider"`
+		StorageProviderDisplayName *StorageDisplayName     `json:"storageProviderDisplayName,omitempty"`
+		TotalSize                  *string                 `json:"totalSize,omitempty"`
+		Check                      *BackupRepoCheckResult  `json:"check,omitempty"`
+		FailedReason               *string                 `json:"failedReason,omitempty"`
+		FailedMessage              *string                 `json:"failedMessage,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -623,7 +657,7 @@ func (o *BackupRepo) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"accessMethod", "id", "backupNums", "config", "createdAt", "default", "environmentId", "environmentName", "name", "status", "storageName", "storageID", "storageProvider", "totalSize", "check", "failedReason", "failedMessage"})
+		common.DeleteKeys(additionalProperties, &[]string{"accessMethod", "id", "backupNums", "config", "createdAt", "default", "environmentId", "environmentName", "name", "status", "storageName", "storageID", "storageProvider", "storageProviderDisplayName", "totalSize", "check", "failedReason", "failedMessage"})
 	} else {
 		return err
 	}
@@ -646,6 +680,10 @@ func (o *BackupRepo) UnmarshalJSON(bytes []byte) (err error) {
 	o.StorageName = all.StorageName
 	o.StorageId = all.StorageId
 	o.StorageProvider = *all.StorageProvider
+	if all.StorageProviderDisplayName != nil && all.StorageProviderDisplayName.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.StorageProviderDisplayName = all.StorageProviderDisplayName
 	o.TotalSize = all.TotalSize
 	if all.Check != nil && all.Check.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
