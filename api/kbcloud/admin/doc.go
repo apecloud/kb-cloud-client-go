@@ -731,7 +731,6 @@
 //   - [platformParameterApi.getPlatformParameter]
 //   - [platformParameterApi.listPlatformParameters]
 //   - [platformParameterApi.updatePlatformParameters]
-//   - [postgresqlApi.batchCreatePGExtensions]
 //   - [postgresqlApi.createPGExtension]
 //   - [postgresqlApi.dropPGExtension]
 //   - [postgresqlApi.listPGExtensions]

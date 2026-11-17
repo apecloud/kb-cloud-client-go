@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import (
 	"fmt"
@@ -10,10 +10,10 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type PgBatchCreateExtensionResult struct {
-	Database string                       `json:"database"`
-	Name     string                       `json:"name"`
-	Status   PgBatchCreateExtensionStatus `json:"status"`
+type PgCreateExtensionResult struct {
+	Database string                  `json:"database"`
+	Name     string                  `json:"name"`
+	Status   PgCreateExtensionStatus `json:"status"`
 	// The error for an extension that failed to install or schedule.
 	Error *string `json:"error,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -21,28 +21,28 @@ type PgBatchCreateExtensionResult struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewPgBatchCreateExtensionResult instantiates a new PgBatchCreateExtensionResult object.
+// NewPgCreateExtensionResult instantiates a new PgCreateExtensionResult object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPgBatchCreateExtensionResult(database string, name string, status PgBatchCreateExtensionStatus) *PgBatchCreateExtensionResult {
-	this := PgBatchCreateExtensionResult{}
+func NewPgCreateExtensionResult(database string, name string, status PgCreateExtensionStatus) *PgCreateExtensionResult {
+	this := PgCreateExtensionResult{}
 	this.Database = database
 	this.Name = name
 	this.Status = status
 	return &this
 }
 
-// NewPgBatchCreateExtensionResultWithDefaults instantiates a new PgBatchCreateExtensionResult object.
+// NewPgCreateExtensionResultWithDefaults instantiates a new PgCreateExtensionResult object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewPgBatchCreateExtensionResultWithDefaults() *PgBatchCreateExtensionResult {
-	this := PgBatchCreateExtensionResult{}
+func NewPgCreateExtensionResultWithDefaults() *PgCreateExtensionResult {
+	this := PgCreateExtensionResult{}
 	return &this
 }
 
 // GetDatabase returns the Database field value.
-func (o *PgBatchCreateExtensionResult) GetDatabase() string {
+func (o *PgCreateExtensionResult) GetDatabase() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -52,7 +52,7 @@ func (o *PgBatchCreateExtensionResult) GetDatabase() string {
 
 // GetDatabaseOk returns a tuple with the Database field value
 // and a boolean to check if the value has been set.
-func (o *PgBatchCreateExtensionResult) GetDatabaseOk() (*string, bool) {
+func (o *PgCreateExtensionResult) GetDatabaseOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -60,12 +60,12 @@ func (o *PgBatchCreateExtensionResult) GetDatabaseOk() (*string, bool) {
 }
 
 // SetDatabase sets field value.
-func (o *PgBatchCreateExtensionResult) SetDatabase(v string) {
+func (o *PgCreateExtensionResult) SetDatabase(v string) {
 	o.Database = v
 }
 
 // GetName returns the Name field value.
-func (o *PgBatchCreateExtensionResult) GetName() string {
+func (o *PgCreateExtensionResult) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -75,7 +75,7 @@ func (o *PgBatchCreateExtensionResult) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *PgBatchCreateExtensionResult) GetNameOk() (*string, bool) {
+func (o *PgCreateExtensionResult) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -83,14 +83,14 @@ func (o *PgBatchCreateExtensionResult) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value.
-func (o *PgBatchCreateExtensionResult) SetName(v string) {
+func (o *PgCreateExtensionResult) SetName(v string) {
 	o.Name = v
 }
 
 // GetStatus returns the Status field value.
-func (o *PgBatchCreateExtensionResult) GetStatus() PgBatchCreateExtensionStatus {
+func (o *PgCreateExtensionResult) GetStatus() PgCreateExtensionStatus {
 	if o == nil {
-		var ret PgBatchCreateExtensionStatus
+		var ret PgCreateExtensionStatus
 		return ret
 	}
 	return o.Status
@@ -98,7 +98,7 @@ func (o *PgBatchCreateExtensionResult) GetStatus() PgBatchCreateExtensionStatus 
 
 // GetStatusOk returns a tuple with the Status field value
 // and a boolean to check if the value has been set.
-func (o *PgBatchCreateExtensionResult) GetStatusOk() (*PgBatchCreateExtensionStatus, bool) {
+func (o *PgCreateExtensionResult) GetStatusOk() (*PgCreateExtensionStatus, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -106,12 +106,12 @@ func (o *PgBatchCreateExtensionResult) GetStatusOk() (*PgBatchCreateExtensionSta
 }
 
 // SetStatus sets field value.
-func (o *PgBatchCreateExtensionResult) SetStatus(v PgBatchCreateExtensionStatus) {
+func (o *PgCreateExtensionResult) SetStatus(v PgCreateExtensionStatus) {
 	o.Status = v
 }
 
 // GetError returns the Error field value if set, zero value otherwise.
-func (o *PgBatchCreateExtensionResult) GetError() string {
+func (o *PgCreateExtensionResult) GetError() string {
 	if o == nil || o.Error == nil {
 		var ret string
 		return ret
@@ -121,7 +121,7 @@ func (o *PgBatchCreateExtensionResult) GetError() string {
 
 // GetErrorOk returns a tuple with the Error field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PgBatchCreateExtensionResult) GetErrorOk() (*string, bool) {
+func (o *PgCreateExtensionResult) GetErrorOk() (*string, bool) {
 	if o == nil || o.Error == nil {
 		return nil, false
 	}
@@ -129,17 +129,17 @@ func (o *PgBatchCreateExtensionResult) GetErrorOk() (*string, bool) {
 }
 
 // HasError returns a boolean if a field has been set.
-func (o *PgBatchCreateExtensionResult) HasError() bool {
+func (o *PgCreateExtensionResult) HasError() bool {
 	return o != nil && o.Error != nil
 }
 
 // SetError gets a reference to the given string and assigns it to the Error field.
-func (o *PgBatchCreateExtensionResult) SetError(v string) {
+func (o *PgCreateExtensionResult) SetError(v string) {
 	o.Error = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o PgBatchCreateExtensionResult) MarshalJSON() ([]byte, error) {
+func (o PgCreateExtensionResult) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -158,12 +158,12 @@ func (o PgBatchCreateExtensionResult) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *PgBatchCreateExtensionResult) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PgCreateExtensionResult) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Database *string                       `json:"database"`
-		Name     *string                       `json:"name"`
-		Status   *PgBatchCreateExtensionStatus `json:"status"`
-		Error    *string                       `json:"error,omitempty"`
+		Database *string                  `json:"database"`
+		Name     *string                  `json:"name"`
+		Status   *PgCreateExtensionStatus `json:"status"`
+		Error    *string                  `json:"error,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

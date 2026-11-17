@@ -23726,8 +23726,8 @@ paths:
         '500':
           $ref: '#/components/responses/500'
     post:
-      summary: create PostgreSQL extension
-      description: create PostgreSQL extension
+      summary: Enable PostgreSQL extensions in selected databases
+      description: Enable one or more PostgreSQL extensions across selected databases, returning a result for each database-extension pair.
       operationId: createPGExtension
       tags:
         - postgresql
@@ -23757,47 +23757,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/createPgExtensionResp'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /api/v1/data/postgresql/organizations/{orgName}/clusters/{clusterName}/extensions/batch:
-    post:
-      summary: Enable PostgreSQL extensions in selected databases
-      description: Enable PostgreSQL extensions in selected databases
-      operationId: batchCreatePGExtensions
-      tags:
-        - postgresql
-      parameters:
-        - name: orgName
-          in: path
-          description: Organization name
-          required: true
-          schema:
-            type: string
-        - description: name of the cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PgBatchCreateExtensionOpt'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PgBatchCreateExtensionResp'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -39557,6 +39516,10 @@ components:
               enum:
                 - enum
                 - number
+                - date
+            dateFormat:
+              type: string
+              description: The date format used when type is date, e.g. YYYY-MM-DD hh:mm:ss.
             min:
               type: number
             max:
@@ -46677,33 +46640,6 @@ components:
     PgCreateExtensionOpt:
       type: object
       required:
-        - name
-        - database
-      properties:
-        name:
-          type: string
-          description: The name of the PostgreSQL extension.
-        database:
-          type: string
-          description: The database where the extension is installed.
-        version:
-          type: string
-          description: The version of the extension to install.
-        schema:
-          type: string
-          description: The schema where the extension is installed.
-    createPgExtensionResp:
-      type: object
-      properties:
-        opsRequestResult:
-          type: object
-          $ref: '#/components/schemas/opsRequestName'
-        PgExtension:
-          type: object
-          $ref: '#/components/schemas/PgExtension'
-    PgBatchCreateExtensionOpt:
-      type: object
-      required:
         - databases
         - names
       properties:
@@ -46723,14 +46659,20 @@ components:
             type: string
             minLength: 1
           description: Extensions to enable using their default versions and schemas.
-    PgBatchCreateExtensionStatus:
+        version:
+          type: string
+          description: The version of the extension to install.
+        schema:
+          type: string
+          description: The schema where the extension is installed.
+    PgCreateExtensionStatus:
       type: string
       enum:
         - installed
         - already_installed
         - scheduled
         - failed
-    PgBatchCreateExtensionResult:
+    PgCreateExtensionResult:
       type: object
       required:
         - database
@@ -46742,12 +46684,12 @@ components:
         name:
           type: string
         status:
-          $ref: '#/components/schemas/PgBatchCreateExtensionStatus'
+          $ref: '#/components/schemas/PgCreateExtensionStatus'
           description: Scheduled means accepted for installation after the reconfiguration task, not installed yet.
         error:
           type: string
           description: The error for an extension that failed to install or schedule.
-    PgBatchCreateExtensionResp:
+    createPgExtensionResp:
       type: object
       required:
         - items
@@ -46757,7 +46699,7 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/PgBatchCreateExtensionResult'
+            $ref: '#/components/schemas/PgCreateExtensionResult'
     RbmqUser:
       type: object
       properties:
