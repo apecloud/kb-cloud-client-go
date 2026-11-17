@@ -40823,7 +40823,7 @@ components:
           minLength: 1
           maxLength: 32
     opsUpgrade:
-      description: Upgrade a component. A mode component with template upgrade enabled requires all template target versions and a component version equal to their minimum. Unchanged entries are allowed; changed entries follow the existing component upgrade rules. Other components must not specify templates.
+      description: Upgrade a component or selected instance templates. For template upgrades, the server overrides version with the minimum resulting template version.
       properties:
         version:
           type: string
@@ -45685,7 +45685,12 @@ components:
           description: Whether the engine supports service account access-key management.
         protectedAccounts:
           type: array
-          description: Account names that cannot be deleted, locked, or unlocked. This does not hide accounts or restrict password or privilege actions.
+          description: Account names that cannot be deleted, locked, unlocked, or have their privileges modified. This does not hide accounts or restrict password changes.
+          items:
+            type: string
+        displayAccounts:
+          type: array
+          description: Account names hidden from the generic account list. Matching is case-sensitive, without whitespace normalization or patterns. Other accounts remain visible subject to existing displayRootAccount rules.
           items:
             type: string
         displayRootAccount:
@@ -45813,6 +45818,10 @@ components:
               enum:
                 - enum
                 - number
+                - date
+            dateFormat:
+              type: string
+              description: The date format used when type is date, e.g. YYYY-MM-DD hh:mm:ss.
             min:
               type: number
             max:
