@@ -39795,6 +39795,14 @@ components:
         - Mount
         - Tool
       type: string
+    storageDisplayName:
+      type: object
+      description: the storage displayName
+      properties:
+        zh:
+          type: string
+        en:
+          type: string
     backupRepoCheckStatus:
       type: string
       enum:
@@ -39860,6 +39868,10 @@ components:
         storageProvider:
           description: storageProvider specifies the storage provider of the backupRepo
           type: string
+        storageProviderDisplayName:
+          description: Localized display name from the storage provider metadata. Omitted when the provider or its display name is unavailable.
+          readOnly: true
+          $ref: '#/components/schemas/storageDisplayName'
         totalSize:
           description: totalSize specifies the total size of backups in the backupRepo
           type: string
@@ -45315,14 +45327,6 @@ components:
           type: boolean
           description: whether to hide this parameter from frontend display
           default: false
-    storageDisplayName:
-      type: object
-      description: the storage displayName
-      properties:
-        zh:
-          type: string
-        en:
-          type: string
     storageProvider:
       type: object
       description: Storage Provider comprises specifications that provide guidance accessing remote storage.
