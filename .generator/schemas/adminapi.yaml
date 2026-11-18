@@ -14818,7 +14818,7 @@ paths:
               $ref: '#/components/schemas/imageRegistry'
         required: true
       responses:
-        '201':
+        '200':
           content:
             application/json:
               schema:
@@ -41807,6 +41807,9 @@ components:
         - updatedAt
         - ipPoolProviders
       properties:
+        taskId:
+          type: string
+          description: Installation task ID, returned when environment creation starts a task.
         logBackend:
           $ref: '#/components/schemas/logBackendType'
         provider:
