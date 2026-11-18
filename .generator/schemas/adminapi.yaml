@@ -20975,6 +20975,24 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - platformComponent
+  /admin/v1/platformComponents/overview:
+    get:
+      summary: Get platform component nodes and resource statistics
+      description: Get hosting nodes, node CPU and memory usage, component PVC statistics, and component Pod counts in the central Kubernetes cluster. Unavailable resource usage is reported as -1.
+      operationId: getPlatformComponentOverview
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/platformComponentOverview'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - platformComponent
   /admin/v1/platformComponents/{componentName}:
     get:
       description: Get platform component detail by name, including monitoring and log query metadata
@@ -50348,6 +50366,63 @@ components:
       items:
         $ref: '#/components/schemas/platformComponent'
       description: List of platform components
+    platformComponentNode:
+      type: object
+      properties:
+        name:
+          type: string
+        ip:
+          type: string
+          description: Internal node IP, falling back to external IP
+        role:
+          type: string
+          description: Kubernetes node role, control-plane or worker
+        status:
+          type: string
+          description: Ready when the NodeReady condition is True, otherwise NotReady
+        components:
+          type: array
+          items:
+            type: string
+          description: Names of platform components with Pods assigned to this node
+    platformComponentPodStats:
+      type: object
+      properties:
+        running:
+          type: integer
+          format: int64
+        pending:
+          type: integer
+          format: int64
+        failed:
+          type: integer
+          format: int64
+      required:
+        - running
+        - pending
+        - failed
+    platformComponentOverview:
+      type: object
+      description: Central platform resources. CPU is measured in cores; memory and storage in GiB. Missing usage is -1. Storage includes only PVCs referenced by platform component Pods.
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/platformComponentNode'
+        cpuStats:
+          $ref: '#/components/schemas/resourceStats'
+        memoryStats:
+          $ref: '#/components/schemas/resourceStats'
+        storageStats:
+          $ref: '#/components/schemas/storageStats'
+        podStats:
+          $ref: '#/components/schemas/platformComponentPodStats'
+      required:
+        - nodes
+        - cpuStats
+        - memoryStats
+        - storageStats
+        - podStats
     platformComponentPod:
       type: object
       description: Pod summary for platform component detail
