@@ -50368,6 +50368,7 @@ components:
       description: List of platform components
     platformComponentNode:
       type: object
+      description: A node hosting platform components. CPU and memory report capacity, allocatable capacity and actual usage in cores and GiB respectively. Filesystem statistics report root filesystem capacity and usage in GiB. Unavailable samples are -1.
       properties:
         name:
           type: string
@@ -50385,6 +50386,12 @@ components:
           items:
             type: string
           description: Names of platform components with Pods assigned to this node
+        cpuStats:
+          $ref: '#/components/schemas/resourceStats'
+        memoryStats:
+          $ref: '#/components/schemas/resourceStats'
+        filesystemStats:
+          $ref: '#/components/schemas/resourceStats'
     platformComponentPodStats:
       type: object
       properties:
@@ -50403,7 +50410,7 @@ components:
         - failed
     platformComponentOverview:
       type: object
-      description: Central platform resources. CPU is measured in cores; memory and storage in GiB. Missing usage is -1. Storage includes only PVCs referenced by platform component Pods.
+      description: Central platform resources. CPU is measured in cores and memory and storage in GiB. Missing usage is -1. Top-level storageStats covers bound PVCs referenced by platform component Pods.
       properties:
         nodes:
           type: array
