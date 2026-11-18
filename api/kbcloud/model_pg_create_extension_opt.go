@@ -11,10 +11,10 @@ import (
 )
 
 type PgCreateExtensionOpt struct {
-	// The name of the PostgreSQL extension.
-	Name string `json:"name"`
-	// The database where the extension is installed.
-	Database string `json:"database"`
+	// Target databases. At most 100 database-extension pairs per request.
+	Databases []string `json:"databases"`
+	// Extensions to enable using their default versions and schemas.
+	Names []string `json:"names"`
 	// The version of the extension to install.
 	Version *string `json:"version,omitempty"`
 	// The schema where the extension is installed.
@@ -28,10 +28,10 @@ type PgCreateExtensionOpt struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPgCreateExtensionOpt(name string, database string) *PgCreateExtensionOpt {
+func NewPgCreateExtensionOpt(databases []string, names []string) *PgCreateExtensionOpt {
 	this := PgCreateExtensionOpt{}
-	this.Name = name
-	this.Database = database
+	this.Databases = databases
+	this.Names = names
 	return &this
 }
 
@@ -43,50 +43,50 @@ func NewPgCreateExtensionOptWithDefaults() *PgCreateExtensionOpt {
 	return &this
 }
 
-// GetName returns the Name field value.
-func (o *PgCreateExtensionOpt) GetName() string {
+// GetDatabases returns the Databases field value.
+func (o *PgCreateExtensionOpt) GetDatabases() []string {
 	if o == nil {
-		var ret string
+		var ret []string
 		return ret
 	}
-	return o.Name
+	return o.Databases
 }
 
-// GetNameOk returns a tuple with the Name field value
+// GetDatabasesOk returns a tuple with the Databases field value
 // and a boolean to check if the value has been set.
-func (o *PgCreateExtensionOpt) GetNameOk() (*string, bool) {
+func (o *PgCreateExtensionOpt) GetDatabasesOk() (*[]string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Name, true
+	return &o.Databases, true
 }
 
-// SetName sets field value.
-func (o *PgCreateExtensionOpt) SetName(v string) {
-	o.Name = v
+// SetDatabases sets field value.
+func (o *PgCreateExtensionOpt) SetDatabases(v []string) {
+	o.Databases = v
 }
 
-// GetDatabase returns the Database field value.
-func (o *PgCreateExtensionOpt) GetDatabase() string {
+// GetNames returns the Names field value.
+func (o *PgCreateExtensionOpt) GetNames() []string {
 	if o == nil {
-		var ret string
+		var ret []string
 		return ret
 	}
-	return o.Database
+	return o.Names
 }
 
-// GetDatabaseOk returns a tuple with the Database field value
+// GetNamesOk returns a tuple with the Names field value
 // and a boolean to check if the value has been set.
-func (o *PgCreateExtensionOpt) GetDatabaseOk() (*string, bool) {
+func (o *PgCreateExtensionOpt) GetNamesOk() (*[]string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Database, true
+	return &o.Names, true
 }
 
-// SetDatabase sets field value.
-func (o *PgCreateExtensionOpt) SetDatabase(v string) {
-	o.Database = v
+// SetNames sets field value.
+func (o *PgCreateExtensionOpt) SetNames(v []string) {
+	o.Names = v
 }
 
 // GetVersion returns the Version field value if set, zero value otherwise.
@@ -151,8 +151,8 @@ func (o PgCreateExtensionOpt) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["name"] = o.Name
-	toSerialize["database"] = o.Database
+	toSerialize["databases"] = o.Databases
+	toSerialize["names"] = o.Names
 	if o.Version != nil {
 		toSerialize["version"] = o.Version
 	}
@@ -169,28 +169,28 @@ func (o PgCreateExtensionOpt) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PgCreateExtensionOpt) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name     *string `json:"name"`
-		Database *string `json:"database"`
-		Version  *string `json:"version,omitempty"`
-		Schema   *string `json:"schema,omitempty"`
+		Databases *[]string `json:"databases"`
+		Names     *[]string `json:"names"`
+		Version   *string   `json:"version,omitempty"`
+		Schema    *string   `json:"schema,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Name == nil {
-		return fmt.Errorf("required field name missing")
+	if all.Databases == nil {
+		return fmt.Errorf("required field databases missing")
 	}
-	if all.Database == nil {
-		return fmt.Errorf("required field database missing")
+	if all.Names == nil {
+		return fmt.Errorf("required field names missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "database", "version", "schema"})
+		common.DeleteKeys(additionalProperties, &[]string{"databases", "names", "version", "schema"})
 	} else {
 		return err
 	}
-	o.Name = *all.Name
-	o.Database = *all.Database
+	o.Databases = *all.Databases
+	o.Names = *all.Names
 	o.Version = all.Version
 	o.Schema = all.Schema
 
