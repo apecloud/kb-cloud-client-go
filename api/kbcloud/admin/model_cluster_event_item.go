@@ -11,22 +11,20 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// KubernetesEventItem Kubernetes event for an involved resource
-type KubernetesEventItem struct {
+// ClusterEventItem Kubernetes event for a cluster, component or InstanceSet
+type ClusterEventItem struct {
 	ClusterName string `json:"clusterName"`
 	// Kubernetes kind of the involved object
 	ObjectKind    string  `json:"objectKind"`
 	ObjectName    string  `json:"objectName"`
 	ObjectUid     string  `json:"objectUID"`
 	ComponentName *string `json:"componentName,omitempty"`
-	// Instance name for Pod events
-	InstanceName *string `json:"instanceName,omitempty"`
-	Name         string  `json:"name"`
-	Type         string  `json:"type"`
-	Reason       string  `json:"reason"`
-	Message      string  `json:"message"`
-	Source       string  `json:"source"`
-	Count        int32   `json:"count"`
+	Name          string  `json:"name"`
+	Type          string  `json:"type"`
+	Reason        string  `json:"reason"`
+	Message       string  `json:"message"`
+	Source        string  `json:"source"`
+	Count         int32   `json:"count"`
 	// Last observation time, falling back to the event creation time
 	EventTime time.Time `json:"eventTime"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -34,12 +32,12 @@ type KubernetesEventItem struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewKubernetesEventItem instantiates a new KubernetesEventItem object.
+// NewClusterEventItem instantiates a new ClusterEventItem object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewKubernetesEventItem(clusterName string, objectKind string, objectName string, objectUid string, name string, typeVar string, reason string, message string, source string, count int32, eventTime time.Time) *KubernetesEventItem {
-	this := KubernetesEventItem{}
+func NewClusterEventItem(clusterName string, objectKind string, objectName string, objectUid string, name string, typeVar string, reason string, message string, source string, count int32, eventTime time.Time) *ClusterEventItem {
+	this := ClusterEventItem{}
 	this.ClusterName = clusterName
 	this.ObjectKind = objectKind
 	this.ObjectName = objectName
@@ -54,16 +52,16 @@ func NewKubernetesEventItem(clusterName string, objectKind string, objectName st
 	return &this
 }
 
-// NewKubernetesEventItemWithDefaults instantiates a new KubernetesEventItem object.
+// NewClusterEventItemWithDefaults instantiates a new ClusterEventItem object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewKubernetesEventItemWithDefaults() *KubernetesEventItem {
-	this := KubernetesEventItem{}
+func NewClusterEventItemWithDefaults() *ClusterEventItem {
+	this := ClusterEventItem{}
 	return &this
 }
 
 // GetClusterName returns the ClusterName field value.
-func (o *KubernetesEventItem) GetClusterName() string {
+func (o *ClusterEventItem) GetClusterName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -73,7 +71,7 @@ func (o *KubernetesEventItem) GetClusterName() string {
 
 // GetClusterNameOk returns a tuple with the ClusterName field value
 // and a boolean to check if the value has been set.
-func (o *KubernetesEventItem) GetClusterNameOk() (*string, bool) {
+func (o *ClusterEventItem) GetClusterNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -81,12 +79,12 @@ func (o *KubernetesEventItem) GetClusterNameOk() (*string, bool) {
 }
 
 // SetClusterName sets field value.
-func (o *KubernetesEventItem) SetClusterName(v string) {
+func (o *ClusterEventItem) SetClusterName(v string) {
 	o.ClusterName = v
 }
 
 // GetObjectKind returns the ObjectKind field value.
-func (o *KubernetesEventItem) GetObjectKind() string {
+func (o *ClusterEventItem) GetObjectKind() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -96,7 +94,7 @@ func (o *KubernetesEventItem) GetObjectKind() string {
 
 // GetObjectKindOk returns a tuple with the ObjectKind field value
 // and a boolean to check if the value has been set.
-func (o *KubernetesEventItem) GetObjectKindOk() (*string, bool) {
+func (o *ClusterEventItem) GetObjectKindOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -104,12 +102,12 @@ func (o *KubernetesEventItem) GetObjectKindOk() (*string, bool) {
 }
 
 // SetObjectKind sets field value.
-func (o *KubernetesEventItem) SetObjectKind(v string) {
+func (o *ClusterEventItem) SetObjectKind(v string) {
 	o.ObjectKind = v
 }
 
 // GetObjectName returns the ObjectName field value.
-func (o *KubernetesEventItem) GetObjectName() string {
+func (o *ClusterEventItem) GetObjectName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -119,7 +117,7 @@ func (o *KubernetesEventItem) GetObjectName() string {
 
 // GetObjectNameOk returns a tuple with the ObjectName field value
 // and a boolean to check if the value has been set.
-func (o *KubernetesEventItem) GetObjectNameOk() (*string, bool) {
+func (o *ClusterEventItem) GetObjectNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -127,12 +125,12 @@ func (o *KubernetesEventItem) GetObjectNameOk() (*string, bool) {
 }
 
 // SetObjectName sets field value.
-func (o *KubernetesEventItem) SetObjectName(v string) {
+func (o *ClusterEventItem) SetObjectName(v string) {
 	o.ObjectName = v
 }
 
 // GetObjectUid returns the ObjectUid field value.
-func (o *KubernetesEventItem) GetObjectUid() string {
+func (o *ClusterEventItem) GetObjectUid() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -142,7 +140,7 @@ func (o *KubernetesEventItem) GetObjectUid() string {
 
 // GetObjectUidOk returns a tuple with the ObjectUid field value
 // and a boolean to check if the value has been set.
-func (o *KubernetesEventItem) GetObjectUidOk() (*string, bool) {
+func (o *ClusterEventItem) GetObjectUidOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -150,12 +148,12 @@ func (o *KubernetesEventItem) GetObjectUidOk() (*string, bool) {
 }
 
 // SetObjectUid sets field value.
-func (o *KubernetesEventItem) SetObjectUid(v string) {
+func (o *ClusterEventItem) SetObjectUid(v string) {
 	o.ObjectUid = v
 }
 
 // GetComponentName returns the ComponentName field value if set, zero value otherwise.
-func (o *KubernetesEventItem) GetComponentName() string {
+func (o *ClusterEventItem) GetComponentName() string {
 	if o == nil || o.ComponentName == nil {
 		var ret string
 		return ret
@@ -165,7 +163,7 @@ func (o *KubernetesEventItem) GetComponentName() string {
 
 // GetComponentNameOk returns a tuple with the ComponentName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *KubernetesEventItem) GetComponentNameOk() (*string, bool) {
+func (o *ClusterEventItem) GetComponentNameOk() (*string, bool) {
 	if o == nil || o.ComponentName == nil {
 		return nil, false
 	}
@@ -173,45 +171,17 @@ func (o *KubernetesEventItem) GetComponentNameOk() (*string, bool) {
 }
 
 // HasComponentName returns a boolean if a field has been set.
-func (o *KubernetesEventItem) HasComponentName() bool {
+func (o *ClusterEventItem) HasComponentName() bool {
 	return o != nil && o.ComponentName != nil
 }
 
 // SetComponentName gets a reference to the given string and assigns it to the ComponentName field.
-func (o *KubernetesEventItem) SetComponentName(v string) {
+func (o *ClusterEventItem) SetComponentName(v string) {
 	o.ComponentName = &v
 }
 
-// GetInstanceName returns the InstanceName field value if set, zero value otherwise.
-func (o *KubernetesEventItem) GetInstanceName() string {
-	if o == nil || o.InstanceName == nil {
-		var ret string
-		return ret
-	}
-	return *o.InstanceName
-}
-
-// GetInstanceNameOk returns a tuple with the InstanceName field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *KubernetesEventItem) GetInstanceNameOk() (*string, bool) {
-	if o == nil || o.InstanceName == nil {
-		return nil, false
-	}
-	return o.InstanceName, true
-}
-
-// HasInstanceName returns a boolean if a field has been set.
-func (o *KubernetesEventItem) HasInstanceName() bool {
-	return o != nil && o.InstanceName != nil
-}
-
-// SetInstanceName gets a reference to the given string and assigns it to the InstanceName field.
-func (o *KubernetesEventItem) SetInstanceName(v string) {
-	o.InstanceName = &v
-}
-
 // GetName returns the Name field value.
-func (o *KubernetesEventItem) GetName() string {
+func (o *ClusterEventItem) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -221,7 +191,7 @@ func (o *KubernetesEventItem) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *KubernetesEventItem) GetNameOk() (*string, bool) {
+func (o *ClusterEventItem) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -229,12 +199,12 @@ func (o *KubernetesEventItem) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value.
-func (o *KubernetesEventItem) SetName(v string) {
+func (o *ClusterEventItem) SetName(v string) {
 	o.Name = v
 }
 
 // GetType returns the Type field value.
-func (o *KubernetesEventItem) GetType() string {
+func (o *ClusterEventItem) GetType() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -244,7 +214,7 @@ func (o *KubernetesEventItem) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *KubernetesEventItem) GetTypeOk() (*string, bool) {
+func (o *ClusterEventItem) GetTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -252,12 +222,12 @@ func (o *KubernetesEventItem) GetTypeOk() (*string, bool) {
 }
 
 // SetType sets field value.
-func (o *KubernetesEventItem) SetType(v string) {
+func (o *ClusterEventItem) SetType(v string) {
 	o.Type = v
 }
 
 // GetReason returns the Reason field value.
-func (o *KubernetesEventItem) GetReason() string {
+func (o *ClusterEventItem) GetReason() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -267,7 +237,7 @@ func (o *KubernetesEventItem) GetReason() string {
 
 // GetReasonOk returns a tuple with the Reason field value
 // and a boolean to check if the value has been set.
-func (o *KubernetesEventItem) GetReasonOk() (*string, bool) {
+func (o *ClusterEventItem) GetReasonOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -275,12 +245,12 @@ func (o *KubernetesEventItem) GetReasonOk() (*string, bool) {
 }
 
 // SetReason sets field value.
-func (o *KubernetesEventItem) SetReason(v string) {
+func (o *ClusterEventItem) SetReason(v string) {
 	o.Reason = v
 }
 
 // GetMessage returns the Message field value.
-func (o *KubernetesEventItem) GetMessage() string {
+func (o *ClusterEventItem) GetMessage() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -290,7 +260,7 @@ func (o *KubernetesEventItem) GetMessage() string {
 
 // GetMessageOk returns a tuple with the Message field value
 // and a boolean to check if the value has been set.
-func (o *KubernetesEventItem) GetMessageOk() (*string, bool) {
+func (o *ClusterEventItem) GetMessageOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -298,12 +268,12 @@ func (o *KubernetesEventItem) GetMessageOk() (*string, bool) {
 }
 
 // SetMessage sets field value.
-func (o *KubernetesEventItem) SetMessage(v string) {
+func (o *ClusterEventItem) SetMessage(v string) {
 	o.Message = v
 }
 
 // GetSource returns the Source field value.
-func (o *KubernetesEventItem) GetSource() string {
+func (o *ClusterEventItem) GetSource() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -313,7 +283,7 @@ func (o *KubernetesEventItem) GetSource() string {
 
 // GetSourceOk returns a tuple with the Source field value
 // and a boolean to check if the value has been set.
-func (o *KubernetesEventItem) GetSourceOk() (*string, bool) {
+func (o *ClusterEventItem) GetSourceOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -321,12 +291,12 @@ func (o *KubernetesEventItem) GetSourceOk() (*string, bool) {
 }
 
 // SetSource sets field value.
-func (o *KubernetesEventItem) SetSource(v string) {
+func (o *ClusterEventItem) SetSource(v string) {
 	o.Source = v
 }
 
 // GetCount returns the Count field value.
-func (o *KubernetesEventItem) GetCount() int32 {
+func (o *ClusterEventItem) GetCount() int32 {
 	if o == nil {
 		var ret int32
 		return ret
@@ -336,7 +306,7 @@ func (o *KubernetesEventItem) GetCount() int32 {
 
 // GetCountOk returns a tuple with the Count field value
 // and a boolean to check if the value has been set.
-func (o *KubernetesEventItem) GetCountOk() (*int32, bool) {
+func (o *ClusterEventItem) GetCountOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -344,12 +314,12 @@ func (o *KubernetesEventItem) GetCountOk() (*int32, bool) {
 }
 
 // SetCount sets field value.
-func (o *KubernetesEventItem) SetCount(v int32) {
+func (o *ClusterEventItem) SetCount(v int32) {
 	o.Count = v
 }
 
 // GetEventTime returns the EventTime field value.
-func (o *KubernetesEventItem) GetEventTime() time.Time {
+func (o *ClusterEventItem) GetEventTime() time.Time {
 	if o == nil {
 		var ret time.Time
 		return ret
@@ -359,7 +329,7 @@ func (o *KubernetesEventItem) GetEventTime() time.Time {
 
 // GetEventTimeOk returns a tuple with the EventTime field value
 // and a boolean to check if the value has been set.
-func (o *KubernetesEventItem) GetEventTimeOk() (*time.Time, bool) {
+func (o *ClusterEventItem) GetEventTimeOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -367,12 +337,12 @@ func (o *KubernetesEventItem) GetEventTimeOk() (*time.Time, bool) {
 }
 
 // SetEventTime sets field value.
-func (o *KubernetesEventItem) SetEventTime(v time.Time) {
+func (o *ClusterEventItem) SetEventTime(v time.Time) {
 	o.EventTime = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o KubernetesEventItem) MarshalJSON() ([]byte, error) {
+func (o ClusterEventItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -383,9 +353,6 @@ func (o KubernetesEventItem) MarshalJSON() ([]byte, error) {
 	toSerialize["objectUID"] = o.ObjectUid
 	if o.ComponentName != nil {
 		toSerialize["componentName"] = o.ComponentName
-	}
-	if o.InstanceName != nil {
-		toSerialize["instanceName"] = o.InstanceName
 	}
 	toSerialize["name"] = o.Name
 	toSerialize["type"] = o.Type
@@ -406,14 +373,13 @@ func (o KubernetesEventItem) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *KubernetesEventItem) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ClusterEventItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		ClusterName   *string    `json:"clusterName"`
 		ObjectKind    *string    `json:"objectKind"`
 		ObjectName    *string    `json:"objectName"`
 		ObjectUid     *string    `json:"objectUID"`
 		ComponentName *string    `json:"componentName,omitempty"`
-		InstanceName  *string    `json:"instanceName,omitempty"`
 		Name          *string    `json:"name"`
 		Type          *string    `json:"type"`
 		Reason        *string    `json:"reason"`
@@ -460,7 +426,7 @@ func (o *KubernetesEventItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"clusterName", "objectKind", "objectName", "objectUID", "componentName", "instanceName", "name", "type", "reason", "message", "source", "count", "eventTime"})
+		common.DeleteKeys(additionalProperties, &[]string{"clusterName", "objectKind", "objectName", "objectUID", "componentName", "name", "type", "reason", "message", "source", "count", "eventTime"})
 	} else {
 		return err
 	}
@@ -469,7 +435,6 @@ func (o *KubernetesEventItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.ObjectName = *all.ObjectName
 	o.ObjectUid = *all.ObjectUid
 	o.ComponentName = all.ComponentName
-	o.InstanceName = all.InstanceName
 	o.Name = *all.Name
 	o.Type = *all.Type
 	o.Reason = *all.Reason

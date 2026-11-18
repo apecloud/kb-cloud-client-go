@@ -1439,11 +1439,11 @@ func (r *ListClusterEventsOptionalParameters) WithLimit(limit int32) *ListCluste
 }
 
 // ListClusterEvents List Kubernetes events for the cluster, its components and InstanceSets.
-func (a *ClusterApi) ListClusterEvents(ctx _context.Context, orgName string, clusterName string, o ...ListClusterEventsOptionalParameters) (KubernetesEventList, *_nethttp.Response, error) {
+func (a *ClusterApi) ListClusterEvents(ctx _context.Context, orgName string, clusterName string, o ...ListClusterEventsOptionalParameters) (ClusterEventList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue KubernetesEventList
+		localVarReturnValue ClusterEventList
 		optionalParams      ListClusterEventsOptionalParameters
 	)
 
@@ -1878,11 +1878,11 @@ func (r *ListInstanceEventsOptionalParameters) WithReturnNumber(returnNumber int
 }
 
 // ListInstanceEvents List instance events.
-func (a *ClusterApi) ListInstanceEvents(ctx _context.Context, orgName string, clusterName string, instanceName string, o ...ListInstanceEventsOptionalParameters) (KubernetesEventList, *_nethttp.Response, error) {
+func (a *ClusterApi) ListInstanceEvents(ctx _context.Context, orgName string, clusterName string, instanceName string, o ...ListInstanceEventsOptionalParameters) (InstanceEventList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue KubernetesEventList
+		localVarReturnValue InstanceEventList
 		optionalParams      ListInstanceEventsOptionalParameters
 	)
 

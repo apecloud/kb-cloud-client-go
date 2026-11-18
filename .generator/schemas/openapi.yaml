@@ -4448,7 +4448,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/kubernetesEventList'
+                $ref: '#/components/schemas/clusterEventList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -4494,7 +4494,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/kubernetesEventList'
+                $ref: '#/components/schemas/instanceEventList'
           description: A successful response.
         '401':
           $ref: '#/components/responses/401'
@@ -31427,8 +31427,8 @@ components:
       required:
         - items
       type: object
-    kubernetesEventItem:
-      description: Kubernetes event for an involved resource
+    clusterEventItem:
+      description: Kubernetes event for a cluster, component or InstanceSet
       type: object
       required:
         - clusterName
@@ -31454,9 +31454,6 @@ components:
           type: string
         componentName:
           type: string
-        instanceName:
-          description: Instance name for Pod events
-          type: string
         name:
           type: string
         type:
@@ -31474,7 +31471,7 @@ components:
           description: Last observation time, falling back to the event creation time
           type: string
           format: date-time
-    kubernetesEventList:
+    clusterEventList:
       type: object
       required:
         - items
@@ -31483,10 +31480,63 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/kubernetesEventItem'
+            $ref: '#/components/schemas/clusterEventItem'
         truncated:
-          description: Whether more matching events exist than the requested return number
+          description: Whether more matching events exist than the limit
           type: boolean
+    instanceEventItem:
+      description: Instance event
+      properties:
+        clusterName:
+          description: Cluster name of the event
+          type: string
+        instanceName:
+          description: Instance name of the event
+          type: string
+        name:
+          description: Name of the event
+          type: string
+        reason:
+          description: Reason of the event
+          type: string
+        message:
+          description: Message of the event
+          type: string
+        type:
+          description: Type of the event
+          type: string
+        source:
+          description: Source of the event
+          type: string
+        count:
+          description: Count of the event
+          type: integer
+          format: int32
+        eventTime:
+          description: Last timestamp of the event
+          type: string
+          format: date-time
+      required:
+        - clusterName
+        - instanceName
+        - name
+        - reason
+        - message
+        - type
+        - count
+        - eventTime
+      type: object
+    instanceEventList:
+      description: Instance event list
+      properties:
+        items:
+          description: Items is the list of instance event objects in the list
+          items:
+            $ref: '#/components/schemas/instanceEventItem'
+          type: array
+      required:
+        - items
+      type: object
     instanceLog:
       type: object
       description: Instance log is the container log of the specified cluster instance

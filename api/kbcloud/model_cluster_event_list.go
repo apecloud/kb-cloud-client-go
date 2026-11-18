@@ -10,38 +10,38 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type KubernetesEventList struct {
-	Items []KubernetesEventItem `json:"items"`
-	// Whether more matching events exist than the requested return number
+type ClusterEventList struct {
+	Items []ClusterEventItem `json:"items"`
+	// Whether more matching events exist than the limit
 	Truncated bool `json:"truncated"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewKubernetesEventList instantiates a new KubernetesEventList object.
+// NewClusterEventList instantiates a new ClusterEventList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewKubernetesEventList(items []KubernetesEventItem, truncated bool) *KubernetesEventList {
-	this := KubernetesEventList{}
+func NewClusterEventList(items []ClusterEventItem, truncated bool) *ClusterEventList {
+	this := ClusterEventList{}
 	this.Items = items
 	this.Truncated = truncated
 	return &this
 }
 
-// NewKubernetesEventListWithDefaults instantiates a new KubernetesEventList object.
+// NewClusterEventListWithDefaults instantiates a new ClusterEventList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewKubernetesEventListWithDefaults() *KubernetesEventList {
-	this := KubernetesEventList{}
+func NewClusterEventListWithDefaults() *ClusterEventList {
+	this := ClusterEventList{}
 	return &this
 }
 
 // GetItems returns the Items field value.
-func (o *KubernetesEventList) GetItems() []KubernetesEventItem {
+func (o *ClusterEventList) GetItems() []ClusterEventItem {
 	if o == nil {
-		var ret []KubernetesEventItem
+		var ret []ClusterEventItem
 		return ret
 	}
 	return o.Items
@@ -49,7 +49,7 @@ func (o *KubernetesEventList) GetItems() []KubernetesEventItem {
 
 // GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *KubernetesEventList) GetItemsOk() (*[]KubernetesEventItem, bool) {
+func (o *ClusterEventList) GetItemsOk() (*[]ClusterEventItem, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -57,12 +57,12 @@ func (o *KubernetesEventList) GetItemsOk() (*[]KubernetesEventItem, bool) {
 }
 
 // SetItems sets field value.
-func (o *KubernetesEventList) SetItems(v []KubernetesEventItem) {
+func (o *ClusterEventList) SetItems(v []ClusterEventItem) {
 	o.Items = v
 }
 
 // GetTruncated returns the Truncated field value.
-func (o *KubernetesEventList) GetTruncated() bool {
+func (o *ClusterEventList) GetTruncated() bool {
 	if o == nil {
 		var ret bool
 		return ret
@@ -72,7 +72,7 @@ func (o *KubernetesEventList) GetTruncated() bool {
 
 // GetTruncatedOk returns a tuple with the Truncated field value
 // and a boolean to check if the value has been set.
-func (o *KubernetesEventList) GetTruncatedOk() (*bool, bool) {
+func (o *ClusterEventList) GetTruncatedOk() (*bool, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -80,12 +80,12 @@ func (o *KubernetesEventList) GetTruncatedOk() (*bool, bool) {
 }
 
 // SetTruncated sets field value.
-func (o *KubernetesEventList) SetTruncated(v bool) {
+func (o *ClusterEventList) SetTruncated(v bool) {
 	o.Truncated = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o KubernetesEventList) MarshalJSON() ([]byte, error) {
+func (o ClusterEventList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -100,10 +100,10 @@ func (o KubernetesEventList) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *KubernetesEventList) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ClusterEventList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items     *[]KubernetesEventItem `json:"items"`
-		Truncated *bool                  `json:"truncated"`
+		Items     *[]ClusterEventItem `json:"items"`
+		Truncated *bool               `json:"truncated"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
