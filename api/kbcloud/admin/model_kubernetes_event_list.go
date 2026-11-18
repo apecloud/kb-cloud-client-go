@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import (
 	"fmt"
@@ -10,37 +10,38 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// InstanceEventList Instance event list
-type InstanceEventList struct {
-	// Items is the list of instance event objects in the list
-	Items []InstanceEventItem `json:"items"`
+type KubernetesEventList struct {
+	Items []KubernetesEventItem `json:"items"`
+	// Whether more matching events exist than the requested return number
+	Truncated bool `json:"truncated"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewInstanceEventList instantiates a new InstanceEventList object.
+// NewKubernetesEventList instantiates a new KubernetesEventList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewInstanceEventList(items []InstanceEventItem) *InstanceEventList {
-	this := InstanceEventList{}
+func NewKubernetesEventList(items []KubernetesEventItem, truncated bool) *KubernetesEventList {
+	this := KubernetesEventList{}
 	this.Items = items
+	this.Truncated = truncated
 	return &this
 }
 
-// NewInstanceEventListWithDefaults instantiates a new InstanceEventList object.
+// NewKubernetesEventListWithDefaults instantiates a new KubernetesEventList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewInstanceEventListWithDefaults() *InstanceEventList {
-	this := InstanceEventList{}
+func NewKubernetesEventListWithDefaults() *KubernetesEventList {
+	this := KubernetesEventList{}
 	return &this
 }
 
 // GetItems returns the Items field value.
-func (o *InstanceEventList) GetItems() []InstanceEventItem {
+func (o *KubernetesEventList) GetItems() []KubernetesEventItem {
 	if o == nil {
-		var ret []InstanceEventItem
+		var ret []KubernetesEventItem
 		return ret
 	}
 	return o.Items
@@ -48,7 +49,7 @@ func (o *InstanceEventList) GetItems() []InstanceEventItem {
 
 // GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *InstanceEventList) GetItemsOk() (*[]InstanceEventItem, bool) {
+func (o *KubernetesEventList) GetItemsOk() (*[]KubernetesEventItem, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -56,17 +57,41 @@ func (o *InstanceEventList) GetItemsOk() (*[]InstanceEventItem, bool) {
 }
 
 // SetItems sets field value.
-func (o *InstanceEventList) SetItems(v []InstanceEventItem) {
+func (o *KubernetesEventList) SetItems(v []KubernetesEventItem) {
 	o.Items = v
 }
 
+// GetTruncated returns the Truncated field value.
+func (o *KubernetesEventList) GetTruncated() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+	return o.Truncated
+}
+
+// GetTruncatedOk returns a tuple with the Truncated field value
+// and a boolean to check if the value has been set.
+func (o *KubernetesEventList) GetTruncatedOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Truncated, true
+}
+
+// SetTruncated sets field value.
+func (o *KubernetesEventList) SetTruncated(v bool) {
+	o.Truncated = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
-func (o InstanceEventList) MarshalJSON() ([]byte, error) {
+func (o KubernetesEventList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["items"] = o.Items
+	toSerialize["truncated"] = o.Truncated
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -75,9 +100,10 @@ func (o InstanceEventList) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *InstanceEventList) UnmarshalJSON(bytes []byte) (err error) {
+func (o *KubernetesEventList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items *[]InstanceEventItem `json:"items"`
+		Items     *[]KubernetesEventItem `json:"items"`
+		Truncated *bool                  `json:"truncated"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -85,13 +111,17 @@ func (o *InstanceEventList) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Items == nil {
 		return fmt.Errorf("required field items missing")
 	}
+	if all.Truncated == nil {
+		return fmt.Errorf("required field truncated missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items"})
+		common.DeleteKeys(additionalProperties, &[]string{"items", "truncated"})
 	} else {
 		return err
 	}
 	o.Items = *all.Items
+	o.Truncated = *all.Truncated
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

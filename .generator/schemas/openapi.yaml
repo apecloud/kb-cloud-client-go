@@ -4415,6 +4415,50 @@ paths:
       tags:
         - cluster
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/events:
+    get:
+      operationId: listClusterEvents
+      tags:
+        - cluster
+        - shared
+      summary: List Kubernetes events for the cluster, its components and InstanceSets
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of recent events to return
+          schema:
+            type: integer
+            format: int32
+            default: 100
+            minimum: 1
+            maximum: 500
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/kubernetesEventList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/events:
     get:
       operationId: listInstanceEvents
@@ -4450,7 +4494,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/instanceEventList'
+                $ref: '#/components/schemas/kubernetesEventList'
           description: A successful response.
         '401':
           $ref: '#/components/responses/401'
@@ -31383,59 +31427,66 @@ components:
       required:
         - items
       type: object
-    instanceEventItem:
-      description: Instance event
+    kubernetesEventItem:
+      description: Kubernetes event for an involved resource
+      type: object
+      required:
+        - clusterName
+        - objectKind
+        - objectName
+        - objectUID
+        - name
+        - type
+        - reason
+        - message
+        - source
+        - count
+        - eventTime
       properties:
         clusterName:
-          description: Cluster name of the event
+          type: string
+        objectKind:
+          description: Kubernetes kind of the involved object
+          type: string
+        objectName:
+          type: string
+        objectUID:
+          type: string
+        componentName:
           type: string
         instanceName:
-          description: Instance name of the event
+          description: Instance name for Pod events
           type: string
         name:
-          description: Name of the event
-          type: string
-        reason:
-          description: Reason of the event
-          type: string
-        message:
-          description: Message of the event
           type: string
         type:
-          description: Type of the event
+          type: string
+        reason:
+          type: string
+        message:
           type: string
         source:
-          description: Source of the event
           type: string
         count:
-          description: Count of the event
           type: integer
           format: int32
         eventTime:
-          description: Last timestamp of the event
+          description: Last observation time, falling back to the event creation time
           type: string
           format: date-time
-      required:
-        - clusterName
-        - instanceName
-        - name
-        - reason
-        - message
-        - type
-        - count
-        - eventTime
+    kubernetesEventList:
       type: object
-    instanceEventList:
-      description: Instance event list
-      properties:
-        items:
-          description: Items is the list of instance event objects in the list
-          items:
-            $ref: '#/components/schemas/instanceEventItem'
-          type: array
       required:
         - items
-      type: object
+        - truncated
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/kubernetesEventItem'
+        truncated:
+          description: Whether more matching events exist than the requested return number
+          type: boolean
     instanceLog:
       type: object
       description: Instance log is the container log of the specified cluster instance
