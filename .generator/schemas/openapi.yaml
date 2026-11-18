@@ -3103,6 +3103,50 @@ paths:
       tags:
         - cluster
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/events:
+    get:
+      operationId: listClusterEvents
+      tags:
+        - cluster
+        - shared
+      summary: List Kubernetes events for the cluster, its components and InstanceSets
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of recent events to return
+          schema:
+            type: integer
+            format: int32
+            default: 100
+            minimum: 1
+            maximum: 500
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterEventList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/events:
     get:
       operationId: listInstanceEvents
@@ -28046,6 +28090,63 @@ components:
       required:
         - items
       type: object
+    clusterEventItem:
+      description: Kubernetes event for a cluster, component or InstanceSet
+      type: object
+      required:
+        - clusterName
+        - objectKind
+        - objectName
+        - objectUID
+        - name
+        - type
+        - reason
+        - message
+        - source
+        - count
+        - eventTime
+      properties:
+        clusterName:
+          type: string
+        objectKind:
+          description: Kubernetes kind of the involved object
+          type: string
+        objectName:
+          type: string
+        objectUID:
+          type: string
+        componentName:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        reason:
+          type: string
+        message:
+          type: string
+        source:
+          type: string
+        count:
+          type: integer
+          format: int32
+        eventTime:
+          description: Last observation time, falling back to the event creation time
+          type: string
+          format: date-time
+    clusterEventList:
+      type: object
+      required:
+        - items
+        - truncated
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterEventItem'
+        truncated:
+          description: Whether more matching events exist than the limit
+          type: boolean
     instanceEventItem:
       description: Instance event
       properties:

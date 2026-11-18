@@ -170,6 +170,7 @@
 //   - [clusterApi.getSqlAudit]
 //   - [clusterApi.getTDE]
 //   - [clusterApi.listCluster]
+//   - [clusterApi.listClusterEvents]
 //   - [clusterApi.listEndpoints]
 //   - [clusterApi.listInstance]
 //   - [clusterApi.listInstanceEvents]
