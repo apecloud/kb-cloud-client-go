@@ -4,12 +4,16 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type CreatePgExtensionResp struct {
 	// OpsRequestName is the name of a KubeBlocks OpsRequest response
-	OpsRequestResult *OpsRequestName `json:"opsRequestResult,omitempty"`
-	PgExtension      *PgExtension    `json:"PgExtension,omitempty"`
+	OpsRequestResult *OpsRequestName           `json:"opsRequestResult,omitempty"`
+	Items            []PgCreateExtensionResult `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -19,8 +23,9 @@ type CreatePgExtensionResp struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewCreatePgExtensionResp() *CreatePgExtensionResp {
+func NewCreatePgExtensionResp(items []PgCreateExtensionResult) *CreatePgExtensionResp {
 	this := CreatePgExtensionResp{}
+	this.Items = items
 	return &this
 }
 
@@ -60,32 +65,27 @@ func (o *CreatePgExtensionResp) SetOpsRequestResult(v OpsRequestName) {
 	o.OpsRequestResult = &v
 }
 
-// GetPgExtension returns the PgExtension field value if set, zero value otherwise.
-func (o *CreatePgExtensionResp) GetPgExtension() PgExtension {
-	if o == nil || o.PgExtension == nil {
-		var ret PgExtension
+// GetItems returns the Items field value.
+func (o *CreatePgExtensionResp) GetItems() []PgCreateExtensionResult {
+	if o == nil {
+		var ret []PgCreateExtensionResult
 		return ret
 	}
-	return *o.PgExtension
+	return o.Items
 }
 
-// GetPgExtensionOk returns a tuple with the PgExtension field value if set, nil otherwise
+// GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *CreatePgExtensionResp) GetPgExtensionOk() (*PgExtension, bool) {
-	if o == nil || o.PgExtension == nil {
+func (o *CreatePgExtensionResp) GetItemsOk() (*[]PgCreateExtensionResult, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.PgExtension, true
+	return &o.Items, true
 }
 
-// HasPgExtension returns a boolean if a field has been set.
-func (o *CreatePgExtensionResp) HasPgExtension() bool {
-	return o != nil && o.PgExtension != nil
-}
-
-// SetPgExtension gets a reference to the given PgExtension and assigns it to the PgExtension field.
-func (o *CreatePgExtensionResp) SetPgExtension(v PgExtension) {
-	o.PgExtension = &v
+// SetItems sets field value.
+func (o *CreatePgExtensionResp) SetItems(v []PgCreateExtensionResult) {
+	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -97,9 +97,7 @@ func (o CreatePgExtensionResp) MarshalJSON() ([]byte, error) {
 	if o.OpsRequestResult != nil {
 		toSerialize["opsRequestResult"] = o.OpsRequestResult
 	}
-	if o.PgExtension != nil {
-		toSerialize["PgExtension"] = o.PgExtension
-	}
+	toSerialize["items"] = o.Items
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -110,15 +108,18 @@ func (o CreatePgExtensionResp) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *CreatePgExtensionResp) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		OpsRequestResult *OpsRequestName `json:"opsRequestResult,omitempty"`
-		PgExtension      *PgExtension    `json:"PgExtension,omitempty"`
+		OpsRequestResult *OpsRequestName            `json:"opsRequestResult,omitempty"`
+		Items            *[]PgCreateExtensionResult `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
+	if all.Items == nil {
+		return fmt.Errorf("required field items missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"opsRequestResult", "PgExtension"})
+		common.DeleteKeys(additionalProperties, &[]string{"opsRequestResult", "items"})
 	} else {
 		return err
 	}
@@ -128,10 +129,7 @@ func (o *CreatePgExtensionResp) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.OpsRequestResult = all.OpsRequestResult
-	if all.PgExtension != nil && all.PgExtension.UnparsedObject != nil && o.UnparsedObject == nil {
-		hasInvalidField = true
-	}
-	o.PgExtension = all.PgExtension
+	o.Items = *all.Items
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
