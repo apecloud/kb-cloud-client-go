@@ -41473,7 +41473,7 @@ components:
         cancelAllowed:
           type: boolean
           x-nullable: true
-          description: Whether engine policy permits rollback of this horizontal scaling task. Existing task action and status restrictions still apply. Omitted for other tasks or older servers.
+          description: Whether this task can currently be cancelled, including task status, task type capability, and engine rollback restrictions. Clients must still enforce user authorization.
         taskId:
           type: string
           description: ID of the scaling task
@@ -41635,7 +41635,7 @@ components:
         cancelAllowed:
           type: boolean
           x-nullable: true
-          description: Whether engine policy permits rollback of this horizontal scaling task. Existing task action and status restrictions still apply. Omitted for other tasks or older servers.
+          description: Whether this task can currently be cancelled, including task status, task type capability, and engine rollback restrictions. Clients must still enforce user authorization.
         taskId:
           type: string
           description: ID of the scaling task
