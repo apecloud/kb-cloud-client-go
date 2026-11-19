@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// PlatformComponentNode A node hosting platform components. CPU and memory report capacity, allocatable capacity and actual usage in cores and GiB respectively. Filesystem statistics report root filesystem capacity and usage in GiB. Unavailable samples are -1.
 type PlatformComponentNode struct {
 	Name *string `json:"name,omitempty"`
 	// Internal node IP, falling back to external IP
@@ -16,6 +17,12 @@ type PlatformComponentNode struct {
 	Status *string `json:"status,omitempty"`
 	// Names of platform components with Pods assigned to this node
 	Components []string `json:"components,omitempty"`
+	// ResourceStats holds the requests, limits, and available stats for a resource.
+	CpuStats *ResourceStats `json:"cpuStats,omitempty"`
+	// ResourceStats holds the requests, limits, and available stats for a resource.
+	MemoryStats *ResourceStats `json:"memoryStats,omitempty"`
+	// ResourceStats holds the requests, limits, and available stats for a resource.
+	FilesystemStats *ResourceStats `json:"filesystemStats,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -178,6 +185,90 @@ func (o *PlatformComponentNode) SetComponents(v []string) {
 	o.Components = v
 }
 
+// GetCpuStats returns the CpuStats field value if set, zero value otherwise.
+func (o *PlatformComponentNode) GetCpuStats() ResourceStats {
+	if o == nil || o.CpuStats == nil {
+		var ret ResourceStats
+		return ret
+	}
+	return *o.CpuStats
+}
+
+// GetCpuStatsOk returns a tuple with the CpuStats field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PlatformComponentNode) GetCpuStatsOk() (*ResourceStats, bool) {
+	if o == nil || o.CpuStats == nil {
+		return nil, false
+	}
+	return o.CpuStats, true
+}
+
+// HasCpuStats returns a boolean if a field has been set.
+func (o *PlatformComponentNode) HasCpuStats() bool {
+	return o != nil && o.CpuStats != nil
+}
+
+// SetCpuStats gets a reference to the given ResourceStats and assigns it to the CpuStats field.
+func (o *PlatformComponentNode) SetCpuStats(v ResourceStats) {
+	o.CpuStats = &v
+}
+
+// GetMemoryStats returns the MemoryStats field value if set, zero value otherwise.
+func (o *PlatformComponentNode) GetMemoryStats() ResourceStats {
+	if o == nil || o.MemoryStats == nil {
+		var ret ResourceStats
+		return ret
+	}
+	return *o.MemoryStats
+}
+
+// GetMemoryStatsOk returns a tuple with the MemoryStats field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PlatformComponentNode) GetMemoryStatsOk() (*ResourceStats, bool) {
+	if o == nil || o.MemoryStats == nil {
+		return nil, false
+	}
+	return o.MemoryStats, true
+}
+
+// HasMemoryStats returns a boolean if a field has been set.
+func (o *PlatformComponentNode) HasMemoryStats() bool {
+	return o != nil && o.MemoryStats != nil
+}
+
+// SetMemoryStats gets a reference to the given ResourceStats and assigns it to the MemoryStats field.
+func (o *PlatformComponentNode) SetMemoryStats(v ResourceStats) {
+	o.MemoryStats = &v
+}
+
+// GetFilesystemStats returns the FilesystemStats field value if set, zero value otherwise.
+func (o *PlatformComponentNode) GetFilesystemStats() ResourceStats {
+	if o == nil || o.FilesystemStats == nil {
+		var ret ResourceStats
+		return ret
+	}
+	return *o.FilesystemStats
+}
+
+// GetFilesystemStatsOk returns a tuple with the FilesystemStats field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PlatformComponentNode) GetFilesystemStatsOk() (*ResourceStats, bool) {
+	if o == nil || o.FilesystemStats == nil {
+		return nil, false
+	}
+	return o.FilesystemStats, true
+}
+
+// HasFilesystemStats returns a boolean if a field has been set.
+func (o *PlatformComponentNode) HasFilesystemStats() bool {
+	return o != nil && o.FilesystemStats != nil
+}
+
+// SetFilesystemStats gets a reference to the given ResourceStats and assigns it to the FilesystemStats field.
+func (o *PlatformComponentNode) SetFilesystemStats(v ResourceStats) {
+	o.FilesystemStats = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o PlatformComponentNode) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -199,6 +290,15 @@ func (o PlatformComponentNode) MarshalJSON() ([]byte, error) {
 	if o.Components != nil {
 		toSerialize["components"] = o.Components
 	}
+	if o.CpuStats != nil {
+		toSerialize["cpuStats"] = o.CpuStats
+	}
+	if o.MemoryStats != nil {
+		toSerialize["memoryStats"] = o.MemoryStats
+	}
+	if o.FilesystemStats != nil {
+		toSerialize["filesystemStats"] = o.FilesystemStats
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -209,29 +309,50 @@ func (o PlatformComponentNode) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PlatformComponentNode) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name       *string  `json:"name,omitempty"`
-		Ip         *string  `json:"ip,omitempty"`
-		Role       *string  `json:"role,omitempty"`
-		Status     *string  `json:"status,omitempty"`
-		Components []string `json:"components,omitempty"`
+		Name            *string        `json:"name,omitempty"`
+		Ip              *string        `json:"ip,omitempty"`
+		Role            *string        `json:"role,omitempty"`
+		Status          *string        `json:"status,omitempty"`
+		Components      []string       `json:"components,omitempty"`
+		CpuStats        *ResourceStats `json:"cpuStats,omitempty"`
+		MemoryStats     *ResourceStats `json:"memoryStats,omitempty"`
+		FilesystemStats *ResourceStats `json:"filesystemStats,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "ip", "role", "status", "components"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "ip", "role", "status", "components", "cpuStats", "memoryStats", "filesystemStats"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Name = all.Name
 	o.Ip = all.Ip
 	o.Role = all.Role
 	o.Status = all.Status
 	o.Components = all.Components
+	if all.CpuStats != nil && all.CpuStats.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.CpuStats = all.CpuStats
+	if all.MemoryStats != nil && all.MemoryStats.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.MemoryStats = all.MemoryStats
+	if all.FilesystemStats != nil && all.FilesystemStats.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.FilesystemStats = all.FilesystemStats
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

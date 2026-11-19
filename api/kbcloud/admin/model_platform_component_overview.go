@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// PlatformComponentOverview Central platform resources. CPU is measured in cores; memory and storage in GiB. Missing usage is -1. Storage includes only PVCs referenced by platform component Pods.
+// PlatformComponentOverview Central platform resources. CPU is measured in cores and memory and storage in GiB. Missing usage is -1. Top-level storageStats covers bound PVCs referenced by platform component Pods.
 type PlatformComponentOverview struct {
 	Nodes []PlatformComponentNode `json:"nodes"`
 	// ResourceStats holds the requests, limits, and available stats for a resource.
