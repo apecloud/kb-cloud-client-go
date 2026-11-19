@@ -7708,7 +7708,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/nodeGroupCreate'
+              $ref: '#/components/schemas/nodeGroup'
         required: true
       responses:
         '201':
@@ -27183,9 +27183,6 @@ components:
             format: string
           type: array
           description: the nodes of the node group
-    nodeGroupCreate:
-      description: NodeGroup info
-      $ref: '#/components/schemas/nodeGroup'
     nodeOperationType:
       type: string
       description: operation for node, either `add` or `del`
