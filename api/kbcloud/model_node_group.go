@@ -12,7 +12,7 @@ import (
 
 // NodeGroup NodeGroup creation info
 type NodeGroup struct {
-	// The full, unique name of this Object, name part must consist of alphanumeric characters, '-', '_' or '.', and must start and end with an alphanumeric character (e.g. 'MyName',  or 'my.name',  or '123-abc'
+	// Unique group name used in the Kubernetes node label.
 	Name string `json:"name"`
 	// the description of the node group
 	Description *string `json:"description,omitempty"`

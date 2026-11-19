@@ -35,8 +35,10 @@ type Node struct {
 	Zone *string `json:"zone,omitempty"`
 	// Region of the node
 	Region *string `json:"region,omitempty"`
-	// Node Group of the node
+	// Deprecated. Value of the legacy node group label, when present. Use nodeGroups for all memberships.
 	NodeGroup *string `json:"nodeGroup,omitempty"`
+	// Groups identified by the node's group labels, sorted by name.
+	NodeGroups []string `json:"nodeGroups,omitempty"`
 	// node is in control plane
 	ControlPlane *bool `json:"controlPlane,omitempty"`
 	// node is in data plane
@@ -365,6 +367,34 @@ func (o *Node) SetNodeGroup(v string) {
 	o.NodeGroup = &v
 }
 
+// GetNodeGroups returns the NodeGroups field value if set, zero value otherwise.
+func (o *Node) GetNodeGroups() []string {
+	if o == nil || o.NodeGroups == nil {
+		var ret []string
+		return ret
+	}
+	return o.NodeGroups
+}
+
+// GetNodeGroupsOk returns a tuple with the NodeGroups field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Node) GetNodeGroupsOk() (*[]string, bool) {
+	if o == nil || o.NodeGroups == nil {
+		return nil, false
+	}
+	return &o.NodeGroups, true
+}
+
+// HasNodeGroups returns a boolean if a field has been set.
+func (o *Node) HasNodeGroups() bool {
+	return o != nil && o.NodeGroups != nil
+}
+
+// SetNodeGroups gets a reference to the given []string and assigns it to the NodeGroups field.
+func (o *Node) SetNodeGroups(v []string) {
+	o.NodeGroups = v
+}
+
 // GetControlPlane returns the ControlPlane field value if set, zero value otherwise.
 func (o *Node) GetControlPlane() bool {
 	if o == nil || o.ControlPlane == nil {
@@ -537,6 +567,9 @@ func (o Node) MarshalJSON() ([]byte, error) {
 	if o.NodeGroup != nil {
 		toSerialize["nodeGroup"] = o.NodeGroup
 	}
+	if o.NodeGroups != nil {
+		toSerialize["nodeGroups"] = o.NodeGroups
+	}
 	if o.ControlPlane != nil {
 		toSerialize["controlPlane"] = o.ControlPlane
 	}
@@ -571,6 +604,7 @@ func (o *Node) UnmarshalJSON(bytes []byte) (err error) {
 		Zone                    *string                      `json:"zone,omitempty"`
 		Region                  *string                      `json:"region,omitempty"`
 		NodeGroup               *string                      `json:"nodeGroup,omitempty"`
+		NodeGroups              []string                     `json:"nodeGroups,omitempty"`
 		ControlPlane            *bool                        `json:"controlPlane,omitempty"`
 		DataPlane               *bool                        `json:"dataPlane,omitempty"`
 		Managed                 *bool                        `json:"managed,omitempty"`
@@ -594,7 +628,7 @@ func (o *Node) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cpu", "cpuStats", "createdAt", "hostName", "instanceType", "ip", "memory", "memoryStats", "zone", "region", "nodeGroup", "controlPlane", "dataPlane", "managed", "koordinatorReservations", "status"})
+		common.DeleteKeys(additionalProperties, &[]string{"cpu", "cpuStats", "createdAt", "hostName", "instanceType", "ip", "memory", "memoryStats", "zone", "region", "nodeGroup", "nodeGroups", "controlPlane", "dataPlane", "managed", "koordinatorReservations", "status"})
 	} else {
 		return err
 	}
@@ -617,6 +651,7 @@ func (o *Node) UnmarshalJSON(bytes []byte) (err error) {
 	o.Zone = all.Zone
 	o.Region = all.Region
 	o.NodeGroup = all.NodeGroup
+	o.NodeGroups = all.NodeGroups
 	o.ControlPlane = all.ControlPlane
 	o.DataPlane = all.DataPlane
 	o.Managed = all.Managed

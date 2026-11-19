@@ -29477,8 +29477,9 @@ components:
       properties:
         name:
           type: string
-          description: The full, unique name of this Object, name part must consist of alphanumeric characters, '-', '_' or '.', and must start and end with an alphanumeric character (e.g. 'MyName',  or 'my.name',  or '123-abc'
-          pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$
+          description: Unique group name used in the Kubernetes node label.
+          maxLength: 63
+          pattern: ^[A-Za-z0-9]([-A-Za-z0-9_.]*[A-Za-z0-9])?$
           format: string
         description:
           type: string
@@ -32524,8 +32525,13 @@ components:
           description: Region of the node
           type: string
         nodeGroup:
-          description: Node Group of the node
+          description: Deprecated. Value of the legacy node group label, when present. Use nodeGroups for all memberships.
           type: string
+        nodeGroups:
+          description: Groups identified by the node's group labels, sorted by name.
+          type: array
+          items:
+            type: string
         controlPlane:
           description: node is in control plane
           type: boolean
