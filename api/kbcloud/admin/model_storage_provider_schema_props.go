@@ -8,7 +8,7 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // StorageProviderSchemaProps the schema properties for storage provider parameters
 type StorageProviderSchemaProps struct {
-	// default value for the parameter
+	// default value for the parameter; its JSON type follows the parameter type
 	Default     interface{}           `json:"default,omitempty"`
 	Description *LocalizedDescription `json:"description,omitempty"`
 	Title       *LocalizedDescription `json:"title,omitempty"`
