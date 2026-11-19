@@ -40007,6 +40007,18 @@ components:
           description: list of instance roles that are not allowed to be taken offline
           items:
             type: string
+        rollback:
+          type: object
+          description: Horizontal scaling rollback capability. Omitted directions preserve existing cancellation behavior; other cancellation restrictions still apply.
+          properties:
+            scaleIn:
+              type: boolean
+              x-nullable: true
+              description: Whether execution of scale-in can be rolled back. Omitted means allowed.
+            scaleOut:
+              type: boolean
+              x-nullable: true
+              description: Whether execution of scale-out can be rolled back. Omitted means allowed.
         rollbackSupported:
           type: boolean
           description: indicate whether rollback is supported for this ops
@@ -41458,6 +41470,10 @@ components:
         - createdAt
         - updatedAt
       properties:
+        cancelAllowed:
+          type: boolean
+          x-nullable: true
+          description: Whether engine policy permits rollback of this horizontal scaling task. Existing task action and status restrictions still apply. Omitted for other tasks or older servers.
         taskId:
           type: string
           description: ID of the scaling task
@@ -41616,6 +41632,10 @@ components:
         - createdAt
         - updatedAt
       properties:
+        cancelAllowed:
+          type: boolean
+          x-nullable: true
+          description: Whether engine policy permits rollback of this horizontal scaling task. Existing task action and status restrictions still apply. Omitted for other tasks or older servers.
         taskId:
           type: string
           description: ID of the scaling task

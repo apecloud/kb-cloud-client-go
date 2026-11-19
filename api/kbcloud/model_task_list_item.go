@@ -12,6 +12,8 @@ import (
 )
 
 type TaskListItem struct {
+	// Whether engine policy permits rollback of this horizontal scaling task. Existing task action and status restrictions still apply. Omitted for other tasks or older servers.
+	CancelAllowed *bool `json:"cancelAllowed,omitempty"`
 	// ID of the scaling task
 	TaskId string `json:"taskId"`
 	// Name of the task
@@ -71,6 +73,34 @@ func NewTaskListItem(taskId string, taskName string, taskType string, status Tas
 func NewTaskListItemWithDefaults() *TaskListItem {
 	this := TaskListItem{}
 	return &this
+}
+
+// GetCancelAllowed returns the CancelAllowed field value if set, zero value otherwise.
+func (o *TaskListItem) GetCancelAllowed() bool {
+	if o == nil || o.CancelAllowed == nil {
+		var ret bool
+		return ret
+	}
+	return *o.CancelAllowed
+}
+
+// GetCancelAllowedOk returns a tuple with the CancelAllowed field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *TaskListItem) GetCancelAllowedOk() (*bool, bool) {
+	if o == nil || o.CancelAllowed == nil {
+		return nil, false
+	}
+	return o.CancelAllowed, true
+}
+
+// HasCancelAllowed returns a boolean if a field has been set.
+func (o *TaskListItem) HasCancelAllowed() bool {
+	return o != nil && o.CancelAllowed != nil
+}
+
+// SetCancelAllowed gets a reference to the given bool and assigns it to the CancelAllowed field.
+func (o *TaskListItem) SetCancelAllowed(v bool) {
+	o.CancelAllowed = &v
 }
 
 // GetTaskId returns the TaskId field value.
@@ -525,6 +555,9 @@ func (o TaskListItem) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.CancelAllowed != nil {
+		toSerialize["cancelAllowed"] = o.CancelAllowed
+	}
 	toSerialize["taskId"] = o.TaskId
 	toSerialize["taskName"] = o.TaskName
 	toSerialize["taskType"] = o.TaskType
@@ -590,6 +623,7 @@ func (o TaskListItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *TaskListItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		CancelAllowed  *bool         `json:"cancelAllowed,omitempty"`
 		TaskId         *string       `json:"taskId"`
 		TaskName       *string       `json:"taskName"`
 		TaskType       *string       `json:"taskType"`
@@ -631,12 +665,13 @@ func (o *TaskListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"taskId", "taskName", "taskType", "subTaskType", "status", "resourceType", "resourceId", "resourceName", "orgName", "createdAt", "updatedAt", "startedAt", "completionTime", "message", "progress", "operator", "scheduled"})
+		common.DeleteKeys(additionalProperties, &[]string{"cancelAllowed", "taskId", "taskName", "taskType", "subTaskType", "status", "resourceType", "resourceId", "resourceName", "orgName", "createdAt", "updatedAt", "startedAt", "completionTime", "message", "progress", "operator", "scheduled"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.CancelAllowed = all.CancelAllowed
 	o.TaskId = *all.TaskId
 	o.TaskName = *all.TaskName
 	o.TaskType = *all.TaskType
