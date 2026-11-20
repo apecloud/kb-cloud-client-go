@@ -27351,7 +27351,7 @@ paths:
           required: true
           schema:
             type: string
-        - description: session id; for Redis, use the connection address in host:port form
+        - description: session id; for Redis, use the numeric CLIENT LIST client id
           in: path
           name: session
           required: true
@@ -40089,7 +40089,7 @@ components:
           nullable: true
         sessionId:
           type: string
-          description: native session ID used by the terminate API; for Redis this is the connection address in host:port form
+          description: native session ID used by the terminate API; for Redis this is the numeric CLIENT LIST client id
           nullable: true
         user:
           type: string
