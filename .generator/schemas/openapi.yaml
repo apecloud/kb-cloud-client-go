@@ -23145,7 +23145,7 @@ paths:
           required: true
           schema:
             type: string
-        - description: session id; for Redis, use the connection address in host:port form
+        - description: session id; for Redis, use the numeric CLIENT LIST client id
           in: path
           name: session
           required: true
@@ -41473,7 +41473,7 @@ components:
         cancelAllowed:
           type: boolean
           x-nullable: true
-          description: Whether this task can currently be cancelled, including task status, task type capability, and engine rollback restrictions. Clients must still enforce user authorization.
+          description: Whether engine policy permits rollback of this Running horizontal scaling task. This only adds an engine restriction to existing task action and status checks. Omitted for Pending tasks, other task types, terminal tasks, or older servers.
         taskId:
           type: string
           description: ID of the scaling task
@@ -41635,7 +41635,7 @@ components:
         cancelAllowed:
           type: boolean
           x-nullable: true
-          description: Whether this task can currently be cancelled, including task status, task type capability, and engine rollback restrictions. Clients must still enforce user authorization.
+          description: Whether engine policy permits rollback of this Running horizontal scaling task. This only adds an engine restriction to existing task action and status checks. Omitted for Pending tasks, other task types, terminal tasks, or older servers.
         taskId:
           type: string
           description: ID of the scaling task
@@ -43759,7 +43759,7 @@ components:
           nullable: true
         sessionId:
           type: string
-          description: native session ID used by the terminate API; for Redis this is the connection address in host:port form
+          description: native session ID used by the terminate API; for Redis this is the numeric CLIENT LIST client id
           nullable: true
         user:
           type: string

@@ -12,7 +12,7 @@ import (
 )
 
 type Task struct {
-	// Whether this task can currently be cancelled, including task status, task type capability, and engine rollback restrictions. Clients must still enforce user authorization.
+	// Whether engine policy permits rollback of this Running horizontal scaling task. This only adds an engine restriction to existing task action and status checks. Omitted for Pending tasks, other task types, terminal tasks, or older servers.
 	CancelAllowed *bool `json:"cancelAllowed,omitempty"`
 	// ID of the scaling task
 	TaskId string `json:"taskId"`
