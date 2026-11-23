@@ -25,14 +25,9 @@ type ModeComponentInstanceTemplate struct {
 	// Volume expansion targets must match component volume names and capacities.
 	//
 	Ops []InstanceTemplateOp `json:"ops"`
-	// Heterogeneous attributes the frontend should render on each
-	// instance template at create. Env overrides require env in this list;
-	// other attributes control frontend visibility.
-	//
+	// Template UI attributes. Env overrides require env to be enabled.
 	Attributes []InstanceTemplateAttribute `json:"attributes,omitempty"`
-	// Allowed env vars when attributes includes env. Create rejects undeclared
-	// names, applies defaults and validates required values before persistence.
-	//
+	// Allowed env variables, with defaults and required checks applied before persistence.
 	Env []InstanceTemplateEnv `json:"env,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
