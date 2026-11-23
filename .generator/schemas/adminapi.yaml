@@ -35246,7 +35246,7 @@ components:
           description: StorageClass name for all persistent volumes in this template. Copied from component volumeClaimTemplates, preserving volume sizes and other settings while overriding storageClassName. Chart instance volume templates are cleared; omitted or empty leaves instance volumeClaimTemplates unset.
         env:
           type: array
-          description: Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
+          description: Declared env overrides. Names must be unique; defaults apply only to omitted variables.
           items:
             type: object
             required:
@@ -35255,10 +35255,10 @@ components:
             properties:
               name:
                 type: string
+                minLength: 1
               value:
                 type: string
-                minLength: 1
-                description: Plain string value only. valueFrom is not supported.
+                description: Literal string; optional values may be empty. valueFrom is unsupported.
     ioQuantity:
       description: IO Quantity describes IOPS and BPS of a volume
       properties:
@@ -45300,7 +45300,7 @@ components:
         - storageClass
     instanceTemplateEnv:
       type: object
-      description: One fillable env var on an instance template, for frontend rendering.
+      description: Allowed template env variable and its input constraints.
       required:
         - name
       properties:
@@ -45314,10 +45314,10 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         required:
           type: boolean
-          description: If true, the frontend should treat this env as required. Create does not re-check.
+          description: Requires a non-blank value after applying the default.
         default:
           type: string
-          description: Default value shown by the frontend.
+          description: Used only when the variable is omitted.
     modeReadonlyEndpoint:
       type: object
       required:
@@ -45374,16 +45374,10 @@ components:
               uniqueItems: true
               items:
                 $ref: '#/components/schemas/instanceTemplateAttribute'
-              description: |
-                Heterogeneous attributes the frontend should render on each
-                instance template at create. Omitted or empty means only name
-                and replicas. Create overlays the request onto the chart and
-                does not re-check this list.
+              description: Template UI attributes. Env overrides require env to be enabled.
             env:
               type: array
-              description: |
-                Env vars the frontend may render when attributes includes env.
-                Create does not re-check this list.
+              description: Allowed env variables, with defaults and required checks applied before persistence.
               items:
                 $ref: '#/components/schemas/instanceTemplateEnv'
         serviceRef:
