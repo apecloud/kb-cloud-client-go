@@ -30490,7 +30490,7 @@ components:
     instanceTemplateCreate:
       type: object
       additionalProperties: false
-      description: Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, nodeGroup and storageClass are optional overlays. The request must include every chart-rendered instance template exactly once. Explicit placement requires availabilityZone and optionally accepts nodeGroup, without inheriting upper-level AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks default inheritance. Hostname, user scheduling rules and additional topology keys are preserved.
+      description: Create assignment for one instance template. name and replicas are required. env, availabilityZone, nodeGroup and storageClass are optional overlays. The request must include every chart-rendered instance template exactly once. Explicit placement requires availabilityZone and optionally accepts nodeGroup, without inheriting upper-level AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks default inheritance. Hostname, user scheduling rules and additional topology keys are preserved.
       required:
         - name
         - replicas
@@ -30527,16 +30527,6 @@ components:
                 type: string
                 minLength: 1
                 description: Plain string value only. valueFrom is not supported.
-        annotations:
-          type: object
-          additionalProperties:
-            type: string
-          description: Annotation map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
-        labels:
-          type: object
-          additionalProperties:
-            type: string
-          description: Label map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted. The apps.kubeblocks.io/instance-template label is managed by the system and must equal the template name if supplied.
     ioQuantity:
       description: IO Quantity describes IOPS and BPS of a volume
       properties:
@@ -30634,7 +30624,7 @@ components:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Per-template replicas and optional overlays (env, annotations, labels, availability zone, storage class). Required when the current mode component declares instanceTemplate in engine_options; otherwise omit. Names must exactly match all chart-rendered instances, without missing, extra, or duplicate names; order does not matter. Component replicas must equal the sum of all requested instance template replica counts.
+          description: Per-template replicas and optional overlays (env, availability zone, storage class). Required when the current mode component declares instanceTemplate in engine_options; otherwise omit. Names must exactly match all chart-rendered instances, without missing, extra, or duplicate names; order does not matter. Component replicas must equal the sum of all requested instance template replica counts.
           items:
             $ref: '#/components/schemas/instanceTemplateCreate'
         skipResourceConstraints:
@@ -30964,7 +30954,7 @@ components:
         instanceTemplates:
           type: array
           x-omitempty: true
-          description: Instance template assignments with effective replicas, placement and storage class, and user-provided env, labels and annotations.
+          description: Instance template assignments with effective replicas, placement and storage class, and user-provided env.
           items:
             $ref: '#/components/schemas/instanceTemplateCreate'
         name:
@@ -38989,8 +38979,6 @@ components:
       description: Heterogeneous attribute the frontend may render on an instance template at create.
       enum:
         - env
-        - annotations
-        - labels
         - storageClass
     instanceTemplateEnv:
       type: object
