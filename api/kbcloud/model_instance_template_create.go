@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, nodeGroup and storageClass are optional overlays. The request must include every chart-rendered instance template exactly once. Explicit placement requires availabilityZone and optionally accepts nodeGroup, without inheriting upper-level AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks default inheritance. Hostname, user scheduling rules and additional topology keys are preserved.
+// InstanceTemplateCreate Create assignment for one instance template. name and replicas are required. env, availabilityZone, nodeGroup and storageClass are optional overlays. The request must include every chart-rendered instance template exactly once. Explicit placement requires availabilityZone and optionally accepts nodeGroup, without inheriting upper-level AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks default inheritance. Hostname, user scheduling rules and additional topology keys are preserved.
 type InstanceTemplateCreate struct {
 	// Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
 	NodeGroup *string `json:"nodeGroup,omitempty"`
@@ -24,10 +24,6 @@ type InstanceTemplateCreate struct {
 	StorageClass *string `json:"storageClass,omitempty"`
 	// Env overrides (name and value only) declared by the current mode component. Env must be enabled in engine options. Names must be unique; null entries and empty values are rejected. Omitted variables receive declared defaults before persistence; required variables must then be non-blank. valueFrom is not supported; overlaying a name clears any chart valueFrom.
 	Env []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
-	// Annotation map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
-	Annotations map[string]string `json:"annotations,omitempty"`
-	// Label map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted. The apps.kubeblocks.io/instance-template label is managed by the system and must equal the template name if supplied.
-	Labels map[string]string `json:"labels,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject map[string]interface{} `json:"-"`
 }
@@ -209,62 +205,6 @@ func (o *InstanceTemplateCreate) SetEnv(v []InstanceTemplateCreateEnvItem) {
 	o.Env = v
 }
 
-// GetAnnotations returns the Annotations field value if set, zero value otherwise.
-func (o *InstanceTemplateCreate) GetAnnotations() map[string]string {
-	if o == nil || o.Annotations == nil {
-		var ret map[string]string
-		return ret
-	}
-	return o.Annotations
-}
-
-// GetAnnotationsOk returns a tuple with the Annotations field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *InstanceTemplateCreate) GetAnnotationsOk() (*map[string]string, bool) {
-	if o == nil || o.Annotations == nil {
-		return nil, false
-	}
-	return &o.Annotations, true
-}
-
-// HasAnnotations returns a boolean if a field has been set.
-func (o *InstanceTemplateCreate) HasAnnotations() bool {
-	return o != nil && o.Annotations != nil
-}
-
-// SetAnnotations gets a reference to the given map[string]string and assigns it to the Annotations field.
-func (o *InstanceTemplateCreate) SetAnnotations(v map[string]string) {
-	o.Annotations = v
-}
-
-// GetLabels returns the Labels field value if set, zero value otherwise.
-func (o *InstanceTemplateCreate) GetLabels() map[string]string {
-	if o == nil || o.Labels == nil {
-		var ret map[string]string
-		return ret
-	}
-	return o.Labels
-}
-
-// GetLabelsOk returns a tuple with the Labels field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *InstanceTemplateCreate) GetLabelsOk() (*map[string]string, bool) {
-	if o == nil || o.Labels == nil {
-		return nil, false
-	}
-	return &o.Labels, true
-}
-
-// HasLabels returns a boolean if a field has been set.
-func (o *InstanceTemplateCreate) HasLabels() bool {
-	return o != nil && o.Labels != nil
-}
-
-// SetLabels gets a reference to the given map[string]string and assigns it to the Labels field.
-func (o *InstanceTemplateCreate) SetLabels(v map[string]string) {
-	o.Labels = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o InstanceTemplateCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -285,12 +225,6 @@ func (o InstanceTemplateCreate) MarshalJSON() ([]byte, error) {
 	if o.Env != nil {
 		toSerialize["env"] = o.Env
 	}
-	if o.Annotations != nil {
-		toSerialize["annotations"] = o.Annotations
-	}
-	if o.Labels != nil {
-		toSerialize["labels"] = o.Labels
-	}
 	return common.Marshal(toSerialize)
 }
 
@@ -303,8 +237,6 @@ func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 		AvailabilityZone *string                         `json:"availabilityZone,omitempty"`
 		StorageClass     *string                         `json:"storageClass,omitempty"`
 		Env              []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
-		Annotations      map[string]string               `json:"annotations,omitempty"`
-		Labels           map[string]string               `json:"labels,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -321,8 +253,6 @@ func (o *InstanceTemplateCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.AvailabilityZone = all.AvailabilityZone
 	o.StorageClass = all.StorageClass
 	o.Env = all.Env
-	o.Annotations = all.Annotations
-	o.Labels = all.Labels
 
 	return nil
 }
