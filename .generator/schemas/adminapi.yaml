@@ -45822,7 +45822,7 @@ components:
           description: Account names that cannot be deleted, locked, unlocked, or have their privileges modified. This does not hide accounts or restrict password changes.
           items:
             type: string
-        displayAccounts:
+        hiddenAccounts:
           type: array
           description: Account names hidden from the generic account list. Matching is case-sensitive, without whitespace normalization or patterns. Other accounts remain visible subject to existing displayRootAccount rules.
           items:
