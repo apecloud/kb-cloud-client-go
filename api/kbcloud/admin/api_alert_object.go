@@ -19,9 +19,12 @@ type AlertObjectApi common.Service
 
 // ListAlertObjectsOptionalParameters holds optional parameters for ListAlertObjects.
 type ListAlertObjectsOptionalParameters struct {
-	OrgName  *string
-	Page     *int32
-	PageSize *int32
+	OrgName     *string
+	Page        *int32
+	PageSize    *int32
+	ClusterName *string
+	Status      *string
+	Severity    *string
 }
 
 // NewListAlertObjectsOptionalParameters creates an empty struct for parameters.
@@ -45,6 +48,24 @@ func (r *ListAlertObjectsOptionalParameters) WithPage(page int32) *ListAlertObje
 // WithPageSize sets the corresponding parameter name and returns the struct.
 func (r *ListAlertObjectsOptionalParameters) WithPageSize(pageSize int32) *ListAlertObjectsOptionalParameters {
 	r.PageSize = &pageSize
+	return r
+}
+
+// WithClusterName sets the corresponding parameter name and returns the struct.
+func (r *ListAlertObjectsOptionalParameters) WithClusterName(clusterName string) *ListAlertObjectsOptionalParameters {
+	r.ClusterName = &clusterName
+	return r
+}
+
+// WithStatus sets the corresponding parameter name and returns the struct.
+func (r *ListAlertObjectsOptionalParameters) WithStatus(status string) *ListAlertObjectsOptionalParameters {
+	r.Status = &status
+	return r
+}
+
+// WithSeverity sets the corresponding parameter name and returns the struct.
+func (r *ListAlertObjectsOptionalParameters) WithSeverity(severity string) *ListAlertObjectsOptionalParameters {
+	r.Severity = &severity
 	return r
 }
 
@@ -91,6 +112,15 @@ func (a *AlertObjectApi) ListAlertObjects(ctx _context.Context, o ...ListAlertOb
 	}
 	if optionalParams.PageSize != nil {
 		localVarQueryParams.Add("pageSize", common.ParameterToString(*optionalParams.PageSize, ""))
+	}
+	if optionalParams.ClusterName != nil {
+		localVarQueryParams.Add("clusterName", common.ParameterToString(*optionalParams.ClusterName, ""))
+	}
+	if optionalParams.Status != nil {
+		localVarQueryParams.Add("status", common.ParameterToString(*optionalParams.Status, ""))
+	}
+	if optionalParams.Severity != nil {
+		localVarQueryParams.Add("severity", common.ParameterToString(*optionalParams.Severity, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
