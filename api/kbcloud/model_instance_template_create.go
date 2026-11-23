@@ -22,7 +22,7 @@ type InstanceTemplateCreate struct {
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 	// StorageClass name for all persistent volumes in this template. Copied from component volumeClaimTemplates, preserving volume sizes and other settings while overriding storageClassName. Chart instance volume templates are cleared; omitted or empty leaves instance volumeClaimTemplates unset.
 	StorageClass *string `json:"storageClass,omitempty"`
-	// Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
+	// Env overrides (name and value only) declared by the current mode component. Env must be enabled in engine options. Names must be unique; null entries and empty values are rejected. Omitted variables receive declared defaults before persistence; required variables must then be non-blank. valueFrom is not supported; overlaying a name clears any chart valueFrom.
 	Env []InstanceTemplateCreateEnvItem `json:"env,omitempty"`
 	// Annotation map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
 	Annotations map[string]string `json:"annotations,omitempty"`

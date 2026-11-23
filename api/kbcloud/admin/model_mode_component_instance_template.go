@@ -26,13 +26,12 @@ type ModeComponentInstanceTemplate struct {
 	//
 	Ops []InstanceTemplateOp `json:"ops"`
 	// Heterogeneous attributes the frontend should render on each
-	// instance template at create. Omitted or empty means only name
-	// and replicas. Create overlays the request onto the chart and
-	// does not re-check this list.
+	// instance template at create. Env overrides require env in this list;
+	// other attributes control frontend visibility.
 	//
 	Attributes []InstanceTemplateAttribute `json:"attributes,omitempty"`
-	// Env vars the frontend may render when attributes includes env.
-	// Create does not re-check this list.
+	// Allowed env vars when attributes includes env. Create rejects undeclared
+	// names, applies defaults and validates required values before persistence.
 	//
 	Env []InstanceTemplateEnv `json:"env,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct

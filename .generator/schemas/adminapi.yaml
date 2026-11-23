@@ -35246,7 +35246,7 @@ components:
           description: StorageClass name for all persistent volumes in this template. Copied from component volumeClaimTemplates, preserving volume sizes and other settings while overriding storageClassName. Chart instance volume templates are cleared; omitted or empty leaves instance volumeClaimTemplates unset.
         env:
           type: array
-          description: Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
+          description: Env overrides (name and value only) declared by the current mode component. Env must be enabled in engine options. Names must be unique; null entries and empty values are rejected. Omitted variables receive declared defaults before persistence; required variables must then be non-blank. valueFrom is not supported; overlaying a name clears any chart valueFrom.
           items:
             type: object
             required:
@@ -35255,6 +35255,7 @@ components:
             properties:
               name:
                 type: string
+                minLength: 1
               value:
                 type: string
                 minLength: 1
@@ -45312,7 +45313,7 @@ components:
         - storageClass
     instanceTemplateEnv:
       type: object
-      description: One fillable env var on an instance template, for frontend rendering.
+      description: One allowed env var on an instance template, shared by frontend rendering and create validation.
       required:
         - name
       properties:
@@ -45326,10 +45327,10 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         required:
           type: boolean
-          description: If true, the frontend should treat this env as required. Create does not re-check.
+          description: If true, create requires a non-blank value after applying the default.
         default:
           type: string
-          description: Default value shown by the frontend.
+          description: Default value shown by the frontend and applied by create when this env is omitted.
     modeReadonlyEndpoint:
       type: object
       required:
@@ -45388,14 +45389,13 @@ components:
                 $ref: '#/components/schemas/instanceTemplateAttribute'
               description: |
                 Heterogeneous attributes the frontend should render on each
-                instance template at create. Omitted or empty means only name
-                and replicas. Create overlays the request onto the chart and
-                does not re-check this list.
+                instance template at create. Env overrides require env in this list;
+                other attributes control frontend visibility.
             env:
               type: array
               description: |
-                Env vars the frontend may render when attributes includes env.
-                Create does not re-check this list.
+                Allowed env vars when attributes includes env. Create rejects undeclared
+                names, applies defaults and validates required values before persistence.
               items:
                 $ref: '#/components/schemas/instanceTemplateEnv'
         serviceRef:
@@ -45822,7 +45822,7 @@ components:
           description: Account names that cannot be deleted, locked, unlocked, or have their privileges modified. This does not hide accounts or restrict password changes.
           items:
             type: string
-        displayAccounts:
+        hiddenAccounts:
           type: array
           description: Account names hidden from the generic account list. Matching is case-sensitive, without whitespace normalization or patterns. Other accounts remain visible subject to existing displayRootAccount rules.
           items:
