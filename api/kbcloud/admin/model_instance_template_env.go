@@ -10,15 +10,15 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// InstanceTemplateEnv One fillable env var on an instance template, for frontend rendering.
+// InstanceTemplateEnv Allowed template env variable and its input constraints.
 type InstanceTemplateEnv struct {
 	// Env var name written to the instance template.
 	Name        string                `json:"name"`
 	Label       *LocalizedDescription `json:"label,omitempty"`
 	Description *LocalizedDescription `json:"description,omitempty"`
-	// If true, the frontend should treat this env as required. Create does not re-check.
+	// Requires a non-blank value after applying the default.
 	Required *bool `json:"required,omitempty"`
-	// Default value shown by the frontend.
+	// Used only when the variable is omitted.
 	Default *string `json:"default,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

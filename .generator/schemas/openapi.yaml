@@ -4415,6 +4415,50 @@ paths:
       tags:
         - cluster
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/events:
+    get:
+      operationId: listClusterEvents
+      tags:
+        - cluster
+        - shared
+      summary: List Kubernetes events for the cluster, its components and InstanceSets
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of recent events to return
+          schema:
+            type: integer
+            format: int32
+            default: 100
+            minimum: 1
+            maximum: 500
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterEventList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/events:
     get:
       operationId: listInstanceEvents
@@ -12975,6 +13019,27 @@ paths:
           in: query
           schema:
             type: string
+        - name: databaseUser
+          in: query
+          schema:
+            type: string
+        - name: database
+          in: query
+          schema:
+            type: string
+        - name: operation
+          in: query
+          schema:
+            type: string
+        - name: statement
+          in: query
+          description: Literal substring of recorded content.
+          schema:
+            type: string
+        - name: risk
+          in: query
+          schema:
+            $ref: '#/components/schemas/dmsAuditRisk'
         - name: status
           in: query
           schema:
@@ -23080,7 +23145,7 @@ paths:
           required: true
           schema:
             type: string
-        - description: session id
+        - description: session id; for Redis, use the numeric CLIENT LIST client id
           in: path
           name: session
           required: true
@@ -23705,8 +23770,8 @@ paths:
         '500':
           $ref: '#/components/responses/500'
     post:
-      summary: create PostgreSQL extension
-      description: create PostgreSQL extension
+      summary: Enable PostgreSQL extensions in selected databases
+      description: Enable one or more PostgreSQL extensions across selected databases, returning a result for each database-extension pair.
       operationId: createPGExtension
       tags:
         - postgresql
@@ -30425,7 +30490,7 @@ components:
     instanceTemplateCreate:
       type: object
       additionalProperties: false
-      description: Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, nodeGroup and storageClass are optional overlays. The request must include every chart-rendered instance template exactly once. Explicit placement requires availabilityZone and optionally accepts nodeGroup, without inheriting upper-level AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks default inheritance. Hostname, user scheduling rules and additional topology keys are preserved.
+      description: Create assignment for one instance template. name and replicas are required. env, availabilityZone, nodeGroup and storageClass are optional overlays. The request must include every chart-rendered instance template exactly once. Explicit placement requires availabilityZone and optionally accepts nodeGroup, without inheriting upper-level AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks default inheritance. Hostname, user scheduling rules and additional topology keys are preserved.
       required:
         - name
         - replicas
@@ -30449,7 +30514,7 @@ components:
           description: StorageClass name for all persistent volumes in this template. Copied from component volumeClaimTemplates, preserving volume sizes and other settings while overriding storageClassName. Chart instance volume templates are cleared; omitted or empty leaves instance volumeClaimTemplates unset.
         env:
           type: array
-          description: Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
+          description: Declared env overrides. Names must be unique; defaults apply only to omitted variables.
           items:
             type: object
             required:
@@ -30458,20 +30523,10 @@ components:
             properties:
               name:
                 type: string
+                minLength: 1
               value:
                 type: string
-                minLength: 1
-                description: Plain string value only. valueFrom is not supported.
-        annotations:
-          type: object
-          additionalProperties:
-            type: string
-          description: Annotation map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
-        labels:
-          type: object
-          additionalProperties:
-            type: string
-          description: Label map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted. The apps.kubeblocks.io/instance-template label is managed by the system and must equal the template name if supplied.
+                description: Literal string; optional values may be empty. valueFrom is unsupported.
     ioQuantity:
       description: IO Quantity describes IOPS and BPS of a volume
       properties:
@@ -30569,7 +30624,7 @@ components:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Per-template replicas and optional overlays (env, annotations, labels, availability zone, storage class). Required when the current mode component declares instanceTemplate in engine_options; otherwise omit. Names must exactly match all chart-rendered instances, without missing, extra, or duplicate names; order does not matter. Component replicas must equal the sum of all requested instance template replica counts.
+          description: Per-template replicas and optional overlays (env, availability zone, storage class). Required when the current mode component declares instanceTemplate in engine_options; otherwise omit. Names must exactly match all chart-rendered instances, without missing, extra, or duplicate names; order does not matter. Component replicas must equal the sum of all requested instance template replica counts.
           items:
             $ref: '#/components/schemas/instanceTemplateCreate'
         skipResourceConstraints:
@@ -30899,7 +30954,7 @@ components:
         instanceTemplates:
           type: array
           x-omitempty: true
-          description: Instance template assignments with effective replicas, placement and storage class, and user-provided env, labels and annotations.
+          description: Instance template assignments with effective replicas, placement and storage class, and user-provided env.
           items:
             $ref: '#/components/schemas/instanceTemplateCreate'
         name:
@@ -31362,6 +31417,63 @@ components:
       required:
         - items
       type: object
+    clusterEventItem:
+      description: Kubernetes event for a cluster, component or InstanceSet
+      type: object
+      required:
+        - clusterName
+        - objectKind
+        - objectName
+        - objectUID
+        - name
+        - type
+        - reason
+        - message
+        - source
+        - count
+        - eventTime
+      properties:
+        clusterName:
+          type: string
+        objectKind:
+          description: Kubernetes kind of the involved object
+          type: string
+        objectName:
+          type: string
+        objectUID:
+          type: string
+        componentName:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        reason:
+          type: string
+        message:
+          type: string
+        source:
+          type: string
+        count:
+          type: integer
+          format: int32
+        eventTime:
+          description: Last observation time, falling back to the event creation time
+          type: string
+          format: date-time
+    clusterEventList:
+      type: object
+      required:
+        - items
+        - truncated
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterEventItem'
+        truncated:
+          description: Whether more matching events exist than the limit
+          type: boolean
     instanceEventItem:
       description: Instance event
       properties:
@@ -32437,12 +32549,29 @@ components:
       required:
         - items
       type: object
+    instanceTemplateUpgrade:
+      type: object
+      required:
+        - name
+        - serviceVersion
+      properties:
+        name:
+          type: string
+          minLength: 1
+        serviceVersion:
+          type: string
+          minLength: 1
+          maxLength: 32
     opsUpgrade:
-      description: OpsUpgrade is the payload to upgrade a KubeBlocks cluster
+      description: Upgrade a component or selected instance templates. For template upgrades, the server overrides version with the minimum resulting template version.
       properties:
         version:
           type: string
           minLength: 1
+        instanceTemplates:
+          type: array
+          items:
+            $ref: '#/components/schemas/instanceTemplateUpgrade'
         component:
           type: string
         schedule:
@@ -32453,6 +32582,17 @@ components:
         - version
         - component
       type: object
+    instanceTemplateServiceVersions:
+      type: object
+      properties:
+        name:
+          type: string
+        currentVersion:
+          type: string
+        upgradeableVersions:
+          type: array
+          items:
+            type: string
     componentVersionArchitecture:
       type: object
       description: |
@@ -32496,6 +32636,11 @@ components:
     engineServiceVersions:
       type: object
       properties:
+        instanceTemplates:
+          x-omitempty: true
+          type: array
+          items:
+            $ref: '#/components/schemas/instanceTemplateServiceVersions'
         component:
           type: string
           description: component type, refer to componentDef and support NamePrefix
@@ -37581,6 +37726,34 @@ components:
         - Mount
         - Tool
       type: string
+    storageDisplayName:
+      type: object
+      description: the storage displayName
+      properties:
+        zh:
+          type: string
+        en:
+          type: string
+    backupRepoCheckStatus:
+      type: string
+      enum:
+        - Passed
+        - Failed
+        - NotChecked
+    backupRepoCheckResult:
+      type: object
+      description: Result of the platform storage access check, independent of the BackupRepo CR phase.
+      required:
+        - status
+      properties:
+        status:
+          $ref: '#/components/schemas/backupRepoCheckStatus'
+        message:
+          type: string
+        checkedAt:
+          type: string
+          format: date-time
+          x-nullable: true
     backupRepo:
       description: backupRepo is the payload for KubeBlocks cluster backup repo
       properties:
@@ -37626,9 +37799,15 @@ components:
         storageProvider:
           description: storageProvider specifies the storage provider of the backupRepo
           type: string
+        storageProviderDisplayName:
+          description: Localized display name from the storage provider metadata. Omitted when the provider or its display name is unavailable.
+          readOnly: true
+          $ref: '#/components/schemas/storageDisplayName'
         totalSize:
           description: totalSize specifies the total size of backups in the backupRepo
           type: string
+        check:
+          $ref: '#/components/schemas/backupRepoCheckResult'
         failedReason:
           type: string
           description: failedReason specifies the reason of the backupRepo failure
@@ -38794,17 +38973,16 @@ components:
         - hscale
         - vscale
         - storageExpansion
+        - upgrade
     instanceTemplateAttribute:
       type: string
       description: Heterogeneous attribute the frontend may render on an instance template at create.
       enum:
         - env
-        - annotations
-        - labels
         - storageClass
     instanceTemplateEnv:
       type: object
-      description: One fillable env var on an instance template, for frontend rendering.
+      description: Allowed template env variable and its input constraints.
       required:
         - name
       properties:
@@ -38818,10 +38996,10 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         required:
           type: boolean
-          description: If true, the frontend should treat this env as required. Create does not re-check.
+          description: Requires a non-blank value after applying the default.
         default:
           type: string
-          description: Default value shown by the frontend.
+          description: Used only when the variable is omitted.
     modeReadonlyEndpoint:
       type: object
       required:
@@ -38878,16 +39056,10 @@ components:
               uniqueItems: true
               items:
                 $ref: '#/components/schemas/instanceTemplateAttribute'
-              description: |
-                Heterogeneous attributes the frontend should render on each
-                instance template at create. Omitted or empty means only name
-                and replicas. Create overlays the request onto the chart and
-                does not re-check this list.
+              description: Template UI attributes. Env overrides require env to be enabled.
             env:
               type: array
-              description: |
-                Env vars the frontend may render when attributes includes env.
-                Create does not re-check this list.
+              description: Allowed env variables, with defaults and required checks applied before persistence.
               items:
                 $ref: '#/components/schemas/instanceTemplateEnv'
         serviceRef:
@@ -39311,7 +39483,12 @@ components:
           description: Whether the engine supports service account access-key management.
         protectedAccounts:
           type: array
-          description: Account names that cannot be deleted, locked, or unlocked. This does not hide accounts or restrict password or privilege actions.
+          description: Account names that cannot be deleted, locked, unlocked, or have their privileges modified. This does not hide accounts or restrict password changes.
+          items:
+            type: string
+        hiddenAccounts:
+          type: array
+          description: Account names hidden from the generic account list. Matching is case-sensitive, without whitespace normalization or patterns. Other accounts remain visible subject to existing displayRootAccount rules.
           items:
             type: string
         displayRootAccount:
@@ -39439,6 +39616,10 @@ components:
               enum:
                 - enum
                 - number
+                - date
+            dateFormat:
+              type: string
+              description: The date format used when type is date, e.g. YYYY-MM-DD hh:mm:ss.
             min:
               type: number
             max:
@@ -41041,6 +41222,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/componentOpsOption'
+        needAddonlicense:
+          type: boolean
+          description: Whether the cluster chart consumes the platform license through the standard addon-license.existingSecret name/key values.
         license:
           type: object
           required:
@@ -41500,12 +41684,6 @@ components:
           $ref: '#/components/schemas/taskSchedule'
           description: Scheduled execution configuration
           x-nullable: true
-    dmsAuditStatus:
-      type: string
-      enum:
-        - success
-        - failed
-        - unknown
     dmsAuditRisk:
       type: string
       enum:
@@ -41514,6 +41692,12 @@ components:
         - ddl
         - dml
         - high
+    dmsAuditStatus:
+      type: string
+      enum:
+        - success
+        - failed
+        - unknown
     dmsAuditStatement:
       type: object
       required:
@@ -41585,6 +41769,9 @@ components:
           description: Absent for migrated history with unknown actor.
         userName:
           type: string
+        databaseUser:
+          type: string
+          description: Database connection account captured at operation time. Empty for historical records or connections without a named account.
         engine:
           type: string
         database:
@@ -43534,7 +43721,7 @@ components:
           nullable: true
         sessionId:
           type: string
-          description: native session ID used by the terminate API
+          description: native session ID used by the terminate API; for Redis this is the numeric CLIENT LIST client id
           nullable: true
         user:
           type: string
@@ -43565,7 +43752,7 @@ components:
           nullable: true
         info:
           type: string
-          description: additional session information
+          description: additional session information; for Redis this is a JSON object with the full CLIENT LIST entry
           nullable: true
         ip:
           type: string
@@ -46553,30 +46740,66 @@ components:
     PgCreateExtensionOpt:
       type: object
       required:
-        - name
-        - database
+        - databases
+        - names
       properties:
-        name:
-          type: string
-          description: The name of the PostgreSQL extension.
-        database:
-          type: string
-          description: The database where the extension is installed.
+        databases:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            type: string
+            minLength: 1
+          description: Target databases. At most 100 database-extension pairs per request.
+        names:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            type: string
+            minLength: 1
+          description: Extensions to enable using their default versions and schemas.
         version:
           type: string
           description: The version of the extension to install.
         schema:
           type: string
           description: The schema where the extension is installed.
+    PgCreateExtensionStatus:
+      type: string
+      enum:
+        - installed
+        - already_installed
+        - scheduled
+        - failed
+    PgCreateExtensionResult:
+      type: object
+      required:
+        - database
+        - name
+        - status
+      properties:
+        database:
+          type: string
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/PgCreateExtensionStatus'
+          description: Scheduled means accepted for installation after the reconfiguration task, not installed yet.
+        error:
+          type: string
+          description: The error for an extension that failed to install or schedule.
     createPgExtensionResp:
       type: object
+      required:
+        - items
       properties:
         opsRequestResult:
-          type: object
           $ref: '#/components/schemas/opsRequestName'
-        PgExtension:
-          type: object
-          $ref: '#/components/schemas/PgExtension'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PgCreateExtensionResult'
     RbmqUser:
       type: object
       properties:
@@ -47507,6 +47730,10 @@ components:
           nullable: true
         definition:
           $ref: '#/components/schemas/definitionEndpoint'
+          nullable: true
+        channelNum:
+          type: integer
+          description: the number of channels associated with this endpoint
           nullable: true
         description:
           type: string

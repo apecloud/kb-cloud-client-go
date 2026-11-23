@@ -10,6 +10,8 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 type RawCluster struct {
 	// the cluster name in k8s
 	KubernetesName *string `json:"kubernetesName,omitempty"`
+	// Cluster definition of the discovered cluster, such as minio or victoria-metrics.
+	Engine *string `json:"engine,omitempty"`
 	// the namespace of cluster
 	Namespace *string `json:"namespace,omitempty"`
 	// the replicas of cluster
@@ -20,6 +22,8 @@ type RawCluster struct {
 	Cpu *float64 `json:"cpu,omitempty"`
 	// Memory, the unit is Gi.
 	Memory *float64 `json:"memory,omitempty"`
+	// Actual resources of each component. A multi-component cluster returns every component instead of a single summary.
+	Components []RawClusterComponent `json:"components,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -68,6 +72,34 @@ func (o *RawCluster) HasKubernetesName() bool {
 // SetKubernetesName gets a reference to the given string and assigns it to the KubernetesName field.
 func (o *RawCluster) SetKubernetesName(v string) {
 	o.KubernetesName = &v
+}
+
+// GetEngine returns the Engine field value if set, zero value otherwise.
+func (o *RawCluster) GetEngine() string {
+	if o == nil || o.Engine == nil {
+		var ret string
+		return ret
+	}
+	return *o.Engine
+}
+
+// GetEngineOk returns a tuple with the Engine field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RawCluster) GetEngineOk() (*string, bool) {
+	if o == nil || o.Engine == nil {
+		return nil, false
+	}
+	return o.Engine, true
+}
+
+// HasEngine returns a boolean if a field has been set.
+func (o *RawCluster) HasEngine() bool {
+	return o != nil && o.Engine != nil
+}
+
+// SetEngine gets a reference to the given string and assigns it to the Engine field.
+func (o *RawCluster) SetEngine(v string) {
+	o.Engine = &v
 }
 
 // GetNamespace returns the Namespace field value if set, zero value otherwise.
@@ -210,6 +242,34 @@ func (o *RawCluster) SetMemory(v float64) {
 	o.Memory = &v
 }
 
+// GetComponents returns the Components field value if set, zero value otherwise.
+func (o *RawCluster) GetComponents() []RawClusterComponent {
+	if o == nil || o.Components == nil {
+		var ret []RawClusterComponent
+		return ret
+	}
+	return o.Components
+}
+
+// GetComponentsOk returns a tuple with the Components field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RawCluster) GetComponentsOk() (*[]RawClusterComponent, bool) {
+	if o == nil || o.Components == nil {
+		return nil, false
+	}
+	return &o.Components, true
+}
+
+// HasComponents returns a boolean if a field has been set.
+func (o *RawCluster) HasComponents() bool {
+	return o != nil && o.Components != nil
+}
+
+// SetComponents gets a reference to the given []RawClusterComponent and assigns it to the Components field.
+func (o *RawCluster) SetComponents(v []RawClusterComponent) {
+	o.Components = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o RawCluster) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -218,6 +278,9 @@ func (o RawCluster) MarshalJSON() ([]byte, error) {
 	}
 	if o.KubernetesName != nil {
 		toSerialize["kubernetesName"] = o.KubernetesName
+	}
+	if o.Engine != nil {
+		toSerialize["engine"] = o.Engine
 	}
 	if o.Namespace != nil {
 		toSerialize["namespace"] = o.Namespace
@@ -234,6 +297,9 @@ func (o RawCluster) MarshalJSON() ([]byte, error) {
 	if o.Memory != nil {
 		toSerialize["memory"] = o.Memory
 	}
+	if o.Components != nil {
+		toSerialize["components"] = o.Components
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -244,28 +310,32 @@ func (o RawCluster) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *RawCluster) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		KubernetesName *string  `json:"kubernetesName,omitempty"`
-		Namespace      *string  `json:"namespace,omitempty"`
-		Replicas       *int32   `json:"replicas,omitempty"`
-		Storage        *float64 `json:"storage,omitempty"`
-		Cpu            *float64 `json:"cpu,omitempty"`
-		Memory         *float64 `json:"memory,omitempty"`
+		KubernetesName *string               `json:"kubernetesName,omitempty"`
+		Engine         *string               `json:"engine,omitempty"`
+		Namespace      *string               `json:"namespace,omitempty"`
+		Replicas       *int32                `json:"replicas,omitempty"`
+		Storage        *float64              `json:"storage,omitempty"`
+		Cpu            *float64              `json:"cpu,omitempty"`
+		Memory         *float64              `json:"memory,omitempty"`
+		Components     []RawClusterComponent `json:"components,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"kubernetesName", "namespace", "replicas", "storage", "cpu", "memory"})
+		common.DeleteKeys(additionalProperties, &[]string{"kubernetesName", "engine", "namespace", "replicas", "storage", "cpu", "memory", "components"})
 	} else {
 		return err
 	}
 	o.KubernetesName = all.KubernetesName
+	o.Engine = all.Engine
 	o.Namespace = all.Namespace
 	o.Replicas = all.Replicas
 	o.Storage = all.Storage
 	o.Cpu = all.Cpu
 	o.Memory = all.Memory
+	o.Components = all.Components
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
