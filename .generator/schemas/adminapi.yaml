@@ -15230,6 +15230,24 @@ paths:
           required: false
           schema:
             type: integer
+        - name: clusterName
+          in: query
+          description: filter by cluster name
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: filter by alert status
+          required: false
+          schema:
+            type: string
+        - name: severity
+          in: query
+          description: filter by alert severity
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: A successful response.
