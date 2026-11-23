@@ -14,7 +14,7 @@ import (
 type InstanceTemplateReplicas struct {
 	// Instance template name on the live Cluster spec.
 	Name string `json:"name"`
-	// Target replica count for this instance template.
+	// Target replicas; all templates in the component must have equal counts summing to component replicas.
 	Replicas int32 `json:"replicas"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
