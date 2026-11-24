@@ -27573,6 +27573,144 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sqlAnalysis:
+    get:
+      tags:
+        - diagnostics
+      operationId: getDiagnosticsMssqlSQLAnalysis
+      summary: List SQL Server TOP SQL from the plan cache
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          schema:
+            type: string
+            maxLength: 128
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 200
+            default: 50
+        - name: orderBy
+          in: query
+          schema:
+            $ref: '#/components/schemas/mssqlSQLOrder'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mssqlSQLAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sqlAnalysis/cachedPlan:
+    get:
+      tags:
+        - diagnostics
+      operationId: getDiagnosticsMssqlSQLPlan
+      summary: Read the cached compiled plan of a ranked SQL statement
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+            maxLength: 600
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mssqlCachedPlan'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/spaceAnalysis:
+    get:
+      tags:
+        - diagnostics
+      operationId: getDiagnosticsMssqlSpaceAnalysis
+      summary: Analyze SQL Server database and table space
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          schema:
+            type: string
+            maxLength: 128
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 200
+            default: 50
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mssqlSpaceAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions:
     get:
       tags:
@@ -27599,6 +27737,11 @@ paths:
             minimum: 1
             maximum: 1000
             default: 500
+        - name: activeOnly
+          in: query
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: OK
@@ -27653,6 +27796,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/mssqlSession'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - diagnostics
+      operationId: killDiagnosticsMssqlSession
+      summary: Terminate the selected SQL Server user session
+      description: Rechecks startedAt before issuing KILL. Open transactions may roll back asynchronously. Never retry this operation automatically.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 32767
+        - name: startedAt
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Termination requested
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -53311,6 +53497,254 @@ components:
         collectedAt:
           type: string
           description: Backend collection timestamp in UTC.
+    mssqlSQLOrder:
+      type: string
+      enum:
+        - totalElapsedMs
+        - meanElapsedMs
+        - maxElapsedMs
+        - totalCpuMs
+        - meanCpuMs
+        - logicalReads
+        - physicalReads
+        - logicalWrites
+        - executions
+      default: totalElapsedMs
+    mssqlSQLStatement:
+      type: object
+      required:
+        - id
+        - queryHash
+        - database
+        - sql
+        - sqlTruncated
+        - createdAt
+        - lastExecutedAt
+        - executions
+        - totalElapsedMs
+        - meanElapsedMs
+        - maxElapsedMs
+        - totalCpuMs
+        - meanCpuMs
+        - logicalReads
+        - physicalReads
+        - logicalWrites
+        - rows
+      properties:
+        id:
+          type: string
+        queryHash:
+          type: string
+        database:
+          type: string
+        sql:
+          type: string
+        sqlTruncated:
+          type: boolean
+        createdAt:
+          type: string
+        lastExecutedAt:
+          type: string
+        executions:
+          type: integer
+          format: int64
+        totalElapsedMs:
+          type: number
+          format: double
+        meanElapsedMs:
+          type: number
+          format: double
+        maxElapsedMs:
+          type: number
+          format: double
+        totalCpuMs:
+          type: number
+          format: double
+        meanCpuMs:
+          type: number
+          format: double
+        logicalReads:
+          type: integer
+          format: int64
+        physicalReads:
+          type: integer
+          format: int64
+        logicalWrites:
+          type: integer
+          format: int64
+        rows:
+          type: integer
+          format: int64
+    mssqlSQLAnalysis:
+      type: object
+      required:
+        - capturedAt
+        - source
+        - orderBy
+        - truncated
+        - items
+      properties:
+        capturedAt:
+          type: string
+        source:
+          type: string
+        orderBy:
+          type: string
+        truncated:
+          type: boolean
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/mssqlSQLStatement'
+      description: Completed executions of statements still in the plan cache, accumulated since each statement creation time. Not a time-window history. Time values use milliseconds; read/write counts use 8 KiB pages.
+    mssqlCachedPlan:
+      type: object
+      required:
+        - capturedAt
+        - xml
+        - available
+      properties:
+        capturedAt:
+          type: string
+        xml:
+          type: string
+        available:
+          type: boolean
+      description: Cached compiled plan for the selected live request. No captured SQL is executed. This is not an actual runtime plan.
+    mssqlDatabaseSpace:
+      type: object
+      required:
+        - name
+        - state
+        - accessible
+        - dataBytes
+        - logBytes
+      properties:
+        name:
+          type: string
+        state:
+          type: string
+        accessible:
+          type: boolean
+        dataBytes:
+          type: integer
+          format: int64
+        logBytes:
+          type: integer
+          format: int64
+    mssqlFileSpace:
+      type: object
+      required:
+        - name
+        - type
+        - sizeBytes
+        - maxBytes
+        - growth
+        - percentGrowth
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        sizeBytes:
+          type: integer
+          format: int64
+        usedBytes:
+          type: integer
+          format: int64
+        maxBytes:
+          type: integer
+          format: int64
+          description: '-1 means grow until the volume is full; zero disables growth.'
+        growth:
+          type: integer
+          format: int64
+          description: Percent when percentGrowth is true; otherwise number of 8 KiB pages. Zero disables autogrowth.
+        percentGrowth:
+          type: boolean
+    mssqlTableSpace:
+      type: object
+      required:
+        - schema
+        - name
+        - rows
+        - reservedBytes
+        - usedBytes
+        - indexBytes
+        - unusedBytes
+      properties:
+        schema:
+          type: string
+        name:
+          type: string
+        rows:
+          type: integer
+          format: int64
+        reservedBytes:
+          type: integer
+          format: int64
+        usedBytes:
+          type: integer
+          format: int64
+        indexBytes:
+          type: integer
+          format: int64
+        unusedBytes:
+          type: integer
+          format: int64
+    mssqlSpaceAnalysis:
+      type: object
+      required:
+        - capturedAt
+        - database
+        - databases
+        - files
+        - tables
+        - tablesTruncated
+        - dataBytes
+        - dataUsedBytes
+        - logBytes
+        - logUsedBytes
+        - logReuseWait
+        - recommendations
+      properties:
+        capturedAt:
+          type: string
+        database:
+          type: string
+        databases:
+          type: array
+          items:
+            $ref: '#/components/schemas/mssqlDatabaseSpace'
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/mssqlFileSpace'
+        tables:
+          type: array
+          items:
+            $ref: '#/components/schemas/mssqlTableSpace'
+        tablesTruncated:
+          type: boolean
+        dataBytes:
+          type: integer
+          format: int64
+        dataUsedBytes:
+          type: integer
+          format: int64
+        logBytes:
+          type: integer
+          format: int64
+        logUsedBytes:
+          type: integer
+          format: int64
+        logReuseWait:
+          type: string
+        recommendations:
+          type: array
+          items:
+            type: string
+      description: Current database files and on-disk table allocations. Free pages are reusable inside the database and do not imply immediately reclaimable filesystem bytes. Historical disk usage is provided by the cluster storage usage history API.
     mssqlRequest:
       type: object
       required:
@@ -53531,20 +53965,6 @@ components:
         truncated:
           type: boolean
       description: Bounded live DMV observations. Edges are SQL Server reported blocking identifiers. Collection is not atomic; graph cycles are not historical deadlock evidence.
-    mssqlCachedPlan:
-      type: object
-      required:
-        - capturedAt
-        - xml
-        - available
-      properties:
-        capturedAt:
-          type: string
-        xml:
-          type: string
-        available:
-          type: boolean
-      description: Cached compiled plan for the selected live request. No captured SQL is executed. This is not an actual runtime plan.
     postgresqlSession:
       type: object
       required:

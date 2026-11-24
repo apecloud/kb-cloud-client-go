@@ -2043,6 +2043,216 @@ func (a *DiagnosticsApi) GetDiagnosticsMongoDBPerformanceTrends(ctx _context.Con
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetDiagnosticsMssqlSQLAnalysisOptionalParameters holds optional parameters for GetDiagnosticsMssqlSQLAnalysis.
+type GetDiagnosticsMssqlSQLAnalysisOptionalParameters struct {
+	Database *string
+	Limit    *int64
+	OrderBy  *MssqlSQLOrder
+}
+
+// NewGetDiagnosticsMssqlSQLAnalysisOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsMssqlSQLAnalysisOptionalParameters() *GetDiagnosticsMssqlSQLAnalysisOptionalParameters {
+	this := GetDiagnosticsMssqlSQLAnalysisOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsMssqlSQLAnalysisOptionalParameters) WithDatabase(database string) *GetDiagnosticsMssqlSQLAnalysisOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsMssqlSQLAnalysisOptionalParameters) WithLimit(limit int64) *GetDiagnosticsMssqlSQLAnalysisOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// WithOrderBy sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsMssqlSQLAnalysisOptionalParameters) WithOrderBy(orderBy MssqlSQLOrder) *GetDiagnosticsMssqlSQLAnalysisOptionalParameters {
+	r.OrderBy = &orderBy
+	return r
+}
+
+// GetDiagnosticsMssqlSQLAnalysis List SQL Server TOP SQL from the plan cache.
+func (a *DiagnosticsApi) GetDiagnosticsMssqlSQLAnalysis(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsMssqlSQLAnalysisOptionalParameters) (MssqlSQLAnalysis, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue MssqlSQLAnalysis
+		optionalParams      GetDiagnosticsMssqlSQLAnalysisOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsMssqlSQLAnalysisOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsMssqlSQLAnalysis",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sqlAnalysis",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsMssqlSQLAnalysis")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sqlAnalysis"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.OrderBy != nil {
+		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsMssqlSQLPlan Read the cached compiled plan of a ranked SQL statement.
+func (a *DiagnosticsApi) GetDiagnosticsMssqlSQLPlan(ctx _context.Context, orgName string, clusterName string, id string) (MssqlCachedPlan, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue MssqlCachedPlan
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsMssqlSQLPlan",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sqlAnalysis/cachedPlan",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsMssqlSQLPlan")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sqlAnalysis/cachedPlan"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if common.Strlen(id) > 600 {
+		return localVarReturnValue, nil, common.ReportError("id must have less than 600 elements")
+	}
+	localVarQueryParams.Add("id", common.ParameterToString(id, ""))
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // GetDiagnosticsMssqlSession Get a SQL Server session.
 func (a *DiagnosticsApi) GetDiagnosticsMssqlSession(ctx _context.Context, orgName string, clusterName string, sessionId int64, startedAt string) (MssqlSession, *_nethttp.Response, error) {
 	var (
@@ -2259,6 +2469,123 @@ func (a *DiagnosticsApi) GetDiagnosticsMssqlSessionLockAnalysis(ctx _context.Con
 		return localVarReturnValue, nil, common.ReportError("sessionId must be less than 32767")
 	}
 	localVarQueryParams.Add("startedAt", common.ParameterToString(startedAt, ""))
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsMssqlSpaceAnalysisOptionalParameters holds optional parameters for GetDiagnosticsMssqlSpaceAnalysis.
+type GetDiagnosticsMssqlSpaceAnalysisOptionalParameters struct {
+	Database *string
+	Limit    *int64
+}
+
+// NewGetDiagnosticsMssqlSpaceAnalysisOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsMssqlSpaceAnalysisOptionalParameters() *GetDiagnosticsMssqlSpaceAnalysisOptionalParameters {
+	this := GetDiagnosticsMssqlSpaceAnalysisOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsMssqlSpaceAnalysisOptionalParameters) WithDatabase(database string) *GetDiagnosticsMssqlSpaceAnalysisOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsMssqlSpaceAnalysisOptionalParameters) WithLimit(limit int64) *GetDiagnosticsMssqlSpaceAnalysisOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// GetDiagnosticsMssqlSpaceAnalysis Analyze SQL Server database and table space.
+func (a *DiagnosticsApi) GetDiagnosticsMssqlSpaceAnalysis(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsMssqlSpaceAnalysisOptionalParameters) (MssqlSpaceAnalysis, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue MssqlSpaceAnalysis
+		optionalParams      GetDiagnosticsMssqlSpaceAnalysisOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsMssqlSpaceAnalysisOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsMssqlSpaceAnalysis",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/spaceAnalysis",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsMssqlSpaceAnalysis")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/spaceAnalysis"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -3236,6 +3563,84 @@ func (a *DiagnosticsApi) KillDiagnosticsClickhouseQuery(ctx _context.Context, or
 	return localVarHTTPResponse, nil
 }
 
+// KillDiagnosticsMssqlSession Terminate the selected SQL Server user session.
+// Rechecks startedAt before issuing KILL. Open transactions may roll back asynchronously. Never retry this operation automatically.
+func (a *DiagnosticsApi) KillDiagnosticsMssqlSession(ctx _context.Context, orgName string, clusterName string, sessionId int64, startedAt string) (*_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod = _nethttp.MethodDelete
+		localVarPostBody   interface{}
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "killDiagnosticsMssqlSession",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions/{sessionId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.KillDiagnosticsMssqlSession")
+	if err != nil {
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions/{sessionId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"sessionId"+"}", _neturl.PathEscape(common.ParameterToString(sessionId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if sessionId < 1 {
+		return nil, common.ReportError("sessionId must be greater than 1")
+	}
+	if sessionId > 32767 {
+		return nil, common.ReportError("sessionId must be less than 32767")
+	}
+	localVarQueryParams.Add("startedAt", common.ParameterToString(startedAt, ""))
+	localVarHeaderParams["Accept"] = "*/*"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 // ListDiagnosticsClickhouseSessionsOptionalParameters holds optional parameters for ListDiagnosticsClickhouseSessions.
 type ListDiagnosticsClickhouseSessionsOptionalParameters struct {
 	Limit    *int64
@@ -3835,7 +4240,8 @@ func (a *DiagnosticsApi) ListDiagnosticsKingbaseSessions(ctx _context.Context, o
 
 // ListDiagnosticsMssqlSessionsOptionalParameters holds optional parameters for ListDiagnosticsMssqlSessions.
 type ListDiagnosticsMssqlSessionsOptionalParameters struct {
-	Limit *int64
+	Limit      *int64
+	ActiveOnly *bool
 }
 
 // NewListDiagnosticsMssqlSessionsOptionalParameters creates an empty struct for parameters.
@@ -3847,6 +4253,12 @@ func NewListDiagnosticsMssqlSessionsOptionalParameters() *ListDiagnosticsMssqlSe
 // WithLimit sets the corresponding parameter name and returns the struct.
 func (r *ListDiagnosticsMssqlSessionsOptionalParameters) WithLimit(limit int64) *ListDiagnosticsMssqlSessionsOptionalParameters {
 	r.Limit = &limit
+	return r
+}
+
+// WithActiveOnly sets the corresponding parameter name and returns the struct.
+func (r *ListDiagnosticsMssqlSessionsOptionalParameters) WithActiveOnly(activeOnly bool) *ListDiagnosticsMssqlSessionsOptionalParameters {
+	r.ActiveOnly = &activeOnly
 	return r
 }
 
@@ -3889,6 +4301,9 @@ func (a *DiagnosticsApi) ListDiagnosticsMssqlSessions(ctx _context.Context, orgN
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.Limit != nil {
 		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.ActiveOnly != nil {
+		localVarQueryParams.Add("activeOnly", common.ParameterToString(*optionalParams.ActiveOnly, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
