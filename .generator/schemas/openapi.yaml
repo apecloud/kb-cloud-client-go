@@ -11430,14 +11430,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              type: object
-              required:
-                - file
-              properties:
-                file:
-                  type: string
-                  format: binary
-                  description: Both the uploaded file and its exported YAML representation must fit within 1 MiB.
+              $ref: '#/components/schemas/parameterTemplateImportRequest'
       responses:
         '201':
           description: Created template and validation warnings
@@ -38245,6 +38238,42 @@ components:
         - description
         - name
       type: object
+    parameterTemplateImportEngine:
+      type: string
+      description: Target engine used to validate the component, major versions and configuration in the file.
+      enum:
+        - mongodb
+        - influxdb
+        - tdengine
+        - mssql
+        - mysql
+        - postgresql
+    parameterTemplateImportRequest:
+      type: object
+      description: Import a YAML file as a new custom parameter template in the target organization.
+      required:
+        - name
+        - description
+        - engine
+        - file
+      properties:
+        name:
+          type: string
+          description: Name to give the imported template. It must be unique within the target organization.
+          minLength: 3
+          maxLength: 64
+          pattern: ^[a-z]([-a-z0-9]*[a-z0-9])?$
+        description:
+          type: string
+          description: Description to save with the new template.
+          minLength: 3
+          maxLength: 128
+        engine:
+          $ref: '#/components/schemas/parameterTemplateImportEngine'
+        file:
+          type: string
+          format: binary
+          description: Upload one parameter template YAML file of at most 1 MiB (1,048,576 bytes). Its name, engine and description are optional source information and are ignored during import.
     parameterTemplateImportResult:
       type: object
       required:

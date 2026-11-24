@@ -98,7 +98,7 @@ func (a *ParamTplApi) ExportParameterTemplate(ctx _context.Context, paramTplId s
 }
 
 // ImportParameterTemplate Create an organization parameter template from one YAML document.
-func (a *ParamTplApi) ImportParameterTemplate(ctx _context.Context, orgName string, file _io.Reader) (ParameterTemplateImportResult, *_nethttp.Response, error) {
+func (a *ParamTplApi) ImportParameterTemplate(ctx _context.Context, orgName string, name string, description string, engine ParameterTemplateImportEngine, file _io.Reader) (ParameterTemplateImportResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -124,10 +124,25 @@ func (a *ParamTplApi) ImportParameterTemplate(ctx _context.Context, orgName stri
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if common.Strlen(name) < 3 {
+		return localVarReturnValue, nil, common.ReportError("name must have at least 3 elements")
+	}
+	if common.Strlen(name) > 64 {
+		return localVarReturnValue, nil, common.ReportError("name must have less than 64 elements")
+	}
+	if common.Strlen(description) < 3 {
+		return localVarReturnValue, nil, common.ReportError("description must have at least 3 elements")
+	}
+	if common.Strlen(description) > 128 {
+		return localVarReturnValue, nil, common.ReportError("description must have less than 128 elements")
+	}
 	localVarQueryParams.Add("orgName", common.ParameterToString(orgName, ""))
 	localVarHeaderParams["Content-Type"] = "multipart/form-data"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	localVarFormParams.Set("name", common.ParameterToString(name, ""))
+	localVarFormParams.Set("description", common.ParameterToString(description, ""))
+	localVarFormParams.Set("engine", common.ParameterToString(engine, ""))
 	var localVarFormFile *common.FormFile
 	formFile := common.FormFile{}
 	formFile.FormFileName = "file"
