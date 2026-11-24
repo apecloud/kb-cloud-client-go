@@ -19,9 +19,9 @@ type ProvisionConfig struct {
 	// Create your node plan, and the selected nodes will be used for pod scheduling
 	NodePool []NodePoolNode `json:"nodePool,omitempty"`
 	// Storage config for environment
-	Storage         *StorageConfig `json:"storage,omitempty"`
-	VictoriaMetrics *StaticCluster `json:"victoriaMetrics,omitempty"`
-	VictoriaLogs    *StaticCluster `json:"victoriaLogs,omitempty"`
+	Storage         *StorageConfig      `json:"storage,omitempty"`
+	VictoriaMetrics *StaticCluster      `json:"victoriaMetrics,omitempty"`
+	VictoriaLogs    *VictoriaLogsConfig `json:"victoriaLogs,omitempty"`
 	// option modules of environment
 	Modules []EnvironmentModule `json:"modules,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -179,9 +179,9 @@ func (o *ProvisionConfig) SetVictoriaMetrics(v StaticCluster) {
 }
 
 // GetVictoriaLogs returns the VictoriaLogs field value if set, zero value otherwise.
-func (o *ProvisionConfig) GetVictoriaLogs() StaticCluster {
+func (o *ProvisionConfig) GetVictoriaLogs() VictoriaLogsConfig {
 	if o == nil || o.VictoriaLogs == nil {
-		var ret StaticCluster
+		var ret VictoriaLogsConfig
 		return ret
 	}
 	return *o.VictoriaLogs
@@ -189,7 +189,7 @@ func (o *ProvisionConfig) GetVictoriaLogs() StaticCluster {
 
 // GetVictoriaLogsOk returns a tuple with the VictoriaLogs field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ProvisionConfig) GetVictoriaLogsOk() (*StaticCluster, bool) {
+func (o *ProvisionConfig) GetVictoriaLogsOk() (*VictoriaLogsConfig, bool) {
 	if o == nil || o.VictoriaLogs == nil {
 		return nil, false
 	}
@@ -201,8 +201,8 @@ func (o *ProvisionConfig) HasVictoriaLogs() bool {
 	return o != nil && o.VictoriaLogs != nil
 }
 
-// SetVictoriaLogs gets a reference to the given StaticCluster and assigns it to the VictoriaLogs field.
-func (o *ProvisionConfig) SetVictoriaLogs(v StaticCluster) {
+// SetVictoriaLogs gets a reference to the given VictoriaLogsConfig and assigns it to the VictoriaLogs field.
+func (o *ProvisionConfig) SetVictoriaLogs(v VictoriaLogsConfig) {
 	o.VictoriaLogs = &v
 }
 
@@ -272,7 +272,7 @@ func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 		NodePool        []NodePoolNode      `json:"nodePool,omitempty"`
 		Storage         *StorageConfig      `json:"storage,omitempty"`
 		VictoriaMetrics *StaticCluster      `json:"victoriaMetrics,omitempty"`
-		VictoriaLogs    *StaticCluster      `json:"victoriaLogs,omitempty"`
+		VictoriaLogs    *VictoriaLogsConfig `json:"victoriaLogs,omitempty"`
 		Modules         []EnvironmentModule `json:"modules,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {

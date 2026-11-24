@@ -17,6 +17,75 @@ import (
 // TaskApi service type
 type TaskApi common.Service
 
+// AbortTask Force abort a task.
+// Forcefully abort a running task. Pending steps or OpsRequests are cancelled, running ones are aborted.
+func (a *TaskApi) AbortTask(ctx _context.Context, taskId string) (*_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod = _nethttp.MethodPost
+		localVarPostBody   interface{}
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "task",
+		OperationID: "abortTask",
+		Path:        "/admin/v1/tasks/{taskId}/abort",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TaskApi.AbortTask")
+	if err != nil {
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/tasks/{taskId}/abort"
+	localVarPath = strings.Replace(localVarPath, "{"+"taskId"+"}", _neturl.PathEscape(common.ParameterToString(taskId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 // CancelTask Cancel a task.
 // Cancel a task by taskID.
 func (a *TaskApi) CancelTask(ctx _context.Context, taskId string) (*_nethttp.Response, error) {
@@ -84,6 +153,85 @@ func (a *TaskApi) CancelTask(ctx _context.Context, taskId string) (*_nethttp.Res
 	}
 
 	return localVarHTTPResponse, nil
+}
+
+// GetScheduledTask Get scheduled task.
+// Get scheduled task details
+func (a *TaskApi) GetScheduledTask(ctx _context.Context, scheduledTaskId string) (ScheduledTaskDetail, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ScheduledTaskDetail
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "task",
+		OperationID: "getScheduledTask",
+		Path:        "/admin/v1/scheduled-tasks/{scheduledTaskId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TaskApi.GetScheduledTask")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/scheduled-tasks/{scheduledTaskId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"scheduledTaskId"+"}", _neturl.PathEscape(common.ParameterToString(scheduledTaskId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 // GetTask Get task detail.
@@ -329,6 +477,142 @@ func (a *TaskApi) GetTaskStepLog(ctx _context.Context, taskId string, stepId str
 	}
 
 	return localVarHTTPResponse, nil
+}
+
+// ListScheduledTasksOptionalParameters holds optional parameters for ListScheduledTasks.
+type ListScheduledTasksOptionalParameters struct {
+	Provider   *string
+	Status     *ScheduledTaskStatus
+	PageNumber *int64
+	PageSize   *int64
+}
+
+// NewListScheduledTasksOptionalParameters creates an empty struct for parameters.
+func NewListScheduledTasksOptionalParameters() *ListScheduledTasksOptionalParameters {
+	this := ListScheduledTasksOptionalParameters{}
+	return &this
+}
+
+// WithProvider sets the corresponding parameter name and returns the struct.
+func (r *ListScheduledTasksOptionalParameters) WithProvider(provider string) *ListScheduledTasksOptionalParameters {
+	r.Provider = &provider
+	return r
+}
+
+// WithStatus sets the corresponding parameter name and returns the struct.
+func (r *ListScheduledTasksOptionalParameters) WithStatus(status ScheduledTaskStatus) *ListScheduledTasksOptionalParameters {
+	r.Status = &status
+	return r
+}
+
+// WithPageNumber sets the corresponding parameter name and returns the struct.
+func (r *ListScheduledTasksOptionalParameters) WithPageNumber(pageNumber int64) *ListScheduledTasksOptionalParameters {
+	r.PageNumber = &pageNumber
+	return r
+}
+
+// WithPageSize sets the corresponding parameter name and returns the struct.
+func (r *ListScheduledTasksOptionalParameters) WithPageSize(pageSize int64) *ListScheduledTasksOptionalParameters {
+	r.PageSize = &pageSize
+	return r
+}
+
+// ListScheduledTasks List scheduled tasks.
+// List scheduled tasks
+func (a *TaskApi) ListScheduledTasks(ctx _context.Context, o ...ListScheduledTasksOptionalParameters) (ScheduledTaskList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ScheduledTaskList
+		optionalParams      ListScheduledTasksOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListScheduledTasksOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "task",
+		OperationID: "listScheduledTasks",
+		Path:        "/admin/v1/scheduled-tasks",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TaskApi.ListScheduledTasks")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/scheduled-tasks"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Provider != nil {
+		localVarQueryParams.Add("provider", common.ParameterToString(*optionalParams.Provider, ""))
+	}
+	if optionalParams.Status != nil {
+		localVarQueryParams.Add("status", common.ParameterToString(*optionalParams.Status, ""))
+	}
+	if optionalParams.PageNumber != nil {
+		localVarQueryParams.Add("pageNumber", common.ParameterToString(*optionalParams.PageNumber, ""))
+	}
+	if optionalParams.PageSize != nil {
+		localVarQueryParams.Add("pageSize", common.ParameterToString(*optionalParams.PageSize, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 || localVarHTTPResponse.StatusCode == 501 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 // ListTaskEvents List operation events related to a task.
@@ -656,14 +940,39 @@ func (a *TaskApi) ListTasks(ctx _context.Context, start int64, end int64, o ...L
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// RetryTaskOptionalParameters holds optional parameters for RetryTask.
+type RetryTaskOptionalParameters struct {
+	Mode *TaskRetryMode
+}
+
+// NewRetryTaskOptionalParameters creates an empty struct for parameters.
+func NewRetryTaskOptionalParameters() *RetryTaskOptionalParameters {
+	this := RetryTaskOptionalParameters{}
+	return &this
+}
+
+// WithMode sets the corresponding parameter name and returns the struct.
+func (r *RetryTaskOptionalParameters) WithMode(mode TaskRetryMode) *RetryTaskOptionalParameters {
+	r.Mode = &mode
+	return r
+}
+
 // RetryTask Retry a task.
-// retry task
-func (a *TaskApi) RetryTask(ctx _context.Context, taskId string) (Task, *_nethttp.Response, error) {
+// Restart a failed or stopped task. Resume requires the task type to declare resume in allowActions. The default mode is restart, which reruns all steps; resume preserves successful steps.
+func (a *TaskApi) RetryTask(ctx _context.Context, taskId string, o ...RetryTaskOptionalParameters) (Task, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
 		localVarReturnValue Task
+		optionalParams      RetryTaskOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type RetryTaskOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -685,6 +994,9 @@ func (a *TaskApi) RetryTask(ctx _context.Context, taskId string) (Task, *_nethtt
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Mode != nil {
+		localVarQueryParams.Add("mode", common.ParameterToString(*optionalParams.Mode, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -712,7 +1024,7 @@ func (a *TaskApi) RetryTask(ctx _context.Context, taskId string) (Task, *_nethtt
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 405 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/google/uuid"
 )
 
 // DiagnosticsApi service type
@@ -223,6 +224,372 @@ func (a *DiagnosticsApi) ExplainDiagnosticsPostgresqlSQLFingerprint(ctx _context
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 422 || localVarHTTPResponse.StatusCode == 500 || localVarHTTPResponse.StatusCode == 503 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsClickhouseClusterHealth Get ClickHouse replica and cluster health.
+// Analyze system.replicas and system.clusters. Returns replication delay, Keeper queue backlog, readonly/session-expired replicas and shard/replica topology with per-node connection errors. Replica rows are collected through clusterAllReplicas, while the topology is read from the connected node's system.clusters view.
+func (a *DiagnosticsApi) GetDiagnosticsClickhouseClusterHealth(ctx _context.Context, orgName string, clusterName string) (ClickhouseClusterHealth, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ClickhouseClusterHealth
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsClickhouseClusterHealth",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/clusterHealth",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsClickhouseClusterHealth")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/clusterHealth"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsClickhouseSQLAnalysisOptionalParameters holds optional parameters for GetDiagnosticsClickhouseSQLAnalysis.
+type GetDiagnosticsClickhouseSQLAnalysisOptionalParameters struct {
+	Range    *string
+	Limit    *int64
+	OrderBy  *string
+	Database *string
+	User     *string
+}
+
+// NewGetDiagnosticsClickhouseSQLAnalysisOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsClickhouseSQLAnalysisOptionalParameters() *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters {
+	this := GetDiagnosticsClickhouseSQLAnalysisOptionalParameters{}
+	return &this
+}
+
+// WithRange sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters) WithRange(rangeVar string) *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters {
+	r.Range = &rangeVar
+	return r
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters) WithLimit(limit int64) *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// WithOrderBy sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters) WithOrderBy(orderBy string) *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters {
+	r.OrderBy = &orderBy
+	return r
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters) WithDatabase(database string) *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// WithUser sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters) WithUser(user string) *GetDiagnosticsClickhouseSQLAnalysisOptionalParameters {
+	r.User = &user
+	return r
+}
+
+// GetDiagnosticsClickhouseSQLAnalysis Get ClickHouse SQL analysis.
+// Analyze system.query_log for the selected range. Only initial queries (is_initial_query = 1) are counted so distributed child queries are not double counted. Returns the slowest queries by query_duration_ms, query patterns grouped by normalized_query_hash, and failed queries (ExceptionWhileProcessing) with exception_code. When log_queries is disabled or system.query_log is missing, the endpoint returns status=unavailable together with guidance instead of failing.
+func (a *DiagnosticsApi) GetDiagnosticsClickhouseSQLAnalysis(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsClickhouseSQLAnalysisOptionalParameters) (ClickhouseSQLAnalysis, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ClickhouseSQLAnalysis
+		optionalParams      GetDiagnosticsClickhouseSQLAnalysisOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsClickhouseSQLAnalysisOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsClickhouseSQLAnalysis",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/sqlAnalysis",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsClickhouseSQLAnalysis")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/sqlAnalysis"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Range != nil {
+		localVarQueryParams.Add("range", common.ParameterToString(*optionalParams.Range, ""))
+	}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.OrderBy != nil {
+		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
+	}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	if optionalParams.User != nil {
+		localVarQueryParams.Add("user", common.ParameterToString(*optionalParams.User, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters holds optional parameters for GetDiagnosticsClickhouseSpaceAnalysis.
+type GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters struct {
+	Database       *string
+	TableLimit     *int64
+	PartitionLimit *int64
+	MergeLimit     *int64
+}
+
+// NewGetDiagnosticsClickhouseSpaceAnalysisOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsClickhouseSpaceAnalysisOptionalParameters() *GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters {
+	this := GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters{}
+	return &this
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters) WithDatabase(database string) *GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// WithTableLimit sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters) WithTableLimit(tableLimit int64) *GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters {
+	r.TableLimit = &tableLimit
+	return r
+}
+
+// WithPartitionLimit sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters) WithPartitionLimit(partitionLimit int64) *GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters {
+	r.PartitionLimit = &partitionLimit
+	return r
+}
+
+// WithMergeLimit sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters) WithMergeLimit(mergeLimit int64) *GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters {
+	r.MergeLimit = &mergeLimit
+	return r
+}
+
+// GetDiagnosticsClickhouseSpaceAnalysis Get ClickHouse space analysis.
+// Analyze system.parts, system.merges and system.mutations across the cluster. Returns table and partition level disk usage, compression efficiency, per-disk and per-host distribution, part explosion risk (parts_to_delay_insert / parts_to_throw_insert), running merges and unfinished mutations.
+func (a *DiagnosticsApi) GetDiagnosticsClickhouseSpaceAnalysis(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters) (ClickhouseSpaceAnalysis, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ClickhouseSpaceAnalysis
+		optionalParams      GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsClickhouseSpaceAnalysisOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsClickhouseSpaceAnalysis",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/spaceAnalysis",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsClickhouseSpaceAnalysis")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/spaceAnalysis"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
+	}
+	if optionalParams.TableLimit != nil {
+		localVarQueryParams.Add("tableLimit", common.ParameterToString(*optionalParams.TableLimit, ""))
+	}
+	if optionalParams.PartitionLimit != nil {
+		localVarQueryParams.Add("partitionLimit", common.ParameterToString(*optionalParams.PartitionLimit, ""))
+	}
+	if optionalParams.MergeLimit != nil {
+		localVarQueryParams.Add("mergeLimit", common.ParameterToString(*optionalParams.MergeLimit, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -927,6 +1294,127 @@ func (a *DiagnosticsApi) GetDiagnosticsElasticsearchTaskAnalysis(ctx _context.Co
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetDiagnosticsKingbasePerformanceTrendsOptionalParameters holds optional parameters for GetDiagnosticsKingbasePerformanceTrends.
+type GetDiagnosticsKingbasePerformanceTrendsOptionalParameters struct {
+	Range *string
+	Step  *string
+}
+
+// NewGetDiagnosticsKingbasePerformanceTrendsOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsKingbasePerformanceTrendsOptionalParameters() *GetDiagnosticsKingbasePerformanceTrendsOptionalParameters {
+	this := GetDiagnosticsKingbasePerformanceTrendsOptionalParameters{}
+	return &this
+}
+
+// WithRange sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsKingbasePerformanceTrendsOptionalParameters) WithRange(rangeVar string) *GetDiagnosticsKingbasePerformanceTrendsOptionalParameters {
+	r.Range = &rangeVar
+	return r
+}
+
+// WithStep sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsKingbasePerformanceTrendsOptionalParameters) WithStep(step string) *GetDiagnosticsKingbasePerformanceTrendsOptionalParameters {
+	r.Step = &step
+	return r
+}
+
+// GetDiagnosticsKingbasePerformanceTrends Get Kingbase performance trends.
+// Get read-only Kingbase performance trends from backend-owned metrics. The response covers resource, connection, workload, database, capacity, and availability series and does not expose PromQL, internal endpoints, or credentials.
+// V9 queries.perSecond requires track_sql=on and track_sql_item either empty (all items) or containing the complete sqltime item. Each QPS sample must have matching settings from the same scrape target and timestamp; disabled, missing, stale, or conflicting settings exclude that sample from both series and summaries. V8 QPS does not depend on these V9 settings. Unknown or unverified major versions (including V10) omit QPS without querying it.
+// An absent QPS series means collection availability cannot be confirmed; it does not mean zero load or prove that SQL tracking is disabled. Check the database version, SQL tracking settings, and collection of same-scrape settings metrics. Source success describes queries with displayable results, not the availability of every metric. Empty metrics do not produce query-failure warnings.
+// xid.age, database.sizeBytes, and locks.observedSessionCount cover user databases only, excluding esrep, kingbase, security, template0, template1, and empty or placeholder (-) database names. xid.age is not an instance-wide wraparound safety check: system database ages are not shown. Its 150M/180M warning/critical thresholds are static references, not the cluster's freeze settings or database limits.
+func (a *DiagnosticsApi) GetDiagnosticsKingbasePerformanceTrends(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsKingbasePerformanceTrendsOptionalParameters) (PerformanceTrends, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue PerformanceTrends
+		optionalParams      GetDiagnosticsKingbasePerformanceTrendsOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsKingbasePerformanceTrendsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsKingbasePerformanceTrends",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/kingbase/performanceTrends",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsKingbasePerformanceTrends")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/kingbase/performanceTrends"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Range != nil {
+		localVarQueryParams.Add("range", common.ParameterToString(*optionalParams.Range, ""))
+	}
+	if optionalParams.Step != nil {
+		localVarQueryParams.Add("step", common.ParameterToString(*optionalParams.Step, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 429 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // GetDiagnosticsKingbaseSession Get Kingbase session diagnostics.
 func (a *DiagnosticsApi) GetDiagnosticsKingbaseSession(ctx _context.Context, orgName string, clusterName string, pid int64) (KingbaseSessionDetail, *_nethttp.Response, error) {
 	var (
@@ -1416,6 +1904,124 @@ func (a *DiagnosticsApi) GetDiagnosticsMariaDBSpaceAnalysis(ctx _context.Context
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDiagnosticsMongoDBPerformanceTrendsOptionalParameters holds optional parameters for GetDiagnosticsMongoDBPerformanceTrends.
+type GetDiagnosticsMongoDBPerformanceTrendsOptionalParameters struct {
+	Range *string
+	Step  *string
+}
+
+// NewGetDiagnosticsMongoDBPerformanceTrendsOptionalParameters creates an empty struct for parameters.
+func NewGetDiagnosticsMongoDBPerformanceTrendsOptionalParameters() *GetDiagnosticsMongoDBPerformanceTrendsOptionalParameters {
+	this := GetDiagnosticsMongoDBPerformanceTrendsOptionalParameters{}
+	return &this
+}
+
+// WithRange sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsMongoDBPerformanceTrendsOptionalParameters) WithRange(rangeVar string) *GetDiagnosticsMongoDBPerformanceTrendsOptionalParameters {
+	r.Range = &rangeVar
+	return r
+}
+
+// WithStep sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsMongoDBPerformanceTrendsOptionalParameters) WithStep(step string) *GetDiagnosticsMongoDBPerformanceTrendsOptionalParameters {
+	r.Step = &step
+	return r
+}
+
+// GetDiagnosticsMongoDBPerformanceTrends Get MongoDB performance trends.
+// Get read-only MongoDB performance trends from backend-owned metrics. The response covers resource, connection, operation, capacity, and availability series and does not expose PromQL, internal endpoints, or credentials.
+func (a *DiagnosticsApi) GetDiagnosticsMongoDBPerformanceTrends(ctx _context.Context, orgName string, clusterName string, o ...GetDiagnosticsMongoDBPerformanceTrendsOptionalParameters) (PerformanceTrends, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue PerformanceTrends
+		optionalParams      GetDiagnosticsMongoDBPerformanceTrendsOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetDiagnosticsMongoDBPerformanceTrendsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "getDiagnosticsMongoDBPerformanceTrends",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mongodb/performanceTrends",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.GetDiagnosticsMongoDBPerformanceTrends")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mongodb/performanceTrends"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Range != nil {
+		localVarQueryParams.Add("range", common.ParameterToString(*optionalParams.Range, ""))
+	}
+	if optionalParams.Step != nil {
+		localVarQueryParams.Add("step", common.ParameterToString(*optionalParams.Step, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -2289,6 +2895,7 @@ type GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters struct {
 	DatabaseId        *string
 	UserId            *string
 	TopLevel          *PostgresqlSQLWindowTopLevel
+	Search            *string
 	OrderBy           *PostgresqlSQLWindowOrderBy
 	Limit             *int32
 	BaselineStartTime *string
@@ -2319,6 +2926,12 @@ func (r *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters) WithTopLeve
 	return r
 }
 
+// WithSearch sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters) WithSearch(search string) *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters {
+	r.Search = &search
+	return r
+}
+
 // WithOrderBy sets the corresponding parameter name and returns the struct.
 func (r *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters) WithOrderBy(orderBy PostgresqlSQLWindowOrderBy) *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters {
 	r.OrderBy = &orderBy
@@ -2344,8 +2957,8 @@ func (r *GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters) WithSqlId(s
 }
 
 // GetDiagnosticsPostgresqlSQLWindowCompare Get PostgreSQL SQL observation window compare.
-// Read-only historical delta analysis from VictoriaLogs. RFC3339 window bounds, maximum seven days. Only fully contained, complete observation intervals contribute. Partial or missing observations are never converted to zero. instanceId identifies a Pod UID. Comparisons default to the immediately preceding equal-duration window. Summaries are redacted; no raw SQL is exposed. The SQL telemetry transport must write to the same VictoriaLogs instance and tenant as the environment log-query endpoint. Results use eventually consistent, multi-stage coverage and delivery checks; they are not a transactional storage snapshot. Fragmented coverage exceeding the query budget returns unavailable without reducing the requested window.
-func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowCompare(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, instanceId string, o ...GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters) (PostgresqlSQLWindowComparison, *_nethttp.Response, error) {
+// Read-only PostgreSQL increments with interval ends in [startTime, endTime). Windows span at most seven days. Filtering and ranking follow delivery deduplication and full-window aggregation. Quality and values share one verified observation version. Window reasons include too_many_statements above 20000 identities and observation_changed after a second version change. Missing observations have no numeric value.
+func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowCompare(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, instanceId uuid.UUID, o ...GetDiagnosticsPostgresqlSQLWindowCompareOptionalParameters) (PostgresqlSQLWindowComparison, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -2392,6 +3005,9 @@ func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowCompare(ctx _context.C
 	}
 	if optionalParams.TopLevel != nil {
 		localVarQueryParams.Add("topLevel", common.ParameterToString(*optionalParams.TopLevel, ""))
+	}
+	if optionalParams.Search != nil {
+		localVarQueryParams.Add("search", common.ParameterToString(*optionalParams.Search, ""))
 	}
 	if optionalParams.OrderBy != nil {
 		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
@@ -2460,6 +3076,7 @@ type GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters struct {
 	DatabaseId *string
 	UserId     *string
 	TopLevel   *PostgresqlSQLWindowTopLevel
+	Search     *string
 	OrderBy    *PostgresqlSQLWindowOrderBy
 	Limit      *int32
 }
@@ -2488,6 +3105,12 @@ func (r *GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters) WithTopLevel
 	return r
 }
 
+// WithSearch sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters) WithSearch(search string) *GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters {
+	r.Search = &search
+	return r
+}
+
 // WithOrderBy sets the corresponding parameter name and returns the struct.
 func (r *GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters) WithOrderBy(orderBy PostgresqlSQLWindowOrderBy) *GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters {
 	r.OrderBy = &orderBy
@@ -2501,8 +3124,8 @@ func (r *GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters) WithLimit(li
 }
 
 // GetDiagnosticsPostgresqlSQLWindowDetail Get PostgreSQL SQL observation window detail.
-// Read-only historical delta analysis from VictoriaLogs. RFC3339 window bounds, maximum seven days. Only fully contained, complete observation intervals contribute. Partial or missing observations are never converted to zero. instanceId identifies a Pod UID. Comparisons default to the immediately preceding equal-duration window. Summaries are redacted; no raw SQL is exposed. The SQL telemetry transport must write to the same VictoriaLogs instance and tenant as the environment log-query endpoint. Results use eventually consistent, multi-stage coverage and delivery checks; they are not a transactional storage snapshot. Fragmented coverage exceeding the query budget returns unavailable without reducing the requested window.
-func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowDetail(ctx _context.Context, orgName string, clusterName string, sqlId string, startTime string, endTime string, instanceId string, o ...GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters) (PostgresqlSQLWindowResponse, *_nethttp.Response, error) {
+// Read-only PostgreSQL increments with interval ends in [startTime, endTime). Windows span at most seven days. Filtering and ranking follow delivery deduplication and full-window aggregation. Quality and values share one verified observation version. Window reasons include too_many_statements above 20000 identities and observation_changed after a second version change. Missing observations have no numeric value.
+func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowDetail(ctx _context.Context, orgName string, clusterName string, sqlId string, startTime string, endTime string, instanceId uuid.UUID, o ...GetDiagnosticsPostgresqlSQLWindowDetailOptionalParameters) (PostgresqlSQLWindowResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -2550,6 +3173,9 @@ func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowDetail(ctx _context.Co
 	}
 	if optionalParams.TopLevel != nil {
 		localVarQueryParams.Add("topLevel", common.ParameterToString(*optionalParams.TopLevel, ""))
+	}
+	if optionalParams.Search != nil {
+		localVarQueryParams.Add("search", common.ParameterToString(*optionalParams.Search, ""))
 	}
 	if optionalParams.OrderBy != nil {
 		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
@@ -2608,7 +3234,7 @@ func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowDetail(ctx _context.Co
 }
 
 // GetDiagnosticsPostgresqlSQLWindowInstances Get PostgreSQL SQL observation window instances.
-// Read-only historical delta analysis from VictoriaLogs. RFC3339 window bounds, maximum seven days. Only fully contained, complete observation intervals contribute. Partial or missing observations are never converted to zero. instanceId identifies a Pod UID. Comparisons default to the immediately preceding equal-duration window. Summaries are redacted; no raw SQL is exposed. The SQL telemetry transport must write to the same VictoriaLogs instance and tenant as the environment log-query endpoint. Results use eventually consistent, multi-stage coverage and delivery checks; they are not a transactional storage snapshot. Fragmented coverage exceeding the query budget returns unavailable without reducing the requested window.
+// List Pod UIDs observed in the authorized cluster during the half-open window.
 func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowInstances(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string) (PostgresqlSQLWindowInstances, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -2694,6 +3320,7 @@ type GetDiagnosticsPostgresqlSQLWindowListOptionalParameters struct {
 	DatabaseId *string
 	UserId     *string
 	TopLevel   *PostgresqlSQLWindowTopLevel
+	Search     *string
 	OrderBy    *PostgresqlSQLWindowOrderBy
 	Limit      *int32
 }
@@ -2722,6 +3349,12 @@ func (r *GetDiagnosticsPostgresqlSQLWindowListOptionalParameters) WithTopLevel(t
 	return r
 }
 
+// WithSearch sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowListOptionalParameters) WithSearch(search string) *GetDiagnosticsPostgresqlSQLWindowListOptionalParameters {
+	r.Search = &search
+	return r
+}
+
 // WithOrderBy sets the corresponding parameter name and returns the struct.
 func (r *GetDiagnosticsPostgresqlSQLWindowListOptionalParameters) WithOrderBy(orderBy PostgresqlSQLWindowOrderBy) *GetDiagnosticsPostgresqlSQLWindowListOptionalParameters {
 	r.OrderBy = &orderBy
@@ -2735,8 +3368,8 @@ func (r *GetDiagnosticsPostgresqlSQLWindowListOptionalParameters) WithLimit(limi
 }
 
 // GetDiagnosticsPostgresqlSQLWindowList Get PostgreSQL SQL observation window list.
-// Read-only historical delta analysis from VictoriaLogs. RFC3339 window bounds, maximum seven days. Only fully contained, complete observation intervals contribute. Partial or missing observations are never converted to zero. instanceId identifies a Pod UID. Comparisons default to the immediately preceding equal-duration window. Summaries are redacted; no raw SQL is exposed. The SQL telemetry transport must write to the same VictoriaLogs instance and tenant as the environment log-query endpoint. Results use eventually consistent, multi-stage coverage and delivery checks; they are not a transactional storage snapshot. Fragmented coverage exceeding the query budget returns unavailable without reducing the requested window.
-func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowList(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, instanceId string, o ...GetDiagnosticsPostgresqlSQLWindowListOptionalParameters) (PostgresqlSQLWindowResponse, *_nethttp.Response, error) {
+// Read-only PostgreSQL increments with interval ends in [startTime, endTime). Windows span at most seven days. Filtering and ranking follow delivery deduplication and full-window aggregation. Quality and values share one verified observation version. Window reasons include too_many_statements above 20000 identities and observation_changed after a second version change. Missing observations have no numeric value.
+func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowList(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, instanceId uuid.UUID, o ...GetDiagnosticsPostgresqlSQLWindowListOptionalParameters) (PostgresqlSQLWindowResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -2783,6 +3416,9 @@ func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowList(ctx _context.Cont
 	}
 	if optionalParams.TopLevel != nil {
 		localVarQueryParams.Add("topLevel", common.ParameterToString(*optionalParams.TopLevel, ""))
+	}
+	if optionalParams.Search != nil {
+		localVarQueryParams.Add("search", common.ParameterToString(*optionalParams.Search, ""))
 	}
 	if optionalParams.OrderBy != nil {
 		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
@@ -2842,11 +3478,13 @@ func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowList(ctx _context.Cont
 
 // GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters holds optional parameters for GetDiagnosticsPostgresqlSQLWindowTrends.
 type GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters struct {
-	DatabaseId *string
-	UserId     *string
-	TopLevel   *PostgresqlSQLWindowTopLevel
-	OrderBy    *PostgresqlSQLWindowOrderBy
-	Limit      *int32
+	DatabaseId  *string
+	UserId      *string
+	TopLevel    *PostgresqlSQLWindowTopLevel
+	Search      *string
+	OrderBy     *PostgresqlSQLWindowOrderBy
+	Limit       *int32
+	StepSeconds *int32
 }
 
 // NewGetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters creates an empty struct for parameters.
@@ -2873,6 +3511,12 @@ func (r *GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters) WithTopLevel
 	return r
 }
 
+// WithSearch sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters) WithSearch(search string) *GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters {
+	r.Search = &search
+	return r
+}
+
 // WithOrderBy sets the corresponding parameter name and returns the struct.
 func (r *GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters) WithOrderBy(orderBy PostgresqlSQLWindowOrderBy) *GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters {
 	r.OrderBy = &orderBy
@@ -2885,9 +3529,15 @@ func (r *GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters) WithLimit(li
 	return r
 }
 
+// WithStepSeconds sets the corresponding parameter name and returns the struct.
+func (r *GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters) WithStepSeconds(stepSeconds int32) *GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters {
+	r.StepSeconds = &stepSeconds
+	return r
+}
+
 // GetDiagnosticsPostgresqlSQLWindowTrends Get PostgreSQL SQL observation window trends.
-// Read-only historical delta analysis from VictoriaLogs. RFC3339 window bounds, maximum seven days. Only fully contained, complete observation intervals contribute. Partial or missing observations are never converted to zero. instanceId identifies a Pod UID. Comparisons default to the immediately preceding equal-duration window. Summaries are redacted; no raw SQL is exposed. Whole intervals are assigned by observation end to display buckets without proportional splitting; effectiveStartTime and effectiveEndTime describe actual observed coverage. The SQL telemetry transport must write to the same VictoriaLogs instance and tenant as the environment log-query endpoint. Results use eventually consistent, multi-stage coverage and delivery checks; they are not a transactional storage snapshot. Fragmented coverage exceeding the query budget returns unavailable without reducing the requested window.
-func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowTrends(ctx _context.Context, orgName string, clusterName string, sqlId string, startTime string, endTime string, instanceId string, stepSeconds int32, o ...GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters) (PostgresqlSQLWindowTrends, *_nethttp.Response, error) {
+// Read-only PostgreSQL increments with interval ends in [startTime, endTime). Windows span at most seven days. Filtering and ranking follow delivery deduplication and full-window aggregation. Quality and values share one verified observation version. Window reasons include too_many_statements above 20000 identities and observation_changed after a second version change. Missing observations have no numeric value.
+func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowTrends(ctx _context.Context, orgName string, clusterName string, sqlId string, startTime string, endTime string, instanceId uuid.UUID, o ...GetDiagnosticsPostgresqlSQLWindowTrendsOptionalParameters) (PostgresqlSQLWindowTrends, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -2924,16 +3574,9 @@ func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowTrends(ctx _context.Co
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if stepSeconds < 60 {
-		return localVarReturnValue, nil, common.ReportError("stepSeconds must be greater than 60")
-	}
-	if stepSeconds > 86400 {
-		return localVarReturnValue, nil, common.ReportError("stepSeconds must be less than 86400")
-	}
 	localVarQueryParams.Add("startTime", common.ParameterToString(startTime, ""))
 	localVarQueryParams.Add("endTime", common.ParameterToString(endTime, ""))
 	localVarQueryParams.Add("instanceId", common.ParameterToString(instanceId, ""))
-	localVarQueryParams.Add("stepSeconds", common.ParameterToString(stepSeconds, ""))
 	if optionalParams.DatabaseId != nil {
 		localVarQueryParams.Add("databaseId", common.ParameterToString(*optionalParams.DatabaseId, ""))
 	}
@@ -2943,11 +3586,17 @@ func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSQLWindowTrends(ctx _context.Co
 	if optionalParams.TopLevel != nil {
 		localVarQueryParams.Add("topLevel", common.ParameterToString(*optionalParams.TopLevel, ""))
 	}
+	if optionalParams.Search != nil {
+		localVarQueryParams.Add("search", common.ParameterToString(*optionalParams.Search, ""))
+	}
 	if optionalParams.OrderBy != nil {
 		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
 	}
 	if optionalParams.Limit != nil {
 		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.StepSeconds != nil {
+		localVarQueryParams.Add("stepSeconds", common.ParameterToString(*optionalParams.StepSeconds, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -3224,6 +3873,205 @@ func (a *DiagnosticsApi) GetDiagnosticsPostgresqlSpaceAnalysis(ctx _context.Cont
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.DatabaseName != nil {
 		localVarQueryParams.Add("databaseName", common.ParameterToString(*optionalParams.DatabaseName, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// KillDiagnosticsClickhouseQuery Kill a ClickHouse query.
+// Terminate a running query by query_id. In cluster mode KILL QUERY ON CLUSTER is used so the initial query and its remote sub-queries are terminated together; otherwise KILL QUERY runs on the connected node.
+func (a *DiagnosticsApi) KillDiagnosticsClickhouseQuery(ctx _context.Context, orgName string, clusterName string, queryId string) (*_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod = _nethttp.MethodDelete
+		localVarPostBody   interface{}
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "killDiagnosticsClickhouseQuery",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/sessions/{queryId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.KillDiagnosticsClickhouseQuery")
+	if err != nil {
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/sessions/{queryId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"queryId"+"}", _neturl.PathEscape(common.ParameterToString(queryId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "*/*"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+// ListDiagnosticsClickhouseSessionsOptionalParameters holds optional parameters for ListDiagnosticsClickhouseSessions.
+type ListDiagnosticsClickhouseSessionsOptionalParameters struct {
+	Limit    *int64
+	OrderBy  *string
+	Database *string
+}
+
+// NewListDiagnosticsClickhouseSessionsOptionalParameters creates an empty struct for parameters.
+func NewListDiagnosticsClickhouseSessionsOptionalParameters() *ListDiagnosticsClickhouseSessionsOptionalParameters {
+	this := ListDiagnosticsClickhouseSessionsOptionalParameters{}
+	return &this
+}
+
+// WithLimit sets the corresponding parameter name and returns the struct.
+func (r *ListDiagnosticsClickhouseSessionsOptionalParameters) WithLimit(limit int64) *ListDiagnosticsClickhouseSessionsOptionalParameters {
+	r.Limit = &limit
+	return r
+}
+
+// WithOrderBy sets the corresponding parameter name and returns the struct.
+func (r *ListDiagnosticsClickhouseSessionsOptionalParameters) WithOrderBy(orderBy string) *ListDiagnosticsClickhouseSessionsOptionalParameters {
+	r.OrderBy = &orderBy
+	return r
+}
+
+// WithDatabase sets the corresponding parameter name and returns the struct.
+func (r *ListDiagnosticsClickhouseSessionsOptionalParameters) WithDatabase(database string) *ListDiagnosticsClickhouseSessionsOptionalParameters {
+	r.Database = &database
+	return r
+}
+
+// ListDiagnosticsClickhouseSessions List active ClickHouse queries.
+// List active queries from system.processes across every shard and replica via clusterAllReplicas. Returns elapsed time, current and peak memory usage, read/write progress and the server host for each query so long-running or memory-heavy queries can be located quickly. The diagnostics query itself is excluded from the result.
+func (a *DiagnosticsApi) ListDiagnosticsClickhouseSessions(ctx _context.Context, orgName string, clusterName string, o ...ListDiagnosticsClickhouseSessionsOptionalParameters) (ClickhouseSessionList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ClickhouseSessionList
+		optionalParams      ListDiagnosticsClickhouseSessionsOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListDiagnosticsClickhouseSessionsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "diagnostics",
+		OperationID: "listDiagnosticsClickhouseSessions",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/sessions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DiagnosticsApi.ListDiagnosticsClickhouseSessions")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/clickhouse/sessions"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.Limit != nil {
+		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
+	}
+	if optionalParams.OrderBy != nil {
+		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
+	}
+	if optionalParams.Database != nil {
+		localVarQueryParams.Add("database", common.ParameterToString(*optionalParams.Database, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

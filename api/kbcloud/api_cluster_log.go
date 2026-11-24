@@ -498,6 +498,86 @@ func (a *ClusterLogApi) AggregateSlowLogs(ctx _context.Context, orgName string, 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// DeleteClusterLogRetention Reset cluster log retention.
+// Removes cluster overrides and returns the retention inherited from the environment.
+func (a *ClusterLogApi) DeleteClusterLogRetention(ctx _context.Context, orgName string, clusterName string) (LogRetention, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodDelete
+		localVarPostBody    interface{}
+		localVarReturnValue LogRetention
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "clusterLog",
+		OperationID: "deleteClusterLogRetention",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/logs/retention",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterLogApi.DeleteClusterLogRetention")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/logs/retention"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // ExplainSlowLog Explain cluster slow log SQL.
 // Explain a concrete SQL from a slow log using the cluster default datasource.
 func (a *ClusterLogApi) ExplainSlowLog(ctx _context.Context, orgName string, clusterName string, body DmsExplainRequest) (ClusterSlowLogExplainResponse, *_nethttp.Response, error) {
@@ -1143,6 +1223,85 @@ func (a *ClusterLogApi) ExportClusterLogs(ctx _context.Context, orgName string, 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetClusterLogRetention Get cluster log retention.
+func (a *ClusterLogApi) GetClusterLogRetention(ctx _context.Context, orgName string, clusterName string) (LogRetention, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue LogRetention
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "clusterLog",
+		OperationID: "getClusterLogRetention",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/logs/retention",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterLogApi.GetClusterLogRetention")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/logs/retention"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // GetSlowLogStatsOptionalParameters holds optional parameters for GetSlowLogStats.
 type GetSlowLogStatsOptionalParameters struct {
 	ComponentName    *string
@@ -1664,11 +1823,96 @@ func (a *ClusterLogApi) GetSlowLogTemplate(ctx _context.Context, orgName string,
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// PutClusterLogRetention Set cluster log retention.
+// Replaces the current settings. Applies to the next cleanup.
+func (a *ClusterLogApi) PutClusterLogRetention(ctx _context.Context, orgName string, clusterName string, body LogRetention) (LogRetention, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPut
+		localVarPostBody    interface{}
+		localVarReturnValue LogRetention
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "clusterLog",
+		OperationID: "putClusterLogRetention",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/logs/retention",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterLogApi.PutClusterLogRetention")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/logs/retention"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "application/json"
+
+	// body params
+	localVarPostBody = &body
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"DigestAuth", "Authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // QueryAuditLogsOptionalParameters holds optional parameters for QueryAuditLogs.
 type QueryAuditLogsOptionalParameters struct {
 	Limit         *string
 	ComponentName *string
 	InstanceName  *string
+	Query         *string
+	Filename      *string
 	SortType      *SortType
 }
 
@@ -1693,6 +1937,18 @@ func (r *QueryAuditLogsOptionalParameters) WithComponentName(componentName strin
 // WithInstanceName sets the corresponding parameter name and returns the struct.
 func (r *QueryAuditLogsOptionalParameters) WithInstanceName(instanceName string) *QueryAuditLogsOptionalParameters {
 	r.InstanceName = &instanceName
+	return r
+}
+
+// WithQuery sets the corresponding parameter name and returns the struct.
+func (r *QueryAuditLogsOptionalParameters) WithQuery(query string) *QueryAuditLogsOptionalParameters {
+	r.Query = &query
+	return r
+}
+
+// WithFilename sets the corresponding parameter name and returns the struct.
+func (r *QueryAuditLogsOptionalParameters) WithFilename(filename string) *QueryAuditLogsOptionalParameters {
+	r.Filename = &filename
 	return r
 }
 
@@ -1750,6 +2006,12 @@ func (a *ClusterLogApi) QueryAuditLogs(ctx _context.Context, orgName string, clu
 	}
 	if optionalParams.InstanceName != nil {
 		localVarQueryParams.Add("instanceName", common.ParameterToString(*optionalParams.InstanceName, ""))
+	}
+	if optionalParams.Query != nil {
+		localVarQueryParams.Add("query", common.ParameterToString(*optionalParams.Query, ""))
+	}
+	if optionalParams.Filename != nil {
+		localVarQueryParams.Add("filename", common.ParameterToString(*optionalParams.Filename, ""))
 	}
 	if optionalParams.SortType != nil {
 		localVarQueryParams.Add("sortType", common.ParameterToString(*optionalParams.SortType, ""))

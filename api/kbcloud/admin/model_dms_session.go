@@ -13,7 +13,7 @@ import (
 type DmsSession struct {
 	// numeric session ID, when the database exposes one that fits in int64
 	Id common.NullableInt64 `json:"id,omitempty"`
-	// native session ID used by the terminate API
+	// native session ID used by the terminate API; for Redis this is the numeric CLIENT LIST client id
 	SessionId common.NullableString `json:"sessionId,omitempty"`
 	// user name
 	User string `json:"user"`
@@ -29,7 +29,7 @@ type DmsSession struct {
 	Time common.NullableInt64 `json:"time,omitempty"`
 	// session state
 	State common.NullableString `json:"state,omitempty"`
-	// additional session information
+	// additional session information; for Redis this is a JSON object with the full CLIENT LIST entry
 	Info common.NullableString `json:"info,omitempty"`
 	// server ip
 	Ip common.NullableString `json:"ip,omitempty"`

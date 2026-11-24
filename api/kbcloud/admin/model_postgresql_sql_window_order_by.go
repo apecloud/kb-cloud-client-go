@@ -14,10 +14,33 @@ type PostgresqlSQLWindowOrderBy string
 
 // List of PostgresqlSQLWindowOrderBy.
 const (
-	PostgresqlSQLWindowOrderByTotalTime PostgresqlSQLWindowOrderBy = "totalTime"
-	PostgresqlSQLWindowOrderByMeanTime  PostgresqlSQLWindowOrderBy = "meanTime"
-	PostgresqlSQLWindowOrderByCalls     PostgresqlSQLWindowOrderBy = "calls"
-	PostgresqlSQLWindowOrderByRows      PostgresqlSQLWindowOrderBy = "rows"
+	PostgresqlSQLWindowOrderByTotalTime            PostgresqlSQLWindowOrderBy = "totalTime"
+	PostgresqlSQLWindowOrderByMeanTime             PostgresqlSQLWindowOrderBy = "meanTime"
+	PostgresqlSQLWindowOrderByCalls                PostgresqlSQLWindowOrderBy = "calls"
+	PostgresqlSQLWindowOrderByRows                 PostgresqlSQLWindowOrderBy = "rows"
+	PostgresqlSQLWindowOrderBySharedBlksHit        PostgresqlSQLWindowOrderBy = "sharedBlksHit"
+	PostgresqlSQLWindowOrderBySharedBlksRead       PostgresqlSQLWindowOrderBy = "sharedBlksRead"
+	PostgresqlSQLWindowOrderBySharedBlksDirtied    PostgresqlSQLWindowOrderBy = "sharedBlksDirtied"
+	PostgresqlSQLWindowOrderBySharedBlksWritten    PostgresqlSQLWindowOrderBy = "sharedBlksWritten"
+	PostgresqlSQLWindowOrderByLocalBlksHit         PostgresqlSQLWindowOrderBy = "localBlksHit"
+	PostgresqlSQLWindowOrderByLocalBlksRead        PostgresqlSQLWindowOrderBy = "localBlksRead"
+	PostgresqlSQLWindowOrderByLocalBlksDirtied     PostgresqlSQLWindowOrderBy = "localBlksDirtied"
+	PostgresqlSQLWindowOrderByLocalBlksWritten     PostgresqlSQLWindowOrderBy = "localBlksWritten"
+	PostgresqlSQLWindowOrderByTempBlksRead         PostgresqlSQLWindowOrderBy = "tempBlksRead"
+	PostgresqlSQLWindowOrderByTempBlksWritten      PostgresqlSQLWindowOrderBy = "tempBlksWritten"
+	PostgresqlSQLWindowOrderByPlans                PostgresqlSQLWindowOrderBy = "plans"
+	PostgresqlSQLWindowOrderByPlanningTimeMs       PostgresqlSQLWindowOrderBy = "planningTimeMs"
+	PostgresqlSQLWindowOrderByWalRecords           PostgresqlSQLWindowOrderBy = "walRecords"
+	PostgresqlSQLWindowOrderByWalFpi               PostgresqlSQLWindowOrderBy = "walFpi"
+	PostgresqlSQLWindowOrderByWalBytes             PostgresqlSQLWindowOrderBy = "walBytes"
+	PostgresqlSQLWindowOrderBySharedBlkReadTimeMs  PostgresqlSQLWindowOrderBy = "sharedBlkReadTimeMs"
+	PostgresqlSQLWindowOrderBySharedBlkWriteTimeMs PostgresqlSQLWindowOrderBy = "sharedBlkWriteTimeMs"
+	PostgresqlSQLWindowOrderByLocalBlkReadTimeMs   PostgresqlSQLWindowOrderBy = "localBlkReadTimeMs"
+	PostgresqlSQLWindowOrderByLocalBlkWriteTimeMs  PostgresqlSQLWindowOrderBy = "localBlkWriteTimeMs"
+	PostgresqlSQLWindowOrderByTempBlkReadTimeMs    PostgresqlSQLWindowOrderBy = "tempBlkReadTimeMs"
+	PostgresqlSQLWindowOrderByTempBlkWriteTimeMs   PostgresqlSQLWindowOrderBy = "tempBlkWriteTimeMs"
+	PostgresqlSQLWindowOrderByBlkReadTimeMs        PostgresqlSQLWindowOrderBy = "blkReadTimeMs"
+	PostgresqlSQLWindowOrderByBlkWriteTimeMs       PostgresqlSQLWindowOrderBy = "blkWriteTimeMs"
 )
 
 var allowedPostgresqlSQLWindowOrderByEnumValues = []PostgresqlSQLWindowOrderBy{
@@ -25,6 +48,29 @@ var allowedPostgresqlSQLWindowOrderByEnumValues = []PostgresqlSQLWindowOrderBy{
 	PostgresqlSQLWindowOrderByMeanTime,
 	PostgresqlSQLWindowOrderByCalls,
 	PostgresqlSQLWindowOrderByRows,
+	PostgresqlSQLWindowOrderBySharedBlksHit,
+	PostgresqlSQLWindowOrderBySharedBlksRead,
+	PostgresqlSQLWindowOrderBySharedBlksDirtied,
+	PostgresqlSQLWindowOrderBySharedBlksWritten,
+	PostgresqlSQLWindowOrderByLocalBlksHit,
+	PostgresqlSQLWindowOrderByLocalBlksRead,
+	PostgresqlSQLWindowOrderByLocalBlksDirtied,
+	PostgresqlSQLWindowOrderByLocalBlksWritten,
+	PostgresqlSQLWindowOrderByTempBlksRead,
+	PostgresqlSQLWindowOrderByTempBlksWritten,
+	PostgresqlSQLWindowOrderByPlans,
+	PostgresqlSQLWindowOrderByPlanningTimeMs,
+	PostgresqlSQLWindowOrderByWalRecords,
+	PostgresqlSQLWindowOrderByWalFpi,
+	PostgresqlSQLWindowOrderByWalBytes,
+	PostgresqlSQLWindowOrderBySharedBlkReadTimeMs,
+	PostgresqlSQLWindowOrderBySharedBlkWriteTimeMs,
+	PostgresqlSQLWindowOrderByLocalBlkReadTimeMs,
+	PostgresqlSQLWindowOrderByLocalBlkWriteTimeMs,
+	PostgresqlSQLWindowOrderByTempBlkReadTimeMs,
+	PostgresqlSQLWindowOrderByTempBlkWriteTimeMs,
+	PostgresqlSQLWindowOrderByBlkReadTimeMs,
+	PostgresqlSQLWindowOrderByBlkWriteTimeMs,
 }
 
 // GetAllowedValues returns the list of possible values.

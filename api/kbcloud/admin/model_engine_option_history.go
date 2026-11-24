@@ -12,10 +12,15 @@ import (
 )
 
 type EngineOptionHistory struct {
-	ModifierId    string       `json:"modifierId"`
-	ModifierEmail *string      `json:"modifierEmail,omitempty"`
-	Option        EngineOption `json:"option"`
-	CreatedAt     time.Time    `json:"createdAt"`
+	ModifierId    string  `json:"modifierId"`
+	ModifierEmail *string `json:"modifierEmail,omitempty"`
+	// Engine option document stored when this history row was written.
+	// This is a point-in-time snapshot, not the current engineOption
+	// create/update contract. Nested fields such as endpoints.protocol
+	// may be absent on older rows.
+	//
+	Option    map[string]interface{} `json:"option"`
+	CreatedAt time.Time              `json:"createdAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -25,7 +30,7 @@ type EngineOptionHistory struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineOptionHistory(modifierId string, option EngineOption, createdAt time.Time) *EngineOptionHistory {
+func NewEngineOptionHistory(modifierId string, option map[string]interface{}, createdAt time.Time) *EngineOptionHistory {
 	this := EngineOptionHistory{}
 	this.ModifierId = modifierId
 	this.Option = option
@@ -93,9 +98,9 @@ func (o *EngineOptionHistory) SetModifierEmail(v string) {
 }
 
 // GetOption returns the Option field value.
-func (o *EngineOptionHistory) GetOption() EngineOption {
+func (o *EngineOptionHistory) GetOption() map[string]interface{} {
 	if o == nil {
-		var ret EngineOption
+		var ret map[string]interface{}
 		return ret
 	}
 	return o.Option
@@ -103,7 +108,7 @@ func (o *EngineOptionHistory) GetOption() EngineOption {
 
 // GetOptionOk returns a tuple with the Option field value
 // and a boolean to check if the value has been set.
-func (o *EngineOptionHistory) GetOptionOk() (*EngineOption, bool) {
+func (o *EngineOptionHistory) GetOptionOk() (*map[string]interface{}, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -111,7 +116,7 @@ func (o *EngineOptionHistory) GetOptionOk() (*EngineOption, bool) {
 }
 
 // SetOption sets field value.
-func (o *EngineOptionHistory) SetOption(v EngineOption) {
+func (o *EngineOptionHistory) SetOption(v map[string]interface{}) {
 	o.Option = v
 }
 
@@ -164,10 +169,10 @@ func (o EngineOptionHistory) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineOptionHistory) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ModifierId    *string       `json:"modifierId"`
-		ModifierEmail *string       `json:"modifierEmail,omitempty"`
-		Option        *EngineOption `json:"option"`
-		CreatedAt     *time.Time    `json:"createdAt"`
+		ModifierId    *string                 `json:"modifierId"`
+		ModifierEmail *string                 `json:"modifierEmail,omitempty"`
+		Option        *map[string]interface{} `json:"option"`
+		CreatedAt     *time.Time              `json:"createdAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -187,22 +192,13 @@ func (o *EngineOptionHistory) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
 	o.ModifierId = *all.ModifierId
 	o.ModifierEmail = all.ModifierEmail
-	if all.Option.UnparsedObject != nil && o.UnparsedObject == nil {
-		hasInvalidField = true
-	}
 	o.Option = *all.Option
 	o.CreatedAt = *all.CreatedAt
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

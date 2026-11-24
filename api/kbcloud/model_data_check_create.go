@@ -20,8 +20,10 @@ type DataCheckCreate struct {
 	// Environment UUID for direct check creation.
 	EnvironmentId *string `json:"environmentID,omitempty"`
 	// Kubernetes namespace for direct check creation.
-	Project            *string                    `json:"project,omitempty"`
-	Source             *DataChannelEndpointCreate `json:"source,omitempty"`
+	Project *string `json:"project,omitempty"`
+	// Use endpointType custom or kubeblocks with the corresponding inline connection configuration, or endpointType definition with definition.endpointID to reuse an existing data endpoint. Inline connection configuration is not used for endpointType definition.
+	Source *DataChannelEndpointCreate `json:"source,omitempty"`
+	// Use endpointType custom or kubeblocks with the corresponding inline connection configuration, or endpointType definition with definition.endpointID to reuse an existing data endpoint. Inline connection configuration is not used for endpointType definition.
 	Target             *DataChannelEndpointCreate `json:"target,omitempty"`
 	ReplicationObjects *DataChannelObject         `json:"replicationObjects,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct

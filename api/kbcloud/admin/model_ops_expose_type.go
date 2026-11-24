@@ -10,18 +10,20 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// OpsExposeType Specifies the type of exposure for the KubeBlocks cluster.
+// OpsExposeType Specifies the type of exposure for the KubeBlocks cluster. Internal exposure creates an internal-ro ClusterIP service and requires readonly=true; it is independent of vpc and internet exposure.
 type OpsExposeType string
 
 // List of OpsExposeType.
 const (
 	OpsExposeTypeVpc      OpsExposeType = "vpc"
 	OpsExposeTypeInternet OpsExposeType = "internet"
+	OpsExposeTypeInternal OpsExposeType = "internal"
 )
 
 var allowedOpsExposeTypeEnumValues = []OpsExposeType{
 	OpsExposeTypeVpc,
 	OpsExposeTypeInternet,
+	OpsExposeTypeInternal,
 }
 
 // GetAllowedValues returns the list of possible values.

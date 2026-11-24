@@ -8,7 +8,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// PostgresqlSQLWindowPoint Whole observation deltas are assigned by interval end to this display bucket. Effective boundaries describe the actual observation intervals and may begin before the display bucket, but never outside the overall requested window. Missing SQL observations remain null, including empty buckets. Window-level partial quality is conservatively inherited by populated points.
+// PostgresqlSQLWindowPoint Whole observation deltas are assigned by interval end to this display bucket. Effective boundaries describe the actual observation intervals and may begin before the requested window. Quality is calculated independently for each bucket. Missing SQL observations remain null, including empty buckets.
 type PostgresqlSQLWindowPoint struct {
 	Window *PostgresqlSQLWindow       `json:"window,omitempty"`
 	Status *PostgresqlSQLWindowStatus `json:"status,omitempty"`

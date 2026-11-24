@@ -14,8 +14,9 @@ import (
 type OpsExpose struct {
 	Component string `json:"component"`
 	Enable    bool   `json:"enable"`
-	Readonly  *bool  `json:"readonly,omitempty"`
-	// Specifies the type of exposure for the KubeBlocks cluster.
+	// Select the configured read-only role. Must be true for internal exposure.
+	Readonly *bool `json:"readonly,omitempty"`
+	// Specifies the type of exposure for the KubeBlocks cluster. Internal exposure creates an internal-ro ClusterIP service and requires readonly=true; it is independent of vpc and internet exposure.
 	Type OpsExposeType `json:"type"`
 	// Specifies the type of service for the KubeBlocks cluster.
 	VpcServiceType *OpsExposeVPCServiceType    `json:"vpcServiceType,omitempty"`

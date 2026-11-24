@@ -17,8 +17,8 @@ import (
 // PostgresqlApi service type
 type PostgresqlApi common.Service
 
-// CreatePGExtension create PostgreSQL extension.
-// create PostgreSQL extension
+// CreatePGExtension Enable PostgreSQL extensions in selected databases.
+// Enable one or more PostgreSQL extensions across selected databases, returning a result for each database-extension pair.
 func (a *PostgresqlApi) CreatePGExtension(ctx _context.Context, orgName string, clusterName string, body PgCreateExtensionOpt) (CreatePgExtensionResp, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost

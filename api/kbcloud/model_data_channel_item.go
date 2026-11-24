@@ -13,6 +13,7 @@ import (
 type DataChannelItem struct {
 	ChannelId          *string                  `json:"channelID,omitempty"`
 	ChannelName        *string                  `json:"channelName,omitempty"`
+	OrgName            *string                  `json:"orgName,omitempty"`
 	ChannelStatus      *ChannelStatus           `json:"channelStatus,omitempty"`
 	EnvironmentId      *string                  `json:"environmentID,omitempty"`
 	EnvironmentName    *string                  `json:"environmentName,omitempty"`
@@ -102,6 +103,34 @@ func (o *DataChannelItem) HasChannelName() bool {
 // SetChannelName gets a reference to the given string and assigns it to the ChannelName field.
 func (o *DataChannelItem) SetChannelName(v string) {
 	o.ChannelName = &v
+}
+
+// GetOrgName returns the OrgName field value if set, zero value otherwise.
+func (o *DataChannelItem) GetOrgName() string {
+	if o == nil || o.OrgName == nil {
+		var ret string
+		return ret
+	}
+	return *o.OrgName
+}
+
+// GetOrgNameOk returns a tuple with the OrgName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DataChannelItem) GetOrgNameOk() (*string, bool) {
+	if o == nil || o.OrgName == nil {
+		return nil, false
+	}
+	return o.OrgName, true
+}
+
+// HasOrgName returns a boolean if a field has been set.
+func (o *DataChannelItem) HasOrgName() bool {
+	return o != nil && o.OrgName != nil
+}
+
+// SetOrgName gets a reference to the given string and assigns it to the OrgName field.
+func (o *DataChannelItem) SetOrgName(v string) {
+	o.OrgName = &v
 }
 
 // GetChannelStatus returns the ChannelStatus field value if set, zero value otherwise.
@@ -491,6 +520,9 @@ func (o DataChannelItem) MarshalJSON() ([]byte, error) {
 	if o.ChannelName != nil {
 		toSerialize["channelName"] = o.ChannelName
 	}
+	if o.OrgName != nil {
+		toSerialize["orgName"] = o.OrgName
+	}
 	if o.ChannelStatus != nil {
 		toSerialize["channelStatus"] = o.ChannelStatus
 	}
@@ -546,6 +578,7 @@ func (o *DataChannelItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		ChannelId          *string                  `json:"channelID,omitempty"`
 		ChannelName        *string                  `json:"channelName,omitempty"`
+		OrgName            *string                  `json:"orgName,omitempty"`
 		ChannelStatus      *ChannelStatus           `json:"channelStatus,omitempty"`
 		EnvironmentId      *string                  `json:"environmentID,omitempty"`
 		EnvironmentName    *string                  `json:"environmentName,omitempty"`
@@ -565,7 +598,7 @@ func (o *DataChannelItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"channelID", "channelName", "channelStatus", "environmentID", "environmentName", "project", "kubernetesName", "standardDefinition", "source", "target", "replicationObjects", "modules", "events", "createdAt", "FinishedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"channelID", "channelName", "orgName", "channelStatus", "environmentID", "environmentName", "project", "kubernetesName", "standardDefinition", "source", "target", "replicationObjects", "modules", "events", "createdAt", "FinishedAt"})
 	} else {
 		return err
 	}
@@ -573,6 +606,7 @@ func (o *DataChannelItem) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.ChannelId = all.ChannelId
 	o.ChannelName = all.ChannelName
+	o.OrgName = all.OrgName
 	if all.ChannelStatus != nil && !all.ChannelStatus.IsValid() {
 		hasInvalidField = true
 	} else {

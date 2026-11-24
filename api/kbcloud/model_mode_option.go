@@ -11,6 +11,8 @@ import (
 )
 
 type ModeOption struct {
+	// Placement scope; defaults to cluster. Cluster placement excludes component/template placement. In component scope, each ordinary component or each declared instance template requires availabilityZone; nodeGroup is optional. Cluster availabilityZones, nodeGroup and singleZone are forbidden. A component cannot specify placement alongside its templates.
+	PlacementScope   *PlacementScope             `json:"placementScope,omitempty"`
 	Name             string                      `json:"name"`
 	Title            LocalizedDescription        `json:"title"`
 	Description      LocalizedDescription        `json:"description"`
@@ -55,6 +57,34 @@ func NewModeOption(name string, title LocalizedDescription, description Localize
 func NewModeOptionWithDefaults() *ModeOption {
 	this := ModeOption{}
 	return &this
+}
+
+// GetPlacementScope returns the PlacementScope field value if set, zero value otherwise.
+func (o *ModeOption) GetPlacementScope() PlacementScope {
+	if o == nil || o.PlacementScope == nil {
+		var ret PlacementScope
+		return ret
+	}
+	return *o.PlacementScope
+}
+
+// GetPlacementScopeOk returns a tuple with the PlacementScope field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeOption) GetPlacementScopeOk() (*PlacementScope, bool) {
+	if o == nil || o.PlacementScope == nil {
+		return nil, false
+	}
+	return o.PlacementScope, true
+}
+
+// HasPlacementScope returns a boolean if a field has been set.
+func (o *ModeOption) HasPlacementScope() bool {
+	return o != nil && o.PlacementScope != nil
+}
+
+// SetPlacementScope gets a reference to the given PlacementScope and assigns it to the PlacementScope field.
+func (o *ModeOption) SetPlacementScope(v PlacementScope) {
+	o.PlacementScope = &v
 }
 
 // GetName returns the Name field value.
@@ -446,6 +476,9 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.PlacementScope != nil {
+		toSerialize["placementScope"] = o.PlacementScope
+	}
 	toSerialize["name"] = o.Name
 	toSerialize["title"] = o.Title
 	toSerialize["description"] = o.Description
@@ -490,6 +523,7 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		PlacementScope              *PlacementScope                  `json:"placementScope,omitempty"`
 		Name                        *string                          `json:"name"`
 		Title                       *LocalizedDescription            `json:"title"`
 		Description                 *LocalizedDescription            `json:"description"`
@@ -522,12 +556,17 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "schedulingPolicy", "compatibleKubeblocksVersion", "components", "proxy", "versions", "extra", "serviceRefs", "objectStorage", "valuesMappings", "hideOnCreate", "transition"})
+		common.DeleteKeys(additionalProperties, &[]string{"placementScope", "name", "title", "description", "schedulingPolicy", "compatibleKubeblocksVersion", "components", "proxy", "versions", "extra", "serviceRefs", "objectStorage", "valuesMappings", "hideOnCreate", "transition"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	if all.PlacementScope != nil && !all.PlacementScope.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.PlacementScope = all.PlacementScope
+	}
 	o.Name = *all.Name
 	if all.Title.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true

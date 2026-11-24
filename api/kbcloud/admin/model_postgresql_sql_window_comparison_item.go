@@ -15,8 +15,11 @@ type PostgresqlSQLWindowComparisonItem struct {
 	// Delta sums after delivery deduplication. Calls and rows at or above 2^53 are unavailable because the storage aggregation uses float64. Summary contains only collector-redacted SQL; meanTimeMs is null for zero calls.
 	Current PostgresqlSQLWindowItem `json:"current"`
 	// Delta sums after delivery deduplication. Calls and rows at or above 2^53 are unavailable because the storage aggregation uses float64. Summary contains only collector-redacted SQL; meanTimeMs is null for zero calls.
-	Baseline               PostgresqlSQLWindowItem `json:"baseline"`
-	TotalTimeChangePercent common.NullableFloat64  `json:"totalTimeChangePercent,omitempty"`
+	Baseline PostgresqlSQLWindowItem `json:"baseline"`
+	// One of insufficient_coverage, sql_not_observed, zero_baseline or invalid_percentage.
+	ComparabilityReason *string `json:"comparabilityReason,omitempty"`
+	// Percentage change in total execution time. Both windows must be complete, or both must cover at least 95% with no baseline change, eviction or partial batch.
+	TotalTimeChangePercent common.NullableFloat64 `json:"totalTimeChangePercent,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -115,6 +118,34 @@ func (o *PostgresqlSQLWindowComparisonItem) SetBaseline(v PostgresqlSQLWindowIte
 	o.Baseline = v
 }
 
+// GetComparabilityReason returns the ComparabilityReason field value if set, zero value otherwise.
+func (o *PostgresqlSQLWindowComparisonItem) GetComparabilityReason() string {
+	if o == nil || o.ComparabilityReason == nil {
+		var ret string
+		return ret
+	}
+	return *o.ComparabilityReason
+}
+
+// GetComparabilityReasonOk returns a tuple with the ComparabilityReason field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PostgresqlSQLWindowComparisonItem) GetComparabilityReasonOk() (*string, bool) {
+	if o == nil || o.ComparabilityReason == nil {
+		return nil, false
+	}
+	return o.ComparabilityReason, true
+}
+
+// HasComparabilityReason returns a boolean if a field has been set.
+func (o *PostgresqlSQLWindowComparisonItem) HasComparabilityReason() bool {
+	return o != nil && o.ComparabilityReason != nil
+}
+
+// SetComparabilityReason gets a reference to the given string and assigns it to the ComparabilityReason field.
+func (o *PostgresqlSQLWindowComparisonItem) SetComparabilityReason(v string) {
+	o.ComparabilityReason = &v
+}
+
 // GetTotalTimeChangePercent returns the TotalTimeChangePercent field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PostgresqlSQLWindowComparisonItem) GetTotalTimeChangePercent() float64 {
 	if o == nil || o.TotalTimeChangePercent.Get() == nil {
@@ -165,6 +196,9 @@ func (o PostgresqlSQLWindowComparisonItem) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["current"] = o.Current
 	toSerialize["baseline"] = o.Baseline
+	if o.ComparabilityReason != nil {
+		toSerialize["comparabilityReason"] = o.ComparabilityReason
+	}
 	if o.TotalTimeChangePercent.IsSet() {
 		toSerialize["totalTimeChangePercent"] = o.TotalTimeChangePercent.Get()
 	}
@@ -181,6 +215,7 @@ func (o *PostgresqlSQLWindowComparisonItem) UnmarshalJSON(bytes []byte) (err err
 		SqlId                  *string                  `json:"sqlId,omitempty"`
 		Current                *PostgresqlSQLWindowItem `json:"current"`
 		Baseline               *PostgresqlSQLWindowItem `json:"baseline"`
+		ComparabilityReason    *string                  `json:"comparabilityReason,omitempty"`
 		TotalTimeChangePercent common.NullableFloat64   `json:"totalTimeChangePercent,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -194,7 +229,7 @@ func (o *PostgresqlSQLWindowComparisonItem) UnmarshalJSON(bytes []byte) (err err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"sqlId", "current", "baseline", "totalTimeChangePercent"})
+		common.DeleteKeys(additionalProperties, &[]string{"sqlId", "current", "baseline", "comparabilityReason", "totalTimeChangePercent"})
 	} else {
 		return err
 	}
@@ -209,6 +244,7 @@ func (o *PostgresqlSQLWindowComparisonItem) UnmarshalJSON(bytes []byte) (err err
 		hasInvalidField = true
 	}
 	o.Baseline = *all.Baseline
+	o.ComparabilityReason = all.ComparabilityReason
 	o.TotalTimeChangePercent = all.TotalTimeChangePercent
 
 	if len(additionalProperties) > 0 {

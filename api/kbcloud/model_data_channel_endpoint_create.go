@@ -8,13 +8,18 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// DataChannelEndpointCreate Use endpointType custom or kubeblocks with the corresponding inline connection configuration, or endpointType definition with definition.endpointID to reuse an existing data endpoint. Inline connection configuration is not used for endpointType definition.
 type DataChannelEndpointCreate struct {
+	Name           common.NullableString        `json:"name,omitempty"`
 	EngineName     *string                      `json:"engineName,omitempty"`
 	DefinitionName *string                      `json:"definitionName,omitempty"`
 	EndpointType   *DataReplicationEndpointType `json:"endpointType,omitempty"`
 	Custom         *CustomEndpointCreate        `json:"custom,omitempty"`
 	Kubeblocks     *KubeblocksEndpoint          `json:"kubeblocks,omitempty"`
-	ExtraCfgs      map[string]string            `json:"extraCfgs,omitempty"`
+	// Reference to an existing data endpoint in the same organization.
+	Definition  *DefinitionEndpoint   `json:"definition,omitempty"`
+	Description common.NullableString `json:"description,omitempty"`
+	ExtraCfgs   map[string]string     `json:"extraCfgs,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -35,6 +40,45 @@ func NewDataChannelEndpointCreate() *DataChannelEndpointCreate {
 func NewDataChannelEndpointCreateWithDefaults() *DataChannelEndpointCreate {
 	this := DataChannelEndpointCreate{}
 	return &this
+}
+
+// GetName returns the Name field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DataChannelEndpointCreate) GetName() string {
+	if o == nil || o.Name.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.Name.Get()
+}
+
+// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *DataChannelEndpointCreate) GetNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Name.Get(), o.Name.IsSet()
+}
+
+// HasName returns a boolean if a field has been set.
+func (o *DataChannelEndpointCreate) HasName() bool {
+	return o != nil && o.Name.IsSet()
+}
+
+// SetName gets a reference to the given common.NullableString and assigns it to the Name field.
+func (o *DataChannelEndpointCreate) SetName(v string) {
+	o.Name.Set(&v)
+}
+
+// SetNameNil sets the value for Name to be an explicit nil.
+func (o *DataChannelEndpointCreate) SetNameNil() {
+	o.Name.Set(nil)
+}
+
+// UnsetName ensures that no value is present for Name, not even an explicit nil.
+func (o *DataChannelEndpointCreate) UnsetName() {
+	o.Name.Unset()
 }
 
 // GetEngineName returns the EngineName field value if set, zero value otherwise.
@@ -177,6 +221,73 @@ func (o *DataChannelEndpointCreate) SetKubeblocks(v KubeblocksEndpoint) {
 	o.Kubeblocks = &v
 }
 
+// GetDefinition returns the Definition field value if set, zero value otherwise.
+func (o *DataChannelEndpointCreate) GetDefinition() DefinitionEndpoint {
+	if o == nil || o.Definition == nil {
+		var ret DefinitionEndpoint
+		return ret
+	}
+	return *o.Definition
+}
+
+// GetDefinitionOk returns a tuple with the Definition field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DataChannelEndpointCreate) GetDefinitionOk() (*DefinitionEndpoint, bool) {
+	if o == nil || o.Definition == nil {
+		return nil, false
+	}
+	return o.Definition, true
+}
+
+// HasDefinition returns a boolean if a field has been set.
+func (o *DataChannelEndpointCreate) HasDefinition() bool {
+	return o != nil && o.Definition != nil
+}
+
+// SetDefinition gets a reference to the given DefinitionEndpoint and assigns it to the Definition field.
+func (o *DataChannelEndpointCreate) SetDefinition(v DefinitionEndpoint) {
+	o.Definition = &v
+}
+
+// GetDescription returns the Description field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DataChannelEndpointCreate) GetDescription() string {
+	if o == nil || o.Description.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.Description.Get()
+}
+
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *DataChannelEndpointCreate) GetDescriptionOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Description.Get(), o.Description.IsSet()
+}
+
+// HasDescription returns a boolean if a field has been set.
+func (o *DataChannelEndpointCreate) HasDescription() bool {
+	return o != nil && o.Description.IsSet()
+}
+
+// SetDescription gets a reference to the given common.NullableString and assigns it to the Description field.
+func (o *DataChannelEndpointCreate) SetDescription(v string) {
+	o.Description.Set(&v)
+}
+
+// SetDescriptionNil sets the value for Description to be an explicit nil.
+func (o *DataChannelEndpointCreate) SetDescriptionNil() {
+	o.Description.Set(nil)
+}
+
+// UnsetDescription ensures that no value is present for Description, not even an explicit nil.
+func (o *DataChannelEndpointCreate) UnsetDescription() {
+	o.Description.Unset()
+}
+
 // GetExtraCfgs returns the ExtraCfgs field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DataChannelEndpointCreate) GetExtraCfgs() map[string]string {
 	if o == nil {
@@ -212,6 +323,9 @@ func (o DataChannelEndpointCreate) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Name.IsSet() {
+		toSerialize["name"] = o.Name.Get()
+	}
 	if o.EngineName != nil {
 		toSerialize["engineName"] = o.EngineName
 	}
@@ -227,6 +341,12 @@ func (o DataChannelEndpointCreate) MarshalJSON() ([]byte, error) {
 	if o.Kubeblocks != nil {
 		toSerialize["kubeblocks"] = o.Kubeblocks
 	}
+	if o.Definition != nil {
+		toSerialize["definition"] = o.Definition
+	}
+	if o.Description.IsSet() {
+		toSerialize["description"] = o.Description.Get()
+	}
 	if o.ExtraCfgs != nil {
 		toSerialize["extraCfgs"] = o.ExtraCfgs
 	}
@@ -240,11 +360,14 @@ func (o DataChannelEndpointCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DataChannelEndpointCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		Name           common.NullableString        `json:"name,omitempty"`
 		EngineName     *string                      `json:"engineName,omitempty"`
 		DefinitionName *string                      `json:"definitionName,omitempty"`
 		EndpointType   *DataReplicationEndpointType `json:"endpointType,omitempty"`
 		Custom         *CustomEndpointCreate        `json:"custom,omitempty"`
 		Kubeblocks     *KubeblocksEndpoint          `json:"kubeblocks,omitempty"`
+		Definition     *DefinitionEndpoint          `json:"definition,omitempty"`
+		Description    common.NullableString        `json:"description,omitempty"`
 		ExtraCfgs      map[string]string            `json:"extraCfgs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -252,12 +375,13 @@ func (o *DataChannelEndpointCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "definitionName", "endpointType", "custom", "kubeblocks", "extraCfgs"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "engineName", "definitionName", "endpointType", "custom", "kubeblocks", "definition", "description", "extraCfgs"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.Name = all.Name
 	o.EngineName = all.EngineName
 	o.DefinitionName = all.DefinitionName
 	if all.EndpointType != nil && !all.EndpointType.IsValid() {
@@ -273,6 +397,11 @@ func (o *DataChannelEndpointCreate) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Kubeblocks = all.Kubeblocks
+	if all.Definition != nil && all.Definition.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Definition = all.Definition
+	o.Description = all.Description
 	o.ExtraCfgs = all.ExtraCfgs
 
 	if len(additionalProperties) > 0 {

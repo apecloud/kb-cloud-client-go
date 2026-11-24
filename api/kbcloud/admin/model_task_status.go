@@ -22,6 +22,7 @@ const (
 	TaskStatusFailed     TaskStatus = "Failed"
 	TaskStatusCancelling TaskStatus = "Cancelling"
 	TaskStatusCancelled  TaskStatus = "Cancelled"
+	TaskStatusAborted    TaskStatus = "Aborted"
 )
 
 var allowedTaskStatusEnumValues = []TaskStatus{
@@ -32,6 +33,7 @@ var allowedTaskStatusEnumValues = []TaskStatus{
 	TaskStatusFailed,
 	TaskStatusCancelling,
 	TaskStatusCancelled,
+	TaskStatusAborted,
 }
 
 // GetAllowedValues returns the list of possible values.

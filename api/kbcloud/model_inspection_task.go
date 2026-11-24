@@ -26,9 +26,9 @@ type InspectionTask struct {
 	SavedDays *int32  `json:"savedDays,omitempty"`
 	// Expiration timestamp fixed when the inspection report is created from savedDays.
 	ExpiredAt *time.Time `json:"expiredAt,omitempty"`
-	// Weighted health score from 0 to 100 over evaluable inspection items only. Unknown results and items with info importance are excluded from both the numerator and denominator. The field is omitted when no item is evaluable; a present value of 0 is a valid evaluated score.
+	// Weighted health score from 0 to 100 over evaluable inspection items only. Unknown results and items with info importance are excluded from both the numerator and denominator. The field is omitted when no item is evaluable. Doris and SelectDB also omit it when risk-check evidence is unavailable, and score correlated findings once per failure family. A present value of 0 is a valid evaluated score.
 	Score *int64 `json:"score,omitempty"`
-	// Task health conclusion derived from evaluable item states and criticality-aware score caps. Valid conclusions are red, yellow, green, and unknown. Unknown means no item is evaluable. Unknown items remain visible in the item list but do not override a red, yellow, or green conclusion derived from evaluable items.
+	// Task health conclusion derived from evaluable item states and criticality-aware score caps. Valid conclusions are red, yellow, green, and unknown. Unknown means no item is evaluable, or a Doris/SelectDB inspection has unavailable risk-check evidence without an observed red or yellow finding. Unavailable evidence never hides an observed red or yellow finding.
 	Result *string `json:"result,omitempty"`
 	// Last inspection execution timestamp used for freshness checks.
 	LatestRunAt *time.Time `json:"latestRunAt,omitempty"`

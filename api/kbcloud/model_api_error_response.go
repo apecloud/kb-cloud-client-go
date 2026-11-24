@@ -18,6 +18,8 @@ type APIErrorResponse struct {
 	Reason *string `json:"reason,omitempty"`
 	// The message for the error.
 	Message *string `json:"message,omitempty"`
+	// Stable business error code for programmatic handling.
+	ErrorCode *string `json:"errorCode,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -120,6 +122,34 @@ func (o *APIErrorResponse) SetMessage(v string) {
 	o.Message = &v
 }
 
+// GetErrorCode returns the ErrorCode field value if set, zero value otherwise.
+func (o *APIErrorResponse) GetErrorCode() string {
+	if o == nil || o.ErrorCode == nil {
+		var ret string
+		return ret
+	}
+	return *o.ErrorCode
+}
+
+// GetErrorCodeOk returns a tuple with the ErrorCode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *APIErrorResponse) GetErrorCodeOk() (*string, bool) {
+	if o == nil || o.ErrorCode == nil {
+		return nil, false
+	}
+	return o.ErrorCode, true
+}
+
+// HasErrorCode returns a boolean if a field has been set.
+func (o *APIErrorResponse) HasErrorCode() bool {
+	return o != nil && o.ErrorCode != nil
+}
+
+// SetErrorCode gets a reference to the given string and assigns it to the ErrorCode field.
+func (o *APIErrorResponse) SetErrorCode(v string) {
+	o.ErrorCode = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o APIErrorResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -133,6 +163,9 @@ func (o APIErrorResponse) MarshalJSON() ([]byte, error) {
 	if o.Message != nil {
 		toSerialize["message"] = o.Message
 	}
+	if o.ErrorCode != nil {
+		toSerialize["errorCode"] = o.ErrorCode
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -143,9 +176,10 @@ func (o APIErrorResponse) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *APIErrorResponse) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Code    *int32  `json:"code"`
-		Reason  *string `json:"reason,omitempty"`
-		Message *string `json:"message,omitempty"`
+		Code      *int32  `json:"code"`
+		Reason    *string `json:"reason,omitempty"`
+		Message   *string `json:"message,omitempty"`
+		ErrorCode *string `json:"errorCode,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -155,13 +189,14 @@ func (o *APIErrorResponse) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"code", "reason", "message"})
+		common.DeleteKeys(additionalProperties, &[]string{"code", "reason", "message", "errorCode"})
 	} else {
 		return err
 	}
 	o.Code = *all.Code
 	o.Reason = all.Reason
 	o.Message = all.Message
+	o.ErrorCode = all.ErrorCode
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

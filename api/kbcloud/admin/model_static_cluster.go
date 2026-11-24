@@ -4,14 +4,17 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type StaticCluster struct {
-	// the number of replicas
-	Replicas *int32 `json:"replicas,omitempty"`
-	// Storage size, the unit is Gi.
-	Storage   *float64 `json:"storage,omitempty"`
-	ClassCode *string  `json:"classCode,omitempty"`
+	// Optional component overrides. Unknown, duplicate or other-engine components are rejected. Must be omitted when reusedClusterName is set; adding an environment does not resize an existing cluster.
+	Components []StaticClusterComponent `json:"components,omitempty"`
+	// Kubernetes name of an existing cluster to attach. Set together with reusedClusterNamespace. The existing cluster's actual resources are used, and component overrides are rejected.
+	ReusedClusterName *string `json:"reusedClusterName,omitempty"`
+	// Namespace of the cluster named by reusedClusterName. Required when reusedClusterName is set.
+	ReusedClusterNamespace *string `json:"reusedClusterNamespace,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -34,88 +37,88 @@ func NewStaticClusterWithDefaults() *StaticCluster {
 	return &this
 }
 
-// GetReplicas returns the Replicas field value if set, zero value otherwise.
-func (o *StaticCluster) GetReplicas() int32 {
-	if o == nil || o.Replicas == nil {
-		var ret int32
+// GetComponents returns the Components field value if set, zero value otherwise.
+func (o *StaticCluster) GetComponents() []StaticClusterComponent {
+	if o == nil || o.Components == nil {
+		var ret []StaticClusterComponent
 		return ret
 	}
-	return *o.Replicas
+	return o.Components
 }
 
-// GetReplicasOk returns a tuple with the Replicas field value if set, nil otherwise
+// GetComponentsOk returns a tuple with the Components field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *StaticCluster) GetReplicasOk() (*int32, bool) {
-	if o == nil || o.Replicas == nil {
+func (o *StaticCluster) GetComponentsOk() (*[]StaticClusterComponent, bool) {
+	if o == nil || o.Components == nil {
 		return nil, false
 	}
-	return o.Replicas, true
+	return &o.Components, true
 }
 
-// HasReplicas returns a boolean if a field has been set.
-func (o *StaticCluster) HasReplicas() bool {
-	return o != nil && o.Replicas != nil
+// HasComponents returns a boolean if a field has been set.
+func (o *StaticCluster) HasComponents() bool {
+	return o != nil && o.Components != nil
 }
 
-// SetReplicas gets a reference to the given int32 and assigns it to the Replicas field.
-func (o *StaticCluster) SetReplicas(v int32) {
-	o.Replicas = &v
+// SetComponents gets a reference to the given []StaticClusterComponent and assigns it to the Components field.
+func (o *StaticCluster) SetComponents(v []StaticClusterComponent) {
+	o.Components = v
 }
 
-// GetStorage returns the Storage field value if set, zero value otherwise.
-func (o *StaticCluster) GetStorage() float64 {
-	if o == nil || o.Storage == nil {
-		var ret float64
-		return ret
-	}
-	return *o.Storage
-}
-
-// GetStorageOk returns a tuple with the Storage field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *StaticCluster) GetStorageOk() (*float64, bool) {
-	if o == nil || o.Storage == nil {
-		return nil, false
-	}
-	return o.Storage, true
-}
-
-// HasStorage returns a boolean if a field has been set.
-func (o *StaticCluster) HasStorage() bool {
-	return o != nil && o.Storage != nil
-}
-
-// SetStorage gets a reference to the given float64 and assigns it to the Storage field.
-func (o *StaticCluster) SetStorage(v float64) {
-	o.Storage = &v
-}
-
-// GetClassCode returns the ClassCode field value if set, zero value otherwise.
-func (o *StaticCluster) GetClassCode() string {
-	if o == nil || o.ClassCode == nil {
+// GetReusedClusterName returns the ReusedClusterName field value if set, zero value otherwise.
+func (o *StaticCluster) GetReusedClusterName() string {
+	if o == nil || o.ReusedClusterName == nil {
 		var ret string
 		return ret
 	}
-	return *o.ClassCode
+	return *o.ReusedClusterName
 }
 
-// GetClassCodeOk returns a tuple with the ClassCode field value if set, nil otherwise
+// GetReusedClusterNameOk returns a tuple with the ReusedClusterName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *StaticCluster) GetClassCodeOk() (*string, bool) {
-	if o == nil || o.ClassCode == nil {
+func (o *StaticCluster) GetReusedClusterNameOk() (*string, bool) {
+	if o == nil || o.ReusedClusterName == nil {
 		return nil, false
 	}
-	return o.ClassCode, true
+	return o.ReusedClusterName, true
 }
 
-// HasClassCode returns a boolean if a field has been set.
-func (o *StaticCluster) HasClassCode() bool {
-	return o != nil && o.ClassCode != nil
+// HasReusedClusterName returns a boolean if a field has been set.
+func (o *StaticCluster) HasReusedClusterName() bool {
+	return o != nil && o.ReusedClusterName != nil
 }
 
-// SetClassCode gets a reference to the given string and assigns it to the ClassCode field.
-func (o *StaticCluster) SetClassCode(v string) {
-	o.ClassCode = &v
+// SetReusedClusterName gets a reference to the given string and assigns it to the ReusedClusterName field.
+func (o *StaticCluster) SetReusedClusterName(v string) {
+	o.ReusedClusterName = &v
+}
+
+// GetReusedClusterNamespace returns the ReusedClusterNamespace field value if set, zero value otherwise.
+func (o *StaticCluster) GetReusedClusterNamespace() string {
+	if o == nil || o.ReusedClusterNamespace == nil {
+		var ret string
+		return ret
+	}
+	return *o.ReusedClusterNamespace
+}
+
+// GetReusedClusterNamespaceOk returns a tuple with the ReusedClusterNamespace field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StaticCluster) GetReusedClusterNamespaceOk() (*string, bool) {
+	if o == nil || o.ReusedClusterNamespace == nil {
+		return nil, false
+	}
+	return o.ReusedClusterNamespace, true
+}
+
+// HasReusedClusterNamespace returns a boolean if a field has been set.
+func (o *StaticCluster) HasReusedClusterNamespace() bool {
+	return o != nil && o.ReusedClusterNamespace != nil
+}
+
+// SetReusedClusterNamespace gets a reference to the given string and assigns it to the ReusedClusterNamespace field.
+func (o *StaticCluster) SetReusedClusterNamespace(v string) {
+	o.ReusedClusterNamespace = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -124,14 +127,14 @@ func (o StaticCluster) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Replicas != nil {
-		toSerialize["replicas"] = o.Replicas
+	if o.Components != nil {
+		toSerialize["components"] = o.Components
 	}
-	if o.Storage != nil {
-		toSerialize["storage"] = o.Storage
+	if o.ReusedClusterName != nil {
+		toSerialize["reusedClusterName"] = o.ReusedClusterName
 	}
-	if o.ClassCode != nil {
-		toSerialize["classCode"] = o.ClassCode
+	if o.ReusedClusterNamespace != nil {
+		toSerialize["reusedClusterNamespace"] = o.ReusedClusterNamespace
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -143,22 +146,22 @@ func (o StaticCluster) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StaticCluster) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Replicas  *int32   `json:"replicas,omitempty"`
-		Storage   *float64 `json:"storage,omitempty"`
-		ClassCode *string  `json:"classCode,omitempty"`
+		Components             []StaticClusterComponent `json:"components,omitempty"`
+		ReusedClusterName      *string                  `json:"reusedClusterName,omitempty"`
+		ReusedClusterNamespace *string                  `json:"reusedClusterNamespace,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"replicas", "storage", "classCode"})
+		common.DeleteKeys(additionalProperties, &[]string{"components", "reusedClusterName", "reusedClusterNamespace"})
 	} else {
 		return err
 	}
-	o.Replicas = all.Replicas
-	o.Storage = all.Storage
-	o.ClassCode = all.ClassCode
+	o.Components = all.Components
+	o.ReusedClusterName = all.ReusedClusterName
+	o.ReusedClusterNamespace = all.ReusedClusterNamespace
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
