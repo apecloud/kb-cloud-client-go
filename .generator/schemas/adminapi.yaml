@@ -31602,7 +31602,7 @@ components:
     instanceTemplateCreate:
       type: object
       additionalProperties: false
-      description: Create assignment for one instance template. name and replicas are required. env, availabilityZone, nodeGroup and storageClass are optional overlays. The request must include every chart-rendered instance template exactly once. Explicit placement requires availabilityZone and optionally accepts nodeGroup, without inheriting upper-level AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks default inheritance. Hostname, user scheduling rules and additional topology keys are preserved.
+      description: 'Instance template assignment. Include every chart-rendered template exactly once, with name and replicas. env and storageClass are optional. Placement follows the mode placementScope: component scope requires template availabilityZone and permits nodeGroup; cluster scope forbids template placement.'
       required:
         - name
         - replicas
@@ -31620,7 +31620,7 @@ components:
           description: Replica count for this instance template.
         availabilityZone:
           type: string
-          description: Single AZ for explicit template placement (topology.kubernetes.io/zone). Must be enabled in the environment and is required when nodeGroup is specified. An omitted nodeGroup does not inherit the component or cluster host group. Omitting both leaves SchedulingPolicy unset for KubeBlocks inheritance.
+          description: Template AZ, enabled in the environment. Required when placementScope is component; forbidden in cluster scope. The containing component must omit placement. An omitted nodeGroup does not inherit an upper-level host group.
         storageClass:
           type: string
           description: StorageClass name for all persistent volumes in this template. Copied from component volumeClaimTemplates, preserving volume sizes and other settings while overriding storageClassName. Chart instance volume templates are cleared; omitted or empty leaves instance volumeClaimTemplates unset.
@@ -31726,7 +31726,7 @@ components:
           description: Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
         availabilityZone:
           type: string
-          description: Single AZ for explicit component placement. Must be enabled in the environment and is required when nodeGroup is specified. An omitted nodeGroup does not inherit the cluster host group. Omitting both retains cluster scheduling.
+          description: Component AZ, enabled in the environment. Required when placementScope is component and this component has no templates; otherwise forbidden. An omitted nodeGroup does not inherit the cluster host group.
         component:
           type: string
           description: component type, refer to componentDef and support NamePrefix
@@ -41565,7 +41565,7 @@ components:
           x-nullable: false
     placementScope:
       type: string
-      description: UI placement input scope for this mode. Omitted defaults to cluster. cluster displays AZ and NodeGroup selection for the cluster. component hides cluster placement and displays selection for each component, or for each instance template when the component declares templates. This does not restrict API placement overrides.
+      description: Placement scope; defaults to cluster. Cluster placement excludes component/template placement. In component scope, each ordinary component or each declared instance template requires availabilityZone; nodeGroup is optional. Cluster availabilityZones, nodeGroup and singleZone are forbidden. A component cannot specify placement alongside its templates.
       enum:
         - cluster
         - component

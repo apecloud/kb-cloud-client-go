@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// PlacementScope UI placement input scope for this mode. Omitted defaults to cluster. cluster displays AZ and NodeGroup selection for the cluster. component hides cluster placement and displays selection for each component, or for each instance template when the component declares templates. This does not restrict API placement overrides.
+// PlacementScope Placement scope; defaults to cluster. Cluster placement excludes component/template placement. In component scope, each ordinary component or each declared instance template requires availabilityZone; nodeGroup is optional. Cluster availabilityZones, nodeGroup and singleZone are forbidden. A component cannot specify placement alongside its templates.
 type PlacementScope string
 
 // List of PlacementScope.

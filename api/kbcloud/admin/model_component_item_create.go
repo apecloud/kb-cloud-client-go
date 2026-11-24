@@ -18,7 +18,7 @@ type ComponentItemCreate struct {
 	Labels map[string]string `json:"labels,omitempty"`
 	// Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
 	NodeGroup *string `json:"nodeGroup,omitempty"`
-	// Single AZ for explicit component placement. Must be enabled in the environment and is required when nodeGroup is specified. An omitted nodeGroup does not inherit the cluster host group. Omitting both retains cluster scheduling.
+	// Component AZ, enabled in the environment. Required when placementScope is component and this component has no templates; otherwise forbidden. An omitted nodeGroup does not inherit the cluster host group.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 	// component type, refer to componentDef and support NamePrefix
 	Component string `json:"component"`
