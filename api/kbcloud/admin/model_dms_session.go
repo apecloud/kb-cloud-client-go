@@ -13,7 +13,7 @@ import (
 type DmsSession struct {
 	// numeric session ID, when the database exposes one that fits in int64
 	Id common.NullableInt64 `json:"id,omitempty"`
-	// native session ID used by the terminate API; for Redis this is the connection address in host:port form
+	// native session ID used by the terminate API; for Redis this is the numeric CLIENT LIST client id
 	SessionId common.NullableString `json:"sessionId,omitempty"`
 	// user name
 	User string `json:"user"`

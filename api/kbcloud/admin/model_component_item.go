@@ -18,7 +18,7 @@ type ComponentItem struct {
 	NodeGroup *string `json:"nodeGroup,omitempty"`
 	// Explicit component AZ selection, if configured.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
-	// Instance template assignments with effective replicas, placement and storage class, and user-provided env, labels and annotations.
+	// Instance template assignments with effective replicas, placement and storage class, and user-provided env.
 	InstanceTemplates []InstanceTemplateCreate `json:"instanceTemplates,omitempty"`
 	// component name
 	Name *string `json:"name,omitempty"`
