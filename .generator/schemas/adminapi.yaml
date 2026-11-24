@@ -42998,14 +42998,16 @@ components:
         - occupiedPorts
       type: object
     vipPoolUpdate:
-      description: VIP Pool update
+      description: VIP Pool update. Omitted fields keep their current value, at least one field is required.
       properties:
         addresses:
-          description: IP Addresses
+          description: IP Addresses. Omit to keep the current address ranges.
           title: IP Addresses
           type: string
-      required:
-        - addresses
+        poolName:
+          description: Name of the VIP Pool. It is what a cluster selects the pool by, so it is not restricted by Kubernetes resource naming rules. Changing it does not affect clusters that already selected the pool, and the MetalLB IPAddressPool resource name stays the generated kb-<id>. Omit to keep the current name.
+          title: Pool Name
+          type: string
       type: object
     storageClassReclaimPolicy:
       description: reclaimPolicy controls the reclaimPolicy for dynamically provisioned PersistentVolumes of this storage class. Defaults to Delete.

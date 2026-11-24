@@ -4,16 +4,14 @@
 
 package admin
 
-import (
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
-
-// VipPoolUpdate VIP Pool update
+// VipPoolUpdate VIP Pool update. Omitted fields keep their current value, at least one field is required.
 type VipPoolUpdate struct {
-	// IP Addresses
-	Addresses string `json:"addresses"`
+	// IP Addresses. Omit to keep the current address ranges.
+	Addresses *string `json:"addresses,omitempty"`
+	// Name of the VIP Pool. It is what a cluster selects the pool by, so it is not restricted by Kubernetes resource naming rules. Changing it does not affect clusters that already selected the pool, and the MetalLB IPAddressPool resource name stays the generated kb-<id>. Omit to keep the current name.
+	PoolName *string `json:"poolName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -23,9 +21,8 @@ type VipPoolUpdate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewVipPoolUpdate(addresses string) *VipPoolUpdate {
+func NewVipPoolUpdate() *VipPoolUpdate {
 	this := VipPoolUpdate{}
-	this.Addresses = addresses
 	return &this
 }
 
@@ -37,27 +34,60 @@ func NewVipPoolUpdateWithDefaults() *VipPoolUpdate {
 	return &this
 }
 
-// GetAddresses returns the Addresses field value.
+// GetAddresses returns the Addresses field value if set, zero value otherwise.
 func (o *VipPoolUpdate) GetAddresses() string {
-	if o == nil {
+	if o == nil || o.Addresses == nil {
 		var ret string
 		return ret
 	}
-	return o.Addresses
+	return *o.Addresses
 }
 
-// GetAddressesOk returns a tuple with the Addresses field value
+// GetAddressesOk returns a tuple with the Addresses field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *VipPoolUpdate) GetAddressesOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Addresses == nil {
 		return nil, false
 	}
-	return &o.Addresses, true
+	return o.Addresses, true
 }
 
-// SetAddresses sets field value.
+// HasAddresses returns a boolean if a field has been set.
+func (o *VipPoolUpdate) HasAddresses() bool {
+	return o != nil && o.Addresses != nil
+}
+
+// SetAddresses gets a reference to the given string and assigns it to the Addresses field.
 func (o *VipPoolUpdate) SetAddresses(v string) {
-	o.Addresses = v
+	o.Addresses = &v
+}
+
+// GetPoolName returns the PoolName field value if set, zero value otherwise.
+func (o *VipPoolUpdate) GetPoolName() string {
+	if o == nil || o.PoolName == nil {
+		var ret string
+		return ret
+	}
+	return *o.PoolName
+}
+
+// GetPoolNameOk returns a tuple with the PoolName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *VipPoolUpdate) GetPoolNameOk() (*string, bool) {
+	if o == nil || o.PoolName == nil {
+		return nil, false
+	}
+	return o.PoolName, true
+}
+
+// HasPoolName returns a boolean if a field has been set.
+func (o *VipPoolUpdate) HasPoolName() bool {
+	return o != nil && o.PoolName != nil
+}
+
+// SetPoolName gets a reference to the given string and assigns it to the PoolName field.
+func (o *VipPoolUpdate) SetPoolName(v string) {
+	o.PoolName = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -66,7 +96,12 @@ func (o VipPoolUpdate) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["addresses"] = o.Addresses
+	if o.Addresses != nil {
+		toSerialize["addresses"] = o.Addresses
+	}
+	if o.PoolName != nil {
+		toSerialize["poolName"] = o.PoolName
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -77,21 +112,20 @@ func (o VipPoolUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *VipPoolUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Addresses *string `json:"addresses"`
+		Addresses *string `json:"addresses,omitempty"`
+		PoolName  *string `json:"poolName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Addresses == nil {
-		return fmt.Errorf("required field addresses missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"addresses"})
+		common.DeleteKeys(additionalProperties, &[]string{"addresses", "poolName"})
 	} else {
 		return err
 	}
-	o.Addresses = *all.Addresses
+	o.Addresses = all.Addresses
+	o.PoolName = all.PoolName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
