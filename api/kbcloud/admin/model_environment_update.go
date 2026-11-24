@@ -46,6 +46,8 @@ type EnvironmentUpdate struct {
 	ClusterValidationPolicy *ClusterValidationPolicy `json:"clusterValidationPolicy,omitempty"`
 	// Cloud Provider
 	Provider common.NullableString `json:"provider,omitempty"`
+	// Whether PostgreSQL SQL history is available. Enabling takes effect after the Gemini configuration task succeeds.
+	PostgresqlSqlHistoryEnabled common.NullableBool `json:"postgresqlSQLHistoryEnabled,omitempty"`
 	// whether to enable calculate the cluster SLA for the environment
 	SlaEnabled *bool `json:"slaEnabled,omitempty"`
 	// Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
@@ -725,6 +727,45 @@ func (o *EnvironmentUpdate) UnsetProvider() {
 	o.Provider.Unset()
 }
 
+// GetPostgresqlSqlHistoryEnabled returns the PostgresqlSqlHistoryEnabled field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *EnvironmentUpdate) GetPostgresqlSqlHistoryEnabled() bool {
+	if o == nil || o.PostgresqlSqlHistoryEnabled.Get() == nil {
+		var ret bool
+		return ret
+	}
+	return *o.PostgresqlSqlHistoryEnabled.Get()
+}
+
+// GetPostgresqlSqlHistoryEnabledOk returns a tuple with the PostgresqlSqlHistoryEnabled field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *EnvironmentUpdate) GetPostgresqlSqlHistoryEnabledOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.PostgresqlSqlHistoryEnabled.Get(), o.PostgresqlSqlHistoryEnabled.IsSet()
+}
+
+// HasPostgresqlSqlHistoryEnabled returns a boolean if a field has been set.
+func (o *EnvironmentUpdate) HasPostgresqlSqlHistoryEnabled() bool {
+	return o != nil && o.PostgresqlSqlHistoryEnabled.IsSet()
+}
+
+// SetPostgresqlSqlHistoryEnabled gets a reference to the given common.NullableBool and assigns it to the PostgresqlSqlHistoryEnabled field.
+func (o *EnvironmentUpdate) SetPostgresqlSqlHistoryEnabled(v bool) {
+	o.PostgresqlSqlHistoryEnabled.Set(&v)
+}
+
+// SetPostgresqlSqlHistoryEnabledNil sets the value for PostgresqlSqlHistoryEnabled to be an explicit nil.
+func (o *EnvironmentUpdate) SetPostgresqlSqlHistoryEnabledNil() {
+	o.PostgresqlSqlHistoryEnabled.Set(nil)
+}
+
+// UnsetPostgresqlSqlHistoryEnabled ensures that no value is present for PostgresqlSqlHistoryEnabled, not even an explicit nil.
+func (o *EnvironmentUpdate) UnsetPostgresqlSqlHistoryEnabled() {
+	o.PostgresqlSqlHistoryEnabled.Unset()
+}
+
 // GetSlaEnabled returns the SlaEnabled field value if set, zero value otherwise.
 func (o *EnvironmentUpdate) GetSlaEnabled() bool {
 	if o == nil || o.SlaEnabled == nil {
@@ -936,6 +977,9 @@ func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 	if o.Provider.IsSet() {
 		toSerialize["provider"] = o.Provider.Get()
 	}
+	if o.PostgresqlSqlHistoryEnabled.IsSet() {
+		toSerialize["postgresqlSQLHistoryEnabled"] = o.PostgresqlSqlHistoryEnabled.Get()
+	}
 	if o.SlaEnabled != nil {
 		toSerialize["slaEnabled"] = o.SlaEnabled
 	}
@@ -961,36 +1005,37 @@ func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Description             common.NullableString       `json:"description,omitempty"`
-		DisplayName             common.NullableString       `json:"displayName,omitempty"`
-		Type                    *EnvironmentType            `json:"type,omitempty"`
-		Organizations           common.NullableList[string] `json:"organizations,omitempty"`
-		Namespaces              common.NullableList[string] `json:"namespaces,omitempty"`
-		CpuOverCommitRatio      common.NullableFloat64      `json:"cpuOverCommitRatio,omitempty"`
-		MemoryOverCommitRatio   common.NullableFloat64      `json:"memoryOverCommitRatio,omitempty"`
-		AutohealingConfig       *AutohealingConfig          `json:"autohealingConfig,omitempty"`
-		DefaultStorageClass     common.NullableString       `json:"defaultStorageClass,omitempty"`
-		ImageRegistry           common.NullableString       `json:"imageRegistry,omitempty"`
-		NodePortEnabled         *bool                       `json:"nodePortEnabled,omitempty"`
-		LbEnabled               *bool                       `json:"lbEnabled,omitempty"`
-		DomainEnabled           *bool                       `json:"domainEnabled,omitempty"`
-		InternetLbEnabled       *bool                       `json:"internetLBEnabled,omitempty"`
-		NetworkModes            []NetworkMode               `json:"networkModes,omitempty"`
-		DeletePolicy            *EnvironmentDeletePolicy    `json:"deletePolicy,omitempty"`
-		ClusterValidationPolicy *ClusterValidationPolicy    `json:"clusterValidationPolicy,omitempty"`
-		Provider                common.NullableString       `json:"provider,omitempty"`
-		SlaEnabled              *bool                       `json:"slaEnabled,omitempty"`
-		KoordinatorEnabled      *bool                       `json:"koordinatorEnabled,omitempty"`
-		IpPoolProviders         []IpPoolProvider            `json:"ipPoolProviders,omitempty"`
-		ClusterSchedulingPolicy *ClusterSchedulingPolicy    `json:"clusterSchedulingPolicy,omitempty"`
-		AdditionalTopologyKeys  common.NullableList[string] `json:"additionalTopologyKeys,omitempty"`
+		Description                 common.NullableString       `json:"description,omitempty"`
+		DisplayName                 common.NullableString       `json:"displayName,omitempty"`
+		Type                        *EnvironmentType            `json:"type,omitempty"`
+		Organizations               common.NullableList[string] `json:"organizations,omitempty"`
+		Namespaces                  common.NullableList[string] `json:"namespaces,omitempty"`
+		CpuOverCommitRatio          common.NullableFloat64      `json:"cpuOverCommitRatio,omitempty"`
+		MemoryOverCommitRatio       common.NullableFloat64      `json:"memoryOverCommitRatio,omitempty"`
+		AutohealingConfig           *AutohealingConfig          `json:"autohealingConfig,omitempty"`
+		DefaultStorageClass         common.NullableString       `json:"defaultStorageClass,omitempty"`
+		ImageRegistry               common.NullableString       `json:"imageRegistry,omitempty"`
+		NodePortEnabled             *bool                       `json:"nodePortEnabled,omitempty"`
+		LbEnabled                   *bool                       `json:"lbEnabled,omitempty"`
+		DomainEnabled               *bool                       `json:"domainEnabled,omitempty"`
+		InternetLbEnabled           *bool                       `json:"internetLBEnabled,omitempty"`
+		NetworkModes                []NetworkMode               `json:"networkModes,omitempty"`
+		DeletePolicy                *EnvironmentDeletePolicy    `json:"deletePolicy,omitempty"`
+		ClusterValidationPolicy     *ClusterValidationPolicy    `json:"clusterValidationPolicy,omitempty"`
+		Provider                    common.NullableString       `json:"provider,omitempty"`
+		PostgresqlSqlHistoryEnabled common.NullableBool         `json:"postgresqlSQLHistoryEnabled,omitempty"`
+		SlaEnabled                  *bool                       `json:"slaEnabled,omitempty"`
+		KoordinatorEnabled          *bool                       `json:"koordinatorEnabled,omitempty"`
+		IpPoolProviders             []IpPoolProvider            `json:"ipPoolProviders,omitempty"`
+		ClusterSchedulingPolicy     *ClusterSchedulingPolicy    `json:"clusterSchedulingPolicy,omitempty"`
+		AdditionalTopologyKeys      common.NullableList[string] `json:"additionalTopologyKeys,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "type", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "imageRegistry", "nodePortEnabled", "lbEnabled", "domainEnabled", "internetLBEnabled", "networkModes", "deletePolicy", "clusterValidationPolicy", "provider", "slaEnabled", "koordinatorEnabled", "ipPoolProviders", "clusterSchedulingPolicy", "additionalTopologyKeys"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "type", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "imageRegistry", "nodePortEnabled", "lbEnabled", "domainEnabled", "internetLBEnabled", "networkModes", "deletePolicy", "clusterValidationPolicy", "provider", "postgresqlSQLHistoryEnabled", "slaEnabled", "koordinatorEnabled", "ipPoolProviders", "clusterSchedulingPolicy", "additionalTopologyKeys"})
 	} else {
 		return err
 	}
@@ -1029,6 +1074,7 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		o.ClusterValidationPolicy = all.ClusterValidationPolicy
 	}
 	o.Provider = all.Provider
+	o.PostgresqlSqlHistoryEnabled = all.PostgresqlSqlHistoryEnabled
 	o.SlaEnabled = all.SlaEnabled
 	o.KoordinatorEnabled = all.KoordinatorEnabled
 	o.IpPoolProviders = all.IpPoolProviders

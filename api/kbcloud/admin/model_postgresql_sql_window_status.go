@@ -16,13 +16,17 @@ type PostgresqlSQLWindowStatus string
 const (
 	PostgresqlSQLWindowStatusAvailable   PostgresqlSQLWindowStatus = "available"
 	PostgresqlSQLWindowStatusPartial     PostgresqlSQLWindowStatus = "partial"
+	PostgresqlSQLWindowStatusEmpty       PostgresqlSQLWindowStatus = "empty"
 	PostgresqlSQLWindowStatusUnavailable PostgresqlSQLWindowStatus = "unavailable"
+	PostgresqlSQLWindowStatusNotEnabled  PostgresqlSQLWindowStatus = "not_enabled"
 )
 
 var allowedPostgresqlSQLWindowStatusEnumValues = []PostgresqlSQLWindowStatus{
 	PostgresqlSQLWindowStatusAvailable,
 	PostgresqlSQLWindowStatusPartial,
+	PostgresqlSQLWindowStatusEmpty,
 	PostgresqlSQLWindowStatusUnavailable,
+	PostgresqlSQLWindowStatusNotEnabled,
 }
 
 // GetAllowedValues returns the list of possible values.

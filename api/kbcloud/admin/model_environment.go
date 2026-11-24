@@ -15,7 +15,7 @@ import (
 
 // Environment Environment info
 type Environment struct {
-	// Installation task ID, returned when environment creation starts a task.
+	// Task ID returned when environment creation or a PostgreSQL SQL history change starts a task.
 	TaskId *string `json:"taskId,omitempty"`
 	// Log query backend configured for this environment.
 	LogBackend *LogBackendType `json:"logBackend,omitempty"`
@@ -61,6 +61,8 @@ type Environment struct {
 	// Architecture of the environment data plane nodes (arm64, amd64, or multiarch for multiple architectures)
 	Architecture *EnvironmentArchitecture `json:"architecture,omitempty"`
 	Dns          *Dns                     `json:"dns,omitempty"`
+	// Whether PostgreSQL SQL history is available. Enabling takes effect after the Gemini configuration task succeeds.
+	PostgresqlSqlHistoryEnabled common.NullableBool `json:"postgresqlSQLHistoryEnabled,omitempty"`
 	// whether to enable calculate the cluster SLA for the environment
 	SlaEnabled *bool `json:"slaEnabled,omitempty"`
 	// Whether this environment has Koordinator installed and can use Koordinator scheduler and reservations.
@@ -732,6 +734,45 @@ func (o *Environment) SetDns(v Dns) {
 	o.Dns = &v
 }
 
+// GetPostgresqlSqlHistoryEnabled returns the PostgresqlSqlHistoryEnabled field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Environment) GetPostgresqlSqlHistoryEnabled() bool {
+	if o == nil || o.PostgresqlSqlHistoryEnabled.Get() == nil {
+		var ret bool
+		return ret
+	}
+	return *o.PostgresqlSqlHistoryEnabled.Get()
+}
+
+// GetPostgresqlSqlHistoryEnabledOk returns a tuple with the PostgresqlSqlHistoryEnabled field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *Environment) GetPostgresqlSqlHistoryEnabledOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.PostgresqlSqlHistoryEnabled.Get(), o.PostgresqlSqlHistoryEnabled.IsSet()
+}
+
+// HasPostgresqlSqlHistoryEnabled returns a boolean if a field has been set.
+func (o *Environment) HasPostgresqlSqlHistoryEnabled() bool {
+	return o != nil && o.PostgresqlSqlHistoryEnabled.IsSet()
+}
+
+// SetPostgresqlSqlHistoryEnabled gets a reference to the given common.NullableBool and assigns it to the PostgresqlSqlHistoryEnabled field.
+func (o *Environment) SetPostgresqlSqlHistoryEnabled(v bool) {
+	o.PostgresqlSqlHistoryEnabled.Set(&v)
+}
+
+// SetPostgresqlSqlHistoryEnabledNil sets the value for PostgresqlSqlHistoryEnabled to be an explicit nil.
+func (o *Environment) SetPostgresqlSqlHistoryEnabledNil() {
+	o.PostgresqlSqlHistoryEnabled.Set(nil)
+}
+
+// UnsetPostgresqlSqlHistoryEnabled ensures that no value is present for PostgresqlSqlHistoryEnabled, not even an explicit nil.
+func (o *Environment) UnsetPostgresqlSqlHistoryEnabled() {
+	o.PostgresqlSqlHistoryEnabled.Unset()
+}
+
 // GetSlaEnabled returns the SlaEnabled field value if set, zero value otherwise.
 func (o *Environment) GetSlaEnabled() bool {
 	if o == nil || o.SlaEnabled == nil {
@@ -873,6 +914,9 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 	if o.Dns != nil {
 		toSerialize["dns"] = o.Dns
 	}
+	if o.PostgresqlSqlHistoryEnabled.IsSet() {
+		toSerialize["postgresqlSQLHistoryEnabled"] = o.PostgresqlSqlHistoryEnabled.Get()
+	}
 	if o.SlaEnabled != nil {
 		toSerialize["slaEnabled"] = o.SlaEnabled
 	}
@@ -890,33 +934,34 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		TaskId                  *string                  `json:"taskId,omitempty"`
-		LogBackend              *LogBackendType          `json:"logBackend,omitempty"`
-		Provider                *string                  `json:"provider"`
-		Region                  *string                  `json:"region"`
-		AvailabilityZones       *[]string                `json:"availabilityZones"`
-		SchedulingConfig        *SchedulingConfig        `json:"schedulingConfig,omitempty"`
-		NetworkConfig           *NetworkConfig           `json:"networkConfig,omitempty"`
-		Description             *string                  `json:"description,omitempty"`
-		DisplayName             *string                  `json:"displayName"`
-		Id                      *uuid.UUID               `json:"id"`
-		Name                    *string                  `json:"name"`
-		Organizations           *[]string                `json:"organizations"`
-		MetricsMonitorEnabled   *bool                    `json:"metricsMonitorEnabled,omitempty"`
-		State                   *EnvironmentState        `json:"state"`
-		Type                    *EnvironmentType         `json:"type"`
-		ProvisionConfig         *ProvisionConfig         `json:"provisionConfig"`
-		AutohealingConfig       *AutohealingConfig       `json:"autohealingConfig,omitempty"`
-		CreatedAt               *time.Time               `json:"createdAt"`
-		UpdatedAt               *time.Time               `json:"updatedAt"`
-		ExtraInfo               *string                  `json:"extraInfo,omitempty"`
-		DeletePolicy            *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
-		ClusterValidationPolicy *ClusterValidationPolicy `json:"clusterValidationPolicy,omitempty"`
-		Architecture            *EnvironmentArchitecture `json:"architecture,omitempty"`
-		Dns                     *Dns                     `json:"dns,omitempty"`
-		SlaEnabled              *bool                    `json:"slaEnabled,omitempty"`
-		KoordinatorEnabled      *bool                    `json:"koordinatorEnabled,omitempty"`
-		IpPoolProviders         *[]IpPoolProvider        `json:"ipPoolProviders"`
+		TaskId                      *string                  `json:"taskId,omitempty"`
+		LogBackend                  *LogBackendType          `json:"logBackend,omitempty"`
+		Provider                    *string                  `json:"provider"`
+		Region                      *string                  `json:"region"`
+		AvailabilityZones           *[]string                `json:"availabilityZones"`
+		SchedulingConfig            *SchedulingConfig        `json:"schedulingConfig,omitempty"`
+		NetworkConfig               *NetworkConfig           `json:"networkConfig,omitempty"`
+		Description                 *string                  `json:"description,omitempty"`
+		DisplayName                 *string                  `json:"displayName"`
+		Id                          *uuid.UUID               `json:"id"`
+		Name                        *string                  `json:"name"`
+		Organizations               *[]string                `json:"organizations"`
+		MetricsMonitorEnabled       *bool                    `json:"metricsMonitorEnabled,omitempty"`
+		State                       *EnvironmentState        `json:"state"`
+		Type                        *EnvironmentType         `json:"type"`
+		ProvisionConfig             *ProvisionConfig         `json:"provisionConfig"`
+		AutohealingConfig           *AutohealingConfig       `json:"autohealingConfig,omitempty"`
+		CreatedAt                   *time.Time               `json:"createdAt"`
+		UpdatedAt                   *time.Time               `json:"updatedAt"`
+		ExtraInfo                   *string                  `json:"extraInfo,omitempty"`
+		DeletePolicy                *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
+		ClusterValidationPolicy     *ClusterValidationPolicy `json:"clusterValidationPolicy,omitempty"`
+		Architecture                *EnvironmentArchitecture `json:"architecture,omitempty"`
+		Dns                         *Dns                     `json:"dns,omitempty"`
+		PostgresqlSqlHistoryEnabled common.NullableBool      `json:"postgresqlSQLHistoryEnabled,omitempty"`
+		SlaEnabled                  *bool                    `json:"slaEnabled,omitempty"`
+		KoordinatorEnabled          *bool                    `json:"koordinatorEnabled,omitempty"`
+		IpPoolProviders             *[]IpPoolProvider        `json:"ipPoolProviders"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -962,7 +1007,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"taskId", "logBackend", "provider", "region", "availabilityZones", "schedulingConfig", "networkConfig", "description", "displayName", "id", "name", "organizations", "metricsMonitorEnabled", "state", "type", "provisionConfig", "autohealingConfig", "createdAt", "updatedAt", "extraInfo", "deletePolicy", "clusterValidationPolicy", "architecture", "dns", "slaEnabled", "koordinatorEnabled", "ipPoolProviders"})
+		common.DeleteKeys(additionalProperties, &[]string{"taskId", "logBackend", "provider", "region", "availabilityZones", "schedulingConfig", "networkConfig", "description", "displayName", "id", "name", "organizations", "metricsMonitorEnabled", "state", "type", "provisionConfig", "autohealingConfig", "createdAt", "updatedAt", "extraInfo", "deletePolicy", "clusterValidationPolicy", "architecture", "dns", "postgresqlSQLHistoryEnabled", "slaEnabled", "koordinatorEnabled", "ipPoolProviders"})
 	} else {
 		return err
 	}
@@ -1031,6 +1076,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Dns = all.Dns
+	o.PostgresqlSqlHistoryEnabled = all.PostgresqlSqlHistoryEnabled
 	o.SlaEnabled = all.SlaEnabled
 	o.KoordinatorEnabled = all.KoordinatorEnabled
 	o.IpPoolProviders = *all.IpPoolProviders

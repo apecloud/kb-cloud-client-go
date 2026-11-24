@@ -34645,7 +34645,9 @@ components:
       enum:
         - available
         - partial
+        - empty
         - unavailable
+        - not_enabled
     PostgresqlSQLWindowQuality:
       type: string
       enum:
@@ -34958,7 +34960,9 @@ components:
       type: string
       enum:
         - available
+        - empty
         - unavailable
+        - not_enabled
     PostgresqlSQLWindowInstance:
       type: object
       properties:

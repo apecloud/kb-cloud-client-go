@@ -42329,7 +42329,7 @@ components:
       properties:
         taskId:
           type: string
-          description: Installation task ID, returned when environment creation starts a task.
+          description: Task ID returned when environment creation or a PostgreSQL SQL history change starts a task.
         logBackend:
           $ref: '#/components/schemas/logBackendType'
         provider:
@@ -42398,6 +42398,10 @@ components:
           $ref: '#/components/schemas/environmentArchitecture'
         dns:
           $ref: '#/components/schemas/dns'
+        postgresqlSQLHistoryEnabled:
+          description: Whether PostgreSQL SQL history is available. Enabling takes effect after the Gemini configuration task succeeds.
+          type: boolean
+          nullable: true
         slaEnabled:
           description: whether to enable calculate the cluster SLA for the environment
           type: boolean
@@ -42626,6 +42630,10 @@ components:
         provider:
           description: Cloud Provider
           type: string
+          nullable: true
+        postgresqlSQLHistoryEnabled:
+          description: Whether PostgreSQL SQL history is available. Enabling takes effect after the Gemini configuration task succeeds.
+          type: boolean
           nullable: true
         slaEnabled:
           description: whether to enable calculate the cluster SLA for the environment
@@ -54330,7 +54338,9 @@ components:
       enum:
         - available
         - partial
+        - empty
         - unavailable
+        - not_enabled
     PostgresqlSQLWindowQuality:
       type: string
       enum:
@@ -54643,7 +54653,9 @@ components:
       type: string
       enum:
         - available
+        - empty
         - unavailable
+        - not_enabled
     PostgresqlSQLWindowInstance:
       type: object
       properties:
