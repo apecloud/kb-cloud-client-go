@@ -4,13 +4,17 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
 
-// VipPoolUpdate VIP Pool update. Omitted fields keep their current value, at least one field is required.
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
+
+// VipPoolUpdate VIP Pool update
 type VipPoolUpdate struct {
-	// IP Addresses. Omit to keep the current address ranges.
-	Addresses *string `json:"addresses,omitempty"`
-	// Name of the VIP Pool. It is what a cluster selects the pool by, so it is not restricted by Kubernetes resource naming rules. Changing it does not affect clusters that already selected the pool, and the MetalLB IPAddressPool resource name stays the generated kb-<id>. Omit to keep the current name.
+	// IP Addresses
+	Addresses string `json:"addresses"`
+	// Name of the VIP Pool. Optional. When provided, the pool is renamed; the MetalLB IPAddressPool resource name stays the generated kb-<id>, so clusters that already selected the pool are not affected. Omit to keep the current name.
 	PoolName *string `json:"poolName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -21,8 +25,9 @@ type VipPoolUpdate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewVipPoolUpdate() *VipPoolUpdate {
+func NewVipPoolUpdate(addresses string) *VipPoolUpdate {
 	this := VipPoolUpdate{}
+	this.Addresses = addresses
 	return &this
 }
 
@@ -34,32 +39,27 @@ func NewVipPoolUpdateWithDefaults() *VipPoolUpdate {
 	return &this
 }
 
-// GetAddresses returns the Addresses field value if set, zero value otherwise.
+// GetAddresses returns the Addresses field value.
 func (o *VipPoolUpdate) GetAddresses() string {
-	if o == nil || o.Addresses == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Addresses
+	return o.Addresses
 }
 
-// GetAddressesOk returns a tuple with the Addresses field value if set, nil otherwise
+// GetAddressesOk returns a tuple with the Addresses field value
 // and a boolean to check if the value has been set.
 func (o *VipPoolUpdate) GetAddressesOk() (*string, bool) {
-	if o == nil || o.Addresses == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Addresses, true
+	return &o.Addresses, true
 }
 
-// HasAddresses returns a boolean if a field has been set.
-func (o *VipPoolUpdate) HasAddresses() bool {
-	return o != nil && o.Addresses != nil
-}
-
-// SetAddresses gets a reference to the given string and assigns it to the Addresses field.
+// SetAddresses sets field value.
 func (o *VipPoolUpdate) SetAddresses(v string) {
-	o.Addresses = &v
+	o.Addresses = v
 }
 
 // GetPoolName returns the PoolName field value if set, zero value otherwise.
@@ -96,9 +96,7 @@ func (o VipPoolUpdate) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Addresses != nil {
-		toSerialize["addresses"] = o.Addresses
-	}
+	toSerialize["addresses"] = o.Addresses
 	if o.PoolName != nil {
 		toSerialize["poolName"] = o.PoolName
 	}
@@ -112,11 +110,14 @@ func (o VipPoolUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *VipPoolUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Addresses *string `json:"addresses,omitempty"`
+		Addresses *string `json:"addresses"`
 		PoolName  *string `json:"poolName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
+	}
+	if all.Addresses == nil {
+		return fmt.Errorf("required field addresses missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -124,7 +125,7 @@ func (o *VipPoolUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-	o.Addresses = all.Addresses
+	o.Addresses = *all.Addresses
 	o.PoolName = all.PoolName
 
 	if len(additionalProperties) > 0 {
