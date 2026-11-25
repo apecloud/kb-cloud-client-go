@@ -35818,7 +35818,8 @@ components:
           $ref: '#/components/schemas/initOptions'
         singleZone:
           title: Single availability zones
-          description: Use single availability zones
+          description: 'Deprecated: use availabilityZones to specify the eligible availability zones. To select one zone, provide a single-element list.'
+          deprecated: true
           type: boolean
           default: false
         availabilityZones:
