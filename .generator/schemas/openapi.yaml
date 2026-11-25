@@ -14574,6 +14574,636 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RedisClusterTopology'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/valkey/context:
+    get:
+      tags:
+        - dms
+      operationId: getValkeyContext
+      summary: get Valkey datasource data-management context
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          required: false
+          description: Current logical Redis database index for this context. Omitted uses the datasource default; Redis Cluster only supports 0.
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisDataContext'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/valkey/keys:
+    get:
+      tags:
+        - dms
+      operationId: listValkeyKeys
+      summary: list Valkey key summaries by SCAN cursor
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index. Redis Cluster only supports 0.
+          schema:
+            type: integer
+            format: int64
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: pattern
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: separator
+          in: query
+          required: false
+          schema:
+            type: string
+            default: ':'
+        - name: nodeId
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisKeySummaryList'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/valkey/analysis:
+    get:
+      tags:
+        - dms
+      operationId: analyzeValkeyKeys
+      summary: analyze Valkey keys by bounded SCAN sampling
+      description: Returns an instant sample analysis for Valkey keys. The result is not a persisted or full historical report; callers must use progress.complete, progress.processed, progress.sampleLimit, and generatedAt to present the sampling boundary.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: match
+          in: query
+          description: Redis SCAN match pattern.
+          required: false
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          description: Cursor returned by a previous analysis scan. Empty starts a new sample scan.
+          required: false
+          schema:
+            type: string
+        - name: sampleLimit
+          in: query
+          description: Maximum number of keys to sample in this analysis request.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: topN
+          in: query
+          description: Maximum number of top keys or namespaces to return.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: namespaceSeparator
+          in: query
+          description: Separator used to group key namespaces.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: analyze redis key sample success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisAnalysisResponse'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/valkey/key/detail:
+    post:
+      tags:
+        - dms
+      operationId: getValkeyKeyDetail
+      summary: get Valkey key detail
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index. Redis Cluster only supports 0.
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedisKeyDetailRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisKeyDetail'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/valkey/key/mutate:
+    post:
+      tags:
+        - dms
+      operationId: mutateValkeyKey
+      summary: mutate Valkey key data or metadata
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index. Redis Cluster only supports 0.
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedisKeyMutateRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisKeyMutateResponse'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/valkey/workbench/execute:
+    post:
+      tags:
+        - dms
+      operationId: executeValkeyWorkbenchCommand
+      summary: execute a Valkey Workbench command
+      description: Executes a Valkey command for the current datasource context. Follow-up implementation should record command history in datasource query_history with engine=valkey; no Valkey-specific history API is introduced by this contract.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index for this command. Redis Cluster only supports 0.
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedisWorkbenchExecuteRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisWorkbenchExecuteResponse'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/valkey/pubsub/publish:
+    post:
+      tags:
+        - dms
+      operationId: publishValkeyMessage
+      summary: publish a Valkey Pub/Sub message
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index for this Pub/Sub client. Redis Pub/Sub is server-level, but the client connection is still scoped to the selected DB for consistency.
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedisPubSubPublishRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisOperationSummary'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/valkey/pubsub/sessions:
+    post:
+      tags:
+        - dms
+      operationId: createValkeyPubSubSession
+      summary: create a Valkey Pub/Sub polling session
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index for the polling client connection.
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedisPubSubSessionCreateRequest'
+        required: true
+      responses:
+        '201':
+          description: session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisPubSubSession'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/valkey/pubsub/sessions/{sessionId}/messages:
+    get:
+      tags:
+        - dms
+      operationId: listValkeyPubSubMessages
+      summary: list messages from a Valkey Pub/Sub polling session
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisPubSubMessageList'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/valkey/pubsub/sessions/{sessionId}:
+    delete:
+      tags:
+        - dms
+      operationId: closeValkeyPubSubSession
+      summary: close a Valkey Pub/Sub polling session
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: session closed
+          content: {}
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/valkey/slowlog:
+    get:
+      tags:
+        - dms
+      operationId: listValkeySlowLog
+      summary: list Valkey slow log entries
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index. SlowLog is server-level; the parameter is accepted for API consistency.
+          schema:
+            type: integer
+            format: int64
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: nodeId
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisSlowLogList'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/valkey/slowlog/reset:
+    post:
+      tags:
+        - dms
+      operationId: resetValkeySlowLog
+      summary: reset Valkey slow log
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index. SlowLog reset is server-level; the parameter is accepted for API consistency.
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedisDangerousOperationRequest'
+        required: false
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisOperationSummary'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/valkey/info:
+    get:
+      tags:
+        - dms
+      operationId: getValkeyInfo
+      summary: get Valkey INFO output by section
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index. INFO is server-level; the parameter is accepted for API consistency.
+          schema:
+            type: integer
+            format: int64
+        - name: section
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: nodeId
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisInfoResponse'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/valkey/cluster/topology:
+    get:
+      tags:
+        - dms
+      operationId: getValkeyClusterTopology
+      summary: get Valkey Cluster topology
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          required: false
+          description: Logical Redis database index. Redis Cluster topology only supports database 0.
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisClusterTopology'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/mongodb/databases:
     get:
       tags:
