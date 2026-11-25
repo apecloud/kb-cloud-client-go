@@ -13,6 +13,8 @@ import (
 type ParameterOption struct {
 	// component type
 	Component string `json:"component"`
+	// Minimum installed Addon version for selecting this parameter group at creation. Existing clusters must have the configuration specs in their component definition.
+	MinAddonVersion *string `json:"minAddonVersion,omitempty"`
 	// Reference another engine's parameter option to reuse its parameter configuration.
 	// If parameterOptionRef is set, the referenced engine's parameter option (identified by
 	// engineName + component) is used as the only source of parameter configuration. Fields explicitly set in
@@ -80,6 +82,34 @@ func (o *ParameterOption) GetComponentOk() (*string, bool) {
 // SetComponent sets field value.
 func (o *ParameterOption) SetComponent(v string) {
 	o.Component = v
+}
+
+// GetMinAddonVersion returns the MinAddonVersion field value if set, zero value otherwise.
+func (o *ParameterOption) GetMinAddonVersion() string {
+	if o == nil || o.MinAddonVersion == nil {
+		var ret string
+		return ret
+	}
+	return *o.MinAddonVersion
+}
+
+// GetMinAddonVersionOk returns a tuple with the MinAddonVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterOption) GetMinAddonVersionOk() (*string, bool) {
+	if o == nil || o.MinAddonVersion == nil {
+		return nil, false
+	}
+	return o.MinAddonVersion, true
+}
+
+// HasMinAddonVersion returns a boolean if a field has been set.
+func (o *ParameterOption) HasMinAddonVersion() bool {
+	return o != nil && o.MinAddonVersion != nil
+}
+
+// SetMinAddonVersion gets a reference to the given string and assigns it to the MinAddonVersion field.
+func (o *ParameterOption) SetMinAddonVersion(v string) {
+	o.MinAddonVersion = &v
 }
 
 // GetReferenceEngine returns the ReferenceEngine field value if set, zero value otherwise.
@@ -313,6 +343,9 @@ func (o ParameterOption) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["component"] = o.Component
+	if o.MinAddonVersion != nil {
+		toSerialize["minAddonVersion"] = o.MinAddonVersion
+	}
 	if o.ReferenceEngine != nil {
 		toSerialize["referenceEngine"] = o.ReferenceEngine
 	}
@@ -348,6 +381,7 @@ func (o ParameterOption) MarshalJSON() ([]byte, error) {
 func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Component        *string                     `json:"component"`
+		MinAddonVersion  *string                     `json:"minAddonVersion,omitempty"`
 		ReferenceEngine  *ParameterOptionRef         `json:"referenceEngine,omitempty"`
 		ExportTpl        *bool                       `json:"exportTpl,omitempty"`
 		EnableTemplate   *bool                       `json:"enableTemplate,omitempty"`
@@ -365,13 +399,14 @@ func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "referenceEngine", "exportTpl", "enableTemplate", "enableRawContent", "configSpecs", "disableHA", "templates", "initOptions"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "minAddonVersion", "referenceEngine", "exportTpl", "enableTemplate", "enableRawContent", "configSpecs", "disableHA", "templates", "initOptions"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Component = *all.Component
+	o.MinAddonVersion = all.MinAddonVersion
 	if all.ReferenceEngine != nil && all.ReferenceEngine.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

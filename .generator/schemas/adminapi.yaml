@@ -46676,6 +46676,9 @@ components:
         component:
           type: string
           description: component type
+        minAddonVersion:
+          type: string
+          description: Minimum installed Addon version for selecting this parameter group at creation. Existing clusters must have the configuration specs in their component definition.
         referenceEngine:
           $ref: '#/components/schemas/parameterOptionRef'
         exportTpl:
