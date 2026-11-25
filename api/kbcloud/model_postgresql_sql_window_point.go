@@ -8,7 +8,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// PostgresqlSQLWindowPoint Whole observation deltas are assigned by interval end to this display bucket. Effective boundaries describe the actual observation intervals and may begin before the requested window. Quality is calculated independently for each bucket. The collector_restart reason belongs to the bucket containing the new baseline, or the left bucket at a shared boundary. Missing SQL observations remain null, including empty buckets.
+// PostgresqlSQLWindowPoint Whole observation deltas are assigned by interval end to this display bucket. Effective boundaries describe the actual observation intervals and may begin before the requested window. Quality is calculated independently for each bucket. Each bucket overlapping a restart gap reports collector_restart and excludes the overlap from the coverage threshold. A restart ending at a shared boundary affects the left bucket. Missing SQL observations remain null, including empty buckets.
 type PostgresqlSQLWindowPoint struct {
 	Window *PostgresqlSQLWindow       `json:"window,omitempty"`
 	Status *PostgresqlSQLWindowStatus `json:"status,omitempty"`

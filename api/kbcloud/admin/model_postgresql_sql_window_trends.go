@@ -11,7 +11,7 @@ import (
 type PostgresqlSQLWindowTrends struct {
 	Window *PostgresqlSQLWindow       `json:"window,omitempty"`
 	Status *PostgresqlSQLWindowStatus `json:"status,omitempty"`
-	// collector_restart marks a new snapshot baseline. The restart gap makes the window partial without adding missing batches.
+	// With no coverage in the window or lookahead, status is empty and reasons contains insufficient_coverage. collector_restart marks a restart gap and adds no missing batches.
 	Reasons []string `json:"reasons,omitempty"`
 	// Collection-level completeness before database, user or SQL filtering. A complete window has continuous snapshot links and at least 95% time coverage. expectedCollections is for display only. Lookahead coverage is excluded from counts, time coverage and SQL totals.
 	Coverage *PostgresqlSQLWindowCoverage `json:"coverage,omitempty"`
