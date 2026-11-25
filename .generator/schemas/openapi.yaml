@@ -34692,6 +34692,7 @@ components:
           format: int64
           description: PostgreSQL major version at the latest observation.
         expectedCollections:
+          description: Provable lower bound on collection count. Includes every observed collection (including failed reads) plus one per distinct chain break that proves a missing in-window snapshot. Subtract observedCollections to obtain the lower bound on missing collections.
           type: integer
           format: int64
           x-omitempty: false
@@ -34703,7 +34704,7 @@ components:
           type: integer
           format: int64
           x-omitempty: false
-      description: Collection-level completeness before database, user or SQL filtering. A complete window has continuous snapshot links and at least 95% time coverage. expectedCollections is the observed count plus estimated missing batches at detected breaks. It is for display only. Lookahead coverage is excluded from counts, time coverage and SQL totals.
+      description: Collection-level completeness before database, user or SQL filtering. A complete window has continuous snapshot links and at least 95% time coverage. expectedCollections is for display only. Lookahead coverage is excluded from counts, time coverage and SQL totals.
     PostgresqlSQLWindowResources:
       type: object
       description: Optional sums of SQL resource deltas. Missing values are unknown, never zero. Block counters are PostgreSQL blocks, WAL bytes are bytes, and timing fields are milliseconds. Legacy blk timing is the older PostgreSQL block I/O timing; it is not interchangeable with the PostgreSQL 17 split fields. Counters at or above 2^53 are unavailable to avoid storage aggregation precision loss.

@@ -13,7 +13,7 @@ type PostgresqlSQLWindowResponse struct {
 	Status *PostgresqlSQLWindowStatus `json:"status,omitempty"`
 	// collector_restart marks a new snapshot baseline. The restart gap makes the window partial without adding missing batches.
 	Reasons []string `json:"reasons,omitempty"`
-	// Collection-level completeness before database, user or SQL filtering. A complete window has continuous snapshot links and at least 95% time coverage. expectedCollections is the observed count plus estimated missing batches at detected breaks. It is for display only. Lookahead coverage is excluded from counts, time coverage and SQL totals.
+	// Collection-level completeness before database, user or SQL filtering. A complete window has continuous snapshot links and at least 95% time coverage. expectedCollections is for display only. Lookahead coverage is excluded from counts, time coverage and SQL totals.
 	Coverage *PostgresqlSQLWindowCoverage `json:"coverage,omitempty"`
 	Items    []PostgresqlSQLWindowItem    `json:"items,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct

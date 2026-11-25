@@ -6,7 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// PostgresqlSQLWindowCoverage Collection-level completeness before database, user or SQL filtering. A complete window has continuous snapshot links and at least 95% time coverage. expectedCollections is the observed count plus estimated missing batches at detected breaks. It is for display only. Lookahead coverage is excluded from counts, time coverage and SQL totals.
+// PostgresqlSQLWindowCoverage Collection-level completeness before database, user or SQL filtering. A complete window has continuous snapshot links and at least 95% time coverage. expectedCollections is for display only. Lookahead coverage is excluded from counts, time coverage and SQL totals.
 type PostgresqlSQLWindowCoverage struct {
 	// Digest of the verified delivery and coverage records for all requested windows.
 	ObservationVersion *string `json:"observationVersion,omitempty"`
@@ -17,7 +17,8 @@ type PostgresqlSQLWindowCoverage struct {
 	Unchanged       *int64                      `json:"unchanged,omitempty"`
 	Recreated       *int64                      `json:"recreated,omitempty"`
 	// PostgreSQL major version at the latest observation.
-	PgMajorVersion      *int64 `json:"pgMajorVersion,omitempty"`
+	PgMajorVersion *int64 `json:"pgMajorVersion,omitempty"`
+	// Provable lower bound on collection count. Includes every observed collection (including failed reads) plus one per distinct chain break that proves a missing in-window snapshot. Subtract observedCollections to obtain the lower bound on missing collections.
 	ExpectedCollections *int64 `json:"expectedCollections,omitempty"`
 	ObservedCollections *int64 `json:"observedCollections,omitempty"`
 	UsableCollections   *int64 `json:"usableCollections,omitempty"`
