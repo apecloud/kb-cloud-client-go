@@ -31073,7 +31073,7 @@ components:
           default: false
         availabilityZones:
           title: Availability Zones
-          description: Availability Zones
+          description: Eligible availability zones for cluster-level placement on KubeBlocks 1.x. Supply one zone for single-zone placement or multiple zones for preferred spread across those zones. An omitted or empty list uses the environment's availability zones.
           items:
             type: string
           type: array

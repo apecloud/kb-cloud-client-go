@@ -44,7 +44,7 @@ type ClusterCreate struct {
 	// Deprecated: use availabilityZones to specify the eligible availability zones. To select one zone, provide a single-element list.
 	// Deprecated
 	SingleZone *bool `json:"singleZone,omitempty"`
-	// Availability Zones
+	// Eligible availability zones for cluster-level placement on KubeBlocks 1.x. Supply one zone for single-zone placement or multiple zones for preferred spread across those zones. An omitted or empty list uses the environment's availability zones.
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
 	// clusterBackup is the payload for cluster backup
 	Backup *ClusterBackup `json:"backup,omitempty"`
