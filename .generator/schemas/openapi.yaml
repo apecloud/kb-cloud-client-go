@@ -34939,7 +34939,7 @@ components:
           type: string
           description: One of insufficient_coverage, sql_not_observed, zero_baseline or invalid_percentage.
         totalTimeChangePercent:
-          description: Percentage change in total execution time. Both windows must be complete, or both must cover at least 95% with no baseline change, eviction or partial batch.
+          description: Percentage change in total execution time. Calculated only when both windows are available, have complete coverage and no reasons, and both contain the SQL with a nonzero baseline total.
           type: number
           format: double
           nullable: true

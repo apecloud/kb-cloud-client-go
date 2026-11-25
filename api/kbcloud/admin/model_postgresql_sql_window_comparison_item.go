@@ -18,7 +18,7 @@ type PostgresqlSQLWindowComparisonItem struct {
 	Baseline PostgresqlSQLWindowItem `json:"baseline"`
 	// One of insufficient_coverage, sql_not_observed, zero_baseline or invalid_percentage.
 	ComparabilityReason *string `json:"comparabilityReason,omitempty"`
-	// Percentage change in total execution time. Both windows must be complete, or both must cover at least 95% with no baseline change, eviction or partial batch.
+	// Percentage change in total execution time. Calculated only when both windows are available, have complete coverage and no reasons, and both contain the SQL with a nonzero baseline total.
 	TotalTimeChangePercent common.NullableFloat64 `json:"totalTimeChangePercent,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
