@@ -31270,9 +31270,6 @@ components:
           description: Specify the size of storage, the unit is Gi.
           title: size
           type: string
-        storageClass:
-          description: The name of StorageClass in use
-          type: string
         ioReserves:
           $ref: '#/components/schemas/ioQuantity'
         ioLimits:
