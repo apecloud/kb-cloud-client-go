@@ -6,7 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// PostgresqlSQLWindowCoverage Collection-level completeness before database, user or SQL filtering. expectedCollections is estimated from the recorded cadence; zero means cadence is unavailable when no coverage exists.
+// PostgresqlSQLWindowCoverage Collection-level completeness before database, user or SQL filtering. A complete window has continuous snapshot links and at least 95% time coverage. expectedCollections is the observed count plus estimated missing batches at detected breaks. It is for display only. Lookahead coverage is excluded from counts, time coverage and SQL totals.
 type PostgresqlSQLWindowCoverage struct {
 	// Digest of the verified delivery and coverage records for all requested windows.
 	ObservationVersion *string `json:"observationVersion,omitempty"`

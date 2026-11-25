@@ -9,7 +9,7 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 type PostgresqlSQLWindowGap struct {
 	StartTime *string `json:"startTime,omitempty"`
 	EndTime   *string `json:"endTime,omitempty"`
-	// Collection status or read failure cause (timeout, permission_denied, over_limit or query_error).
+	// Collection status, snapshot chain break (collection_gap), or read failure cause (timeout, permission_denied, over_limit or query_error).
 	Reason *string `json:"reason,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
