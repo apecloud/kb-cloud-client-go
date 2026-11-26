@@ -9727,6 +9727,73 @@ paths:
         - parameterTemplate
         - shared
       x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/parameterTemplates/{paramTplID}/export:
+    get:
+      operationId: exportParameterTemplate
+      summary: Download one parameter template as YAML
+      description: Requires parameter template read permission in the requested organization. Downloads a public template belonging to that organization or a public system default. Returns all stored files and comments. Import validates the target engine, component and file layout.
+      tags:
+        - paramTpl
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: paramTplID
+          description: Template ID returned by the parameter template list.
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Complete portable template
+          content:
+            application/yaml:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/parameterTemplates/import:
+    post:
+      operationId: importParameterTemplate
+      summary: Create an organization parameter template from one YAML document
+      tags:
+        - paramTpl
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/parameterTemplateImportRequest'
+      responses:
+        '201':
+          description: Created template and validation warnings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/parameterTemplateImportResult'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '413':
+          $ref: '#/components/responses/413'
   /api/v1/organizations/{orgName}/receivers:
     get:
       tags:
@@ -33946,6 +34013,54 @@ components:
         - description
         - name
       type: object
+    parameterTemplateImportEngine:
+      type: string
+      description: Target engine used to validate the component, major versions and configuration in the file.
+      enum:
+        - mongodb
+        - influxdb
+        - tdengine
+        - mssql
+        - mysql
+        - postgresql
+    parameterTemplateImportRequest:
+      type: object
+      description: Import a YAML file as a new custom parameter template in the target organization.
+      required:
+        - name
+        - description
+        - engine
+        - file
+      properties:
+        name:
+          type: string
+          description: Name to give the imported template. It must be unique within the target organization.
+          minLength: 3
+          maxLength: 64
+          pattern: ^[a-z]([-a-z0-9]*[a-z0-9])?$
+        description:
+          type: string
+          description: Description to save with the new template.
+          minLength: 3
+          maxLength: 128
+        engine:
+          $ref: '#/components/schemas/parameterTemplateImportEngine'
+        file:
+          type: string
+          format: binary
+          description: Upload one parameter template YAML file of at most 1 MiB (1,048,576 bytes). Its name, engine and description are optional source information and are ignored during import.
+    parameterTemplateImportResult:
+      type: object
+      required:
+        - template
+        - warnings
+      properties:
+        template:
+          $ref: '#/components/schemas/paramTplListItem'
+        warnings:
+          type: array
+          items:
+            type: string
     alertReceiverCategory:
       type: string
       enum:

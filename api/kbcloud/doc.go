@@ -512,6 +512,8 @@
 //   - [organizationParameterApi.listOrgParameters]
 //   - [organizationParameterApi.patchOrgParameter]
 //   - [organizationResourceQuotaApi.resourceQuotaAndUsage]
+//   - [paramTplApi.exportParameterTemplate]
+//   - [paramTplApi.importParameterTemplate]
 //   - [parameterApi.listParameterProps]
 //   - [parameterApi.listParametersHistory]
 //   - [parameterTemplateApi.createParameterTemplate]
