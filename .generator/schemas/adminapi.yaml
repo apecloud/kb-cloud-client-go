@@ -12237,6 +12237,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/opsRequestName'
           description: Accepted
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -41508,12 +41510,21 @@ components:
       description: OpsCustom is the payload to create a custom KubeBlocks OpsRequest
       required:
         - opsType
-        - compName
       properties:
         compName:
           description: component name
           type: string
           minLength: 1
+          x-nullable: true
+        compNames:
+          description: Component names for a single OpsRequest. Mutually exclusive with compName. All components share the same params.
+          type: array
+          x-omitempty: true
+          minItems: 1
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
         opsType:
           description: ops definition name.
           type: string
