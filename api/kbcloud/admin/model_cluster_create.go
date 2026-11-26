@@ -41,9 +41,10 @@ type ClusterCreate struct {
 	Extra map[string]interface{} `json:"extra,omitempty"`
 	// InitOptions is the list of init option
 	InitOptions []InitOptionItem `json:"initOptions,omitempty"`
-	// Use single availability zones
+	// Deprecated: use availabilityZones to specify the eligible availability zones. To select one zone, provide a single-element list.
+	// Deprecated
 	SingleZone *bool `json:"singleZone,omitempty"`
-	// Availability Zones
+	// Eligible availability zones for cluster-level placement on KubeBlocks 1.x. Supply one zone for single-zone placement or multiple zones for preferred spread across those zones. An omitted or empty list uses the environment's availability zones.
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
 	// clusterBackup is the payload for cluster backup
 	Backup *ClusterBackup `json:"backup,omitempty"`
@@ -542,6 +543,7 @@ func (o *ClusterCreate) SetInitOptions(v []InitOptionItem) {
 }
 
 // GetSingleZone returns the SingleZone field value if set, zero value otherwise.
+// Deprecated
 func (o *ClusterCreate) GetSingleZone() bool {
 	if o == nil || o.SingleZone == nil {
 		var ret bool
@@ -552,6 +554,7 @@ func (o *ClusterCreate) GetSingleZone() bool {
 
 // GetSingleZoneOk returns a tuple with the SingleZone field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// Deprecated
 func (o *ClusterCreate) GetSingleZoneOk() (*bool, bool) {
 	if o == nil || o.SingleZone == nil {
 		return nil, false
@@ -565,6 +568,7 @@ func (o *ClusterCreate) HasSingleZone() bool {
 }
 
 // SetSingleZone gets a reference to the given bool and assigns it to the SingleZone field.
+// Deprecated
 func (o *ClusterCreate) SetSingleZone(v bool) {
 	o.SingleZone = &v
 }
