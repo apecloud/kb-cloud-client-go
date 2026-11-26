@@ -6956,6 +6956,68 @@ paths:
         - parameterTemplate
         - shared
       x-codegen-request-body-name: body
+  /admin/v1/parameterTemplates/{paramTplID}/export:
+    get:
+      operationId: exportParameterTemplate
+      summary: Download one parameter template as YAML
+      description: Uses the same read permission and record visibility as template details for both system default and organization custom templates. Returns all stored files and comments. Import validates the target engine, component and file layout.
+      tags:
+        - paramTpl
+      parameters:
+        - name: paramTplID
+          in: path
+          required: true
+          description: Template ID returned by the parameter template list.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Complete portable template
+          content:
+            application/yaml:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/parameterTemplates/import:
+    post:
+      operationId: importParameterTemplate
+      summary: Create an organization parameter template from one YAML document
+      tags:
+        - paramTpl
+      parameters:
+        - name: orgName
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/parameterTemplateImportRequest'
+      responses:
+        '201':
+          description: Created template and validation warnings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/parameterTemplateImportResult'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '413':
+          $ref: '#/components/responses/413'
   /admin/v1/databaseParameters:
     get:
       operationId: listDatabaseParameters
@@ -13475,6 +13537,7 @@ paths:
     get:
       operationId: getEnvironmentStatus
       summary: Get environment status
+      description: 'Returns diagnostic conditions without changing the stored environment state. When target component checks are requested, invalid kubeconfig or unavailable Kubernetes management access is reported through conditions in an HTTP 200 response. KubeconfigValidity describes the selected configuration and client certificate; KubernetesAccess describes access to the kube-system Namespace. These conditions are independent: with mixed credentials, KubeconfigValidity can be False for an expired client certificate while KubernetesAccess is True when another configured credential succeeds. Do not infer overall environment health from any single False condition. Successful access does not prove all management permissions or component health. A KubernetesAccess other than True is reported for that resource only and does not by itself decide the environment state. PermissionDenied allows the remaining component checks to continue; other unsuccessful access results omit the remaining component conditions. Platform request authentication and authorization failures, environment lookup errors and internal execution errors remain API errors; target kubeconfig authentication and access results are reported as conditions. If any component prober panics or returns a nil condition, the entire request fails with an internal server error; partial conditions are not returned. An opsInfo-only request does not access the target environment.'
       parameters:
         - description: name of the environment
           in: path
@@ -13488,7 +13551,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/environmentStatus'
-          description: A successful response.
+          description: Diagnostic conditions, including target credential or access failures.
         '403':
           $ref: '#/components/responses/403'
         '404':
@@ -16811,6 +16874,24 @@ paths:
           required: false
           schema:
             type: integer
+        - name: clusterName
+          in: query
+          description: filter by cluster name
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: filter by alert status
+          required: false
+          schema:
+            type: string
+        - name: severity
+          in: query
+          description: filter by alert severity
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: A successful response.
@@ -27555,6 +27636,144 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sqlAnalysis:
+    get:
+      tags:
+        - diagnostics
+      operationId: getDiagnosticsMssqlSQLAnalysis
+      summary: List SQL Server TOP SQL from the plan cache
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          schema:
+            type: string
+            maxLength: 128
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 200
+            default: 50
+        - name: orderBy
+          in: query
+          schema:
+            $ref: '#/components/schemas/mssqlSQLOrder'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mssqlSQLAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sqlAnalysis/cachedPlan:
+    get:
+      tags:
+        - diagnostics
+      operationId: getDiagnosticsMssqlSQLPlan
+      summary: Read the cached compiled plan of a ranked SQL statement
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+            maxLength: 600
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mssqlCachedPlan'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/spaceAnalysis:
+    get:
+      tags:
+        - diagnostics
+      operationId: getDiagnosticsMssqlSpaceAnalysis
+      summary: Analyze SQL Server database and table space
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: query
+          schema:
+            type: string
+            maxLength: 128
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 200
+            default: 50
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mssqlSpaceAnalysis'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/diagnostics/mssql/sessions:
     get:
       tags:
@@ -27581,6 +27800,11 @@ paths:
             minimum: 1
             maximum: 1000
             default: 500
+        - name: activeOnly
+          in: query
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: OK
@@ -27635,6 +27859,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/mssqlSession'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - diagnostics
+      operationId: killDiagnosticsMssqlSession
+      summary: Terminate the selected SQL Server user session
+      description: Rechecks startedAt before issuing KILL. Open transactions may roll back asynchronously. Never retry this operation automatically.
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 32767
+        - name: startedAt
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Termination requested
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -35204,7 +35471,7 @@ components:
     instanceTemplateCreate:
       type: object
       additionalProperties: false
-      description: Create assignment for one instance template. name and replicas are required. env, annotations, labels, availabilityZone, nodeGroup and storageClass are optional overlays. The request must include every chart-rendered instance template exactly once. Explicit placement requires availabilityZone and optionally accepts nodeGroup, without inheriting upper-level AZ or NodeGroup. Omitting both leaves SchedulingPolicy unset for KubeBlocks default inheritance. Hostname, user scheduling rules and additional topology keys are preserved.
+      description: 'Instance template assignment. Include every chart-rendered template exactly once, with name and replicas. env and storageClass are optional. Placement follows the mode placementScope: component scope requires template availabilityZone and permits nodeGroup; cluster scope forbids template placement.'
       required:
         - name
         - replicas
@@ -35222,13 +35489,13 @@ components:
           description: Replica count for this instance template.
         availabilityZone:
           type: string
-          description: Single AZ for explicit template placement (topology.kubernetes.io/zone). Must be enabled in the environment and is required when nodeGroup is specified. An omitted nodeGroup does not inherit the component or cluster host group. Omitting both leaves SchedulingPolicy unset for KubeBlocks inheritance.
+          description: Template AZ, enabled in the environment. Required when placementScope is component; forbidden in cluster scope. The containing component must omit placement. An omitted nodeGroup does not inherit an upper-level host group.
         storageClass:
           type: string
           description: StorageClass name for all persistent volumes in this template. Copied from component volumeClaimTemplates, preserving volume sizes and other settings while overriding storageClassName. Chart instance volume templates are cleared; omitted or empty leaves instance volumeClaimTemplates unset.
         env:
           type: array
-          description: Simple env vars (name and value only) merged into this template. valueFrom is not supported; overlaying a name clears any chart valueFrom.
+          description: Declared env overrides. Names must be unique; defaults apply only to omitted variables.
           items:
             type: object
             required:
@@ -35237,20 +35504,10 @@ components:
             properties:
               name:
                 type: string
+                minLength: 1
               value:
                 type: string
-                minLength: 1
-                description: Plain string value only. valueFrom is not supported.
-        annotations:
-          type: object
-          additionalProperties:
-            type: string
-          description: Annotation map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted.
-        labels:
-          type: object
-          additionalProperties:
-            type: string
-          description: Label map (string key to string value). Merged into this template; same-name keys overwritten. Chart keys are not deleted. The apps.kubeblocks.io/instance-template label is managed by the system and must equal the template name if supplied.
+                description: Literal string; optional values may be empty. valueFrom is unsupported.
     ioQuantity:
       description: IO Quantity describes IOPS and BPS of a volume
       properties:
@@ -35338,7 +35595,7 @@ components:
           description: Optional host group in this environment and the explicitly selected availabilityZone. Requires availabilityZone; no upper-level host group is inherited.
         availabilityZone:
           type: string
-          description: Single AZ for explicit component placement. Must be enabled in the environment and is required when nodeGroup is specified. An omitted nodeGroup does not inherit the cluster host group. Omitting both retains cluster scheduling.
+          description: Component AZ, enabled in the environment. Required when placementScope is component and this component has no templates; otherwise forbidden. An omitted nodeGroup does not inherit the cluster host group.
         component:
           type: string
           description: component type, refer to componentDef and support NamePrefix
@@ -35353,7 +35610,7 @@ components:
         instanceTemplates:
           type: array
           minItems: 1
-          description: Per-template replicas and optional overlays (env, annotations, labels, availability zone, storage class). Required when the current mode component declares instanceTemplate in engine_options; otherwise omit. Names must exactly match all chart-rendered instances, without missing, extra, or duplicate names; order does not matter. Component replicas must equal the sum of all requested instance template replica counts.
+          description: Per-template replicas and optional overlays (env, availability zone, storage class). Required when the current mode component declares instanceTemplate in engine_options; otherwise omit. Names must exactly match all chart-rendered instances, without missing, extra, or duplicate names; order does not matter. Component replicas must equal the sum of all requested instance template replica counts.
           items:
             $ref: '#/components/schemas/instanceTemplateCreate'
         skipResourceConstraints:
@@ -35623,12 +35880,13 @@ components:
           $ref: '#/components/schemas/initOptions'
         singleZone:
           title: Single availability zones
-          description: Use single availability zones
+          description: 'Deprecated: use availabilityZones to specify the eligible availability zones. To select one zone, provide a single-element list.'
+          deprecated: true
           type: boolean
           default: false
         availabilityZones:
           title: Availability Zones
-          description: Availability Zones
+          description: Eligible availability zones for cluster-level placement on KubeBlocks 1.x. Supply one zone for single-zone placement or multiple zones for preferred spread across those zones. An omitted or empty list uses the environment's availability zones.
           items:
             type: string
           type: array
@@ -35696,7 +35954,7 @@ components:
         instanceTemplates:
           type: array
           x-omitempty: true
-          description: Instance template assignments with effective replicas, placement and storage class, and user-provided env, labels and annotations.
+          description: Instance template assignments with effective replicas, placement and storage class, and user-provided env.
           items:
             $ref: '#/components/schemas/instanceTemplateCreate'
         name:
@@ -36011,9 +36269,6 @@ components:
         size:
           description: Specify the size of storage, the unit is Gi.
           title: size
-          type: string
-        storageClass:
-          description: The name of StorageClass in use
           type: string
         ioReserves:
           $ref: '#/components/schemas/ioQuantity'
@@ -37578,6 +37833,54 @@ components:
         - description
         - name
       type: object
+    parameterTemplateImportEngine:
+      type: string
+      description: Target engine used to validate the component, major versions and configuration in the file.
+      enum:
+        - mongodb
+        - influxdb
+        - tdengine
+        - mssql
+        - mysql
+        - postgresql
+    parameterTemplateImportRequest:
+      type: object
+      description: Import a YAML file as a new custom parameter template in the target organization.
+      required:
+        - name
+        - description
+        - engine
+        - file
+      properties:
+        name:
+          type: string
+          description: Name to give the imported template. It must be unique within the target organization.
+          minLength: 3
+          maxLength: 64
+          pattern: ^[a-z]([-a-z0-9]*[a-z0-9])?$
+        description:
+          type: string
+          description: Description to save with the new template.
+          minLength: 3
+          maxLength: 128
+        engine:
+          $ref: '#/components/schemas/parameterTemplateImportEngine'
+        file:
+          type: string
+          format: binary
+          description: Upload one parameter template YAML file of at most 1 MiB (1,048,576 bytes). Its name, engine and description are optional source information and are ignored during import.
+    parameterTemplateImportResult:
+      type: object
+      required:
+        - template
+        - warnings
+      properties:
+        template:
+          $ref: '#/components/schemas/paramTplListItem'
+        warnings:
+          type: array
+          items:
+            type: string
     databaseParameterType:
       type: string
       description: The type of the parameter value
@@ -40878,7 +41181,7 @@ components:
           description: Deprecated. Value of the legacy node group label, when present. Use nodeGroups for all memberships.
           type: string
         nodeGroups:
-          description: Groups identified by the node's group labels, sorted by name.
+          description: Registered groups whose label matches this node, sorted by name. Empty when querying Kubernetes without a registered environment.
           type: array
           items:
             type: string
@@ -41450,7 +41753,7 @@ components:
           type: array
           nullable: true
           default: []
-          description: Additional Kubernetes topology label keys used by pod anti-affinity and topology spread for subsequently created or re-rendered clusters; existing Pods are not migrated automatically. Omit or use null during environment creation to store an empty list. Values must be valid Kubernetes qualified label keys. Infrastructure integrations or administrators must label all eligible nodes consistently; missing labels can cause unintended scheduling behavior and undermine failure-domain isolation. Too few eligible topology domains can leave Pods Pending under hard anti-affinity. If the Kubernetes LimitPodHardAntiAffinityTopology admission plugin is enabled, Pod creation is rejected for required anti-affinity using topology keys other than kubernetes.io/hostname, which can prevent the database cluster from becoming ready.
+          description: Additional Kubernetes topology label keys used by pod anti-affinity and topology spread for subsequently created or re-rendered clusters; existing Pods are not migrated automatically. Omit or use null during environment creation to store an empty list. Values must be valid Kubernetes qualified label keys. For KubeBlocks 1.x, the standard topology.kubernetes.io/zone key uses soft zone spread regardless of the scheduling policy. Infrastructure integrations or administrators must label all eligible nodes consistently; missing labels can cause unintended scheduling behavior and undermine failure-domain isolation. Too few eligible topology domains can leave Pods Pending under hard anti-affinity. If the Kubernetes LimitPodHardAntiAffinityTopology admission plugin is enabled, Pod creation is rejected for required anti-affinity using topology keys other than kubernetes.io/hostname, which can prevent the database cluster from becoming ready.
           items:
             type: string
         tolerateDefaultTaints:
@@ -42231,7 +42534,7 @@ components:
         additionalTopologyKeys:
           type: array
           nullable: true
-          description: Additional Kubernetes topology label keys used by subsequently created or re-rendered clusters; existing Pods are not migrated automatically. Omit or use null to preserve the current value; use an empty array to clear all additional keys. Values must be valid Kubernetes qualified label keys. Infrastructure integrations or administrators must label all eligible nodes consistently; missing labels can cause unintended scheduling behavior and undermine failure-domain isolation. Too few eligible topology domains can leave Pods Pending under hard anti-affinity. If the Kubernetes LimitPodHardAntiAffinityTopology admission plugin is enabled, Pod creation is rejected for required anti-affinity using topology keys other than kubernetes.io/hostname, which can prevent the database cluster from becoming ready.
+          description: Additional Kubernetes topology label keys used by subsequently created or re-rendered clusters; existing Pods are not migrated automatically. Omit or use null to preserve the current value; use an empty array to clear all additional keys. Values must be valid Kubernetes qualified label keys. For KubeBlocks 1.x, the standard topology.kubernetes.io/zone key uses soft zone spread regardless of the scheduling policy. Infrastructure integrations or administrators must label all eligible nodes consistently; missing labels can cause unintended scheduling behavior and undermine failure-domain isolation. Too few eligible topology domains can leave Pods Pending under hard anti-affinity. If the Kubernetes LimitPodHardAntiAffinityTopology admission plugin is enabled, Pod creation is rejected for required anti-affinity using topology keys other than kubernetes.io/hostname, which can prevent the database cluster from becoming ready.
           items:
             type: string
     environmentStateEvent:
@@ -43001,6 +43304,10 @@ components:
           description: IP Addresses
           title: IP Addresses
           type: string
+        poolName:
+          description: Name of the VIP Pool. Optional. When provided, the pool is renamed; the MetalLB IPAddressPool resource name stays the generated kb-<id>, so clusters that already selected the pool are not affected. Omit to keep the current name.
+          title: Pool Name
+          type: string
       required:
         - addresses
       type: object
@@ -43423,9 +43730,9 @@ components:
       properties:
         name:
           type: string
-          description: Unique group name used in the Kubernetes node label.
+          description: Unique group name consisting of lowercase letters, digits or hyphens, starting and ending with a letter or digit.
           maxLength: 63
-          pattern: ^[A-Za-z0-9]([-A-Za-z0-9_.]*[A-Za-z0-9])?$
+          pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$
           format: string
         description:
           type: string
@@ -45271,7 +45578,7 @@ components:
           x-nullable: false
     placementScope:
       type: string
-      description: UI placement input scope for this mode. Omitted defaults to cluster. cluster displays AZ and NodeGroup selection for the cluster. component hides cluster placement and displays selection for each component, or for each instance template when the component declares templates. This does not restrict API placement overrides.
+      description: Placement scope; defaults to cluster. Cluster placement excludes component/template placement. In component scope, each ordinary component or each declared instance template requires availabilityZone; nodeGroup is optional. Cluster availabilityZones, nodeGroup and singleZone are forbidden. A component cannot specify placement alongside its templates.
       enum:
         - cluster
         - component
@@ -45295,12 +45602,10 @@ components:
       description: Heterogeneous attribute the frontend may render on an instance template at create.
       enum:
         - env
-        - annotations
-        - labels
         - storageClass
     instanceTemplateEnv:
       type: object
-      description: One fillable env var on an instance template, for frontend rendering.
+      description: Allowed template env variable and its input constraints.
       required:
         - name
       properties:
@@ -45314,10 +45619,10 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         required:
           type: boolean
-          description: If true, the frontend should treat this env as required. Create does not re-check.
+          description: Requires a non-blank value after applying the default.
         default:
           type: string
-          description: Default value shown by the frontend.
+          description: Used only when the variable is omitted.
     modeReadonlyEndpoint:
       type: object
       required:
@@ -45374,16 +45679,10 @@ components:
               uniqueItems: true
               items:
                 $ref: '#/components/schemas/instanceTemplateAttribute'
-              description: |
-                Heterogeneous attributes the frontend should render on each
-                instance template at create. Omitted or empty means only name
-                and replicas. Create overlays the request onto the chart and
-                does not re-check this list.
+              description: Template UI attributes. Env overrides require env to be enabled.
             env:
               type: array
-              description: |
-                Env vars the frontend may render when attributes includes env.
-                Create does not re-check this list.
+              description: Allowed env variables, with defaults and required checks applied before persistence.
               items:
                 $ref: '#/components/schemas/instanceTemplateEnv'
         serviceRef:
@@ -45810,7 +46109,7 @@ components:
           description: Account names that cannot be deleted, locked, unlocked, or have their privileges modified. This does not hide accounts or restrict password changes.
           items:
             type: string
-        displayAccounts:
+        hiddenAccounts:
           type: array
           description: Account names hidden from the generic account list. Matching is case-sensitive, without whitespace normalization or patterns. Other accounts remain visible subject to existing displayRootAccount rules.
           items:
@@ -53313,6 +53612,254 @@ components:
         collectedAt:
           type: string
           description: Backend collection timestamp in UTC.
+    mssqlSQLOrder:
+      type: string
+      enum:
+        - totalElapsedMs
+        - meanElapsedMs
+        - maxElapsedMs
+        - totalCpuMs
+        - meanCpuMs
+        - logicalReads
+        - physicalReads
+        - logicalWrites
+        - executions
+      default: totalElapsedMs
+    mssqlSQLStatement:
+      type: object
+      required:
+        - id
+        - queryHash
+        - database
+        - sql
+        - sqlTruncated
+        - createdAt
+        - lastExecutedAt
+        - executions
+        - totalElapsedMs
+        - meanElapsedMs
+        - maxElapsedMs
+        - totalCpuMs
+        - meanCpuMs
+        - logicalReads
+        - physicalReads
+        - logicalWrites
+        - rows
+      properties:
+        id:
+          type: string
+        queryHash:
+          type: string
+        database:
+          type: string
+        sql:
+          type: string
+        sqlTruncated:
+          type: boolean
+        createdAt:
+          type: string
+        lastExecutedAt:
+          type: string
+        executions:
+          type: integer
+          format: int64
+        totalElapsedMs:
+          type: number
+          format: double
+        meanElapsedMs:
+          type: number
+          format: double
+        maxElapsedMs:
+          type: number
+          format: double
+        totalCpuMs:
+          type: number
+          format: double
+        meanCpuMs:
+          type: number
+          format: double
+        logicalReads:
+          type: integer
+          format: int64
+        physicalReads:
+          type: integer
+          format: int64
+        logicalWrites:
+          type: integer
+          format: int64
+        rows:
+          type: integer
+          format: int64
+    mssqlSQLAnalysis:
+      type: object
+      required:
+        - capturedAt
+        - source
+        - orderBy
+        - truncated
+        - items
+      properties:
+        capturedAt:
+          type: string
+        source:
+          type: string
+        orderBy:
+          type: string
+        truncated:
+          type: boolean
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/mssqlSQLStatement'
+      description: Completed executions of statements still in the plan cache, accumulated since each statement creation time. Not a time-window history. Time values use milliseconds; read/write counts use 8 KiB pages.
+    mssqlCachedPlan:
+      type: object
+      required:
+        - capturedAt
+        - xml
+        - available
+      properties:
+        capturedAt:
+          type: string
+        xml:
+          type: string
+        available:
+          type: boolean
+      description: Cached compiled plan for the selected live request. No captured SQL is executed. This is not an actual runtime plan.
+    mssqlDatabaseSpace:
+      type: object
+      required:
+        - name
+        - state
+        - accessible
+        - dataBytes
+        - logBytes
+      properties:
+        name:
+          type: string
+        state:
+          type: string
+        accessible:
+          type: boolean
+        dataBytes:
+          type: integer
+          format: int64
+        logBytes:
+          type: integer
+          format: int64
+    mssqlFileSpace:
+      type: object
+      required:
+        - name
+        - type
+        - sizeBytes
+        - maxBytes
+        - growth
+        - percentGrowth
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        sizeBytes:
+          type: integer
+          format: int64
+        usedBytes:
+          type: integer
+          format: int64
+        maxBytes:
+          type: integer
+          format: int64
+          description: '-1 means grow until the volume is full; zero disables growth.'
+        growth:
+          type: integer
+          format: int64
+          description: Percent when percentGrowth is true; otherwise number of 8 KiB pages. Zero disables autogrowth.
+        percentGrowth:
+          type: boolean
+    mssqlTableSpace:
+      type: object
+      required:
+        - schema
+        - name
+        - rows
+        - reservedBytes
+        - usedBytes
+        - indexBytes
+        - unusedBytes
+      properties:
+        schema:
+          type: string
+        name:
+          type: string
+        rows:
+          type: integer
+          format: int64
+        reservedBytes:
+          type: integer
+          format: int64
+        usedBytes:
+          type: integer
+          format: int64
+        indexBytes:
+          type: integer
+          format: int64
+        unusedBytes:
+          type: integer
+          format: int64
+    mssqlSpaceAnalysis:
+      type: object
+      required:
+        - capturedAt
+        - database
+        - databases
+        - files
+        - tables
+        - tablesTruncated
+        - dataBytes
+        - dataUsedBytes
+        - logBytes
+        - logUsedBytes
+        - logReuseWait
+        - recommendations
+      properties:
+        capturedAt:
+          type: string
+        database:
+          type: string
+        databases:
+          type: array
+          items:
+            $ref: '#/components/schemas/mssqlDatabaseSpace'
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/mssqlFileSpace'
+        tables:
+          type: array
+          items:
+            $ref: '#/components/schemas/mssqlTableSpace'
+        tablesTruncated:
+          type: boolean
+        dataBytes:
+          type: integer
+          format: int64
+        dataUsedBytes:
+          type: integer
+          format: int64
+        logBytes:
+          type: integer
+          format: int64
+        logUsedBytes:
+          type: integer
+          format: int64
+        logReuseWait:
+          type: string
+        recommendations:
+          type: array
+          items:
+            type: string
+      description: Current database files and on-disk table allocations. Free pages are reusable inside the database and do not imply immediately reclaimable filesystem bytes. Historical disk usage is provided by the cluster storage usage history API.
     mssqlRequest:
       type: object
       required:
@@ -53533,20 +54080,6 @@ components:
         truncated:
           type: boolean
       description: Bounded live DMV observations. Edges are SQL Server reported blocking identifiers. Collection is not atomic; graph cycles are not historical deadlock evidence.
-    mssqlCachedPlan:
-      type: object
-      required:
-        - capturedAt
-        - xml
-        - available
-      properties:
-        capturedAt:
-          type: string
-        xml:
-          type: string
-        available:
-          type: boolean
-      description: Cached compiled plan for the selected live request. No captured SQL is executed. This is not an actual runtime plan.
     postgresqlSession:
       type: object
       required:

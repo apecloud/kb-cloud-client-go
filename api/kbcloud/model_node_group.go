@@ -12,7 +12,7 @@ import (
 
 // NodeGroup NodeGroup creation info
 type NodeGroup struct {
-	// Unique group name used in the Kubernetes node label.
+	// Unique group name consisting of lowercase letters, digits or hyphens, starting and ending with a letter or digit.
 	Name string `json:"name"`
 	// the description of the node group
 	Description *string `json:"description,omitempty"`

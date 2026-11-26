@@ -37,7 +37,7 @@ type Node struct {
 	Region *string `json:"region,omitempty"`
 	// Deprecated. Value of the legacy node group label, when present. Use nodeGroups for all memberships.
 	NodeGroup *string `json:"nodeGroup,omitempty"`
-	// Groups identified by the node's group labels, sorted by name.
+	// Registered groups whose label matches this node, sorted by name. Empty when querying Kubernetes without a registered environment.
 	NodeGroups []string `json:"nodeGroups,omitempty"`
 	// node is in control plane
 	ControlPlane *bool `json:"controlPlane,omitempty"`

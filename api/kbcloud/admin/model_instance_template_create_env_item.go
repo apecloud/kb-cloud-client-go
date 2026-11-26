@@ -12,7 +12,7 @@ import (
 
 type InstanceTemplateCreateEnvItem struct {
 	Name string `json:"name"`
-	// Plain string value only. valueFrom is not supported.
+	// Literal string; optional values may be empty. valueFrom is unsupported.
 	Value string `json:"value"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
