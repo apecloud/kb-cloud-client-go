@@ -3525,6 +3525,8 @@ paths:
               schema:
                 type: string
           description: Returned when the resource does not exist.
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - storageClass
   /api/v1/organizations/{orgName}/environments/{environmentName}/koordinatorReservations/summary:
