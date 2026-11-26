@@ -29405,6 +29405,36 @@ components:
             $ref: '#/components/schemas/ipPoolProviderList'
       required:
         - providers
+    apelocalCapacityMode:
+      type: string
+      enum:
+        - asIs
+        - multiplier
+        - fixed
+        - unlimited
+      description: CSI capacity policy; unlimited does not represent physical capacity.
+    apelocalCapacityPolicy:
+      description: Resolved apelocal StorageClass capacity policy populated by environment StorageClass list/get endpoints from the cluster HostPathDefinition. Omitted for non-apelocal storage classes, other endpoints, or when unavailable.
+      type: object
+      properties:
+        definitionName:
+          type: string
+          description: Resolved apelocal HostPathDefinition name.
+        backendType:
+          type: string
+          description: apelocal storage backend (HostDir, RawDisk or RawDiskGroup).
+        capacityMode:
+          $ref: '#/components/schemas/apelocalCapacityMode'
+        capacityMultiplier:
+          type: number
+          format: double
+          x-nullable: true
+          description: Capacity multiplier (1.2 means 120 percent).
+        fixedCapacity:
+          type: number
+          format: double
+          x-nullable: true
+          description: Configured fixed capacity per node in GiB.
     storageClassInfo:
       description: StorageClassInfo provides detailed information about a specific storage class.
       properties:
@@ -29489,6 +29519,8 @@ components:
         minSizeGi:
           type: integer
           description: the minimum size of the storage class
+        apelocalCapacityPolicy:
+          $ref: '#/components/schemas/apelocalCapacityPolicy'
       required:
         - name
         - creationTimestamp

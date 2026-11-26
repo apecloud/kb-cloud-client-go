@@ -59,6 +59,8 @@ type StorageClassInfo struct {
 	UpdatedAt common.NullableTime `json:"updatedAt,omitempty"`
 	// the minimum size of the storage class
 	MinSizeGi *int32 `json:"minSizeGi,omitempty"`
+	// Resolved apelocal StorageClass capacity policy populated by environment StorageClass list/get endpoints from the cluster HostPathDefinition. Omitted for non-apelocal storage classes, other endpoints, or when unavailable.
+	ApelocalCapacityPolicy *ApelocalCapacityPolicy `json:"apelocalCapacityPolicy,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -687,6 +689,34 @@ func (o *StorageClassInfo) SetMinSizeGi(v int32) {
 	o.MinSizeGi = &v
 }
 
+// GetApelocalCapacityPolicy returns the ApelocalCapacityPolicy field value if set, zero value otherwise.
+func (o *StorageClassInfo) GetApelocalCapacityPolicy() ApelocalCapacityPolicy {
+	if o == nil || o.ApelocalCapacityPolicy == nil {
+		var ret ApelocalCapacityPolicy
+		return ret
+	}
+	return *o.ApelocalCapacityPolicy
+}
+
+// GetApelocalCapacityPolicyOk returns a tuple with the ApelocalCapacityPolicy field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageClassInfo) GetApelocalCapacityPolicyOk() (*ApelocalCapacityPolicy, bool) {
+	if o == nil || o.ApelocalCapacityPolicy == nil {
+		return nil, false
+	}
+	return o.ApelocalCapacityPolicy, true
+}
+
+// HasApelocalCapacityPolicy returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasApelocalCapacityPolicy() bool {
+	return o != nil && o.ApelocalCapacityPolicy != nil
+}
+
+// SetApelocalCapacityPolicy gets a reference to the given ApelocalCapacityPolicy and assigns it to the ApelocalCapacityPolicy field.
+func (o *StorageClassInfo) SetApelocalCapacityPolicy(v ApelocalCapacityPolicy) {
+	o.ApelocalCapacityPolicy = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageClassInfo) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -732,6 +762,9 @@ func (o StorageClassInfo) MarshalJSON() ([]byte, error) {
 	if o.MinSizeGi != nil {
 		toSerialize["minSizeGi"] = o.MinSizeGi
 	}
+	if o.ApelocalCapacityPolicy != nil {
+		toSerialize["apelocalCapacityPolicy"] = o.ApelocalCapacityPolicy
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -742,29 +775,30 @@ func (o StorageClassInfo) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageClassInfo) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name                 *string             `json:"name"`
-		CreationTimestamp    *string             `json:"creationTimestamp"`
-		Provisioner          *string             `json:"provisioner"`
-		Parameters           map[string]string   `json:"parameters,omitempty"`
-		Labels               map[string]string   `json:"labels,omitempty"`
-		Annotations          map[string]string   `json:"annotations,omitempty"`
-		ReclaimPolicy        *string             `json:"reclaimPolicy"`
-		AllowVolumeExpansion *bool               `json:"allowVolumeExpansion"`
-		VolumeBindingMode    *string             `json:"volumeBindingMode"`
-		PvcCount             *string             `json:"pvcCount"`
-		AllowClone           *bool               `json:"allowClone"`
-		AllowSnapshot        *bool               `json:"allowSnapshot"`
-		IsDefaultClass       *bool               `json:"isDefaultClass"`
-		Type                 *string             `json:"type"`
-		HostPath             *string             `json:"hostPath,omitempty"`
-		MountOptions         []string            `json:"mountOptions,omitempty"`
-		CreatedAt            common.NullableTime `json:"createdAt,omitempty"`
-		Description          *string             `json:"description"`
-		DisplayName          *string             `json:"displayName"`
-		Enabled              *bool               `json:"enabled"`
-		Id                   *string             `json:"id"`
-		UpdatedAt            common.NullableTime `json:"updatedAt,omitempty"`
-		MinSizeGi            *int32              `json:"minSizeGi,omitempty"`
+		Name                   *string                 `json:"name"`
+		CreationTimestamp      *string                 `json:"creationTimestamp"`
+		Provisioner            *string                 `json:"provisioner"`
+		Parameters             map[string]string       `json:"parameters,omitempty"`
+		Labels                 map[string]string       `json:"labels,omitempty"`
+		Annotations            map[string]string       `json:"annotations,omitempty"`
+		ReclaimPolicy          *string                 `json:"reclaimPolicy"`
+		AllowVolumeExpansion   *bool                   `json:"allowVolumeExpansion"`
+		VolumeBindingMode      *string                 `json:"volumeBindingMode"`
+		PvcCount               *string                 `json:"pvcCount"`
+		AllowClone             *bool                   `json:"allowClone"`
+		AllowSnapshot          *bool                   `json:"allowSnapshot"`
+		IsDefaultClass         *bool                   `json:"isDefaultClass"`
+		Type                   *string                 `json:"type"`
+		HostPath               *string                 `json:"hostPath,omitempty"`
+		MountOptions           []string                `json:"mountOptions,omitempty"`
+		CreatedAt              common.NullableTime     `json:"createdAt,omitempty"`
+		Description            *string                 `json:"description"`
+		DisplayName            *string                 `json:"displayName"`
+		Enabled                *bool                   `json:"enabled"`
+		Id                     *string                 `json:"id"`
+		UpdatedAt              common.NullableTime     `json:"updatedAt,omitempty"`
+		MinSizeGi              *int32                  `json:"minSizeGi,omitempty"`
+		ApelocalCapacityPolicy *ApelocalCapacityPolicy `json:"apelocalCapacityPolicy,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -816,10 +850,12 @@ func (o *StorageClassInfo) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "creationTimestamp", "provisioner", "parameters", "labels", "annotations", "reclaimPolicy", "allowVolumeExpansion", "volumeBindingMode", "pvcCount", "allowClone", "allowSnapshot", "isDefaultClass", "type", "hostPath", "mountOptions", "createdAt", "description", "displayName", "enabled", "id", "updatedAt", "minSizeGi"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "creationTimestamp", "provisioner", "parameters", "labels", "annotations", "reclaimPolicy", "allowVolumeExpansion", "volumeBindingMode", "pvcCount", "allowClone", "allowSnapshot", "isDefaultClass", "type", "hostPath", "mountOptions", "createdAt", "description", "displayName", "enabled", "id", "updatedAt", "minSizeGi", "apelocalCapacityPolicy"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Name = *all.Name
 	o.CreationTimestamp = *all.CreationTimestamp
 	o.Provisioner = *all.Provisioner
@@ -843,9 +879,17 @@ func (o *StorageClassInfo) UnmarshalJSON(bytes []byte) (err error) {
 	o.Id = *all.Id
 	o.UpdatedAt = all.UpdatedAt
 	o.MinSizeGi = all.MinSizeGi
+	if all.ApelocalCapacityPolicy != nil && all.ApelocalCapacityPolicy.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ApelocalCapacityPolicy = all.ApelocalCapacityPolicy
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
