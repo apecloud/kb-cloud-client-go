@@ -27,6 +27,8 @@ type OpsExpose struct {
 	LoadBalancerIpPoolId common.NullableString `json:"loadBalancerIPPoolID,omitempty"`
 	// The custom domain for accessing the cluster. If not set, the default domain will be used. Max 253 characters in total (1-63 characters per segment), allowing only lowercase letters, numbers, and hyphens (-); each segment must start and end with a letter or number.
 	Domain common.NullableString `json:"domain,omitempty"`
+	// Specifies the external traffic policy for the exposed LoadBalancer or NodePort service.
+	ExternalTrafficPolicy *OpsExposeExternalTrafficPolicy `json:"externalTrafficPolicy,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -326,6 +328,34 @@ func (o *OpsExpose) UnsetDomain() {
 	o.Domain.Unset()
 }
 
+// GetExternalTrafficPolicy returns the ExternalTrafficPolicy field value if set, zero value otherwise.
+func (o *OpsExpose) GetExternalTrafficPolicy() OpsExposeExternalTrafficPolicy {
+	if o == nil || o.ExternalTrafficPolicy == nil {
+		var ret OpsExposeExternalTrafficPolicy
+		return ret
+	}
+	return *o.ExternalTrafficPolicy
+}
+
+// GetExternalTrafficPolicyOk returns a tuple with the ExternalTrafficPolicy field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OpsExpose) GetExternalTrafficPolicyOk() (*OpsExposeExternalTrafficPolicy, bool) {
+	if o == nil || o.ExternalTrafficPolicy == nil {
+		return nil, false
+	}
+	return o.ExternalTrafficPolicy, true
+}
+
+// HasExternalTrafficPolicy returns a boolean if a field has been set.
+func (o *OpsExpose) HasExternalTrafficPolicy() bool {
+	return o != nil && o.ExternalTrafficPolicy != nil
+}
+
+// SetExternalTrafficPolicy gets a reference to the given OpsExposeExternalTrafficPolicy and assigns it to the ExternalTrafficPolicy field.
+func (o *OpsExpose) SetExternalTrafficPolicy(v OpsExposeExternalTrafficPolicy) {
+	o.ExternalTrafficPolicy = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsExpose) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -353,6 +383,9 @@ func (o OpsExpose) MarshalJSON() ([]byte, error) {
 	if o.Domain.IsSet() {
 		toSerialize["domain"] = o.Domain.Get()
 	}
+	if o.ExternalTrafficPolicy != nil {
+		toSerialize["externalTrafficPolicy"] = o.ExternalTrafficPolicy
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -363,15 +396,16 @@ func (o OpsExpose) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component            *string                     `json:"component"`
-		Enable               *bool                       `json:"enable"`
-		Readonly             *bool                       `json:"readonly,omitempty"`
-		Type                 *OpsExposeType              `json:"type"`
-		VpcServiceType       *OpsExposeVPCServiceType    `json:"vpcServiceType,omitempty"`
-		PortsMapping         []OpsExposePortsMappingItem `json:"portsMapping,omitempty"`
-		LoadBalancerIp       common.NullableString       `json:"loadBalancerIP,omitempty"`
-		LoadBalancerIpPoolId common.NullableString       `json:"loadBalancerIPPoolID,omitempty"`
-		Domain               common.NullableString       `json:"domain,omitempty"`
+		Component             *string                         `json:"component"`
+		Enable                *bool                           `json:"enable"`
+		Readonly              *bool                           `json:"readonly,omitempty"`
+		Type                  *OpsExposeType                  `json:"type"`
+		VpcServiceType        *OpsExposeVPCServiceType        `json:"vpcServiceType,omitempty"`
+		PortsMapping          []OpsExposePortsMappingItem     `json:"portsMapping,omitempty"`
+		LoadBalancerIp        common.NullableString           `json:"loadBalancerIP,omitempty"`
+		LoadBalancerIpPoolId  common.NullableString           `json:"loadBalancerIPPoolID,omitempty"`
+		Domain                common.NullableString           `json:"domain,omitempty"`
+		ExternalTrafficPolicy *OpsExposeExternalTrafficPolicy `json:"externalTrafficPolicy,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -387,7 +421,7 @@ func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "enable", "readonly", "type", "vpcServiceType", "portsMapping", "loadBalancerIP", "loadBalancerIPPoolID", "domain"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "enable", "readonly", "type", "vpcServiceType", "portsMapping", "loadBalancerIP", "loadBalancerIPPoolID", "domain", "externalTrafficPolicy"})
 	} else {
 		return err
 	}
@@ -410,6 +444,11 @@ func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 	o.LoadBalancerIp = all.LoadBalancerIp
 	o.LoadBalancerIpPoolId = all.LoadBalancerIpPoolId
 	o.Domain = all.Domain
+	if all.ExternalTrafficPolicy != nil && !all.ExternalTrafficPolicy.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.ExternalTrafficPolicy = all.ExternalTrafficPolicy
+	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

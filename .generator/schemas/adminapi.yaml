@@ -41435,6 +41435,12 @@ components:
         - NodePort
       type: string
       default: LoadBalancer
+    opsExposeExternalTrafficPolicy:
+      description: Specifies the external traffic policy for the exposed LoadBalancer or NodePort service.
+      enum:
+        - Local
+        - Cluster
+      type: string
     opsExpose:
       description: OpsExpose is the payload to expose a KubeBlocks cluster
       properties:
@@ -41474,6 +41480,9 @@ components:
           nullable: true
           maxLength: 253
           pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
+        externalTrafficPolicy:
+          description: The external traffic policy for the exposed LoadBalancer or NodePort service. If not set, the platform parameter external_traffic_policy is used. Repeating an expose operation with a different value updates the existing service in place.
+          $ref: '#/components/schemas/opsExposeExternalTrafficPolicy'
       required:
         - enable
         - type
