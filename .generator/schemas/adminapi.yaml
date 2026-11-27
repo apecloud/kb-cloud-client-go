@@ -12237,6 +12237,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/opsRequestName'
           description: Accepted
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -41505,15 +41507,36 @@ components:
         - name
         - value
     opsCustom:
-      description: OpsCustom is the payload to create a custom KubeBlocks OpsRequest
+      description: Create a custom KubeBlocks OpsRequest. Specify exactly one of compName and compNames. Switchover requires a single component.
       required:
         - opsType
-        - compName
+      anyOf:
+        - required:
+            - compName
+          not:
+            required:
+              - compNames
+        - required:
+            - compNames
+          not:
+            required:
+              - compName
       properties:
         compName:
           description: component name
           type: string
           minLength: 1
+          x-nullable: true
+        compNames:
+          description: Component names for a single OpsRequest. Mutually exclusive with compName. All components share the same params.
+          type: array
+          x-omitempty: true
+          minItems: 1
+          maxItems: 1024
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
         opsType:
           description: ops definition name.
           type: string
