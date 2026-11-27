@@ -31105,7 +31105,7 @@ components:
           description: Name of cluster. Name must be unique within an Org
         useNameAsKubernetesName:
           type: boolean
-          description: Use name verbatim as the Kubernetes Cluster name when enabled by the platform.
+          description: Use name (4 to 16 characters) as the Kubernetes Cluster name when enabled. The name is reserved platform-wide for this cluster, including after deletion.
         engine:
           title: Engine
           type: string

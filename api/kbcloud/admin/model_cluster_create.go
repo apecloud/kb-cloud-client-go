@@ -24,7 +24,7 @@ type ClusterCreate struct {
 	Project *string `json:"project,omitempty"`
 	// Name of cluster. Name must be unique within an Org
 	Name string `json:"name"`
-	// Use name verbatim as the Kubernetes Cluster name when enabled by the platform.
+	// Use name (4 to 16 characters) as the Kubernetes Cluster name when enabled. The name is reserved platform-wide for this cluster, including after deletion.
 	UseNameAsKubernetesName *bool `json:"useNameAsKubernetesName,omitempty"`
 	// Cluster Application Engine
 	Engine  string          `json:"engine"`
