@@ -48097,7 +48097,7 @@ components:
             declares how the value is interpreted and validated.
         constraints:
           type: object
-          description: platformParameter constraints including min, max, enum, default value and unit
+          description: platformParameter constraints including min, max, enum, default value
           properties:
             min:
               type: string
@@ -48113,9 +48113,6 @@ components:
             default:
               type: string
               description: platformParameter default value
-            unit:
-              type: string
-              description: display unit of the value (e.g. second, minute, hour, day, month), informational only
         value:
           type: string
           description: platformParameter value

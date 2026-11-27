@@ -23,7 +23,7 @@ type PlatformParameter struct {
 	// declares how the value is interpreted and validated.
 	//
 	Type string `json:"type"`
-	// platformParameter constraints including min, max, enum, default value and unit
+	// platformParameter constraints including min, max, enum, default value
 	Constraints PlatformParameterConstraints `json:"constraints"`
 	// platformParameter value
 	Value       *string              `json:"value,omitempty"`
