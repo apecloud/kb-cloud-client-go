@@ -18,18 +18,15 @@ type PlatformParameter struct {
 	Name string `json:"name"`
 	// platformParameter category, representing the platformParameter group
 	Category string `json:"category"`
-	// type of platformParameter value. Values are always transferred as strings;
-	// the type declares how the value must be interpreted and validated:
-	// - string: free-form text, may be constrained by enum
-	// - int: base-10 integer, may be constrained by min/max
-	// - boolean: only "true" or "false"
-	// - json: a JSON object, editable as structured text
+	// type of platformParameter value, by convention one of string, int,
+	// boolean or json. Values are always transferred as strings; the type
+	// declares how the value is interpreted and validated.
 	//
-	Type PlatformParameterType `json:"type"`
+	Type string `json:"type"`
 	// platformParameter constraints including min, max, enum, default value and unit
 	Constraints PlatformParameterConstraints `json:"constraints"`
 	// platformParameter value
-	Value       string               `json:"value"`
+	Value       *string              `json:"value,omitempty"`
 	Description LocalizedDescription `json:"description"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -40,14 +37,13 @@ type PlatformParameter struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPlatformParameter(id string, name string, category string, typeVar PlatformParameterType, constraints PlatformParameterConstraints, value string, description LocalizedDescription) *PlatformParameter {
+func NewPlatformParameter(id string, name string, category string, typeVar string, constraints PlatformParameterConstraints, description LocalizedDescription) *PlatformParameter {
 	this := PlatformParameter{}
 	this.Id = id
 	this.Name = name
 	this.Category = category
 	this.Type = typeVar
 	this.Constraints = constraints
-	this.Value = value
 	this.Description = description
 	return &this
 }
@@ -130,9 +126,9 @@ func (o *PlatformParameter) SetCategory(v string) {
 }
 
 // GetType returns the Type field value.
-func (o *PlatformParameter) GetType() PlatformParameterType {
+func (o *PlatformParameter) GetType() string {
 	if o == nil {
-		var ret PlatformParameterType
+		var ret string
 		return ret
 	}
 	return o.Type
@@ -140,7 +136,7 @@ func (o *PlatformParameter) GetType() PlatformParameterType {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *PlatformParameter) GetTypeOk() (*PlatformParameterType, bool) {
+func (o *PlatformParameter) GetTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -148,7 +144,7 @@ func (o *PlatformParameter) GetTypeOk() (*PlatformParameterType, bool) {
 }
 
 // SetType sets field value.
-func (o *PlatformParameter) SetType(v PlatformParameterType) {
+func (o *PlatformParameter) SetType(v string) {
 	o.Type = v
 }
 
@@ -175,27 +171,32 @@ func (o *PlatformParameter) SetConstraints(v PlatformParameterConstraints) {
 	o.Constraints = v
 }
 
-// GetValue returns the Value field value.
+// GetValue returns the Value field value if set, zero value otherwise.
 func (o *PlatformParameter) GetValue() string {
-	if o == nil {
+	if o == nil || o.Value == nil {
 		var ret string
 		return ret
 	}
-	return o.Value
+	return *o.Value
 }
 
-// GetValueOk returns a tuple with the Value field value
+// GetValueOk returns a tuple with the Value field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *PlatformParameter) GetValueOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Value == nil {
 		return nil, false
 	}
-	return &o.Value, true
+	return o.Value, true
 }
 
-// SetValue sets field value.
+// HasValue returns a boolean if a field has been set.
+func (o *PlatformParameter) HasValue() bool {
+	return o != nil && o.Value != nil
+}
+
+// SetValue gets a reference to the given string and assigns it to the Value field.
 func (o *PlatformParameter) SetValue(v string) {
-	o.Value = v
+	o.Value = &v
 }
 
 // GetDescription returns the Description field value.
@@ -232,7 +233,9 @@ func (o PlatformParameter) MarshalJSON() ([]byte, error) {
 	toSerialize["category"] = o.Category
 	toSerialize["type"] = o.Type
 	toSerialize["constraints"] = o.Constraints
-	toSerialize["value"] = o.Value
+	if o.Value != nil {
+		toSerialize["value"] = o.Value
+	}
 	toSerialize["description"] = o.Description
 
 	for key, value := range o.AdditionalProperties {
@@ -247,9 +250,9 @@ func (o *PlatformParameter) UnmarshalJSON(bytes []byte) (err error) {
 		Id          *string                       `json:"id"`
 		Name        *string                       `json:"name"`
 		Category    *string                       `json:"category"`
-		Type        *PlatformParameterType        `json:"type"`
+		Type        *string                       `json:"type"`
 		Constraints *PlatformParameterConstraints `json:"constraints"`
-		Value       *string                       `json:"value"`
+		Value       *string                       `json:"value,omitempty"`
 		Description *LocalizedDescription         `json:"description"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -270,9 +273,6 @@ func (o *PlatformParameter) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Constraints == nil {
 		return fmt.Errorf("required field constraints missing")
 	}
-	if all.Value == nil {
-		return fmt.Errorf("required field value missing")
-	}
 	if all.Description == nil {
 		return fmt.Errorf("required field description missing")
 	}
@@ -287,16 +287,12 @@ func (o *PlatformParameter) UnmarshalJSON(bytes []byte) (err error) {
 	o.Id = *all.Id
 	o.Name = *all.Name
 	o.Category = *all.Category
-	if !all.Type.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Type = *all.Type
-	}
+	o.Type = *all.Type
 	if all.Constraints.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Constraints = *all.Constraints
-	o.Value = *all.Value
+	o.Value = all.Value
 	if all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

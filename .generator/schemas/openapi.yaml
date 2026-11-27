@@ -48070,20 +48070,6 @@ components:
     platformParameterCategory:
       type: string
       description: platformParameter category, representing the platformParameter group
-    platformParameterType:
-      type: string
-      description: |
-        type of platformParameter value. Values are always transferred as strings;
-        the type declares how the value must be interpreted and validated:
-        - string: free-form text, may be constrained by enum
-        - int: base-10 integer, may be constrained by min/max
-        - boolean: only "true" or "false"
-        - json: a JSON object, editable as structured text
-      enum:
-        - string
-        - int
-        - boolean
-        - json
     platformParameter:
       description: platformParameter item
       type: object
@@ -48094,7 +48080,6 @@ components:
         - description
         - constraints
         - type
-        - value
       properties:
         id:
           type: string
@@ -48105,7 +48090,11 @@ components:
         category:
           $ref: '#/components/schemas/platformParameterCategory'
         type:
-          $ref: '#/components/schemas/platformParameterType'
+          type: string
+          description: |
+            type of platformParameter value, by convention one of string, int,
+            boolean or json. Values are always transferred as strings; the type
+            declares how the value is interpreted and validated.
         constraints:
           type: object
           description: platformParameter constraints including min, max, enum, default value and unit
