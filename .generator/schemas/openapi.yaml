@@ -11395,6 +11395,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/paramTplListItem'
           description: OK
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -38544,7 +38546,10 @@ components:
       description: paramTplUpdate is the payload to update a parameter template
       properties:
         specName:
-          description: Specify parameters belongs to which spec. Currently, only one configuration file corresponds to a specName, so the configuration file name is omitted.
+          description: The configuration spec that contains the file to update.
+          type: string
+        fileName:
+          description: The configuration file to update. Required when modifying the content of a spec that contains multiple files.
           type: string
         parameters:
           additionalProperties:

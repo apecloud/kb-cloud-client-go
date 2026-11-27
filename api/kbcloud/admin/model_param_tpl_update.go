@@ -8,8 +8,10 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ParamTplUpdate paramTplUpdate is the payload to update a parameter template
 type ParamTplUpdate struct {
-	// Specify parameters belongs to which spec. Currently, only one configuration file corresponds to a specName, so the configuration file name is omitted.
+	// The configuration spec that contains the file to update.
 	SpecName *string `json:"specName,omitempty"`
+	// The configuration file to update. Required when modifying the content of a spec that contains multiple files.
+	FileName *string `json:"fileName,omitempty"`
 	// Specify parameters list to be updated
 	Parameters map[string]string `json:"parameters,omitempty"`
 	// Specify parameters list to be removed from the template
@@ -68,6 +70,34 @@ func (o *ParamTplUpdate) HasSpecName() bool {
 // SetSpecName gets a reference to the given string and assigns it to the SpecName field.
 func (o *ParamTplUpdate) SetSpecName(v string) {
 	o.SpecName = &v
+}
+
+// GetFileName returns the FileName field value if set, zero value otherwise.
+func (o *ParamTplUpdate) GetFileName() string {
+	if o == nil || o.FileName == nil {
+		var ret string
+		return ret
+	}
+	return *o.FileName
+}
+
+// GetFileNameOk returns a tuple with the FileName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParamTplUpdate) GetFileNameOk() (*string, bool) {
+	if o == nil || o.FileName == nil {
+		return nil, false
+	}
+	return o.FileName, true
+}
+
+// HasFileName returns a boolean if a field has been set.
+func (o *ParamTplUpdate) HasFileName() bool {
+	return o != nil && o.FileName != nil
+}
+
+// SetFileName gets a reference to the given string and assigns it to the FileName field.
+func (o *ParamTplUpdate) SetFileName(v string) {
+	o.FileName = &v
 }
 
 // GetParameters returns the Parameters field value if set, zero value otherwise.
@@ -219,6 +249,9 @@ func (o ParamTplUpdate) MarshalJSON() ([]byte, error) {
 	if o.SpecName != nil {
 		toSerialize["specName"] = o.SpecName
 	}
+	if o.FileName != nil {
+		toSerialize["fileName"] = o.FileName
+	}
 	if o.Parameters != nil {
 		toSerialize["parameters"] = o.Parameters
 	}
@@ -245,6 +278,7 @@ func (o ParamTplUpdate) MarshalJSON() ([]byte, error) {
 func (o *ParamTplUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		SpecName           *string           `json:"specName,omitempty"`
+		FileName           *string           `json:"fileName,omitempty"`
 		Parameters         map[string]string `json:"parameters,omitempty"`
 		ParametersToRemove []string          `json:"parametersToRemove,omitempty"`
 		NewParamTplName    *string           `json:"newParamTplName,omitempty"`
@@ -256,11 +290,12 @@ func (o *ParamTplUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"specName", "parameters", "parametersToRemove", "newParamTplName", "description", "rawContent"})
+		common.DeleteKeys(additionalProperties, &[]string{"specName", "fileName", "parameters", "parametersToRemove", "newParamTplName", "description", "rawContent"})
 	} else {
 		return err
 	}
 	o.SpecName = all.SpecName
+	o.FileName = all.FileName
 	o.Parameters = all.Parameters
 	o.ParametersToRemove = all.ParametersToRemove
 	o.NewParamTplName = all.NewParamTplName
