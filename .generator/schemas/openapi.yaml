@@ -42663,7 +42663,10 @@ components:
           $ref: '#/components/schemas/platformParameterCategory'
         type:
           type: string
-          description: type of platformParameter value
+          description: |
+            type of platformParameter value, by convention one of string, int,
+            boolean or json. Values are always transferred as strings; the type
+            declares how the value is interpreted and validated.
         constraints:
           type: object
           description: platformParameter constraints including min, max, enum, default value
