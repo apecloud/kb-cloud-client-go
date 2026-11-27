@@ -27,8 +27,8 @@ type OpsExpose struct {
 	LoadBalancerIpPoolId common.NullableString `json:"loadBalancerIPPoolID,omitempty"`
 	// The custom domain for accessing the cluster. If not set, the default domain will be used. Max 253 characters in total (1-63 characters per segment), allowing only lowercase letters, numbers, and hyphens (-); each segment must start and end with a letter or number.
 	Domain common.NullableString `json:"domain,omitempty"`
-	// Specifies the external traffic policy for the exposed LoadBalancer or NodePort service.
-	ExternalTrafficPolicy *OpsExposeExternalTrafficPolicy `json:"externalTrafficPolicy,omitempty"`
+	// Updates existing LoadBalancer or NodePort exposure endpoints on KubeBlocks 1.0. At least one matching endpoint must already exist. Omit when creating an exposure, which uses the platform parameter external_traffic_policy. Existing endpoints keep their policy when this field is omitted.
+	ExternalTrafficPolicy NullableOpsExposeExternalTrafficPolicy `json:"externalTrafficPolicy,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -328,32 +328,43 @@ func (o *OpsExpose) UnsetDomain() {
 	o.Domain.Unset()
 }
 
-// GetExternalTrafficPolicy returns the ExternalTrafficPolicy field value if set, zero value otherwise.
+// GetExternalTrafficPolicy returns the ExternalTrafficPolicy field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *OpsExpose) GetExternalTrafficPolicy() OpsExposeExternalTrafficPolicy {
-	if o == nil || o.ExternalTrafficPolicy == nil {
+	if o == nil || o.ExternalTrafficPolicy.Get() == nil {
 		var ret OpsExposeExternalTrafficPolicy
 		return ret
 	}
-	return *o.ExternalTrafficPolicy
+	return *o.ExternalTrafficPolicy.Get()
 }
 
 // GetExternalTrafficPolicyOk returns a tuple with the ExternalTrafficPolicy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *OpsExpose) GetExternalTrafficPolicyOk() (*OpsExposeExternalTrafficPolicy, bool) {
-	if o == nil || o.ExternalTrafficPolicy == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.ExternalTrafficPolicy, true
+	return o.ExternalTrafficPolicy.Get(), o.ExternalTrafficPolicy.IsSet()
 }
 
 // HasExternalTrafficPolicy returns a boolean if a field has been set.
 func (o *OpsExpose) HasExternalTrafficPolicy() bool {
-	return o != nil && o.ExternalTrafficPolicy != nil
+	return o != nil && o.ExternalTrafficPolicy.IsSet()
 }
 
-// SetExternalTrafficPolicy gets a reference to the given OpsExposeExternalTrafficPolicy and assigns it to the ExternalTrafficPolicy field.
+// SetExternalTrafficPolicy gets a reference to the given NullableOpsExposeExternalTrafficPolicy and assigns it to the ExternalTrafficPolicy field.
 func (o *OpsExpose) SetExternalTrafficPolicy(v OpsExposeExternalTrafficPolicy) {
-	o.ExternalTrafficPolicy = &v
+	o.ExternalTrafficPolicy.Set(&v)
+}
+
+// SetExternalTrafficPolicyNil sets the value for ExternalTrafficPolicy to be an explicit nil.
+func (o *OpsExpose) SetExternalTrafficPolicyNil() {
+	o.ExternalTrafficPolicy.Set(nil)
+}
+
+// UnsetExternalTrafficPolicy ensures that no value is present for ExternalTrafficPolicy, not even an explicit nil.
+func (o *OpsExpose) UnsetExternalTrafficPolicy() {
+	o.ExternalTrafficPolicy.Unset()
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -383,8 +394,8 @@ func (o OpsExpose) MarshalJSON() ([]byte, error) {
 	if o.Domain.IsSet() {
 		toSerialize["domain"] = o.Domain.Get()
 	}
-	if o.ExternalTrafficPolicy != nil {
-		toSerialize["externalTrafficPolicy"] = o.ExternalTrafficPolicy
+	if o.ExternalTrafficPolicy.IsSet() {
+		toSerialize["externalTrafficPolicy"] = o.ExternalTrafficPolicy.Get()
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -396,16 +407,16 @@ func (o OpsExpose) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component             *string                         `json:"component"`
-		Enable                *bool                           `json:"enable"`
-		Readonly              *bool                           `json:"readonly,omitempty"`
-		Type                  *OpsExposeType                  `json:"type"`
-		VpcServiceType        *OpsExposeVPCServiceType        `json:"vpcServiceType,omitempty"`
-		PortsMapping          []OpsExposePortsMappingItem     `json:"portsMapping,omitempty"`
-		LoadBalancerIp        common.NullableString           `json:"loadBalancerIP,omitempty"`
-		LoadBalancerIpPoolId  common.NullableString           `json:"loadBalancerIPPoolID,omitempty"`
-		Domain                common.NullableString           `json:"domain,omitempty"`
-		ExternalTrafficPolicy *OpsExposeExternalTrafficPolicy `json:"externalTrafficPolicy,omitempty"`
+		Component             *string                                `json:"component"`
+		Enable                *bool                                  `json:"enable"`
+		Readonly              *bool                                  `json:"readonly,omitempty"`
+		Type                  *OpsExposeType                         `json:"type"`
+		VpcServiceType        *OpsExposeVPCServiceType               `json:"vpcServiceType,omitempty"`
+		PortsMapping          []OpsExposePortsMappingItem            `json:"portsMapping,omitempty"`
+		LoadBalancerIp        common.NullableString                  `json:"loadBalancerIP,omitempty"`
+		LoadBalancerIpPoolId  common.NullableString                  `json:"loadBalancerIPPoolID,omitempty"`
+		Domain                common.NullableString                  `json:"domain,omitempty"`
+		ExternalTrafficPolicy NullableOpsExposeExternalTrafficPolicy `json:"externalTrafficPolicy,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -444,7 +455,7 @@ func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 	o.LoadBalancerIp = all.LoadBalancerIp
 	o.LoadBalancerIpPoolId = all.LoadBalancerIpPoolId
 	o.Domain = all.Domain
-	if all.ExternalTrafficPolicy != nil && !all.ExternalTrafficPolicy.IsValid() {
+	if all.ExternalTrafficPolicy.Get() != nil && !all.ExternalTrafficPolicy.Get().IsValid() {
 		hasInvalidField = true
 	} else {
 		o.ExternalTrafficPolicy = all.ExternalTrafficPolicy

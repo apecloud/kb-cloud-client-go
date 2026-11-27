@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// OpsExposeExternalTrafficPolicy Specifies the external traffic policy for the exposed LoadBalancer or NodePort service.
+// OpsExposeExternalTrafficPolicy Updates existing LoadBalancer or NodePort exposure endpoints on KubeBlocks 1.0. At least one matching endpoint must already exist. Omit when creating an exposure, which uses the platform parameter external_traffic_policy. Existing endpoints keep their policy when this field is omitted.
 type OpsExposeExternalTrafficPolicy string
 
 // List of OpsExposeExternalTrafficPolicy.
@@ -63,4 +63,48 @@ func (v OpsExposeExternalTrafficPolicy) IsValid() bool {
 // Ptr returns reference to OpsExposeExternalTrafficPolicy value.
 func (v OpsExposeExternalTrafficPolicy) Ptr() *OpsExposeExternalTrafficPolicy {
 	return &v
+}
+
+// NullableOpsExposeExternalTrafficPolicy handles when a null is used for OpsExposeExternalTrafficPolicy.
+type NullableOpsExposeExternalTrafficPolicy struct {
+	value *OpsExposeExternalTrafficPolicy
+	isSet bool
+}
+
+// Get returns the associated value.
+func (v NullableOpsExposeExternalTrafficPolicy) Get() *OpsExposeExternalTrafficPolicy {
+	return v.value
+}
+
+// Set changes the value and indicates it's been called.
+func (v *NullableOpsExposeExternalTrafficPolicy) Set(val *OpsExposeExternalTrafficPolicy) {
+	v.value = val
+	v.isSet = true
+}
+
+// IsSet returns whether Set has been called.
+func (v NullableOpsExposeExternalTrafficPolicy) IsSet() bool {
+	return v.isSet
+}
+
+// Unset sets the value to nil and resets the set flag.
+func (v *NullableOpsExposeExternalTrafficPolicy) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+// NewNullableOpsExposeExternalTrafficPolicy initializes the struct as if Set has been called.
+func NewNullableOpsExposeExternalTrafficPolicy(val *OpsExposeExternalTrafficPolicy) *NullableOpsExposeExternalTrafficPolicy {
+	return &NullableOpsExposeExternalTrafficPolicy{value: val, isSet: true}
+}
+
+// MarshalJSON serializes the associated value.
+func (v NullableOpsExposeExternalTrafficPolicy) MarshalJSON() ([]byte, error) {
+	return common.Marshal(v.value)
+}
+
+// UnmarshalJSON deserializes the payload and sets the flag as if Set has been called.
+func (v *NullableOpsExposeExternalTrafficPolicy) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return common.Unmarshal(src, &v.value)
 }
