@@ -24,6 +24,8 @@ type ClusterCreate struct {
 	Project *string `json:"project,omitempty"`
 	// Name of cluster. Name must be unique within an Org
 	Name string `json:"name"`
+	// Use name verbatim as the Kubernetes Cluster name when enabled by the platform.
+	UseNameAsKubernetesName *bool `json:"useNameAsKubernetesName,omitempty"`
 	// Cluster Application Engine
 	Engine  string          `json:"engine"`
 	License *ClusterLicense `json:"license,omitempty"`
@@ -293,6 +295,34 @@ func (o *ClusterCreate) GetNameOk() (*string, bool) {
 // SetName sets field value.
 func (o *ClusterCreate) SetName(v string) {
 	o.Name = v
+}
+
+// GetUseNameAsKubernetesName returns the UseNameAsKubernetesName field value if set, zero value otherwise.
+func (o *ClusterCreate) GetUseNameAsKubernetesName() bool {
+	if o == nil || o.UseNameAsKubernetesName == nil {
+		var ret bool
+		return ret
+	}
+	return *o.UseNameAsKubernetesName
+}
+
+// GetUseNameAsKubernetesNameOk returns a tuple with the UseNameAsKubernetesName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterCreate) GetUseNameAsKubernetesNameOk() (*bool, bool) {
+	if o == nil || o.UseNameAsKubernetesName == nil {
+		return nil, false
+	}
+	return o.UseNameAsKubernetesName, true
+}
+
+// HasUseNameAsKubernetesName returns a boolean if a field has been set.
+func (o *ClusterCreate) HasUseNameAsKubernetesName() bool {
+	return o != nil && o.UseNameAsKubernetesName != nil
+}
+
+// SetUseNameAsKubernetesName gets a reference to the given bool and assigns it to the UseNameAsKubernetesName field.
+func (o *ClusterCreate) SetUseNameAsKubernetesName(v bool) {
+	o.UseNameAsKubernetesName = &v
 }
 
 // GetEngine returns the Engine field value.
@@ -979,6 +1009,9 @@ func (o ClusterCreate) MarshalJSON() ([]byte, error) {
 		toSerialize["project"] = o.Project
 	}
 	toSerialize["name"] = o.Name
+	if o.UseNameAsKubernetesName != nil {
+		toSerialize["useNameAsKubernetesName"] = o.UseNameAsKubernetesName
+	}
 	toSerialize["engine"] = o.Engine
 	if o.License != nil {
 		toSerialize["license"] = o.License
@@ -1062,6 +1095,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 		EnvironmentName          *string                              `json:"environmentName"`
 		Project                  *string                              `json:"project,omitempty"`
 		Name                     *string                              `json:"name"`
+		UseNameAsKubernetesName  *bool                                `json:"useNameAsKubernetesName,omitempty"`
 		Engine                   *string                              `json:"engine"`
 		License                  *ClusterLicense                      `json:"license,omitempty"`
 		ParamTpls                []ParamTplsItem                      `json:"paramTpls,omitempty"`
@@ -1100,7 +1134,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"parentId", "clusterType", "orgName", "environmentName", "project", "name", "engine", "license", "paramTpls", "version", "terminationPolicy", "mode", "components", "extra", "initOptions", "singleZone", "availabilityZones", "backup", "nodeGroup", "displayName", "static", "networkMode", "vipPoolName", "serviceRefs", "objectStorageConfig", "maintainceWindow", "schedulingPolicy", "schedulerName", "reservationResourceClass"})
+		common.DeleteKeys(additionalProperties, &[]string{"parentId", "clusterType", "orgName", "environmentName", "project", "name", "useNameAsKubernetesName", "engine", "license", "paramTpls", "version", "terminationPolicy", "mode", "components", "extra", "initOptions", "singleZone", "availabilityZones", "backup", "nodeGroup", "displayName", "static", "networkMode", "vipPoolName", "serviceRefs", "objectStorageConfig", "maintainceWindow", "schedulingPolicy", "schedulerName", "reservationResourceClass"})
 	} else {
 		return err
 	}
@@ -1116,6 +1150,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.EnvironmentName = *all.EnvironmentName
 	o.Project = all.Project
 	o.Name = *all.Name
+	o.UseNameAsKubernetesName = all.UseNameAsKubernetesName
 	o.Engine = *all.Engine
 	if all.License != nil && all.License.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true

@@ -35849,6 +35849,9 @@ components:
           title: Name
           type: string
           description: Name of cluster. Name must be unique within an Org
+        useNameAsKubernetesName:
+          type: boolean
+          description: Use name verbatim as the Kubernetes Cluster name when enabled by the platform.
         engine:
           title: Engine
           type: string
