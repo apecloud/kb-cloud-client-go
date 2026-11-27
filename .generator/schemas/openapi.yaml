@@ -7264,8 +7264,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/409'
       tags:
         - opsrequest
         - shared
@@ -33078,9 +33076,20 @@ components:
         - name
         - value
     opsCustom:
-      description: OpsCustom is the payload to create a custom KubeBlocks OpsRequest
+      description: Create a custom KubeBlocks OpsRequest. Specify exactly one of compName and compNames. Switchover requires a single component.
       required:
         - opsType
+      anyOf:
+        - required:
+            - compName
+          not:
+            required:
+              - compNames
+        - required:
+            - compNames
+          not:
+            required:
+              - compName
       properties:
         compName:
           description: component name
@@ -33092,6 +33101,7 @@ components:
           type: array
           x-omitempty: true
           minItems: 1
+          maxItems: 1024
           uniqueItems: true
           items:
             type: string

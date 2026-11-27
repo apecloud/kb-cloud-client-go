@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// OpsCustom OpsCustom is the payload to create a custom KubeBlocks OpsRequest
+// OpsCustom Create a custom KubeBlocks OpsRequest. Specify exactly one of compName and compNames. Switchover requires a single component.
 type OpsCustom struct {
 	// component name
 	CompName *string `json:"compName,omitempty"`
