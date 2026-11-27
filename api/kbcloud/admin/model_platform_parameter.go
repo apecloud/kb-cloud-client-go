@@ -18,7 +18,10 @@ type PlatformParameter struct {
 	Name string `json:"name"`
 	// platformParameter category, representing the platformParameter group
 	Category string `json:"category"`
-	// type of platformParameter value
+	// type of platformParameter value, by convention one of string, int,
+	// boolean or json. Values are always transferred as strings; the type
+	// declares how the value is interpreted and validated.
+	//
 	Type string `json:"type"`
 	// platformParameter constraints including min, max, enum, default value
 	Constraints PlatformParameterConstraints `json:"constraints"`
