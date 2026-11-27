@@ -18,9 +18,15 @@ type PlatformParameter struct {
 	Name string `json:"name"`
 	// platformParameter category, representing the platformParameter group
 	Category string `json:"category"`
-	// type of platformParameter value
-	Type string `json:"type"`
-	// platformParameter constraints including min, max, enum, default value
+	// type of platformParameter value. Values are always transferred as strings;
+	// the type declares how the value must be interpreted and validated:
+	// - string: free-form text, may be constrained by enum
+	// - int: base-10 integer, may be constrained by min/max
+	// - boolean: only "true" or "false"
+	// - json: a JSON object, editable as structured text
+	//
+	Type PlatformParameterType `json:"type"`
+	// platformParameter constraints including min, max, enum, default value and unit
 	Constraints PlatformParameterConstraints `json:"constraints"`
 	// platformParameter value
 	Value       *string              `json:"value,omitempty"`
@@ -34,7 +40,7 @@ type PlatformParameter struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPlatformParameter(id string, name string, category string, typeVar string, constraints PlatformParameterConstraints, description LocalizedDescription) *PlatformParameter {
+func NewPlatformParameter(id string, name string, category string, typeVar PlatformParameterType, constraints PlatformParameterConstraints, description LocalizedDescription) *PlatformParameter {
 	this := PlatformParameter{}
 	this.Id = id
 	this.Name = name
@@ -123,9 +129,9 @@ func (o *PlatformParameter) SetCategory(v string) {
 }
 
 // GetType returns the Type field value.
-func (o *PlatformParameter) GetType() string {
+func (o *PlatformParameter) GetType() PlatformParameterType {
 	if o == nil {
-		var ret string
+		var ret PlatformParameterType
 		return ret
 	}
 	return o.Type
@@ -133,7 +139,7 @@ func (o *PlatformParameter) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *PlatformParameter) GetTypeOk() (*string, bool) {
+func (o *PlatformParameter) GetTypeOk() (*PlatformParameterType, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -141,7 +147,7 @@ func (o *PlatformParameter) GetTypeOk() (*string, bool) {
 }
 
 // SetType sets field value.
-func (o *PlatformParameter) SetType(v string) {
+func (o *PlatformParameter) SetType(v PlatformParameterType) {
 	o.Type = v
 }
 
@@ -247,7 +253,7 @@ func (o *PlatformParameter) UnmarshalJSON(bytes []byte) (err error) {
 		Id          *string                       `json:"id"`
 		Name        *string                       `json:"name"`
 		Category    *string                       `json:"category"`
-		Type        *string                       `json:"type"`
+		Type        *PlatformParameterType        `json:"type"`
 		Constraints *PlatformParameterConstraints `json:"constraints"`
 		Value       *string                       `json:"value,omitempty"`
 		Description *LocalizedDescription         `json:"description"`
@@ -284,7 +290,11 @@ func (o *PlatformParameter) UnmarshalJSON(bytes []byte) (err error) {
 	o.Id = *all.Id
 	o.Name = *all.Name
 	o.Category = *all.Category
-	o.Type = *all.Type
+	if !all.Type.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Type = *all.Type
+	}
 	if all.Constraints.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

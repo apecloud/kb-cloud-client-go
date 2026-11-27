@@ -6,7 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// PlatformParameterConstraints platformParameter constraints including min, max, enum, default value
+// PlatformParameterConstraints platformParameter constraints including min, max, enum, default value and unit
 type PlatformParameterConstraints struct {
 	// platformParameter min value
 	Min *string `json:"min,omitempty"`
@@ -16,6 +16,8 @@ type PlatformParameterConstraints struct {
 	Enum []string `json:"enum,omitempty"`
 	// platformParameter default value
 	Default *string `json:"default,omitempty"`
+	// display unit of the value (e.g. second, minute, hour, day, month), informational only
+	Unit *string `json:"unit,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -150,6 +152,34 @@ func (o *PlatformParameterConstraints) SetDefault(v string) {
 	o.Default = &v
 }
 
+// GetUnit returns the Unit field value if set, zero value otherwise.
+func (o *PlatformParameterConstraints) GetUnit() string {
+	if o == nil || o.Unit == nil {
+		var ret string
+		return ret
+	}
+	return *o.Unit
+}
+
+// GetUnitOk returns a tuple with the Unit field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PlatformParameterConstraints) GetUnitOk() (*string, bool) {
+	if o == nil || o.Unit == nil {
+		return nil, false
+	}
+	return o.Unit, true
+}
+
+// HasUnit returns a boolean if a field has been set.
+func (o *PlatformParameterConstraints) HasUnit() bool {
+	return o != nil && o.Unit != nil
+}
+
+// SetUnit gets a reference to the given string and assigns it to the Unit field.
+func (o *PlatformParameterConstraints) SetUnit(v string) {
+	o.Unit = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o PlatformParameterConstraints) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -168,6 +198,9 @@ func (o PlatformParameterConstraints) MarshalJSON() ([]byte, error) {
 	if o.Default != nil {
 		toSerialize["default"] = o.Default
 	}
+	if o.Unit != nil {
+		toSerialize["unit"] = o.Unit
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -182,13 +215,14 @@ func (o *PlatformParameterConstraints) UnmarshalJSON(bytes []byte) (err error) {
 		Max     *string  `json:"max,omitempty"`
 		Enum    []string `json:"enum,omitempty"`
 		Default *string  `json:"default,omitempty"`
+		Unit    *string  `json:"unit,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"min", "max", "enum", "default"})
+		common.DeleteKeys(additionalProperties, &[]string{"min", "max", "enum", "default", "unit"})
 	} else {
 		return err
 	}
@@ -196,6 +230,7 @@ func (o *PlatformParameterConstraints) UnmarshalJSON(bytes []byte) (err error) {
 	o.Max = all.Max
 	o.Enum = all.Enum
 	o.Default = all.Default
+	o.Unit = all.Unit
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
