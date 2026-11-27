@@ -16,8 +16,6 @@ type InstanceStorageItem struct {
 	Name string `json:"name"`
 	// Specify the size of storage, the unit is Gi.
 	Size string `json:"size"`
-	// The name of StorageClass in use
-	StorageClass *string `json:"storageClass,omitempty"`
 	// IO Quantity describes IOPS and BPS of a volume
 	IoReserves *IoQuantity `json:"ioReserves,omitempty"`
 	// IO Quantity describes IOPS and BPS of a volume
@@ -92,34 +90,6 @@ func (o *InstanceStorageItem) SetSize(v string) {
 	o.Size = v
 }
 
-// GetStorageClass returns the StorageClass field value if set, zero value otherwise.
-func (o *InstanceStorageItem) GetStorageClass() string {
-	if o == nil || o.StorageClass == nil {
-		var ret string
-		return ret
-	}
-	return *o.StorageClass
-}
-
-// GetStorageClassOk returns a tuple with the StorageClass field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *InstanceStorageItem) GetStorageClassOk() (*string, bool) {
-	if o == nil || o.StorageClass == nil {
-		return nil, false
-	}
-	return o.StorageClass, true
-}
-
-// HasStorageClass returns a boolean if a field has been set.
-func (o *InstanceStorageItem) HasStorageClass() bool {
-	return o != nil && o.StorageClass != nil
-}
-
-// SetStorageClass gets a reference to the given string and assigns it to the StorageClass field.
-func (o *InstanceStorageItem) SetStorageClass(v string) {
-	o.StorageClass = &v
-}
-
 // GetIoReserves returns the IoReserves field value if set, zero value otherwise.
 func (o *InstanceStorageItem) GetIoReserves() IoQuantity {
 	if o == nil || o.IoReserves == nil {
@@ -184,9 +154,6 @@ func (o InstanceStorageItem) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["name"] = o.Name
 	toSerialize["size"] = o.Size
-	if o.StorageClass != nil {
-		toSerialize["storageClass"] = o.StorageClass
-	}
 	if o.IoReserves != nil {
 		toSerialize["ioReserves"] = o.IoReserves
 	}
@@ -203,11 +170,10 @@ func (o InstanceStorageItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InstanceStorageItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name         *string     `json:"name"`
-		Size         *string     `json:"size"`
-		StorageClass *string     `json:"storageClass,omitempty"`
-		IoReserves   *IoQuantity `json:"ioReserves,omitempty"`
-		IoLimits     *IoQuantity `json:"ioLimits,omitempty"`
+		Name       *string     `json:"name"`
+		Size       *string     `json:"size"`
+		IoReserves *IoQuantity `json:"ioReserves,omitempty"`
+		IoLimits   *IoQuantity `json:"ioLimits,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -220,7 +186,7 @@ func (o *InstanceStorageItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "size", "storageClass", "ioReserves", "ioLimits"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "size", "ioReserves", "ioLimits"})
 	} else {
 		return err
 	}
@@ -228,7 +194,6 @@ func (o *InstanceStorageItem) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Name = *all.Name
 	o.Size = *all.Size
-	o.StorageClass = all.StorageClass
 	if all.IoReserves != nil && all.IoReserves.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
