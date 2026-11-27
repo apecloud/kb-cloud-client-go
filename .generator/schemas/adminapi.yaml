@@ -49768,6 +49768,7 @@ components:
         - description
         - constraints
         - type
+        - value
       properties:
         id:
           type: string
