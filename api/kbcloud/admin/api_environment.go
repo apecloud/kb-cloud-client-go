@@ -1502,18 +1502,18 @@ func (a *EnvironmentApi) GetEnvironmentLogRetention(ctx _context.Context, enviro
 }
 
 // GetEnvironmentMetricsMonitorStats Get environment MetricsMonitorStats.
-func (a *EnvironmentApi) GetEnvironmentMetricsMonitorStats(ctx _context.Context, environmentName string) (map[string]interface{}, *_nethttp.Response, error) {
+func (a *EnvironmentApi) GetEnvironmentMetricsMonitorStats(ctx _context.Context, environmentName string) ([]interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue map[string]interface{}
+		localVarReturnValue []interface{}
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "environment",
 		OperationID: "getEnvironmentMetricsMonitorStats",
-		Path:        "/admin/v1/environments/{environmentName}/nodes/monitorStatus",
+		Path:        "/admin/v1/environments/{environmentName}/monitorStatus",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1523,7 +1523,7 @@ func (a *EnvironmentApi) GetEnvironmentMetricsMonitorStats(ctx _context.Context,
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/nodes/monitorStatus"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/monitorStatus"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
