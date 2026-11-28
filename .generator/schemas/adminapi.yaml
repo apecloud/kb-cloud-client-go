@@ -12869,7 +12869,7 @@ paths:
       tags:
         - resourceStats
         - shared
-  /admin/v1/environments/{environmentName}/nodes/monitorStatus:
+  /admin/v1/environments/{environmentName}/monitorStatus:
     get:
       operationId: getEnvironmentMetricsMonitorStats
       summary: Get environment MetricsMonitorStats
@@ -12885,7 +12885,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/jsonBody'
+                type: array
+                items:
+                  type: object
+                  required:
+                    - name
+                    - state
+                  properties:
+                    name:
+                      type: string
+                    state:
+                      type: string
+                      enum:
+                        - pending
+                        - success
+                        - failed
+                    message:
+                      type: string
+                    version:
+                      type: string
           description: A successful response.
         '403':
           $ref: '#/components/responses/403'
